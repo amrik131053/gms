@@ -8,7 +8,7 @@ function selectAll()
                 this.checked = true;
             });
         }
-        else
+        else 
         {
              $('.checkbox').each(function()
              {
@@ -118,8 +118,6 @@ var xmlhttp = new XMLHttpRequest();
 function courseByCollege(College) 
 { 
 
-
-
 var code='90';
 $.ajax({
 url:'action.php',
@@ -128,6 +126,7 @@ type:'POST',
 success:function(data){
 if(data != "")
 {
+    
 $("#Course").html("");
 $("#Course").html(data);
 }

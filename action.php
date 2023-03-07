@@ -5554,10 +5554,10 @@ option value = "" > Select < /option> <?php
    $College=$_POST['College'];
    
    
-   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
+    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
    
    $stmt = sqlsrv_query($conntest,$sql);  
-   echo "<option value=''>Coruse</option>";
+   echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    
    {
@@ -11525,9 +11525,71 @@ else if ($code == 199) {
 <?php
    }
    
-   else
-   {
-   
+  
+
+
+   else if ($code == 200) {
+
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+
+
+ echo $sql = "SELECT DISTINCT SubjectName,SubjectCode FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)</option>";
+ <?php 
+ }
+
+
+
    }
+ else  if($code==201)
+{       
+
+
+$ids =$_POST['ids'];  
+
+$mst=$_POST['mst'];
+
+$ecat=$_POST['ecat'];
+   $flag=$_POST['flag'];
+
+
+ for($i=0;$i<$flag;$i++)
+  {
+
+ $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
+
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+   
+ if ($stmt1==true) {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+
+
+}
+
+
+}
+
+
+    else
+   {
+   echo "select code";
+   }
+
    }
    ?>
