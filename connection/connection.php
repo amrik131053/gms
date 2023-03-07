@@ -1,0 +1,26 @@
+<?php
+
+$serverName = "10.0.10.11"; //serverName\instanceName
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$conntest = sqlsrv_connect( $serverName,$connectionInfo);
+
+$connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
+
+
+$servername1 = "localhost";
+$username1 = "bhagi";
+$password1 = "@Sarbjot@98157";
+$dbname1 = "lims";
+
+
+
+$conn = new mysqli($servername1, $username1, $password1, $dbname1);
+if ($conn) {
+//echo "success";	# code...
+}
+// $serverName = "10.0.10.11"; //serverName\instanceName
+// $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+// $conn = sqlsrv_connect( $serverName,$connectionInfo);
+
+?>

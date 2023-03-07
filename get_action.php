@@ -1,0 +1,3500 @@
+
+<?php
+
+session_start();
+date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
+$EmployeeID=$_SESSION['usr'];
+   include "connection/connection.php";
+      
+      $code=$_GET['code'];
+      if ($code==1)
+       {
+        $id=$_GET['id'];
+        ?>
+<div class="card-body table-responsive p-0 " style="height: 300px;">
+   <table class="table  text-nowrap">
+      <thead>
+         <tr>
+            <th>IDNo</th>
+            <th>Specifications</th>
+            <th>Operating System</th>
+            <th>Memory</th>
+         </tr>
+      </thead>
+      <tbody>
+         <?php 
+            $building_num=0;
+            $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+            $building_run=mysqli_query($conn,$building);
+            while ($building_row=mysqli_fetch_array($building_run)) 
+            {
+            $building_num=$building_num+1;?>
+         <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+            <td>
+               <input class="form-control" readonly="" type="text" name="IDNo" value="<?=$building_row['IDNo'];?>"> 
+            </td>
+            <td>
+              
+                <select class="form-control" name="Processor">
+                <?php if ($building_row['CPU']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['CPU'].'">'.$building_row['CPU'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $cpu="SELECT Distinct Processor FROM specification where Processor!=''";
+                     $reslut_cpu=mysqli_query($conn,$cpu);
+                     while ($row_cpu=mysqli_fetch_array($reslut_cpu))
+                     {
+                     ?>
+                  <option value="<?php echo $row_cpu['Processor'];?>">
+                     <?php echo $row_cpu['Processor'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+              
+                <select class="form-control" name="Operating">
+                <?php if ($building_row['OS']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['OS'].' ">'.$building_row['OS'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $os="SELECT Distinct OS FROM specification where OS!=''";
+                     $reslut_os=mysqli_query($conn,$os);
+                     while ($row_os=mysqli_fetch_array($reslut_os))
+                     {
+                     ?>
+                  <option value="<?php echo $row_os['OS'];?>">
+                     <?php echo $row_os['OS'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                  <option value="NA">NA</option>
+               </select>
+             </td>
+            <td>
+               <select class="form-control" name="Memory">
+                <?php if ($building_row['Memory']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Memory'].' ">'.$building_row['Memory'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $Ram="SELECT Distinct RAM FROM specification where RAM!=''";
+                     $reslut_ram=mysqli_query($conn,$Ram);
+                     while ($row_ram=mysqli_fetch_array($reslut_ram))
+                     {
+                     ?>
+                  <option value="<?php echo $row_ram['RAM'];?>">
+                     <?php echo $row_ram['RAM'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th>Storage</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Serial No</th>
+         </tr>
+         <tr>
+            <td>
+               
+               <select class="form-control" name="Storage">
+
+                 
+
+                  
+                  <?php
+                  if ($building_row['Storage']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Storage'].' ">'.$building_row['Storage'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+
+
+                     $storage="SELECT Distinct Storage FROM specification where Storage!=''";
+                     $reslut_storage=mysqli_query($conn,$storage);
+                     while ($row_storage=mysqli_fetch_array($reslut_storage))
+                     {
+                     ?>
+                  <option value="<?php echo $row_storage['Storage'];?>">
+                     <?php echo $row_storage['Storage'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Brand">
+                 
+                  <?php
+                  if ($building_row['Brand']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Brand'].' ">'.$building_row['Brand'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $brand="SELECT Distinct Brand FROM specification Where Brand!=''";
+                     $reslut_brand=mysqli_query($conn,$brand);
+                     while ($row_brand=mysqli_fetch_array($reslut_brand))
+                     {
+                     ?>
+                  <option value="<?php echo $row_brand['Brand'];?>">
+                     <?php echo $row_brand['Brand'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                  <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Model">
+                 
+
+                  <?php
+                   if ($building_row['Model']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Model'].' ">'.$building_row['Model'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $model="SELECT Distinct Model FROM specification where Model!=''";
+                     $reslut_model=mysqli_query($conn,$model);
+                     while ($row_model=mysqli_fetch_array($reslut_model))
+                     {
+                     ?>
+                  <option value="<?php echo $row_model['Model'];?>">
+                     <?php echo $row_model['Model'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                  <option value="NA">NA</option>
+            </td>
+            <td><input type="text" name="SerialNo" class="form-control" value=" <?=$building_row['SerialNo'];?>"></td>
+         </tr>
+         <tr>
+            <th>Local Serial No</th>
+            <th>Bill No</th>
+            <th>Bill Date</th>
+         </tr>
+         <tr>
+         <td><input type="text" name="DeviceSerailNo" class="form-control" value="<?=$building_row['DeviceSerialNo'];?>"></td>
+         <td><input type="text" name="BillNo" class="form-control" value="<?=$building_row['BillNo'];?>"></td>
+         <td><input type="date" name="BillDate" class="form-control" value="<?=$building_row['BillDate'];?>"></td></tr>
+
+         <?php 
+            }
+                       ?>
+      </tbody>
+   </table>
+</div>
+<?php
+   }
+   
+   else if ($code==2)
+       {
+         $id=$_GET['id'];
+         ?>
+<div class="card-body table-responsive p-0 ">
+<table class="table table-head-fixed text-nowrap">
+<thead>
+<tr>
+<th>Block</th>
+<th>Floor</th>
+<th>Room</th>
+<th>Type</th>
+<th>Owner ID</th>
+</tr>
+</thead>
+<tbody>
+<?php 
+   $building_num=0;
+   $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+   $building_run=mysqli_query($conn,$building);
+   while ($building_row=mysqli_fetch_array($building_run)) 
+   {
+   $building_num=$building_num+1;?>
+<tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+<input type="hidden" name="IDNo" value="<?=$building_row['IDNo'];?>">
+<td>
+<select class="form-control" required="" name="Block_assign" id="Block_assign" onclick="block_assign();">
+<option value="">Select</option>
+<?php
+   $building_select="SELECT Distinct Name,ID FROM building_master";
+   $building_select_run=mysqli_query($conn,$building_select);
+   while ($building_select_row=mysqli_fetch_array($building_select_run)) 
+   {?>
+<option value="<?= $building_select_row['ID'];?>">
+<?= $building_select_row['Name'];?>
+</option> ";
+<?php  }
+   ?>
+</select>
+<input class="form-control" type="hidden" name="CategoryID" value="<?=$building_row['CategoryID'];?>"> </td>
+<td>
+<select class="form-control" required="" name="Floor" id="Floor_assign" onclick="floor();">
+<option value="">Select</option>
+</select>
+<input class="form-control" type="hidden" name="ArticleCode" readonly="" value="<?=$building_row['ArticleCode'];?>"> </td>
+<td>
+<select class="form-control" required="" name="RoomNo" id="RoomNo" onclick="roomNo();">
+<option value="">Select</option>
+</select>
+</td>
+<td>
+<select class="form-control" required="" name="RoomType" id="RoomType" onclick="getid();">
+<option value="">Select</option>
+</select>
+</td>
+<td>
+<input type="text" name="UserID" required="" class="form-control"> </td>
+<input type="hidden" name="iDNo_assing" id="out"> 
+</tr>
+<?php 
+   }
+              ?>
+</tbody>
+</table>
+</div>
+<?php
+   }
+    else if ($code==3)
+       {
+          $id=$_GET['id'];
+   $building_master="SELECT * FROM building_master where ID='$id'";
+                              $building_master_run=mysqli_query($conn,$building_master);
+                              while ($building_master_row=mysqli_fetch_array($building_master_run)) 
+                              {?>
+<input type="hidden" name="ID" value="<?=$id;?>">
+<label>Building Name</label>
+<input type="text" class="form-control" name="Name" value="<?=$building_master_row['Name'];?>">
+<label>Incharge ID</label>
+<input type="text" class="form-control" name="Incharge" value="<?=$building_master_row['Incharge'];?>">
+<?php
+   }
+   
+   }
+   else if ($code==4)
+   {
+   $block=$_GET['block'];
+   $floor=$_GET['floor'];
+   $type=$_GET['type'];
+   $RoomNo=$_GET['room'];
+   
+   $room_type="SELECT * FROM location_master where Block='$block' and Floor='$floor' and RoomNo='$RoomNo' and Type='$type'";
+   $room_type_run=mysqli_query($conn,$room_type);
+   while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+   { 
+   echo $room_type_row['ID'];
+    ?>
+
+<?php
+   }
+   
+   }
+   
+   else if ($code==5) 
+   {
+    $location_num=0;
+   ?>
+
+   
+       <?php 
+            $id=$_GET['id'];     
+                 
+            $location=" SELECT * , rm.Floor as FloorName, rm.RoomNo as abc, lm.RoomNo as RoomNo,clg.name as CollegeName,rtm.ID as rtmID,rnm.ID as rmnID,clg.ID as clgID from location_master lm INNER JOIN room_master rm on lm.Floor=rm.FloorID INNER JOIN room_name_master rnm on lm.RoomName=rnm.ID INNER JOIN room_type_master rtm on lm.Type=rtm.ID INNER join building_master bm on lm.Block=bm.ID left JOIN colleges clg ON clg.ID=lm.CollegeID  where lm.ID='$id' ";
+            
+                $location_run=mysqli_query($conn,$location);
+                if ($location_row=mysqli_fetch_array($location_run)) 
+                {
+                $location_num=$location_num+1;
+            ?>
+          
+            <div class="row">
+         <div class="col-lg-3 col-sm-12 col-md-12">
+      <label>ID</label>
+       <input type="text" name="" class="form-control" value="<?=$id;?>" disabled>
+   </div> 
+          <div class="col-lg-3 col-sm-12 col-md-12">
+      <label>Block</label>
+      <input type="text" name="" class="form-control" value="  <?=$location_row['Name'];?>"disabled>
+   </div>    
+     <div class="col-lg-3 col-sm-12 col-md-12">
+       <label>Floor</label>
+       <input type="text" name="" class="form-control" value="<?=$location_row['FloorName'];?>" disabled>
+   </div>  
+   <div class="col-lg-3 col-sm-12 col-md-12">
+       <label>Room No</label>
+         <input type="text" name="" class="form-control" value="  <?=$location_row['RoomNo'];?>" disabled>
+   </div>
+
+   </div> 
+   <div class="row"> 
+     
+       <input type="hidden" name="locationID" value="<?=$id;?>">
+                 
+           
+   <div class="col-lg-2 col-sm-12 col-md-12">
+       <label>Room Type</label>
+       <select class="form-control" name="RoomType" id="RoomNo" required="">
+                                 <option value="<?=$location_row['rtmID'];?>"><?=$location_row['RoomType'];?></option>
+                                  <?php
+                                    $room_type_select="SELECT Distinct RoomType,ID FROM room_type_master";
+                                    $room_type_select_run=mysqli_query($conn,$room_type_select);
+                                    while ($room_type_select_row=mysqli_fetch_array($room_type_select_run)) 
+                                    {?>
+                                    <option value="<?= $room_type_select_row['ID'];?>"><?= $room_type_select_row['RoomType'];?></option>
+                                   <?php  }
+                                    
+                                    ?>
+                               </select>
+   </div>
+    <div class="col-lg-2 col-sm-12 col-md-12">
+       <label>Room Name</label>
+        <select class="form-control" name="RoomName" id="RoomName" required="">
+                                 <option value="<?=$location_row['rmnID'];?>"><?=$location_row['RoomName'];?></option>
+                                  <?php
+                                    $room_type_select="SELECT Distinct RoomName,ID FROM room_name_master";
+                                    $room_type_select_run=mysqli_query($conn,$room_type_select);
+                                    while ($room_type_select_row=mysqli_fetch_array($room_type_select_run)) 
+                                    {?>
+                                    <option value="<?= $room_type_select_row['ID'];?>"><?= $room_type_select_row['RoomName'];?></option>";
+                                   <?php  }
+                                    
+                                    ?>
+                               </select>
+   </div>     
+    <div class="col-lg-2 col-sm-12 col-md-12">
+      <label>location_owner </label>
+        <input type="text" name="location_owner" class="form-control" value="<?=$location_row['location_owner'];?>" required="">
+
+    </div> <div class="col-lg-4 col-sm-12 col-md-12">
+       <label>College Name</label>
+        <select class="form-control" name="College" id="" required="">
+                                 <option value="<?=$location_row['clgID'];?>"><?=$location_row['CollegeName'];?></option>
+                                 <?php
+                                    $colleges_select="SELECT Distinct name,ID FROM colleges";
+                                    $colleges_select_run=mysqli_query($conn,$colleges_select);
+                                    while ($colleges_select_row=mysqli_fetch_array($colleges_select_run)) 
+                                    {?>
+                                    <option value="<?= $colleges_select_row['ID'];?>"><?= $colleges_select_row['name'];?></option>
+                                   <?php  }
+                                    
+                                    ?>
+                              </select>
+   </div>     
+
+             
+           
+            </form>
+         
+         <?php
+            }
+            ?>
+   </div>
+<?php
+   }
+   else if ($code==6)
+   {
+      $id=$_GET['id'];
+   $room_type="SELECT * FROM master_article where ArticleCode='$id'";
+                         $room_type_run=mysqli_query($conn,$room_type);
+                         while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+                         { ?>
+<input type="hidden" name="id" value="<?=$room_type_row['ArticleCode'];?>">
+<label>Article Name</label>
+<input type="text" class="form-control" name="Articlename" value="<?=$room_type_row['ArticleName'];?>">
+<?php
+   }
+   
+   }
+   
+   else if ($code==7)
+   {
+   $id=$_GET['id'];
+   $room_type="SELECT * FROM master_calegories where ID='$id'";
+     $room_type_run=mysqli_query($conn,$room_type);
+     while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+     { ?>
+<input type="hidden" name="id" value="<?=$room_type_row['ID'];?>">
+<label>Category Name</label>
+<input type="text" class="form-control" name="CategoryName" value="<?=$room_type_row['CategoryName'];?>">
+<?php
+   }
+   
+   }
+       else if ($code==8) 
+   {
+   $location_num=0;
+   ?>
+<div class="card-body table-responsive p-0" style="height: 100%;">
+         <?php 
+             $id=$_GET['id'];     
+              // echo  $location=" SELECT * , rm.Floor as FloorName, rm.RoomNo as abc, lm.RoomNo as RoomNo from location_master lm INNER JOIN room_master rm on lm.Floor=rm.FloorID INNER JOIN room_name_master rnm on lm.RoomName=rnm.ID INNER JOIN room_type_master rtm on lm.Type=rtm.ID INNER join building_master bm on lm.Block=bm.ID INNER join stock_summary ss ON lm.ID=ss.LocationID INNER JOIN master_calegories mc ON mc.ID=ss.CategoryID  INNER join master_article on ss.ArticleCode=master_article.ArticleCode INNER join user on ss.Corrent_owner=user.emp_id where ss.IDNo='$id' ";
+
+             $location="SELECT *, lm.RoomNo as Room_No FROM stock_summary ss inner join master_calegories mc on ss.CategoryID=mc.ID INNER join master_article ma on ss.ArticleCode=ma.ArticleCode inner join location_master lm on lm.ID=ss.LocationID inner join room_master rm on rm.FloorID=lm.Floor inner join building_master bm on bm.ID=lm.Block inner join room_type_master rtm on rtm.ID=lm.Type inner join room_name_master rnm on rnm.ID=lm.RoomName  WHERE ss.IDNo='$id'";
+         
+            
+                $location_run=mysqli_query($conn,$location);
+                if ($location_row=mysqli_fetch_array($location_run)) 
+                {
+                 $location_num=$location_num+1;
+
+                 $EmployeeID=$location_row['Corrent_owner'];
+                 if (strlen($EmployeeID)>7) 
+                 {
+                     $result1 = "SELECT  * FROM Admissions where IDNo='$EmployeeID'"; 
+                     $stmt1 = sqlsrv_query($conntest,$result1);
+                     while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                     {
+                        $IDNo= $row['IDNo'];
+                        $ClassRollNo= $row['ClassRollNo'];
+                        $img= $row['Snap'];
+                        $UniRollNo= $row['UniRollNo'];
+                        $name = $row['StudentName'];
+                        $father_name = $row['FatherName'];
+                        $mother_name = $row['MotherName'];
+                        $course = $row['Course'];
+                        $email = $row['EmailID'];
+                        $phone = $row['StudentMobileNo'];
+                        $batch = $row['Batch'];
+                        $college = $row['CollegeName'];
+                     }
+                 }
+                 else
+                 {
+                  $sql1 = "SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$EmployeeID'";
+                  $q1 = sqlsrv_query($conntest, $sql1);
+                  while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+                  {
+                     $name = $row['Name'];
+                     $Department=$row['Department'];
+                     $Designation=$row['Designation'];
+                     $CollegeName=$row['CollegeName'];
+                  } 
+                 }
+                 
+if ($EmployeeID!=0) {
+
+      if (strlen($EmployeeID)>7) 
+      {
+             ?>
+            <label>Current Owner</label>
+   <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            
+            <th>Roll No.</th>
+            <th>Name</th>
+            <th>College</th>
+            <th>Course</th>
+         </tr>
+      </thead>
+      <tbody><tr>
+           
+            <td>
+               <?=$ClassRollNo;?>/<?=$UniRollNo;?>
+            </td>
+            <td>
+               <?=$name;?>
+            </td>
+            <td>
+               <?=$college;?>
+            </td>
+            <td>
+               <?=$course;?>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   <br>
+   <?php
+      }
+      else
+      {
+            ?>
+            <label>Current Owner</label>
+   <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+         </tr>
+      </thead>
+      <tbody><tr>
+           
+            <td>
+               <?=$EmployeeID;?>
+            </td>
+            <td>
+               <?=$name;?>
+            </td>
+            <td>
+               <?=$Designation;?>
+            </td>
+            <td>
+               <?=$Department;?>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   <br>
+   <?php 
+   }
+}
+?>
+   <label>Location</label>
+    <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            <th>Block</th>
+            <th>Floor</th>
+            <th>Room No</th>
+            <th>Room Type</th>
+            <th>Room Name</th>
+            
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            
+            <td>
+               <?=$location_row['Name'];?>
+            </td>
+            <td>
+               <?=$location_row['Floor'];?>
+            </td>
+            <td>
+               <?=$location_row['Room_No'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomType'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomName'];?>
+            </td>
+            
+         </tr>
+      </tbody>
+   </table>
+   <br>
+   <label>Particular's Description(<?=$id?>)</label>
+   <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+            <th>Article </th>
+            <th>Specifications</th>
+            <th>Storage</th>
+            <th>Brand</th>
+            <th>OS</th>
+            <th>Memory</th>
+            <th>Model</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>
+               <?=$location_row['ArticleName'];?>
+            </td>
+            <td>
+               <?=$location_row['CPU'];?>
+            </td>
+            <td>
+               <?=$location_row['Storage'];?>
+            </td>
+            <td>
+               <?=$location_row['Brand'];?>
+            </td>
+            <td>
+               <?=$location_row['OS'];?>
+            </td>
+            <td>
+               <?=$location_row['Memory'];?>
+            </td>
+            <td>
+               <?=$location_row['Model'];?>
+            </td>
+         </tr>
+         <?php
+            }
+            ?>
+      </tbody>
+   </table>
+</div>
+<?php
+   }
+   else if ($code==9)
+     {
+   $id=$_GET['id'];
+   $pageUrl=$_GET['page'];
+   $checkStockQry="SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode inner join category_permissions on category_permissions.CategoryCode=c.ID where category_permissions.employee_id='$EmployeeID' and s.IDNo='$id' ";
+   $checkStockRes=mysqli_query($conn,$checkStockQry);
+   if($checkStockData=mysqli_fetch_array($checkStockRes))
+   {
+      $stockStatus=$checkStockData['Status'];
+   ?>
+<form action="action.php" method="post">
+   <input type="hidden" name="code" value="20">
+   <input type="hidden" name="pageUrl" value="<?=$pageUrl?>">
+   <div class="card-body table-responsive p-0 " >
+      <table class="table table-head-fixed text-nowrap">
+         <thead>
+            <tr>
+               <th>IDNo</th>
+               <th>Specifications</th>
+               <th>Operating System</th>
+               <th>Memory</th>
+            </tr>
+         </thead>
+         <tbody>
+            <?php 
+               $building_num=0;
+               $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+               $building_run=mysqli_query($conn,$building);
+               while ($building_row=mysqli_fetch_array($building_run)) 
+               {
+               $building_num=$building_num+1;?>
+           <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+            <td>
+               <input class="form-control" readonly="" type="text" name="IDNo" value="<?=$building_row['IDNo'];?>"> 
+            </td>
+            <td>
+              
+                <select class="form-control" name="Processor">
+                <?php if ($building_row['CPU']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['CPU'].'">'.$building_row['CPU'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $cpu="SELECT Distinct Processor FROM specification where Processor!=''";
+                     $reslut_cpu=mysqli_query($conn,$cpu);
+                     while ($row_cpu=mysqli_fetch_array($reslut_cpu))
+                     {
+                     ?>
+                  <option value="<?php echo $row_cpu['Processor'];?>">
+                     <?php echo $row_cpu['Processor'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+              
+                <select class="form-control" name="Operating">
+                <?php if ($building_row['OS']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['OS'].' ">'.$building_row['OS'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $os="SELECT Distinct OS FROM specification where OS!=''";
+                     $reslut_os=mysqli_query($conn,$os);
+                     while ($row_os=mysqli_fetch_array($reslut_os))
+                     {
+                     ?>
+                  <option value="<?php echo $row_os['OS'];?>">
+                     <?php echo $row_os['OS'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+             </td>
+            <td>
+               <select class="form-control" name="Memory">
+                <?php if ($building_row['Memory']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Memory'].' ">'.$building_row['Memory'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $Ram="SELECT Distinct RAM FROM specification where RAM!=''";
+                     $reslut_ram=mysqli_query($conn,$Ram);
+                     while ($row_ram=mysqli_fetch_array($reslut_ram))
+                     {
+                     ?>
+                  <option value="<?php echo $row_ram['RAM'];?>">
+                     <?php echo $row_ram['RAM'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th>Storage</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Serial No</th>
+         </tr>
+         <tr>
+            <td>
+               
+               <select class="form-control" name="Storage">
+
+                 
+
+                  
+                  <?php
+                  if ($building_row['Storage']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Storage'].' ">'.$building_row['Storage'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+
+
+                     $storage="SELECT Distinct Storage FROM specification where Storage!=''";
+                     $reslut_storage=mysqli_query($conn,$storage);
+                     while ($row_storage=mysqli_fetch_array($reslut_storage))
+                     {
+                     ?>
+                  <option value="<?php echo $row_storage['Storage'];?>">
+                     <?php echo $row_storage['Storage'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Brand">
+                 
+                  <?php
+                  if ($building_row['Brand']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Brand'].' ">'.$building_row['Brand'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $brand="SELECT Distinct Brand FROM specification where Brand!=''";
+                     $reslut_brand=mysqli_query($conn,$brand);
+                     while ($row_brand=mysqli_fetch_array($reslut_brand))
+                     {
+                     ?>
+                  <option value="<?php echo $row_brand['Brand'];?>">
+                     <?php echo $row_brand['Brand'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Model">
+                 
+
+                  <?php
+                   if ($building_row['Model']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Model'].' ">'.$building_row['Model'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $model="SELECT Distinct Model FROM specification where Model!=''";
+                     $reslut_model=mysqli_query($conn,$model);
+                     while ($row_model=mysqli_fetch_array($reslut_model))
+                     {
+                     ?>
+                  <option value="<?php echo $row_model['Model'];?>">
+                     <?php echo $row_model['Model'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+            </td>
+            <td><input type="text" name="SerialNo" class="form-control" value="<?=$building_row['SerialNo'];?>"></td>
+         </tr>
+         <tr>
+            <th>Local Serial No</th>
+             <th>Bill No</th>
+              <th>Bill Date</th>
+            
+         </tr>
+         <tr>
+         <td><input type="text" name="DeviceSerailNo" class="form-control" value="<?=$building_row['DeviceSerialNo'];?>"></td>
+         <td>
+            <!-- <input type="text" name="BillNo" class="form-control" value="<?=$building_row['BillNo'];?>"> -->
+            <select name="BillNo" class="form-control" onchange="billDate(this.value)">
+               <?php 
+               if ($building_row['BillNo']) 
+               {
+                  ?>
+                     <option  value="<?=$building_row['BillNo'];?>"> <?=$building_row['BillNo'];?></option>
+                  <?php 
+               }
+               else
+               {
+                   ?>
+                     <option  value=''> Select</option>
+                  <?php
+               }
+            $billSql="SELECT Distinct BillNo from stock_summary";
+            $billRes=mysqli_query($conn,$billSql);
+            while($billData=mysqli_fetch_array($billRes))
+            {
+               ?>
+               <option value="<?=$billData['BillNo']?>"><?=$billData['BillNo']?></option>
+               <?php
+            }
+            ?> 
+            </select>
+         </td>
+         <td>
+            <!-- <input type="date" name="BillDate" class="form-control" value="<?=$building_row['BillDate'];?>"> -->
+            <select name="BillDate" class="form-control" id="billdate">
+               <?php 
+               if ($building_row['BillDate']) 
+               {
+                  ?>
+                     <option  value="<?=$building_row['BillDate'];?>"> <?=$building_row['BillDate'];?></option>
+                  <?php 
+               }
+               else
+               {
+                   ?>
+                     <option  value=''> Select</option>
+                  <?php
+               }
+               ?>
+            </select>
+         </td>
+      </tr>
+         <?php 
+            }
+                       ?>
+            <tr>
+            <td>
+               <?php 
+               // if ($stockStatus!=2) 
+               // {
+                     ?>
+                        <button type="submit" class="btn btn-secondary" style="background-color: #a62532">Submit</button>
+                     <?php
+               // }
+               ?>
+            </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</form>
+</div>
+<?php
+   }
+   else
+   {
+      ?>
+      <div class="alert alert-warning" role="alert">
+         You don't have permission for this article. <br> Scan other article. 
+      </div> 
+      <?php
+   }
+}
+   
+   else if ($code==10)
+       {
+          $id=$_GET['id'];
+   $room_name="SELECT * FROM room_name_master where ID='$id'";
+                              $room_name_run=mysqli_query($conn,$room_name);
+                              while ($room_name_row=mysqli_fetch_array($room_name_run)) 
+                              {?>
+<input type="hidden" name="id" value="<?=$id;?>">
+<input type="text" class="form-control" name="Roomname" value="<?=$room_name_row['RoomName'];?>">
+<?php
+   }
+   
+   }
+   
+   else if ($code==11)
+   {
+   $id=$_GET['id'];
+   ?>
+<form action="action.php" method="post">
+<input type="hidden" name="code" value="20">
+<div class="card-body table-responsive p-0 " style="height: 300px;">
+<table class="table  text-nowrap">
+<thead>
+<tr>
+<th>IDNo</th>
+<th>Specifications</th>
+<th>Operating System</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<?php 
+   $building_num=0;
+   $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+   $building_run=mysqli_query($conn,$building);
+   while ($building_row=mysqli_fetch_array($building_run)) 
+   {
+   $building_num=$building_num+1;?>
+ <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+            <td>
+               <input class="form-control" readonly="" type="text" name="IDNo" value="<?=$building_row['IDNo'];?>"> 
+            </td>
+            <td>
+              
+                <select class="form-control" name="Processor">
+                <?php if ($building_row['CPU']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['CPU'].'">'.$building_row['CPU'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $cpu="SELECT Distinct Processor FROM specification where Processor!=''";
+                     $reslut_cpu=mysqli_query($conn,$cpu);
+                     while ($row_cpu=mysqli_fetch_array($reslut_cpu))
+                     {
+                     ?>
+                  <option value="<?php echo $row_cpu['Processor'];?>">
+                     <?php echo $row_cpu['Processor'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+              
+                <select class="form-control" name="Operating">
+                <?php if ($building_row['OS']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['OS'].' ">'.$building_row['OS'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $os="SELECT Distinct OS FROM specification where OS!=''";
+                     $reslut_os=mysqli_query($conn,$os);
+                     while ($row_os=mysqli_fetch_array($reslut_os))
+                     {
+                     ?>
+                  <option value="<?php echo $row_os['OS'];?>">
+                     <?php echo $row_os['OS'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+             </td>
+            <td>
+               <select class="form-control" name="Memory">
+                <?php if ($building_row['Memory']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Memory'].' ">'.$building_row['Memory'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $Ram="SELECT Distinct RAM FROM specification where RAM!=''";
+                     $reslut_ram=mysqli_query($conn,$Ram);
+                     while ($row_ram=mysqli_fetch_array($reslut_ram))
+                     {
+                     ?>
+                  <option value="<?php echo $row_ram['RAM'];?>">
+                     <?php echo $row_ram['RAM'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th>Storage</th>
+            <th>Brand</th>
+            <th>Model</th>
+         <th>Serial No</th>
+         </tr>
+         <tr>
+            <td>
+               
+               <select class="form-control" name="Storage">
+
+                 
+
+                  
+                  <?php
+                  if ($building_row['Storage']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Storage'].' ">'.$building_row['Storage'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+
+
+                     $storage="SELECT Distinct Storage FROM specification where Storage!=''" ;
+                     $reslut_storage=mysqli_query($conn,$storage);
+                     while ($row_storage=mysqli_fetch_array($reslut_storage))
+                     {
+                     ?>
+                  <option value="<?php echo $row_storage['Storage'];?>">
+                     <?php echo $row_storage['Storage'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Brand">
+                 
+                  <?php
+                  if ($building_row['Brand']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Brand'].' ">'.$building_row['Brand'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $brand="SELECT Distinct Brand FROM specification where Brand!=''";
+                     $reslut_brand=mysqli_query($conn,$brand);
+                     while ($row_brand=mysqli_fetch_array($reslut_brand))
+                     {
+                     ?>
+                  <option value="<?php echo $row_brand['Brand'];?>">
+                     <?php echo $row_brand['Brand'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Model">
+                 
+
+                  <?php
+                   if ($building_row['Model']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Model'].' ">'.$building_row['Model'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $model="SELECT Distinct Model FROM specification Where Model!=''";
+                     $reslut_model=mysqli_query($conn,$model);
+                     while ($row_model=mysqli_fetch_array($reslut_model))
+                     {
+                     ?>
+                  <option value="<?php echo $row_model['Model'];?>">
+                     <?php echo $row_model['Model'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+            </td>
+            <td><input type="text" name="SerialNo" value="<?=$building_row['SerialNo'];?>" class="form-control"></td>
+         </tr>
+         <tr>
+            <th>Local Serial No</th>
+            <th>Bill No</th>
+            <th>Bill Date</th>
+         </tr>
+         <tr>
+         <td><input type="text" name="DeviceSerailNo" value="<?=$building_row['DeviceSerialNo'];?>" class="form-control"></td>
+         <td><input type="text" name="BillNo" value="<?=$building_row['BillNo'];?>" class="form-control"></td>
+         <td><input type="date" name="BillDate" value="<?=$building_row['BillDate'];?>" class="form-control"></td>
+      </tr>
+         <?php 
+            }
+                       ?>
+</tbody>
+</table>
+
+
+</div>
+<input type="Submit" name="" value="Update" class="btn btn-success btn-xs">
+</form>
+</div>
+<?php
+   }
+   elseif ($code=='12')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         $category_search_num=0;
+                              $category_search="SELECT * FROM master_calegories where ID='$id' || CategoryName LIKE '%$id%'";
+                              $category_search_run=mysqli_query($conn,$category_search);
+                              while ($category_search_row=mysqli_fetch_array($category_search_run)) 
+                              {
+                              $category_search_num=$category_search_num+1;?>
+                           <tr>
+                              <td><?=$category_search_num;?></td>
+                              <td><?=$category_search_row['CategoryName'];?></td>
+                              <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_update" onclick="update_category_search(<?=$category_search_row['ID'];?>);" style="color:#a62532;"></i></td>
+                           </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+        $category_search_num=0;
+                              $category_search="SELECT * FROM master_calegories";
+                              $category_search_run=mysqli_query($conn,$category_search);
+                              while ($category_search_row=mysqli_fetch_array($category_search_run)) 
+                              {
+                              $category_search_num=$category_search_num+1;?>
+                           <tr>
+                              <td><?=$category_search_num;?></td>
+                              <td><?=$category_search_row['CategoryName'];?></td>
+                              <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_update" onclick="update_category_search(<?=$category_search_row['ID'];?>);" style="color:#a62532;"></i></td>
+                           </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+      elseif ($code=='13')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         $article_search_num=0;
+                              $article_search=" SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  where a.ArticleCode='$id' || a.ArticleName LIKE '%$id%'|| c.CategoryName LIKE '%$id%'";
+                              $article_search_run=mysqli_query($conn,$article_search);
+                              while ($article_search_row=mysqli_fetch_array($article_search_run)) 
+                              {
+                              $article_search_num=$article_search_num+1;?>
+                           <tr>
+                        <td><?=$article_search_num;?></td>
+                        <td><?=$article_search_row['CategoryName'];?></td>
+                        <td><?=$article_search_row['ArticleName'];?></td>
+                        <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_update" onclick="update_article(<?=$article_search_row['ArticleCode'];?>);" style="color:#a62532;"></i></td>
+                     </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+        $article_search_num=0;
+                              $article_search=" SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode ";
+                              $article_search_run=mysqli_query($conn,$article_search);
+                              while ($article_search_row=mysqli_fetch_array($article_search_run)) 
+                              {
+                              $article_search_num=$article_search_num+1;?>
+                           <tr>
+                        <td><?=$article_search_num;?></td>
+                        <td><?=$article_search_row['CategoryName'];?></td>
+                        <td><?=$article_search_row['ArticleName'];?></td>
+                        <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_update" onclick="update_article(<?=$article_search_row['ArticleCode'];?>);" style="color:#a62532;"></i></td>
+                     </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+
+         elseif ($code=='14')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         
+                              $building_search=" SELECT * FROM building_master where ID='$id' || Name LIKE '%$id%'";
+                              $building_search_run=mysqli_query($conn,$building_search);
+                              while ($building_search_row=mysqli_fetch_array($building_search_run)) 
+                              {
+                              ?>
+                          <tr>
+                     
+                        <td><?=$building_search_row['ID'];?></td>
+                        <td><?=$building_search_row['Name'];?></td>
+                        <td><i class="fa fa-edit fa-lg" style="color:#a62532;"></i></td>
+                     </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+        $building_search=" SELECT * FROM building_master";
+                              $building_search_run=mysqli_query($conn,$building_search);
+                              while ($building_search_row=mysqli_fetch_array($building_search_run)) 
+                              {
+                              ?>
+                          <tr>
+                     
+                        <td><?=$building_search_row['ID'];?></td>
+                        <td><?=$building_search_row['Name'];?></td>
+                        <td><i class="fa fa-edit fa-lg" style="color:#a62532;"></i></td>
+                     </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+
+            elseif ($code=='15')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         
+                              
+                           $room_type="SELECT * FROM room_type_master where ID='$id' || RoomType LIKE '%$id%'";
+                           $room_type_run=mysqli_query($conn,$room_type);
+                           while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+                           {
+                           ?>
+                        <tr>
+                          <!--  <td><?=$room_type_num;?></td> -->
+                          <td><?=$room_type_row['ID'];?></td>
+                           <td><?=$room_type_row['RoomType'];?></td>
+                           <td><i class="fa fa-edit fa-lg"  data-toggle="modal" data-target="#exampleModalCenter" onclick="edit_room_type(<?=$room_type_row['ID'];?>);" style="color:red;"></i></td>
+                        </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+        $room_type_num=0;
+                           $room_type="SELECT * FROM room_type_master";
+                           $room_type_run=mysqli_query($conn,$room_type);
+                           while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+                           {
+                           $room_type_num=$room_type_num+1;?>
+                        <tr>
+                           <td><?=$room_type_num;?></td>
+                           <td><?=$room_type_row['RoomType'];?></td>
+                           <td><i class="fa fa-edit fa-lg"  data-toggle="modal" data-target="#exampleModalCenter" onclick="edit_room_type(<?=$room_type_row['ID'];?>);" style="color:red;"></i></td>
+                        </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+
+          elseif ($code=='16')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         
+                              
+                       
+                          
+                           $room_type="SELECT * FROM room_name_master where ID='$id' || RoomName LIKE '%$id%'";
+                           $room_type_run=mysqli_query($conn,$room_type);
+                           while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+                           {
+                         ?>
+                        <tr>
+                           <td><?=$room_type_row['ID'];?></td>
+                           <td><?=$room_type_row['RoomName'];?></td>
+                           <td><i class="fa fa-edit fa-lg"  data-toggle="modal" data-target="#exampleModalCenter" onclick="edit_room_name(<?=$room_type_row['ID'];?>);" style="color:red;"></i></td>
+                        </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+      
+                       
+                           $room_type="SELECT * FROM room_name_master";
+                           $room_type_run=mysqli_query($conn,$room_type);
+                           while ($room_type_row=mysqli_fetch_array($room_type_run)) 
+                           {
+                           ?>
+                        <tr>
+                           <td><?=$room_type_row['ID'];?></td>
+                           <td><?=$room_type_row['RoomName'];?></td>
+                           <td><i class="fa fa-edit fa-lg"  data-toggle="modal" data-target="#exampleModalCenter" onclick="edit_room_name(<?=$room_type_row['ID'];?>);" style="color:red;"></i></td>
+                        </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+
+                elseif ($code=='17')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+         
+                              
+                       
+                           $location_num=0;
+                             $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID where r.Floor like'%$id%' || r.RoomNo like '%$id%' || b.Name like '%$id%' || rnm.RoomName like '%$id%'   ";
+                             ?>
+<table class="table table-head-fixed text-nowrap table-bordered" id="example">
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Block</th>
+         <th>Floor</th>
+         <th>Room Type/No</th>
+         <th>Owner Name</th>
+         <th>Action</th>
+         <th>Action</th>
+         <th>Action</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody  >
+              <?php          $location_run=mysqli_query($conn,$location);
+                        while ($location_row=mysqli_fetch_array($location_run)) 
+                        {
+                        $location_num=$location_num+1;?>
+                     <tr>
+                        <td><?=$location_num;?></td>
+                        <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
+
+                        <td><?=$location_row['FloorName'];?></td>
+                     
+                        <td><?=$location_row['RoomType'];?>-<?=$location_row['RoomNoo'];?> <b>(<?=$location_row['RoomName'];?>)</b></td>
+                          <td><?php 
+                         echo  "Emp ID:".$empID=$location_row['location_owner'];
+                         echo "<br>";
+                           $staff="SELECT Name FROM Staff Where IDNo='$empID'";
+ $stmt = sqlsrv_query($conntest,$staff);  
+while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+     {
+echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
+     }
+
+                          ?>                 
+
+                          </td>
+                        <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_view" onclick="view_location(<?=$location_row['l_id'];?>);" style="color:green;"></i></td>
+                        <td><i class="fa fa-eye fa-lg" data-toggle="modal" data-target="#view_serial_no_Modal" onclick="view_serials(<?=$location_row['l_id'];?>);" style="color:green;"></i></td>
+<?php 
+if ($empID!='')
+ {
+    ?>
+                       <!--  <td><input type="submit" class="btn btn-success btn-xs" name="" value="Assign" data-toggle="modal" data-target="#exampleModal_bulk" onclick="bulk_assign_location(<?=$location_row['l_id'];?>);">
+                        </td> -->
+                        <td><input type="submit" class="btn btn-success btn-xs" name="" value="Assign"  onclick="page_open(<?=$location_row['l_id'];?>);">
+                        </td>
+                        <?php
+}
+else {
+   ?> <td><input type="submit" class="btn btn-danger btn-xs" name="" value="Update">
+                        </td><?php
+}
+                        ?>
+                        <td><form action="stock_report.php" method="post" target="_blank">
+                          <input type="hidden" name="ID" value="<?=$location_row['l_id'];?>">
+                          <button class="fa fa-print fa-lg" type="submit" style="color: green; border: none; background: none;"></button></form></td>
+                     </tr>
+                     <?php 
+                        }
+     }
+     else
+     {
+        $location_num=0;
+                       
+                              $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID ";
+
+?>
+<table class="table table-head-fixed text-nowrap table-bordered" id="example">
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Block</th>
+         <th>Floor</th>
+         <th>Room Type/No</th>
+         <th>Owner Name</th>
+         <th>Action</th>
+         <th>Action</th>
+         <th>Action</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody  >
+
+                   <?php     $location_run=mysqli_query($conn,$location);
+                        while ($location_row=mysqli_fetch_array($location_run)) 
+                        {
+                        $location_num=$location_num+1;?>
+                      <tr>
+                        <td><?=$location_num;?></td>
+                                                <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
+
+                        <td><?=$location_row['FloorName'];?></td>
+                     
+                         <td><?=$location_row['RoomType'];?>-<?=$location_row['RoomNoo'];?> <b>(<?=$location_row['RoomName'];?>)</b></td>
+                          <td><?php 
+                         echo  "Emp ID:".$empID=$location_row['location_owner'];
+                         echo "<br>";
+                           $staff="SELECT Name FROM Staff Where IDNo='$empID'";
+ $stmt = sqlsrv_query($conntest,$staff);  
+while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+     {
+echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
+     }
+
+                          ?>                 
+
+                          </td>
+                        <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_view" onclick="view_location(<?=$location_row['l_id'];?>);" style="color:green;"></i></td>
+                        <td><i class="fa fa-eye fa-lg" data-toggle="modal" data-target="#view_serial_no_Modal" onclick="view_serials(<?=$location_row['l_id'];?>);" style="color:green;"></i></td>
+<?php 
+if ($empID!='')
+ {
+    ?>
+                       <!--  <td><input type="submit" class="btn btn-success btn-xs" name="" value="Assign" data-toggle="modal" data-target="#exampleModal_bulk" onclick="bulk_assign_location(<?=$location_row['l_id'];?>);">
+                        </td> -->
+                        <td><input type="submit" class="btn btn-success btn-xs" name="" value="Assign"  onclick="page_open(<?=$location_row['l_id'];?>);">
+                        </td>
+                        <?php
+}
+else {
+   ?> <td><input type="submit" class="btn btn-danger btn-xs" name="" value="Update">
+                        </td><?php
+}
+                        ?>
+                        <td><form action="stock_report.php" method="post" target="_blank">
+                          <input type="hidden" name="ID" value="<?=$location_row['l_id'];?>">
+                          <button class="fa fa-print fa-lg" type="submit" style="color: green; border: none; background: none;"></button></form></td>
+                     </tr>
+                     <?php 
+                        }
+     }
+                            
+                              
+   }
+            elseif ($code=='18')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+                  
+                            $search_specification="  SELECT * FROM specification where Brand like '%$id%' || RAM like '%$id%' || Processor like '%$id%' || OS like '%$id%' || Model like '%$id%' || Storage like '%$id%' Order by ID ASC";
+                           $search_specification_run=mysqli_query($conn,$search_specification);
+                           while ($search_specification_row=mysqli_fetch_array($search_specification_run)) 
+                           {
+                           
+                           ?>
+                        <tr>
+                          <form  action="action.php" method="post">
+                           <input type="hidden" name="code" value="23">
+                            <input type="hidden" name="id" value="<?=$search_specification_row[0];?>">
+                           <td><input type="text" name="col1" class="form-control" value="<?=$search_specification_row[1];?>"></td>
+                           <td><input type="text" name="col2" class="form-control"  value="<?=$search_specification_row[2];?>"></td>
+                           <td><input type="text" name="col3"class="form-control"  value="<?=$search_specification_row[3];?>"></td>
+                           <td><input type="text" name="col4" class="form-control" value="<?=$search_specification_row[4];?>"></td>
+                           <td><input type="text" name="col5" class="form-control" value="<?=$search_specification_row[5];?>"></td>
+                            <td><input type="text" name="col6" class="form-control" value="<?=$search_specification_row[6];?>"></td>
+                            <td><input type="Submit" class="btn btn-warning" value="Update"></td>
+                           </form>
+                        </tr>
+                           <?php 
+                              }
+     }
+     else
+     {
+        $search_specification="  SELECT * FROM specification Order by ID ASC";
+                           $search_specification_run=mysqli_query($conn,$search_specification);
+                           while ($search_specification_row=mysqli_fetch_array($search_specification_run)) 
+                           {
+                           
+                           ?>
+                        <tr>
+                          <form  action="action.php" method="post">
+                           <input type="hidden" name="code" value="23">
+                            <input type="hidden" name="id" value="<?=$search_specification_row[0];?>">
+                           <td><input type="text" name="col1" class="form-control" value="<?=$search_specification_row[1];?>"></td>
+                           <td><input type="text" name="col2" class="form-control"  value="<?=$search_specification_row[2];?>"></td>
+                           <td><input type="text" name="col3"class="form-control"  value="<?=$search_specification_row[3];?>"></td>
+                           <td><input type="text" name="col4" class="form-control" value="<?=$search_specification_row[4];?>"></td>
+                           <td><input type="text" name="col5" class="form-control" value="<?=$search_specification_row[5];?>"></td>
+                            <td><input type="text" name="col6" class="form-control" value="<?=$search_specification_row[6];?>"></td>
+                            <td><input type="Submit" class="btn btn-warning" value="Update"></td>
+                           </form>
+                        </tr>
+                           <?php 
+                              }
+     }
+                            
+                              
+   }
+           elseif ($code==19)
+       {
+
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+           $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.IDNo like '%$id%' || c.CategoryName like '%$id%' || a.Articlename like '%$id%' || s.CPU like '%$id%'";
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+                           $building_num=$building_num+1;
+                           ?>
+                        <tr>
+                           <td><?=$building_row['IDNo'];?></td>
+                           <td><?=$building_row['CategoryName'];?></td>
+                           <td><?=$building_row['ArticleName'];?></td>
+                           <td><?=$building_row['CPU'];?></td>
+                         <!--   <td><?=$building_row['OS'];?></td>
+                           <td><?=$building_row['Memory'];?></td> -->
+                           <td>
+                              <?php
+                                 if($building_row['Status']==0)
+                                  {?>
+                              <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+                              <?php
+                                 }
+                                  else if($building_row['Status']==1)
+                                 {
+                                  ?>
+                                   <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+
+                              <!-- <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i> -->
+                              <?php
+                                 }
+                                 else
+                                 {
+                                    ?>  <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i><?php
+                                 }
+                                 ?>
+                           </td>
+                           <td>
+                              <?php 
+                                 if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
+                                  {
+                                     if($building_row['Status']==1)
+                                    {?>
+                              <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
+                              <?php
+                                 }
+                                 else if($building_row['Status']==2)
+                                 {
+                                 ?>
+                             <a class="btn btn-danger btn-xs" data-dismiss="modal" onclick="return_assigned_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#return_stock_Modal" style="color:white;">Return</a>
+                              <?php  # code...
+                                 }
+                                 else
+                                 {
+                                  
+                                 }
+                                 }
+                                 else{
+
+                                 
+                                 }  ?>
+                           </td>
+                        </tr>
+                        <?php 
+                           }
+      }
+      else
+      {
+     $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.IDNo like '%$id%' || c.CategoryName like '%$id%' || a.Articlename like '%$id%' || s.CPU like '%$id%'";
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+                           $building_num=$building_num+1;
+                           ?>
+                        <tr>
+                           <td><?=$building_row['IDNo'];?></td>
+                           <td><?=$building_row['CategoryName'];?></td>
+                           <td><?=$building_row['ArticleName'];?></td>
+                           <td><?=$building_row['CPU'];?></td>
+                         <!--   <td><?=$building_row['OS'];?></td>
+                           <td><?=$building_row['Memory'];?></td> -->
+                           <td>
+                              <?php
+                                 if($building_row['Status']=="0")
+                                  {?>
+                              <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+                              <?php
+                                 }
+                                  else if($building_row['Status']==1)
+                                 {
+                                  ?>
+                                   <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+
+                              <!-- <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i> -->
+                              <?php
+                                 }
+                                 else
+                                 {
+                                    ?>  <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i><?php
+                                 }
+                                 ?>
+                           </td>
+                           <td>
+                              <?php 
+                                 if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
+                                  {
+                                     if($building_row['Status']=="1")
+                                    {?>
+                              <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
+                              <?php
+                                 }
+                                 else if($building_row['Status']=="2")
+                                 {
+                                 ?>
+                              <a class="btn btn-success btn-xs" style="color:white;">Assigned</a>
+                              <?php  # code...
+                                 }
+                                 else
+                                 {
+                                  
+                                 }
+                                 }
+                                 else{
+
+                                 
+                                 }  ?>
+                           </td>
+                        </tr>
+                        <?php 
+                           }
+      }
+
+    }
+
+               elseif ($code=='20')
+    {
+     $id=$_GET['id'];
+     if ($id!='')
+      {
+          $scan_stock_num=0;
+                           $scan_stock="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.IDNo like '%$id%' || c.CategoryName like '%$id%' || a.Articlename like '%$id%' || s.CPU like '%$id%'  ";
+                           $scan_stock_run=mysqli_query($conn,$scan_stock);
+                           while ($scan_stock_row=mysqli_fetch_array($scan_stock_run)) 
+                           {
+                           $scan_stock_num=$scan_stock_num+1;
+                           ?>
+
+                        <tr>
+                         
+                           <td><?=$scan_stock_row['IDNo'];?></td>
+                           <td><?=$scan_stock_row['CategoryName'];?></td>
+                           <td><?=$scan_stock_row['ArticleName'];?></td>
+                           <td><?=$scan_stock_row['CPU'];?></td>
+                           <td><?=$scan_stock_row['OS'];?></td>
+                           <td><?=$scan_stock_row['Memory'];?></td>
+                          
+                           <td>
+                            <?php 
+                           if ($scan_stock_row['CPU']!='' and $scan_stock_row['OS']!='' and $scan_stock_row['Memory']!='' and $scan_stock_row['Brand']!='' and $scan_stock_row['Storage']!='' and $scan_stock_row['Model']!='')
+                            {
+                              ?>
+                                <a   onclick="view_record_qr(<?=$scan_stock_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModalCenter" ><i class="fa fa-eye fa-lg"> </i></a>
+                             <?php
+                           }
+                           else{
+
+                           }  ?>
+                           </td>
+                        </tr>
+                        <?php 
+                           }
+      }
+      else
+      {
+   $scan_stock_num=0;
+                           $scan_stock="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode ";
+                           $scan_stock_run=mysqli_query($conn,$scan_stock);
+                           while ($scan_stock_row=mysqli_fetch_array($scan_stock_run)) 
+                           {
+                           $scan_stock_num=$scan_stock_num+1;
+                           ?>
+
+                        <tr>
+                         
+                           <td><?=$scan_stock_row['IDNo'];?></td>
+                           <td><?=$scan_stock_row['CategoryName'];?></td>
+                           <td><?=$scan_stock_row['ArticleName'];?></td>
+                           <td><?=$scan_stock_row['CPU'];?></td>
+                           <td><?=$scan_stock_row['OS'];?></td>
+                           <td><?=$scan_stock_row['Memory'];?></td>
+                          
+                           <td>
+                            <?php 
+                           if ($scan_stock_row['CPU']!='' and $scan_stock_row['OS']!='' and $scan_stock_row['Memory']!='' and $scan_stock_row['Brand']!='' and $scan_stock_row['Storage']!='' and $scan_stock_row['Model']!='')
+                            {
+                              ?>
+                                <a   onclick="view_record_qr(<?=$scan_stock_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModalCenter" ><i class="fa fa-eye fa-lg"> </i></a>
+                             <?php
+                           }
+                           else{
+
+                           }  ?>
+                           </td>
+                        </tr>
+                        <?php 
+                           }
+      }
+
+    }
+    else if ($code==21)
+     {
+     $user_id = $_GET['user_id'];
+     $userQry="SELECT * FROM user WHERE emp_id = '$user_id'";
+     $userRes=mysqli_query($conn,$userQry);
+     if (mysqli_num_rows($userRes)<1) 
+     {      
+      $staff="SELECT * FROM Staff Where IDNo='$user_id' ";
+      $stmt = sqlsrv_query($conntest,$staff);  
+      while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+      {
+         $IDNo=$row_staff['IDNo'];
+         $Name=$row_staff['Name'];
+         $Clg=$row_staff['CollegeName'];
+         $dept=$row_staff['Department'];
+         $Desi=$row_staff['Designation'];
+         $contact=$row_staff['ContactNo'];
+         $email=$row_staff['EmailID'];
+         mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
+         ;
+      }
+
+      } 
+        $presult = mysqli_query($conn,"SELECT emp_id, name, u_permissions from user WHERE emp_id = '$user_id'");
+        $permissions = "";
+        $permissions_array = "";
+        $name = $emp_id = "";
+        while($row=mysqli_fetch_array($presult))
+        {
+            $permissions = $row['u_permissions'];
+            $emp_id = $row['emp_id'];
+            $name = $row['name'];
+        }
+        $permissions_array = explode(",",$permissions);
+       echo "<h4>".$name."(".$emp_id.")</h4>";
+
+$count=0;
+        $result1 = mysqli_query($conn,"SELECT DISTINCT mainmenu from permissions  order by mainmenu ASC");
+
+        echo "<form  action = 'action.php' method = 'POST'>";
+        echo "<input type='hidden' name='code' value='25'>";
+        echo "<input type='hidden' name='user_id' value = '".$user_id."'>";
+
+        while($row1=mysqli_fetch_array($result1))
+        {
+    $main[]= $row1['mainmenu'];
+   $count++;
+        }
+for($i=0;$i<$count;$i++)
+{
+echo"<b style='color:#a62532;'>" .$main[$i]."</b>";
+$result1 = mysqli_query($conn,"SELECT * from permissions where mainmenu='$main[$i]'");
+
+while($row=mysqli_fetch_array($result1))
+        {
+          echo "<div class='checkbox'>";
+          $checked = 0;
+          foreach($permissions_array as $item)
+          {
+            if($item == $row['id'])
+            {
+              $checked = 1;
+            }
+          }
+          if($checked)
+          {
+
+  
+            echo "<label><input type='checkbox' name = 'per[]' value=".$row['id']." checked>"."&nbsp;".$row['submenu']."</label>";
+              // echo "<span class='text-right' style='float:right;'><input type='checkbox' name = 'per1[][]' value='R'>&nbsp;<input type='checkbox' name = 'per1[][]' value='W'>&nbsp;<input type='checkbox' name = 'per1[][]' value='D'><input type='checkbox' name = 'per_id[][]' value=".$row['id']."></span>";
+
+         
+          }
+          else
+          {
+            echo "<label><input type='checkbox' name = 'per[]' value=".$row['id'].">"."&nbsp;".$row['submenu']."</label> ";
+           
+            // echo "<span class='text-right' style='float:right;'><input type='checkbox' name = 'per1[][]' value='R'>&nbsp;<input type='checkbox' name = 'per1[][]' value='W'>&nbsp;<input type='checkbox' name = 'per1[][]' value='D'><input type='checkbox' name = 'per_id[][]' value=".$row['id']."></span>";
+
+            
+
+          }
+          echo "</div>";
+}
+}
+        
+        echo "<input type = 'submit' class = 'btn btn-primary btn-xs' name = ''>";
+        echo "</form";
+    }
+       else if ($code==22) 
+
+       {
+    echo  $user_id = $_GET['user_id'];
+      echo   $role = $_GET['role'];
+        echo "<form  action = 'action.php' method = 'POST'>";
+        echo "<input type='hidden' name='code' value='26'>";
+        echo "<input type='hidden' name='user_id' value = '".$user_id."'>";
+
+      
+
+        echo "<input type = 'submit' class = 'btn btn-primary btn-xs' name = ''>";
+        echo "</form";
+    }
+        else if ($code==23)
+       {
+          $id=$_GET['id'];
+   $room_name="SELECT * FROM room_type_master where ID='$id'";
+                              $room_name_run=mysqli_query($conn,$room_name);
+                              while ($room_name_row=mysqli_fetch_array($room_name_run)) 
+                              {?>
+<input type="hidden" name="id" value="<?=$id;?>">
+<input type="text" class="form-control" name="RoomType" value="<?=$room_name_row['RoomType'];?>">
+<?php
+   }
+   
+   }
+else if($code==24)
+{
+     $LocationID = $_GET['locationID'];
+      $location=" SELECT * from location_master  Where ID='$LocationID' ";
+                        $location_run=mysqli_query($conn,$location);
+                        while ($location_row=mysqli_fetch_array($location_run)) 
+                        {?>
+     <input type="hidden" name="User_ID" value="<?=$location_row['location_owner'];?>">
+ <?php }
+?>
+
+
+                    <input type="hidden" name="locationID" value="<?=$LocationID;?>">
+                      
+              <input type="hidden" name="code" value="27">
+                 <table class="table " id="search_all_item">
+                     <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select_all" ></th>
+                           <th>ID</th>
+                           <th>Category Name</th>
+                           <th>Article Name</th>
+                        
+                          <!--  <th>Oprating System</th>
+                           <th>Memory</th> -->
+                           <th>Action</th>
+                         
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <?php 
+                           $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode WHERE s.Status='1' order by IDNo DESC ";
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+                           $building_num=$building_num+1;
+                           ?>
+
+                        <tr>
+                            <td><input type="checkbox" name="check[]" id="check" value="<?=$building_row['IDNo'];?>" class="checkbox" ></td>
+                           <td><?=$building_row['IDNo'];?></td>
+                           <td><?=$building_row['CategoryName'];?></td>
+                           <td><?=$building_row['ArticleName'];?></td>
+                         <!--   <td><?=$building_row['CPU'];?></td> -->
+                         <!--   <td><?=$building_row['OS'];?></td>
+                           <td><?=$building_row['Memory'];?></td> -->
+                        
+                           <td>
+                              <?php 
+                                 if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
+                                  {
+                                     if($building_row['Status']=="1")
+                                    {?>
+                              <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
+                              <?php                      
+                                 }
+                                 elseif($building_row['Status']=="0")
+                                 {
+
+                                 }
+                                 else 
+                                 {
+                                 ?>
+                              <a class="btn btn-success btn-xs" style="color:white;">Assigned</a>
+
+                              <?php 
+
+                                 }
+                                 }
+                                 else
+                                 {
+                                 
+                                 }  ?>
+                                 
+                           </td>
+                           
+                        </tr>
+                    
+                        <?php 
+                           }
+                                      ?>
+                     </tbody>
+                 </table>
+                 
+            
+<?php }
+
+else if($code==25)
+{
+$ArticleCode=$_GET['articlebind'];
+    $LocationID = $_GET['locationID'];
+      $location=" SELECT * from location_master  Where ID='$LocationID' ";
+                        $location_run=mysqli_query($conn,$location);
+                        while ($location_row=mysqli_fetch_array($location_run)) 
+                        {
+
+     $User_ID = $location_row['location_owner'];
+ }
+   ?>
+                    <input type="hidden" name="locationID" value="<?=$LocationID;?>">
+                      <input type="hidden" name="User_ID" value="<?=$User_ID;?>">
+              <input type="hidden" name="code" value="27">
+                 <table class="table table-striped table-bordered" id='search_item'>
+                     <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select_all" ></th>
+                           <th>ID</th>
+                           <th>Category Name</th>
+                           <th>Article Name</th>
+                           
+                           <th>Action</th>
+                         
+                        </tr>
+                     </thead>
+                     <tbody id="">
+                        <?php 
+                           $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode WHERE s.Status='1' and s.ArticleCode='$ArticleCode' order by IDNo DESC ";
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+                           $building_num=$building_num+1;
+                           ?>
+
+                        <tr>
+                            <td><input type="checkbox" name="check[]" id="check" value="<?=$building_row['IDNo'];?>" class="checkbox" ></td>
+                           <td><?=$building_row['IDNo'];?></td>
+                           <td><?=$building_row['CategoryName'];?></td>
+                           <td><?=$building_row['ArticleName'];?></td>
+                         <!--   <td><?=$building_row['CPU'];?></td> -->
+                         <!--   <td><?=$building_row['OS'];?></td>
+                           <td><?=$building_row['Memory'];?></td> -->
+                          
+                           <td>
+                              <?php 
+                                 if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
+                                  {
+                                     if($building_row['Status']=="1")
+                                    {?>
+                              <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
+                              <?php                      
+                                 }
+                                 elseif($building_row['Status']=="0")
+                                 {
+
+                                 }
+                                 else 
+                                 {
+                                 ?>
+                              <a class="btn btn-success btn-xs" style="color:white;">Assigned</a>
+
+                              <?php 
+
+                                 }
+                                 }
+                                 else
+                                 {
+                                 
+                                 }  ?>
+                                 
+                           </td>
+                           
+                        </tr>
+                        <!-- <input type="hidden" name="check[]" value="<?=$building_row['IDNo'];?>"> -->
+                        <?php 
+                           }
+                                      ?>
+                     </tbody>
+                 </table>
+                
+           
+<?php }
+elseif($code==26)
+{
+      $id=$_GET['id'];
+   ?>
+<form action="action.php" method="post">
+<input type="hidden" name="code" value="20">
+<div class="card-body table-responsive p-0 " style="height: 300px;">
+<table class="table  text-nowrap">
+<thead>
+<tr>
+<th>IDNo</th>
+<th>Specifications</th>
+<th>Operating System</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<?php 
+   $building_num=0;
+   $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+   $building_run=mysqli_query($conn,$building);
+   while ($building_row=mysqli_fetch_array($building_run)) 
+   {
+   $building_num=$building_num+1;?>
+ <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+            <td>
+               <input class="form-control"  type="text" name="IDNo" value="<?=$building_row['IDNo'];?>" disabled> 
+            </td>
+            <td>
+              
+                <select class="form-control" name="Processor" disabled>
+                <?php if ($building_row['CPU']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['CPU'].'">'.$building_row['CPU'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $cpu="SELECT Distinct Processor FROM specification where Processor!=''";
+                     $reslut_cpu=mysqli_query($conn,$cpu);
+                     while ($row_cpu=mysqli_fetch_array($reslut_cpu))
+                     {
+                     ?>
+                  <option value="<?php echo $row_cpu['Processor'];?>">
+                     <?php echo $row_cpu['Processor'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+              
+                <select class="form-control" name="Operating" disabled>
+                <?php if ($building_row['OS']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['OS'].' ">'.$building_row['OS'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $os="SELECT Distinct OS FROM specification where OS!=''";
+                     $reslut_os=mysqli_query($conn,$os);
+                     while ($row_os=mysqli_fetch_array($reslut_os))
+                     {
+                     ?>
+                  <option value="<?php echo $row_os['OS'];?>">
+                     <?php echo $row_os['OS'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+             </td>
+            <td>
+               <select class="form-control" name="Memory" disabled>
+                <?php if ($building_row['Memory']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Memory'].' ">'.$building_row['Memory'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $Ram="SELECT Distinct RAM FROM specification where RAM!=''";
+                     $reslut_ram=mysqli_query($conn,$Ram);
+                     while ($row_ram=mysqli_fetch_array($reslut_ram))
+                     {
+                     ?>
+                  <option value="<?php echo $row_ram['RAM'];?>">
+                     <?php echo $row_ram['RAM'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <th>Storage</th>
+            <th>Brand</th>
+            <th>Model</th>
+         <th>Serial No</th>
+         </tr>
+         <tr>
+            <td>
+               
+               <select class="form-control" name="Storage" disabled>
+
+                 
+
+                  
+                  <?php
+                  if ($building_row['Storage']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Storage'].' ">'.$building_row['Storage'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+
+
+                     $storage="SELECT Distinct Storage FROM specification where Storage!=''" ;
+                     $reslut_storage=mysqli_query($conn,$storage);
+                     while ($row_storage=mysqli_fetch_array($reslut_storage))
+                     {
+                     ?>
+                  <option value="<?php echo $row_storage['Storage'];?>">
+                     <?php echo $row_storage['Storage'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Brand" disabled>
+                 
+                  <?php
+                  if ($building_row['Brand']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Brand'].' ">'.$building_row['Brand'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $brand="SELECT Distinct Brand FROM specification where Brand!=''";
+                     $reslut_brand=mysqli_query($conn,$brand);
+                     while ($row_brand=mysqli_fetch_array($reslut_brand))
+                     {
+                     ?>
+                  <option value="<?php echo $row_brand['Brand'];?>">
+                     <?php echo $row_brand['Brand'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+               </select>
+            </td>
+            <td>
+               <select class="form-control" name="Model" disabled>
+                 
+
+                  <?php
+                   if ($building_row['Model']!='') 
+                {
+                 
+                  echo '<option value="'.$building_row['Model'].' ">'.$building_row['Model'].'</option>'; 
+                } else{
+                 echo '<option value="NA">Select</option>';
+                } 
+                     $model="SELECT Distinct Model FROM specification Where Model!=''";
+                     $reslut_model=mysqli_query($conn,$model);
+                     while ($row_model=mysqli_fetch_array($reslut_model))
+                     {
+                     ?>
+                  <option value="<?php echo $row_model['Model'];?>">
+                     <?php echo $row_model['Model'];?>
+                  </option>
+                  <?php
+                     }  
+                     
+                     ?>
+                   <option value="NA">NA</option>
+            </td>
+            <td><input type="text" name="SerialNo" value="<?=$building_row['SerialNo'];?>" class="form-control" disabled></td>
+         </tr>
+          <tr>
+            <th>Local Serial No</th>
+            <th>Bill No</th>
+            <th>Bill Date</th>
+         </tr>
+         <tr>
+         <td><input type="text" name="DeviceSerailNo" value="<?=$building_row['DeviceSerialNo'];?>" class="form-control" disabled></td>
+         <td><input type="text" name="BillNo" value="<?=$building_row['BillNo'];?>" class="form-control" disabled></td>
+         <td><input type="date" name="BillDate" value="<?=$building_row['BillDate'];?>" class="form-control" disabled></td>
+      </tr>
+         <?php 
+            }
+                       ?>
+</tbody>
+</table>
+</div>
+</form>
+</div><?php
+}
+else if ($code==27) {
+   $empID=$_GET['id'];
+     $staff="SELECT Name FROM Staff Where IDNo='$empID'";
+ $stmt = sqlsrv_query($conntest,$staff);  
+while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+     {
+
+ echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
+
+     }
+}
+
+else if($code==28)
+{
+    $id = $_GET['id'];
+    $emp_id = $_GET['owner'];
+    $sql="SELECT * FROM stock_summary  where IDNo='$id'";
+    $result = mysqli_query($conn,$sql);
+    $date=date('Y-m-d');
+    while($data=mysqli_fetch_array($result))
+    {
+       $currentOwner=$data['Corrent_owner'];
+       $currentLocation=$data['LocationID'];
+       $deviceSerialNo=$data['DeviceSerialNo'];
+       $workingStatus=$data['WorkingStatus'];
+       $referenceNo=$data['reference_no'];
+       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', 'Returned', '$currentLocation', '$currentOwner', 'Owner Change', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+       $res=mysqli_query($conn,$qry);
+       if ($res) 
+       {
+            $updateQry="UPDATE stock_summary SET Corrent_owner='',reference_no=''  WHERE IDNo='$id'";
+            mysqli_query($conn,$updateQry);
+       }
+
+
+    }
+      // $owner_update=" UPDATE stock_summary SET Corrent_owner=''  Where IDNo='$id'  ";
+      //                   $owner_update_run=mysqli_query($conn,$owner_update);
+                       
+             
+}
+
+
+ elseif ($code==29)
+       {
+
+     $CategoryID=$_GET['CategoryID'];
+     $ArticleID=$_GET['ArticleID'];
+     $Status=$_GET['Status'];
+     if ($Status==1)
+      {
+         $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where   s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+     }
+     elseif ($Status==2)
+ {
+ $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.Status='2' and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+ }
+ elseif($Status==3)
+ {
+    $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.Status='1' and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+ }
+ else
+ { $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+
+ }
+          
+          ?>
+          <table class="table table-head-fixed text-nowrap table-bordered " id="example">
+                     <thead>
+                        <tr>
+                           <th>ID</th>
+                           <th>Category Name</th>
+                           <th>Article Name</th>
+                           <th>Specifications</th>
+                          <!--  <th>Oprating System</th>
+                           <th>Memory</th> -->
+                           <th>Action</th>
+                         <th>Action</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+          <?php
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+                           $building_num=$building_num+1;
+                           ?>
+                       <tr>
+                           <td><?=$building_row['IDNo'];?></td>
+                           <td><?=$building_row['CategoryName'];?></td>
+                           <td><?=$building_row['ArticleName'];?></td>
+                       <td><?=$building_row['CPU'];?></td>
+                         <!--   <td><?=$building_row['OS'];?></td>
+                           <td><?=$building_row['Memory'];?></td> -->
+                            <td>
+                                  <?php
+                                 if($building_row['Status']=="0")
+                                  {?>
+                              <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+                              <?php
+                                 }
+                                 else if($building_row['Status']==1)
+                                 {
+                                  ?>
+                                   <i class="fa fa-edit fa-lg" onclick="stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal" style="color:red;"></i>
+
+                              <!-- <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i> -->
+                              <?php
+                                 }
+                                 else
+                                 {
+                                    ?>  <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i><?php
+                                 }
+                                 ?>
+
+                           </td> 
+                           <td>
+                             <?php 
+                                 if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
+                                  {
+                                     if($building_row['Status']=="1")
+                                    {?>
+                              <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
+                              <?php
+                                 }
+                                 else if($building_row['Status']=="2")
+                                 {
+                                 ?>
+                                    <a class="btn btn-danger btn-xs" data-dismiss="modal" onclick="return_assigned_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#return_stock_Modal" style="color:white;">Return</a>
+                              <?php  # code...
+                                 }
+                                 else
+                                 {
+                                    
+                                 }
+                                 }
+                                 else{
+                                 
+                                 }  ?>
+                                 
+                           </td>
+                           
+                        </tr>
+                        <?php 
+                           }
+                           ?>
+                        </tbody>
+                     </table>
+                     <?php
+
+    }
+
+   elseif ($code==30) 
+    {
+      $id=$_GET['id'];
+      $article_name='';
+      $s=" SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode inner join category_permissions on category_permissions.CategoryCode=c.ID where category_permissions.employee_id='$EmployeeID' and s.Status='1' and s.WorkingStatus='0' and s.IDNo='$id' ";
+      //$s="SELECT * FROM stock_summary Where IDNo='$id' and Status=1";
+         $ss=mysqli_query($conn,$s);
+while($article_data=mysqli_fetch_array($ss))
+{
+   $article_name=$article_data['ArticleName'];
+?>
+   <div class="row">
+      <div class="col-sm-2"></div>
+   <input type="hidden" name="id" value="<?=$id;?>">
+      <div class="col-sm-8" style="padding: 50px;">
+         <h3 class="text-center"><b  data-toggle="modal" onclick="updateModalFunction(<?=$id?>)" data-target="#update_modal" type="button"><?=$article_name;?></b></h3>
+<label>Article Number </label> 
+<input type="text"  class="form-control" value="<?=$id;?>" disabled>
+<input type="hidden" name="" id="id" class="form-control" value="<?=$id;?>" required>
+<label>Building</label>
+<select  class="form-control" onchange="floorSelect(this.value);" name="" id="spotBuilding" required="">
+   <optgroup label="Building">
+      <option value="">Select</option>
+   <?php 
+   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307') 
+   {
+      $locationBuildingSql="Select * from building_master ";
+   }
+   else
+   {
+      $locationBuildingSql="Select * from building_master  where Incharge='$EmployeeID' or infra_incharge='$EmployeeID' or electrical_incharge='$EmployeeID'  ";
+   }
+   $locationBuildingRes=mysqli_query($conn,$locationBuildingSql);
+   while($locationBuildingData=mysqli_fetch_array($locationBuildingRes))
+   {
+      ?>
+      <option value="<?=$locationBuildingData['ID']?>"><?=$locationBuildingData['Name']?></option>
+      <?php 
+   }
+   ?>
+</optgroup>
+</select>
+<label>Floor</label>
+<select id='floor' class="form-control" onchange="roomSelect(this.value)">
+
+</select>
+<label>Room No.</label>
+<select id='roomSelectList' class="form-control" onchange="locationOwner(this.value)">
+
+</select>
+<input type="hidden" id="lcm_id" value="">
+<label>Current Owner </label>
+         <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value);">
+         <p id="emp_detail_status_"></p>
+
+<div class="col-lg-8" style="padding: 50px;">
+   <?php 
+   // echo $id;
+}
+   
+if (mysqli_num_rows($ss)>0)
+ {
+ ?>
+<button type="button" name="" onclick="assigned_one();" class="btn btn-success">Assign</button>
+<?php
+ }
+ else
+ {   ?>
+<div class="alert alert-warning" role="alert">
+   You can't assign this article. <br> check whether already assigned or not.<br>Update details of this article.
+
+</div> 
+<div class="alert alert-danger" role="alert">
+  Please Refresh page <br> <button class="btn btn-primary btn-xs" onClick="window.location.reload();">Refresh Page</button>
+</div> 
+   <?php 
+   } ?>
+</div>
+   </div>
+</div>
+</div>
+<?php 
+
+
+    }
+    /*-------------Code 31-39 reserved for permission system--------------------*/
+
+else if ($code==31) //69
+    {
+   
+     $Role_id = $_GET['role_id'];
+   $per=array();  
+   $main=array(1);
+   $count=0;
+       $result1 = mysqli_query($conn,"SELECT DISTINCT mainmenu from permissions  order by mainmenu ASC");
+   
+       echo "<form  action = 'action.php' method = 'POST' target='_blank'>";
+       echo "<input type='hidden' name='code' value='110'>";
+       echo "<input type='hidden' name='role_id' value='".$Role_id."'";
+   
+       while($row1=mysqli_fetch_array($result1))
+       {
+        
+   $main[]= $row1['mainmenu'];
+   $count++;
+       }
+       // print_r($main);
+   // for($i=0;$i<$count;$i++)
+   // {
+       foreach ($main as $key => $value) {
+          // code... 
+          if ($value==1) {
+   echo $value;
+   }else
+   { 
+   echo"<b style='color:#a62532;'>".$value."</b>"; 
+   ?>
+<table class="table">
+<tr>
+   <th>Main Menu</th>
+   <th>View</th>
+   <th>Insert</th>
+   <th>Update</th>
+   <th>Delete</th>
+</tr>
+<?php 
+   $sel_result="SELECT * from permissions where mainmenu='$value'";
+   $result1 = mysqli_query($conn,$sel_result);
+   while($row=mysqli_fetch_array($result1))
+          { $idn=$row['id'];
+       $checked_m="";
+       $checked_I="";
+       $checked_U="";
+       $checked_D="";
+          
+   $sel_per="SELECT * FROM role WHERE role_id='$Role_id' and page_id='$idn'";
+   $sel_run=mysqli_query($conn,$sel_per);
+   while ($r=mysqli_fetch_array($sel_run))
+    {
+     if ($r['page_id']!='') 
+     {
+         $checked_m="checked";
+     }
+     else
+     {
+   
+     }
+     
+   if ($r['I']=='1') 
+   {
+     $checked_I='checked';
+   }
+   else
+   {
+   
+   }
+   if ($r['U']=='1') 
+   {
+      $checked_U='checked';
+   }
+   else
+   {
+   
+   }
+   if($r['D']=='1') 
+   {
+      $checked_D='checked';
+   }
+   else
+   {
+   
+   }
+   
+   
+    } 
+    ?>
+<?php 
+   echo "<div class='checkbox'>";
+            ?>
+<tr>
+   <td>
+      <div class="pretty p-default">
+         <label><b><?=$row['submenu'];?><b></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' class="checkhour<?=$row['id'];?>" name = 'per[]' id='per[]' onclick='un_check(<?=$row["id"];?>);' value="<?=$row['id']?>" <?=$checked_m?>>
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='I' <?=$checked_I;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='U' <?=$checked_U;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='D' <?=$checked_D;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+</tr>
+<?php 
+   echo "</div>";
+   
+   }
+   }
+   
+   echo "</table>";
+   }
+   echo "<input type = 'submit' class = 'btn btn-primary btn-xs' name = ''>";
+   echo "</form";
+   }
+   elseif($code==32)  //70
+   {
+   $user_id = $_GET['user_id'];
+   if ($user_id!='')
+    {
+   $userQry="SELECT * FROM user WHERE emp_id = '$user_id'";
+   $userRes=mysqli_query($conn,$userQry);
+   if (mysqli_num_rows($userRes)<1) 
+   {      
+   $staff="SELECT * FROM Staff Where IDNo='$user_id' ";
+   $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   {
+   $IDNo=$row_staff['IDNo'];
+   $Name=$row_staff['Name'];
+   $Clg=$row_staff['CollegeName'];
+   $dept=$row_staff['Department'];
+   $Desi=$row_staff['Designation'];
+   $contact=$row_staff['ContactNo'];
+   $email=$row_staff['EmailID'];
+   mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
+   }
+   } 
+   $presult = mysqli_query($conn,"SELECT emp_id, name from user WHERE emp_id = '$user_id'");
+   $name = $emp_id = "";
+   while($row=mysqli_fetch_array($presult))
+   {
+     
+     $emp_id = $row['emp_id'];
+     $name = $row['name'];
+   }
+echo "<h4>".$name."(".$emp_id.")</h4>";
+   $count=0;
+   $result1 = mysqli_query($conn,"SELECT DISTINCT mainmenu from permissions  order by mainmenu ASC");
+        echo "<form  action = 'action.php' method = 'POST' target='_blank'>";
+   echo "<input type='hidden' name='code' value='25'>";
+   echo "<input type='hidden' name='user_id' value = '".$user_id."'>";
+   
+   
+   while($row1=mysqli_fetch_array($result1))
+   {
+   $main[]= $row1['mainmenu'];
+   $count++;
+   }
+   for($i=0;$i<$count;$i++)
+   {
+   echo"<b style='color:#a62532;'>" .$main[$i]."</b>";?>
+<table class="table">
+<tr>
+   <th>Main Menu</th>
+   <th>View</th>
+   <th>Insert</th>
+   <th>Update</th>
+   <th>Delete</th>
+</tr>
+<?php
+   $result1 = mysqli_query($conn,"SELECT * from permissions where mainmenu='$main[$i]'");
+   
+   while($row=mysqli_fetch_array($result1))
+           { 
+            $idn=$row['id'];
+        $checked_m="";
+        $checked_I="";
+        $checked_U="";
+        $checked_D="";       
+    $sel_per="SELECT * FROM special_permission WHERE emp_id='$emp_id' and page_id='$idn'";
+    $sel_run=mysqli_query($conn,$sel_per);
+    while ($r=mysqli_fetch_array($sel_run))
+     {
+      if ($r['page_id']!='') 
+      {
+          $checked_m="checked";
+      }
+      else
+      {
+   
+      }
+   if ($r['I']=='1') 
+   {
+      $checked_I='checked';
+   }
+   else
+   {
+   
+   }
+   if ($r['U']=='1') 
+   {
+       $checked_U='checked';
+   }
+   else
+   {
+   
+   }
+   if($r['D']=='1') 
+   {
+       $checked_D='checked';
+   }
+   else
+   {
+   
+   }
+   
+     } 
+     ?>
+<?php 
+   echo "<div class='checkbox'>";
+            ?>
+<tr>
+   <td>
+      <div class="pretty p-default">
+         <label><b><?=$row['submenu'];?><b></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' class="checkhour<?=$row['id'];?>" name = 'per[]' id='per[]' onclick='un_check(<?=$row["id"];?>);' value="<?=$row['id']?>" <?=$checked_m?>>
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='I' <?=$checked_I;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='U' <?=$checked_U;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+         <input type='checkbox' onClick='check(<?=$row["id"];?>)' name = '<?=$idn?>[]' class='un_check<?=$row['id'];?>' value='D' <?=$checked_D;?> >
+         <div class="state p-success-o">
+            <label>&nbsp;</label>
+         </div>
+      </div>
+   </td>
+</tr>
+<?php 
+   echo "</div>";
+   
+   }
+   echo "</table>";
+   }
+   
+   echo "<input type = 'submit' onclick='submit_special_per(".$user_id.");' class = 'btn btn-primary btn-xs' name = ''>";
+   echo "</form";
+   }
+   else
+   {
+   echo "<p style='color:red;'>Please Enter Employee ID </p>";
+   }
+   }
+   
+   elseif($code==33)   //71
+   {
+   
+   $user_id = $_GET['user_id'];
+   $userQry="SELECT * FROM user WHERE emp_id = '$user_id'";
+   $userRes=mysqli_query($conn,$userQry);
+   if (mysqli_num_rows($userRes)<1) 
+   {      
+   $staff="SELECT * FROM Staff Where IDNo='$user_id' ";
+   $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   {
+   $IDNo=$row_staff['IDNo'];
+   $Name=$row_staff['Name'];
+   $Clg=$row_staff['CollegeName'];
+   $dept=$row_staff['Department'];
+   $Desi=$row_staff['Designation'];
+   $contact=$row_staff['ContactNo'];
+   $email=$row_staff['EmailID'];
+   mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
+   
+   }
+   
+   } 
+   $presult = mysqli_query($conn,"SELECT emp_id, name,role_id from user WHERE emp_id = '$user_id'");
+   
+   $name = $emp_id = "";
+   while($row=mysqli_fetch_array($presult))
+   {
+     $permissions = $row['role_id'];
+     $emp_id = $row['emp_id'];
+     $name = $row['name'];
+   }
+   
+   
+   echo "<h4>Role Assigned</h4>";
+   
+   $count=0;
+   
+   $result1 = mysqli_query($conn,"SELECT DISTINCT role_name,id from role_name where id='$permissions'  order by role_name ASC");
+   while($row1=mysqli_fetch_array($result1))
+   {
+   $main[]= $row1['role_name'];
+   $main_id[]= $row1['id'];
+   
+   $count++;
+   }
+   for($i=0;$i<$count;$i++)
+   {?>
+<table class="table">
+   <tr>
+      <th><b style='color:#a62532;'><?=$main[$i];?></b></th>
+      <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$user_id;?>);" value="Delete"></th>
+   </tr>
+</table>
+<?php 
+   } 
+   echo "<br>";
+    echo "<h4>Special permissions Assigned</h4>";
+    ?>
+<table class="table">
+   <tr>
+      <th>Main Menu</th>
+      <!-- <th>View</th> -->
+      <th>Insert</th>
+      <th>Update</th>
+      <th>Delete</th>
+   </tr>
+   <?php 
+      $result1 = mysqli_query($conn,"SELECT * from permissions");
+      
+      while($row=mysqli_fetch_array($result1))
+              { $idn=$row['id'];
+           $checked_m="";
+           $checked_I="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+           $checked_U="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+           $checked_D="<i class='fa fa-times text-danger' aria-hidden='true'></i>";  
+           $flag=0;     
+       $sel_per="SELECT * FROM special_permission WHERE emp_id='$user_id' and page_id='$idn' ";
+       $sel_run=mysqli_query($conn,$sel_per);
+       while ($r=mysqli_fetch_array($sel_run))
+        {
+      
+         if ($r['page_id']!='') 
+         {
+            $flag=1;
+            $checked_m="checked";
+            if ($r['I']=='1') 
+            {
+               $checked_I="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+            }
+            if ($r['U']=='1') 
+            {
+                $checked_U="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+            }
+            if($r['D']=='1') 
+            {
+                $checked_D="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+            }
+            
+         }
+       
+        
+      }
+      if ($flag==1)
+      {
+         echo "<div class='checkbox'>";
+                  ?>
+   <tr>
+      <td>
+         <div class="pretty p-default">
+            <label ><b style="color: #a62535"><?=$row['submenu'];?><b></label>
+         </div>
+      </td>
+      <td>
+         <div class="pretty p-default">
+            <!-- <input type='checkbox'  name = '<?=$idn?>[]' value='I' <?=$checked_I;?>  disabled> -->
+            <label>&nbsp;<?=$checked_I;?></label>
+         </div>
+      </td>
+      <td>
+         <div class="pretty p-default">
+            <!-- <input type='checkbox' name = '<?=$idn?>[]' value='U' <?=$checked_U;?> disabled> -->
+            <label>&nbsp;<?=$checked_U;?></label>
+         </div>
+      </td>
+      <td>
+         <div class="pretty p-default">
+            <!-- <input type='checkbox' name = '<?=$idn?>[]' value='D' <?=$checked_D;?> disabled > -->
+            <label>&nbsp;<?=$checked_D;?></label>
+         </div>
+      </td>
+   </tr>
+   <?php 
+      echo "</div>";
+      }
+      }
+      ?>
+</table>
+<?php    
+   }
+   
+   elseif($code==34) //72
+   {
+   $emp_id=$_GET['user_id'];
+    $get_emp_data = mysqli_query($conn,"SELECT emp_id, name from user WHERE emp_id = '$emp_id'");
+   while($row_emp=mysqli_fetch_array($get_emp_data))
+   {
+     $name = $row_emp['name'];
+     // $designation = $row_emp['designation'];
+   }
+   ?>
+
+   <div class="modal-body">
+            
+               <div class="form-group" id="">
+                  <h5><b>Role Assigned To :</b> <?=$name;?></h5><br>
+                   <!-- <h5><b>Designation :</b> <?=$designation;?></h5><br> -->
+                  <select class="form-control" name="" id="role_new" required>
+   <option>Select Role</option>
+   <?php  
+      $role_get="SELECT * FROM role_name";
+      $role_run=mysqli_query($conn,$role_get);
+      while($role_row=mysqli_fetch_array($role_run))  
+      {
+         ?> 
+   <option value="<?=$role_row['id'];?>"><?=$role_row['role_name'];?></option>
+   <?php 
+      }
+      ?>
+</select>
+               </div>
+            
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <input type="button"  onclick="submit_role(<?=$emp_id;?>);" value="Submit" class="btn btn-primary">
+         </div>
+
+
+<?php }
+   elseif($code==35) //76
+    {
+      $role_id = $_GET['role_id'];
+       $id = "";
+            $emp_id = "";
+            $name = "";
+      if ($role_id==0) {
+    
+      }else
+      {
+       ?>
+       <div class="table-responsive" style="height: 290px;">
+<table class="table">
+   <?php  
+   $sr=1;
+      $presult = mysqli_query($conn,"SELECT user_id,emp_id, name,role_id from user WHERE  role_id='$role_id'");
+      $name = $emp_id = "";
+      while($row=mysqli_fetch_array($presult))
+      {
+          $id = $row['user_id'];
+          $emp_id = $row['emp_id'];
+          $name = $row['name'];
+       ?>
+   <tr>
+      <th><b style='color:#a62532;'><?=$sr;?></b></th>
+      <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)</b></th>
+      <input type="hidden" name="" value="<?=$id;?>">
+      <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$emp_id;?>)" value="Delete"></th>
+   </tr>
+   <?php 
+   $sr++;
+      }
+      ?>
+</table>
+</div>
+<?php  
+   }
+   }
+
+elseif($code==36)
+{?>
+   <table class="table">
+      <tr>
+             <th>Sr.No</th>
+             <th>Main Menu</th>
+             <th>Sub Menu</th>
+             <th>Link</th>
+             <th>Action</th>
+          </tr>
+          <tr>
+              <p id="succcess_page" style="color:green;"></p>
+          </tr>
+  <?php 
+ $menu_id = $_GET['menu_id'];
+ $srno=0;
+  $show_menu_all_pages = mysqli_query($conn,"SELECT * from permissions WHERE  master_id='$menu_id'");
+     
+      while($row=mysqli_fetch_array($show_menu_all_pages))
+      {
+         $id=$row['id'];
+         $srno++;
+         ?>
+          <tr>
+            <td><?=$srno;?></td>
+            <td>
+              
+               
+                  
+                  <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu where id='$menu_id'");
+      while($row_menu=mysqli_fetch_array($show_menu_all))
+      {?>
+  <label id="menu_label<?=$id;?>"><?=$row_menu['menu_name'];?>
+     <!-- <input type="hidden" id="main_menu<?=$row['id'];?>" value="<?=$row_menu['id'];?>"> -->
+  </label>
+      <?php }?>
+        <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;' >
+           <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu where id='$menu_id'");
+      while($row_menu=mysqli_fetch_array($show_menu_all))
+      {?>
+ <option value="<?=$row_menu['id'];?>"><?=$row_menu['menu_name'];?></option>
+      <?php
+       }?>
+               </select>
+      <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;' >
+           <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu");
+      while($row_menu=mysqli_fetch_array($show_menu_all))
+      {?>
+ <option value="<?=$row_menu['id'];?>"><?=$row_menu['menu_name'];?></option>
+      <?php
+       }?>
+               </select>
+            </td>
+             <td><label for="name" class="control-label">
+                                       <p class="page_submenu<?=$id;?>"><?=$row['submenu'];?></p>
+                                    </label></td>
+             <td><label for="name" class="control-label">
+                                       <p class="page_sublink<?=$id;?>"><?=$row['page_link'];?></p>
+                                    </label></td>
+             <td><div class="controls">
+                                             <i class="fa fa-edit" id="page_edit<?=$id;?>" onclick="show_text_box_pages(<?=$id;?>);"></i>
+                                             <div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" id="page_crose<?=$id;?>" onclick="page_data_submit(<?=$id;?>)" class="btn btn-success btn-xs" style='display:none;'>
+<i class="fa fa-check" ></i> 
+</button>
+
+&nbsp;&nbsp;
+  <button type="button" id="page_check<?=$id;?>" onclick="cencel_text_box_page(<?=$id;?>)" class="btn btn-danger btn-xs "
+style='display:none ;'><i class="fa fa-times"  >     </i> 
+
+</button>
+</div>  
+
+                                  </div>
+                                 </td>
+                                
+          </tr>
+        
+       <?php }
+
+       ?>
+       <tr>
+         <td>#</td>
+          <td> <select class="form-control" id="main_menu" >
+                  
+                  <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu where id='$menu_id'");
+      while($row_menu=mysqli_fetch_array($show_menu_all))
+      {?>
+ <option value="<?=$row_menu['id'];?>"><?=$row_menu['menu_name'];?></option>
+      <?php }?>
+           <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu");
+      while($row_menu=mysqli_fetch_array($show_menu_all))
+      {?>
+ <option  value="<?=$row_menu['id'];?>"><?=$row_menu['menu_name'];?></option>
+      <?php
+       }?>
+               </select></td>
+
+          <td><input type="text" class="form-control" id="submenu"></td>
+          <td><input type="text" class="form-control" id="sub_link"></td>
+          <td><input type="button" onclick="new_page_submit()" class="btn btn-success" value="Submit"></td>
+       </tr>
+       </table><?php 
+}
+
+elseif($code==37)
+{
+    $id=$_GET['menu_id'];
+    $menu_name=$_GET['menu_name'];
+
+   $menu_update="UPDATE master_menu SET menu_name='$menu_name' WHERE id='$id'";
+   $menu_run=mysqli_query($conn,$menu_update);
+   if ($menu_run)
+    {
+     echo "1";  }
+   else
+   {
+       echo "0";
+   }
+}
+
+
+elseif($code==38)
+{
+    $id=$_GET['submenu_id'];
+    $submenu_name=$_GET['submenu_name'];
+    $sublink=$_GET['sublink'];
+      $menu=$_GET['menu'];
+    $submenu_update="UPDATE permissions SET submenu='$submenu_name',master_id='$menu',page_link='$sublink' WHERE id='$id'";
+   $submenu_run=mysqli_query($conn,$submenu_update);
+   if ($submenu_run)
+    {
+     echo "1";
+      }
+   else
+   {
+       echo "0";
+   }
+}
+elseif($code==39)
+{
+     $id=$_GET['menu_id'];
+     $get_name="SELECT menu_name FROM master_menu where id='$id'";
+     $get_name_run=mysqli_query($conn,$get_name);
+     while($get_name_row=mysqli_fetch_array($get_name_run))
+     {
+      $menu_name=$get_name_row['menu_name'];
+     }
+     $submenu_name=$_GET['submenu_name'];
+     $sublink=$_GET['link'];
+       $submenu_update="INSERT INTO permissions(mainmenu,submenu,page_link,master_id,type) VALUES('$menu_name','$submenu_name','$sublink','$id','Menu')";
+   $submenu_run=mysqli_query($conn,$submenu_update);
+   if ($submenu_run)
+    {
+     echo "1";
+      }
+   else
+   {
+       echo "0";
+   }
+}
+
+
+//*******************end permissions system **************************************
+    elseif ($code==40)
+     {
+$College = $_GET['College'];
+$Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+  $Type = $_GET['Type'];
+    $Group = $_GET['Group'];
+        $Examination = $_GET['Examination'];
+
+
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch'ANd ExamForm.SemesterID='$Semester' ORDER BY Admissions.UniRollNo";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th><input type="checkbox" id="select_all" onclick="selectAll()">
+  </th> </th><th>SrNo</th> <th>Uni RollNo</th>
+    <th>Name</th><th>Course</th><th>Sem</th></tr>
+   <tr>
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        { 
+
+          $Status= $row['Status'];
+
+          $issueDate=$row['SubmitFormDate'];
+                echo "<tr>";
+               echo "<td><input type='checkbox' name='check[]' id='check' value='".$row['ID']."' class='checkbox' ></td>";
+                echo "<td>".$count++."</td>";
+                // echo "<td>".$row['ID']."</td>";
+                ?><td>
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal" data-target="#exampleModal"><?=$row['UniRollNo'];?></a></td>
+                  <?php echo "<td>".$row['StudentName']."</a></td>";
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                  echo "<tr>";
+
+
+}
+
+
+?>
+</tr></table>
+
+
+<?php 
+
+
+ }
+
+
+
+
+ elseif ($code==41) {
+
+$College = $_GET['College'];
+$Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+
+    $Group = $_GET['Group'];
+      
+
+
+$list_sql = "Select * from MasterCourseStructure where CollegeID='$College' AND CourseID='$Course'AND Batch='$Batch'ANd SemesterID='$Semester' ";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th>Select</th><th>SrNo</th> <th>Code</th>
+    <th>Subject Name</th></tr>
+   
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        {?>
+
+         
+             
+             <tr>
+            
+            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
+             
+             <td><?=$count++;?></td>
+             
+                <td>
+                <?=$row['SubjectCode'];?></td>
+                  <td><?= $row['SubjectName'];?></td>
+             
+               
+               </tr>
+
+<?php
+}
+
+
+?>
+<tr><td colspan="4" style="text-align: center;"><input type="button" name="add_subject"  onclick="add_subject_examform()" value="Add Subject" class="btn btn-primary btn-xs"></td></tr>
+</table>
+
+
+<?php 
+
+
+ }
+
+  else if ($code==42)
+     {
+   $id=$_GET['id'];
+    $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+               $building_run=mysqli_query($conn,$building);
+               while ($building_row=mysqli_fetch_array($building_run)) 
+               {
+                  $articleNo=$building_row['IDNo'];
+                  $articleName=$building_row['ArticleName'];
+               }
+               $location="SELECT *, lm.RoomNo as Room_No, lm.ID as locationID FROM stock_summary ss inner join master_calegories mc on ss.CategoryID=mc.ID INNER join master_article ma on ss.ArticleCode=ma.ArticleCode inner join location_master lm on lm.ID=ss.LocationID inner join room_master rm on rm.FloorID=lm.Floor inner join building_master bm on bm.ID=lm.Block inner join room_type_master rtm on rtm.ID=lm.Type inner join room_name_master rnm on rnm.ID=lm.RoomName  WHERE ss.IDNo='$id'";
+         
+            
+                $location_run=mysqli_query($conn,$location);
+                if ($location_row=mysqli_fetch_array($location_run)) 
+                {
+
+                  $currentOwner=$location_row['Corrent_owner'];
+                  $locationID=$location_row['locationID'];
+                  $Block=$location_row['Name'];
+                  $Floor=$location_row['Floor'];
+                  $RoomNo =$location_row['Room_No'];
+                  
+               }
+if ($articleName=='Meter') 
+{
+   $checkAssignedQry="SELECT * FROM stock_summary where IDNo='$articleNo' and Status='2'";
+   $checkAssignedRes=mysqli_query($conn,$checkAssignedQry);
+   if (mysqli_num_rows($checkAssignedRes)>0) 
+   {
+    
+                  ?>
+    <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+            <th colspan="2"><center><?=$Block?></center></th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td width="50%">
+              <b> <?=$articleName?> :</b> <?=$articleNo?>
+            </td>
+            <td >
+              <b> Room No.:</b> <?=$RoomNo?>
+            </td>
+         </tr>
+      <?php
+      $oldReading=0;
+     $oldReadingQry="SELECT unit,reading_date, current_reading, unit_rate FROM meter_reading where article_no='$articleNo' order by current_reading desc" ;
+     $oldReadingRes=mysqli_query($conn,$oldReadingQry);
+     if ($oldReadingData=mysqli_fetch_array($oldReadingRes)) 
+     {
+      $oldReading=$oldReadingData['current_reading'];
+      ?>
+      <tr>
+         <th colspan="2" class="text-danger"><center>Previous Reading Details</center></th>
+      </tr>
+         <tr>
+            <td>
+               <b>Date: </b> <?=$oldReadingData['reading_date'];?>
+            </td>
+            <td>
+               <b> Reading: </b> <?=$oldReading?>
+            </td>
+         </tr>
+         <tr>
+            <td >
+               <b>Units Consumed:</b> <?=$oldReadingData['unit'];?>
+            </td>
+            <td >
+               <b>Unit Rate: &#8377;</b> <?=$oldReadingData['unit_rate'];?>
+            </td>
+         </tr>
+        <?php
+     }
+      ?>
+      <tr>
+         <th colspan="2"><center>New Reading</center></th>
+      </tr>
+      <tr>
+            <td>
+               <label>New Reading</label>
+               <input class="form-control" type="number" id="reading" value="" min='<?=$oldReading+1?>' onchange="unitsConsumed(this.value,<?=$oldReading?>)"> 
+            </td>
+            <td>
+               <label>Date</label>
+               <input class="form-control" type="date" id="date" value="<?php echo date('Y-m-d')?>"> 
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <label>Units Consumed</label>
+               <input type="text" class="form-control" readonly id="unitsConsumed"></td>
+            <td>
+               <!-- <label>Rate per Unit</label>
+               <select id="unitRate" class="form-control">
+                  <option value="12.25">&#8377; 12.25</option>
+                  <option value="10"> &#8377; 10</option>
+               </select> -->
+<br>         <button class="btn btn-xs  btn-outline-primary form-control" onclick="insertReading(<?=$articleNo?>,<?=$oldReading?>,<?=$currentOwner?>,<?=$locationID?>)">Submit</button>
+
+            </td>
+            </tr>
+
+      </tbody>
+   </table>
+   <div class="row">
+      <div class="col-lg-4"></div>
+      <div class="col-lg-4">
+      </div>
+      <div class="col-lg-4"></div>
+   </div>
+
+<?php
+}
+else
+{
+   echo '<br><div class="alert alert-danger">
+                <strong>Electrical Meter not assigned to any location.  </strong> 
+                </div>';
+}
+}
+else
+{
+   echo '<br><div class="alert alert-danger">
+                <strong>Wrong Article </strong> 
+                </div>';
+}
+   }
+
+
+
+       else
+       {
+   
+       }
+   
+        ?>
