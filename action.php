@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ini_set('max_execution_time', '0');
    if(!(ISSET($_SESSION['usr']))) 
    {
@@ -11524,7 +11525,585 @@ else if ($code == 199) {
 </form>
 <?php
    }
-   
+   elseif($code==202)
+   {
+
+$univ_rollno=$_POST['rollNo'];
+if ($univ_rollno!='') 
+{
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+if($list_result === false)
+ {
+die( print_r( sqlsrv_errors(), true) );
+}
+  while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+        {
+
+          $Status= $row['Status'];
+          $issueDate=$row['SubmitFormDate'];
+                echo "<tr>";
+                // echo "<td><input type='checkbox' name='amrik[]' class='checkBoxClass' value='".$row['ID']."'></td>";
+                echo "<td>".$count++."</td>";
+                echo "<td>".$row['ID']."</td>";
+                ?><td>
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></td>
+                  <?php echo "<td>".$row['StudentName']."</a></td>";
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                echo "<td>".$row['Batch']."</td>";
+               
+                echo "<td>".$row['Examination']."</td>";
+               // echo "<td>".$row['Type']."</td>";
+if($row['ReceiptDate']!='')
+{
+  $rdate=$row['ReceiptDate']->format('Y-m-d');
+}
+else
+{
+$rdate='';
+}
+?>
+
+               <td>
+              <select onchange="re(<?=$row["ID"];?>)"  id='re1<?=$row["ID"];?>' class="form-control">
+                
+
+                <option value=""><?=$row['Type'];?></option>
+                <option value="Reappear" >Reappear</option>
+                 <option value="Regular" >Regular</option>     
+           
+            </select>         </td>
+                <td><center><?php 
+
+ if($Status==-1)
+                {
+                  echo "Fee<br>pending";
+
+                }
+
+                elseif($Status==0)
+                {
+                  echo "Draft";
+                }elseif($Status==1)
+                {
+                  echo 'Forward<br>to<br>dean';
+                }
+
+                elseif($Status==2)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+                }
+                 elseif($Status==3)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+                }
+
+ elseif($Status==4)
+                {
+                  echo 'Forward <br>to<br> Account';
+                }
+ elseif($Status==5)
+                {
+                  echo 'Forward <br>to<br> Examination<br> Branch';
+                }
+
+ elseif($Status==6)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+                }
+      elseif($Status==7)
+                {
+                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+                }           
+
+elseif($Status==8)
+                {
+                  echo "<b style='color:green'>Accepted</b>";
+                }   ?>        
+</center>
+               </td>
+                
+               <td> <?php if($issueDate!='')
+               {
+               echo $t= $issueDate->format('Y-m-d'); 
+
+               }else{ 
+
+               }?>
+
+              </td>
+  <td style="text-align: center;"> 
+<form action="" method="post">
+              <input type="hidden" name="ID" value="<?= $row['ID'];?>">
+  <Select name='Status'  class="form-control">
+  <option value="-1">Fee pending</option>
+  <option value="0">Draft</option>
+  <option value="4">Forward to Account</option>
+    <option value="5">Forward to Examination Branch</option>
+    <option value="8">Accepted</option>
+</Select>
+<input type="submit" class="btn btn-warning btn-xs" name='dverify'>
+</form>
+          </td>
+          <td>
+            <a href="" style="text-decoration: none;">
+<i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
+            </td>
+                <tr/>
+           <?php 
+            }
+        ?>
+        <tr>
+            
+</tr>
+<?php 
+}
+else
+{
+$list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+if($list_result === false)
+ {
+die( print_r( sqlsrv_errors(), true) );
+}
+  while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+        {
+          $Status= $row['Status'];
+          $issueDate=$row['SubmitFormDate'];
+                echo "<tr>";
+                // echo "<td><input type='checkbox' name='amrik[]' class='checkBoxClass' value='".$row['ID']."'></td>";
+                echo "<td>".$count++."</td>";
+                echo "<td>".$row['ID']."</td>";
+                ?><td>
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></td>
+                  <?php echo "<td>".$row['StudentName']."</a></td>";
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                echo "<td>".$row['Batch']."</td>";
+               
+                echo "<td>".$row['Examination']."</td>";
+               // echo "<td>".$row['Type']."</td>";
+if($row['ReceiptDate']!='')
+{
+  $rdate=$row['ReceiptDate']->format('Y-m-d');
+}
+else
+{
+$rdate='';
+}
+?>
+               <td>
+              <select onchange="re(<?=$row["ID"];?>)"  id='re1<?=$row["ID"];?>' class="form-control">
+                <option value=""><?=$row['Type'];?></option>
+                <option value="Reappear" >Reappear</option>
+                 <option value="Regular" >Regular</option>
+            </select>
+        </td>
+                <td>
+                    <center><?php 
+
+ if($Status==-1)
+                {
+                  echo "Fee<br>pending";
+
+                }
+
+                elseif($Status==0)
+                {
+                  echo "Draft";
+                }elseif($Status==1)
+                {
+                  echo 'Forward<br>to<br>dean';
+                }
+
+                elseif($Status==2)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+                }
+                 elseif($Status==3)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+                }
+
+ elseif($Status==4)
+                {
+                  echo 'Forward <br>to<br> Account';
+                }
+ elseif($Status==5)
+                {
+                  echo 'Forward <br>to<br> Examination<br> Branch';
+                }
+
+ elseif($Status==6)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+                }
+      elseif($Status==7)
+                {
+                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+                }           
+
+elseif($Status==8)
+                {
+                  echo "<b style='color:green'>Accepted</b>";
+                }   ?>        
+</center>
+               </td>
+                
+               <td> <?php if($issueDate!='')
+               {
+               echo $t= $issueDate->format('Y-m-d'); 
+
+               }else{ 
+
+               }?>
+
+              </td>
+  <td style="text-align: center;"> 
+<form action="" method="post">
+              <input type="hidden" name="ID" value="<?= $row['ID'];?>">
+  <Select name='Status'  class="form-control">
+  <option value="-1">Fee pending</option>
+  
+  <option value="0">Draft</option>
+  <option value="4">Forward to Account</option>
+    <option value="5">Forward to Examination Branch</option>
+    <option value="8">Accepted</option>
+
+</Select>
+
+
+<input type="submit" class="btn btn-warning btn-xs" name='dverify'>
+
+</form>
+
+          </td>
+
+          <!-- <td style="text-align: center;">  <i class="fa fa-print fa-2x" onclick="result(<?= $row['Id'];?>)" style="color:#002147"></i>
+          </td> -->
+          <td>
+            <a href="" style="text-decoration: none;">
+<i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
+
+
+            </td>
+                <tr/>
+           <?php 
+            }
+        
+}
+   }
+   elseif($code==203)
+   {
+  $file = $_FILES['file_exl']['tmp_name'];
+  $handle = fopen($file, 'r');
+  $c = 0;
+  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+  {
+     $univ_rollno = $filesop[0];
+ $sem=$_POST['sem'];
+ if ($sem==1) {
+   $semester='First';
+ }
+ elseif ($sem==2) {
+   $semester='Second';
+ }
+ elseif ($sem==3) {
+  $semester='Third';
+ }
+ elseif ($sem==4) {
+   $semester='Fourth';
+ }
+ elseif ($sem==5) {
+  $semester='Fifth';
+ }
+ elseif ($sem==6) {
+   $semester='Sixth';
+ }
+ elseif ($sem==7) {
+   $semester='Seventh';
+ }
+ elseif ($sem==8) {
+   $semester='Eight';
+ }
+ else
+ {
+  $semester='Nine';
+ }
+ $type=$_POST['type'];
+$month=$_POST['month'];
+$year=$_POST['year'];
+$examination=$month.' '.$year;
+$sql = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+          $IDNo= $row['IDNo'];
+            $ClassRollNo= $row['ClassRollNo'];
+            $img= $row['Snap'];
+           $UniRollNo= $row['UniRollNo'];
+           $name = $row['StudentName'];
+            $father_name = $row['FatherName'];
+            $mother_name = $row['MotherName'];
+           $course = $row['Course'];
+            $email = $row['EmailID'];
+            $phone = $row['StudentMobileNo'];
+            $batch = $row['Batch'];
+           $college = $row['CollegeName'];
+           $CourseID=$row['CourseID'];
+ $CollegeID=$row['CollegeID'];
+ $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
+        $s_counter = 0;
+        $stmt2 = sqlsrv_query($conntest,$result1);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+          $subject[]=$row1['SubjectName'];   
+          $SubjectCode[]=$row1['SubjectCode'];
+          $SubjectType[]=$row1['SubjectType'];      
+         $s_counter++;      
+}
+}
+ for($i=0;$i<$s_counter;$i++)
+ {
+         $subject[$i];   
+          $SubjectCode[$i];
+           $SubjectType[$i];
+        
+ }
+$receipt_date=   date("Y-m-d");
+ $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
+   VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','4','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
+$stmt = sqlsrv_query($conntest,$query);
+if( $stmt === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+else{
+ $sql_limit = "SELECT TOP 1 * FROM ExamForm ORDER BY Id DESC";
+$stmt1 = sqlsrv_query($conntest,$sql_limit);
+if( $stmt1  === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
+
+  $cutlist_id= $row1['ID'];
+}
+ for($a=0;$a<$s_counter;$a++)
+ {
+ $subjectName= $subject[$a];
+$sub_code= $SubjectCode[$a];
+$int= 'Y';
+$ext= 'Y';
+$total= $SubjectType[$a];
+if($sub_code!='')
+{
+ $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
+    VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
+$stmt2 = sqlsrv_query($conntest,$query1);
+
+
+}
+ }
+ if($stmt2==true)
+ {
+   echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+}
+   }
+   elseif($code==204)
+   {
+  $id = $_POST['id'];
+  
+  
+
+  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+
+ $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+        $IDNo=$row5['IDNo'];
+         $type=$row5['Type'];
+             $examination=$row5['Examination'];
+             $receipt_date=$row5['ReceiptDate'];
+            $receipt_no=$row5['ReceiptNo'];
+             $formid=$row5['ID'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+           {$rdateas='';
+           
+              
+         } 
+           }
+
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+
+
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+
+
+
+
+?>
+
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  style="border: 1px black solid;">
+ <tr style="border: 1px black solid" height="30" >
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+ <td> <?php echo $UniRollNo;?></td>
+ <td colspan="1"><b>Name:</b> </td>
+ <td colspan="3"><?=$name;?></td>
+ <td rowspan="3" colspan="3" style="border:0">
+    
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?></td>
+ </tr>
+ <tr style="border: 1px black solid"height="30">
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td colspan="1"><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="3"><?=$course;?></td>
+ 
+ </tr>
+ <tr style="border: 1px black solid"height="30"  >
+   <td style="padding-left: 10px"><b>Examination :</b></td>
+   <td colspan="1"><?php echo $examination;?></td>
+   <td><b>Type:</b></td>
+   <td colspan="3"><?=$type;?></td>
+
+ </tr>
+
+<!-- <tr>
+   <td  style="padding-left: 10px">Receipt Date:</b></td>
+   <td><button type="submit"  id="type" onclick="correct(<?=$formid;?>);" name="correct" class="btn btn-primary btn-xs">correct</button></td>
+</tr> -->
+   <td colspan="4">
+      <input type="text"  class="form-control" name="receipt_date" id="asreceipt_date" value="<?= $rdateas;?>" placeholder="ReceiptDate"></td>
+      <td colspan="2">Receipt NO:</td>
+   <td><input type="text" name="receipt_date" id="asreceipt_no" class="form-control"  value="<?= $receipt_no;?>" placeholder="ReceiptNo" ></td> 
+   <td><button type="submit" id="type" onclick="correct(<?=$formid;?>);" name="correct" class="btn btn-primary btn-xs">correct</button></td></tr>
+
+
+<tr  style="border: 1px black solid" align="center" height="30" >
+  <td colspan="1"><b>Subject Name</b></td><td colspan="1"><b>Subject Code</b></td><td><b>Int</b></td><td><b>Ext&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td  align="center"><b>Type</b></td><td  align="center"><b>I Marks</b></td><td align="center"><b>E Marks</b></td>
+<td  align="center"><b>Action</b></td>
+
+</tr>
+<tr>
+  <br>
+</tr>
+
+<?php 
+
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'";  
+$list_resultamrik = sqlsrv_query($conntest,$amrik);  
+
+if($list_resultamrik === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+
+
+while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+         {?>
+
+         <tr style="border: 1px black solid; " align="center"height="30" >
+  <td colspan="1"><input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>"></td><td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>"></td>
+  <td>
+    
+    <select  id="<?=$row7['ID'];?>_Int"  class="form-control" >
+      <option><?=$row7['InternalExam'];?></option>
+    <option value="Y">Y</option>
+    <option value="N">N</option>
+  </select></td>
+  <td>
+ 
+      <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" >  
+      <option><?php echo $row7['ExternalExam'];?></option>
+    <option value="Y">Y</option>
+    <option value="N">N</option>
+  </select>
+  </td>
+  <td><?php echo $row7['SubjectType']; ?>
+    
+  </td>
+  <td><input type="text"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
+    
+  </td>
+  <td><input type="text"  class="form-control"  style="width:" value="<?php echo $row7['extmarks']; ?>" id="<?=$row7['ID'];?>_extmarks">
+    
+  </td>
+       <td>
+  <button type="submit" id="type" onclick="ty(<?=$row7['ID'];?>);" name="update" class="btn btn-primary btn-xs">update</button>
+
+
+
+</td>
+
+
+
+
+<p id="resuccess"></p>
+
+
+</tr>
+
+
+         <?php }
+         ?>
+</table>
+</div>
+         <?php 
+   }
+    elseif($code==205)
+   {
+
+  $database = $_POST['database'];
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+    $conn = new mysqli($servername, $username, $password, $database);
+        $conn->set_charset("utf8");
+  $show="show TABLES";
+$show_run=mysqli_query($conn,$show);
+while($show_row=mysqli_fetch_array($show_run))
+{
+  ?>
+  <option value="<?=$show_row[0];?>"><?=$show_row[0];?></option>
+  <?php 
+}
+
+  }
    else
    {
    
