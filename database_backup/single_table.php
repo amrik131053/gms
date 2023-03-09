@@ -6,8 +6,8 @@ ini_set('max_execution_time', '0');
 // ini_set('upload_max_filesize', '512M');
 // ini_set('post_max_size', '512M');
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "$username1";
+$password = "$password1";
 // $database_name = "local";
 
 date_default_timezone_set("Asia/Kolkata");

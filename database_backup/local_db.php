@@ -7,11 +7,14 @@ ini_set('max_execution_time', '0');
 // ini_set('post_max_size', '512M');
 date_default_timezone_set("Asia/Kolkata");
 // $dbname=$_POST['db'];
+$servername = "localhost";
+$username = "$username1";
+$password = "$password1";
 // Database configuration
 if ($_POST['db']!='All')
 {
     $database_name = $_POST['db'];
-        
+        $conn = new mysqli($servername, $username, $password, $database_name);
         $conn->set_charset("utf8");
         // Get connection object and set the charset
         // Get All Table Names From the Database

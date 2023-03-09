@@ -66,7 +66,8 @@ if ($show_row[0]!='information_schema' && $show_row[0]!='performance_schema' && 
                <div class="form-group row">
                            <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">Select Database</label>
                   <div class="col-lg-12">
-                        <SELECT class="form-control" id="database" name="database" >
+                        <SELECT class="form-control" id="database" name="database">
+                             <option value="">Select</option>
       <?php 
 
 $show="show DATABASES";

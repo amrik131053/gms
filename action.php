@@ -12088,8 +12088,8 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
   $database = $_POST['database'];
   $servername = "localhost";
-  $username = "root";
-  $password = "";
+  $username = "$username1";
+  $password = "$password1";
     $conn = new mysqli($servername, $username, $password, $database);
         $conn->set_charset("utf8");
   $show="show TABLES";
