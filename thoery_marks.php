@@ -43,7 +43,7 @@ function uncheckall()
           <div class="col-lg-2 col-md-4 col-sm-3">
 
 
-   <label>Colleged</label>
+   <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
@@ -110,48 +110,46 @@ for($i=1;$i<=12;$i++)
             </select>
 
 </div>
+
+
+
+     <div class="col-md-2">
+            <div class="form-group">
+              <label>Subject</label>
+              <select name="subject" id="Subject" class="form-control" required="">
+                <option value="">subject</option>
+
+                
+              </select>
+            </div>
+          </div>
+
+            <div class="col-md-1">
+            <div class="form-group">
+              <label>Type</label>
+              <select name="ecat" id="ecat" class="form-control" required="">
+                <option value="CE1">CE-1</option>
+                <option value="MST1">MST-1</option>
+                 <option value="CE2">CE-2</option>
+                <option value="MST2">MST-2</option>
+                <option value="CE3">CE-3</option>
+                 <option value="ESE">ESE</option>
+                    <option value="Attendance">Attendance</option>
+
+                
+              </select>
+            </div>
+ </div>
+
+
+
+
+
+
  <div class="col-lg-1 col-md-4 col-sm-3">
-  <label>Type</label>
-              <select  id="Type" class="form-control" required="">
-                 <option value="">Select</option>
-                <option value="Regular">Regular</option>
-                 <option value="Reappear">Reappear</option>
-                  <option value="Additional">Additional</option>
-                   <option value="Improvement">Improvement</option>
-
-                
-              </select>
-
-</div>
-
- <div class="col-lg-2 col-md-4 col-sm-3">
-  <label>Group</label>
-              <select id="Group" class="form-control" required="">
-                 <option value="">Group</option>
-                       <?php
-   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
-
-       
-     $Sgroup = $row1['Sgroup']; 
-     
-    ?>
-<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
-<?php    }
-
-?>
-
-                
-              </select>
-
-</div>
-
- <div class="col-lg-2 col-md-4 col-sm-3">
   <label>Examination</label>
               <select  id="Examination" class="form-control" required="">
-                 <option value="">Group</option>
+                 <option value="">Examination</option>
                        <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
@@ -175,7 +173,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
-            <button class="btn btn-danger" onclick="Search_exam_student()"><i  class="fa fa-search" ></i></button>
+            <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
 
 </div>
 
@@ -198,8 +196,9 @@ for($i=1;$i<=12;$i++)
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
                 <div class="card-body">
-                  <div id="live_data_Exam_student">
+                  <div id="live_data">
                   
+
                   </div>
                 </div>
                 <div class="card-footer">
@@ -214,7 +213,7 @@ for($i=1;$i<=12;$i++)
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Students</h3>
+                <h3 class="card-title">Theory Distribution</h3>
               </div>
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
@@ -238,6 +237,142 @@ for($i=1;$i<=12;$i++)
 </div>
       <!-- /.container-fluid -->
     </section>
+    <script>
+     $(function() { 
+      $("#Semester").change(function(e) {
+        e.preventDefault();
+ 
+        var course = $("#Course").val();
+       var batch = $("#Batch").val();
+       var sem = $("#Semester").val();  
+          
 
-<div
+         
+        var code='200';
+            $.ajax({
+            url:'action.php',
+            data:{course:course,code:code,batch:batch,sem:sem},
+            type:'POST',
+            success:function(data)
+            { 
+
+             if(data != "")
+                {
+                  console.log(data);
+                    $("#Subject").html("");
+                    $("#Subject").html(data);
+                }
+            }
+          });
+    });
+  });
+
+
+function select_mst() 
+{ 
+  var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value;
+         var subject = document.getElementById('Subject').value;
+     var  examination = document.getElementById('Examination').value;
+
+    var distributiontheory = document.getElementById('ecat').value;
+
+  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
+ {
+     
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+       
+          document.getElementById("live_data").innerHTML=xmlhttp.responseText;
+Examination_theory_types();
+        }
+    }
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+43,true);
+        xmlhttp.send();
+ }
+else
+{
+ alert("Please Select Appropriate data ");
+}
+      
+  }
+
+function Examination_theory_types(){
+var code=44;
+
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+     
+          document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
+
+        }
+    }
+
+      xmlhttp.open("GET", "get_action.php?code="+code,true);
+        xmlhttp.send();
+
+
+}
+
+function testing() 
+{
+  var idNos=document.getElementsByClassName('IdNos');
+  var marks=document.getElementsByClassName('marks');
+  var ecat=document.getElementById('ecat').value;
+  var len_student= idNos.length; 
+  var len_marks= marks.length; 
+
+  var student_str=[];
+  var marks_str=[];
+    for(i=0;i<len_student;i++)
+     {
+        student_str.push(idNos[i].value);
+     }
+     for(i=0;i<len_marks;i++)
+     {
+        marks_str.push(marks[i].value);
+     }
+    // alert(student_str);
+
+    $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        ids:student_str,mst:marks_str,ecat:ecat,flag:len_student,code:'201'
+      },
+      success:function(response)
+      {
+        alert('Successfully Updated');
+        // document.getElementById('ecat').value='';
+        // document.getElementById("alert").innerHTML="<div class='alert alert-success'>Successfully Inserted</div>";
+        // $('html, body').animate({ scrollTop: 0 }, 'slow');
+      }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<div>
     <?php include "footer.php";  ?>

@@ -1,5 +1,5 @@
 <?php
-
+ 
 $serverName = "10.0.10.11"; //serverName\instanceName
 $connectionInfo = array( "Database"=>"DBgurukashiTest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect( $serverName,$connectionInfo);
@@ -9,19 +9,21 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
 $connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_website');
 
+
+
 $servername1 = "localhost";
 $username1 = "root";
 $password1 = "";
 $dbname1 = "lims";
 
+
+
 $conn = new mysqli($servername1, $username1, $password1, $dbname1);
 
 
 if ($conn) {
-//echo "success";	# code...
+
 }
-// $serverName = "10.0.10.11"; //serverName\instanceName
-// $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
-// $conn = sqlsrv_connect( $serverName,$connectionInfo);
+
 
 ?>

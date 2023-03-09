@@ -4,17 +4,12 @@ session_start();
 ini_set('max_execution_time', '0');
    if(!(ISSET($_SESSION['usr']))) 
    {
-       ?>
-<script > window.location.href = 'index.php'; </script> 
+?>
+<script> window.location.href = 'index.php'; </script> 
 <?php
    }
    else
    {
-
-
-
-
-
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $timeStamp=date('Y-m-d H-i-s');
    $EmployeeID=$_SESSION['usr'];
@@ -50,7 +45,7 @@ ini_set('max_execution_time', '0');
        if ($category_run == true) {
    
           ?>
-<script > window.location.href = 'category-manage.php'; < /script> 
+<script > window.location.href = 'category-manage.php'; </script> 
    <?php
       } else {
           echo "Ohh yaar ";
@@ -5555,10 +5550,10 @@ option value = "" > Select < /option> <?php
    $College=$_POST['College'];
    
    
-   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
+    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
    
    $stmt = sqlsrv_query($conntest,$sql);  
-   echo "<option value=''>Coruse</option>";
+   echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    
    {
@@ -5567,7 +5562,6 @@ option value = "" > Select < /option> <?php
    }
    
    }
-   
    
   elseif($code=='91')
    {       
@@ -11314,7 +11308,8 @@ elseif($code==198)
                                       }
 }
 }
-else if ($code == 199) {
+elseif($code == 199)
+ {
    // echo $RoomTypeID = $_POST['RoomType'];
    $room1= $_POST['room'];
    $building1= $_POST['building'];
@@ -11333,10 +11328,6 @@ else if ($code == 199) {
                   Export
                   </button>
                </div>
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <!-- <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="stock_summary_search(this.value);" >
-                  </div> -->
             </div>
          </div>
       </div>
@@ -11410,10 +11401,9 @@ else if ($code == 199) {
                   }
                   if ($flag==1) 
                   {           
-               
                   $arrayIndex=0;
                   $res_r = mysqli_query($conn, $sql);
-                  while ($data = mysqli_fetch_array($res_r)) 
+                  while($data = mysqli_fetch_array($res_r)) 
                   {
                       $lm_ID=$data['lm_id'];
                       $OfficeName = $data['RoomName'];
@@ -11423,6 +11413,7 @@ else if ($code == 199) {
                       $clgName = $data['clg_name'];
                       $RoomNo = $data['RoomNo'];
                       $Floor = $data['Floor_name'];
+
                       if ($Floor == 0)
                       {
                           $FloorName = 'Ground';
@@ -11444,6 +11435,7 @@ else if ($code == 199) {
                           $FloorName = 'Fourth';
                       }
                           $arrayCount=0;
+
                       for($k=0;$k<$arrayCatCount;$k++)
                       {
                           $cat_id=$cat_id_array[$k];
@@ -11468,6 +11460,7 @@ else if ($code == 199) {
                               $arrayCount++;
                           }
                       }
+
                      
                       if(max($array[$arrayIndex])>0)
                       {
@@ -11477,7 +11470,7 @@ else if ($code == 199) {
                   <td><?=$clgName?> </td>
                   <td><?=$FloorName?> </td>
                   <td><?=$OfficeName?>(<?=$block?>  Block)</td>
-                  <td><?=$RoomNo?> </td>
+                  <td><?=$RoomNo; ?> </td>
                   <td>
                      <i class="fa fa-eye fa-lg" onclick="view_office_stock(<?=$lm_ID;?>,<?=$RoomType?>);" data-toggle="modal" data-target="#view_assign_stock_office_Modal_location" style="color:red;"></i>
                      <i class="fa fa-eye fa-lg" onclick="view_serial_no(<?=$lm_ID;?>,<?=$RoomType?>);" data-toggle="modal" data-target="#view_serial_no_Modal" style="color:blue;"></i>
@@ -11485,15 +11478,18 @@ else if ($code == 199) {
                   <?php
                      for($i=0;$i<$arrayCount;$i++)
                      { 
-                         ?>
+                     ?>
                   <td>
-                     <!-- <?=print_r($array[$arrayIndex])?> -->
-                     <?=$array[$arrayIndex][$i]?>
+                    
+                     <?=$array[$arrayIndex][$i];?>
                   </td>
+
                   <?php
                      }
+
                      ?>
                </tr>
+
                <?php
                   $srNO++;
                   }
@@ -11515,8 +11511,9 @@ else if ($code == 199) {
 
                   ?>
             </tbody>
-            <?php }
-               // print_r($array); ?>
+            <?php 
+         }
+               ?>
          </table>
       </div>
       <!-- /.card-body -->
@@ -11525,6 +11522,7 @@ else if ($code == 199) {
 </form>
 <?php
    }
+
    elseif($code==202)
    {
 
@@ -12104,9 +12102,52 @@ while($show_row=mysqli_fetch_array($show_run))
 }
 
   }
-   else
+   elseif ($code ==200)
+    {
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+
+
+ echo $sql = "SELECT DISTINCT SubjectName,SubjectCode FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)</option>";
+ <?php 
+ }
+
+   }
+ else  if($code==201)
+{       
+
+$ids =$_POST['ids'];  
+$mst=$_POST['mst'];
+$ecat=$_POST['ecat'];
+   $flag=$_POST['flag'];
+ for($i=0;$i<$flag;$i++)
+  {
+ $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+}
+    else
    {
-   
+   echo "select code";
    }
    }
    ?>
