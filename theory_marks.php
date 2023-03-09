@@ -1,6 +1,6 @@
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><?php 
+<?php 
 
   include "header.php";   
 ?>
@@ -258,7 +258,7 @@ for($i=1;$i<=12;$i++)
 
              if(data != "")
                 {
-                  console.log(data);
+                
                     $("#Subject").html("");
                     $("#Subject").html(data);
                 }
@@ -322,6 +322,7 @@ var xmlhttp = new XMLHttpRequest();
 
 function testing() 
 {
+
   var idNos=document.getElementsByClassName('IdNos');
   var marks=document.getElementsByClassName('marks');
   var ecat=document.getElementById('ecat').value;
@@ -357,21 +358,48 @@ function testing()
 }
 
 
+function unlock(id)
+{
 
+  var marks=document.getElementsByClassName('marks');
+  var ecat=document.getElementById('ecat').value;
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        id:id,ecat:ecat,code:'206'
+      },
+      success:function(response)
+      {
+ 
+        alert('Unlocked');
+        select_mst(); 
+       
+       
+      }
+    });
+}
 
+function lock(id)
+{
 
-
-
-
-
-
-
-
-
-
-
-
-
+  var marks=document.getElementsByClassName('marks');
+  var ecat=document.getElementById('ecat').value;
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        id:id,ecat:ecat,code:'207'
+      },
+      success:function(response)
+      {
+ 
+        alert('Locked');
+        select_mst(); 
+        
+      }
+    });
+}
 </script>
 
 <div>
