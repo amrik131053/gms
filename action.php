@@ -12087,7 +12087,7 @@ $sem= $_POST['sem'];
 
 
 
- echo $sql = "SELECT DISTINCT SubjectName,SubjectCode FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+  $sql = "SELECT DISTINCT SubjectName,SubjectCode FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
 
 
  $stmt2 = sqlsrv_query($conntest,$sql);
@@ -12120,6 +12120,53 @@ $ecat=$_POST['ecat'];
  }
 }
 }
+ else  if($code==206)
+{       
+
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+  $ecat=$ecat."Locked";
+ echo $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+ else  if($code==207)
+{       
+
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+  $ecat=$ecat."Locked";
+ echo $list_sqlw= "update ExamFormSubject set $ecat='1' where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
     else
    {
    echo "select code";

@@ -3519,7 +3519,7 @@ $batch=$_GET['batch'];
 
 
 
-     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><input type="hidden" value="<?=$uuniv_rollno;?>" name="univ_rollno"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
 
 
 
@@ -3592,7 +3592,7 @@ $Batch=$_GET['batch'];
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="checkbox" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos1'> </td>
 <td style="text-align: center"> <?=$row['UniRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
@@ -3605,16 +3605,16 @@ $Batch=$_GET['batch'];
 
                             if($row['Locked']>0)
                             {
-                               echo "Locked";
+                               
                                ?>
-                               <i class="fa fa-lock text-danger" onclick="Lockm();" ></i>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
                                 <?php 
 
 
                      }
                            else {
                        ?>
-                               <i class="fa fa-lock-open text-success" onclick="Lockm();" ></i>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
                                 <?php 
                            }
                            ?>
@@ -3627,7 +3627,7 @@ $Batch=$_GET['batch'];
   $flag=$i-1;
 
 ?>
-<input type="text" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
 
