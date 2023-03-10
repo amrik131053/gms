@@ -10,19 +10,17 @@ ini_set('max_execution_time', '0');
    <div class="row">
       <!-- left column -->
       <!-- Button trigger modal -->
-     
  <div class="col-lg-12 col-md-12 col-sm-12">
          <div class="card card-info">
             <div class="card-header ">
                 <div class="row">
-                  <div class="col-lg-4">
-                     
+                  <div class="col-lg-4">    
                <h3 class="card-title">Exam From</h3>
                   </div>
-
                   <div class="col-lg-1">
                      <a href="../formats/examform.csv" class="btn btn-warning "> Format</a>
-                  </div> <div class="col-lg-3">
+                  </div>
+                   <div class="col-lg-3">
                      <input type="text" class="form-control"  id="rollno" placeholder="RollNo">
                   </div>
                   <div class="col-lg-2">
@@ -31,11 +29,9 @@ ini_set('max_execution_time', '0');
                   <div class="col-lg-2">
                 <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal_upload" style="float: right;">
                <i class="fa fa-upload" aria-hidden="true"></i>
-               </button>
-                    
+               </button>  
                   </div>
                </div>
-
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive  "  style="height: 600px; font-size: 14px;">
@@ -60,48 +56,41 @@ ini_set('max_execution_time', '0');
                                 <tbody id="table_load">
 <?php
 
-$list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
-  $list_result = sqlsrv_query($conntest,$list_sql);
-
-        $count = 1;
-if($list_result === false)
- {
-die( print_r( sqlsrv_errors(), true) );
-}
-  while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-        {
-          $Status= $row['Status'];
-          $issueDate=$row['SubmitFormDate'];
+                $list_sql = "SELECT TOP 100   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+                $list_result = sqlsrv_query($conntest,$list_sql);
+                 $count = 1;
+                if($list_result === false)
+                 {
+                die( print_r( sqlsrv_errors(), true) );
+                }
+              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                    {
+                $Status= $row['Status'];
+                $issueDate=$row['SubmitFormDate'];
                 echo "<tr>";
-                // echo "<td><input type='checkbox' name='amrik[]' class='checkBoxClass' value='".$row['ID']."'></td>";
                 echo "<td>".$count++."</td>";
                 echo "<td>".$row['ID']."</td>";
                 ?><td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></td>
-                  <?php echo "<td>".$row['StudentName']."</a></td>";
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a>
+                 </td>
+                <?php echo "<td>".$row['StudentName']."</a></td>";
                 echo "<td>".$row['Course']."</td>";
                 echo "<td>".$row['Semesterid']."</td>";
                 echo "<td>".$row['Batch']."</td>";
-               
                 echo "<td>".$row['Examination']."</td>";
-               // echo "<td>".$row['Type']."</td>";
-if($row['ReceiptDate']!='')
-{
-  $rdate=$row['ReceiptDate']->format('Y-m-d');
-}
-else
-{
-$rdate='';
-}
+                if($row['ReceiptDate']!='')
+                {
+                  $rdate=$row['ReceiptDate']->format('Y-m-d');
+                }
+                else
+                {
+                $rdate='';
+                }
 ?>
                <td>
-              <select onchange="re(<?=$row["ID"];?>)"  id='re1<?=$row["ID"];?>' class="form-control">
-                <option value=""><?=$row['Type'];?></option>
-                <option value="Reappear" >Reappear</option>
-                 <option value="Regular" >Regular</option>
-            </select>
-        </td>
+              <?=$row['Type'];?>
+              </td>
                 <td>
                     <center><?php 
 
@@ -128,75 +117,61 @@ $rdate='';
                   echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
                 }
 
- elseif($Status==4)
+                elseif($Status==4)
                 {
                   echo 'Forward <br>to<br> Account';
                 }
- elseif($Status==5)
+                elseif($Status==5)
                 {
                   echo 'Forward <br>to<br> Examination<br> Branch';
                 }
-
- elseif($Status==6)
+                elseif($Status==6)
                 {
                   echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
                 }
-      elseif($Status==7)
+                 elseif($Status==7)
                 {
                   echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
                 }           
-
-elseif($Status==8)
+                elseif($Status==8)
                 {
                   echo "<b style='color:green'>Accepted</b>";
                 }   ?>        
-</center>
-               </td>
-                
+             </center>
+               </td>  
                <td> <?php if($issueDate!='')
                {
                echo $t= $issueDate->format('Y-m-d'); 
-
-               }else{ 
-
-               }?>
+               }
+               else
+               { 
+               }
+               ?>
 
               </td>
   <td style="text-align: center;"> 
-<form action="" method="post">
-              <input type="hidden" name="ID" value="<?= $row['ID'];?>">
-  <Select name='Status'  class="form-control">
-  <option value="-1">Fee pending</option>
-  
-  <option value="0">Draft</option>
-  <option value="4">Forward to Account</option>
-    <option value="5">Forward to Examination Branch</option>
-    <option value="8">Accepted</option>
-
-</Select>
-
-
-<input type="submit" class="btn btn-warning btn-xs" name='dverify'>
-
-</form>
-
-          </td>
-
-          <!-- <td style="text-align: center;">  <i class="fa fa-print fa-2x" onclick="result(<?= $row['Id'];?>)" style="color:#002147"></i>
-          </td> -->
-          <td>
+    <form action="" method="post">
+        <input type="hidden" name="ID" value="<?= $row['ID'];?>">
+              <Select name='Status'  class="form-control">
+                <option value="-1">Fee pending</option>
+                <option value="0">Draft</option>
+                <option value="4">Forward to Account</option>
+                <option value="5">Forward to Examination Branch</option>
+                <option value="8">Accepted</option>
+              </Select>
+        <input type="submit" class="btn btn-warning btn-xs" name='dverify'>
+    </form>
+  </td>
+        <td>
             <a href="" style="text-decoration: none;">
 <i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
-
-
-            </td>
+       </td>
                 <tr/>
            <?php 
             }
         ?>
-  
-                          </tbody>
-                        </table>
+      </tbody>
+        </table>
             </div>
             <!-- /.card -->
          </div>
@@ -472,8 +447,7 @@ elseif($Status==8)
                           {
                            ErrorToast('Invalid CSV File ','bg-danger' );
                           }
-                  },
-                 
+                  }, 
               });
            }));
          });

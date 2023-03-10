@@ -1,15 +1,15 @@
 <?php
 ini_set('max_execution_time', '0');
 date_default_timezone_set("Asia/Kolkata"); 
-$dbname=$_POST['db'];
+$dbname=$_POST['database'];
 // Database configuration
 $host = "119.18.54.49:3306";
 $username = "guruk2cy_connect";
 $password = "Amrik@123";
 $connection_local = new mysqli($host, $username, $password);
-if ($_POST['db']!='All')
+if ($_POST['database']!='All')
 {
-    $database_name = $_POST['db'];
+    $database_name = $_POST['database'];
         $conn = new mysqli($host, $username, $password, $database_name);
         $conn->set_charset("utf8");
         // Get connection object and set the charset

@@ -11892,42 +11892,36 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
   $cutlist_id= $row1['ID'];
 }
- for($a=0;$a<$s_counter;$a++)
- {
- $subjectName= $subject[$a];
-$sub_code= $SubjectCode[$a];
-$int= 'Y';
-$ext= 'Y';
-$total= $SubjectType[$a];
-if($sub_code!='')
-{
- $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
-    VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
-$stmt2 = sqlsrv_query($conntest,$query1);
-
-
-}
- }
- if($stmt2==true)
- {
-   echo "1";
-}
-else
-{
-   echo "0";
-}
+       for($a=0;$a<$s_counter;$a++)
+       {
+       $subjectName= $subject[$a];
+      $sub_code= $SubjectCode[$a];
+      $int= 'Y';
+      $ext= 'Y';
+      $total= $SubjectType[$a];
+      if($sub_code!='')
+      {
+       $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
+          VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
+      $stmt2 = sqlsrv_query($conntest,$query1);
+      }
+       }
+          if($stmt2==true)
+          {
+            echo "1";
+          }
+         else
+          {
+            echo "0";
+          }
 }
 }
    }
    elseif($code==204)
    {
   $id = $_POST['id'];
-  
-  
-
   $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
-
- $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
@@ -11941,19 +11935,14 @@ else
              {
               $rdateas=$receipt_date->format('Y-m-d');}
            else
-           {$rdateas='';
-           
-              
-         } 
-           }
-
+            {
+              $rdateas='';        
+            } 
+       }
  $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
 $stmt1 = sqlsrv_query($conntest,$sql);
-
-
         while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-
             $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
             $img= $row6['Snap'];
@@ -11969,56 +11958,42 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
           }
-
-
-
-
 ?>
-
  <div class="card-body table-responsive ">
 <table class="table table-bordered"  style="border: 1px black solid;">
  <tr style="border: 1px black solid" height="30" >
  <td style="padding-left: 10px"><b>Rollno: </b></td>
  <td> <?php echo $UniRollNo;?></td>
  <td colspan="1"><b>Name:</b> </td>
- <td colspan="3"><?=$name;?></td>
- <td rowspan="3" colspan="3" style="border:0">
-    
+ <td colspan="4"><?=$name;?></td>
+ <td rowspan="3" colspan="2" style="border:0">
                             <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?></td>
  </tr>
  <tr style="border: 1px black solid"height="30">
    <td style="padding-left: 10px"><b>College:</b></td>
    <td colspan="1"><?php echo $college;?></td>
    <td><b>Course:</b></td>
-   <td colspan="3"><?=$course;?></td>
- 
+   <td colspan="4"><?=$course;?></td>
  </tr>
  <tr style="border: 1px black solid"height="30"  >
    <td style="padding-left: 10px"><b>Examination :</b></td>
    <td colspan="1"><?php echo $examination;?></td>
    <td><b>Type:</b></td>
    <td colspan="3"><?=$type;?></td>
-
+   <td colspan="1"><button type="submit" id="type" onclick=""  class="btn btn-primary">Update</button></td>
  </tr>
-
-<!-- <tr>
-   <td  style="padding-left: 10px">Receipt Date:</b></td>
-   <td><button type="submit"  id="type" onclick="correct(<?=$formid;?>);" name="correct" class="btn btn-primary btn-xs">correct</button></td>
-</tr> -->
    <td colspan="4">
-      <input type="text"  class="form-control" name="receipt_date" id="asreceipt_date" value="<?= $rdateas;?>" placeholder="ReceiptDate"></td>
-      <td colspan="2">Receipt NO:</td>
+   <input type="text"  class="form-control" name="receipt_date" id="asreceipt_date" value="<?= $rdateas;?>" placeholder="ReceiptDate"></td>
+   <td colspan="2">Receipt NO:</td>
    <td><input type="text" name="receipt_date" id="asreceipt_no" class="form-control"  value="<?= $receipt_no;?>" placeholder="ReceiptNo" ></td> 
-   <td><button type="submit" id="type" onclick="correct(<?=$formid;?>);" name="correct" class="btn btn-primary btn-xs">correct</button></td></tr>
-
-
-<tr  style="border: 1px black solid" align="center" height="30" >
+   <td><button type="submit" id="type" onclick="correct(<?=$formid;?>);" name="correct" class="btn btn-success "><i class="fa fa-check"></i></button></td>
+</tr>
+<tr style="border: 1px black solid" align="center" height="30" >
   <td colspan="1"><b>Subject Name</b></td><td colspan="1"><b>Subject Code</b></td><td><b>Int</b></td><td><b>Ext&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td  align="center"><b>Type</b></td><td  align="center"><b>I Marks</b></td><td align="center"><b>E Marks</b></td>
-<td  align="center"><b>Action</b></td>
-
+<td align="center"><b>Action</b></td>
 </tr>
 <tr>
-  <br>
+<br>
 </tr>
 
 <?php 
@@ -12062,7 +12037,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     
   </td>
        <td>
-  <button type="submit" id="type" onclick="ty(<?=$row7['ID'];?>);" name="update" class="btn btn-primary btn-xs">update</button>
+  <button type="submit" id="type" onclick="ty(<?=$row7['ID'];?>);" name="update" class="btn btn-primary"><i class="fa fa-check"></i></button>
 
 
 
