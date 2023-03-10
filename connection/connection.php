@@ -1,7 +1,7 @@
 <?php
  
 $serverName = "10.0.10.11"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashiTest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect( $serverName,$connectionInfo);
 
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
