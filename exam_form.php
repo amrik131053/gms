@@ -16,9 +16,9 @@ ini_set('max_execution_time', '0');
                 <div class="row">
                   <div class="col-lg-4">    
                <h3 class="card-title">Exam From</h3>
-                  </div>
+                   </div>
                   <div class="col-lg-1">
-                     <a href="../formats/examform.csv" class="btn btn-warning "> Format</a>
+                     <a href="formats/examform.csv" class="btn btn-warning "> Format</a>
                   </div>
                    <div class="col-lg-3">
                      <input type="text" class="form-control"  id="rollno" placeholder="RollNo">
@@ -27,7 +27,7 @@ ini_set('max_execution_time', '0');
                      <button type="button" class="btn btn-info" onclick="search_exam_form()">Search</button>
                   </div>
                   <div class="col-lg-2">
-                <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal_upload" style="float: right;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal_upload" style="float: right;">
                <i class="fa fa-upload" aria-hidden="true"></i>
                </button>  
                   </div>
@@ -149,18 +149,16 @@ ini_set('max_execution_time', '0');
                ?>
 
               </td>
-  <td style="text-align: center;"> 
-    <form action="" method="post">
-        <input type="hidden" name="ID" value="<?= $row['ID'];?>">
-              <Select name='Status'  class="form-control">
+        <td> 
+              <Select id='Status'  class="form-control">
                 <option value="-1">Fee pending</option>
                 <option value="0">Draft</option>
                 <option value="4">Forward to Account</option>
                 <option value="5">Forward to Examination Branch</option>
                 <option value="8">Accepted</option>
               </Select>
-        <input type="submit" class="btn btn-warning btn-xs" name='dverify'>
-    </form>
+        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
+    
   </td>
         <td>
             <a href="" style="text-decoration: none;">
@@ -189,8 +187,20 @@ ini_set('max_execution_time', '0');
 
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
-    <div class="modal-content" id="edit_stu">
-  
+    <div class="modal-content" >
+     <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body" id="edit_stu">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
     </div>
   </div>
 </div>
@@ -304,101 +314,70 @@ ini_set('max_execution_time', '0');
 </body>
 </html>
 <script type="text/javascript">
-    $(document).ready(function(){
-    $(document).on('keydown','.result_no_s', function() 
-    {
-        // Initialize jQuery UI autocomplete
-        $("#resultno").autocomplete({
-              source: function( request, response ) 
-              {
-            $.ajax({
-        //alert("adad");
-            url: "action.php",
-              type: 'post',
-              dataType: "json",
-              data: {
-                  search: request.term,code:1
-              },
-              success: function( data ) {
-                  response( data );
-              }
-            });
-          },
-          select: function (event, ui) {
-            $(this).val(ui.item.label); // display the selected text
-            var resultno = ui.item.value; // selected value          
-          return false;
-          }
-        });
-    });
-  });
-  function delexam(id){
- var code=63;
-      
-     
 
+  function status_update(id)
+  {
+  var r = confirm("Do you really want to Change");
+  if(r == true) 
+     {
+          var status=document.getElementById('Status').value;
+          var spinner=document.getElementById("ajax-loader");
+          spinner.style.display='block';
+          var code=213;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,status:status
+              },
+              success: function(response) 
+              {
+               spinner.style.display='none';
+                if (response=='1')
+                           {
+                           SuccessToast('Successfully Update');
+                           search_exam_form();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+  }
+}  function delexam(id)
+  {
   var r = confirm("Do you really want to Delete");
   if(r == true) 
-  {
-//alert(id);
-   var xmlhttp = new XMLHttpRequest();
-   xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {
-          document.getElementById("resuccess").innerHTML=xmlhttp.responseText;
-}
-    }
-   xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
-    xmlhttp.send();
-  }
-}
-  function correct(id){
-  var code=621;
-  var r = confirm("Do you really want to Change");
-  if(r == true) 
-  {
-
-   var rdate=document.getElementById("asreceipt_date").value;
-       var rno=document.getElementById("asreceipt_no").value;
-      
-   var xmlhttp = new XMLHttpRequest();
-   xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {
-          document.getElementById("resuccess").innerHTML=xmlhttp.responseText;
-}
-    }
-   xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code+"&rdate="+rdate+"&rno="+rno, true);
-    xmlhttp.send();
+     {
+     var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     var code=212;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+               spinner.style.display='none';
+                if (response=='1')
+                           {
+                           SuccessToast('Successfully Update');
+                           search_exam_form();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
   }
 }
 
-  function ty(id){
- var code=62;
-      
-     
-
-  var r = confirm("Do you really want to Change");
-  if(r == true) 
-  {
-// alert(id);
- var subcode=document.getElementById(id+"_subcode").value;
-  var subname=document.getElementById(id+"_subname").value;
-   var int=document.getElementById(id+"_Int").value;
-       var ext=document.getElementById(id+"_Ext").value;
-        var intm=document.getElementById(id+"_intmarks").value;
-         var extm=document.getElementById(id+"_extmarks").value;
-   var xmlhttp = new XMLHttpRequest();
-   xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {
-          document.getElementById("resuccess").innerHTML=xmlhttp.responseText;
-}
-    }
-   xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code+"&Ext="+ext+"&Int="+int+"&Intm="+intm+"&Extm="+extm+"&subcode="+subcode+"&subname="+subname, true);
-    xmlhttp.send();
-  }
-}
     function search_exam_form()
     {
        var rollNo=document.getElementById('rollno').value;
@@ -420,6 +399,40 @@ ini_set('max_execution_time', '0');
                 
               }
            });
+    }  function exam_type_update(id)
+    {
+         var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+       var type=document.getElementById('type_').value;
+       var examination=document.getElementById('examination_').value;
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(type+' '+examination);
+     var code=208;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,examination:examination,type:type
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Update');
+                           search_exam_form();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
     }
          $(document).ready(function (e) {    // image upload form submit
            $("#submit_exam_form").on('submit',(function(e) {
@@ -466,7 +479,7 @@ ini_set('max_execution_time', '0');
               },
               success: function(response) 
               {
-               // $('#modal-lg-view-question').modal('toggle');
+               
                spinner.style.display='none';
                 document.getElementById("edit_stu").innerHTML=response;
                 
@@ -474,4 +487,83 @@ ini_set('max_execution_time', '0');
            });
           
          }
+           function sub_code_int_ext_type_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+         var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
+         var int=document.getElementById(id+"_Int").value;
+         var ext=document.getElementById(id+"_Ext").value;
+         var intm=document.getElementById(id+"_intmarks").value;
+         var extm=document.getElementById(id+"_extmarks").value;
+         var subtype=document.getElementById(id+"_subtype").value;
+         var code=210;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype
+              },
+              success: function(response) 
+              {
+                console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                           search_exam_form();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}       function receipt_date_no_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+          spinner.style.display='block';
+         var rdate=document.getElementById("asreceipt_date").value;
+       var rno=document.getElementById("asreceipt_no").value;
+      
+         var code=211;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,receipt_date:rdate,receipt_no:rno
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                           search_exam_form();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}
 </script>
