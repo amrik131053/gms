@@ -25,21 +25,8 @@ else
 	header("location:dashboard.php");
 
 
-				if(!empty($_POST["remember"])) {
-//COOKIES for username
-setcookie ("user_login",$_POST["user"],time()+ (10 * 365 * 24 * 60 * 60));
-//COOKIES for password
-setcookie ("userpassword",$_POST["pass"],time()+ (10 * 365 * 24 * 60 * 60));
-} else {
-if(isset($_COOKIE["user_login"])) {
-setcookie ("user_login","");
-if(isset($_COOKIE["userpassword"])) {
-setcookie ("userpassword","");
-				}
-			}
-	header("location:dashboard.php");
 	}
-	}
+	
 	
 else
 {
