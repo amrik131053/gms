@@ -21,7 +21,7 @@ else
 }
 
 	if($status==1)
-{
+{        $_SESSION['usr'] = $user;
 	header("location:dashboard.php");
 
 
