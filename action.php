@@ -12185,6 +12185,66 @@ $ecat=$_POST['ecat'];
        }
 
 }
+ else  if($code==209)
+{       
+
+$examination=$_POST['examination'];  
+$ecat=$_POST['ecat'];
+
+$ecat=$ecat."Locked";
+$list_sqlw= "update ExamFormSubject set $ecat='1' where Examination='$examination'";
+$stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+
+else  if($code==215)
+{       
+
+$examination=$_POST['examination'];  
+$ecat=$_POST['ecat'];
+
+$ecat=$ecat."Locked";
+$list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination'";
+$stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+
+
+}
+else  if($code==216)
+{       
+
+$examination=$_POST['examination'];  
+$ecat=$_POST['ecat'];
+
+$ecat1=$ecat."Locked";
+$list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd 
+ $ecat IS NULL";
+$stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+
+
 
 elseif($code==210)
 {
@@ -12262,9 +12322,12 @@ elseif($code==213)
 
 
 
-    else
+
+else
+
    {
    echo "select code";
    }
-   }
+}
+   
    ?>
