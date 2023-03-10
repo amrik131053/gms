@@ -187,7 +187,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-8 col-md-4 col-sm-3">
+          <div class="col-lg-7 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -209,15 +209,23 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-  <div class="col-lg-4 col-md-4 col-sm-3">
+  <div class="col-lg-5 col-md-5 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Theory Distribution</h3>
+                <h3 class="card-title"><i class='btn btn-warning btn-xs' onclick="lockall();">Lock All</i>&nbsp;&nbsp;&nbsp;
+                  <i class='btn btn-warning btn-xs' onclick="unlockall();">Unlock All</i>&nbsp;&nbsp;&nbsp;
+                  <i class='btn btn-warning btn-xs' onclick="unlockpending();">Unlock Pending</i></h3>
               </div>
         
-             <!--  <form class="form-horizontal" action="" method="POST"> -->
+            
                 <div class="card-body">
+
+asdads
+
+
+
+
                   <div id="live_data_Exam_subjects">
                   
                   </div>
@@ -372,7 +380,7 @@ function unlock(id)
       success:function(response)
       {
  
-        alert('Unlocked');
+        SuccessToast('Successfully Unlocked');
         select_mst(); 
        
        
@@ -394,12 +402,127 @@ function lock(id)
       success:function(response)
       {
  
-        alert('Locked');
+      SuccessToast('Successfully Locked');
         select_mst(); 
         
       }
     });
 }
+
+function lockall()
+{
+
+  var examination=document.getElementById('Examination').value;
+  var ecat=document.getElementById('ecat').value;
+
+ if(examination!='' && ecat!='')
+ {
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        examination:examination,ecat:ecat,code:'209'
+      },
+      success:function(response)
+      {
+        if(response>0)
+        { 
+       SuccessToast('Successfully Locked'+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
+        }
+        else
+        {
+          ErrorToast('Unable to Lock',"bg-danger" );
+        }
+      }
+    });
+}
+else
+{
+
+   ErrorToast('Select Examination and Theory Distibution',"bg-danger" );
+}
+}
+
+
+function unlockall()
+{
+
+  var examination=document.getElementById('Examination').value;
+  var ecat=document.getElementById('ecat').value;
+
+ if(examination!='' && ecat!='')
+ {
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        examination:examination,ecat:ecat,code:'215'
+      },
+      success:function(response)
+      {
+        if(response>0)
+        { 
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
+        }
+        else
+        {
+          ErrorToast('Unable to Unlock',"bg-danger" );
+        }
+      }
+    });
+}
+else
+{
+
+   ErrorToast('Select Examination and Theory Distibution',"bg-danger" );
+}
+}
+function unlockpending()
+{
+
+  var examination=document.getElementById('Examination').value;
+  var ecat=document.getElementById('ecat').value;
+
+ if(examination!='' && ecat!='')
+ {
+ $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        examination:examination,ecat:ecat,code:'216'
+      },
+      success:function(response)
+      {
+
+        if(response>0)
+        { 
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
+        }
+        else
+        {
+          ErrorToast('Unable to Unlock',"bg-danger" );
+        }
+      }
+    });
+}
+else
+{
+
+   ErrorToast('Select Examination and Theory Distibution',"bg-danger" );
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <div>
