@@ -12,7 +12,7 @@ $pass=$_POST["pass"];
 $u_permissions = "";
 $college = "";
 include 'connection/connection.php';
- $sql1 = "SELECT * FROM UserMaster WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1";
+ $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1";
 $stmt2 = sqlsrv_query($conntest,$sql1);
 if( $stmt2  === false) {
    // die( print_r( sqlsrv_errors(), true) );
