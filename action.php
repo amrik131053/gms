@@ -11631,7 +11631,7 @@ elseif($Status==8)
           </td>
           <td>
             <a href="" style="text-decoration: none;">
-<i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
+<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
             </td>
                 <tr/>
            <?php 
@@ -11758,7 +11758,7 @@ elseif($Status==8)
           </td> -->
           <td>
             <a href="" style="text-decoration: none;">
-<i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
+<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
 
 
             </td>
@@ -11806,9 +11806,10 @@ elseif($Status==8)
   $semester='Nine';
  }
  $type=$_POST['type'];
-$month=$_POST['month'];
-$year=$_POST['year'];
-$examination=$month.' '.$year;
+ $month=$_POST['month'];
+ $Status=$_POST['Status'];
+
+$examination=$month;
 $sql = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
         while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -11847,7 +11848,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  }
 $receipt_date=   date("Y-m-d");
  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
-   VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','4','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
+   VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
 $stmt = sqlsrv_query($conntest,$query);
 if( $stmt === false) {
     die( print_r( sqlsrv_errors(), true) );
@@ -11895,11 +11896,11 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
-        $IDNo=$row5['IDNo'];
-         $type=$row5['Type'];
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
              $examination=$row5['Examination'];
              $receipt_date=$row5['ReceiptDate'];
-            $receipt_no=$row5['ReceiptNo'];
+             $receipt_no=$row5['ReceiptNo'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -12224,12 +12225,12 @@ elseif($code==211)
 }
 elseif($code==212)
 {
-    $id = $_POST['id'];
-     $sq1="Delete FROM ExamForm  Where ID='$id'"; 
+    $id=$_POST['id'];
+    echo  $sq1="Delete FROM ExamForm  Where ID='$id'"; 
     $list1 = sqlsrv_query($conntest,$sq1);
-     $sq2="Delete FROM ExamFormSubject  Where examid='$id'"; 
+   echo   $sq2="Delete FROM ExamFormSubject  Where examid='$id'"; 
      $list2 = sqlsrv_query($conntest,$sq2);
-   if ($list1==true and $list2==true)
+   if($list1==true and $list2==true)
        {
          echo "1";
        }
@@ -12237,7 +12238,8 @@ elseif($code==212)
        {
          echo "0";
        }
-}elseif($code==213)
+}
+elseif($code==213)
 {
     $id = $_POST['id'];
     $status = $_POST['status'];

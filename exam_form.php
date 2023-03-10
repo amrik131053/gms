@@ -239,57 +239,57 @@ ini_set('max_execution_time', '0');
                   </div>
                   <div class="col-lg-6">
                      <label>Type</label>
-                     <select id="type" name="type" class="form-control" required="">
-                        <option value="Regular">Regular</option>
-                        <option value="Reappear">Reappear</option>
-                        <option value="Additional">Additional</option>
-                     </select>
+                            <select id="type" name="type" class="form-control" required="">
+                       <option value="">Select</option>
+                       <?php
+               $sql="SELECT DISTINCT Type from ExamForm Order by Type ASC ";
+               $stmt2 = sqlsrv_query($conntest,$sql);
+                while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+             {    
+            $Sgroup = $row1['Type'];  
+               ?>
+          <option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php         }
+?>
+              </select>
                   </div>
                   <div class="col-sm-6">
-                     <label>Month</label>
-                     <select class="form-control" id ="month" required="" name="month" required="">
-                        <option value="May">May</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August </option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                        <option value="Golden Chance">Golden Chance</option>
-                     </select>
+                     <label>Examination</label>
+                       <select  id ="month" name="month" class="form-control" required="">
+                        <option value="">Select</option>
+                       <?php
+               $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                      $stmt2 = sqlsrv_query($conntest,$sql);
+                 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                     {    
+                 $Sgroup = $row1['Examination'];  
+                ?>
+                    <option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                    <?php    }
+                    ?>
+              </select>
                   </div>
-                  <div class="col-sm-6">
-                     <label>Year </label>
-                     <select class="form-control"  required="" name="year">
-                        <option value="2021">2021</option>
-                        <?php for($sem=2016;$sem<=2030;$sem++)
-                           {
-                           ?>
-                        <option value="<?=$sem;?>"><?=$sem;?></option>
-                        <?php  } ?>
-                     </select>
-                  </div>
+                
                   <div class="col-lg-6">  
                      <label>Excel Here:</label>
                      <input type="file" name="file_exl" id="file_exl" >
                   </div>
                   <div class="col-lg-6">
                      <label>Status</label>
-                     <select class="form-control">
-                        <option>Select</option>
-                     </select>
+                     <Select name='Status' id="Status"  class="form-control" required>
+                        <option value="">Select</option>
+                <option value="-1">Fee pending</option>
+                <option value="0">Draft</option>
+                <option value="4">Forward to Account</option>
+                <option value="5">Forward to Examination Branch</option>
+                <option value="8">Accepted</option>
+              </Select>
                   </div>
                </div>
             </div>
             <div class="card-footer">
                
-                <input type="submit" value="Upload"  class="btn btn-primary btn-xs" id="btnimport">
+                <input type="submit" value="Upload"  class="btn btn-primary" id="btnimport">
 
 
            
@@ -348,7 +348,7 @@ ini_set('max_execution_time', '0');
   }
 }  function delexam(id)
   {
-  var r = confirm("Do you really want to Delete");
+  var r = confirm("Do you really want to Delete ");
   if(r == true) 
      {
      var spinner=document.getElementById("ajax-loader");
@@ -362,11 +362,13 @@ ini_set('max_execution_time', '0');
               },
               success: function(response) 
               {
-               spinner.style.display='none';
+                console.log(response);
+               // spinner.style.display='none';
+              // search_exam_form();
                 if (response=='1')
                            {
-                           SuccessToast('Successfully Update');
-                           search_exam_form();
+                           SuccessToast('Successfully Delete');
+                           
                           }
                           else
                           {
