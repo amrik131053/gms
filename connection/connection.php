@@ -1,7 +1,7 @@
 <?php
  
 $serverName = "10.0.10.11"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashiTest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect( $serverName,$connectionInfo);
 
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
@@ -12,8 +12,8 @@ $connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','
 
 
 $servername1 = "localhost";
-$username1 = "root";
-$password1 = "";
+$username1 = "bhagi";
+$password1 = "@Sarbjot@98157";
 $dbname1 = "lims";
 
 
