@@ -8269,8 +8269,17 @@ elseif($code=='141')
    $stmt2 = sqlsrv_query($conntest,$result2);
    while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
    {
-       $validUpto = $row2['ValidUpto'] ->format('d-M-Y');
+       $validUpto = $row2['ValidUpto'];
    }
+   if($validUpto!='')
+   {
+  $validUpto= $validUpto->format('d-M-Y');
+   }
+   else
+   {
+     $validUpto='';
+   }
+   
    $sql="SELECT * from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id inner join building_master on building_master.ID=location_master.Block where student_id='$IDNo' and status='0'";
    $res=mysqli_query($conn,$sql);
    while($data=mysqli_fetch_array($res))
@@ -10705,11 +10714,15 @@ elseif($code=='187')
    $stmt2 = sqlsrv_query($conntest,$result2);
    while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
    {
-       $validUpto = $row2['ValidUpto'] ;
+       $validUpto = $row2['ValidUpto'];
    }
    if($validUpto!='')
    {
-      $validUpto->format('d-M-Y');
+  $validUpto= $validUpto->format('d-M-Y');
+   }
+   else
+   {
+     $validUpto='';
    }
    ?>
 
@@ -10751,7 +10764,7 @@ elseif($code=='187')
                   </li>
                   </li>
                   <li class="nav-item">
-                     <li class="nav-link"><b>Valid Upto</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?= $validUpto; ?></b>
+                     <li class="nav-link"><b>Valid Upto</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?php echo $validUpto; ?></b>
                      </li> <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?php if ($Status==0)  {
                         echo "Left";
                      } else{
