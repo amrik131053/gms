@@ -10705,9 +10705,14 @@ elseif($code=='187')
    $stmt2 = sqlsrv_query($conntest,$result2);
    while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
    {
-       $validUpto = $row2['ValidUpto'] ->format('d-M-Y');
+       $validUpto = $row2['ValidUpto'] ;
+   }
+   if($validUpto!='')
+   {
+      $validUpto->format('d-M-Y');
    }
    ?>
+
    
             <!-- Widget: user widget style 2 -->
             <div class="card card-widget widget-user-2">
@@ -12113,16 +12118,18 @@ $sem= $_POST['sem'];
  }
 
    }
+
+
+ // multiple update masrks  
  else  if($code==201)
 {       
-
-$ids =$_POST['ids'];  
-$mst=$_POST['mst'];
+$ids =$_POST['ids']; 
+ $mst=$_POST['mst'];
 $ecat=$_POST['ecat'];
    $flag=$_POST['flag'];
  for($i=0;$i<$flag;$i++)
   {
- $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
+ echo $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -12134,12 +12141,14 @@ $ecat=$_POST['ecat'];
  }
 }
 }
+//unlock one student 
  else  if($code==206)
 {       
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
   $ecat=$ecat."Locked";
+
  echo $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
@@ -12151,6 +12160,8 @@ $ecat=$_POST['ecat'];
   echo "0";
  }
 }
+
+//lock one
  else  if($code==207)
 {       
 
@@ -12168,6 +12179,8 @@ $ecat=$_POST['ecat'];
   echo "0";
  }
 }
+
+
  else  if($code==208)
 {
        $id =$_POST['id'];  
@@ -12185,14 +12198,15 @@ $ecat=$_POST['ecat'];
        }
 
 }
+// lock all
  else  if($code==209)
 {       
 
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
 
-$ecat=$ecat."Locked";
-$list_sqlw= "update ExamFormSubject set $ecat='1' where Examination='$examination'";
+$ecat1=$ecat."Locked";
+$list_sqlw= "update ExamFormSubject set $ecat1='1' where Examination='$examination'";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -12203,15 +12217,15 @@ $stmt1 = sqlsrv_query($conntest,$list_sqlw);
   echo "0";
  }
 }
-
+// lock all
 else  if($code==215)
 {       
 
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
-
+$semester=$_POST['semester'];
 $ecat=$ecat."Locked";
-$list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination'";
+$list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination' ANd SemesterID='$semester'";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -12229,10 +12243,9 @@ else  if($code==216)
 
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
-
+$semester=$_POST['semester'];
 $ecat1=$ecat."Locked";
-$list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd 
- $ecat IS NULL";
+ $list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -12243,6 +12256,72 @@ $stmt1 = sqlsrv_query($conntest,$list_sqlw);
   echo "0";
  }
 }
+
+else if($code==217)
+{       
+$college=$_POST['college'];  
+$course=$_POST['course']; 
+$batch=$_POST['batch']; 
+ $examination=$_POST['examination'];  
+//$ecat=$_POST['ecat'];
+$semester=$_POST['semester'];
+//$ecat1=$ecat."Locked";
+$Examid=array();
+echo $sql="SELECT * from ExamForm where CollegeID='$college' ANd CourseID='$course' ANd Batch='$batch' ANd Examination='$examination' ANd SemesterID='$semester' ";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+   while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+       {
+
+ $Examid[]=$row1['ID'];
+           }
+ $length =sizeof($Examid);
+
+foreach($_POST['distributiontheory_str'] as $key => $disti) { 
+$disti=$disti."Locked";
+ for ($th=0;$th<$length;$th++)
+ {
+
+
+echo $list_sqlw= "update ExamFormSubject set $disti=NULL where Examid='$Examid[$th]' ";
+    $stmt2 = sqlsrv_query($conntest,$list_sqlw);
+ }
+}
+
+}
+
+else if($code==218)
+{       
+$college=$_POST['college'];  
+$course=$_POST['course']; 
+$batch=$_POST['batch']; 
+ $examination=$_POST['examination'];  
+//$ecat=$_POST['ecat'];
+$semester=$_POST['semester'];
+//$ecat1=$ecat."Locked";
+$Examid=array();
+echo $sql="SELECT * from ExamForm where CollegeID='$college' ANd CourseID='$course' ANd Batch='$batch' ANd Examination='$examination' ANd SemesterID='$semester' ";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+   while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+       {
+
+ $Examid[]=$row1['ID'];
+           }
+ $length =sizeof($Examid);
+
+foreach($_POST['distributiontheory_str'] as $key => $disti) { 
+$disti1=$disti."Locked";
+ for ($th=0;$th<$length;$th++)
+ {
+
+
+ $list_sqlw= "update ExamFormSubject set $disti1=NULL where Examid='$Examid[$th]' ANd  ($disti='' OR $disti IS NULL )  ";
+    $stmt2 = sqlsrv_query($conntest,$list_sqlw);
+ }
+}
+
+}
+
+
 
 
 
