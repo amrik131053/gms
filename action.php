@@ -12316,8 +12316,124 @@ elseif($code==213)
 }
 
 
+elseif($code==214)
+{
+   ?>
+<table class="table">
+<tr>
+   <th>Type</th>
+   <th>Semester</th>
+   <th>Start Date</th>
+   <th>End Date</th>
+   <th>Status</th>
+   <th>Action</th>
+</tr>
+   <?php 
+     $exam_type=$_POST['exam_type'];
+  $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by Semester ASC";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+            $todaydate=date('d-m-Y');
+            $endDate=$row5['EndDate']->format('d-m-Y');
+         ?> 
+           <tr>
+               <td><?=$row5['Name'];?></td>
+              <td><?=$row5['Semester'];?></td>
+              <th><?=$row5['StartDate']->format('d-m-Y');?></th>
+              <th><?=$row5['EndDate']->format('d-m-Y');?></th>
+              <td><?php 
+              if (strtotime($endDate)<strtotime($todaydate)) 
+              {
+                 echo "<b style='color:red;'>Over</b>";
+              }
+              else
+              {
+               echo "<b style='color:green;'>Open<b>";
+              }
+              ?></td>
+              <td><i class="fa fa-edit " data-toggle="modal" onclick="edit_start_end_date(<?=$exam_type;?>,<?=$row5['SemesterId'];?>);" data-target="#exampleModal_edit_permission_exam"></i></td>
+           </tr>
+      <?php        }
+      ?>   
+</table>
+<?php 
+}
 
+elseif($code==221)
+{
+      
+   $semester=$_POST['id_array_main'];
+    $exam_type=$_POST['exam_type'];
+   $start_date=$_POST['start_date'];
+   $end_date=$_POST['end_date'];
+   foreach($semester as $key => $val)
+   {
+    $update_permission="UPDATE DDL_TheroyExaminationSemester SET StartDate='$start_date',EndDate='$end_date' where DDL_TE_ID='$exam_type' and SemesterId='$val'";
+   $update_run=sqlsrv_query($conntest,$update_permission);
+}
+  if ($update_run==true)
+    {
+       echo "1";
+      // die( print_r( sqlsrv_errors(), true) );
+   }
+   else
+   {
+       echo "0";
+      // die( print_r( sqlsrv_errors(), true) );
 
+   }
+
+   }
+   elseif($code==222)
+{
+      
+
+   $id=$_POST['id'];
+   $semester=$_POST['sem'];
+  
+    $update_permission="select * from DDL_TheroyExaminationSemester where DDL_TE_ID='$id' and SemesterId='$semester'";
+   $update_run=sqlsrv_query($conntest,$update_permission);
+ if($row=sqlsrv_fetch_array($update_run,SQLSRV_FETCH_ASSOC))
+ {
+   ?>
+<div class="col-lg-12">
+   <label>Start Date</label>
+   <input type="date" name="" id="start_date_edit" class="form-control" value="<?=$row['StartDate']->format('Y-m-d');?>">
+</div>
+
+<div class="col-lg-12">
+    <label>End Date</label>
+   <input type="date" name="" id="end_date_edit" class="form-control" value="<?=$row['StartDate']->format('Y-m-d');?>">
+</div>
+<div class="col-lg-12">
+    <label>Action</label><br>
+   <input type="button" onclick="update_date_end_date(<?=$id;?>,<?=$semester;?>);"  class="btn btn-success" value="Update">
+</div>
+<?php 
+
+ }
+
+   }  
+    elseif($code==223)
+   {
+   $id=$_POST['id'];
+   $semester=$_POST['sem'];
+   $start_date_edit=$_POST['start_date_edit'];
+   $end_date_edit=$_POST['end_date_edit'];
+   $update_permission="UPDATE DDL_TheroyExaminationSemester SET StartDate='$start_date_edit',EndDate='$end_date_edit' where DDL_TE_ID='$id' and SemesterId='$semester'";
+   $update_run=sqlsrv_query($conntest,$update_permission);
+
+  if ($update_run==true)
+    {
+       echo "1";   
+    }
+   else
+    {
+       echo "0";
+    }
+   }
 
 
 
