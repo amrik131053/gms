@@ -12442,7 +12442,7 @@ $batch=$_POST['batch'];
 $semester=$_POST['semester'];
 //$ecat1=$ecat."Locked";
 $Examid=array();
-echo $sql="SELECT * from ExamForm where CollegeID='$college' ANd CourseID='$course' ANd Batch='$batch' ANd Examination='$examination' ANd SemesterID='$semester' ";
+ $sql="SELECT * from ExamForm where CollegeID='$college' ANd CourseID='$course' ANd Batch='$batch' ANd Examination='$examination' ANd SemesterID='$semester' ";
  $stmt2 = sqlsrv_query($conntest,$sql);
    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
        {
@@ -12463,11 +12463,6 @@ $disti1=$disti."Locked";
 }
 
 }
-
-
-
-
-
 elseif($code==221)
 {
       
