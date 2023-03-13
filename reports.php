@@ -182,7 +182,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            </div>
                             </div>
                         <div class="col-sm-2">
-                           <label for="inputEmail3" class="col-lg-12 col-form-label"> Location Owner </label>
+                           <label for="inputEmail3" class="col-lg-12 col-form-label"> Location Owner</label>
                            <input type="hidden" name="EmployeeID" class="form-control" id='location_owner_ID' disabled value="<?=$EmployeeID?>">
                            <button type="submit" class="btn btn-info form-control"  onclick="locationOwnerFilter()" >Search</button>
                         </div>
@@ -364,6 +364,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            function locationOwnerFilter()
                            {
                               // var id=id1;
+
                               var locationOwnerID= document.getElementById("location_owner_ID").value;
                                var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';

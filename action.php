@@ -1171,13 +1171,16 @@ option value = "" > Select < /option> <?php
    
    
    ?>
-<form action="export.php" method="post">
+<form action="export.php" method="post" target="_blank">
+
    <div class="card card-info">
       <div class="card-header">
          <h3 class="card-title">Stocks assigned to Owner</h3>
          <div class="card-tools">
             <div class="row">
                <div class="btn-group btn-group-xs" style="width: 150px;">
+<input type="hidden" name="office_owner" value="<?=$locationOwnerID;?>">
+<input type="hidden" name="exportCode" value="0">
                   <button type="submit" class="form-control float-right btn-success" style="margin-top: -5px;">Export</button>
                </div>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
