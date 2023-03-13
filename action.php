@@ -12330,7 +12330,7 @@ elseif($code==214)
 </tr>
    <?php 
      $exam_type=$_POST['exam_type'];
-  $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by Semester ASC";
+  $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by DTES.SemesterId  ASC";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -12340,7 +12340,7 @@ elseif($code==214)
          ?> 
            <tr>
                <td><?=$row5['Name'];?></td>
-              <td><?=$row5['Semester'];?></td>
+              <td><?=$row5['SemesterId'];?></td>
               <th><?=$row5['StartDate']->format('d-m-Y');?></th>
               <th><?=$row5['EndDate']->format('d-m-Y');?></th>
               <td><?php 

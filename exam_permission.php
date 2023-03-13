@@ -29,30 +29,30 @@
                      </div>
                      <div class="col-lg-12">
                          <label>Semster</label><br>
-                                     <div class="row">
-                        <div class="col-lg-2">1
-                           <input type="checkbox" class="form-control sel" value="1" >2
-                           <input type="checkbox" class="form-control sel" value="2" >
+                                     <div class="row text-center">
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">1
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="1" >2
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="2" >
                         </div>
-                        <div class="col-lg-2">3
-                           <input type="checkbox" class="form-control sel" value="3" >4
-                           <input type="checkbox" class="form-control sel" value="4" >
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">3
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="3" >4
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="4" >
                         </div>
-                        <div class="col-lg-2">5
-                           <input type="checkbox" class="form-control sel" value="5" >6
-                           <input type="checkbox" class="form-control sel" value="6" >
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">5
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="5" >6
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="6" >
                         </div>
-                        <div class="col-lg-2">7
-                           <input type="checkbox" class="form-control sel" value="7" >8
-                           <input type="checkbox" class="form-control sel" value="8" >
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">7
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="7" >8
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="8" >
                         </div>
-                        <div class="col-lg-2">9
-                           <input type="checkbox" class="form-control sel" value="9" >10
-                           <input type="checkbox" class="form-control sel" value="10" >
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">9
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="9" >10
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="10" >
                         </div>
-                        <div class="col-lg-2">11
-                           <input type="checkbox" class="form-control sel" value="11" >12
-                           <input type="checkbox" class="form-control sel" value="12">
+                        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox">11
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="11" >12
+                           <input type="checkbox" class="form-control  sel" id="customCheckbox4" value="12">
                         </div>
 </div>
         
@@ -248,7 +248,7 @@
               {
                console.log(response);
                spinner.style.display='none';
-                 document.getElementById("sem_").innerHTML=response;
+                 // document.getElementById("sem_").innerHTML=response;
                  if (response=='1')
                            {
                            SuccessToast('Successfully Update');
