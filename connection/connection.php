@@ -1,7 +1,7 @@
 <?php
  
 $serverName = "10.0.10.11"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashiTest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect( $serverName,$connectionInfo);
 
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
@@ -15,6 +15,11 @@ $servername1 = "localhost";
 $username1 = "root";
 $password1 = "";
 $dbname1 = "lims";
+
+// $servername1 = "localhost";
+// $username1 = "bhagi";
+// $password1 = "@Sarbjot@98157";
+// $dbname1 = "lims";
 
 
 

@@ -272,7 +272,7 @@ else
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-      <br>
+      <br><p id="ajax-loader"></p>
    
    <?php  }?>
     

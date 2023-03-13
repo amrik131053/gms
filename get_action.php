@@ -3592,7 +3592,7 @@ $Batch=$_GET['batch'];
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos1'> </td>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: center"> <?=$row['UniRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
@@ -3641,35 +3641,37 @@ $Batch=$_GET['batch'];
       
 else if($code=='44')
 {?>
-
+<br>
 <input type="checkbox" id="CE1" name="CE1" value="CE1">
-<label for="CE1"> CE-1</label><br>
+<label for="CE1"> CE-1</label>&nbsp;&nbsp;
 
 <input type="checkbox" id="CE2" name="CE2" value="CE2">
-<label for="CE2"> CE-2</label><br>
+<label for="CE2"> CE-2</label>&nbsp;&nbsp;
 
 <input type="checkbox" id="CE3" name="CE3" value="CE3">
-<label for="CE3"> CE-3</label><br>
+<label for="CE3"> CE-3</label>&nbsp;&nbsp;
 
 
 <input type="checkbox" id="MST1" name="MST1" value="MST1">
-<label for="MS1"> MST-1</label><br>
+<label for="MS1"> MST-1</label>&nbsp;&nbsp;
 
 
 
 <input type="checkbox" id="MST2" name="MST2" value="MST2">
-<label for="MS2"> MST-2</label><br>
+<label for="MS2"> MST-2</label>&nbsp;&nbsp;
 
 
 
 <input type="checkbox" id="ESE" name="ESE" value="ESE">
-<label for="ESE"> ESE</label><br>
+<label for="ESE"> ESE</label>&nbsp;&nbsp;
 
 
 
 <input type="checkbox" id="Attendance" name="Attendance" value="Attendance">
-<label for="Attendance"> Attendance</label><br>
-
+<label for="Attendance"> Attendance</label><br><br>
+ <h3 class="card-title"><i class='btn btn-warning btn-xs' onclick="lockall();">Lock All</i>&nbsp;&nbsp;&nbsp;
+                  <i class='btn btn-warning btn-xs' onclick="unlockall();">Unlock All</i>&nbsp;&nbsp;&nbsp;
+                  <i class='btn btn-warning btn-xs' onclick="unlockpending();">Unlock Pending</i></h3>
    <?php 
 
 }
