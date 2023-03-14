@@ -10689,11 +10689,10 @@ elseif($code=='187')
    {
         $code_access=$_POST['code_access'];
   if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
-                                          {                                 
+    {                                 
 
    $univ_rollno=$_POST['rollNo'];
    $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or IDNo='$univ_rollno'";
-
    $stmt1 = sqlsrv_query($conntest,$result1);
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
    {
@@ -10712,34 +10711,48 @@ elseif($code=='187')
     $RegistrationNo = $row['RegistrationNo'];
     $abcid = $row['ABCID'];
     $Status = $row['Status'];
-    $validUpto='NA';
-    $result2 = "SELECT  * FROM MasterCourseCodes where CollegeID=".$row['CollegeID']." and CourseID=".$row['CourseID']." and Batch=".$row['Batch'];
-   $stmt2 = sqlsrv_query($conntest,$result2);
-   while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-   {
-       $validUpto = $row2['ValidUpto'];
+    $collegeId = $row['CollegeID'];
+    $courseId= $row['CourseID'];
+    $Status = $row['Status'];
+        $Locked=$row['Locked'];
+    $validUpto=$row['ValidUpTo'];
    }
-   if($validUpto!='')
-   {
-  $validUpto= $validUpto->format('d-M-Y');
-   }
-   else
-   {
-     $validUpto='';
-   }
-   ?>
+  if($validUpto!='')
+  {
+$validUpto=$validUpto->format('d-M-Y');
+  }else
+  {
+   $validUpto='';
+  }
+ ?>
 
    
             <!-- Widget: user widget style 2 -->
             <div class="card card-widget widget-user-2">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header badge-success">
-                <div class="widget-user-image">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
                   <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc"><?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<font style='color:red'>Class RollNo. Not Issued</font>";} ?>/<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<font style='color:red'>Uni Roll No. Not Issued</font>";} ?><br><?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<font style='color:red'>Class RollNo. Not Issued</font>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<font style='color:red'>Uni Roll No. Not Issued</font>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+<?php 
+  if($EmployeeID==131053 ||$EmployeeID==121031 ||$EmployeeID==171601) {?>
+        <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
+        <?php
+     }
+
+?>
+      </div>
+             </div>
+               
+               
+
+
               </div>
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
@@ -10768,11 +10781,29 @@ elseif($code=='187')
                   </li>
                   <li class="nav-item">
                      <li class="nav-link"><b>Valid Upto</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?php echo $validUpto; ?></b>
-                     </li> <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?php if ($Status==0)  {
-                        echo "Left";
+                     </li> <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<?php if ($Status==0)  {
+                        echo "<b class='text-danger'>Left</b>";
                      } else{
-                        echo "Active";
-                     } ?></b>
+                        echo "<b class='text-success' style='font-size:16px'>Active</b>";
+                     } ?> &nbsp;&nbsp;&nbsp;
+<?php if ($Locked==1)  {?>
+   <b class="text-danger">
+   <i class="fa fa-lock" ></i></b> 
+
+                       
+                     <?php }
+                     else
+                        {
+                           echo "<b class='text-success'><i class='fa fa-lock-open'></i></b>";
+
+                        }?>
+
+
+
+
+
+
+                  </b>
                      </li>
                   </li>
                   
@@ -10782,7 +10813,7 @@ elseif($code=='187')
             </div>
          
    <?php
-}   
+ 
    }
    else
    {
@@ -12466,6 +12497,195 @@ $disti1=$disti."Locked";
 }
 
 }
+
+   elseif($code==219)
+   {                                
+  
+$IDNo= $_POST['IDNo'];
+   $result1 = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
+     $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
+   {     
+    $IDNo= $row['IDNo'];
+    $ClassRollNo= $row['ClassRollNo'];
+    $img= $row['Snap'];
+    $UniRollNo= $row['UniRollNo'];
+    $name = $row['StudentName'];
+    $CourseID=$row['CourseID'];
+    $CollegeID=$row['CollegeID'];
+    $father_name = $row['FatherName'];
+    $Course = $row['Course'];
+    $email = $row['EmailID'];
+    $phone = $row['StudentMobileNo'];
+    $Batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $RegistrationNo = $row['RegistrationNo'];
+    $abcid = $row['ABCID'];
+    $Status = $row['Status'];
+    $Locked = $row['Locked'];
+    $validUpto='NA';
+    $password= $row['Password'];
+          }
+?>
+
+
+     <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<font style='color:red'>Class RollNo. Not Issued</font>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<font style='color:red'>Uni Roll No. Not Issued</font>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+
+        </div>
+             </div>
+               
+               
+
+
+              </div>
+
+              <div class="card-footer p-0" style="text-align: left;">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b>&nbsp;&nbsp;&nbsp;:
+                        <select class="btn btn-md" id="ubatch" >
+<option value="<?=$Batch;?>"><?=$Batch;?></option>
+                        <?php
+for($i=$Batch-5;$i<$Batch+5;$i++)
+{?>
+<option value="<?=$i;?>"><?=$i;?></option>
+<?php 
+}                     ?>
+                  </select>
+                  </li>
+                  </li>
+
+
+
+                   <li class="nav-item">
+                     <li class="nav-link"><b>ABC ID</b> :&nbsp;&nbsp;&nbsp;<?php if($abcid!=''){echo $abcid; 
+
+?><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="abcidreset(<?= $IDNo;?>)" >Clear ABC ID</button> <?php 
+                     } else {
+
+                        echo "NA";
+                      } ?>  </li>
+
+                        <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo $password; 
+
+?><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
+                      ?>  </li>
+                     
+      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
+                 
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $Course; ?>&nbsp;<b>(<?= $CourseID;?>)</b></li>
+         
+                
+                    
+
+
+
+                     <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger">
+
+
+<?php if ($Status==0)  {
+
+                        echo "Left";?>  
+                     <?php } else{
+                        echo "Active";?>   
+                     <?php
+                     } ?></b>
+
+                        <select class="btn btn-md" id='ustatus'>
+
+<option value="<?=$Status;?>">Select</option>
+<option value="1">Active</option>
+<option value="0">Left</option>
+
+                     ?>
+                  </select>
+
+
+                     </li>
+     <li class="nav-link"><b>Lock Status</b> :&nbsp;&nbsp;&nbsp;
+
+
+<?php if ($Locked==1)  {?>
+   <b class="text-danger">
+   <i class="fa fa-lock"></i></b> 
+
+                       
+                     <?php }
+                     else
+                        {
+                           echo "<b class='text-success'><i class='fa fa-lock-open'></i></b>";
+
+                        }?>
+
+                        <select class="btn btn-md" id='ulocked'>
+
+<option value="<?=$Locked;?>">Select</option>
+<option value="0">Unlock</option>
+<option value="1">Lock</option>
+
+
+
+                     ?>
+                  </select>
+                     </li>
+                  </li>                                  
+                </ul>
+              </div>
+            </div>  </div>   
+<div class="modal-footer">    
+   <button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Close</button>
+   <button type="submit" class="btn btn-primary btn-xs" onclick="updateStudentdata(<?= $IDNo;?>)">Update</button>
+   </div>
+       
+<?php 
+       }
+   
+   
+elseif($code==220)
+{
+      
+   $batch=$_POST['batch'];
+    $status=$_POST['status'];
+   $lock=$_POST['lock'];
+   $id=$_POST['id'];
+   
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock' where IDNo='$id'";
+   $update_run=sqlsrv_query($conntest,$update_student);
+
+
+    $update_studentb="UPDATE Ledger  SET Batch='$batch' where IDNo='$id'";
+   $update_runb=sqlsrv_query($conntest,$update_studentb);
+
+
+  if ($update_runb==true)
+    {
+       echo "1";
+      // die( print_r( sqlsrv_errors(), true) );
+   }
+   else
+   {
+       echo "0";
+      // die( print_r( sqlsrv_errors(), true) );
+
+   }
+
+   }
+
 elseif($code==221)
 {
       
@@ -12540,6 +12760,45 @@ elseif($code==221)
     }
    }
 
+
+elseif($code==231)
+   {
+      
+      $id=$_POST['id'];
+   
+  $update_student="UPDATE UserMaster SET Password='12345678' where UserName='$id'";
+   $update_run=sqlsrv_query($conntest,$update_student);
+ 
+  if ($update_run==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
+elseif($code==232)
+   {
+    $id=$_POST['id'];
+   
+   $update_student="UPDATE Admissions SET ABCID=NULL where IDNo='$id'";
+   $update_run=sqlsrv_query($conntest,$update_student);
+ 
+  if ($update_run==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
 
 
 
