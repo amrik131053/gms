@@ -395,7 +395,10 @@
    
 function passwordreset(id)
  {
-   //alert(id);
+   
+if (confirm("Really want to Reset Password") == true) {
+ 
+
    var code=231;   
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -423,12 +426,18 @@ function passwordreset(id)
             }
          });
  }
-  
+ else 
 
+{
+  
+}
+  
+}
 
 function abcidreset(id)
  {
-   //alert(id);
+   if (confirm("Really want to Reset ABCID") == true) {
+ 
    var code=232;   
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -458,7 +467,7 @@ function abcidreset(id)
  }
 
 
-
+}
 
 
 
