@@ -10737,7 +10737,7 @@ $validUpto=$validUpto->format('d-M-Y');
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<font style='color:red'>Class RollNo. Not Issued</font>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<font style='color:red'>Uni Roll No. Not Issued</font>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Updated</b>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 <?php 
@@ -12538,7 +12538,7 @@ $IDNo= $_POST['IDNo'];
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<font style='color:red'>Class RollNo. Not Issued</font>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<font style='color:red'>Uni Roll No. Not Issued</font>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Updated</b>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 
