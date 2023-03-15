@@ -12049,6 +12049,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 </table>
 <table class="table table-striped" border="1">
 <tr>
+   <th>SrNo</th>
   <th>Subject Name</th>
   <th width="12%">Subject Code</th>
   <th width="8%">Int</th>
@@ -12068,10 +12069,13 @@ if($list_resultamrik === false)
 {
     die( print_r( sqlsrv_errors(), true) );
 }
+$sr=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
-         {?>
+         { $sr++;
+            ?>
 
          <tr>
+            <td width="10"><?=$sr;?></td>
   <td colspan="1">
    <input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>"></td>
    <td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>">
