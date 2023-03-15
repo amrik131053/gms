@@ -352,7 +352,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                      <?php if ($emp_pic) 
                      {
                         ?>
-                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="<?=$Emp_Name?>" height="128px" style="height: 70px; width: 70px;">
+                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="<?=$Emp_Name?>" height="128px" style="height: 40px; width: 40px;">
                      <?php
                      }
                      else

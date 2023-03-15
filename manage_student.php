@@ -160,9 +160,21 @@
    </div>
    <!-- /.container-fluid -->
 </section>
-<p id="ajax-loader"></p>
+<div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-md   " role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id='student_record_for_update' style="text-align:center">
+          
+ </div>
 
-
+</div>
+</div>
 <script type="text/javascript">
       $(document).ready(function (e) {    // image upload form submit
            $("#university_upload").on('submit',(function(e) {
@@ -178,7 +190,7 @@
                  processData: false,
                  success: function(data)
                   {
-                     console.log(data);
+                     //console.log(data);
                          
                           spinner.style.display='none';
                           if (data==1) {
@@ -209,7 +221,7 @@
                  processData: false,
                  success: function(data)
                   {
-                     console.log(data);
+                     //console.log(data);
                          
                           spinner.style.display='none';
                           if (data==1) {
@@ -239,7 +251,7 @@
                  processData: false,
                  success: function(data)
                   {
-                     console.log(data);
+                     //console.log(data);
                          
                           spinner.style.display='none';
                           if (data==1) {
@@ -268,7 +280,7 @@
                  processData: false,
                  success: function(data)
                   {
-                     console.log(data);
+                     //console.log(data);
                          
                           spinner.style.display='none';
                           if (data==1) {
@@ -289,11 +301,14 @@
 
    function student_search()
    {
+     
       var code=187;
       var code_access = '<?php echo $code_access; ?>';
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
       {
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
          $.ajax(
          {
             url:"action.php ",
@@ -304,6 +319,7 @@
             },
             success:function(response) 
             {
+               spinner.style.display='none';
                document.getElementById("student_search_record").innerHTML =response;
             }
          });
@@ -314,5 +330,166 @@
          document.getElementById("student_search_record").innerHTML ='';
       }
    } 
+
+
+
+   function StudentUpdatedata(id)
+   {
+      var code=219;
+          
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+      }
+      
+
+ function updateStudentdata(id)
+ {
+   var  batch = document.getElementById('ubatch').value;
+   var  status = document.getElementById('ustatus').value;
+   var  lock = document.getElementById('ulocked').value;
+    
+  
+
+   var code=220;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,batch:batch,status:status,lock:lock,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Successfully Updated');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         });
+ }
+   
+function passwordreset(id)
+ {
+   
+if (confirm("Really want to Reset Password") == true) {
+ 
+
+   var code=231;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Password Reset to 12345678');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         });
+ }
+ else 
+
+{
+  
+}
+  
+}
+
+function abcidreset(id)
+ {
+   if (confirm("Really want to Reset ABCID") == true) {
+ 
+   var code=232;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('ABCID Cleared');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         });
+ }
+
+
+}
+
+
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php include "footer.php";  ?>

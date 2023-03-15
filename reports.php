@@ -43,11 +43,21 @@ while($permission_data=mysqli_fetch_array($permission_res))
                         
                      ?>
                      <div class="form-group row">
-                        <div class="col-sm-2">
-                           <label for="inputEmail3" class="col-lg-12 col-form-label"> Spot Wise</label>
-                           <input type="hidden" name="office_owner_ID" class="form-control" id='office_owner_ID' disabled value="">
-                           <button type="submit" class="btn btn-info form-control" data-toggle="modal" data-target="#office_filter_modal" >Search</button>
+                        <div class="col-lg-2" style="text-align: center;">
+
+                            <label for="inputEmail3" class="col-lg-12 col-form-label">Spot Wise </label>
+                         <div class="form-group row"><div class="col-sm-5">
+                          
+                           <input type="hidden" name="office_owner_ID" class="form-control" id='office_owner_ID' disabled value="<?=$EmployeeID?>">
+                           <button type="submit" class="btn btn-info form-control btn-xs"  onclick="officeFilter()" >My Location</button>
                         </div>
+                        <div class="col-sm-7">
+                          
+                           <input type="hidden" name="office_owner_ID" class="form-control" id='office_owner_ID' disabled value="">
+                           <button type="submit" class="btn btn-info form-control btn-xs" data-toggle="modal" data-target="#office_filter_modal" >All Locations</button>
+                        </div>
+                     </div>
+                     </div>
                         <div class="col-sm-2">
                            <label for="inputEmail3" class="col-lg-12 col-form-label"> Employee ID</label>
                               <div class="input-group mb-3">
@@ -172,7 +182,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            </div>
                             </div>
                         <div class="col-sm-2">
-                           <label for="inputEmail3" class="col-lg-12 col-form-label"> Location Owner </label>
+                           <label for="inputEmail3" class="col-lg-12 col-form-label"> Location Owner</label>
                            <input type="hidden" name="EmployeeID" class="form-control" id='location_owner_ID' disabled value="<?=$EmployeeID?>">
                            <button type="submit" class="btn btn-info form-control"  onclick="locationOwnerFilter()" >Search</button>
                         </div>
@@ -354,6 +364,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            function locationOwnerFilter()
                            {
                               // var id=id1;
+
                               var locationOwnerID= document.getElementById("location_owner_ID").value;
                                var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';

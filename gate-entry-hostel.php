@@ -127,6 +127,8 @@
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
       {
+         var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
          $.ajax(
          {
             url:"action.php ",
@@ -137,6 +139,7 @@
             },
             success:function(response) 
             {
+               spinner.style.display='none';
                document.getElementById("student_search_record").innerHTML =response;
             }
          });
