@@ -6,154 +6,495 @@
    <div class="card card-info">
    </div>
    <div class="row">
+       
       <div class="col-lg-12 col-md-4 col-sm-3">
-         <div class="card card-info">
-            <div class="card-header">
-               <div class="row">
-                  <div class="col-lg-1">
-                     <h3 class="card-title " style="font-size: 14px;">Study Scheme</h3>
+         <div class="card-body card">
+        <div class="btn-group w-100 mb-2">
+                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
+                    <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
+                    <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
+                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
+                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
+                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="Upload();bg(this.id);"> Upload </a>
                   </div>
-                  <div class="col-lg-10">
-                     <div class="card-tools">
-                        <div class="row">
-                           <div class="col-lg-1">
-                              <div class="input-group-sm">
-                               <button class="btn btn-outline-light btn-xs form-control text-xs" onclick="format()">Format</button>
-                              </div>
-                           </div>
-                           <div class="col-lg-2">
-                              <div class="input-group-sm">
-                                 <select class="form-control" name="college_id" id='college_id' onchange="courseId(this.value);"  >
-                                    <option value="">Select College</option>
-                                    <?php
-                                    $sqlCourse = " SELECT Distinct UserAccessLevel.CollegeID,CollegeName from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CollegeID=UserAccessLevel.CollegeID where IDNo='$EmployeeID' order By CollegeName asc";
-                                    $resultCourse = sqlsrv_query($conntest,$sqlCourse);
-                                    while($rowCourse = sqlsrv_fetch_array($resultCourse, SQLSRV_FETCH_ASSOC) )
-                                    {
-                                       ?>
-                                       <option value="<?=$rowCourse["CollegeID"]?>"><?=$rowCourse["CollegeName"]?></option>
-                                       <?php
-                                    } 
-                                    ?>
-                                 </select>
-                                 
-                              </div>
-                           </div>
-                           <div class="col-lg-2">
-                              <div class="input-group-sm">
 
-                                 <select class="form-control" name="course_id" id='course_id' onchange="semesterId(this.value)"  >
-                                    <option value="">Select Course</option>
-                                    <?php
-                                    $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CollegeID='64'  ORDER BY Course ";
-                                    $resultCourse = sqlsrv_query($conntest,$sqlCourse);
-                                    while($rowCourse = sqlsrv_fetch_array($resultCourse, SQLSRV_FETCH_ASSOC) )
-                                    {
-                                       ?>
-                                       <option value="<?=$rowCourse["CourseID"]?>"><?=$rowCourse["Course"]?></option>
-                                       <?php
-                                    } 
-                                    ?>
-                                 </select>
-                              </div>
-                           </div>
-                           <div class="col-lg-2">
-                              <div class="input-group-sm">
-                                 <select class="form-control" name="semester" id='semester_id'   >
-                                    <option value="">Select Semester</option>
-                                    
-                                 </select>
+         <div  id="table_load">
+ <div class="card">
+        <center>
+         <h5>
+         <b>ADD</b>
+        </h5>
+        </center>
+        </div>
+           <div class="row">
+              <div class="col-lg-3">
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <option value=''>Select Course</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+              <div class="col-lg-3">
+                 <label>Course</label>
+                  <select  id="Course" class="form-control">
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Batch</label>
+                   <select id="batch"  class="form-control">
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Semester</label>
+                      <select   id='semester' class="form-control">
+                       <option value="">Sem</option>
+                     <?php 
+                        for($i=1;$i<=14;$i++)
+                           {?>
+                     <option value="<?=$i?>"><?=$i?></option>
+                     <?php }
+            ?>
+            </select>
+              </div>
+            
+            </div>
+             <div class="row">
+              <div class="col-lg-3">
+                <label>Subject Name</label>
+                <input type="text" id="subject_name" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Code</label>
+                <input type="text" id="subject_code" class="form-control">
 
-                              </div>
-                           </div> 
-                           <div class="col-lg-2">
-                              <div class="input-group-sm">
-                                 <select name="batch"  class="form-control" id="Batch" required="">
-                                    <option value="">Batch</option>
-                                    <?php 
-                                       for($i=date('Y', strtotime('-6 year'));$i<=date('Y', strtotime('+0 year'));$i++)
-                                       {?>
-                                    <option value="<?=$i?>"><?=$i?></option>
-                                    <?php }
-                                       ?>
-                                 </select>   
-                              </div>
-                           </div>
-                           <div class="col-lg-1">
-                              <div class="input-group-sm">
-                                 <button class="btn btn-outline-warning btn-xs form-control" onclick="viewSubjects()">View</button>
-                              </div>
-                           </div>
-                           <div class="col-lg-1">
-                              <div class="input-group-sm">
-                                 <button class="btn btn-outline-warning btn-xs form-control">Export</button>
-                              </div>
-                           </div>
-                           
-                           
-                        </div>
-                     
-                     </div>
-                  </div>
-               </div>
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Type</label>
+                 <select class="form-control" id="subject_type">
+                    <option value="">Select</option>
+                    <option value="T">T</option>
+                    <option value="P">P</option>
+                    <option value="NA">NA</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Group</label>
+                    <select id="subject_group" class="form-control" required="">
+                        <option value="">Group</option>
+                       <?php
+                           $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+                                  $stmt2 = sqlsrv_query($conntest,$sql);
+                                 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                     {
+                                     $Sgroup = $row1['Sgroup']; 
+                                        ?>
+                              <option  value="<?=$Sgroup;?>"><?=$Sgroup;?></option>
+                              <?php    }
+                                          ?>      
+              </select>
+              </div>
+           </div>
+         <div class="row">
+            
+              <div class="col-lg-3">
+                <label>Int. Max Marks</label>
+                <input type="number"  id="int_marks" class="form-control">
+
+              </div>
+              <div class="col-lg-3">
+                 <label>Ext. Max Marks</label>
+                <input type="number" id="ext_marks" class="form-control">
+
+              </div>
+              <div class="col-lg-3">
+                 <label>Elective</label>
+                 <select class="form-control" id="elective">
+                   
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Lecture</label>
+                <input type="text" id="lecture" class="form-control">
+
+              </div>
+           </div>
+        <div class="row">
+              <div class="col-lg-3">
+                <label>Practical</label>
+                <input type="text" id="practical" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>Tutorials</label>
+                <input type="text" id="tutorials" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>No OF Credits</label>
+                <input type="text" id="credits" class="form-control">
+              </div>
+              <div class="col-lg-3">
+              </div>
+           </div><br>
+        <div class="row text-center">
+         
+           <button class="btn btn-success" onclick="add_submit();">Submit</button>
+        
+        </div>
             </div>
-            <!--  <form class="form-horizontal" action="" method="POST"> -->
-            <div class="card-body" id="question_data" >
-                  
-            </div>
-            <div class="card-footer" style="text-align: right;">
-            </div>
-            <!-- /.card-footer -->
-            <!-- </form> -->
-         </div>
+        </div>
       </div>
    </div>
    <!-- /.container-fluid -->
 
 </section>
+<p id="ajax-loader"></p>
+<p id="gg"></p>
    <script type="text/javascript">
-      function format() 
-      {
-         window.location.href = 'http://gurukashiuniversity.co.in/gkuadmin/formats/studyscheme.csv';
-      }
-      function courseId(collegeId)
-      {
-         var code=125;
+          $(window).on('load', function() 
+          {
+         $('#btn1').toggleClass("bg-success"); 
+           })
+          function format() 
+           {
+            window.location.href = 'http://gurukashiuniversity.co.in/gkuadmin/formats/studyscheme.csv';
+           }
+         function bg(id)
+          {
+         $('.btn').removeClass("bg-success");
+         $('#'+id).toggleClass("bg-success"); 
+         }
+
+          function search_study_scheme()
+          {
+       var code=227;
+       var CollegeID=document.getElementById('College').value;
+       var Course=document.getElementById('Course').value;
+       var batch=document.getElementById('batch').value;
+       var semester=document.getElementById('semester').value;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
          $.ajax({
             url:'action.php',
             type:'POST',
             data:{
-               code:code,collegeId:collegeId
-            },
+               code:code,CollegeID:CollegeID,Course:Course,Batch:batch,Semester:semester
+                  },
             success: function(response) 
             {
-               console.log(response);
-               document.getElementById("course_id").innerHTML=response;
+               spinner.style.display='none';
+               document.getElementById("load_study_scheme").innerHTML=response;
             }
          });
-      }
-     function semesterId(course)
+
+     }
+
+     function Add()
       {
-         var code=123;
+         var code=225;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
          $.ajax({
             url:'action.php',
             type:'POST',
             data:{
-               code:code,course:course
+               code:code
             },
             success: function(response) 
             {
-               console.log(response);
-               document.getElementById("semester_id").innerHTML=response;
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
             }
          });
       }
+       function Search()
+          {
+         // $('#'+id).toggleClass("bg-green");
+
+         var code=226;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+        }
+function Move(){ //228
+        }
+function Copy(){ //229
+
+}
+function Update(){ //230
+
+}
+function Upload(){ //241
+
+}
+
+function add_submit()
+{
+   var CollegeID=document.getElementById('College').value;
+   var CourseID=document.getElementById('Course').value;
+   var batch=document.getElementById('batch').value;
+   var semester=document.getElementById('semester').value;
+   var subject_name=document.getElementById('subject_name').value;
+   var subject_code=document.getElementById('subject_code').value;
+   var subject_type=document.getElementById('subject_type').value;
+   var subject_group=document.getElementById('subject_group').value;
+   var int_marks=document.getElementById('int_marks').value;
+   var ext_marks=document.getElementById('ext_marks').value;
+   var elective=document.getElementById('elective').value;
+   var lecture=document.getElementById('lecture').value;
+   var practical=document.getElementById('practical').value;
+   var tutorials=document.getElementById('tutorials').value;
+   var credits=document.getElementById('credits').value;
+   if ( CollegeID!='' && CourseID!='' && batch!='' && semester!='' && subject_name!='' && subject_code!='' && subject_type!='' && subject_group!='' && int_marks!='' && ext_marks!='' && elective!='' && lecture!='' && practical!='' && tutorials!='' && credits!='') 
+   {
+   var code=242;
+
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,
+               CollegeID:CollegeID,
+               CourseID:CourseID,
+               batch:batch,
+               semester:semester,
+               subject_name:subject_name,
+               subject_code:subject_code,
+               subject_type:subject_type,
+               subject_group:subject_group,
+               int_marks:int_marks,
+               ext_marks:ext_marks,
+               elective:elective,
+               lecture:lecture,
+               practical:practical,
+               tutorials:tutorials,
+               credits:credits
+               },
+            success: function(response) 
+            { 
+              
+               spinner.style.display='none';
+               if (response==1) {
+                  SuccessToast('Successfully Submit');
+               }
+               else
+               {
+                  ErrorToast('Try Again','bg-danger');
+               }
+            }
+         });
+      }
+      else
+      {
+         ErrorToast('Please Input All Required Filed','bg-warning');
+      }
+
+
+
+}
+
+
+function verifiy()
+{
+  var verifiy=document.getElementsByClassName('un_check');
+var len_student= verifiy.length; 
+  var code=243;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+       }
+     
+
+
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    alert('Select atleast one Subject');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Verified');
+               search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+function un_verifiy()
+{
+  var un_verifiy=document.getElementsByClassName('v_check');
+var len_student= un_verifiy.length; 
+  var code=244;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(un_verifiy[i].checked===true)
+          {
+            subjectIDs.push(un_verifiy[i].value);
+          }
+       }
+     
+
+
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    alert('Select atleast one Subject');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully UnVerified');
+               search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+
+
+function un_verifiy_select()
+{
+        if(document.getElementById("select_all").checked)
+        {
+            $('.un_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.un_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.un_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("un_check:checked").length;
+        var b=document.getElementsByClassName("un_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all').prop('checked',false);
+        }
+    });
+ 
+}
+function verifiy_select()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+}
    </script>
   </br>
-
-<p id="ajax-loader"></p>
 <div>
 
 
 
-    <?php include "footer.php";  ?>
+
+    <?php 
+
+
+    include "footer.php";  ?>
