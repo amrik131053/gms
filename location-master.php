@@ -111,9 +111,14 @@
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="searchLocations()" >Search</button>
                                  </div>
                               </div>
-                              <div class="col-lg-2">
+                              <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <button  class="btn btn-outline-warning btn-sm form-control" data-toggle="modal" data-target="#AddNewLocation">Add New </button>
+                                 </div>
+                              </div>
+                               <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <button  class="btn btn-outline-warning btn-sm form-control" data-toggle="modal" data-target="#AddNewLocation">Chnage Owner </button>
                                  </div>
                               </div>
                               

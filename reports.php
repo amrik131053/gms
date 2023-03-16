@@ -944,6 +944,73 @@ function spotFilter()
       }
    });
 }
+
+
+function nodues(id)
+{
+   // var id=id1;
+   //alert(id);
+   var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  
+   var code=233;
+   $.ajax(
+   {
+      url:"action.php ",
+      type:"POST",
+      data:
+      {
+         code:code,id:id
+      },
+      success:function(response) 
+      { 
+         
+         document.getElementById("noduesdata").innerHTML =response;
+         spinner.style.display='none';
+        
+      },
+      error:function()
+      {
+         alert("error");
+      }
+   });
+}
+
+function cleardues(id)
+{
+    var id=id;
+   //alert(id);
+   var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  
+   var code=234;
+   $.ajax(
+   {
+      url:"action.php ",
+      type:"POST",
+      data:
+      {
+         code:code,id:id
+      },
+      success:function(response) 
+      { 
+         
+         document.getElementById("noduesreponse").innerHTML =response;
+         spinner.style.display='none';
+        
+      },
+      error:function()
+      {
+         alert("error");
+      }
+   });
+}
+
+
+
+
+
+
   </script>
 <!-- --------------------------------------------------------------------- -->
 
@@ -952,6 +1019,36 @@ function spotFilter()
 <?php
 // print_r($categoryPermissions);
 ?>
+
+
+<div class="modal fade" id="noduesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">No Dues</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div id="noduesdata">
+            
+         </div>
+
+   </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <div class="modal fade" id="view_assign_stock_office_Modal_location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >

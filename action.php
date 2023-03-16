@@ -991,15 +991,108 @@ option value = "" > Select < /option> <?php
                   <button type="submit" class="form-control float-right btn-success" style="margin-top: -5px;">Export</button>
                </div>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <!-- <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="stock_summary_search(this.value);" >
+               <div class="input-group input-group-xs" style="width: 150px;">
+
+                <button  class="form-control float-right btn-success" onclick="nodues(<?= $empID;?>);" style="margin-top: 0px;">No Dues</button>
+                  <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="stock_summary_search(this.value);" > -->
                   
-                  </div> -->
+                  </div>
             </div>
          </div>
       </div>
+
+<?php  $result1 = "SELECT  * FROM Staff where IDNo='$empID'";
+               $stmt1 = sqlsrv_query($conntest,$result1);
+               while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+               {
+           
+                 $StaffName= $row['Name'];
+                 $Department= $row['Department'];
+                 $UniRollNo= $row['MotherName'];
+                 $Designation = $row['Designation'];
+   
+               }?>
+ <div class="card card-widget widget-user-2" style="width:400px" id="printableArea">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                  
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b> <?= $StaffName ;?>  (<?=$empID?>) </b></h6>
+                <h6 class="widget-user-desc"><?= $Designation;?>(<?= $Department;?>)</h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+
+  
+       <i class="fa fa-eye fa-lg" onclick="view_emp_stock(<?=$empID?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:yellow;"></i><br>
+
+<br>
+     <b> <i class="fa fa-arrow-right" onclick="nodues(<?=$empID?>);" data-toggle="modal" data-target="#noduesmodal" style="color:yellow;"></i></b>
+      
+      </div>
+             </div>
+               
+               
+
+
+              </div>
+
+
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+
+
+<?php
+                     $article="SELECT distinct ArticleName,stock_summary.ArticleCode as acode  from master_article inner join stock_summary ON stock_summary.ArticleCode=master_article.ArticleCode INNER JOIN location_master ON location_master.ID=stock_summary.LocationID inner join category_permissions ON category_permissions.CategoryCode=master_article.CategoryCode where  stock_summary.Status='2' and  stock_summary.Corrent_owner='$empID' and employee_id='$EmployeeID' ";
+                     
+                     $article_run=mysqli_query($conn,$article);
+                     while ($article_row=mysqli_fetch_array($article_run)) 
+                     {
+                          $count=0;
+                         ?>
+                  
+
+                  <li class="nav-item">
+                     <li class="nav-link"><b><?=$article_row['ArticleName']?> :&nbsp;&nbsp;&nbsp; </b> 
+<?php  $article_code=$article_row['acode'];
+
+                         $qry="SELECT * FROM stock_summary   where Status='2' and Corrent_owner='$empID' and ArticleCode='$article_code' order by IDNo DESC";
+                      $run=mysqli_query($conn,$qry);
+                      while($data=mysqli_fetch_array($run))
+                      {
+                          $count++;
+                      }
+                    echo   $count;
+                     ?>
+
+
+                       
+
+
+                        </li>
+                  </li>
+                
+                  <?php
+                     }
+                     
+                     ?>             
+                     
+
+
+                  
+                   
+                  
+                  
+                </ul>
+              </div>
+            </div>
+
+
+
       <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 400px;">
+    <!--   <div class="card-body table-responsive p-0" style="height: 400px;">
          <table class="table table-head-fixed text-nowrap" >
             <?php 
                ?>
@@ -1053,7 +1146,8 @@ option value = "" > Select < /option> <?php
                // }
                 ?>  
          </table>
-      </div>
+      </div> -->
+    
       <!-- /.card-body -->
    </div>
    <!-- /.card -->
@@ -12194,7 +12288,15 @@ $ecat=$_POST['ecat'];
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-  $ecat=$ecat."Locked";
+if($ecat=='ESE')
+{
+$ecat='MoocLocked';
+}
+else
+{
+  $ecat=$ecat."Locked"; 
+}
+ 
 
  echo $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
@@ -12214,7 +12316,17 @@ $ecat=$_POST['ecat'];
 
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
-  $ecat=$ecat."Locked";
+  
+if($ecat=='ESE')
+{
+$ecat='MoocLocked';
+}
+else
+{
+  $ecat=$ecat."Locked"; 
+}
+
+
  echo $list_sqlw= "update ExamFormSubject set $ecat='1' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
@@ -12251,8 +12363,14 @@ $ecat=$_POST['ecat'];
 
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
-
-$ecat1=$ecat."Locked";
+if($ecat=='ESE')
+{
+$ecat='MoocLocked';
+}
+else
+{
+  $ecat=$ecat."Locked"; 
+}
 $list_sqlw= "update ExamFormSubject set $ecat1='1' where Examination='$examination'";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
@@ -12401,7 +12519,16 @@ else  if($code==215)
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
 $semester=$_POST['semester'];
-$ecat=$ecat."Locked";
+
+if($ecat=='ESE')
+{
+$ecat='MoocLocked';
+}
+else
+{
+  $ecat=$ecat."Locked"; 
+}
+
 $list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination' ANd SemesterID='$semester'";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
@@ -12421,7 +12548,15 @@ else  if($code==216)
 $examination=$_POST['examination'];  
 $ecat=$_POST['ecat'];
 $semester=$_POST['semester'];
-$ecat1=$ecat."Locked";
+if($ecat=='ESE')
+{
+$ecat='MoocLocked';
+}
+else
+{
+  $ecat=$ecat."Locked"; 
+}
+
  $list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
@@ -12799,9 +12934,140 @@ elseif($code==232)
    
    }
    }
+elseif($code==233)
+   {
+   $id=$_POST['id'];
+   
+ $result1 = "SELECT  * FROM Staff where IDNo='$id'";
+               $stmt1 = sqlsrv_query($conntest,$result1);
+               while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+               {
+           
+                 $StaffName= $row['Name'];
+                  $empID= $row['IDNo'];
+                 $Department= $row['Department'];
+                 $UniRollNo= $row['MotherName'];
+                 $Designation = $row['Designation'];
+   
+               }?>
+               <div class="row">
+                  <div class="col-lg-6">
+ <div class="card card-widget widget-user-2" style="width:400px" id="printableArea">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                  
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b> <?= $StaffName ;?>  (<?=$empID?>) </b></h6>
+                <h6 class="widget-user-desc"><?= $Designation;?>(<?= $Department;?>)</h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+
+  
+       
+      
+      </div>
+             </div>
+               
+               
+
+
+              </div>
+
+
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+
+
+<?php
+                     $article="SELECT distinct ArticleName,stock_summary.ArticleCode as acode  from master_article inner join stock_summary ON stock_summary.ArticleCode=master_article.ArticleCode INNER JOIN location_master ON location_master.ID=stock_summary.LocationID inner join category_permissions ON category_permissions.CategoryCode=master_article.CategoryCode where  stock_summary.Status='2' and  stock_summary.Corrent_owner='$empID' and employee_id='$EmployeeID' ";
+                     
+                     $article_run=mysqli_query($conn,$article);
+                     while ($article_row=mysqli_fetch_array($article_run)) 
+                     {
+                          $count=0;
+                         ?>
+                  
+
+                  <li class="nav-item">
+                     <li class="nav-link"><b><?=$article_row['ArticleName']?> :&nbsp;&nbsp;&nbsp; </b> 
+<?php  $article_code=$article_row['acode'];
+
+                         $qry="SELECT * FROM stock_summary   where Status='2' and Corrent_owner='$empID' and ArticleCode='$article_code' order by IDNo DESC";
+                      $run=mysqli_query($conn,$qry);
+                      while($data=mysqli_fetch_array($run))
+                      {
+                          $count++;
+                      }
+                    echo   $count;
+                     ?>
+
+
+                       
+
+
+                        </li>
+                  </li>
+                
+                  <?php
+                     }
+                     
+                     ?>             
+                     
+
+
+                  
+                   
+                  
+                  
+                </ul>
+              </div>
+            </div>
+         </div>
+
+         <div class="col-lg-5"><div  id='noduesreponse'></div><button class="btn btn-success" onclick="cleardues(<?= $empID?>)">Clear Dues</button></div>
+ <?php 
+ 
+   }
+
+
+elseif($code==234)
+   {
+   $id=$_POST['id'];
+
+   $result1 = "SELECT count(*) as count FROM location_master WHERE location_owner='$id'";
+               $run=mysqli_query($conn,$result1);
+                      while($data=mysqli_fetch_array($run))
+               {           
+                  $loc=$data['count'];
+               }
+
+if($loc>0)
+{
+  echo "<div class='alert alert-danger' role='alert'>  Unable  to clear dues, ower of $loc locations </div>";
+}
+else{
 
 
 
+
+   $result1 = "SELECT * from stock_summary where Corrent_owner='$id'";
+
+               $run=mysqli_query($conn,$result1);
+                      while($data=mysqli_fetch_array($run))
+               {           
+                 echo  $loc=$data['LocationID'];
+               }
+
+
+
+
+
+}
+
+            }
 
 else
 
