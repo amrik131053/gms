@@ -12369,11 +12369,11 @@ $examination=$_POST['examination'];
 $ecat=$_POST['ecat'];
 if($ecat=='ESE')
 {
-$ecat='MoocLocked';
+$ecat1='MoocLocked';
 }
 else
 {
-  $ecat=$ecat."Locked"; 
+  $ecat1=$ecat."Locked"; 
 }
 $list_sqlw= "update ExamFormSubject set $ecat1='1' where Examination='$examination'";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
