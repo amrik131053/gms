@@ -112,7 +112,7 @@ var xmlhttp = new XMLHttpRequest();
 
 
 }
-
+ 
 
 
 function courseByCollege(College) 

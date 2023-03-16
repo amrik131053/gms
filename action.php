@@ -12143,6 +12143,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 </table>
 <table class="table table-striped" border="1">
 <tr>
+   <th>SrNo</th>
   <th>Subject Name</th>
   <th width="12%">Subject Code</th>
   <th width="8%">Int</th>
@@ -12162,10 +12163,13 @@ if($list_resultamrik === false)
 {
     die( print_r( sqlsrv_errors(), true) );
 }
+$sr=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
-         {?>
+         { $sr++;
+            ?>
 
          <tr>
+            <td width="10"><?=$sr;?></td>
   <td colspan="1">
    <input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>"></td>
    <td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>">
@@ -12499,17 +12503,6 @@ elseif($code==214)
 </table>
 <?php 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 // lock all
@@ -12893,8 +12886,43 @@ elseif($code==221)
     {
        echo "0";
     }
-   }
 
+   } 
+    elseif($code==224)
+ {
+      $univ_rollno=$_POST['uni'];
+   
+                     $count=0;
+                     $degree="SELECT * FROM degree_print where UniRollNo='$univ_rollno'";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                        $count++;
+                        ?>
+                        <tr>
+                           <td><?=$count;?></td>
+                           <td><?=$degree_row['StudentName'];?></td>
+                           <td><?=$degree_row['UniRollNo'];?></td>
+                           <td><?=$degree_row['FatherName'];?></td>
+                           <td><?=$degree_row['MotherName'];?></td>
+                           <td><?=$degree_row['Examination'];?></td>
+                           <td><?=$degree_row['Course'];?></td>
+                           <td><?=$degree_row['CGPA'];?></td>
+                      
+                           <td>
+                              <form action='print_degree.php' method='post'>
+                                 <input type="hidden" name="code" value="1">
+                        <input type='hidden' name='p_id' value="<?=$degree_row['id'];?>">
+                        <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
+                            <i  class='fa fa-print' aria-hidden='true'></i>
+                        </button>
+                    </form>
+                 </td>
+                        </tr>
+                        <?php
+                      }
+                  
+   }
 
 elseif($code==231)
    {
@@ -13051,8 +13079,6 @@ if($loc>0)
 else{
 
 
-
-
    $result1 = "SELECT * from stock_summary where Corrent_owner='$id'";
 
                $run=mysqli_query($conn,$result1);
@@ -13062,18 +13088,429 @@ else{
                }
 
 
-
-
-
 }
 
             }
 
-else
+
+ elseif($code==225)
 
    {
-   echo "select code";
+     ?>
+        <div class="card">
+        <center>
+         <h5>
+         <b>ADD</b>
+        </h5>
+        </center>
+        </div>
+           <div class="row">
+              <div class="col-lg-3">
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <option value=''>Select Course</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+              <div class="col-lg-3">
+                 <label>Course</label>
+                  <select  id="Course" class="form-control">
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Batch</label>
+                   <select id="batch"  class="form-control">
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Semester</label>
+                      <select   id='semester' class="form-control">
+                       <option value="">Sem</option>
+                     <?php 
+                        for($i=1;$i<=14;$i++)
+                           {?>
+                     <option value="<?=$i?>"><?=$i?></option>
+                     <?php }
+            ?>
+            </select>
+              </div>
+            
+            </div>
+             <div class="row">
+              <div class="col-lg-3">
+                <label>Subject Name</label>
+                <input type="text" id="subject_name" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Code</label>
+                <input type="text" id="subject_code" class="form-control">
+
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Type</label>
+                 <select class="form-control" id="subject_type">
+                    <option value="">Select</option>
+                    <option value="T">Theory</option>
+                    <option value="P">Practical</option>
+                    <option value="M">MOOC</option>
+                    <option value="V">Value Added</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Subject Group</label>
+                    <select id="subject_group" class="form-control" required="">
+                        <option value="">Group</option>
+                       <?php
+                           $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+                                  $stmt2 = sqlsrv_query($conntest,$sql);
+                                 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                     {
+                                     $Sgroup = $row1['Sgroup']; 
+                                        ?>
+                              <option  value="<?=$Sgroup;?>"><?=$Sgroup;?></option>
+                              <?php    }
+                                          ?>      
+              </select>
+              </div>
+           </div>
+         <div class="row">
+            
+              <div class="col-lg-3">
+                <label>Int. Max Marks</label>
+                <input type="number"  id="int_marks" class="form-control">
+
+              </div>
+              <div class="col-lg-3">
+                 <label>Ext. Max Marks</label>
+                <input type="number" id="ext_marks" class="form-control">
+
+              </div>
+              <div class="col-lg-3">
+                 <label>Elective</label>
+                 <select class="form-control" id="elective">
+                   
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Lecture</label>
+                <input type="text" id="lecture" class="form-control">
+
+              </div>
+           </div>
+        <div class="row">
+              <div class="col-lg-3">
+                <label>Practical</label>
+                <input type="text" id="practical" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>Tutorials</label>
+                <input type="text" id="tutorials" class="form-control">
+              </div>
+              <div class="col-lg-3">
+                 <label>No OF Credits</label>
+                <input type="text" id="credits" class="form-control">
+              </div>
+              <div class="col-lg-3">
+              </div>
+           </div><br>
+        <div class="row text-center">
+         
+           <button class="btn btn-success" onclick="add_submit();">Submit</button>
+        
+        </div>
+
+  <?php  
+}
+ elseif($code==226)
+   {
+     ?>
+        <div class="card">
+        <center>
+         <h5>
+         <b>Study Scheme Search</b>
+        </h5>
+        </center>
+        </div>
+           <div class="row">
+              <div class="col-lg-3">
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <option value=''>Select Course</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+              <div class="col-lg-2">
+                 <label>Course</label>
+                  <select  id="Course" class="form-control">
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+              <div class="col-lg-2">
+                 <label>Batch</label>
+                   <select id="batch"  class="form-control">
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Semester</label>
+                      <select   id='semester' class="form-control">
+                       <option value="">Sem</option>
+                     <?php 
+                        for($i=1;$i<=14;$i++)
+                           {?>
+                     <option value="<?=$i?>"><?=$i?></option>
+                     <?php }
+            ?>
+            </select>
+              </div>
+              <div class="col-lg-2">
+                 <label>Action</label><br>
+                 <button onclick="search_study_scheme();" class="btn btn-success">Search</button>
+              </div>
+            
+            </div>
+<br>
+            <div class="row" id="load_study_scheme">
+
+             
+            </div>
+        </div>
+
+  <?php  
+}
+elseif($code==227)
+{
+                  $CollegeID=$_POST['CollegeID'];
+                  $Course=$_POST['Course'];
+                  $Batch=$_POST['Batch'];
+                  $Semester=$_POST['Semester'];
+?>
+                  <div class="col-lg-6 ">
+                  <div class="card-header">
+                     Study Scheme
+                  </div>
+                     <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                           <tr>
+                              <th>Srno</th>
+                              <th>Course</th>
+                              <th>Batch</th>
+                              <th>Semester</th>
+                              <th>Name</th>
+                              <th>Code</th>
+                              <th>Type</th>
+                                 <td><input type="checkbox" id="select_all" onclick="un_verifiy_select();"></td>
+                           </tr>
+                     <?php 
+
+                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='0'";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $count_0=0;
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_0++;
+                           ?>
+                              <tr>
+                                 <td><?=$count_0;?></td>
+                                 <td><?=$get_row['Course'];?></td>
+                                 <td><?=$get_row['Batch'];?></td>
+                                 <td><?=$get_row['Semester'];?></td>
+                                 <td><?=$get_row['SubjectName'];?></td>
+                                 <td><?=$get_row['SubjectCode'];?></td>
+                                 <td><?=$get_row['SubjectType'];?></td>
+                                 <td><input type="checkbox" class="checkbox un_check"  value="<?=$get_row['SrNo'];?>"></td>
+                       
+                              </tr>
+                        <?php
+                         // print_r($get_row);
+                         }
+                       
+                       ?>
+                    </table>
+                  </div>
+                   <?php  
+                  if ($count_0>0)
+                        {   
+                 ?>
+                  <input type="button" value="Verify" class="btn btn-success" onclick="verifiy();">
+                  <?php  } ?>
+                  </div>
+                   
+                      <div class="col-lg-6">
+                   <div class="card-header">
+                    Varified Study Scheme
+                  </div>
+
+                    <div class="table-responsive " style="font-size:12px;">
+                        <table class="table table-bordered table-hover">
+                           <tr>
+                              <th>Course</th>
+                              <th>Batch</th>
+                              <th>Semester</th>
+                              <th>Name</th>
+                              <th>Code</th>
+                              <th>Type</th>
+                              <th><input type="checkbox"  id="select_all1" onclick="verifiy_select();" ></th>
+                           </tr>
+                     <?php 
+                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified=1";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $count_1=0;
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_1++;
+                           ?>
+                              <tr>   
+                                 <td><?=$get_row['Course'];?></td>
+                                 <td><?=$get_row['Batch'];?></td>
+                                 <td><?=$get_row['Semester'];?></td>
+                                 <td><?=$get_row['SubjectName'];?></td>
+                                 <td><?=$get_row['SubjectCode'];?></td>
+                                 <td><?=$get_row['SubjectType'];?></td>
+                                 <td><input type="checkbox" class="checkbox v_check" value="<?=$get_row['SrNo'];?>"></td>   
+                              </tr>
+                        <?php 
+                     }  
+                       ?>
+                    </table>
+                  </div>
+                  <?php  
+                  if ($count_1>0)
+                        {   
+                 ?>
+                  <input type="button" value="<< UnVerify" onClick="un_verifiy();" class="btn btn-success">
+                  <?php  } ?>
+               </div>
+<?php
+}
+elseif($code==242)
+{
+      $SemesterID="";
+      $semester="";
+      $CollegeID=$_POST['CollegeID'];
+      $SemesterID=$_POST['semester'];
+      $CourseID=$_POST['CourseID'];
+      $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
+         $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
+         while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
+               {
+               $CollegeName=$college_row['CollegeName'];                          
+               $Course=$college_row['Course'];
+               }
+                  $get_semester="SELECT Semester FROM MasterCourseStructure WHERE SemesterID='$SemesterID'";
+                  $get_semester_run=sqlsrv_query($conntest,$get_semester);        
+                        while($sem_row=sqlsrv_fetch_array($get_semester_run,SQLSRV_FETCH_ASSOC))
+                        {
+                     $semester=$sem_row['Semester'];                          
+                       }
+
+               $batch=$_POST['batch'];
+               $subject_name=$_POST['subject_name'];
+               $subject_code=$_POST['subject_code'];
+               $subject_type=$_POST['subject_type'];
+               $subject_group=$_POST['subject_group'];
+               $int_marks=$_POST['int_marks'];
+               $ext_marks=$_POST['ext_marks'];
+               $elective=$_POST['elective'];
+               $lecture=$_POST['lecture'];
+               $practical=$_POST['practical'];
+               $tutorials=$_POST['tutorials'];
+               $credits=$_POST['credits'];
+
+
+               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0')";
+               $add_study_scheme_run=sqlsrv_query($conntest,$add_study_scheme);
+                  if ($add_study_scheme_run==true)
+                   {
+                  echo "1";   
+                  }
+                  else
+                  {
+                  echo "0";
+                  }
+ }
+ elseif($code==243)
+ {
+   $ids=$_POST['subjectIDs'];
+
+  // print_r($ids);
+   foreach($ids as $key => $id)
+   {
+      // echo $id;
+       $verified_study="UPDATE  MasterCourseStructure SET Isverified='1' WHERE SrNo='$id'";
+         $verified_study_run=sqlsrv_query($conntest,$verified_study);  
+
    }
+   if ($verified_study_run==true) {
+      echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
+
+ } 
+ elseif($code==244)
+ {
+   $ids=$_POST['subjectIDs'];
+
+  // print_r($ids);
+   foreach($ids as $key => $id)
+   {
+      // echo $id;
+       $verified_study="UPDATE  MasterCourseStructure SET Isverified='0' WHERE SrNo='$id'";
+         $verified_study_run=sqlsrv_query($conntest,$verified_study);  
+
+   }
+   if ($verified_study_run==true) {
+      echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
+
+ }
+ else
+{
+echo "select code";
+}
 }
    
    ?>
