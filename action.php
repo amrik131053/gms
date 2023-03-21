@@ -8219,7 +8219,7 @@ elseif ($code==138)
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='1'";
+      $questionCountQry="Select * from question_generate_count where unit='4'";
       $flag=1;
 
    }
