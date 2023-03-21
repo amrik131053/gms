@@ -11,26 +11,20 @@
          <!-- Button trigger modal -->
          <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card card-info">
-               <div class="card-header ">
+               <div class="card ">
                   
                 <div class="row">
-                     <div class="col-lg-1">
-                      <h3 class="card-title">ID Card</h3>
-                     </div>
-                      <div class="col-lg-11">
-                        <div class="card-tools">
-
-                           <div class="row text-right">
-                              
-                              <div class="col-lg-12">
-                                 <div class="input-group-sm">
-                                  <input type="button"  onclick="ID_card();"  value="ID Card" class="btn btn-primary btn-xs" >
-                                  <input type="button" onclick="Bus_pass()" value="Bus Pass" class="btn btn-primary btn-xs" >
-                                 </div>
-                               </div> 
-                             </div>
-                           </div>
-                </div>
+                            <div class="card-body ">
+                        <div class="btn-group w-100 mb-2">
+                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="id_card_pending();bg(this.id);"> ID Card Pending </a>
+                    <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="id_card_printed();bg(this.id);"> ID Card Printed </a>
+                    <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="buss_pass_pending();bg(this.id);"> Pass Pending </a>
+                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="buss_pass_printed();bg(this.id);"> Pass Printed </a>
+                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Bus_pass();bg(this.id);"> Buss Pass </a>
+                    <a class="btn"  id="btn6"  style="background-color:#223260; color: white; border: 1px solid;" onclick="ID_card();bg(this.id);"> ID Card </a>
+                  </div>
+              </div>
+                <!-- </div> -->
               </div>
             </div>
 
@@ -60,7 +54,7 @@
          
          </tr>
                    </thead>
-    <tbody>
+    <tbody id="d_card_record">
 <?php
 $sql="SELECT * FROM id_card order by id ASC";
 $result = mysqli_query($conn,$sql); 
@@ -159,7 +153,7 @@ while($row=mysqli_fetch_array($result))
           <div id="img_up">
                <img id="blah_userImage"  width="100">
             </div>
-            <div id='img_upload'> gg</div>
+            <div id='img_upload'> </div>
       </th>
       
    </tr>
@@ -170,7 +164,7 @@ while($row=mysqli_fetch_array($result))
          </div>
          <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button id="save" class="btn btn-primary" data-dismiss="modal" onclick="update_data_id_card()" type="button">Save</button>
+            <button id="save" class="btn btn-primary" data-dismiss="modal" type="button">Save</button>
             <!-- <button type="submit" class="btn btn-success">Save changes</button> -->
          </div>
       </div>
@@ -208,9 +202,100 @@ while($row=mysqli_fetch_array($result))
 </div>
 
 <script type="text/javascript">
-     $("#modal-lg-upload-image").on("hidden.bs.modal", function () {
-     location.reload(true); 
+ 
+
+     $('#modal-lg-upload-image').on('hidden', function(){
+    $('#blah_userImage').html('')
 });
+    function id_card_pending()
+    {
+           var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+     var code=246;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+      spinner.style.display='none';
+                document.getElementById("d_card_record").innerHTML=response;
+                
+              }
+           });
+
+    }
+
+    function id_card_printed()
+    {
+           var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+     var code=247;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+      spinner.style.display='none';
+                document.getElementById("d_card_record").innerHTML=response;
+                
+              }
+           });
+    }  
+     function buss_pass_pending()
+    {
+           var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+     var code=248;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+      spinner.style.display='none';
+                document.getElementById("d_card_record").innerHTML=response;
+                
+              }
+           });
+
+    }
+
+    function buss_pass_printed()
+    {
+           var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+     var code=249;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+      spinner.style.display='none';
+                document.getElementById("d_card_record").innerHTML=response;
+                
+              }
+           });
+    }
+
+
+
+      function bg(id)
+          {
+         $('.btn').removeClass("bg-success");
+         $('#'+id).toggleClass("bg-success"); 
+         }
+         
    
 $(document).ready(function (e) {    // image upload form submit
          $("#image-upload").on('submit',(function(e) {
@@ -224,13 +309,12 @@ $(document).ready(function (e) {    // image upload form submit
                processData: false,
                success: function(data)
                 {
+                  
                   $("#img_up").html(data);
+                       show_id_card_record();
+                  
                 },
-               error: function(data)
-               {
-                 // console.log("error");
-                 //     console.log(data);
-               }
+              
             });
          }));
        });
@@ -240,11 +324,14 @@ $(document).ready(function (e) {    // image upload form submit
   function photo_modal(id) // modal open image upload 
    {
    document.getElementById('student_image').value=id;
+   
   
    }
 
    function photo_modal111(id) // image show passport size
    {
+      var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
    var code=182;
         $.ajax({
               url:'action.php',
@@ -254,7 +341,8 @@ $(document).ready(function (e) {    // image upload form submit
               },
               success: function(response) 
               {
-                console.log(response);
+                
+      spinner.style.display='none';
                 document.getElementById("img_upload").innerHTML=response;
                 
               }
@@ -274,7 +362,8 @@ $(document).ready(function (e) {    // image upload form submit
    function edit_id_card(id)
    {
      
-     
+       var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
      var code=179;
            $.ajax({
               url:'action.php',
@@ -283,8 +372,8 @@ $(document).ready(function (e) {    // image upload form submit
                  code:code,id:id
               },
               success: function(response) 
-              {
-                console.log(response);
+              {  
+      spinner.style.display='none';
                 document.getElementById("edit_id_card_").innerHTML=response;
                 
               }
@@ -292,6 +381,28 @@ $(document).ready(function (e) {    // image upload form submit
    
    
    }
+
+      function show_id_card_record()
+   {
+      var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+     var code=245;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+      spinner.style.display='none';
+                document.getElementById("d_card_record").innerHTML=response;
+                
+              }
+           });
+   
+   
+   } 
    function update_data_id_card()
    {  
 
@@ -313,8 +424,7 @@ $(document).ready(function (e) {    // image upload form submit
       var Pincode=document.getElementById("Pincode").value;
       var incharge_mobile=document.getElementById("incharge_mobile").value;
       var spinner=document.getElementById("ajax-loader");
-
-   spinner.style.display='block';
+      spinner.style.display='block';
          var code=181;
          $.ajax({
             url:'action.php',
@@ -332,6 +442,7 @@ $(document).ready(function (e) {    // image upload form submit
                   }
                   else
                   {
+                    show_id_card_record();
                     document.getElementById("edit_id_card__").innerHTML=response;
                    SuccessToast('Successfully ');
                   }
@@ -353,8 +464,8 @@ function ID_card()
         id_array_main.push(id_array[i].value);
         }
      }
-// alert(len_id);
-     window.location.href="print_id_card_pass.php?id_array="+id_array_main+"&code="+code;
+    window.open('print_id_card_pass.php?id_array='+id_array_main+'&code='+code,'_blank');
+
 }
 
 function Bus_pass()
@@ -371,8 +482,9 @@ function Bus_pass()
         id_array_main.push(id_array[i].value);
         }
      }
-// alert(len_id);
-     window.location.href="print_id_card_pass.php?id_array="+id_array_main+"&code="+code;
+   window.open('print_id_card_pass.php?id_array='+id_array_main+'&code='+code,'_blank');
+
+     
 }
    
 </script>

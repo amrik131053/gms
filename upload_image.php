@@ -116,8 +116,8 @@
       $result = mysqli_query($conn,$sql);
       ?>
 
-      <a class="example-image-link" href="http://gurukashiuniversity.co.in/data-server/ID_Card_images/<?=$photoname;?>" data-lightbox="example-1"><img class="example-image" src="http://gurukashiuniversity.co.in/data-server/ID_Card_images/<?=$photoname;?>" alt="image-1" width="100" height='100' /></a>
-<b>Preview</b><?php 
+     <!--  <a class="example-image-link" href="http://gurukashiuniversity.co.in/data-server/ID_Card_images/<?=$photoname;?>" data-lightbox="example-1"><img class="example-image" src="http://gurukashiuniversity.co.in/data-server/ID_Card_images/<?=$photoname;?>" alt="image-1" width="100" height='100' /></a>
+<b>Preview</b> --><?php 
    }
    else
     {
