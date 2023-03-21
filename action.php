@@ -8264,7 +8264,12 @@ else
             {
                $unit=rand(1,2);
             }
-            echo  $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+
+
+            for($myquestion=0;$myquestion<$count;$myquestion++)
+            {
+
+            $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand()";
             $questionBankRes=mysqli_query($conn,$questionBankQry);
             if ($questionBankData=mysqli_fetch_array($questionBankRes)) 
             {
@@ -8292,6 +8297,12 @@ else
                $questionArray=array();
                break;
             } 
+
+            }
+
+
+
+
          }    
          // print_r($questionArray);
 
