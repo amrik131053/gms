@@ -993,7 +993,7 @@ option value = "" > Select < /option> <?php
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                <div class="input-group input-group-xs" style="width: 150px;">
 
-                <button  class="form-control float-right btn-success" onclick="nodues(<?= $empID;?>);" style="margin-top: 0px;">No Dues</button>
+               
                   <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="stock_summary_search(this.value);" > -->
                   
                   </div>
@@ -1029,7 +1029,12 @@ option value = "" > Select < /option> <?php
        <i class="fa fa-eye fa-lg" onclick="view_emp_stock(<?=$empID?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:yellow;"></i><br>
 
 <br>
+<?php
+                  if ($permissionCount>0) 
+                  {
+                   ?>
      <b> <i class="fa fa-arrow-right" onclick="nodues(<?=$empID?>);" data-toggle="modal" data-target="#noduesmodal" style="color:yellow;"></i></b>
+  <?php }?>
       
       </div>
              </div>
@@ -1178,8 +1183,8 @@ option value = "" > Select < /option> <?php
             ?>
       </div>
       <div class="col-lg-4">
-         <label> Search Article </label>
-         <input type="number" name="ArticleNum" id="ArticleNum" class="form-control" onkeyup="Article_Num_emp(this.value,<?=$empID_?>);">
+         <label> Search Article</label>
+      <input type="number" name="ArticleNum" id="ArticleNum" class="form-control" onkeyup="Article_Num_emp(this.value,<?=$empID_?>);">
       </div>
    </div>
    <br>
@@ -8205,15 +8210,16 @@ elseif ($code==138)
       $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
       $flag=1;
    }
+
    elseif ($examName=='2') 
    {
-      $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
+         $questionCountQry="Select * from question_generate_count where unit='3'";
       $flag=1;
       // code...
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
+      $questionCountQry="Select * from question_generate_count where unit='1'";
       $flag=1;
 
    }
@@ -12251,14 +12257,14 @@ $sem= $_POST['sem'];
 
 
 
-  $sql = "SELECT DISTINCT SubjectName,SubjectCode FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
 
 
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
    ?>
-   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)</option>";
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
  <?php 
  }
 
@@ -13092,6 +13098,180 @@ else{
 
             }
 
+elseif($code==235)
+   {
+   $oldowner=$_POST['oldowner'];
+   $newowner=$_POST['newowner'];
+
+   $result1 = "SELECT count(*) as count FROM location_master WHERE location_owner='$oldowner'";
+               $run=mysqli_query($conn,$result1);
+                      while($data=mysqli_fetch_array($run))
+               {           
+                  $loc=$data['count'];
+               }
+
+if($loc>0)
+{
+
+
+
+ $staff="SELECT count(IDNO) as noofemp  FROM Staff Where IDNo='$newowner'";
+ $stmt = sqlsrv_query($conntest,$staff);  
+ while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+     {
+
+    $noofemp =$row_staff['noofemp'];
+
+       }
+
+
+if($noofemp>0)
+{
+  $result1 ="UPDATE location_master set location_owner='$newowner' where location_owner='$oldowner'";
+
+               $run=mysqli_query($conn,$result1);
+                 echo "<div class='alert alert-success' role='alert'> $loc location Owner Changed Success </div>";    
+ 
+}
+else{
+
+ 
+           echo "<div class='alert alert-danger' role='alert'> Employee does not exist </div>";    
+
+}
+}
+else
+{
+    echo "<div class='alert alert-danger' role='alert'> Not a location Owner </div>";    
+}
+}
+
+ elseif ($code ==236)
+    {
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$college= $_POST['college'];
+
+$subject= $_POST['subject'];
+
+$examination= $_POST['examination'];
+
+
+   $sql = "SELECT id,Practical_Name  FROM MasterPracticals WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubCode='$subject' ANd Session='$examination' ANd  CollegeID='$college' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["id"];?>'><?= $row1["Practical_Name"];?></option>";
+ <?php 
+ }
+
+   }
+
+ elseif ($code ==237)
+    {
+      
+
+$examination= $_POST['examination'];
+
+$practicals=array();
+
+$sql = "SELECT id  FROM MasterPracticals WHERE  Session='$examination'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   $practicals[]=$row1['id'];
+
+ }
+ $length =sizeof($practicals);
+
+for($pr=0;$pr<$length;$pr++)
+{
+  echo  $sql = "UPDATE PracticalMarks  set Locked='1' WHERE  PID='$practicals[$pr]'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+
+   }
+   echo "1";
+
+
+}
+ elseif ($code ==238)
+    {
+      
+
+$examination= $_POST['examination'];
+
+$practicals=array();
+
+$sql = "SELECT id  FROM MasterPracticals WHERE  Session='$examination'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   $practicals[]=$row1['id'];
+
+ }
+ $length =sizeof($practicals);
+
+for($pr=0;$pr<$length;$pr++)
+{
+  echo  $sql = "UPDATE PracticalMarks  set Locked=NULL WHERE  PID='$practicals[$pr]'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+
+   }
+   echo "1";
+
+
+}
+
+elseif($code==239)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE PracticalMarks  set Locked='1' WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
+elseif($code==240)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE PracticalMarks  set Locked=NULL WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
 
  elseif($code==225)
 
@@ -13507,10 +13687,102 @@ elseif($code==242)
    }
 
  }
+
+
+elseif($code==260)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+ $list_sqlw= "UPDATE  PracticalMarks set Locked='1' where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+   
+   
+}
+
+elseif($code==261)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+ $list_sqlw= "UPDATE  PracticalMarks set Locked=NULL where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+   
+   
+}
+
+elseif($code==262)
+   {
+
+   
+ $student_str =$_POST['student_str']; 
+ $pmarks_str=$_POST['pmarks_str'];
+ $vmarks_str=$_POST['vmarks_str'];
+  $fmarks_str=$_POST['fmarks_str'];
+  $len_student=$_POST['len_student'];
+ for($i=0;$i<$len_student;$i++)
+
+  {
+ $sql1 = "{CALL AddPracticalMarks('$student_str[$i]','$pmarks_str[$i]','$vmarks_str[$i]','$fmarks_str[$i]','$subjectcode','$exam','$DistributionTheory','NA')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+ $list_sqlw= "UPDATE  PracticalMarks set Locked=NULL where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+   
+   
+}
+
+
+
+
+
+
  else
 {
 echo "select code";
 }
-}
+} 
    
    ?>

@@ -856,7 +856,7 @@ xmlhttp.send();
       }
  function Article_Num_emp(id,empID){
    var code=60;
-    // alert(location_ID);
+     //alert(id+empID);
       $.ajax(
          {
             url:"action.php ",

@@ -1393,7 +1393,7 @@ if ($EmployeeID!=0) {
                               
                        
                            $location_num=0;
-                             $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID where r.Floor like'%$id%' || r.RoomNo like '%$id%' || b.Name like '%$id%' || rnm.RoomName like '%$id%'   ";
+                             $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID where r.Floor like'%$id%' || r.RoomNo like '%$id%' || b.Name like '%$id%' || rnm.RoomName like '%$id%'|| l.location_owner like '%$id%'";
                              ?>
 <table class="table table-head-fixed text-nowrap table-bordered" id="example">
    <thead>
@@ -2307,14 +2307,14 @@ elseif($code==26)
 }
 else if ($code==27) {
    $empID=$_GET['id'];
-     $staff="SELECT Name FROM Staff Where IDNo='$empID'";
+     $staff="SELECT Name,Designation,Department FROM Staff Where IDNo='$empID'";
  $stmt = sqlsrv_query($conntest,$staff);  
 while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-     {
+     {?>
 
- echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
+<b><?=$row_staff['Name'];?></b>&nbsp;(<?=$row_staff['Designation'];?>)<br><b>Deprtment&nbsp;:&nbsp;</b><?=$row_staff['Department'];?>
 
-     }
+    <?php  }
 }
 
 else if($code==28)
@@ -3675,6 +3675,210 @@ else if($code=='44')
    <?php 
 
 }
+
+else if($code=='45')
+{
+
+
+  $allow=0;
+
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+$batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subject = $_GET['subject'];
+  
+  $ecat = $_GET['DistributionTheory'];
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: center;"> Name </th>
+                         <th style="width:25px;text-align: center;"> Subject Code </th>
+                   <th style="width:50px;text-align: center;">Practical Name</th>
+                  <th style="width:10px;text-align: center;">Experiment</th>
+                   <th style="width:10px;text-align: center;">Viva </th>
+                    <th style="width:10px;text-align: center;">File </th>
+                              <th style="width:10px;text-align: center;">Status </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
+
+  $exam = $_GET['examination'];
+
+
+   $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','NA')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+     while($row = sqlsrv_fetch_array($stmt)){
+
+ //$declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                   
+?>
+<tr>
+<td><?= $i++;?><input type='hidden'  name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'>
+</td>
+<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td>  <input type="hidden" name="unirollno[]" value="<?=$row['UniRollNo'];?>" class="unirollnos"> <?= $row['StudentName'];?></td>  
+                                            
+               <td><?= $subject;?></td>
+                 <td style='text-align:center;width: 100px'>  <?=$row['Practical_Name'];?>(<?=$row['Practical_Mark'];?>)</td>
+                           <td style='text-align:center;width: 100px'> 
+                           <select id='Pmarks'  class="pmarksids">
+                               <option value="<?=$row['PMarks'];?>"><?=$row['PMarks'];?></option>
+                                <option value="AB">AB</option>
+                              <?php for($p=0;$p<=10;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+
+                           <td style='text-align:center;width: 100px'> 
+                           <select id='Vmarks' class="vmarksids">
+                              <option value="<?=$row['VMarks'];?>"><?=$row['VMarks'];?></option>
+                              <option value="AB">AB</option>
+                              <?php for($p=0;$p<=5;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+
+                            <td style='text-align:center;width: 100px'> 
+                           <select id='Fmarks' class="fmarksids">
+                              <option value="<?=$row['FMarks'];?>"><?=$row['FMarks'];?></option>
+                              <option value="AB">AB</option>
+                              <?php for($p=0;$p<=5;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+
+
+
+                           <td style='text-align:center;width: 30px'>
+
+                          <?php
+
+
+                            if($row['locked']=='YES')
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+                                <?php 
+
+
+                     }
+                           else {
+                       ?>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                                <?php 
+                           }
+                           ?> 
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1;
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+
+<p> <input   type="submit" name="submit" value="Lock" onclick="lockallpractical();" class="btn btn-danger "  >
+<input   type="submit" name="submit" value="UnLock" onclick="unlocklockallpractical();" class="btn btn-success " style="margin-left:250px"  >
+<input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-info" style="margin-left:250px"  >  
+<?php 
+
+
+
+
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
        else
        {

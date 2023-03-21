@@ -969,6 +969,33 @@ xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
 xmlhttp.send();
 }
 
+function emp_details1(id){
+var code=27;
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("emp_details_name1").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
+xmlhttp.send();
+}
+function emp_details2(id){
+var code=27;
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("emp_details_name2").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
+xmlhttp.send();
+}
+
 
 // $(document).ready(function () {
 //     $('#search_item').DataTable();

@@ -116,13 +116,13 @@
                                     <button  class="btn btn-outline-warning btn-sm form-control" data-toggle="modal" data-target="#AddNewLocation">Add New </button>
                                  </div>
                               </div>
-                               <div class="col-lg-1">
+                               <div class="col-lg-2">
                                  <div class="input-group-sm">
-                                    <button  class="btn btn-outline-warning btn-sm form-control" data-toggle="modal" data-target="#AddNewLocation">Chnage Owner </button>
+                                    <button  class="btn btn-outline-warning btn-sm form-control" data-toggle="modal" data-target="#ChangeOwner">Change Owner</button>
                                  </div>
                               </div>
                               
-                              <div class="col-lg-1"></div>
+                              
                               
                               <div class="col-lg-1">
                                  <div class="input-group input-group-sm" style="width: 150px;">
@@ -576,6 +576,80 @@ else {
       </div>
    </div>
 </div>
+
+
+
+
+
+<div class="modal fade" id="ChangeOwner" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+   <div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Owner</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+        <div class="row">
+
+         <div class="col-lg-1">
+         </div>
+         <div class="col-lg-4"><div id="chnagesowner"></div>
+            <label>Old Owner ID</label>
+             <input type="text" name="ownerID" class="form-control" id='oldowner'  onkeyup="emp_details1(this.value);"> <br>
+
+               <p id="emp_details_name1"></p>    
+
+
+               <label>New Owner ID</label>
+             <input type="text" name="ownerID" class="form-control" id='newowner'  onkeyup="emp_details2(this.value);"> <br>
+
+               <p id="emp_details_name2"></p>    
+
+            
+         </div>
+
+        </div>
+
+           
+            <div class="modal-body" id="view_location">
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" onclick="ChangeOwner();">Change Owner</button>
+            </div>
+         
+      </div>
+   </div>
+</div>
+<script>
+function ChangeOwner(){
+
+var oldowner= document.getElementById("oldowner").value;
+var  newowner = document.getElementById("newowner").value;
+var code=235;
+if(oldowner!=''&& newowner!='')
+{
+$.ajax({
+url:"action.php",
+type:"POST",
+data:{code:code,oldowner:oldowner,newowner:newowner},
+success:function(response) {
+  
+document.getElementById("chnagesowner").innerHTML =response;
+},
+error:function(){
+alert("error");
+}
+});
+}
+else
+{
+   document.getElementById("chnagesowner").innerHTML ="<div class='alert alert-danger' role='alert'> Incorrect Data</div>";
+}
+}
+</script>
     <?php 
     include "footer.php"; ?>
 
