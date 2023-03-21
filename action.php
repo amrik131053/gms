@@ -8215,7 +8215,7 @@ elseif ($code==138)
    {
          $questionCountQry="Select * from question_generate_count where unit='3'";
       $flag=1;
-      // code...
+     
    }
    elseif($examName=='3')
    {
@@ -8255,6 +8255,7 @@ else
             $type=$questionCountData['type'];  
             $category=$questionCountData['category'];
             $count=$questionCountData['count'];
+
             if ($type=='2' && ($category=='3' || $category=='4') && $unit=='1') 
             {
                $unit=rand(1,2);
@@ -8263,7 +8264,7 @@ else
             {
                $unit=rand(1,2);
             }
-             $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand()";
+             $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             $questionBankRes=mysqli_query($conn,$questionBankQry);
             if ($questionBankData=mysqli_fetch_array($questionBankRes)) 
             {
@@ -8310,7 +8311,7 @@ else
          }
     for ($i=0; $i < $count; $i++) 
     { 
-        // echo "INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])";    
+          
         mysqli_query($conn,"INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])"); 
         mysqli_query($conn,"Update question_bank set Track= CONCAT(Track, ',$questionSessionTrack') Where Id=".$questionArray[$i]); 
 
