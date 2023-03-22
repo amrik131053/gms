@@ -8306,10 +8306,10 @@ else
          }    
          // print_r($questionArray);
 
-        $count=count($questionArray);
+        echo  $count=count($questionArray);
 
 
-        if(array_unique($questionArray))
+        if(!array_unique($questionArray))
 {
     echo 'Please Regenerate';
     print_r($questionArray);
