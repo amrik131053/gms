@@ -8273,10 +8273,11 @@ else
 
              while($questionBankData1=mysqli_fetch_array($questionBankRes1))
          {
-                print_r($questionArray[]=$questionBankData1['Id']);
+                $questionArray[]=$questionBankData1['Id'];
+
          }   
-            
-            
+            print_r($questionArray);
+
 
 
              
