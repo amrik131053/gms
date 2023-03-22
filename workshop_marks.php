@@ -1,4 +1,4 @@
- 
+  
 <?php 
 
   include "header.php";   
@@ -339,7 +339,7 @@ for($i=1;$i<=12;$i++)
           
 
          
-        var code='263';
+        var code='236';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem,examination:examination,subject:subject,college:college},
@@ -349,6 +349,7 @@ for($i=1;$i<=12;$i++)
 
              if(data != "")
                 {
+                
                     $("#Experiment").html("");
                     $("#Experiment").html(data);
                 }
@@ -384,12 +385,12 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+46,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+45,true);
         xmlhttp.send();
  }
 else
 {
- alert("Please Select Appropriate data ");
+alert("Please Select Appropriate data");
 }
       
   }
@@ -422,8 +423,7 @@ var   spinner= document.getElementById("ajax-loader");
   var pmarks=document.getElementsByClassName('pmarksids');
     var vmarks=document.getElementsByClassName('vmarksids');
        var fmarks=document.getElementsByClassName('fmarksids');
-      
-        var practicalid=document.getElementById('practicalidnum').value;
+                     var practicalid=document.getElementById('practicalidnum').value;
                var internalupdatedby=document.getElementById('internalupdatedby').value;
 
   
