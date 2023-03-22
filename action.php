@@ -8268,12 +8268,12 @@ else
  
            
 
-            echo $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+             $questionBankQry="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             $questionBankRes=mysqli_query($conn,$questionBankQry);
             if ($questionBankData=mysqli_fetch_array($questionBankRes)) 
             {
                // $questionId=array_rand($questionBankData); 
-               $questionArray[]=$questionBankData[0];
+               $questionArray[]=$questionBankData['Id'];
 
 
             } 
