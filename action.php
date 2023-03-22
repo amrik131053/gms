@@ -8271,14 +8271,14 @@ else
              $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
-if ($questionBankData=mysqli_fetch_array($questionBankRes1)) 
+if (mysqli_fetch_array($questionBankRes1)) 
             {
                // $questionId=array_rand($questionBankData); 
               //print_r ($questionArray[]=$questionBankData['Id']);
 
-             while($questionCountData1=mysqli_fetch_array($questionCountRes1))
+             while($questionBankData1=mysqli_fetch_array($questionBankRes1))
          {
-                print_r ( $questionArray[]=$questionBankData1['Id']);
+                print_r( $questionArray[]=$questionBankData1['Id']);
          }   
             
 
