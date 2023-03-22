@@ -8271,40 +8271,36 @@ else
              $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
-if (mysqli_fetch_array($questionBankRes1)) 
-            {
-               // $questionId=array_rand($questionBankData); 
-              //print_r ($questionArray[]=$questionBankData['Id']);
-
              while($questionBankData1=mysqli_fetch_array($questionBankRes1))
          {
-                print_r( $questionArray[]=$questionBankData1['Id']);
+                print_r($questionArray[]=$questionBankData1['Id']);
          }   
+            
             
 
 
-            } 
-            else
-            {
-               $errorQry="Select type_name from question_type where id='$type'";
-               $errorRes=mysqli_query($conn,$errorQry);
-               if ($errorData=mysqli_fetch_array($errorRes)) 
-               {
-                  $typeName=$errorData['type_name'];
-               }
-                $errorQry1="Select category_name from question_category where id='$category'";
-               $errorRes1=mysqli_query($conn,$errorQry1);
-               if ($errorData1=mysqli_fetch_array($errorRes1)) 
-               {
-                  $categoryName=$errorData1['category_name'];
-               }
+             
+            // else
+            // {
+            //    $errorQry="Select type_name from question_type where id='$type'";
+            //    $errorRes=mysqli_query($conn,$errorQry);
+            //    if ($errorData=mysqli_fetch_array($errorRes)) 
+            //    {
+            //       $typeName=$errorData['type_name'];
+            //    }
+            //     $errorQry1="Select category_name from question_category where id='$category'";
+            //    $errorRes1=mysqli_query($conn,$errorQry1);
+            //    if ($errorData1=mysqli_fetch_array($errorRes1)) 
+            //    {
+            //       $categoryName=$errorData1['category_name'];
+            //    }
 
-               echo  " Can't generate Pending from Unit-$unit, Type-$typeName, Category-$categoryName \n";
-               $questionArray=array();
-               break;
+            //    echo  " Can't generate Pending from Unit-$unit, Type-$typeName, Category-$categoryName \n";
+            //    $questionArray=array();
+            //    break;
              
 
-            }
+            // }
 
          }    
          // print_r($questionArray);
