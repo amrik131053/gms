@@ -3738,14 +3738,14 @@ $Batch=$_GET['batch'];
                        <th style="width:25px;text-align: center;"> Name </th>
                          <th style="width:25px;text-align: center;"> Subject Code </th>
                    <th style="width:50px;text-align: center;">Practical Name</th>
-            
+            <th style="width:10px;text-align: center;">Exp </th>
                    <th style="width:10px;text-align: center;">Viva </th>
                     <th style="width:10px;text-align: center;">File </th>
                      <th style="width:10px;text-align: center;">Emp ID </th>
                               <th style="width:10px;text-align: center;">Status </th>
                       
                 </tr>
-                <input type="text" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+                <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
  <?php
  $i='1';
 
@@ -3792,28 +3792,29 @@ $count=1;
               </td>
 
                <?php    
-                  $marks="select * from MasterPracticals where id='$DistributionTheory'";
- $stmt1 = sqlsrv_query($conntest,$marks);  
-               while($m_row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                  $practicalnameq="select * from MasterPracticals where id='$DistributionTheory'";
+ $stmt1 = sqlsrv_query($conntest,$practicalnameq);  
+               while($pn_row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
                {?>
 <td>
-                 <?= $m_row['Practical_Name'];?>(<?= $m_row['Practical_Mark'];?>)</td>
+                 <?= $pn_row['Practical_Name'];?>(<?= $pn_row['Practical_Mark'];?>)</td>
              
 
             <?php 
 
                }
                   
-                  $marks="select * from PracticalMarks where IDNo='$IDNo' ANd  PID='$DistributionTheory'";
- $stmt1 = sqlsrv_query($conntest,$marks);  
-echo "count:".$row_count = sqlsrv_num_rows($stmt1);
+                   $marks="select * from PracticalMarks where IDNo='$IDNo' ANd  PID='$DistributionTheory'";
+ $stmt2 = sqlsrv_query($conntest,$marks, array(), array( "Scrollable" => 'static' ));  
+$row_count = sqlsrv_num_rows($stmt2);
 if($row_count>0)
 {
-               while($m_row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-               {?>
+               while($m_row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+               {
 
-                
-             <td style='text-align:center;width: 100px'>  <input type='text'  name="ids[]" value="<?= $m_row['id'];?>"  id="ids" class='IdNos'>
+                $updateby=$m_row['Updateby'];
+                ?>
+             <td>  <input type='hidden'  name="ids[]" value="<?= $m_row['id'];?>"  id="ids" class='IdNos'>
                            <select id='Pmarks' class="pmarksids">
                               
                                <option value="<?=$m_row['PMarks'];?>"><?=$m_row['PMarks'];?></option>
@@ -3826,11 +3827,8 @@ if($row_count>0)
                        ?>
                            </select> 
 
-
-
-
                         </td>
-                  <td style='text-align:center;width: 100px'> 
+                  <td> 
                            <select id='Vmarks' class="vmarksids">
                               <option value="<?=$m_row['VMarks'];?>"><?=$m_row['VMarks'];?></option>
                               <option value="AB">AB</option>
@@ -3840,7 +3838,7 @@ if($row_count>0)
                            <?php }?>
                            </select> </td>
 
-                            <td style='text-align:center;width: 100px'> 
+                            <td> 
                            <select id='Fmarks' class="fmarksids">
                               <option value="<?=$m_row['FMarks'];?>"><?=$m_row['FMarks'];?></option>
                               <option value="AB">AB</option>
@@ -3852,7 +3850,7 @@ if($row_count>0)
                            <td><input type="text" style="width:60px" value="<?= $m_row['Updateby'];?>" id='internalupdatedby'> </td>
 
 
-                           <td style='text-align:center;width: 30px'>
+                           <td style='text-align:center;width: 10px'>
 
                           <?php
 
@@ -3882,7 +3880,7 @@ if($row_count>0)
             else
             {
 ?>
-               <td style='text-align:center;width: 100px'>  <input type='text'  name="ids[]" value=""  id="ids" class='IdNos'>
+               <td style="background-color: red">  <input type='hidden'  name="ids[]" value=""  id="ids" class='IdNos'>
                            <select id='Pmarks'  class="pmarksids">
                               
                               <option value="">Select</option>
@@ -3899,7 +3897,7 @@ if($row_count>0)
 
 
                         </td>
-                  <td style='text-align:center;width: 100px'> 
+                  <td style="background-color: red"> 
                            <select id='Vmarks' class="vmarksids">
                              <option value="">Select</option>
                               <option value="AB">AB</option>
@@ -3909,7 +3907,7 @@ if($row_count>0)
                            <?php }?>
                            </select> </td>
 
-                            <td style='text-align:center;width: 100px'> 
+                            <td style='text-align:center;width: 10px'> 
                            <select id='Fmarks' class="fmarksids">
                              <option value="">Select</option>
                               <option value="AB">AB</option>
@@ -3918,7 +3916,7 @@ if($row_count>0)
                               <option value="<?=$p;?>"><?=$p;?></option>
                            <?php }?>
                            </select> </td>
-                           <td><input type="text" style="width:60px" value="" id='internalupdatedby'> </td>
+                           <td><input type="text" style="width:60px" value="<?= $updateby;?>" id='internalupdatedby'> </td>
 
 
                            <td style='text-align:center;width: 30px'>
@@ -3949,6 +3947,225 @@ if($row_count>0)
 
 }
 
+else if($code=='46')
+{
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
+
+  $exam = $_GET['examination'];
+ $group = $_GET['group'];
+  $allow=0;
+
+ 
+
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$CourseID."(<b>".$Batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subjectcode ;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $Batch;?>" name="batch">
+<input type="hidden" value="<?= $CourseID;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+
+ <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: center;"> Name </th>
+                         <th style="width:25px;text-align: center;"> Subject Code </th>
+                   <th style="width:50px;text-align: center;">Practical Name</th>
+            <th style="width:10px;text-align: center;">Marks </th>
+                  
+                     <th style="width:10px;text-align: center;">Emp ID </th>
+                              <th style="width:10px;text-align: center;">Status </th>
+                      
+                </tr>
+                <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+ <?php
+ $i='1';
+
+$CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
+
+  $exam = $_GET['examination'];
+ $group = $_GET['group'];
+  $allow=0;
+
+
+ $practicle="SELECT  a.UniRollNo,a.IDNo,a.StudentName,SubjectName,SubjectCode,InternalExam,ExternalExam FROM Admissions a inner join  ExamForm   ef  on a.IDNo = ef.IDNo
+inner join ExamFormSubject  efs on ef.ID=efs.Examid 
+where a.CollegeID='$CollegeID'ANd a.CourseID='$CourseID' AND ef.Batch='$Batch' ANd ef.SemesterID
+='$sem' ANd ef.Examination='$exam' ANd SGroup='$group' ANd SubjectCode='$subjectcode' ANd efs.ExternalExam like'%Y%' order by a.UniRollNo ASC";
+
+$count=1;
+
+  $stmt = sqlsrv_query($conntest,$practicle);  
+                     while($p_row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                  $IDNo=$p_row['IDNo'];
+                  ?>
+                  <tr><td>
+                <?= $count++;?>
+              </td>
+                 <td>
+                  <input type="hidden" name="unirollno[]" value="<?=$p_row['UniRollNo'];?>" class="unirollnos">
+                 <?=  $UnirollNo=$p_row['UniRollNo'];?>
+              </td>
+
+              <td>
+                 <?=  $StudentName=$p_row['StudentName'];?>
+              </td>
+                <td>
+                  <?=  $subjectcode=$p_row['SubjectName'];?>
+                   (<?=  $subjectcode=$p_row['SubjectCode'];?>)
+                 
+              </td>
+
+               <?php    
+                  $practicalnameq="select * from MasterWorkshop where id='$DistributionTheory'";
+ $stmt1 = sqlsrv_query($conntest,$practicalnameq);  
+               while($pn_row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+               {?>
+<td>
+                 <?= $pn_row['Workshop_Name'];?>(<?= $pn_row['Workshop_Mark'];?>)</td>
+             
+
+            <?php 
+
+               }
+                  
+                   $marks="select * from WorkshopMark where IDNo='$IDNo' ANd  PID='$DistributionTheory'";
+ $stmt2 = sqlsrv_query($conntest,$marks, array(), array( "Scrollable" => 'static' ));  
+$row_count = sqlsrv_num_rows($stmt2);
+if($row_count>0)
+{
+               while($m_row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+               {
+
+                $updateby=$m_row['Updateby'];
+                ?>
+             <td>  <input type='hidden'  name="ids[]" value="<?= $m_row['id'];?>"  id="ids" class='IdNos'>
+              <input type="text" id='Pmarks'  style="width: 50px" value="<?= $m_row['Marks'];?>" class="pmarksids">
+                           
+                              
+                              
+
+                        </td>
+                 
+
+                           <td><input type="text" style="width:60px" value="<?= $m_row['Updateby'];?>" id='internalupdatedby'> </td>
+
+
+                           <td style='text-align:center;width: 10px'>
+
+                          <?php
+
+
+                            if($m_row['Locked']!=NULL)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$m_row['id'];?>);" ></i>
+                                <?php 
+
+
+                     }
+                           else {
+                       ?>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$m_row['id'];?>);"></i>
+                                <?php 
+                           }
+                           ?> 
+
+                        </td> 
+
+            <?php 
+
+               }
+            }
+            else
+            {
+?>
+               <td style="background-color: red">  <input type='hidden'  name="ids[]" value=""  id="ids" class='IdNos'>
+                           <input type="text" id='Pmarks' style="width: 50px" value="" class="pmarksids">
+
+
+
+
+                        </td>
+                 
+
+                          
+                           <td><input type="text" style="width:60px" value="<?= $updateby;?>" id='internalupdatedby'> </td>
+
+
+                           <td style='text-align:center;width: 30px'>
+
+                          
+
+                        </td> 
+
+               <?php 
+               }
+               echo "</tr>";
+            
+
+}?>
+</table>
+<p> <input   type="submit" name="submit" value="Lock" onclick="lockallpractical();" class="btn btn-danger "  >
+<input   type="submit" name="submit" value="UnLock" onclick="unlocklockallpractical();" class="btn btn-success " style="margin-left:250px"  >
+<input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-info" style="margin-left:250px"  >
+
+
+<?php 
+               
+
+
+
+
+
+
+}
 
 
        else

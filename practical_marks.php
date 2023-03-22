@@ -204,7 +204,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-9 col-md-4 col-sm-3">
+          <div class="col-lg-10 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -226,7 +226,7 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-  <div class="col-lg-3 col-md-3 col-sm-3">
+  <div class="col-lg-2 col-md-3 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -418,7 +418,7 @@ function testing()
 {
   
 var   spinner= document.getElementById("ajax-loader");
-   //spinner.style.display='block';
+   spinner.style.display='block';
   var unirollno=document.getElementsByClassName('unirollnos');
   var pmarks=document.getElementsByClassName('pmarksids');
     var vmarks=document.getElementsByClassName('vmarksids');
@@ -464,6 +464,8 @@ console.log(response);
 
 function unlock(id)
 {
+var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
  $.ajax({
       url:'action.php',
       type:'post',
@@ -472,6 +474,7 @@ function unlock(id)
       },
       success:function(response)
       {
+        spinner.style.display='none';
  console.log(response);
 
       SuccessToast('Successfully Unlocked');
@@ -483,6 +486,8 @@ function unlock(id)
 
 function lock(id)
 {
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
  $.ajax({
       url:'action.php',
       type:'post',
@@ -491,6 +496,7 @@ function lock(id)
       },
       success:function(response)
       {
+        spinner.style.display='none';
  console.log(response);
       SuccessToast('Successfully Locked');
         select_mst(); 
