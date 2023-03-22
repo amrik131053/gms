@@ -170,7 +170,7 @@
                 document.getElementById('subject_code').value='';
                 document.getElementById('courseName').value='';
             spinner.style.display='none';
-                // console.log(response);
+                 console.log(response);
             if (response=='Successfully Generated') 
             {
                 SuccessToast(response);
