@@ -160,7 +160,29 @@ for($i=1;$i<=12;$i++)
             </div>
  </div>
 
+ <div class="col-lg-1 col-md-4 col-sm-3">
+  <label>Group</label>
+              <select  id="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+
+</div>
 
 
 
@@ -225,7 +247,7 @@ for($i=1;$i<=12;$i++)
                 <h3 class="card-title"> Semester Wise </h3>
               </div> 
                 <div class="card-body">
-<input type="checkbox" id="CE1" name="CE1" value="1" class="semesterwisetheory">
+<!--<input type="checkbox" id="CE1" name="CE1" value="1" class="semesterwisetheory">
 <label for="CE1">1</label>&nbsp;&nbsp;
 
 <input type="checkbox" id="CE2" name="CE2" value="CE2" class="semesterwisetheory">
@@ -254,7 +276,7 @@ for($i=1;$i<=12;$i++)
 <label for="Attendance"> 7</label><br><br>
  <h3 class="card-title">
                   <i class='btn btn-warning btn-xs' onclick="unlockSemester();">Unlock All</i>&nbsp;&nbsp;&nbsp;
-                  <i class='btn btn-warning btn-xs' onclick="unlockSemesterpending();">Unlock Pending</i></h3>
+                  <i class='btn btn-warning btn-xs' onclick="unlockSemesterpending();">Unlock Pending</i></h3> -->
 
 
                   <!-- <div id="live_data_Exam_subjects"></div> -->
@@ -317,7 +339,7 @@ for($i=1;$i<=12;$i++)
           
 
          
-        var code='236';
+        var code='263';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem,examination:examination,subject:subject,college:college},
@@ -327,7 +349,6 @@ for($i=1;$i<=12;$i++)
 
              if(data != "")
                 {
-                
                     $("#Experiment").html("");
                     $("#Experiment").html(data);
                 }
@@ -343,6 +364,7 @@ function select_mst()
   var  course = document.getElementById('Course').value;
    var  batch = document.getElementById('Batch').value;
     var  sem = document.getElementById('Semester').value;
+      var  group = document.getElementById('group').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
 
@@ -362,7 +384,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+45,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+46,true);
         xmlhttp.send();
  }
 else
@@ -393,31 +415,41 @@ var xmlhttp = new XMLHttpRequest();
 
 function testing() 
 {
+  
 var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-  var idNos=document.getElementsByClassName('IdNos');
-  var marks=document.getElementsByClassName('marks');
-  var ecat=document.getElementById('ecat').value;
-  var len_student= idNos.length; 
-  var len_marks= marks.length; 
+   //spinner.style.display='block';
+  var unirollno=document.getElementsByClassName('unirollnos');
+  var pmarks=document.getElementsByClassName('pmarksids');
+    var vmarks=document.getElementsByClassName('vmarksids');
+       var fmarks=document.getElementsByClassName('fmarksids');
+      
+        var practicalid=document.getElementById('practicalidnum').value;
+               var internalupdatedby=document.getElementById('internalupdatedby').value;
+
+  
+  var len_student= unirollno.length; 
+
 
   var student_str=[];
-  var marks_str=[];
+  var pmarks_str=[];
+    var vmarks_str=[];
+      var fmarks_str=[];
+
     for(i=0;i<len_student;i++)
      {
-        student_str.push(idNos[i].value);
+        student_str.push(unirollno[i].value);
+         pmarks_str.push(pmarks[i].value);
+           vmarks_str.push(vmarks[i].value);
+          fmarks_str.push(fmarks[i].value);
      }
-     for(i=0;i<len_marks;i++)
-     {
-        marks_str.push(marks[i].value);
-     }
-    // alert(student_str);
+    
+     
 
     $.ajax({
       url:'action.php',
       type:'post',
       data:{
-        ids:student_str,mst:marks_str,ecat:ecat,flag:len_student,code:'201'
+        student_str:student_str,pmarks_str:pmarks_str,vmarks_str:vmarks_str,fmarks_str:fmarks_str,len_student:len_student,practicalid:practicalid,internalupdatedby:internalupdatedby,code:'262'
       },
       success:function(response)
       {
@@ -441,6 +473,7 @@ function unlock(id)
       success:function(response)
       {
  console.log(response);
+
       SuccessToast('Successfully Unlocked');
         select_mst(); 
         
@@ -474,7 +507,7 @@ function lockall()
 
  if(examination!='')
  {
- 	var   spinner= document.getElementById("ajax-loader");
+  var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
  $.ajax({
       url:'action.php',
@@ -484,7 +517,7 @@ function lockall()
       },
       success:function(response)
       {
-      	spinner.style.display='none';
+        spinner.style.display='none';
         if(response>0)
         { 
        SuccessToast('Successfully Locked'+"&nbsp;&nbsp;All Practicle of &nbsp; of &nbsp;"+examination);
@@ -512,7 +545,7 @@ function unlockall()
 
  if(examination!='')
  {
- 	var   spinner= document.getElementById("ajax-loader");
+  var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
  $.ajax({
       url:'action.php',
@@ -522,7 +555,7 @@ function unlockall()
       },
       success:function(response)
       {
-      	spinner.style.display='none';
+        spinner.style.display='none';
         if(response>0)
         { 
        SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;All Practicle of &nbsp; of &nbsp;"+examination);
@@ -540,6 +573,96 @@ else
    ErrorToast('Select Examination',"bg-danger" );
 }
 }
+
+
+
+function  lockallpractical()
+{
+
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var idNos=document.getElementsByClassName('IdNos');
+
+  var pid_length= idNos.length; 
+ 
+
+  var pid_data=[];
+  
+    for(i=0;i<pid_length;i++)
+     {
+        pid_data.push(idNos[i].value);
+     }
+code=260;
+  $.ajax({
+    url:'action.php',
+    type:'post',
+    data:{code:code,pid_data:pid_data,pid_length:pid_length},
+
+    success:function(response)
+    {
+ spinner.style.display='none';
+      
+
+        if(response>0)
+        { 
+       SuccessToast('Successfully Locked');
+        select_mst();
+        }
+        else
+        {
+          ErrorToast('Unable to Lock',"bg-danger" );
+        }
+      }
+  });
+}
+
+
+function  unlocklockallpractical()
+{
+
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var idNos=document.getElementsByClassName('IdNos');
+
+  var pid_length= idNos.length; 
+ 
+
+  var pid_data=[];
+  
+    for(i=0;i<pid_length;i++)
+     {
+        pid_data.push(idNos[i].value);
+     }
+code=261;
+  $.ajax({
+    url:'action.php',
+    type:'post',
+    data:{code:code,pid_data:pid_data,pid_length:pid_length},
+
+    success:function(response)
+    {
+ spinner.style.display='none';
+      
+
+        if(response>0)
+        { 
+       SuccessToast('Successfully Locked');
+        select_mst();
+        }
+        else
+        {
+          ErrorToast('Unable to Lock',"bg-danger" );
+        }
+      }
+  });
+}
+
+
+
+
+
+
+
 
 
 function unlockpending()

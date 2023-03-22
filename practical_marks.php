@@ -247,7 +247,7 @@ for($i=1;$i<=12;$i++)
                 <h3 class="card-title"> Semester Wise </h3>
               </div> 
                 <div class="card-body">
-<input type="checkbox" id="CE1" name="CE1" value="1" class="semesterwisetheory">
+<!--<input type="checkbox" id="CE1" name="CE1" value="1" class="semesterwisetheory">
 <label for="CE1">1</label>&nbsp;&nbsp;
 
 <input type="checkbox" id="CE2" name="CE2" value="CE2" class="semesterwisetheory">
@@ -276,7 +276,7 @@ for($i=1;$i<=12;$i++)
 <label for="Attendance"> 7</label><br><br>
  <h3 class="card-title">
                   <i class='btn btn-warning btn-xs' onclick="unlockSemester();">Unlock All</i>&nbsp;&nbsp;&nbsp;
-                  <i class='btn btn-warning btn-xs' onclick="unlockSemesterpending();">Unlock Pending</i></h3>
+                  <i class='btn btn-warning btn-xs' onclick="unlockSemesterpending();">Unlock Pending</i></h3> -->
 
 
                   <!-- <div id="live_data_Exam_subjects"></div> -->
@@ -390,7 +390,7 @@ var xmlhttp = new XMLHttpRequest();
  }
 else
 {
- alert("Please Select Appropriate data ");
+alert("Please Select Appropriate data");
 }
       
   }
@@ -423,6 +423,8 @@ var   spinner= document.getElementById("ajax-loader");
   var pmarks=document.getElementsByClassName('pmarksids');
     var vmarks=document.getElementsByClassName('vmarksids');
        var fmarks=document.getElementsByClassName('fmarksids');
+                     var practicalid=document.getElementById('practicalidnum').value;
+               var internalupdatedby=document.getElementById('internalupdatedby').value;
 
   
   var len_student= unirollno.length; 
@@ -447,7 +449,7 @@ var   spinner= document.getElementById("ajax-loader");
       url:'action.php',
       type:'post',
       data:{
-        student_str:student_str,pmarks_str:pmarks_str,vmarks_str:vmarks_str,fmarks_str:fmarks_str,len_student:len_student,code:'262'
+        student_str:student_str,pmarks_str:pmarks_str,vmarks_str:vmarks_str,fmarks_str:fmarks_str,len_student:len_student,practicalid:practicalid,internalupdatedby:internalupdatedby,code:'262'
       },
       success:function(response)
       {

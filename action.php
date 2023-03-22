@@ -13715,7 +13715,7 @@ elseif($code==260)
 }
  if ($stmt1==true) 
  {
-   echo "1";
+   echo "1"; 
  }
  else
  {
@@ -13752,16 +13752,19 @@ elseif($code==261)
 elseif($code==262)
    {
 
-   
  $student_str =$_POST['student_str']; 
  $pmarks_str=$_POST['pmarks_str'];
  $vmarks_str=$_POST['vmarks_str'];
   $fmarks_str=$_POST['fmarks_str'];
   $len_student=$_POST['len_student'];
+  $practicalid=$_POST['practicalid'];
+  $internalupdatedby=$_POST['internalupdatedby'];
  for($i=0;$i<$len_student;$i++)
 
   {
- $sql1 = "{CALL AddPracticalMarks('$student_str[$i]','$pmarks_str[$i]','$vmarks_str[$i]','$fmarks_str[$i]','$subjectcode','$exam','$DistributionTheory','NA')}";
+
+ echo $sql1 = "{CALL AddPracticalMarks('$practicalid','$student_str[$i]','$pmarks_str[$i]','$vmarks_str[$i]','$fmarks_str[$i]','$internalupdatedby')}";
+
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -13770,21 +13773,40 @@ elseif($code==262)
     die;
     } 
 
- $list_sqlw= "UPDATE  PracticalMarks set Locked=NULL where id='$pid_data[$i]'";
-  
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-}
- if ($stmt1==true) 
- {
-   echo "1";
  }
- else
- {
-  echo "0";
- }
+
    
    
 }
+
+
+elseif ($code ==263)
+    {
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$college= $_POST['college'];
+
+$subject= $_POST['subject'];
+
+$examination= $_POST['examination'];
+
+
+echo   $sql = "SELECT id,Workshop_Name  FROM MasterWorkshop WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch'ANd SubCode='$subject' ANd Session='$examination' ANd  CollegeID='$college' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["id"];?>'><?= $row1["Workshop_Name"];?></option>";
+ <?php 
+ }
+
+   }
 
 
 

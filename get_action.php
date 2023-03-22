@@ -3679,16 +3679,20 @@ else if($code=='44')
 else if($code=='45')
 {
 
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
 
+  $exam = $_GET['examination'];
+ $group = $_GET['group'];
   $allow=0;
 
- $ucourse = $_GET['course'];
- $college = $_GET['college'];
-$batch=$_GET['batch']; 
-  $sem = $_GET['sem'];
-  $subject = $_GET['subject'];
-  
-  $ecat = $_GET['DistributionTheory'];
+ 
+
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -3704,20 +3708,19 @@ $batch=$_GET['batch'];
 
 
 
-     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$CourseID."(<b>".$Batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subjectcode ;?>)<b>
 
 
 
 
      </td>
 
-<input type="hidden" value="<?= $batch;?>" name="batch">
-<input type="hidden" value="<?= $ucourse;?>" name="course">
+<input type="hidden" value="<?= $Batch;?>" name="batch">
+<input type="hidden" value="<?= $CourseID;?>" name="course">
 
 <input type="hidden" value="<?=$sem;?>" name="sem">
-<input type="hidden" value="11" name="code">
-<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
 
+ <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
 
      </tr>
 
@@ -3738,6 +3741,7 @@ $batch=$_GET['batch'];
                   <th style="width:10px;text-align: center;">Experiment</th>
                    <th style="width:10px;text-align: center;">Viva </th>
                     <th style="width:10px;text-align: center;">File </th>
+                     <th style="width:10px;text-align: center;">Emp ID </th>
                               <th style="width:10px;text-align: center;">Status </th>
                       
                 </tr>
@@ -3746,18 +3750,9 @@ $batch=$_GET['batch'];
 
 
 
- $CourseID = $_GET['course'];
- $CollegeID = $_GET['college'];
-$Batch=$_GET['batch']; 
-  $semID = $_GET['sem'];
-  $subjectcode = $_GET['subject'];
-  
-  $DistributionTheory = $_GET['DistributionTheory'];
-
-  $exam = $_GET['examination'];
 
 
-   $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','NA')}";
+   $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$sem','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -3779,13 +3774,15 @@ $Batch=$_GET['batch'];
                
                    
 ?>
+
 <tr>
+
 <td><?= $i++;?><input type='hidden'  name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'>
 </td>
 <td style="text-align: center"> <?=$row['UniRollNo'];?></td>
 <td>  <input type="hidden" name="unirollno[]" value="<?=$row['UniRollNo'];?>" class="unirollnos"> <?= $row['StudentName'];?></td>  
                                             
-               <td><?= $subject;?></td>
+               <td><?= $subjectcode;?></td>
                  <td style='text-align:center;width: 100px'>  <?=$row['Practical_Name'];?>(<?=$row['Practical_Mark'];?>)</td>
                            <td style='text-align:center;width: 100px'> 
                            <select id='Pmarks'  class="pmarksids">
@@ -3816,7 +3813,192 @@ $Batch=$_GET['batch'];
                               <option value="<?=$p;?>"><?=$p;?></option>
                            <?php }?>
                            </select> </td>
+<td><input type="text" style="width:60px" value="<?=$row['internalupdatedby'];?>" id='internalupdatedby'> </td>
 
+
+                           <td style='text-align:center;width: 30px'>
+
+                          <?php
+
+
+                            if($row['locked']=='YES')
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+                                <?php 
+
+
+                     }
+                           else {
+                       ?>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                                <?php 
+                           }
+                           ?> 
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1;
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+
+<p> <input   type="submit" name="submit" value="Lock" onclick="lockallpractical();" class="btn btn-danger "  >
+<input   type="submit" name="submit" value="UnLock" onclick="unlocklockallpractical();" class="btn btn-success " style="margin-left:250px"  >
+<input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-info" style="margin-left:250px"  >  
+<?php 
+
+
+
+
+}
+
+
+
+else if($code=='46')
+{
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
+
+  $exam = $_GET['examination'];
+ $group = $_GET['group'];
+  $allow=0;
+
+ 
+
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$CourseID."(<b>".$Batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subjectcode ;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $Batch;?>" name="batch">
+<input type="hidden" value="<?= $CourseID;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+
+ <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: center;"> Name </th>
+                         <th style="width:25px;text-align: center;"> Subject Code </th>
+                   <th style="width:50px;text-align: center;">Practical Name</th>
+                  <th style="width:10px;text-align: center;">Experiment</th>
+                   <th style="width:10px;text-align: center;">Viva </th>
+                    <th style="width:10px;text-align: center;">File </th>
+                     <th style="width:10px;text-align: center;">Emp ID </th>
+                              <th style="width:10px;text-align: center;">Status </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+
+
+  echo  $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionWorkshop('$CollegeID','$CourseID','$sem','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+     while($row = sqlsrv_fetch_array($stmt)){
+
+ //$declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                   
+?>
+
+<tr>
+
+<td><?= $i++;?><input type='hidden'  name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'>
+</td>
+<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td>  <input type="hidden" name="unirollno[]" value="<?=$row['UniRollNo'];?>" class="unirollnos"> <?= $row['StudentName'];?></td>  
+                                            
+               <td><?= $subjectcode;?></td>
+                 <td style='text-align:center;width: 100px'>  <?=$row['Practical_Name'];?>(<?=$row['Practical_Mark'];?>)</td>
+                           <td style='text-align:center;width: 100px'> 
+                           <select id='Pmarks'  class="pmarksids">
+                               <option value="<?=$row['PMarks'];?>"><?=$row['PMarks'];?></option>
+                                <option value="AB">AB</option>
+                              <?php for($p=0;$p<=10;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+
+                           <td style='text-align:center;width: 100px'> 
+                           <select id='Vmarks' class="vmarksids">
+                              <option value="<?=$row['VMarks'];?>"><?=$row['VMarks'];?></option>
+                              <option value="AB">AB</option>
+                              <?php for($p=0;$p<=5;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+
+                            <td style='text-align:center;width: 100px'> 
+                           <select id='Fmarks' class="fmarksids">
+                              <option value="<?=$row['FMarks'];?>"><?=$row['FMarks'];?></option>
+                              <option value="AB">AB</option>
+                              <?php for($p=0;$p<=5;$p++)
+                              {?>
+                              <option value="<?=$p;?>"><?=$p;?></option>
+                           <?php }?>
+                           </select> </td>
+<td><input type="text" style="width:60px" value="<?=$row['internalupdatedby'];?>" id='internalupdatedby'> </td>
 
 
                            <td style='text-align:center;width: 30px'>
@@ -3862,24 +4044,6 @@ $Batch=$_GET['batch'];
 
 }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
        else
        {
    
