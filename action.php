@@ -8264,10 +8264,7 @@ else
             {
                $unit=rand(1,2);
             }
-
- 
-           
-
+        
              $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
@@ -8276,37 +8273,12 @@ else
                 $questionArray[]=$questionBankData1['Id'];
 
          }   
-            print_r($questionArray);
-
-
-
-             
-            // else
-            // {
-            //    $errorQry="Select type_name from question_type where id='$type'";
-            //    $errorRes=mysqli_query($conn,$errorQry);
-            //    if ($errorData=mysqli_fetch_array($errorRes)) 
-            //    {
-            //       $typeName=$errorData['type_name'];
-            //    }
-            //     $errorQry1="Select category_name from question_category where id='$category'";
-            //    $errorRes1=mysqli_query($conn,$errorQry1);
-            //    if ($errorData1=mysqli_fetch_array($errorRes1)) 
-            //    {
-            //       $categoryName=$errorData1['category_name'];
-            //    }
-
-            //    echo  " Can't generate Pending from Unit-$unit, Type-$typeName, Category-$categoryName \n";
-            //    $questionArray=array();
-            //    break;
-             
-
-            // }
-
+                   
+         
          }    
          // print_r($questionArray);
 
-        echo  $count=count($questionArray);
+       $countarray=count($questionArray);
 
 
         if(!array_unique($questionArray))
@@ -8317,8 +8289,22 @@ else
 else
 {
     
+$gene=0;
+    if($examName==1 && $countarray==16) 
+    {
+$gene=1;
+    }
+    elseif(($examName==2 || $examName==3)&& $countarray==13)
+    {
+$gene=1;
+    } 
+    else
+    {
+      $gene=0;
+    }
 
-        if ($count>0) 
+
+        if ($gene>0) 
         {
             $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
             $res=mysqli_query($conn,$sql);
@@ -8329,14 +8315,19 @@ else
                $questionPaperId=$data['id'];
             }
             echo 'Successfully Generated';
-         }
-    for ($i=0; $i < $count; $i++) 
+         
+    for ($i=0; $i < $countarray; $i++) 
     { 
           
         mysqli_query($conn,"INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])"); 
         mysqli_query($conn,"Update question_bank set Track= CONCAT(Track, ',$questionSessionTrack') Where Id=".$questionArray[$i]); 
 
     }
+ }
+ else
+ {
+   echo "Cant Generate due to insufficent data ";
+ }
  }
  }
 } 
