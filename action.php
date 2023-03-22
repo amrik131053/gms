@@ -8308,6 +8308,15 @@ else
 
         $count=count($questionArray);
 
+
+        if(array_unique($questionArray))
+{
+    echo 'Please Regenerate';
+}
+else
+{
+    
+
         if ($count>0) 
         {
             $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
@@ -8327,6 +8336,7 @@ else
         mysqli_query($conn,"Update question_bank set Track= CONCAT(Track, ',$questionSessionTrack') Where Id=".$questionArray[$i]); 
 
     }
+ }
  }
 } 
 
@@ -13751,14 +13761,13 @@ elseif($code==261)
 
 elseif($code==262)
    {
-
  $student_str =$_POST['student_str']; 
  $pmarks_str=$_POST['pmarks_str'];
  $vmarks_str=$_POST['vmarks_str'];
-  $fmarks_str=$_POST['fmarks_str'];
-  $len_student=$_POST['len_student'];
-  $practicalid=$_POST['practicalid'];
-  $internalupdatedby=$_POST['internalupdatedby'];
+ $fmarks_str=$_POST['fmarks_str'];
+ $len_student=$_POST['len_student'];
+ $practicalid=$_POST['practicalid'];
+ $internalupdatedby=$_POST['internalupdatedby'];
  for($i=0;$i<$len_student;$i++)
 
   {
