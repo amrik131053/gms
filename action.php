@@ -13910,7 +13910,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    }
    echo "1";
 
-
+ 
 }
  elseif ($code ==268)
     {
@@ -13941,6 +13941,46 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 
 
 }
+elseif($code==269)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE WorkshopMark  set Locked='1' WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
+elseif($code==270)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE WorkshopMark  set Locked=NULL WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
 
  else
 {

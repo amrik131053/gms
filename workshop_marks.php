@@ -465,7 +465,7 @@ function unlock(id)
       url:'action.php',
       type:'post',
       data:{
-        id:id,code:'240'
+        id:id,code:'270'
       },
       success:function(response)
       {
@@ -484,7 +484,7 @@ function lock(id)
       url:'action.php',
       type:'post',
       data:{
-        id:id,code:'239'
+        id:id,code:'269'
       },
       success:function(response)
       {
