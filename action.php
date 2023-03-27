@@ -10814,9 +10814,9 @@ $type=$_POST['option'];
  {
  $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno'";
  }
- elseif ($type==3) 
+ elseif ($type==3 ANd is_numeric($univ_rollno)) 
  {
-  $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
+  echo $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
  }
  else
  {
