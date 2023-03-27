@@ -10802,16 +10802,40 @@ elseif($code==186)
 elseif($code=='187')
    {
         $code_access=$_POST['code_access'];
+
   if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
     {                                 
 
-   $univ_rollno=$_POST['rollNo'];
-   $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or IDNo='$univ_rollno'";
-   $stmt1 = sqlsrv_query($conntest,$result1);
+ $univ_rollno=$_POST['rollNo'];
+
+$type=$_POST['option'];
+
+ if($type==1)
+ {
+ $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno'";
+ }
+ elseif ($type==3) 
+ {
+  $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
+ }
+ else
+ {
+  $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
+ }
+ 
+
+  $stmt1 = sqlsrv_query($conntest,$result1, array(), array( "Scrollable" => 'static' ));  
+
+$row_count = sqlsrv_num_rows($stmt1);
+
+   if($row_count>0)
+   {
+
+  
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
    {
    
-    $IDNo= $row['IDNo'];
+   $IDNo= $row['IDNo'];
     $ClassRollNo= $row['ClassRollNo'];
     $img= $row['Snap'];
     $UniRollNo= $row['UniRollNo'];
@@ -10929,8 +10953,14 @@ $validUpto=$validUpto->format('d-M-Y');
    <?php
  
    }
-   else
-   {
+
+else
+{
+   echo "No Record Found";
+}
+}
+ else
+{
       echo "Not Permissions";
    }
    }

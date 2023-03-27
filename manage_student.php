@@ -118,6 +118,23 @@
                   </div>
                </div>
             </div>
+ <style>
+    .my
+    {
+ background-color: #fff;
+  color: #fc3;
+    }
+
+    input[type=radio] + label {
+      background-color: #fff;
+  color: #000;
+  } 
+input[type=radio]:checked + label {
+  color: #002147;
+  background-color:#fc3;
+  
+} 
+  </style>
              <div class="card-footer">
                 <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                           {
@@ -131,18 +148,35 @@
       </div>
          <div class="col-lg-4 col-md-4 col-sm-3" >
          <div class="card card-info">
-            <div class="card-header ">
+            <div class="card-header " >
                <!-- <h3 class="card-title">Eligibility</h3> -->
               <!--  <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal" style="float: right;">
                <i class="fa fa-plus" aria-hidden="true"></i>
                </button> -->
-                <div class="btn-group input-group-sm">
-                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
+                <div class="btn-group input-group-sm" style="text-align:center;">
+                       <input type="radio"  id="ossm" class="ossm" value='1' name="option" hidden="" required="" checked="">  
+
+
+                       <label for="ossm" class="btn btn-xs">Class RollNo</label>
+
+
+                       <input type="radio"   id="ossm1" class="ossm1" name="option" value='2' hidden="" required="">  <label for="ossm1" class="btn  btn-xs">Uni RollNo</label>
+
+                       <input type="radio"   id="ossm2" name="option" value='3' hidden="" required="">  <label for="ossm2" class="btn  btn-xs">ID No</label>
+
+                     </div>
+                     <br>
+                        <div class="btn-group input-group-sm">
+                  <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
+
                                   <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                           {
             ?>
                               <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
                            <?php }?>
+
+
+
                            </div>
             </div>
             <div class="card-body" id="student_search_record" style="font-size:12px;">
@@ -305,6 +339,10 @@
       var code=187;
       var code_access = '<?php echo $code_access; ?>';
       var rollNo= document.getElementById("student_roll_no").value;
+         var option = $("input[type=radio][name=option]:checked").val();
+       
+      
+
       if (rollNo!='') 
       {
           var   spinner= document.getElementById("ajax-loader");
@@ -315,7 +353,7 @@
             type:"POST",
             data:
             {
-               code:code,rollNo:rollNo,code_access:code_access
+               code:code,rollNo:rollNo,option:option,code_access:code_access
             },
             success:function(response) 
             {
