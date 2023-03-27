@@ -7,7 +7,7 @@
    </div>
    <div class="row">
        
-      <div class="col-lg-12 col-md-4 col-sm-3">
+      <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
@@ -19,6 +19,7 @@
                   </div>
 
          <div  id="table_load">
+
  <div class="card">
         <center>
          <h5>
@@ -167,7 +168,6 @@
 
 </section>
 <p id="ajax-loader"></p>
-<p id="gg"></p>
    <script type="text/javascript">
           $(window).on('load', function() 
           {
@@ -186,6 +186,29 @@
           function search_study_scheme()
           {
        var code=227;
+       var CollegeID=document.getElementById('College').value;
+       var Course=document.getElementById('Course').value;
+       var batch=document.getElementById('batch').value;
+       var semester=document.getElementById('semester').value;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,CollegeID:CollegeID,Course:Course,Batch:batch,Semester:semester
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("load_study_scheme").innerHTML=response;
+            }
+         });
+
+     }     
+        function update_study_scheme_search()
+          {
+       var code=254;
        var CollegeID=document.getElementById('College').value;
        var Course=document.getElementById('Course').value;
        var batch=document.getElementById('batch').value;
@@ -245,17 +268,112 @@
             }
          });
         }
-function Move(){ //228
+function Move(){
+ //228
+         var code=228;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
         }
 function Copy(){ //229
-
+var code=229;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
 }
-function Update(){ //230
+function Update(){ 
 
+//230
+   var code=230;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
 }
-function Upload(){ //241
+function Upload()
+{ //241
+  var code=241;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+}
 
-}
+   $(document).ready(function (e) {    // image upload form submit
+           $("#upload_study_scheme").on('submit',(function(e) {
+              e.preventDefault();
+
+              var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+              $.ajax({
+                    url: "action.php",
+                 type: "POST",
+                 data:  new FormData(this),
+                 dataType:'json',
+                 contentType: false,
+                  cache: false,
+                 processData: false,
+                 success: function(data)
+                  {
+                     // console.log(data);
+                          spinner.style.display='none';
+                          if (data=='1')
+                           {
+                           SuccessToast('Successfully Uploaded');
+                          }
+                          else
+                          {
+                           ErrorToast('Invalid CSV File ','bg-danger' );
+                          }
+                  }, 
+              });
+           }));
+         });
+
+
+
 
 function add_submit()
 {
@@ -320,6 +438,189 @@ function add_submit()
          ErrorToast('Please Input All Required Filed','bg-warning');
       }
 
+
+
+}
+function update_study_scheme(srno)
+{
+  
+   var subject_name=document.getElementById('subject_name'+srno).value;
+    // alert(subject_name);
+   var subject_code=document.getElementById('subject_code'+srno).value;
+   var subject_type=document.getElementById('subject_type'+srno).value;
+   var int_marks=document.getElementById('int_marks'+srno).value;
+   var ext_marks=document.getElementById('ext_marks'+srno).value;
+   var elective=document.getElementById('elective'+srno).value;
+   var lecture=document.getElementById('lecture'+srno).value;
+   var practical=document.getElementById('practical'+srno).value;
+   var tutorials=document.getElementById('tutorials'+srno).value;
+   var credits=document.getElementById('credits'+srno).value;
+   if (subject_name!='' && subject_code!='' && subject_type!='' &&  int_marks!='' && ext_marks!='' && elective!='' && lecture!='' && practical!='' && tutorials!='' && credits!='') 
+   {
+    var a=confirm('Are you sure to Update');
+   var code=255;
+   if (a==true) {
+
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,
+               subject_name:subject_name,
+               subject_code:subject_code,
+               subject_type:subject_type,
+               int_marks:int_marks,
+               ext_marks:ext_marks,
+               elective:elective,
+               lecture:lecture,
+               practical:practical,
+               tutorials:tutorials,
+               credits:credits,
+               srno:srno
+               },
+            success: function(response) 
+            { 
+              
+               spinner.style.display='none';
+               // console.log(response);
+               if (response==1) {
+                update_study_scheme_search()
+                  SuccessToast('Successfully Submit');
+               }
+               else
+               {
+                  ErrorToast('Try Again','bg-danger');
+               }
+            }
+         });
+      }
+      else
+      {
+
+      }
+  }
+  else
+  {
+         ErrorToast('Please Input All Required Filed','bg-warning');
+
+  }
+
+
+
+}
+
+function move_study_scheme()
+{
+   var CollegeID=document.getElementById('College').value;
+   var CourseID=document.getElementById('Course').value;
+   var from_batch=document.getElementById('from_batch').value;
+   var from_semester=document.getElementById('from_semester').value;
+   var to_batch=document.getElementById('to_batch').value;
+   var to_semester=document.getElementById('to_semester').value;
+   var code=250;
+  
+   if ( CollegeID!='' && CourseID!='' && from_batch!='' && from_semester!='' && to_batch!='' && to_semester!='') 
+   {
+    var a=confirm('Are you sure to Move \n Batch '+from_batch+' To '+to_batch+'\n Semester '+from_semester+' To '+to_semester);
+if (a==true) {
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,
+               CollegeID:CollegeID,
+               CourseID:CourseID,
+               from_batch:from_batch,
+               from_semester:from_semester,
+               to_batch:to_batch,
+               to_semester:to_semester,
+               
+               },
+            success: function(response) 
+            { 
+              // console.log(response);
+               spinner.style.display='none';
+               if (response==1) 
+               {
+                  SuccessToast('Successfully Move');
+               }
+               else
+               {
+                  ErrorToast('Try Again','bg-danger');
+               }
+            }
+         });
+      }
+      else
+      {
+        
+      }
+}
+else
+{
+ ErrorToast('Please Input All Required Filed','bg-warning');
+}
+
+
+}
+function copy_study_scheme()
+{
+   var CollegeID=document.getElementById('College').value;
+   var CourseID=document.getElementById('Course').value;
+   var from_batch=document.getElementById('from_batch').value;
+   var from_semester=document.getElementById('from_semester').value;
+   var to_batch=document.getElementById('to_batch').value;
+   var to_semester=document.getElementById('to_semester').value;
+   var code=253;
+  
+   if ( CollegeID!='' && CourseID!='' && from_batch!='' && from_semester!='' ) 
+   {
+    var a=confirm('Are you sure to Copy \n Batch '+from_batch+' \n Semester '+from_semester+'To \n Batch '+to_batch+' \n Semester '+to_semester);
+if (a==true) {
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,
+               CollegeID:CollegeID,
+               CourseID:CourseID,
+               from_batch:from_batch,
+               from_semester:from_semester,
+               to_batch:to_batch,
+               to_semester:to_semester
+             
+               
+               },
+            success: function(response) 
+            { 
+              // console.log(response);
+               spinner.style.display='none';
+               if (response==1) 
+               {
+                  SuccessToast('Successfully Copy');
+               }
+               else
+               {
+                  ErrorToast('Try Again','bg-danger');
+               }
+            }
+         });
+      }
+      else
+      {
+        
+      }
+}
+else
+{
+ ErrorToast('Please Input All Required Filed','bg-warning');
+}
 
 
 }
@@ -487,6 +788,49 @@ function verifiy_select()
     });
  
 }
+
+function onchange_sem()
+{
+var code='251';
+var CourseID = $("#Course").val();
+var CollegeID = $("#College").val();
+// alert('g');
+$.ajax({
+url:'action.php',
+data:{CourseID:CourseID,CollegeID:CollegeID,code:code},
+type:'POST',
+success:function(data){
+    // console.log(data);
+if(data != "")
+{
+$("#from_semester").html("");
+$("#from_semester").html(data);
+}
+}
+});
+}
+function onchange_batch()
+{
+var code='252';
+var CourseID = $("#Course").val();
+var CollegeID = $("#College").val();
+var from_semester = $("#from_semester").val();
+// alert('g');
+$.ajax({
+url:'action.php',
+data:{CourseID:CourseID,CollegeID:CollegeID,from_semester:from_semester,code:code},
+type:'POST',
+success:function(data){
+    // console.log(data);
+if(data != "")
+{
+$("#from_batch").html("");
+$("#from_batch").html(data);
+}
+}
+});
+}
+
    </script>
   </br>
 <div>
