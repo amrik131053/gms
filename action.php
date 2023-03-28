@@ -11974,26 +11974,29 @@ elseif($Status==8)
  $type=$_POST['type'];
  $month=$_POST['month'];
  $Status=$_POST['Status'];
-
+unset($subject);
+unset($SubjectCode);
+unset($SubjectType);
 $examination=$month;
 $sql = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
-        while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+        if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-          $IDNo= $row['IDNo'];
+            $IDNo= $row['IDNo'];
             $ClassRollNo= $row['ClassRollNo'];
             $img= $row['Snap'];
-           $UniRollNo= $row['UniRollNo'];
-           $name = $row['StudentName'];
+            $UniRollNo= $row['UniRollNo'];
+            $name = $row['StudentName'];
             $father_name = $row['FatherName'];
             $mother_name = $row['MotherName'];
-           $course = $row['Course'];
+            $course = $row['Course'];
             $email = $row['EmailID'];
             $phone = $row['StudentMobileNo'];
             $batch = $row['Batch'];
-           $college = $row['CollegeName'];
-           $CourseID=$row['CourseID'];
- $CollegeID=$row['CollegeID'];
+            $college = $row['CollegeName'];
+            $CourseID=$row['CourseID'];
+            $CollegeID=$row['CollegeID'];
+          }
  $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
         $s_counter = 0;
         $stmt2 = sqlsrv_query($conntest,$result1);
@@ -12002,17 +12005,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           $subject[]=$row1['SubjectName'];   
           $SubjectCode[]=$row1['SubjectCode'];
           $SubjectType[]=$row1['SubjectType'];      
-         $s_counter++;      
+         $s_counter++;         
 }
-}
- for($i=0;$i<$s_counter;$i++)
- {
-         $subject[$i];   
-          $SubjectCode[$i];
-           $SubjectType[$i];
-        
- }
-$receipt_date=   date("Y-m-d");
+      $receipt_date=   date("Y-m-d");
  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
    VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
 $stmt = sqlsrv_query($conntest,$query);
@@ -12029,10 +12024,12 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
   $cutlist_id= $row1['ID'];
 }
+// print_r($subject);
+// echo $s_counter;
        for($a=0;$a<$s_counter;$a++)
        {
-       $subjectName= $subject[$a];
-      $sub_code= $SubjectCode[$a];
+         $subjectName= $subject[$a];
+       $sub_code= $SubjectCode[$a];
       $int= 'Y';
       $ext= 'Y';
       $total= $SubjectType[$a];
@@ -12043,6 +12040,8 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
       $stmt2 = sqlsrv_query($conntest,$query1);
       }
        }
+}
+}
           if($stmt2==true)
           {
             echo "1";
@@ -12051,8 +12050,6 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
           {
             echo "0";
           }
-}
-}
    }
    elseif($code==204)
    {
