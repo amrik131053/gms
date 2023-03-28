@@ -11936,62 +11936,30 @@ elseif($Status==8)
    }
    elseif($code==203)
    {
+        $type=$_POST['type']; 
+         $sem=$_POST['sem']; 
+  $examination=$_POST['month'];
+   $Status=$_POST['Status'];
   $file = $_FILES['file_exl']['tmp_name'];
   $handle = fopen($file, 'r');
   $c = 0;
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
-     $univ_rollno = $filesop[0];
- $sem=$_POST['sem'];
- if ($sem==1) {
-   $semester='First';
- }
- elseif ($sem==2) {
-   $semester='Second';
- }
- elseif ($sem==3) {
-  $semester='Third';
- }
- elseif ($sem==4) {
-   $semester='Fourth';
- }
- elseif ($sem==5) {
-  $semester='Fifth';
- }
- elseif ($sem==6) {
-   $semester='Sixth';
- }
- elseif ($sem==7) {
-   $semester='Seventh';
- }
- elseif ($sem==8) {
-   $semester='Eight';
- }
- else
- {
-  $semester='Nine';
- }
- $type=$_POST['type'];
- $month=$_POST['month'];
- $Status=$_POST['Status'];
-unset($subject);
+ $univ_rollno = $filesop[0];
+   if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
+ } elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
+   $semester='Seventh'; } elseif ($sem==8) {    $semester='Eight'; } else {  $semester='Nine'; } 
+  
+ unset($subject);
 unset($SubjectCode);
 unset($SubjectType);
-$examination=$month;
-$sql = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
+
+$sql = "SELECT  IDNo,course,batch,college,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $IDNo= $row['IDNo'];
-            $ClassRollNo= $row['ClassRollNo'];
-            $img= $row['Snap'];
-            $UniRollNo= $row['UniRollNo'];
-            $name = $row['StudentName'];
-            $father_name = $row['FatherName'];
-            $mother_name = $row['MotherName'];
-            $course = $row['Course'];
-            $email = $row['EmailID'];
-            $phone = $row['StudentMobileNo'];
+            $IDNo= $row['IDNo'];                         
+            $course = $row['Course'];           
             $batch = $row['Batch'];
             $college = $row['CollegeName'];
             $CourseID=$row['CourseID'];
@@ -12006,10 +11974,12 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           $SubjectCode[]=$row1['SubjectCode'];
           $SubjectType[]=$row1['SubjectType'];      
          $s_counter++;         
-}
-      $receipt_date=   date("Y-m-d");
+         }
+       $receipt_date=   date("Y-m-d");
+
  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
    VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
+
 $stmt = sqlsrv_query($conntest,$query);
 if( $stmt === false) {
     die( print_r( sqlsrv_errors(), true) );
@@ -12026,6 +11996,8 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 }
 // print_r($subject);
 // echo $s_counter;
+
+
        for($a=0;$a<$s_counter;$a++)
        {
          $subjectName= $subject[$a];
@@ -12040,6 +12012,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
       $stmt2 = sqlsrv_query($conntest,$query1);
       }
        }
+
 }
 }
           if($stmt2==true)
@@ -12051,6 +12024,9 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
             echo "0";
           }
    }
+
+
+
    elseif($code==204)
    {
   $id = $_POST['id'];
