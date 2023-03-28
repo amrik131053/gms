@@ -11138,7 +11138,7 @@ elseif($code==194)
    }
    elseif ($searchingValue=='EmployeeId') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank  where UpdatedBy='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
       $flag=1;
    }
    elseif ($searchingValue=='PaperId') 
@@ -11181,6 +11181,8 @@ elseif($code==194)
          <th>#</th>
          <th>Employee Id</th>
          <th>Subject Code</th>
+         <th>Course</th>
+
          <th>Batch</th>
          <th>Semester</th>
          <th>Questions</th>
@@ -11192,6 +11194,7 @@ elseif($code==194)
    {
       $SubjectCode=$data['SubjectCode'];
       $CourseID=$data['CourseID'];
+
       $Batch=$data['Batch'];
       $Semester=$data['Semester'];
       $sr++;
@@ -11200,6 +11203,14 @@ elseif($code==194)
          <td><?=$sr?></td>
          <td><span class="text-info<?=$sr;?>" id="emp<?=$sr;?>"><?=$data['UpdatedBy']?></span></td>
          <td><?=$data['SubjectCode']?></td>
+         <td><?php $sqlcourse = "SELECT DISTINCT Course from MasterCourseStructure WHERE CourseID='$CourseID'";
+         $result = sqlsrv_query($conntest,$sqlcourse);
+         if($rowCourse= sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+            $Course=$rowCourse["Course"]; 
+         }
+         echo $Course;?>
+           </td>
          <td> <span class="text-info<?=$sr;?>" id="batch<?=$sr;?>"> <?=$data['Batch']?></span></td>
          <td><span class="text-info<?=$sr;?>" id="sem<?=$sr;?>"><?=$data['Semester']?></span></td>
          <td><?=$data['questionCount']?></td>
@@ -11207,7 +11218,13 @@ elseif($code==194)
             
             <i class="fa fa-eye fa-lg" style="color:green;" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')"  ></i>&nbsp;&nbsp;
             <i class="fa fa-trash fa-lg text-danger" onclick="deleteAllQuestion('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>',<?=$data['UpdatedBy'];?>)"  ></i>&nbsp;&nbsp;
-            <i class="fa fa-edit fa-lg text-dark" id="editIcon<?=$sr;?>"  onclick="editAllQuestion('<?=$sr;?>','<?=$SubjectCode?>')"  ></i>&nbsp;&nbsp;
+            
+<form action="questions.php" method="post" target="_blank"><input type="hidden"  name="Batch" value="<?=$data['Batch']?>">
+<input type="hidden"  name='SubjectCode' value="<?=$data['SubjectCode']?>">
+<input type="submit" value="View Questions"  class="btn btn-primary btn-xs"></form>
+
+
+            <!-- <i class="fa fa-edit fa-lg text-dark" id="editIcon<?=$sr;?>"  onclick="editAllQuestion('<?=$sr;?>','<?=$SubjectCode?>')"  ></i>&nbsp;&nbsp; -->
          
 
             <?php
@@ -11450,6 +11467,7 @@ elseif($code==195)
       $Batch=$_POST['batch'];
       $Semester=$_POST['sem'];
       $EmpID=$_POST['EmpID'];
+
       $get_image="DELETE  FROM question_bank WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' and Semester='$Semester' and UpdatedBy='$EmpID'";
       $get_run=mysqli_query($conn,$get_image);
                                
