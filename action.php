@@ -12439,7 +12439,8 @@ elseif($code==213)
 {
     $id = $_POST['id'];
     $status = $_POST['status'];
-     $sq="Update ExamForm set Status='$status' Where ID='$id'"; 
+    $receipt_date=   date("Y-m-d");
+     $sq="Update ExamForm set Status='$status',AccountantVerificationDate='$receipt_date',DepartmentVerifiedDate='$receipt_date',DeanVerifiedDate='$receipt_date',ExaminationVerifiedDate='$receipt_date' Where ID='$id'"; 
      $list2 = sqlsrv_query($conntest,$sq);
    if ($list2==true)
        {
@@ -14766,6 +14767,62 @@ elseif($code==255)
                   // echo "0";
                   // }
    }
+
+
+  elseif($code==257)
+ {
+$sql1="SELECT IDNo FROM suporting_staff";
+$result1 = mysqli_query($conn,$sql1); 
+while($row1=mysqli_fetch_array($result1) )
+{
+   $IDno=$row1['IDNo'];
+      $sql="SELECT * FROM Staff where IDNo='$IDno'";
+$result = sqlsrv_query($conntest,$sql); 
+    $array = array();
+if($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+    
+  <tr>
+    <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
+    <td data-toggle="modal" data-target="#modal-lg-upload-image" onclick='photo_modal111(<?=$row['IDNo']?>);photo_modal(<?=$row['IDNo']?>);'> <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>
+        
+    </td>
+     <td data-toggle="modal" data-target="#modal-lg-edit" onclick='edit_id_card("<?=$row['IDNo'];?>");'><?=$row['Name'];?></td>
+      <td><?=$row['FatherName'];?></td>
+       <td><?=$row['IDNo'];?></td>
+        <td><?=$row['Department'];?></td>
+         <td><?=$row['Designation'];?></td>
+          <td><?=$row['MobileNo'];?></td>
+          <td><?=$row['PermanentAddress']; 
+               ?>
+            </td>
+            <td><?php
+            $IDNo=$row['IDNo'];
+               $sql1="SELECT * FROM Suporting_staff where IDNo='$IDNo'";
+$result1 = mysqli_query($conn,$sql1); 
+if($row1=mysqli_fetch_array($result1) )
+{
+          if ($row1['Status']==1)
+           {?><P style="color:red;">Printed</P><?php
+            
+          }
+          else
+{?><P style="color:blue;">Pending</P>
+  <?php
+
+
+}
+}
+?>
+            </td>
+</tr>
+
+<?php
+}
+    }
+ } 
+
  else
 {
 echo "select code";

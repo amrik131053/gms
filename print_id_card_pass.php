@@ -1264,6 +1264,191 @@ $left=10;
 }
   $pdf->Output();
 }
+
+  else if ($code==3) 
+   {
+    $sel=array();
+   $sel=$_GET['id_array'];
+    $id=explode(",",$sel);
+   //print_r($id);
+   $left=5;
+   $left1=86;
+   $down1=5;
+   $down=5;
+   $count=1;
+   $down11=5;
+   $output = '';  
+   $ctime = date("d-m-Y");
+   $nowtime = strtotime($ctime);
+   if(!(ISSET($_SESSION['usr'])))
+    {
+   header('Location:index.php'); 
+   }
+   else
+    { 
+
+    $a=$_SESSION['usr'];
+   }
+
+   require_once('fpdf/fpdf.php');
+     require_once('fpdf/fpdi.php');
+   $pdf = new FPDI();
+   $pdf->AddPage('P');
+   
+   foreach ($id as $key => $value) {
+   
+  
+    $pdf-> Image('dist\img\idcard.png',$left+2,$down+2,61,15);
+   $pdf-> Image('dist\img\idcardbg.png',$left,$down+104,66,6);
+   // $pdf-> Image('dist\img\idcardbg.png',$left,$down+15,57,10);
+
+   $pdf-> Image('dist\img\ett_sign.png',$left+24,$down+95,18,8);
+           $pdf->SetFont('Arial','B',12);
+   
+   $sql="SELECT * FROM Staff where IDNo='$value'";
+$result = sqlsrv_query($conntest,$sql); 
+    $array = array();
+while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+{
+  
+     // $img=$row['Snap'];
+   $pdf-> Image('http://10.0.10.11:86/Images/Staff/60427.jpg',$left+20,$down+28,27,27);
+   
+   $pdf->SetTextColor(255,255,255);
+   $pdf->SetTextColor(0,0,0);
+   
+   $pdf->SetXY($left,$down+42+20);
+   $pdf->SetFont('Arial','B',12);
+  
+    $pdf->MultiCell(66,5,$row['Name'],'0','C'); 
+    
+   $pdf->SetXY($left,$down+42+28);
+   $pdf->SetFont('Arial','B',12);
+ 
+    $pdf->MultiCell(66,5,$row['IDNo'],'0','C');
+  
+   $pdf->SetXY($left,$down+42+35);
+   $pdf->SetFont('Arial','B',15);
+ 
+    $pdf->MultiCell(66,5,$row['Designation'],'0','C');
+   
+   $pdf->SetXY($left,$down+105);
+   
+   $pdf->SetTextColor(255,255,255);
+   $pdf->SetFont('Arial','',8);
+    $pdf->MultiCell(66,4,'AUTHORISED SIGNATORY','0','C'); 
+
+      $pdf->SetXY($left+3,$down+18);
+   
+   $pdf->SetTextColor(255,255,255);
+   $pdf->SetFont('Arial','',11);
+    $pdf->MultiCell(50,3,'Guru Kashi University','0','C');
+   
+   $pdf->SetTextColor(0,0,0);
+   
+   $pdf->SetXY($left,$down);
+    $pdf->MultiCell(66,110,'','1','C');
+   
+   $pdf->SetXY($left1-10,$down1);
+    $pdf->MultiCell(66,110,'','1','C');
+
+    // $pdf->SetXY($left1,$down1);
+    $pdf->Line(76,$down+10,142  ,$down+10); // bottom line 
+    $pdf->Line(76,$down+10.2,142  ,$down+10.2); // bottom line 
+
+       $pdf->Line(76,$down+75,142  ,$down+75); // top line
+       $pdf->Line(76,$down+75.2,142  ,$down+75.2); // top line
+   
+    $pdf->SetXY($left1-10,$down1+3);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->MultiCell(66,5,'This is a property of GKU','0','C');
+   
+   $pdf->SetXY($left1-13+5,$down1+15);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->Write(0,'F.Name  :');
+   
+   $pdf->SetXY($left1-13+23,$down1+15);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->Write(0,$row['FatherName']);
+   
+    $pdf->SetXY($left1-13+5,$down1+22);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->Write(0,'Mobile   :');
+   
+   $pdf->SetXY($left1-13+23,$down1+22);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->Write(0,$row['MobileNo']);
+   
+    $pdf->SetXY($left1-10,$down1+32);
+   $pdf->SetFont('Arial','B',11);
+
+   $pdf->MultiCell(66,5,'Address','0','C');
+   
+   $pdf->SetXY($left1-9,$down1+5+37);
+   $pdf->SetFont('Arial','B',11);
+   $sss=strlen($row['PermanentAddress'].$row['District'].$row['State'].$row['PostalCode'])+2;
+   if ($sss<29) 
+   {
+   // $pdf->SetXY($left1-10-20,$down1+2+33);
+   $pdf->MultiCell(66,2,$row['PermanentAddress'].' '.$row['District'].'  '.$row['State'].' '.$row['PostalCode'],'0','C');
+   }
+   elseif ($sss<58) 
+   {
+   // $pdf->SetXY($left1-10-20,$down1+2+33);
+   $pdf->MultiCell(66,6,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'].' '.$row['PostalCode'],'0','C');
+   }
+   else
+   {
+       $pdf->SetXY($left1-10,$down1+2+37);
+   $pdf->MultiCell(66,7,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'].' '.$row['PostalCode'],'0','C');
+   }
+   
+   $pdf->SetXY($left1-10,$down1+40+38);
+   $pdf->SetFont('Arial','B',12);
+   // $pdf->Write(0,'GURU GOBIND SINGH');
+   
+   $pdf->MultiCell(66,3,'GURU KASHI UNIVERSITY','','C');
+   
+   $pdf->SetXY($left1-10,$down1+40+43);
+   $pdf->SetFont('Arial','B',11);
+   // $pdf->Write(0,'COLLEGE OF EDUCATION');
+   
+   $pdf->MultiCell(66,3,'Sardulgarh Road ,Talwandi Sabo','','C');
+   
+   
+   $pdf->SetXY($left1-10,$down1+40+47);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->MultiCell(66,3,'Bathinda, Punjab, India (151302)','','C');
+   
+     $pdf->SetXY($left1-10,$down1+40+51);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->MultiCell(66,3,'Phone: +91 99142-83400','','C'); 
+
+       $pdf->SetXY($left1-10,$down1+40+55);
+   $pdf->SetFont('Arial','B',11);
+   $pdf->MultiCell(66,3,'www.gurukashiuniversity.in','','C');
+   if ($count==2 || $count==4 || $count==6 || $count==8 || $count==10 || $count==12 || $count==14) {
+   $pdf->AddPage('P');
+    $left=5;
+   $left1=86;
+   $down1=5;
+   $down=5;
+   }else
+   {
+   $down1=$down1+120;
+   $left=$left;
+   $down=$down+120;
+ }
+   $date=date('Y-m-d');
+   $up="INSERT INTO suporting_staff (IDNo,Status,P_Date) values ('$value','1','$date')";
+   $up1 =mysqli_query($conn,$up);
+   $count++;
+   }
+   
+   }
+   $pdf->Output();
+}
+
 else
 {
 }
