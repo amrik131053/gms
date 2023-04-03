@@ -77,7 +77,7 @@
                            <label>Course</label>
                            <select class="form-control" id="course" id="course"required="">
                               <option value=" ">Select</option>
-                              <option value="E.T.T">E.T.T</option>
+                              <option value="D.El.Ed.">D.El.Ed.</option>
                            </select>
                         </div>
                         <div class="col-lg-3">
