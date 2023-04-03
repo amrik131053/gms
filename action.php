@@ -13528,7 +13528,14 @@ elseif($code==227)
                         <?php
                          // print_r($get_row);
                          }
-                       
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
                        ?>
                     </table>
                   </div>
@@ -13575,6 +13582,14 @@ elseif($code==227)
                               </tr>
                         <?php 
                      }  
+                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
                        ?>
                     </table>
                   </div>
@@ -14680,13 +14695,20 @@ elseif($code==252)
                                  <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
                                  <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
                                  <td><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
-                                 <td><input type="text" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
+                                 <td><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
                        
                               </tr>
                         <?php
                          // print_r($get_row);
                          }
-                       
+                       if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
                        ?>
                     </tbody>
                     </table>
@@ -14758,70 +14780,17 @@ elseif($code==255)
                 $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
-                  // if ($add_study_scheme_run2==true)
-                  //  {
-                  // echo "1";   
-                  // }
-                  // else
-                  // {
-                  // echo "0";
-                  // }
+                  if ($add_study_scheme_run2==true)
+                   {
+                  echo "1";   
+                  }
+                  else
+                  {
+                  echo "0";
+                  }
    }
 
 
-  elseif($code==257)
- {
-$sql1="SELECT IDNo FROM suporting_staff";
-$result1 = mysqli_query($conn,$sql1); 
-while($row1=mysqli_fetch_array($result1) )
-{
-   $IDno=$row1['IDNo'];
-      $sql="SELECT * FROM Staff where IDNo='$IDno'";
-$result = sqlsrv_query($conntest,$sql); 
-    $array = array();
-if($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-{
-    ?>
-    
-  <tr>
-    <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
-    <td data-toggle="modal" data-target="#modal-lg-upload-image" onclick='photo_modal111(<?=$row['IDNo']?>);photo_modal(<?=$row['IDNo']?>);'> <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>
-        
-    </td>
-     <td data-toggle="modal" data-target="#modal-lg-edit" onclick='edit_id_card("<?=$row['IDNo'];?>");'><?=$row['Name'];?></td>
-      <td><?=$row['FatherName'];?></td>
-       <td><?=$row['IDNo'];?></td>
-        <td><?=$row['Department'];?></td>
-         <td><?=$row['Designation'];?></td>
-          <td><?=$row['MobileNo'];?></td>
-          <td><?=$row['PermanentAddress']; 
-               ?>
-            </td>
-            <td><?php
-            $IDNo=$row['IDNo'];
-               $sql1="SELECT * FROM Suporting_staff where IDNo='$IDNo'";
-$result1 = mysqli_query($conn,$sql1); 
-if($row1=mysqli_fetch_array($result1) )
-{
-          if ($row1['Status']==1)
-           {?><P style="color:red;">Printed</P><?php
-            
-          }
-          else
-{?><P style="color:blue;">Pending</P>
-  <?php
-
-
-}
-}
-?>
-            </td>
-</tr>
-
-<?php
-}
-    }
- } 
 
  else
 {

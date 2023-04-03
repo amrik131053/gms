@@ -10,27 +10,29 @@
       <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
+                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);"> Upload </a>
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
                     <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
                     <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
-                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="Upload();bg(this.id);"> Upload </a>
                   </div>
 
          <div  id="table_load">
 
- <div class="card">
+<div class="card" >
         <center>
          <h5>
-         <b>ADD</b>
+         <b>Study Scheme Upload</b>
         </h5>
         </center>
         </div>
+               <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
            <div class="row">
               <div class="col-lg-3">
+                  <input type="hidden" name="code" value="256" >
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control" required>
                  <option value=''>Select Course</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -45,15 +47,15 @@
                         ?>
                </select> 
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                  <label>Course</label>
-                  <select  id="Course" class="form-control">
+                  <select  id="Course" name="Course" class="form-control" required>
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                  <label>Batch</label>
-                   <select id="batch"  class="form-control">
+                   <select id="batch" name="batch"  class="form-control" required>
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -62,107 +64,25 @@
                            <?php }
                                   ?>
                  </select>
+              </div>   
+              <div class="col-lg-2">
+               <label>File .xls</label>
+               <input type="file" name="file_exl" id="file_exl" class="form-control" name=""  required>
               </div>
-              <div class="col-lg-3">
-                 <label>Semester</label>
-                      <select   id='semester' class="form-control">
-                       <option value="">Sem</option>
-                     <?php 
-                        for($i=1;$i<=14;$i++)
-                           {?>
-                     <option value="<?=$i?>"><?=$i?></option>
-                     <?php }
-            ?>
-            </select>
+              
+          
+              <div class="col-lg-1">
+                 <label>Action</label><br>
+                <input type="submit" name="" class="btn btn-success" value="Upload">
+              </div>
+              <div class="col-lg-2">
+                 <label>Format</label><br>
+                   <button class="btn btn-warning" type="button" onclick="format();">Download Here</button>
               </div>
             
             </div>
-             <div class="row">
-              <div class="col-lg-3">
-                <label>Subject Name</label>
-                <input type="text" id="subject_name" class="form-control">
-              </div>
-              <div class="col-lg-3">
-                 <label>Subject Code</label>
-                <input type="text" id="subject_code" class="form-control">
-
-              </div>
-              <div class="col-lg-3">
-                 <label>Subject Type</label>
-                 <select class="form-control" id="subject_type">
-                    <option value="">Select</option>
-                    <option value="T">T</option>
-                    <option value="P">P</option>
-                    <option value="NA">NA</option>
-                 </select>
-              </div>
-              <div class="col-lg-3">
-                 <label>Subject Group</label>
-                    <select id="subject_group" class="form-control" required="">
-                        <option value="">Group</option>
-                       <?php
-                           $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
-                                  $stmt2 = sqlsrv_query($conntest,$sql);
-                                 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-                                     {
-                                     $Sgroup = $row1['Sgroup']; 
-                                        ?>
-                              <option  value="<?=$Sgroup;?>"><?=$Sgroup;?></option>
-                              <?php    }
-                                          ?>      
-              </select>
-              </div>
-           </div>
-         <div class="row">
-            
-              <div class="col-lg-3">
-                <label>Int. Max Marks</label>
-                <input type="number"  id="int_marks" class="form-control">
-
-              </div>
-              <div class="col-lg-3">
-                 <label>Ext. Max Marks</label>
-                <input type="number" id="ext_marks" class="form-control">
-
-              </div>
-              <div class="col-lg-3">
-                 <label>Elective</label>
-                 <select class="form-control" id="elective">
-                   
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                 </select>
-              </div>
-              <div class="col-lg-3">
-                 <label>Lecture</label>
-                <input type="text" id="lecture" class="form-control">
-
-              </div>
-           </div>
-        <div class="row">
-              <div class="col-lg-3">
-                <label>Practical</label>
-                <input type="text" id="practical" class="form-control">
-              </div>
-              <div class="col-lg-3">
-                 <label>Tutorials</label>
-                <input type="text" id="tutorials" class="form-control">
-              </div>
-              <div class="col-lg-3">
-                 <label>No OF Credits</label>
-                <input type="text" id="credits" class="form-control">
-              </div>
-              <div class="col-lg-3">
-              </div>
-           </div><br>
-        <div class="row text-center">
-         
-           <button class="btn btn-success" onclick="add_submit();">Submit</button>
-        
+         </form>
         </div>
-            </div>
-        </div>
-      </div>
    </div>
    <!-- /.container-fluid -->
 
@@ -171,7 +91,7 @@
    <script type="text/javascript">
           $(window).on('load', function() 
           {
-         $('#btn1').toggleClass("bg-success"); 
+         $('#btn6').toggleClass("bg-success"); 
            })
           function format() 
            {
@@ -351,7 +271,7 @@ function Upload()
                     url: "action.php",
                  type: "POST",
                  data:  new FormData(this),
-                 dataType:'json',
+                 // dataType:'json',
                  contentType: false,
                   cache: false,
                  processData: false,
