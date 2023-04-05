@@ -14972,13 +14972,20 @@ elseif($code=='257')
                   </li>
                   <li class="nav-item">
                      <li class="nav-link"><b class="text-danger">
+                      
                       <?php if($jobstatus>1)
                       {
-                        ?>  <button class="alert alert-danger form-control">Left</button>
+                        ?>  
+ <div class="alert alert-danger" role="alert">
+Left
+</div>
                         
                       <?php }
                       else{?>
-                        <button class="alert alert-success form-control">Active</button>
+                        <div class="alert alert-success" role="alert">
+  Active
+</div>
+                        
                       <?php }
                    ?>
                 </b></li>

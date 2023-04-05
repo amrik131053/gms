@@ -13,7 +13,7 @@
                      <h3 class="card-title">Staff Profile</h3>
                      <div class="card-tools">
                      <div class="btn-group input-group-sm">
-                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
+                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Employee ID" aria-describedby="button-addon2" value="">
                               <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
                            </div>
                      
@@ -31,7 +31,7 @@
             <div class="col-md-7 col-lg-7 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
-                  <h3 class="card-title">Check Out Students</h3>
+                  <h3 class="card-title">  </h3>
                   
                </div>
              
@@ -58,7 +58,7 @@
 
 <script type="text/javascript">
    window.onload = function() {
-  checked_out_student();
+  //checked_out_student();
 };
    function checked_out_student() 
    {
