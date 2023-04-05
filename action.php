@@ -823,6 +823,7 @@ option value = "" > Select < /option> <?php
                $q1 = sqlsrv_query($conntest, $sql1);
                while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) {
                $name = $row['Name'];
+$UniRollNo='';
                }
                
                $building_num=$building_num+1;
@@ -875,11 +876,30 @@ option value = "" > Select < /option> <?php
    
                }
             }
+            else if((strlen($building_row['Corrent_owner'])<3) )
+            {
+
+            $resultout = "SELECT  * FROM outside_owners where id='$EmployeeID'";
+
+ $building_out=mysqli_query($conn,$resultout);
+
+while ($building_rowo=mysqli_fetch_array($building_out)) 
+               {
+                           
+                 $IDNo= $building_rowo['id'];
+                 $ClassRollNo= $building_rowo['designation'];
+                 $name = $building_rowo['name'];
+                 $UniRollNo= '';
+   
+               }
+            }
                   ?>
                <td>
                   <div class="row" id="sinlge_assign1" >
                      <div class="col-lg-8">
-                        <?=$name;?> (<?=$building_row['Corrent_owner'];?>)
+                        <?=$name;?> <br>(<?=$building_row['Corrent_owner'];?>)<br> <?php if($UniRollNo!=''){ echo $UniRollNo;
+
+                        }?>
                      </div>
                      <div class="col-lg-4">
                         <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger">Remove</button>
@@ -1864,22 +1884,65 @@ option value = "" > Select < /option> <?php
    
     $articleID=$_POST['ID'];
     $Incharge=$_POST['current_owner'];
-   
-                       
-   $sql1 = "SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$Incharge' and JobStatus='1'";
+    $count=0;
+   if (strlen($Incharge)<3)
+   {
+
+
+ $resultout = "SELECT  * FROM outside_owners where id='$Incharge'";
+
+ $building_out=mysqli_query($conn,$resultout);
+
+while ($building_rowo=mysqli_fetch_array($building_out)) 
+               {
+                           
+                $count++;
+
+   }
+}
+   elseif(strlen($Incharge)>4 && strlen($Incharge)<7)
+
+{
+$sql1 = "SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$Incharge' and JobStatus='1'";
    $q1 = sqlsrv_query($conntest, $sql1);
    while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
    {
-   //$name = $row['Name'];
+$count++;
+   }
+}
+elseif(strlen($Incharge)>=7){
    
+  $result1 = "SELECT  * FROM Admissions where UniRollNo='$Incharge' or ClassRollNo='$Incharge' or IDNo='$Incharge'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+  $count++;
+
+  $Incharge=$row['IDNo'];
+
+}
+}
+else
+{
+  $count=0;
+}
+                       
+if($count>0)
+{ 
+
+
     $datetime   = new DateTime(); //this returns the current date time
     $one=date("His");
    $two= date("myd");
    $three= substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'),1,8);
    $four=substr(str_shuffle($one.$two.$three),1,8);
-   $result =$one.$three.$two.$four;
+  echo  $result =$one.$three.$two.$four;
+
+
+
     
-    $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge' , reference_no='$result' where IDNo='$articleID'";
+  echo   $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge' , reference_no='$result' where IDNo='$articleID'";
+
    $building_run = mysqli_query($conn, $updateCurrentOwner);
    if ($building_run==true) 
    {
@@ -6658,19 +6721,30 @@ option value = "" > Select < /option> <?php
 <?php
    if ($building!='' && $floor=='' && $room=='') 
    {
-      $sql="SELECT distinct article_no from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building' order by location_master.RoomNo asc ";
+      $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
-       $sql="SELECT distinct article_no from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' order by location_master.RoomNo asc ";
+       $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+
+
+
+
+
    }
+
    elseif ($building!='' && $floor!='' && $room=='') 
    {
-       $sql="SELECT distinct article_no from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building'  and Floor='$floor' order by location_master.RoomNo asc ";
+        $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where    Block='$building'  and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
    }
    elseif ($building!='' && $floor!='' && $room!='') 
    {
-       $sql="SELECT distinct article_no from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' and Floor='$floor' order by location_master.RoomNo asc ";
+       $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
    }
    
    $meterLocationsData='';
@@ -6680,6 +6754,7 @@ option value = "" > Select < /option> <?php
                <th>Sr. No.</th>
                <th>Meter No.</th>
                <th>Room No.</th>
+               <th>Room Name</th>
                <th>Date</th>
                <th>Owner</th>
                <th>Reading</th>
@@ -6704,6 +6779,9 @@ option value = "" > Select < /option> <?php
        if ($data1=mysqli_fetch_array($readingRes)) 
        {
            $room_no=$data1['RoomNo'];
+
+           $room_no1=$data['rmn'];
+
            $date=date("d-M-Y", strtotime($data1['reading_date']));
            $reading=$data1['current_reading'];
            $unitsConsumed=$data1['unit'];
@@ -6780,6 +6858,7 @@ option value = "" > Select < /option> <?php
                <td >{$count}</td>
                <td>{$article_num}</td>
                <td>{$room_no}</td>
+               <td>{$room_no1}</td>
                <td>{$date}</td>
                <td>
                <table >
@@ -11687,6 +11766,7 @@ elseif($code == 199)
                   <td><?=$RoomNo; ?> </td>
                   <td>
                      <i class="fa fa-eye fa-lg" onclick="view_office_stock(<?=$lm_ID;?>,<?=$RoomType?>);" data-toggle="modal" data-target="#view_assign_stock_office_Modal_location" style="color:red;"></i>
+
                      <i class="fa fa-eye fa-lg" onclick="view_serial_no(<?=$lm_ID;?>,<?=$RoomType?>);" data-toggle="modal" data-target="#view_serial_no_Modal" style="color:blue;"></i>
                   </td>
                   <?php

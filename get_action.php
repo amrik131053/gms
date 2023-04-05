@@ -490,7 +490,7 @@ $EmployeeID=$_SESSION['usr'];
                         $college = $row['CollegeName'];
                      }
                  }
-                 else
+                 else if(strlen($EmployeeID)>4 && strlen($EmployeeID)<7) 
                  {
                   $sql1 = "SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$EmployeeID'";
                   $q1 = sqlsrv_query($conntest, $sql1);
@@ -503,6 +503,24 @@ $EmployeeID=$_SESSION['usr'];
                   } 
                  }
                  
+                 else if(strlen($EmployeeID)<3) 
+                 {
+                 $resultout = "SELECT  * FROM outside_owners where id='$EmployeeID'";
+
+ $building_out=mysqli_query($conn,$resultout);
+
+while ($building_rowo=mysqli_fetch_array($building_out)) 
+               {
+                           
+                 $EmployeeID= $building_rowo['id'];
+                 $Designation= $building_rowo['designation'];
+                 $name = $building_rowo['name'];
+                 $UniRollNo= '';
+   
+               }
+            } 
+                 }
+
 if ($EmployeeID!=0) {
 
       if (strlen($EmployeeID)>7) 
@@ -540,8 +558,9 @@ if ($EmployeeID!=0) {
    <br>
    <?php
       }
-      else
+   else if(strlen($EmployeeID)>4 && strlen($EmployeeID)<7) 
       {
+
             ?>
             <label>Current Owner</label>
    <table class="table table-head-fixed text-nowrap" border="1">
@@ -575,7 +594,39 @@ if ($EmployeeID!=0) {
    <br>
    <?php 
    }
-}
+   else
+   {
+?>
+
+ <label>Current Owner</label>
+   <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            
+            <th>ID</th>
+            <th>Name</th>
+            <th>Designation</th>
+            
+         </tr>
+      </thead>
+      <tbody><tr>
+           
+            <td>
+               <?=$EmployeeID;?>
+            </td>
+            <td>
+               <?=$name;?>
+            </td>
+            <td>
+               <?=$Designation;?>
+            </td>
+           
+         </tr>
+      </tbody>
+   </table>
+  <?php  }
+
 ?>
    <label>Location</label>
     <table class="table table-head-fixed text-nowrap" border="1">
