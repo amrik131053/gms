@@ -14919,7 +14919,79 @@ elseif($code==255)
    }
 
 
-
+elseif($code=='257')
+   {
+   $univ_rollno=$_POST['rollNo'];
+   $result1 = "SELECT  * FROM Staff where IDNo='$univ_rollno'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+   
+    $IDNo= $row['IDNo'];
+    
+    $img= $row['Snap'];
+   
+    $name = $row['Name'];
+    $father_name = $row['FatherName'];
+    $course = $row['Department'];
+    $email = $row['EmailID'];
+    $jobstatus = $row['JobStatus'];
+    $batch = $row['Designation'];
+    $college = $row['CollegeName'];
+   
+  
+   ?>
+   
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <div class="widget-user-image">
+                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
+                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li> -->
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Designation</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Department</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li><li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b class="text-danger">
+                      <?php if($jobstatus>1)
+                      {
+                        ?>  <button class="alert alert-danger form-control">Left</button>
+                        
+                      <?php }
+                      else{?>
+                        <button class="alert alert-success form-control">Active</button>
+                      <?php }
+                   ?>
+                </b></li>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+         
+   <?Php
+}   
+   
+   }
  else
 {
 echo "select code";
