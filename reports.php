@@ -660,10 +660,10 @@ xmlhttp.send();
 }
   function singleAssign(id,RoomType,location_ID){
    var code=41;
-   // alert(id);
+    //alert(id);
    var sr= document.getElementById("sinlge_assign_sr_"+id).value;
    var current_owner= document.getElementById("current_owner_"+sr).value;
-   // alert(current_owner);
+   //alert(current_owner);
          $.ajax(
          {
             url:"action.php ",
@@ -674,10 +674,14 @@ xmlhttp.send();
             },
             success:function(response) 
             {
+               console.log(response);
+
                view_office_stock(location_ID,RoomType);
             }
          });
       }
+
+
        function track(id){
    var code=68;
    // alert(id);
