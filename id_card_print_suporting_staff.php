@@ -24,11 +24,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
    <script>
 
-
-
-
-
-
       $(document).ready(function()
       {
          $(document).on('keydown', '.personmeet', function() 
@@ -68,7 +63,7 @@
 
    function student_search()
    {
-      var code=258;
+      var code=271;
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
       {
@@ -91,8 +86,9 @@
       }
       else
       {
-         // alert("Please Enter the Roll No.");
-         document.getElementById("student_search_record").innerHTML ='';
+         ErrorToast('Please Enter the IDNo.','bg-warning');
+         // document.getElementById("student_search_record").innerHTML ='';
+           // document.getElementById("userImageCaptured").innerHTML='';
       }
    }  
 </script>
@@ -137,97 +133,40 @@
                <!-- /.card-header -->
                <div class="card-body " >
                    <form id="submitGateEntry" action="action.php" method="post" enctype="multipart/form-data">
-                     <input type="hidden" name="code" value='147'>
+                     <input type="hidden" name="code" value='272'>
                   <div class="row">
                  
                    
                <div class="col-lg-10 col-md-10">
 
 
-                  <div class="row"  id="">
+                  <div class="row" >
                      <div class="col-lg-3 col-md-3">
-                        <label>ID No</label>
-                       <input type="text" id="student_roll_no" class="form-control" onchange="student_search();">
-                     </div> 
-                    
-                     
-                        
-                         <div class="col-lg-3 col-md-3">
-                        <label>Want to meet with <span style="color: red">*</span></label>
-                        <input type="text"  name="personmeet" id="personmeet" disabled class="form-control personmeet">
-                        <input type="hidden" name="personmeet_id" id="personmeet_id" class="form-control" value="">
-                        </div>
-                         <div class="col-lg-3 col-md-3">
-                           <label>Designation</label>
-                        <input type="text" name="designation" id="designation" class="form-control" value="" disabled="">
-                        </div>
-                         <div class="col-lg-3 col-md-3">
-                           <label>Department</label>
-                        <input type="text" name="department" id="department" class="form-control" value="" disabled="">
-                        </div>
-                        <div class="col-lg-3 col-md-3">
-                           <label>Employee Mobile</label>
-                        <input type="text" name="empMobile" id="empMobile" class="form-control" value="" disabled="">
-                        </div>
-                         <div class="col-lg-3 col-md-3">
-                        <label>Name <span style="color: red">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control">
-                     </div>
-                      <div class="col-lg-3 col-md-3">
-                        <label>Mobile No. <span style="color: red">*</span></label>
-                        <input type="text" name="mob" id="mob" class="form-control">
-                     </div>
-                      <div class="col-lg-3 col-md-3">
-                        <label>Vehicle Registration No. <span style="color: red"></span></label>
-                        <input type="text" name="vehicle" id="vehicle" class="form-control">
-                     </div>
-                      <div class="col-lg-3 col-md-3">
-                        <label>ID Proof <span style="color: red">*</span></label>
-                        <!-- <input type="text" name="proof" id="proof" class="form-control"> -->
-                        <select class="form-control"  name="proof" id="proof" >
-                        <option value="">Select</option>
-                        <option value="Adhaar card">Adhaar Card</option>
-                        <option value="Pan card">Pan Card</option>
-                        <option value="Voter Card">Voter Card</option>
-                        <option value="other">Other</option>
-                        </select>
-                     </div>
-                      <div class="col-lg-3 col-md-3">
-                        <label>ID Proof Number <span style="color: red">*</span></label>
-                        <input type="text" name="id_proof_no" id="id_proof_no" class="form-control">
-                     </div> 
-                     <div class="col-lg-3 col-md-3">
-                        <label>Purpose <span style="color: red">*</span></label>
-                        <input type="text" name="purpose" id="purpose" class="form-control">
-                     </div> 
-                     <div class="col-lg-3 col-md-3">
-                        <label> Visitor Pass No <span style="color: red">*</span></label>
-                        <!-- <input type="text" name="passno" id="passno" class="form-control passno"><br/> -->
-                        <select class="form-control"  name="passno" id="passno"  >
-                           <!-- <optgroup label="Pass Number"> -->
-                              
-                           <option value="">Select</option>
-                           <?php 
-                              $gatePassQry="SELECT distinct gate_entry_qr.id as passId from gate_entry_qr inner join gate_entry_visitor on gate_entry_visitor.gate_pass_no=gate_entry_qr.id where gate_entry_visitor.status!='0'";
-                              $gatePassRes=mysqli_query($conn,$gatePassQry);
-                              while($gatePassData=mysqli_fetch_array($gatePassRes))
-                              {
-                                 $gatePassCheckQry="SELECT * from gate_entry_visitor where status='0' and gate_pass_no=".$gatePassData['passId'];
-                                 $gatePassCheckRes=mysqli_query($conn,$gatePassCheckQry);
-                                 if (mysqli_num_rows($gatePassCheckRes)<1) 
-                                 {
-                                 ?>
-                                    <option value="<?=$gatePassData['passId']?>"><?=$gatePassData['passId']?></option>
-                                 <?php
-                                 }
-                              }
-                           ?>
-                           <!-- </optgroup> -->
-
-                        </select>
-                     </div>
+                        <label>IDNo</label>
+                         <div class="btn-group input-group-md  ">
+                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Enter IDNo " aria-describedby="button-addon2" value="">
+                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
+                           </div>
+                     </div>      
                </div>
-
+<div class="row" id="student_search_record">
+    <div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control"  name="name" id="name">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control"  name="father_name" id="father_name">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control"  name="designation" id="designation">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<input type="text" class="form-control"  name="address" id="address">
+</div>
+</div>
 
        
 
@@ -263,7 +202,7 @@
                   </h3>
                </div>
                <div class="card-body" id="checked_out_students"  >
-                  <div id="live_data">
+                  <div id="live_data" class="table table-striped table-responsive">
                      
                   </div>
                
@@ -319,33 +258,11 @@
    </div>
 </div>
 
-<div class="modal fade" id="check-out-modal">
-   <div class="modal-dialog modal-lg ">
-      <div class="modal-content" id="check-out-modal-data">
 
-      </div>
-   </div>
-</div>
 
 <p id="ajax-loader"></p>
 <script type="text/javascript">
-   function checkoutModal(visitorId) 
-   {
-      // alert(visitorId);
-      var code=150;
-      $.ajax(
-      {
-         url: 'action.php',
-         type: 'post',
-         data:{code:code, visitorId:visitorId},
-         success:function(response)
-         {
-            document.getElementById("check-out-modal-data").innerHTML=response; 
 
-            showVisitors();
-         }
-      });
-   }
  
                            function ShowHideDiv() {
                                var ddlPassport = document.getElementById("pord");
@@ -415,16 +332,14 @@
                             $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
-            var personmeet_id = document.getElementById("personmeet_id").value;
+           
+            var student_roll_no = document.getElementById("student_roll_no").value;
             var name = document.getElementById("name").value;
-            var mob = document.getElementById("mob").value;
-            var vehicle = document.getElementById("vehicle").value;
-            var proof = document.getElementById("proof").value;
-            var id_proof_no = document.getElementById("id_proof_no").value;
-            var purpose = document.getElementById("purpose").value;
-            var passno = document.getElementById("passno").value;
+            var designation = document.getElementById("designation").value;
+            var father_name = document.getElementById("father_name").value;
+            var address = document.getElementById("address").value;
             var userImageCaptured = document.getElementById("userImageCaptured").value;
-            if(personmeet_id!='' && name!='' && mob!='' && vehicle!='' && proof!='' && id_proof_no!='' && purpose!='' && passno!='' && userImageCaptured!='')
+            if(father_name!='' && name!='' && address!='' && designation!='')
             {
             var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
@@ -437,9 +352,25 @@
                processData: false,
                success: function(data)
                 {
-                  showVisitors();
+                  
+                      // location.reload(true);
                      spinner.style.display='none';
-                     location.reload(true);
+            if (data==1) 
+            {
+
+            }
+            else
+            {
+                  showVisitors(student_roll_no);
+                  SuccessToast('Successfully Inserted');
+            document.getElementById("userImageCaptured").value="";
+             document.getElementById('image_captured').innerHTML = ' <img src="dummy-user.png" width="100%" height="130px">';
+            document.getElementById("name").value='';
+            document.getElementById("designation").value='';
+            document.getElementById("father_name").value='';
+            document.getElementById("address").value='';
+
+            }
     
                 },
                error: function(data)
@@ -449,7 +380,7 @@
             });
          }
          else{
-            alert('Enter All');
+            ErrorToast('Enter All Required','bg-warning');
          }
          }));
        }); 
@@ -477,33 +408,19 @@
     }
 
                            window.onload = function() {
-                              showVisitors();
+                              showVisitors('');
                            };
 
-                           function checkOutVisitor(id)
-                           {
-                              var code=149;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{code:code, id:id},
-                                    success:function(response)
-                                    {
-                                       showVisitors();
-                                    }
-                                 });
+                       
 
-                           }
-
-                           function showVisitors()
+                           function showVisitors(id)
                            {
                               var code=259;
                                  $.ajax(
                                  {
                                     url: 'action.php',
                                     type: 'post',
-                                    data:{code:code},
+                                    data:{code:code,id:id},
                                     success:function(response)
                                     {
                                        // console.log(response);
@@ -513,36 +430,7 @@
                            }
 
 
-                           function submitEntry() 
-                           {
-                              var personmeet_id = document.getElementById("personmeet_id").value;
-                              var name = document.getElementById("name").value;
-                              var mob = document.getElementById("mob").value;
-                              var vehicle = document.getElementById("vehicle").value;
-                              var proof = document.getElementById("proof").value;
-                              var id_proof_no = document.getElementById("id_proof_no").value;
-                              var purpose = document.getElementById("purpose").value;
-                              var passno = document.getElementById("passno").value;
-                              if(personmeet_id!='' && name!='' && mob!='' && vehicle!='' && proof!='' && id_proof_no!='' && purpose!='' && passno!='')
-                              {
-                                 var code=147;
-                                 $.ajax(
-                                 {
-                                    url: 'action.php',
-                                    type: 'post',
-                                    data:{personmeet_id:personmeet_id,name:name,mob:mob,vehicle:vehicle,proof:proof,id_proof_no:id_proof_no,purpose:purpose,passno:passno, code:code},
-                                    success:function(response)
-                                    {
-                                       showVisitors();
-                                       location.reload(true);
-                                    }
-                                 });
-
-                              }
-                           }
+                     
                         </script>
                     
-<script type="text/javascript">
-
-</script>
 <?php include "footer.php";  ?>
