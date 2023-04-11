@@ -1250,7 +1250,7 @@ function emp_role_all(id)
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
       document.getElementById("show_all_menu_pages").innerHTML=xmlhttp.responseText;
-    }
+    } 
   }
   xmlhttp.open("GET", "get_action.php?menu_id=" + id+"&code="+code, true);
   xmlhttp.send();

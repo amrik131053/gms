@@ -1319,7 +1319,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
   
      // $img=$row['Snap'];
-   $pdf-> Image('http://10.0.10.11:86/Images/Staff/60427.jpg',$left+20,$down+28,27,27);
+   $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$value.'.jpg',$left+20,$down+28,27,27);
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetTextColor(0,0,0);
