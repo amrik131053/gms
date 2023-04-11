@@ -8571,6 +8571,7 @@ elseif($code=='141')
                   ?>
                 </ul>
               </div>
+
             </div>
          
    <?Php
@@ -15002,6 +15003,171 @@ Left
    <?Php
 }   
    
+   }
+
+
+   elseif($code=='258')
+   {
+   $univ_rollno=$_POST['rollNo'];
+   $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno' or IDNo='$univ_rollno'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+   
+    $IDNo= $row['IDNo'];
+    $ClassRollNo= $row['ClassRollNo'];
+    $img= $row['Snap'];
+    $UniRollNo= $row['UniRollNo'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $phone = $row['StudentMobileNo'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $result2 = "SELECT  * FROM MasterCourseCodes where CollegeID=".$row['CollegeID']." and CourseID=".$row['CourseID']." and Batch=".$row['Batch'];
+   $stmt2 = sqlsrv_query($conntest,$result2);
+   while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+   {
+       $validUpto = $row2['ValidUpto'];
+   }
+   if($validUpto!='')
+   {
+  $validUpto= $validUpto->format('d-M-Y');
+   }
+   else
+   {
+     $validUpto='';
+   }
+   
+   $sql="SELECT * from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id inner join building_master on building_master.ID=location_master.Block where student_id='$IDNo' and status='0'";
+   $res=mysqli_query($conn,$sql);
+   while($data=mysqli_fetch_array($res))
+   {
+     $building =$data['Name'];
+   }
+   ?>
+
+      <div class="col-lg-3">
+         <label>Name</label>
+<input type="text" name=""  class="form-control" value="<?= $father_name; ?>" disabled>
+        </div>
+        <div class="col-lg-3">
+         <label>Father Name</label>
+<input type="text" name=""  class="form-control" value="<?= $father_name; ?>"disabled>
+        </div>
+      <div class="col-lg-3">
+         <label>Phone</label><input type="text" name="" class="form-control" value="<?= $phone; ?>"disabled></div>
+      <div class="col-lg-3">
+<label>Batch</label>
+         <input type="text" name="" class="form-control" value="<?= $batch; ?>"disabled></div>
+      <div class="col-lg-6">
+<label>College</label>
+         <input type="text" name="" class="form-control" value="<?= $college; ?>"disabled></div>
+      <div class="col-lg-3 col-md-3" id="dvPassport">
+                           <label>Department<span style="color: red">*</span></label>
+                           <select class="form-control" id="dep">
+                              <option value="">select</option>
+                              <?php 
+                              $d="SELECT DISTINCT * FROM gate_visit_deparment";
+                              $dd=mysqli_query($conn,$d);
+                              while ($row_d=mysqli_fetch_array($dd))
+                               {
+                              echo '<option value="'.$row_d['department_id'].'">'.$row_d['department'].'</option>';  // code...
+                              }   
+                              ?>
+                           </select>
+                        </div>
+            
+          <div class="col-lg-3 col-md-3">
+                        <label>Purpose <span style="color: red">*</span></label>
+                        <input type="text" name="purpose" id="purpose" class="form-control">
+                     </div> 
+                     <div class="col-lg-3 col-md-3">
+                        <label> Visitor Pass No <span style="color: red">*</span></label>
+                        <!-- <input type="text" name="passno" id="passno" class="form-control passno"><br/> -->
+                        <select class="form-control"  name="passno" id="passno"  >
+                           <!-- <optgroup label="Pass Number"> -->
+                              
+                           <option value="">Select</option>
+                           <?php 
+                              $gatePassQry="SELECT distinct gate_entry_qr.id as passId from gate_entry_qr inner join gate_entry_visitor on gate_entry_visitor.gate_pass_no=gate_entry_qr.id where gate_entry_visitor.status!='0'";
+                              $gatePassRes=mysqli_query($conn,$gatePassQry);
+                              while($gatePassData=mysqli_fetch_array($gatePassRes))
+                              {
+                                 $gatePassCheckQry="SELECT * from gate_entry_visitor where status='0' and gate_pass_no=".$gatePassData['passId'];
+                                 $gatePassCheckRes=mysqli_query($conn,$gatePassCheckQry);
+                                 if (mysqli_num_rows($gatePassCheckRes)<1) 
+                                 {
+                                 ?>
+                                    <option value="<?=$gatePassData['passId']?>"><?=$gatePassData['passId']?></option>
+                                 <?php
+                                 }
+                              }
+                           ?>
+                           <!-- </optgroup> -->
+
+                        </select>
+                     </div>
+         
+         
+   <?php
+}   
+   
+   }
+   elseif($code==259)
+   {?>
+      <table class="table table-striped" id="example">
+         <thead>
+          <tr> 
+         <th><input type="checkbox" name=""></th>  
+         <th>Image</th>            
+          <th>Name</th>
+         <th>Father Name</th>
+          <th>ID</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Mobile Number</th>  
+          <th>Address</th> 
+            
+         
+         </tr>
+                   </thead>
+    <tbody id="d_card_record">
+      <?php 
+      $sql="SELECT * FROM Staff where IDNo BETWEEN 1 and 99999 and  JobStatus='1'";
+$result = sqlsrv_query($conntest,$sql); 
+while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+{
+$img=$row['Snap'];
+    ?>
+    
+  <tr>
+    <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
+    <td> <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
+    </td>
+     <td><?=$row['Name'];?></td>
+      <td><?=$row['FatherName'];?></td>
+       <td><?=$row['IDNo'];?></td>
+        <td><?=$row['Department'];?></td>
+         <td><?=$row['Designation'];?></td>
+          <td><?=$row['MobileNo'];?></td>
+          <td><?=$row['PermanentAddress']; 
+               ?>
+            </td>
+           
+</tr>
+<?php
+}
+?>
+</tbody>
+</table>
+</tr><?php 
+
+   }
+   elseif($code==260)
+   {
+
    }
  else
 {

@@ -202,10 +202,10 @@
    }
    
    $count++;
-   }
-   
    $up="Update id_card set Status='1' where id='$value'";
    $up1 = mysqli_query($conn,$up);
+   }
+   
    $pdf->Output();
 }
 elseif($code==2)
@@ -370,7 +370,8 @@ $left=10;
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		
+   		  $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
    	}
    	elseif($count==2 )
    	{
@@ -492,7 +493,8 @@ $left=10;
    $pdf->SetXY($left1,$down1);
     $pdf->MultiCell(80,50,'','','C');
    
-   
+     $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
 
    	}
 
@@ -622,7 +624,8 @@ $left=10;
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		
+   		  $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
    	}
    	elseif($count==4 )
    	{
@@ -743,7 +746,8 @@ $left=10;
    
    $pdf->SetXY($left1,$down1);
     $pdf->MultiCell(80,50,'','','C');
-   
+     $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
 
    	}
 
@@ -873,7 +877,8 @@ $left=10;
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		
+   		  $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
    	}
    	elseif($count==6 )
    	{
@@ -995,7 +1000,8 @@ $left=10;
    $pdf->SetXY($left1,$down1);
     $pdf->MultiCell(80,50,'','','C');
    
-
+  $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
    	}
 
 
@@ -1125,7 +1131,8 @@ $left=10;
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		
+   		  $up="Update id_card set buspass_status ='1' where id='$value'";
+   $up1 = mysqli_query($conn,$up);
    	}
    	elseif($count==8 )
    	{
