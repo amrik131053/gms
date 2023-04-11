@@ -14416,6 +14416,10 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    
    }
    }
+
+
+
+   
   elseif($code==245)
  {
 $sql="SELECT * FROM id_card order by id ASC";
