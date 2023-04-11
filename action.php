@@ -8754,7 +8754,7 @@ elseif($code==148)
                                  <!-- <th>Meeting Person</th>-->
                                  <th>Purpose</th>
                                  <th>Entry Time</th>
-                                 <!--<th>Exit Time</th> -->
+                                 <th>Exit Time</th> 
                                  <th>Pass No</th>
                                  <th>Action</th>
                               </tr>
@@ -8800,23 +8800,26 @@ elseif($code==148)
                       <td><?=$row['visitor_vehicle_no']?></td>
                       <td><?=$row['visitor_id_proof']?> </td>
                        <td><?=$row['meeting_purpose']?> </td>
-                      <td><?=$row['entry_time']?> </td>
-                      <td><?=$row['gate_pass_no']?> </td>
+                      <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?> </td>
+                    
                      
                       <?php
                       if($row["status"] == "1")
                      {
                         ?>
-                       <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
-                      <td><?=date("d-M-Y H:i A", strtotime($row["exit_time"]))?></td> -->
+                       <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td> -->
+                      <td><?=date("d-M-Y H:i A", strtotime($row["exit_time"]))?></td> 
+
+                       <td><?=$row['gate_pass_no']?> </td>
                       <td data-target='#check-out-modal' onclick="checkoutModal('<?=$row["id"]?>')"  data-toggle='modal'><b>Checked Out</b></td>
                         <?php
                      }
                      else
                      {
                         ?>
-                        <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
-                        <td></td> -->
+                       <!--  <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td> -->
+                        <td></td> 
+                         <td><?=$row['gate_pass_no']?> </td>
                         <td data-target='#check-out-modal' onclick="checkoutModal('<?=$row["id"]?>')"  data-toggle='modal'>
                                <!-- <input type = 'hidden' name='visitid' value="<?=$row["id"]?>">
                                <input type = 'hidden' name='mob' value="<?=$row["visitor_mobile"]?>"> -->
@@ -8824,6 +8827,7 @@ elseif($code==148)
                         </td>
                                <?php
                      }
+
                       ?>
                         <!-- <td>
                               <form method = 'post' action='print_receipt.php'>
