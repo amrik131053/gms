@@ -14855,7 +14855,9 @@ Left
                    </thead>
     <tbody id="d_card_record">
       <?php 
-      $sql="SELECT * FROM Staff where IDNo BETWEEN 1 and 99999 and  JobStatus='1'";
+      $IDNo=$_POST['id'];
+      // $sql="SELECT * FROM Staff where IDNo BETWEEN 1 and 99999 and  JobStatus='1'";
+      $sql="SELECT * FROM Staff where IDNo='$IDNo'  and JobStatus='1'";
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
@@ -14864,7 +14866,7 @@ $img=$row['Snap'];
     
   <tr>
     <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
-    <td> <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
+    <td> <img src="http://10.0.10.11:86/images/Staff/<?php echo $IDNo;?>.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">   
     </td>
      <td><?=$row['Name'];?></td>
       <td><?=$row['FatherName'];?></td>
@@ -14885,6 +14887,7 @@ $img=$row['Snap'];
 </tr><?php 
 
    }
+
 
 elseif($code==260)
    {
@@ -15164,9 +15167,104 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    }
    }
 
-
-
    
+
+   elseif($code==271)  //170976
+   { 
+   $univ_rollno=$_POST['rollNo'];
+   $result1 = "SELECT  * FROM Staff where IDNo='$univ_rollno'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+   
+    $IDNo= $row['IDNo'];
+?>
+ <div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control" value="<?=$row['Name'];?>" name="name" id="name">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control" value="<?=$row['FatherName'];?>" name="father_name" id="father_name">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<textarea type="text" class="form-control"  name="address" id="address"><?=$row['PermanentAddress'];?></textarea>
+</div>
+<?php 
+   }
+   else
+      {?>
+
+ <div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control"  name="name" id="name">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control" name="father_name" id="father_name">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control"  name="designation" id="designation">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<textarea type="text" class="form-control"  name="address" id="address"></textarea>
+</div>
+<center><small style="color:red;">Record found</small></center>
+      <?php 
+
+   }
+
+
+}
+elseif ($code==272) //170976 
+{
+    $link=$_POST['userImageCaptured'];
+    
+    $IdNo=$_POST['student_roll_no'];
+    $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+
+   $characters = '';
+   $result = $IdNo;
+   for ($i = 0; $i < 25; $i++)
+   $result .= $characters[mt_rand(0, 4)];
+   $image_name =$player_id.$result;
+
+   $ftp_server1 = "10.0.10.11";
+   $ftp_user_name1 = "Gurpreet";
+   $ftp_user_pass1 = "Guri@123";
+   $remote_file1 = "";
+   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+   $destdir = 'dummy_images/';
+
+   ftp_chdir($conn_id, "") or die("Could not change directory");
+   ftp_pasv($conn_id,true);
+
+   file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
+   ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   ftp_close($conn_id);
+   $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if ($stmt1==true)
+    {
+   echo "1";   // code...
+   }
+   else
+   {
+      echo "0";
+   }
+
+}
  else
 {
 echo "select code";
