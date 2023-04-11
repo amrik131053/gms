@@ -42,7 +42,7 @@ $(document).ready(function(){
 
 <CENTER><h5><b><u>FEEDBACK OF EMPLOYER</u></b></h5></CENTER>
   
-      <table class="table borderless " >
+      <table class="table borderless h" >
          <tr>
         <td><b>Name:&nbsp;&nbsp;&nbsp;&nbsp;</b><?= $row['info2']; ?> </td>
         <td> <b>Email:&nbsp;&nbsp;&nbsp;&nbsp; </b> <?= $row['info1']; ?> </td>

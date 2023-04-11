@@ -8751,12 +8751,12 @@ elseif($code==148)
                                  <th>Mobile No.</th>
                                  <th>Vehicle No.</th>
                                  <th>Proof</th>
-                                 <!-- <th>Meeting Person</th>
+                                 <!-- <th>Meeting Person</th>-->
                                  <th>Purpose</th>
                                  <th>Entry Time</th>
-                                 <th>Exit Time</th> -->
-                                 <th>Status</th>
-                                 <!-- <th>print</th> -->
+                                 <!--<th>Exit Time</th> -->
+                                 <th>Pass No</th>
+                                 <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -8799,20 +8799,15 @@ elseif($code==148)
                       <td><?=$row['visitor_mobile']?></td>
                       <td><?=$row['visitor_vehicle_no']?></td>
                       <td><?=$row['visitor_id_proof']?> </td>
-                      <!-- <td><?php
-                        $result1 = "SELECT * FROM Staff where IDNo=".$row['meeting_person_id'];
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                          echo $row1['Name']." (".$row1['Department'].")";
-                        }
-                      ?></td>
-                      <td><?=$row["meeting_purpose"]?></td> -->
+                       <td><?=$row['meeting_purpose']?> </td>
+                      <td><?=$row['entry_time']?> </td>
+                      <td><?=$row['gate_pass_no']?> </td>
+                     
                       <?php
                       if($row["status"] == "1")
                      {
                         ?>
-                      <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
+                       <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
                       <td><?=date("d-M-Y H:i A", strtotime($row["exit_time"]))?></td> -->
                       <td data-target='#check-out-modal' onclick="checkoutModal('<?=$row["id"]?>')"  data-toggle='modal'><b>Checked Out</b></td>
                         <?php
