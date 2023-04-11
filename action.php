@@ -8751,12 +8751,12 @@ elseif($code==148)
                                  <th>Mobile No.</th>
                                  <th>Vehicle No.</th>
                                  <th>Proof</th>
-                                 <!-- <th>Meeting Person</th>
+                                 <!-- <th>Meeting Person</th>-->
                                  <th>Purpose</th>
                                  <th>Entry Time</th>
-                                 <th>Exit Time</th> -->
-                                 <th>Status</th>
-                                 <!-- <th>print</th> -->
+                                 <th>Exit Time</th> 
+                                 <th>Pass No</th>
+                                 <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -8799,29 +8799,27 @@ elseif($code==148)
                       <td><?=$row['visitor_mobile']?></td>
                       <td><?=$row['visitor_vehicle_no']?></td>
                       <td><?=$row['visitor_id_proof']?> </td>
-                      <!-- <td><?php
-                        $result1 = "SELECT * FROM Staff where IDNo=".$row['meeting_person_id'];
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                          echo $row1['Name']." (".$row1['Department'].")";
-                        }
-                      ?></td>
-                      <td><?=$row["meeting_purpose"]?></td> -->
+                       <td><?=$row['meeting_purpose']?> </td>
+                      <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?> </td>
+                    
+                     
                       <?php
                       if($row["status"] == "1")
                      {
                         ?>
-                      <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
-                      <td><?=date("d-M-Y H:i A", strtotime($row["exit_time"]))?></td> -->
+                       <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td> -->
+                      <td><?=date("d-M-Y H:i A", strtotime($row["exit_time"]))?></td> 
+
+                       <td><?=$row['gate_pass_no']?> </td>
                       <td data-target='#check-out-modal' onclick="checkoutModal('<?=$row["id"]?>')"  data-toggle='modal'><b>Checked Out</b></td>
                         <?php
                      }
                      else
                      {
                         ?>
-                        <!-- <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td>
-                        <td></td> -->
+                       <!--  <td><?=date("d-M-Y H:i A", strtotime($row["entry_time"]))?></td> -->
+                        <td></td> 
+                         <td><?=$row['gate_pass_no']?> </td>
                         <td data-target='#check-out-modal' onclick="checkoutModal('<?=$row["id"]?>')"  data-toggle='modal'>
                                <!-- <input type = 'hidden' name='visitid' value="<?=$row["id"]?>">
                                <input type = 'hidden' name='mob' value="<?=$row["visitor_mobile"]?>"> -->
@@ -8829,6 +8827,7 @@ elseif($code==148)
                         </td>
                                <?php
                      }
+
                       ?>
                         <!-- <td>
                               <form method = 'post' action='print_receipt.php'>
@@ -11816,7 +11815,51 @@ elseif($code == 199)
    <!-- /.card -->
 </form>
 <?php
+   }   elseif ($code ==200)
+    {
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+
+
+  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
    }
+
+
+ // multiple update masrks  
+ else  if($code==201)
+{       
+$ids =$_POST['ids']; 
+ $mst=$_POST['mst'];
+$ecat=$_POST['ecat'];
+   $flag=$_POST['flag'];
+ for($i=0;$i<$flag;$i++)
+  {
+ echo $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+}
 
                elseif($code==202)
                {
@@ -12363,51 +12406,7 @@ while($show_row=mysqli_fetch_array($show_run))
 }
 
   }
-   elseif ($code ==200)
-    {
-      $course= $_POST['course'];
 
-$batch= $_POST['batch'];
-
-$sem= $_POST['sem'];
-
-
-
-  $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
-
-
- $stmt2 = sqlsrv_query($conntest,$sql);
- while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
- {
-   ?>
-   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
- <?php 
- }
-
-   }
-
-
- // multiple update masrks  
- else  if($code==201)
-{       
-$ids =$_POST['ids']; 
- $mst=$_POST['mst'];
-$ecat=$_POST['ecat'];
-   $flag=$_POST['flag'];
- for($i=0;$i<$flag;$i++)
-  {
- echo $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
- if ($stmt1==true) 
- {
-   echo "1";
- }
- else
- {
-  echo "0";
- }
-}
-}
 //unlock one student 
  else  if($code==206)
 {       
@@ -14140,283 +14139,7 @@ elseif($code==242)
 
  }
 
-elseif($code==260)
-   {
-      $pid_data =$_POST['pid_data']; 
- $pid_length=$_POST['pid_length'];
-
-
- for($i=0;$i<$pid_length;$i++)
-  {
- $list_sqlw= "UPDATE  PracticalMarks set Locked='1' where id='$pid_data[$i]'";
-  
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-}
- if ($stmt1==true) 
- {
-   echo "1"; 
- }
- else
- {
-  echo "0";
- }
    
-   
-}
-
-elseif($code==261)
-   {
-      $pid_data =$_POST['pid_data']; 
- $pid_length=$_POST['pid_length'];
-
-
- for($i=0;$i<$pid_length;$i++)
-  {
- $list_sqlw= "UPDATE  PracticalMarks set Locked=NULL where id='$pid_data[$i]'";
-  
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-}
- if ($stmt1==true) 
- {
-   echo "1";
- }
- else
- {
-  echo "0";
- }
-   
-   
-}
-
-elseif($code==262)
-   {
- $student_str =$_POST['student_str']; 
- $pmarks_str=$_POST['pmarks_str'];
- $vmarks_str=$_POST['vmarks_str'];
- $fmarks_str=$_POST['fmarks_str'];
- $len_student=$_POST['len_student'];
- $practicalid=$_POST['practicalid'];
- $internalupdatedby=$_POST['internalupdatedby'];
- for($i=0;$i<$len_student;$i++)
-
-  {
-
- echo $sql1 = "{CALL AddPracticalMarks('$practicalid','$student_str[$i]','$pmarks_str[$i]','$vmarks_str[$i]','$fmarks_str[$i]','$internalupdatedby')}";
-
-    $stmt = sqlsrv_prepare($conntest,$sql1);
-  
-    if (!sqlsrv_execute($stmt)) {
-          echo "Your code is fail!";
-    echo sqlsrv_errors($sql1);
-    die;
-    } 
-
- }
-
-   
-   
-}
-
-
-elseif ($code ==263)
-    {
-      $course= $_POST['course'];
-
-$batch= $_POST['batch'];
-
-$sem= $_POST['sem'];
-
-$college= $_POST['college'];
-
-$subject= $_POST['subject'];
-
-$examination= $_POST['examination'];
-
-
-   $sql = "SELECT id,Workshop_Name  FROM MasterWorkshop WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch'ANd SubCode='$subject' ANd Session='$examination' ANd  CollegeID='$college' ";
-
-
- $stmt2 = sqlsrv_query($conntest,$sql);
- while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
- {
-   ?>
-   <option value='<?= $row1["id"];?>'><?= $row1["Workshop_Name"];?></option>";
- <?php 
- }
-
-   }
-elseif($code==264)
-   {
-      $pid_data =$_POST['pid_data']; 
- $pid_length=$_POST['pid_length'];
-
-
- for($i=0;$i<$pid_length;$i++)
-  {
-  $list_sqlw= "UPDATE  WorkshopMark set Locked='1' where id='$pid_data[$i]'";
-  
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-}
- if ($stmt1==true) 
- {
-  echo "1";
- }
-else
-{
- echo "0";
-}
-   
-   
-}
-
-elseif($code==265)
-   {
-      $pid_data =$_POST['pid_data']; 
- $pid_length=$_POST['pid_length'];
-
-
- for($i=0;$i<$pid_length;$i++)
-  {
-  $list_sqlw= "UPDATE  WorkshopMark set Locked=NULL where id='$pid_data[$i]'";
-  
-  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-}
- if ($stmt1==true) 
- {
-  echo "1";
- }
-else
-{
- echo "0";
-}
-   
-   
-}
-
-elseif($code==266)
-   {
- $student_str =$_POST['student_str']; 
- $pmarks_str=$_POST['pmarks_str'];
- $len_student=$_POST['len_student'];
- $practicalid=$_POST['practicalid'];
- $internalupdatedby=$_POST['internalupdatedby'];
- for($i=0;$i<$len_student;$i++)
-
-  {
-
- echo $sql1 = "{CALL AddWorkshopMarks('$practicalid','$student_str[$i]','$pmarks_str[$i]','$internalupdatedby')}";
-
-    $stmt = sqlsrv_prepare($conntest,$sql1);
-  
-    if (!sqlsrv_execute($stmt)) {
-          echo "Your code is fail!";
-    echo sqlsrv_errors($sql1);
-    die;
-    } 
-
- }
-
-   
-   
-}
-
-elseif ($code ==267)
-    {
-      
-
-$examination= $_POST['examination'];
-
-$practicals=array();
-
-$sql = "SELECT id  FROM MasterWorkshop WHERE  Session='$examination'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
- while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
- {
-   $practicals[]=$row1['id'];
-
- }
- $length =sizeof($practicals);
-
-for($pr=0;$pr<$length;$pr++)
-{
-  echo  $sql = "UPDATE WorkshopMark  set Locked='1' WHERE  PID='$practicals[$pr]'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
-
-   }
-   echo "1";
-
- 
-}
- elseif ($code ==268)
-    {
-      
-
-$examination= $_POST['examination'];
-
-$practicals=array();
-
-$sql = "SELECT id  FROM MasterWorkshop WHERE  Session='$examination'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
- while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
- {
-   $practicals[]=$row1['id'];
-
- }
- $length =sizeof($practicals);
-
-for($pr=0;$pr<$length;$pr++)
-{
-  echo  $sql = "UPDATE workshopMark  set Locked=NULL WHERE  PID='$practicals[$pr]'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
-
-   }
-   echo "1";
-
-
-}
-elseif($code==269)
-   {
-    $id=$_POST['id'];
-   
-    echo $sql = "UPDATE WorkshopMark  set Locked='1' WHERE  id='$id'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
- 
-  if ($stmt2==true)
-    {
-       echo "1";
-      
-   }
-   else
-   {
-          echo "0";
-   
-   }
-   }
-
-elseif($code==270)
-   {
-    $id=$_POST['id'];
-   
-    echo $sql = "UPDATE WorkshopMark  set Locked=NULL WHERE  id='$id'";
-
-$stmt2 = sqlsrv_query($conntest,$sql);
- 
-  if ($stmt2==true)
-    {
-       echo "1";
-      
-   }
-   else
-   {
-          echo "0";
-   
-   }
-   }
   elseif($code==245)
  {
 $sql="SELECT * FROM id_card order by id ASC";
@@ -15163,6 +14886,288 @@ $img=$row['Snap'];
 </tr><?php 
 
    }
+
+
+elseif($code==260)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+ $list_sqlw= "UPDATE  PracticalMarks set Locked='1' where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+   echo "1"; 
+ }
+ else
+ {
+  echo "0";
+ }
+   
+   
+}
+
+elseif($code==261)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+ $list_sqlw= "UPDATE  PracticalMarks set Locked=NULL where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+   
+   
+}
+
+elseif($code==262)
+   {
+ $student_str =$_POST['student_str']; 
+ $pmarks_str=$_POST['pmarks_str'];
+ $vmarks_str=$_POST['vmarks_str'];
+ $fmarks_str=$_POST['fmarks_str'];
+ $len_student=$_POST['len_student'];
+ $practicalid=$_POST['practicalid'];
+ $internalupdatedby=$_POST['internalupdatedby'];
+ for($i=0;$i<$len_student;$i++)
+
+  {
+
+ echo $sql1 = "{CALL AddPracticalMarks('$practicalid','$student_str[$i]','$pmarks_str[$i]','$vmarks_str[$i]','$fmarks_str[$i]','$internalupdatedby')}";
+
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+ }
+
+   
+   
+}
+
+
+elseif ($code ==263)
+    {
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$college= $_POST['college'];
+
+$subject= $_POST['subject'];
+
+$examination= $_POST['examination'];
+
+
+   $sql = "SELECT id,Workshop_Name  FROM MasterWorkshop WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch'ANd SubCode='$subject' ANd Session='$examination' ANd  CollegeID='$college' ";
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["id"];?>'><?= $row1["Workshop_Name"];?></option>";
+ <?php 
+ }
+
+   }
+elseif($code==264)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+  $list_sqlw= "UPDATE  WorkshopMark set Locked='1' where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+  echo "1";
+ }
+else
+{
+ echo "0";
+}
+   
+   
+}
+
+elseif($code==265)
+   {
+      $pid_data =$_POST['pid_data']; 
+ $pid_length=$_POST['pid_length'];
+
+
+ for($i=0;$i<$pid_length;$i++)
+  {
+  $list_sqlw= "UPDATE  WorkshopMark set Locked=NULL where id='$pid_data[$i]'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+}
+ if ($stmt1==true) 
+ {
+  echo "1";
+ }
+else
+{
+ echo "0";
+}
+   
+   
+}
+
+elseif($code==266)
+   {
+ $student_str =$_POST['student_str']; 
+ $pmarks_str=$_POST['pmarks_str'];
+ $len_student=$_POST['len_student'];
+ $practicalid=$_POST['practicalid'];
+ $internalupdatedby=$_POST['internalupdatedby'];
+ for($i=0;$i<$len_student;$i++)
+
+  {
+
+ echo $sql1 = "{CALL AddWorkshopMarks('$practicalid','$student_str[$i]','$pmarks_str[$i]','$internalupdatedby')}";
+
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+ }
+
+   
+   
+}
+
+elseif ($code ==267)
+    {
+      
+
+$examination= $_POST['examination'];
+
+$practicals=array();
+
+$sql = "SELECT id  FROM MasterWorkshop WHERE  Session='$examination'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   $practicals[]=$row1['id'];
+
+ }
+ $length =sizeof($practicals);
+
+for($pr=0;$pr<$length;$pr++)
+{
+  echo  $sql = "UPDATE WorkshopMark  set Locked='1' WHERE  PID='$practicals[$pr]'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+
+   }
+   echo "1";
+
+ 
+}
+ elseif ($code ==268)
+    {
+      
+
+$examination= $_POST['examination'];
+
+$practicals=array();
+
+$sql = "SELECT id  FROM MasterWorkshop WHERE  Session='$examination'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   $practicals[]=$row1['id'];
+
+ }
+ $length =sizeof($practicals);
+
+for($pr=0;$pr<$length;$pr++)
+{
+  echo  $sql = "UPDATE workshopMark  set Locked=NULL WHERE  PID='$practicals[$pr]'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+
+   }
+   echo "1";
+
+
+}
+elseif($code==269)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE WorkshopMark  set Locked='1' WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
+elseif($code==270)
+   {
+    $id=$_POST['id'];
+   
+    echo $sql = "UPDATE WorkshopMark  set Locked=NULL WHERE  id='$id'";
+
+$stmt2 = sqlsrv_query($conntest,$sql);
+ 
+  if ($stmt2==true)
+    {
+       echo "1";
+      
+   }
+   else
+   {
+          echo "0";
+   
+   }
+   }
+
+   
+
    elseif($code==271)  //170976
    { 
    $univ_rollno=$_POST['rollNo'];
