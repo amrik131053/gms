@@ -3235,6 +3235,9 @@ elseif($code==37)
 
    $menu_update="UPDATE master_menu SET menu_name='$menu_name' WHERE id='$id'";
    $menu_run=mysqli_query($conn,$menu_update);
+
+   $menu_update1="UPDATE permissions SET mainmenu='$menu_name' WHERE master_id='$id'";
+   mysqli_query($conn,$menu_update1);
    if ($menu_run)
     {
      echo "1";  }
