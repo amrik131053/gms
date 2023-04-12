@@ -14848,7 +14848,7 @@ Left
           <th>Designation</th>
           <th>Mobile Number</th>  
           <th>Address</th> 
-            
+            <th>action</th>
          
          </tr>
                    </thead>
@@ -14884,6 +14884,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
           <td><?=$row['PermanentAddress']; 
                ?>
             </td>
+            <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['IDNo'];?>);" ></i></td>
            
 </tr>
 <?php
@@ -15275,6 +15276,59 @@ elseif ($code==272) //170976
    }
 
 }
+  elseif($code==273)  //170976
+   { 
+   $univ_rollno=$_POST['id'];
+   $result1 = "SELECT  * FROM Staff where IDNo='$univ_rollno'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+   
+    // $IDNo= $row['IDNo'];
+?>
+<div class="row">
+
+
+<input type="hidden" class="form-control" value="<?=$row['IDNo'];?>" name="student_roll_no" id="student_roll_no1">
+
+<div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control" value="<?=$row['Name'];?>" name="name" id="name1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control" value="<?=$row['FatherName'];?>" name="father_name" id="father_name1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<textarea type="text" class="form-control"  name="address" id="address1"><?=$row['PermanentAddress'];?></textarea>
+</div>
+</div>
+<?php 
+   }
+   }
+   elseif($code==274) //170976
+   {
+        $IdNo=$_POST['student_roll_no'];
+    $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+echo $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if ($stmt1==true)
+    {
+   echo "1";   // code...
+   }
+   else
+   {
+      echo "0";
+   }
+   }
  else
 {
 echo "select code";

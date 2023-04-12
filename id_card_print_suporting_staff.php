@@ -261,6 +261,25 @@
 </div>
 
 
+<div class="modal fade" id="modal-default_edit">
+   <div class="modal-dialog modal-lg ">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id="edit_show">
+            
+         </div>
+         <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success btn-xs" type=button data-dismiss="modal" value="Take Snapshot" onClick="submit()">Update</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 <p id="ajax-loader"></p>
 <script type="text/javascript">
@@ -342,7 +361,7 @@
             var father_name = document.getElementById("father_name").value;
             var address = document.getElementById("address").value;
             var userImageCaptured = document.getElementById("userImageCaptured").value;
-            if(father_name!='' && name!='' && address!='' && designation!='')
+            if(father_name!='' && name!='' && address!='' && designation!='' && userImageCaptured!='')
             {
             var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
@@ -434,9 +453,69 @@
                                     }
                                  });
                            }
+                           function edit_data(id) 
+                           {
+                              
+                                 var code=273;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{id:id, code:code},
+                                    success:function(response)
+                                    {
+                                       document.getElementById("edit_show").innerHTML=response;
 
+                                       // showVisitors();
+                                       // location.reload(true);
+                                    }
+                                 });
 
-                     
+                              }
+
+                     function submit()
+                     {
+                           var student_roll_no = document.getElementById("student_roll_no1").value;
+            var name = document.getElementById("name1").value;
+            var designation = document.getElementById("designation1").value;
+            var father_name = document.getElementById("father_name1").value;
+            var address = document.getElementById("address1").value;
+         var code=274;
+            if(father_name!='' && name!='' && address!='' && designation!='')
+            {
+            var spinner=document.getElementById("ajax-loader");
+            spinner.style.display='block';
+            $.ajax({
+                  url: 'action.php',
+                   type: 'post',
+               data:{code:code,student_roll_no:student_roll_no,name:name,father_name:father_name,designation:designation,address:address},
+               success: function(data)
+                {
+                     spinner.style.display='none';
+            if (data==1) 
+            {
+
+            }
+            else
+            {
+               // console.log(data);
+                  showVisitors(student_roll_no);
+                  student_search();
+                  SuccessToast('Successfully Update');
+            }
+    
+                },
+               error: function(data)
+               {
+                 
+               }
+            });
+         }
+         else{
+            ErrorToast('Enter All Required','bg-warning');
+         }
+}
                         </script>
+                     
                     
 <?php include "footer.php";  ?>
