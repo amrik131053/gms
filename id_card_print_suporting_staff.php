@@ -80,15 +80,45 @@
             success:function(response) 
             {
                spinner.style.display='none';
+               student_search_image();
                document.getElementById("student_search_record").innerHTML =response;
+               // document.getElementById("live_data").innerHTML =response;
             }
          });
       }
       else
       {
          ErrorToast('Please Enter the IDNo.','bg-warning');
-         // document.getElementById("student_search_record").innerHTML ='';
-           // document.getElementById("userImageCaptured").innerHTML='';
+      }
+   }  
+
+      function student_search_image()
+   {
+      var code=273;
+      var rollNo= document.getElementById("student_roll_no").value;
+      if (rollNo!='') 
+      {
+         var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,rollNo:rollNo
+            },
+            success:function(response) 
+            {
+               spinner.style.display='none';
+               showVisitors(rollNo);
+               document.getElementById("image_captured").innerHTML =response;
+            }
+         });
+      }
+      else
+      {
+         ErrorToast('Please Enter the IDNo.','bg-warning');
       }
    }  
 </script>
@@ -227,7 +257,7 @@
             </button>
          </div>
          <div class="modal-body">
-            <table class="table " border="1">
+            <table class="table table-responsive  " border="1">
                <tr style="background-color: #223260; color: white;">
                   <th colspan="2">
                      <center>Capture Image</center>
@@ -239,8 +269,9 @@
                         <input type="hidden" name="userImage" class="image-tag">
                         <div id="my_camera"></div>
                      </td>
-                     <td><div id="results">
-                  <img src="dummy-user.png" width="280px" height="320px">
+                     <td>
+                        <div id="results">
+                     <img src="dummy-user.png" width="280px" height="320px">
                         
                      </div><br>
                      </td>
