@@ -80,7 +80,7 @@
             success:function(response) 
             {
                spinner.style.display='none';
-               student_search_image();
+               showVisitors(rollNo);
                document.getElementById("student_search_record").innerHTML =response;
                // document.getElementById("live_data").innerHTML =response;
             }
@@ -92,35 +92,6 @@
       }
    }  
 
-      function student_search_image()
-   {
-      var code=273;
-      var rollNo= document.getElementById("student_roll_no").value;
-      if (rollNo!='') 
-      {
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo
-            },
-            success:function(response) 
-            {
-               spinner.style.display='none';
-               showVisitors(rollNo);
-               document.getElementById("image_captured").innerHTML =response;
-            }
-         });
-      }
-      else
-      {
-         ErrorToast('Please Enter the IDNo.','bg-warning');
-      }
-   }  
 </script>
 <script>
   $(function () {
@@ -206,7 +177,7 @@
             <div class="col-lg-2 col-md-2" >
                <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
                <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
-                  <img src="dummy-user.png" width="100%" height="130px">
+                  <img src="dummy-user.png" width="100%" height="130px" >
 
                            
                </div>
@@ -290,6 +261,25 @@
 </div>
 
 
+<div class="modal fade" id="modal-default_edit">
+   <div class="modal-dialog modal-lg ">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id="edit_show">
+            
+         </div>
+         <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success btn-xs" type=button data-dismiss="modal" value="Take Snapshot" onClick="submit()">Update</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 <p id="ajax-loader"></p>
 <script type="text/javascript">
@@ -363,6 +353,7 @@
                             $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
+                              
            
             var student_roll_no = document.getElementById("student_roll_no").value;
             var name = document.getElementById("name").value;
@@ -370,7 +361,7 @@
             var father_name = document.getElementById("father_name").value;
             var address = document.getElementById("address").value;
             var userImageCaptured = document.getElementById("userImageCaptured").value;
-            if(father_name!='' && name!='' && address!='' && designation!='')
+            if(father_name!='' && name!='' && address!='' && designation!='' && userImageCaptured!='')
             {
             var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
@@ -383,8 +374,6 @@
                processData: false,
                success: function(data)
                 {
-                  
-                      // location.reload(true);
                      spinner.style.display='none';
             if (data==1) 
             {
@@ -393,6 +382,8 @@
             else
             {
                   showVisitors(student_roll_no);
+                      
+
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
              document.getElementById('image_captured').innerHTML = ' <img src="dummy-user.png" width="100%" height="130px">';
@@ -438,14 +429,16 @@
         } );
     }
 
-                           window.onload = function() {
-                              showVisitors('');
-                           };
+                           // window.onload = function() {
+                           //    showVisitors('');
+                           // };
 
                        
 
                            function showVisitors(id)
                            {
+
+                              // alert(id);
                               var code=259;
                                  $.ajax(
                                  {
@@ -454,14 +447,75 @@
                                     data:{code:code,id:id},
                                     success:function(response)
                                     {
+
                                        // console.log(response);
                                        document.getElementById("live_data").innerHTML=response;
                                     }
                                  });
                            }
+                           function edit_data(id) 
+                           {
+                              
+                                 var code=273;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{id:id, code:code},
+                                    success:function(response)
+                                    {
+                                       document.getElementById("edit_show").innerHTML=response;
 
+                                       // showVisitors();
+                                       // location.reload(true);
+                                    }
+                                 });
 
-                     
+                              }
+
+                     function submit()
+                     {
+                           var student_roll_no = document.getElementById("student_roll_no1").value;
+            var name = document.getElementById("name1").value;
+            var designation = document.getElementById("designation1").value;
+            var father_name = document.getElementById("father_name1").value;
+            var address = document.getElementById("address1").value;
+         var code=274;
+            if(father_name!='' && name!='' && address!='' && designation!='')
+            {
+            var spinner=document.getElementById("ajax-loader");
+            spinner.style.display='block';
+            $.ajax({
+                  url: 'action.php',
+                   type: 'post',
+               data:{code:code,student_roll_no:student_roll_no,name:name,father_name:father_name,designation:designation,address:address},
+               success: function(data)
+                {
+                     spinner.style.display='none';
+            if (data==1) 
+            {
+
+            }
+            else
+            {
+               // console.log(data);
+                  showVisitors(student_roll_no);
+                  student_search();
+                  SuccessToast('Successfully Update');
+            }
+    
+                },
+               error: function(data)
+               {
+                 
+               }
+            });
+         }
+         else{
+            ErrorToast('Enter All Required','bg-warning');
+         }
+}
                         </script>
+                     
                     
 <?php include "footer.php";  ?>
