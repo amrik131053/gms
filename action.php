@@ -14852,7 +14852,7 @@ Left
          
          </tr>
                    </thead>
-    <tbody id="d_card_record">
+    <tbody id="">
       <?php 
       $IDNo=$_POST['id'];
       // $sql="SELECT * FROM Staff where IDNo BETWEEN 1 and 99999 and  JobStatus='1'";
@@ -14865,7 +14865,7 @@ $img=$row['Snap'];
     
   <tr>
     <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
-    <td> <img src="http://10.0.10.11:86/images/Staff/<?php echo $IDNo;?>.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">   
+    <td> <img src="http://10.0.10.11:86/Images/Staff/<?php echo $IDNo;?>.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">   
     </td>
      <td><?=$row['Name'];?></td>
       <td><?=$row['FatherName'];?></td>
@@ -15263,6 +15263,15 @@ elseif ($code==272) //170976
       echo "0";
    }
 
+}
+
+   elseif($code==273)  //170976
+   { 
+   $univ_rollno=$_POST['rollNo'];
+    
+   ?>
+<img src="http://10.0.10.11:86/Images/Staff/<?=$univ_rollno;?>.jpg" id="image_captured" width="100%" height="130px">
+<?php 
 }
  else
 {

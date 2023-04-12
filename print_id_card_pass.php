@@ -1309,7 +1309,7 @@ $left=10;
    $pdf-> Image('dist\img\idcardbg.png',$left,$down+104,66,6);
    // $pdf-> Image('dist\img\idcardbg.png',$left,$down+15,57,10);
 
-   $pdf-> Image('dist\img\ett_sign.png',$left+24,$down+95,18,8);
+   $pdf-> Image('dist\img\sign_suporting_staff.png',$left+20,$down+90,30,12);
            $pdf->SetFont('Arial','B',12);
    
    $sql="SELECT * FROM Staff where IDNo='$value'";
@@ -1379,13 +1379,13 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
    $pdf->SetFont('Arial','B',11);
    $pdf->Write(0,$row['FatherName']);
    
-    $pdf->SetXY($left1-13+5,$down1+22);
-   $pdf->SetFont('Arial','B',11);
-   $pdf->Write(0,'Mobile   :');
+   //  $pdf->SetXY($left1-13+5,$down1+22);
+   // $pdf->SetFont('Arial','B',11);
+   // $pdf->Write(0,'Mobile   :');
    
-   $pdf->SetXY($left1-13+23,$down1+22);
-   $pdf->SetFont('Arial','B',11);
-   $pdf->Write(0,$row['MobileNo']);
+   // $pdf->SetXY($left1-13+23,$down1+22);
+   // $pdf->SetFont('Arial','B',11);
+   // $pdf->Write(0,$row['MobileNo']);
    
     $pdf->SetXY($left1-10,$down1+32);
    $pdf->SetFont('Arial','B',11);
