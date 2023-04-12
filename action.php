@@ -14839,7 +14839,7 @@ Left
       <table class="table table-striped" id="example">
          <thead>
           <tr> 
-         <th><input type="checkbox" name=""></th>  
+         <!-- <th><input type="checkbox" name=""></th>   -->
          <th>Image</th>            
           <th>Name</th>
          <th>Father Name</th>
@@ -14860,12 +14860,20 @@ Left
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
-$img=$row['Snap'];
+// $img=$row['Snap'];
     ?>
     
   <tr>
-    <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
-    <td> <img src="http://10.0.10.11:86/Images/Staff/<?php echo $IDNo;?>.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">   
+    <!-- <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td> -->
+    <td>
+      <div class="filter-container p-0 row">
+                           <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
+                              <a href="http://erp.gku.ac.in:86/Images/Staff/<?php echo $IDNo;?>.jpg" data-toggle="lightbox" data-title="<?=$IDNo;?>">
+                                 <img src="http://erp.gku.ac.in:86/Images/Staff/<?php echo $IDNo;?>.jpg" id="img_u"  height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%" alt="image"/>
+                              </a>
+                           </div>
+                        </div>
+                         
     </td>
      <td><?=$row['Name'];?></td>
       <td><?=$row['FatherName'];?></td>
@@ -15176,7 +15184,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
    
-    $IDNo= $row['IDNo'];
+    // $IDNo= $row['IDNo'];
 ?>
  <div class="col-lg-3 col-md-3">
    <label>Name</label>
@@ -15224,18 +15232,19 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 }
 elseif ($code==272) //170976 
 {
-    $link=$_POST['userImageCaptured'];
-    
+
     $IdNo=$_POST['student_roll_no'];
     $name=$_POST['name'];
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
+    $link=$_POST['userImageCaptured'];
 
+ 
    $characters = '';
    $result = $IdNo;
-   for ($i = 0; $i < 25; $i++)
-   $result .= $characters[mt_rand(0, 4)];
+   // for ($i = 0; $i < 25; $i++)
+   // $result .= $characters[mt_rand(0, 4)];
    $image_name =$player_id.$result;
 
    $ftp_server1 = "10.0.10.11";
@@ -15252,6 +15261,8 @@ elseif ($code==272) //170976
    file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
    ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
+
+
    $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
    $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
@@ -15263,15 +15274,6 @@ elseif ($code==272) //170976
       echo "0";
    }
 
-}
-
-   elseif($code==273)  //170976
-   { 
-   $univ_rollno=$_POST['rollNo'];
-    
-   ?>
-<img src="http://10.0.10.11:86/Images/Staff/<?=$univ_rollno;?>.jpg" id="image_captured" width="100%" height="130px">
-<?php 
 }
  else
 {

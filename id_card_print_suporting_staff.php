@@ -80,7 +80,7 @@
             success:function(response) 
             {
                spinner.style.display='none';
-               student_search_image();
+               showVisitors(rollNo);
                document.getElementById("student_search_record").innerHTML =response;
                // document.getElementById("live_data").innerHTML =response;
             }
@@ -92,35 +92,6 @@
       }
    }  
 
-      function student_search_image()
-   {
-      var code=273;
-      var rollNo= document.getElementById("student_roll_no").value;
-      if (rollNo!='') 
-      {
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo
-            },
-            success:function(response) 
-            {
-               spinner.style.display='none';
-               showVisitors(rollNo);
-               document.getElementById("image_captured").innerHTML =response;
-            }
-         });
-      }
-      else
-      {
-         ErrorToast('Please Enter the IDNo.','bg-warning');
-      }
-   }  
 </script>
 <script>
   $(function () {
@@ -206,7 +177,7 @@
             <div class="col-lg-2 col-md-2" >
                <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
                <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
-                  <img src="dummy-user.png" width="100%" height="130px">
+                  <img src="dummy-user.png" width="100%" height="130px" >
 
                            
                </div>
@@ -363,6 +334,7 @@
                             $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
+                              
            
             var student_roll_no = document.getElementById("student_roll_no").value;
             var name = document.getElementById("name").value;
@@ -383,8 +355,6 @@
                processData: false,
                success: function(data)
                 {
-                  
-                      // location.reload(true);
                      spinner.style.display='none';
             if (data==1) 
             {
@@ -393,6 +363,8 @@
             else
             {
                   showVisitors(student_roll_no);
+                      
+
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
              document.getElementById('image_captured').innerHTML = ' <img src="dummy-user.png" width="100%" height="130px">';
@@ -438,14 +410,16 @@
         } );
     }
 
-                           window.onload = function() {
-                              showVisitors('');
-                           };
+                           // window.onload = function() {
+                           //    showVisitors('');
+                           // };
 
                        
 
                            function showVisitors(id)
                            {
+
+                              // alert(id);
                               var code=259;
                                  $.ajax(
                                  {
@@ -454,6 +428,7 @@
                                     data:{code:code,id:id},
                                     success:function(response)
                                     {
+
                                        // console.log(response);
                                        document.getElementById("live_data").innerHTML=response;
                                     }
