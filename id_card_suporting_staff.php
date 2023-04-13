@@ -51,14 +51,15 @@ include "connection/connection.php";
                    </thead>
     <tbody id="d_card_record">
 <?php
-$sql="SELECT * FROM Staff where IDNo BETWEEN 1 and 99999 and  JobStatus='1'";
+$sql="SELECT * FROM Staff where Designation='Peon' or Designation='Swiper' or Designation='Mali' or Designation='Sweeper' ";
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
 $IDNo=$row['IDNo'];
-    ?>
-    
-  <tr>
+$external_link = 'http://10.0.10.11:86/images/Staff/'.$IDNo.'.jpg';
+if (@getimagesize($external_link)) {
+?>
+ <tr>
     <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
     <td> <?php echo '<img src="http://10.0.10.11:86/images/Staff/'.$IDNo.'.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
     </td>
@@ -90,8 +91,13 @@ if($row1=mysqli_fetch_array($result1) )
 }
 ?>
 </td>
-</tr>
-<?php
+</tr><?php 
+}
+ else
+ {
+// echo 'image does not exist';
+}
+ 
 }
     
 

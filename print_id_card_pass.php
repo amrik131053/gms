@@ -1282,7 +1282,7 @@ $left=10;
    $left1=86;
    $down1=5;
    $down=5;
-   $count=1;
+   $count=0;
    $down11=5;
    $output = '';  
    $ctime = date("d-m-Y");
@@ -1321,7 +1321,9 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
      // $img=$row['Snap'];
   // echo $value;
    $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$value.'.jpg',$left+20,$down+28,27,27);
-   
+     $pdf->SetXY($left+20,$down+28);
+    $pdf->MultiCell(27,27,'','1','C');
+  
    $pdf->SetTextColor(255,255,255);
    $pdf->SetTextColor(0,0,0);
    
@@ -1337,9 +1339,14 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   
    $pdf->SetXY($left,$down+42+35);
    $pdf->SetFont('Arial','B',15);
- 
+ if ($row['Designation']=='Sweeper')
+  {
+   $pdf->MultiCell(66,5,'Housekeeping Staff','0','C');
+  }
+ else
+  {
     $pdf->MultiCell(66,5,$row['Designation'],'0','C');
-   
+  }
    $pdf->SetXY($left,$down+105);
    
    $pdf->SetTextColor(255,255,255);
@@ -1435,13 +1442,15 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        $pdf->SetXY($left1-10,$down1+40+55);
    $pdf->SetFont('Arial','B',11);
    $pdf->MultiCell(66,3,'www.gurukashiuniversity.in','','C');
-   if ($count==2 || $count==4 || $count==6 || $count==8 || $count==10 || $count==12 || $count==14) {
+   if ($count==2 || $count==4 || $count==6 || $count==8 || $count==10 || $count==12 || $count==14) 
+   {
    $pdf->AddPage('P');
     $left=5;
    $left1=86;
    $down1=5;
    $down=5;
-   }else
+   }
+   else
    {
    $down1=$down1+120;
    $left=$left;
