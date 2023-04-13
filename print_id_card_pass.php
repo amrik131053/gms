@@ -1339,7 +1339,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   
    $pdf->SetXY($left,$down+42+35);
    $pdf->SetFont('Arial','B',15);
- if ($row['Designation']=='Sweeper')
+ if ($row['Designation']=='Sweeper' OR $row['Designation']=='Peon')
   {
    $pdf->MultiCell(66,5,'Housekeeping Staff','0','C');
   }
