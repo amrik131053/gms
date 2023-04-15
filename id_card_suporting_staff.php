@@ -51,7 +51,7 @@ include "connection/connection.php";
                    </thead>
     <tbody id="d_card_record">
 <?php
-$sql="SELECT * FROM Staff where Designation='Peon' or Designation='Swiper' or Designation='Mali' or Designation='Sweeper' ";
+$sql="SELECT * FROM Staff where Designation='Peon' or Designation='Swiper' or Designation='Gardener' or Designation='Sweeper' ";
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
