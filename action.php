@@ -15350,7 +15350,7 @@ elseif($code==275)
                    </thead>
     <tbody >
       <?php 
-      $sql="SELECT * FROM Staff where Designation='Peon' or Designation='Supervisor' or Designation='Mali' or Designation='Sweeper' ";
+      $sql="SELECT * FROM Staff where Designation='Peon' or Designation='Supervisor' or Designation='Mali' or Designation='Sweeper' or Designation='Postman' ";
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {

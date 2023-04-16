@@ -97,7 +97,7 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
 
 
    $pdf->SetXY($left+160,$down+14);
-   $pdf->SetFont('Arial','B',28);
+   $pdf->SetFont('Arial','B',20);
    $pdf->SetTextColor(166,37,53);
    $pdf->Rotate(180);
    // $pdf->RotatedText(159,12,'Web Developer',180);
@@ -106,7 +106,7 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
 
 // $pdf->RotatedText(159,12,'Hello!',45);
    $pdf->SetXY($left+220,$down+49);
-   $pdf->SetFont('Arial','B',57);
+   $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
     // $pdf->StartTransform();          
    // $pdf->Rotate(180);
@@ -114,12 +114,12 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
    $pdf->MultiCell(220,25,$Name,'0','R');
    $pdf->Rotate(0);
    $pdf->SetXY($left1,$down1);
-   $pdf->SetFont('Arial','B',57);
+   $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
    $pdf->MultiCell(220,25,$Name,'0','R');
 
    $pdf->SetXY($left1+60,$down1+36);
-   $pdf->SetFont('Arial','B',28);
+   $pdf->SetFont('Arial','B',20);
    // $pdf->SetXY(20,20);
    $pdf->SetTextColor(166,37,53);
    $pdf->MultiCell(159,12,$Designation,'0','R');
