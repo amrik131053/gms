@@ -15328,6 +15328,178 @@ echo $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designa
    {
       echo "0";
    }
+   }   
+elseif($code==275)
+   {
+?>  <div  class="table table-striped table-responsive">
+                    <table class="table table-striped" id="example">
+         <thead>
+          <tr> 
+         <th><input type="checkbox" name=""></th>  
+         <th>Image</th>            
+          <th>Name</th>
+         <th>Father Name</th>
+          <th>ID</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Mobile Number</th>  
+          <th>Address</th> 
+          <th>Status</th>      
+         
+         </tr>
+                   </thead>
+    <tbody >
+      <?php 
+      $sql="SELECT * FROM Staff where Designation='Peon' or Designation='Swiper' or Designation='Mali' or Designation='Sweeper' ";
+$result = sqlsrv_query($conntest,$sql); 
+while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+{
+$IDNo=$row['IDNo'];
+$external_link = 'http://10.0.10.11:86/images/Staff/'.$IDNo.'.jpg';
+if (@getimagesize($external_link)) {
+?>
+ <tr>
+    <td><input type="checkbox" name="" class="sel" value="<?=$row['IDNo'];?>" ></td>
+    <td> <?php echo '<img src="http://10.0.10.11:86/images/Staff/'.$IDNo.'.jpg" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
+    </td>
+     <td><?=$row['Name'];?></td>
+      <td><?=$row['FatherName'];?></td>
+       <td><?=$row['IDNo'];?></td>
+        <td><?=$row['Department'];?></td>
+         <td><?=$row['Designation'];?></td>
+          <td><?=$row['MobileNo'];?></td>
+          <td><?=$row['PermanentAddress']; 
+               ?>
+            </td>
+            <td><?php
+            $IDNo=$row['IDNo'];
+               $sql1="SELECT * FROM Suporting_staff where IDNo='$IDNo'";
+$result1 = mysqli_query($conn,$sql1); 
+if($row1=mysqli_fetch_array($result1) )
+{
+          if ($row1['Status']==1)
+           {?><P style="color:red;">Printed</P><?php
+            
+          }
+          else
+{?><P style="color:blue;">Pending</P>
+  <?php
+
+
+}
+}
+?></td>
+</tr><?php
+}
+ else
+ {
+// echo 'image does not exist';
+}
+ 
+}
+?>
+</tbody>
+</table>
+</div>
+<?php 
+    
+
+   }
+   elseif($code==276)
+   {
+
+   // $characters = '';
+    // $IdNo = 11;
+    // $IdNo='';
+   echo  $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+    $link=$_POST['userImageCaptured'];
+// echo $link;
+   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+   $result = 'OntheSpotImage';
+   for ($i = 0; $i < 25; $i++)
+   $result .= $characters[mt_rand(0, 2)];
+   $image_name =$result;
+
+   $ftp_server1 = "10.0.10.11";
+   $ftp_user_name1 = "Gurpreet";
+   $ftp_user_pass1 = "Guri@123";
+   $remote_file1 = "";
+   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+   $destdir = 'dummy_images/';
+
+   ftp_chdir($conn_id, "") or die("Could not change directory");
+   ftp_pasv($conn_id,true);
+
+   file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
+   ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   ftp_close($conn_id);
+
+
+    echo $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$image_name')";
+   $stmt1 = mysqli_query($conn,$result1);
+   if ($stmt1==true)
+    {
+   echo "1";   // code...
+   }
+   else
+   {
+      echo "0";
+   }
+   }
+
+
+   elseif($code==277) //170976
+   {
+?>  <div  class="table table-striped table-responsive">
+                    <table class="table table-striped" id="example">
+         <thead>
+          <tr> 
+         <th><input type="checkbox" name=""></th>  
+         <th>Image</th>            
+          <th>Name</th>
+         <th>Father Name</th>
+          
+          <th>Designation</th>
+         
+          <th>Address</th> 
+          <th>Status</th>      
+         
+         </tr>
+                   </thead>
+    <tbody >
+      <?php 
+      $sql="SELECT * FROM mess_idcard  ";
+$result = mysqli_query($conn,$sql); 
+while($row=mysqli_fetch_array($result) )
+{
+?>
+ <tr>
+    <td><input type="checkbox" name="" class="sel" value="<?=$row['id'];?>" ></td>
+    <td> <?php echo '<img src="http://10.0.10.11:86/images/Staff/'.$row['img'].'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
+    </td>
+     <td><?=$row['Name'];?></td>
+      <td><?=$row['FatherName'];?></td>
+      
+         <td><?=$row['Designation'];?></td>
+      
+          <td><?=$row['Address']; 
+               ?>
+            </td>
+            <td>
+?></td>
+</tr><?php
+}
+?>
+</tbody>
+</table>
+</div>
+<?php 
+    
+
    }
  else
 {
