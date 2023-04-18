@@ -182,6 +182,8 @@
                            
                </div>
                <br>
+<input type="file" class="form-control" accept=".jpg"  name="imgage" id="imgage">
+
                <br>
                <!-- <label>&nbsp;</label> -->
                <div class="col-lg-12 col-md-12">
@@ -361,7 +363,8 @@
             var father_name = document.getElementById("father_name").value;
             var address = document.getElementById("address").value;
             var userImageCaptured = document.getElementById("userImageCaptured").value;
-            if(father_name!='' && name!='' && address!='' && designation!='' && userImageCaptured!='')
+              var imgage = document.getElementById("imgage").value;
+            if(father_name!='' && name!='' && address!='' && designation!='' && (userImageCaptured!='' || imgage!=''))
             {
             var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
@@ -382,7 +385,7 @@
             else
             {
                   showVisitors(student_roll_no);
-                      
+                      console.log(data);
 
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";

@@ -15239,15 +15239,12 @@ elseif ($code==272) //170976
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-    $link=$_POST['userImageCaptured'];
-
- 
-   $characters = '';
+    if($_POST['userImageCaptured']!='')
+    {
+      $link=$_POST['userImageCaptured'];
+    $characters = '';
    $result = $IdNo;
-   // for ($i = 0; $i < 25; $i++)
-   // $result .= $characters[mt_rand(0, 4)];
-   $image_name =$player_id.$result;
-
+   $image_name =$result;
    $ftp_server1 = "10.0.10.11";
    $ftp_user_name1 = "Gurpreet";
    $ftp_user_pass1 = "Guri@123";
@@ -15255,17 +15252,35 @@ elseif ($code==272) //170976
    $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
    $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
    $destdir = 'dummy_images/';
-
    ftp_chdir($conn_id, "") or die("Could not change directory");
    ftp_pasv($conn_id,true);
-
    file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
    ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
-
-
    $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
-   $stmt1 = sqlsrv_query($conntest,$result1);
+
+    }
+    else
+    {
+
+        $file_name = $_FILES['imgage']['name'];   
+$file_size = $_FILES['imgage']['size'];      
+$file_tmp = $_FILES['imgage']['tmp_name'];
+ $file_type = $_FILES['imgage']['type'];
+$target_dir = "";
+$ftp_server = "10.0.10.11";
+  $ftp_user_name = "Gurpreet";
+  $ftp_user_pass = "Guri@123";
+  $remote_file = "";
+$conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+    $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
+    $file_name =$IdNo.'.jpg';
+  echo   $target_dir = $file_name;
+  ftp_chdir($conn_id, "") or die("Could not change directory");
+  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+  ftp_close($conn_id);
+ $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+ $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
    echo "1";   // code...
@@ -15274,6 +15289,9 @@ elseif ($code==272) //170976
    {
       echo "0";
    }
+   
+ }
+   
 
 }
   elseif($code==273)  //170976
@@ -15318,7 +15336,7 @@ elseif ($code==272) //170976
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-echo $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+ $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
    $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
@@ -15411,18 +15429,20 @@ if($row1=mysqli_fetch_array($result1) )
    // $characters = '';
     // $IdNo = 11;
     // $IdNo='';
-   echo  $name=$_POST['name'];
+     $name=$_POST['name'];
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-    $link=$_POST['userImageCaptured'];
-// echo $link;
-   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+       // $link=$_POST['userImageCaptured'];
+    if (isset($_POST['userImageCaptured']))
+     {
+       $link=$_POST['userImageCaptured'];
+
+      $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
    $result = 'OntheSpotImage';
    for ($i = 0; $i < 25; $i++)
    $result .= $characters[mt_rand(0, 2)];
    $image_name =$result;
-
    $ftp_server1 = "10.0.10.11";
    $ftp_user_name1 = "Gurpreet";
    $ftp_user_pass1 = "Guri@123";
@@ -15436,10 +15456,37 @@ if($row1=mysqli_fetch_array($result1) )
 
    file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
    ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   $image_name=$image_name.'.jpg';
    ftp_close($conn_id);
-
-
-    echo $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$image_name')";
+     $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$image_name')";
+     }
+    else
+     {
+    $file_name = $_FILES['imgage']['name'];   
+$file_size = $_FILES['imgage']['size'];      
+$file_tmp = $_FILES['imgage']['tmp_name'];
+$file_type = $_FILES['imgage']['type'];
+$target_dir = "";
+$ftp_server = "10.0.10.11";
+  $ftp_user_name = "Gurpreet";
+  $ftp_user_pass = "Guri@123";
+  $remote_file = "";
+$conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+    $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
+   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $result = '';
+    for ($i = 0; $i < 25; $i++)
+    $result .= $characters[mt_rand(0, 5)];
+    $file_name =$result."-".$file_name;
+    $target_dir = $file_name;
+  ftp_chdir($conn_id, "") or die("Could not change directory");
+  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+  ftp_close($conn_id);
+      $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
+     }
+    
+// echo $link;
+   
    $stmt1 = mysqli_query($conn,$result1);
    if ($stmt1==true)
     {
@@ -15489,8 +15536,7 @@ while($row=mysqli_fetch_array($result) )
           <td><?=$row['Address']; 
                ?>
             </td>
-            <td>
-?></td>
+            <td></td>
 </tr><?php
 }
 ?>
