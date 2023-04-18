@@ -1499,7 +1499,8 @@ else if ($code==4)
    
   
     $pdf-> Image('dist\img\idcard.png',$left+2,$down+2,61,15);
-   $pdf-> Image('dist\img\idcardbg.png',$left,$down+104,66,6);
+   $pdf-> Image('dist\img\idcardbg1.png',$left,$down+104,66,6);
+   $pdf-> Image('dist\img\idcardbg1.png',$left,$down+20,66,8);
    // $pdf-> Image('dist\img\idcardbg.png',$left,$down+15,57,10);
 
    $pdf-> Image('dist\img\sign_suporting_staff.png',$left+20,$down+90,30,12);
@@ -1513,22 +1514,25 @@ while($row=mysqli_fetch_array($result) )
   
       $img=$row['img'];
   // echo $value;
-   $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$img,$left+20,$down+28,27,27);
-     $pdf->SetXY($left+20,$down+28);
+   $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$img,$left+20,$down+32,27,27);
+     $pdf->SetXY($left+20,$down+32);
     $pdf->MultiCell(27,27,'','1','C');
   
-   $pdf->SetTextColor(255,255,255);
    $pdf->SetTextColor(0,0,0);
    
-   $pdf->SetXY($left,$down+42+20);
+   $pdf->SetXY($left,$down+42+25);
    $pdf->SetFont('Arial','B',12);
   
     $pdf->MultiCell(66,5,$row['Name'],'0','C'); 
     
    $pdf->SetXY($left,$down+21);
+   // $pdf->SetTextColor(255,255,255);
+
    $pdf->SetFont('Arial','B',12);
+   $pdf->SetTextColor(255,255,255);
  
     $pdf->MultiCell(66,5,$row['CollegeName'],'0','C');
+   $pdf->SetTextColor(0,0,0);
   
    $pdf->SetXY($left,$down+42+35);
    $pdf->SetFont('Arial','B',15);
@@ -1548,9 +1552,9 @@ while($row=mysqli_fetch_array($result) )
 
       $pdf->SetXY($left+3,$down+18);
    
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',11);
-    $pdf->MultiCell(50,3,'Guru Kashi University','0','C');
+   // $pdf->SetTextColor(255,255,255);
+   // $pdf->SetFont('Arial','',11);
+    // $pdf->MultiCell(50,3,'Guru Kashi University','0','C');
    
    $pdf->SetTextColor(0,0,0);
    
