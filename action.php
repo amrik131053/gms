@@ -15433,10 +15433,10 @@ if($row1=mysqli_fetch_array($result1) )
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-       // $link=$_POST['userImageCaptured'];
-    if (isset($_POST['userImageCaptured']))
-     {
        $link=$_POST['userImageCaptured'];
+       // $link=$_POST['userImageCaptured'];
+    if ($_POST['yes']==1)
+     {
 
       $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
    $result = 'OntheSpotImage';
@@ -15462,10 +15462,10 @@ if($row1=mysqli_fetch_array($result1) )
      }
     else
      {
-    $file_name = $_FILES['imgage']['name'];   
-$file_size = $_FILES['imgage']['size'];      
-$file_tmp = $_FILES['imgage']['tmp_name'];
-$file_type = $_FILES['imgage']['type'];
+      $file_name = $_FILES['imgage']['name'];   
+      $file_size = $_FILES['imgage']['size'];      
+      $file_tmp = $_FILES['imgage']['tmp_name'];
+      $file_type = $_FILES['imgage']['type'];
 $target_dir = "";
 $ftp_server = "10.0.10.11";
   $ftp_user_name = "Gurpreet";
@@ -15474,15 +15474,15 @@ $ftp_server = "10.0.10.11";
 $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
     $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    $result = '';
+    $result = 'OntheSpotImage';
     for ($i = 0; $i < 25; $i++)
-    $result .= $characters[mt_rand(0, 5)];
+    $result .= $characters[mt_rand(0, 2)];
     $file_name =$result."-".$file_name;
     $target_dir = $file_name;
   ftp_chdir($conn_id, "") or die("Could not change directory");
   ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
   ftp_close($conn_id);
-      $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
+  echo    $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
      }
     
 // echo $link;
