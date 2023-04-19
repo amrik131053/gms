@@ -50,6 +50,17 @@ include "connection/connection.php";
    <label>Address</label>
 <input type="text" class="form-control"  name="address" id="address">
 </div>
+
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes" id="yes">
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes" id="yes">
+</div>
 </div>
 
        

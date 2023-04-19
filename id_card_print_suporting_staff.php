@@ -166,7 +166,8 @@
  <div class="col-lg-3 col-md-3">
    <label>Address</label>
 <input type="text" class="form-control"  name="address" id="address">
-</div>
+</div> 
+
 </div>
 
        
