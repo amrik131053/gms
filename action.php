@@ -15203,6 +15203,16 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address"><?=$row['PermanentAddress'];?></textarea>
 </div>
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes1" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes1" id="yes">
+</div>
 <?php 
    }
    else
@@ -15224,6 +15234,16 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address"></textarea>
 </div>
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes1" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes1" id="yes">
+</div>
 <center><small style="color:red;">Record found</small></center>
       <?php 
 
@@ -15239,8 +15259,10 @@ elseif ($code==272) //170976
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-    if($_POST['userImageCaptured']!='')
-    {
+    // echo $_POST['yes'];
+    echo $_POST['yes1'];
+      if($_POST['yes1']=='1')
+     {
       $link=$_POST['userImageCaptured'];
     $characters = '';
    $result = $IdNo;
@@ -15280,6 +15302,7 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
   ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
   ftp_close($conn_id);
  $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+}
  $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
@@ -15290,7 +15313,7 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
       echo "0";
    }
    
- }
+ 
    
 
 }
@@ -15440,7 +15463,7 @@ if($row1=mysqli_fetch_array($result1) )
 
       $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
    $result = 'OntheSpotImage';
-   for ($i = 0; $i < 25; $i++)
+   // for ($i = 0; $i < 25; $i++)
    $result .= $characters[mt_rand(0, 2)];
    $image_name =$result;
    $ftp_server1 = "10.0.10.11";
@@ -15475,7 +15498,7 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
     $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     $result = 'OntheSpotImage';
-    for ($i = 0; $i < 25; $i++)
+    // for ($i = 0; $i < 25; $i++)
     $result .= $characters[mt_rand(0, 2)];
     $file_name =$result."-".$file_name;
     $target_dir = $file_name;
@@ -15513,15 +15536,16 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
           <th>Designation</th>
          
           <th>Address</th> 
-          <th>Status</th>      
+          <!-- <th>Status</th>       -->
+          <th>Action</th>      
          
          </tr>
                    </thead>
     <tbody >
       <?php 
-      $sql="SELECT * FROM mess_idcard  ";
+      $sql="SELECT * FROM mess_idcard ";
 $result = mysqli_query($conn,$sql); 
-while($row=mysqli_fetch_array($result) )
+while($row=mysqli_fetch_array($result))
 {
 ?>
  <tr>
@@ -15536,7 +15560,7 @@ while($row=mysqli_fetch_array($result) )
           <td><?=$row['Address']; 
                ?>
             </td>
-            <td></td>
+            <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['id'];?>);" ></i></td>
 </tr><?php
 }
 ?>
@@ -15546,6 +15570,69 @@ while($row=mysqli_fetch_array($result) )
 <?php 
     
 
+   }
+   elseif($code==278)  //170976
+   { 
+   $univ_rollno=$_POST['id'];
+   $result1 = "SELECT  * FROM mess_idcard where id='$univ_rollno'";
+   $stmt1 = mysqli_query($conn,$result1);
+   if($row = mysqli_fetch_array($stmt1) )
+   {
+   
+    // $IDNo= $row['IDNo'];
+?>
+<div class="row">
+
+
+<input type="hidden" class="form-control" value="<?=$row['id'];?>" name="student_roll_no" id="student_roll_no1">
+
+<div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control" value="<?=$row['Name'];?>" name="name" id="name1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control" value="<?=$row['FatherName'];?>" name="father_name" id="father_name1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Contractor</label>
+<input type="text" class="form-control" value="<?=$row['Contractor'];?>" name="contractor" id="contractor1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Hostel Name</label>
+<input type="text" class="form-control" value="<?=$row['CollegeName'];?>" name="CollegeName" id="CollegeName1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<textarea type="text" class="form-control"  name="address" id="address1"><?=$row['Address'];?></textarea>
+</div>
+</div>
+<?php 
+   }
+   }
+     elseif($code==279) //170976
+   {
+        $IdNo=$_POST['student_roll_no'];
+    $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+    $contractor=$_POST['contractor'];
+    $CollegeName=$_POST['CollegeName'];
+ $result1 = "UPDATE mess_idcard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE id='$IdNo'";
+   $stmt1 = mysqli_query($conn,$result1);
+   if ($stmt1==true)
+    {
+   echo "1";   // code...
+   }
+   else
+   {
+      echo "0";
+   }
    }
  else
 {
