@@ -133,49 +133,31 @@ while($permission_data=mysqli_fetch_array($permission_res))
       $total=count($array);  
    ?>
          <div class="col-lg-12">
-      <div class="card">
-         <div class="card-header">
-            <h3 class="card-title">IT Incharges</h3>
-            <div class="card-tools">
-               <span class="badge badge-danger"><?=$total?> Incharges</span>
+             <div class="card collapsed-card">
+              <div class="card-header">
+                 <h3 class="card-title">IT Incharges</h3>
+
+                <div class="card-tools">
+                <span class="badge badge-danger"><?=$total?> Incharges</span>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="it_instructor();"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <div class="d-md-flex">
+                  <div class="p-1 " >
+                    <!-- Map will be created here -->
+                    <div>
+                      <div id="it_instructor"></div>
+                    </div>
+                  </div>
+                </div><!-- /.d-md-flex -->
+              </div>
+              <!-- /.card-body -->
             </div>
-         </div>
-         <div class="card-body p-0">
-            <ul class="users-list clearfix">
-               <?php
-               for ($i=0; $i < $total ; $i++) 
-               { 
-                  $Emp_Name='';
-                             $Emp_Image='';
-                             $emp_pic='';
-                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
-                           $stmt = sqlsrv_query($conntest,$staff);  
-                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-                           {
-                             $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
-                           }
-                  $res='';
-                  $data='';
-                  $blocks='';
-                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
-                  while($data=mysqli_fetch_array($res))
-                  {
-                     $blocks.=$data[0]."  ";
-                  }
-               ?>
-               <li>
-                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
-                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
-                  <span class="users-list-date"><?=$blocks?></span>
-               </li>
-               <?php 
-            }
-            ?>
-            </ul>
-         </div>
-      </div>
+   
    </div>
 </div>
 <div class="row">
@@ -192,110 +174,23 @@ while($permission_data=mysqli_fetch_array($permission_res))
       $total=count($array);  
    ?>
          <div class="col-lg-12">
-      <div class="card">
+      <div class="card collapsed-card">
          <div class="card-header">
             <h3 class="card-title">Infrastructure Incharges</h3>
             <div class="card-tools">
                <span class="badge badge-danger"><?=$total?> Incharges</span>
+               <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="Infrastructure();"></i>
+                  </button>
             </div>
          </div>
-         <div class="card-body p-0">
-            <ul class="users-list clearfix">
-               <?php
-               for ($i=0; $i < $total ; $i++) 
-               { 
-                  $Emp_Name='';
-                             $Emp_Image='';
-                             $emp_pic='';
-                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
-                           $stmt = sqlsrv_query($conntest,$staff);  
-                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-                           {
-                             $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
-                           }
-                  $res='';
-                  $data='';
-                  $blocks='';
-                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
-                  while($data=mysqli_fetch_array($res))
-                  {
-                     $blocks.=$data[0]."  ";
-                  }
-               ?>
-               <li>
-                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
-                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
-                  <span class="users-list-date"><?=$blocks?></span>
-               </li>
-               <?php 
-            }
-            ?>
-            </ul>
+         <div class="card-body p-0" id="Infrastructure">
+           
          </div>
       </div>
    </div>
 </div>
-<div class="row">
-   <?php 
-      $c=0;
-      $array=array();
-      $sql="SELECT DISTINCT electrical_incharge from building_master where electrical_incharge>0";
-      $res=mysqli_query($conn,$sql);
-      while($data=mysqli_fetch_array($res))
-      {
-         $array[$c]=$data['electrical_incharge'];
-         $c++;
-      }
-      $total=count($array);  
-   ?>
-         <div class="col-lg-12">
-      <div class="card">
-         <div class="card-header">
-            <h3 class="card-title">Electrical Incharges</h3>
-            <div class="card-tools">
-               <span class="badge badge-danger"><?=$total?> Incharges</span>
-            </div>
-         </div>
-         <div class="card-body p-0">
-            <ul class="users-list clearfix">
-               <?php
-               for ($i=0; $i < $total ; $i++) 
-               { 
-                  $Emp_Name='';
-                             $Emp_Image='';
-                             $emp_pic='';
-                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
-                           $stmt = sqlsrv_query($conntest,$staff);  
-                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-                           {
-                             $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
-                           }
-                  $res='';
-                  $data='';
-                  $blocks='';
-                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
-                  while($data=mysqli_fetch_array($res))
-                  {
-                     $blocks.=$data[0]."  ";
-                  }
-               ?>
-               <li>
-                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
-                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
-                  <span class="users-list-date"><?=$blocks?></span>
-               </li>
-               <?php 
-            }
-            ?>
-            </ul>
-         </div>
-      </div>
-   </div>
-</div>
+
 
 </div>
  <?php 
@@ -311,73 +206,54 @@ while($permission_data=mysqli_fetch_array($permission_res))
    ?>
 <div class="col-md-6" >
 
-      <div class="card">
+      <div class="card collapsed-card">
          <div class="card-header">
             <h3 class="card-title">Location Owners</h3>
             <div class="card-tools">
                <span class="badge badge-danger"><?=$total?> Location Owners</span>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="LocationOwners();"></i>
+                  </button>
             </div>
          </div>
-         <div class="card-body p-0">
-            <ul class="users-list clearfix">
-               <?php
-               for ($i=0; $i < $total ; $i++) 
-               { 
-                             $Emp_Name='';
-                             $Emp_ID='';
-                             $Emp_Image='';
-                             $emp_pic='';
-                  $staff="SELECT Name,Snap,IDNo FROM Staff Where IDNo='$array[$i]'";
-                           $stmt = sqlsrv_query($conntest,$staff);  
-                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-                           {
-                              $Emp_ID=$row_staff['IDNo'];
-                             $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
-                             $emp_id=$array[$i];
-                           }
-                  $res='';
-                  $data='';
-                  $blocks='';
-                  $res=mysqli_query($conn,"SELECT distinct Name from location_master inner join building_master on building_master.ID=location_master.Block where location_owner='$array[$i]'");
-                  while($data=mysqli_fetch_array($res))
-                  {
-                     $blocks.=$data[0]."  ";
-                  }
-               
-               ?>
-               <li>
-                  <a href="reports.php">
-                     <?php if ($emp_pic) 
-                     {
-                        ?>
-                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="<?=$Emp_Name?>" height="128px" style="height: 40px; width: 40px;">
-                     <?php
-                     }
-                     else
-                     {
-                        ?>
-                  <img src="dummy-user.png" alt="<?=$Emp_Name?>" height="128px" style="height: 70px; width: 70px;">
-                        <?php
-                     }
-                     ?>
-                  <a class="users-list-name" href="reports.php"><?=$Emp_Name?>
-                 <br> <?=$Emp_ID?>
-                  <span class="users-list-date"><?=$blocks?></span>
-               </a>
-               </a>
-               </li>
-               <?php 
-            }
-            ?>
-            </ul>
+         <div class="card-body p-0" id="LocationOwners">
+           
          </div>
 
 <!-- <div class="card-footer text-center">
 <a href="javascript:">View All Users</a>
 </div> -->
 
+</div>
+<div class="row">
+   <?php 
+      $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT electrical_incharge from building_master where electrical_incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['electrical_incharge'];
+         $c++;
+      }
+      $total=count($array);  
+   ?>
+         <div class="col-lg-12">
+      <div class="card collapsed-card">
+         <div class="card-header">
+            <h3 class="card-title">Electrical Incharges</h3>
+            <div class="card-tools">
+               <span class="badge badge-danger"><?=$total?> Incharges</span>
+               <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="Electrical();"></i>
+                  </button>
+            </div>
+         </div>
+         <div class="card-body p-0" id="Electrical">
+           
+         </div>
+      </div>
+   </div>
 </div>
 
 </div>
@@ -1003,4 +879,82 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 
    </div>
 </section>
+<p id="ajax-loader"></p>
+<script type="text/javascript">
+                        function it_instructor()
+                               {
+                                  var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+                                // alert(id);
+                              var code=280;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("it_instructor").innerHTML=response;
+                                    }
+                                 });
+                           }  
+
+                            function Infrastructure()
+                               {
+                                  var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+                                // alert(id);
+                              var code=281;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("Infrastructure").innerHTML=response;
+                                    }
+                                 });
+                           } 
+
+                           function Electrical()
+                               {
+                                  var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+                                // alert(id);
+                              var code=282;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("Electrical").innerHTML=response;
+                                    }
+                                 });
+                           }   
+
+                             function LocationOwners()
+                               {
+                                  var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+                                // alert(id);
+                              var code=283;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("LocationOwners").innerHTML=response;
+                                    }
+                                 });
+                           }
+                        </script>
 <?php include "footer.php"; ?> 
