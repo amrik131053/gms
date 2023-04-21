@@ -1572,10 +1572,10 @@ while($row=mysqli_fetch_array($result) )
        $pdf->Line(76,$down+75,142  ,$down+75); // top line
        $pdf->Line(76,$down+75.2,142  ,$down+75.2); // top line
 
-
+   if ($row['Contractor']!='') {
        $pdf->Line(76,$down+60.2,142  ,$down+60.2); // constractor line
        $pdf->Line(76,$down+60.4,142  ,$down+60.4); // constractor line
-
+}
        $pdf->Line(76,$down+29.2,142  ,$down+29.2); // address line
        $pdf->Line(76,$down+29.4,142  ,$down+29.4); // address line
    
@@ -1615,7 +1615,10 @@ while($row=mysqli_fetch_array($result) )
        // $pdf->SetXY($left1-10,$down1+2+37);
    $pdf->MultiCell(66,7,$row['Address'],'0','C');
    }
-
+// ------------------------------
+   if ($row['Contractor']!='') {
+     // code...
+   
      $pdf->SetXY($left1-10,$down1+55);
    $pdf->SetFont('Arial','B',11);
 
@@ -1632,7 +1635,8 @@ while($row=mysqli_fetch_array($result) )
    $pdf->SetXY($left1-10,$down1+69);
    $pdf->SetFont('Arial','B',11);
    $pdf->MultiCell(66,5,'Contact No : '.$row['MobileNo'],'0','L'); 
-   
+   }
+   // -----------------------------------
    $pdf->SetXY($left1-10,$down1+40+38);
    $pdf->SetFont('Arial','B',12);
    // $pdf->Write(0,'GURU GOBIND SINGH');
