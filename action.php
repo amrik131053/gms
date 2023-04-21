@@ -749,23 +749,22 @@ option value = "" > Select < /option> <?php
    <div class="row">
       <div class="col-lg-3">
          <label>Employee ID </label>
-         <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value,2,0);">
+         <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value,2,0);put_value_text();">
          <p id="emp_detail_status_"></p>
       </div>
-      <div class="col-lg-2">
-         <label>Assign</label>
+      <div class="col-lg-3">
+         <label>Action</label>
          <br>
-         <input type="radio" name="bulk_assign" onclick="bulk_select(this.value);" id="bulk_assign" value="0" hidden> 
-         <label for="bulk_assign" class="btn btn-info btn-xs">Clear</label>
-         &nbsp;
-         <input type="radio" name="bulk_assign" onclick="bulk_select(this.value);" id="bulk_assign11" value="1" hidden>
-         <label for="bulk_assign11" class="btn btn-outline-info btn-xs">&nbsp;All&nbsp;</label>
+        
+         <input type="button" value="Clear" class="btn btn-warning btn-xs" name="bulk_assign" onclick="bulk_select();" id="bulk_assign"> 
+         <input type="button" value="Assign All" name="assignAll" id="assignAll" class=" btn btn-primary btn-xs" onclick="bulk_assign_id(<?=$RoomType;?>,<?=$location_ID_;?>)">
       </div>
       <div class="col-lg-2" >
          <label>Action</label>
-         <button type="button" name="assignAll" id="assignAll" class=" btn btn-primary btn-xs" onclick="bulk_assign_id()">Bulk Assign</button>
+         <br>
+         <button type="button" name="assignAll" id="assignAll" class=" btn btn-danger btn-xs" onclick="remove_all(<?=$RoomType;?>,<?=$location_ID_;?>)">Remove All</button>
       </div>
-      <div class="col-lg-2"></div>
+      
       <div class="col-lg-3">
          <label> Search Article </label>
          <input type="number" name="ArticleNum" id="ArticleNum" class="form-control" onkeyup="Article_Num(this.value,<?=$location_ID_?>,<?=$RoomType?>);">
