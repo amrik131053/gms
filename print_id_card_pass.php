@@ -1622,7 +1622,7 @@ while($row=mysqli_fetch_array($result) )
      $pdf->SetXY($left1-10,$down1+55);
    $pdf->SetFont('Arial','B',11);
 
-   $pdf->MultiCell(66,5,'Constractor Details','0','C');
+   $pdf->MultiCell(66,5,'Contractor Details','0','C');
 
    //  $pdf->SetXY($left1-13+5,$down1+44);
    // $pdf->SetFont('Arial','B',11);
