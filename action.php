@@ -15775,7 +15775,7 @@ elseif($code==282)
             </ul><?php
 }
 elseif($code==283)
-{
+{   
       $c=0;
       $sql="SELECT DISTINCT location_owner from location_master where location_owner>0";
       $res=mysqli_query($conn,$sql);
