@@ -739,12 +739,28 @@ option value = "" > Select < /option> <?php
 </form>
 <?php
    }
-   else if ($code == 30) {
+   else if ($code == 30) 
+   {
        $RoomType = $_POST['RoomType'];
        $location_ID_ = $_POST['officeID'];
-   
-   
+       $get_location="  SELECT *, colleges.shortname as clg_name , room_master.Floor as Floor_name1 ,room_name_master.ID as rnm_id,location_master.ID as lm_id,location_master.Floor as Floor_name  FROM location_master left join room_type_master on room_type_master.ID=location_master.Type left join room_name_master on room_name_master.ID=location_master.RoomName left JOIN building_master on building_master.ID=location_master.Block left join colleges on location_master.CollegeID=colleges.ID inner JOIN room_master ON room_master.FloorID=location_master.Floor  where  location_master.ID='$location_ID_' and location_master.Type='$RoomType' order by location_master.ID asc";
+        $res_r = mysqli_query($conn, $get_location);
+                  if($data = mysqli_fetch_array($res_r)) 
+                  { 
+               
+                   
    ?>
+   <div class="container">
+      <center>
+   <label><h5><b><?=$data['clg_name'];?>(<?=$data['Name'];?>)&nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['Floor_name1'];?>&nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['RoomType'];?>
+   &nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['RoomNo'];?>&nbsp;&nbsp;</b></h5></label>
+</center>
+  </div>
+
+<?php }?>
 <div class="modal-body">
    <div class="row">
       <div class="col-lg-3">
