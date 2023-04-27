@@ -4220,6 +4220,33 @@ if($row_count>0)
 
 
 }
+elseif($code==47)
+{
+  $id = $_GET['id'];
+    // $type = $_GET['type'];
+    $sql="SELECT * FROM stock_summary  where LocationID='$id' ";
+    $result = mysqli_query($conn,$sql);
+    $date=date('Y-m-d');
+    $count=1;
+    while($data=mysqli_fetch_array($result))
+    {
+       $currentOwner=$data['Corrent_owner'];
+       $currentLocation=$data['LocationID'];
+       $deviceSerialNo=$data['DeviceSerialNo'];
+       $workingStatus=$data['WorkingStatus'];
+       $referenceNo=$data['reference_no'];
+       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', 'Remove', '$currentLocation', '$currentOwner', 'Remove All', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+       $res=mysqli_query($conn,$qry);
+       if ($res) 
+       {
+            $updateQry="UPDATE stock_summary SET Corrent_owner='',reference_no=''  WHERE LocationID='$id'";
+            mysqli_query($conn,$updateQry);
+       }
+
+echo $count++;
+    }
+
+}
 
 
        else

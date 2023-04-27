@@ -50,6 +50,17 @@ include "connection/connection.php";
    <label>Address</label>
 <input type="text" class="form-control"  name="address" id="address">
 </div>
+
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes" id="yes">
+</div>
 </div>
 
        
@@ -157,14 +168,30 @@ include "connection/connection.php";
       </div>
    </div>
 </div>
-
+<div class="modal fade" id="modal-default_edit">
+   <div class="modal-dialog modal-lg ">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id="edit_show">
+            
+         </div>
+         <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success btn-xs" type=button data-dismiss="modal" value="Take Snapshot" onClick="submit()">Update</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 <script type="text/javascript">
                        $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
-                              
-           
             // var student_roll_no = document.getElementById("student_roll_no").value;
             var name = document.getElementById("name").value;
             var designation = document.getElementById("designation").value;
@@ -188,14 +215,11 @@ include "connection/connection.php";
                      spinner.style.display='none';
             if (data==1) 
             {
-                      console.log(data);
+                      // console.log(data);
 
             }
             else
             {
-                // alert(userImageCaptured);
-                  // showVisitors(student_roll_no);
-                      console.log(data);
 
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
@@ -276,9 +300,8 @@ include "connection/connection.php";
                                     data:{code:code},
                                     success:function(response)
                                     {
-            spinner.style.display='none';
+                                      spinner.style.display='none';
 
-                                       // console.log(response);
                                        document.getElementById("checked_out_students").innerHTML=response;
                                     }
                                  });
@@ -317,8 +340,67 @@ function onspot_ID_card()
     window.open('print_id_card_pass.php?id_array='+id_array_main+'&code='+code,'_blank');
 }
 
+  function edit_data(id) 
+                           {
+                              
+                                 var code=278;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{id:id, code:code},
+                                    success:function(response)
+                                    {
+                                       document.getElementById("edit_show").innerHTML=response;
 
-   
+                                      
+                                    }
+                                 });
+
+                              }
+                function submit()
+                     {
+                    var student_roll_no = document.getElementById("student_roll_no1").value;
+                    var name = document.getElementById("name1").value;
+                    var designation = document.getElementById("designation1").value;
+                    var father_name = document.getElementById("father_name1").value;
+                    var address = document.getElementById("address1").value;
+                    var contractor1 = document.getElementById("contractor1").value;
+                    var CollegeName1 = document.getElementById("CollegeName1").value;
+                    var code=279;
+                    if(father_name!='' && name!='' && address!='' && designation!='')
+                    {
+                    var spinner=document.getElementById("ajax-loader");
+                    spinner.style.display='block';
+                    $.ajax({
+                          url: 'action.php',
+                           type: 'post',
+                       data:{code:code,student_roll_no:student_roll_no,name:name,father_name:father_name,designation:designation,address:address,contractor:contractor1,CollegeName:CollegeName1},
+                           success: function(data)
+                            {
+                                 spinner.style.display='none';
+                        if (data==1) 
+                        {
+                              SuccessToast('Successfully Update');
+                              showVisitors_mess()
+
+                        }
+                        else
+                        {
+                          
+                        }
+    
+                },
+               error: function(data)
+               {
+                 
+               }
+            });
+         }
+         else{
+            ErrorToast('Enter All Required','bg-warning');
+         }
+}
 </script>
 <?php include "footer.php";
 

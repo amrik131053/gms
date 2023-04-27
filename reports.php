@@ -335,7 +335,10 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            } 
                            function employeeLedger()
                            {
+
                               // var id=id1;
+                               var spinner=document.getElementById("ajax-loader");
+                              spinner.style.display='block';
                               var empID= document.getElementById("employee").value;
                               // alert(empID);
                               var code=49;
@@ -350,6 +353,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                  success:function(response) 
                                  {
                                     document.getElementById("search_record").innerHTML =response;
+                              spinner.style.display='none';
+
                                     $(document).ajaxStop(function()
                                     {
                                        // window.location.reload();
@@ -621,27 +626,53 @@ function view_category_article_stock(CategoryID,ArticleCode,locationID)
    </script>
    <!-- ---------------------------------------------------- -->
   <script type="text/javascript">
-     function bulk_select(res)
+   function put_value_text()
+   {
+       var EmpID= document.getElementById("Employee_ID").value;
+         var sr= document.getElementById("serial_no").value;
+         for (var i = 0; i < sr; i++) 
+         {
+            document.getElementById('current_owner_'+i).value = EmpID;   
+               document.getElementById('current_owner_'+i).disabled = true; 
+               document.getElementById('assign_button_'+i).style.display = "none";
+
+         }
+   }
+     function bulk_select()
      { 
          var EmpID= document.getElementById("Employee_ID").value;
          var sr= document.getElementById("serial_no").value;
          for (var i = 0; i < sr; i++) 
          {
-            if (res==1)
-            {
-               document.getElementById('current_owner_'+i).value = EmpID;   
-               document.getElementById('current_owner_'+i).disabled = true; 
-               document.getElementById('assign_button_'+i).style.display = "none"; 
-
-            }
-            else
-            {
+           
                document.getElementById('current_owner_'+i).value = "";
                document.getElementById('current_owner_'+i).disabled = false; 
                document.getElementById('assign_button_'+i).style.display = "block"; 
-            }
          }
-     }
+      }
+
+       function remove_all(RoomType,location_ID)
+     { 
+     var code=47;
+       var spinner=document.getElementById("ajax-loader");
+      spinner.style.display='block';
+// alert(id);
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+   spinner.style.display='none';
+
+// location.reload(true);
+   // console.log(xmlhttp);
+}
+view_office_stock(location_ID,RoomType);
+
+}
+xmlhttp.open("GET", "get_action.php?id=" + location_ID+"&code="+code, true);
+xmlhttp.send();
+      }
+
 // -----------------------------------------------------
   function remove(id,current_owner,RoomType,location_ID){
 var code=28;
@@ -650,9 +681,8 @@ var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 {
-
 // location.reload(true);
-view_office_stock(location_ID,RoomType);
+  view_office_stock(location_ID,RoomType);
 }
 }
 xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code+"&owner="+current_owner, true);
@@ -703,8 +733,10 @@ xmlhttp.send();
             }
          });
       }
-       function bulk_assign_id()
+       function bulk_assign_id(RoomType,location_ID)
      { 
+      // var spinner=document.getElementById("ajax-loader");
+        // spinner.style.display='block';
          var EmpID= document.getElementById("Employee_ID").value;
          var sr= document.getElementById("serial_no").value;
          var current_owner='';
@@ -728,11 +760,16 @@ xmlhttp.send();
             },
             success:function(response) 
             {
-               location.reload(true);
+               // location.reload(true);
+   // spinner.style.display='block';
+
             }
          });
  
          }
+view_office_stock(location_ID,RoomType);
+
+
      }
 
      function fault_description(id){

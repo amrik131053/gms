@@ -749,23 +749,22 @@ option value = "" > Select < /option> <?php
    <div class="row">
       <div class="col-lg-3">
          <label>Employee ID </label>
-         <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value,2,0);">
+         <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value,2,0);put_value_text();">
          <p id="emp_detail_status_"></p>
       </div>
-      <div class="col-lg-2">
-         <label>Assign</label>
+      <div class="col-lg-3">
+         <label>Action</label>
          <br>
-         <input type="radio" name="bulk_assign" onclick="bulk_select(this.value);" id="bulk_assign" value="0" hidden> 
-         <label for="bulk_assign" class="btn btn-info btn-xs">Clear</label>
-         &nbsp;
-         <input type="radio" name="bulk_assign" onclick="bulk_select(this.value);" id="bulk_assign11" value="1" hidden>
-         <label for="bulk_assign11" class="btn btn-outline-info btn-xs">&nbsp;All&nbsp;</label>
+        
+         <input type="button" value="Clear" class="btn btn-warning btn-xs" name="bulk_assign" onclick="bulk_select();" id="bulk_assign"> 
+         <input type="button" value="Assign All" name="assignAll" id="assignAll" class=" btn btn-primary btn-xs" onclick="bulk_assign_id(<?=$RoomType;?>,<?=$location_ID_;?>)">
       </div>
       <div class="col-lg-2" >
          <label>Action</label>
-         <button type="button" name="assignAll" id="assignAll" class=" btn btn-primary btn-xs" onclick="bulk_assign_id()">Bulk Assign</button>
+         <br>
+         <button type="button" name="assignAll" id="assignAll" class=" btn btn-danger btn-xs" onclick="remove_all(<?=$RoomType;?>,<?=$location_ID_;?>)">Remove All</button>
       </div>
-      <div class="col-lg-2"></div>
+      
       <div class="col-lg-3">
          <label> Search Article </label>
          <input type="number" name="ArticleNum" id="ArticleNum" class="form-control" onkeyup="Article_Num(this.value,<?=$location_ID_?>,<?=$RoomType?>);">
@@ -15203,6 +15202,16 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address"><?=$row['PermanentAddress'];?></textarea>
 </div>
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes1" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes1" id="yes">
+</div>
 <?php 
    }
    else
@@ -15224,6 +15233,16 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address"></textarea>
 </div>
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes1" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes1" id="yes">
+</div>
 <center><small style="color:red;">Record found</small></center>
       <?php 
 
@@ -15239,8 +15258,10 @@ elseif ($code==272) //170976
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-    if($_POST['userImageCaptured']!='')
-    {
+    // echo $_POST['yes'];
+    echo $_POST['yes1'];
+      if($_POST['yes1']=='1')
+     {
       $link=$_POST['userImageCaptured'];
     $characters = '';
    $result = $IdNo;
@@ -15280,6 +15301,7 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
   ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
   ftp_close($conn_id);
  $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+}
  $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
@@ -15290,7 +15312,7 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
       echo "0";
    }
    
- }
+ 
    
 
 }
@@ -15433,14 +15455,14 @@ if($row1=mysqli_fetch_array($result1) )
     $father_name=$_POST['father_name'];
     $designation=$_POST['designation'];
     $address=$_POST['address'];
-       // $link=$_POST['userImageCaptured'];
-    if (isset($_POST['userImageCaptured']))
-     {
        $link=$_POST['userImageCaptured'];
+       // $link=$_POST['userImageCaptured'];
+    if ($_POST['yes']==1)
+     {
 
       $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
    $result = 'OntheSpotImage';
-   for ($i = 0; $i < 25; $i++)
+   // for ($i = 0; $i < 25; $i++)
    $result .= $characters[mt_rand(0, 2)];
    $image_name =$result;
    $ftp_server1 = "10.0.10.11";
@@ -15462,10 +15484,10 @@ if($row1=mysqli_fetch_array($result1) )
      }
     else
      {
-    $file_name = $_FILES['imgage']['name'];   
-$file_size = $_FILES['imgage']['size'];      
-$file_tmp = $_FILES['imgage']['tmp_name'];
-$file_type = $_FILES['imgage']['type'];
+      $file_name = $_FILES['imgage']['name'];   
+      $file_size = $_FILES['imgage']['size'];      
+      $file_tmp = $_FILES['imgage']['tmp_name'];
+      $file_type = $_FILES['imgage']['type'];
 $target_dir = "";
 $ftp_server = "10.0.10.11";
   $ftp_user_name = "Gurpreet";
@@ -15474,15 +15496,15 @@ $ftp_server = "10.0.10.11";
 $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
     $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    $result = '';
-    for ($i = 0; $i < 25; $i++)
-    $result .= $characters[mt_rand(0, 5)];
+    $result = 'OntheSpotImage';
+    // for ($i = 0; $i < 25; $i++)
+    $result .= $characters[mt_rand(0, 2)];
     $file_name =$result."-".$file_name;
     $target_dir = $file_name;
   ftp_chdir($conn_id, "") or die("Could not change directory");
   ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
   ftp_close($conn_id);
-      $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
+  echo    $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
      }
     
 // echo $link;
@@ -15513,15 +15535,16 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
           <th>Designation</th>
          
           <th>Address</th> 
-          <th>Status</th>      
+          <!-- <th>Status</th>       -->
+          <th>Action</th>      
          
          </tr>
                    </thead>
     <tbody >
       <?php 
-      $sql="SELECT * FROM mess_idcard  ";
+      $sql="SELECT * FROM mess_idcard ";
 $result = mysqli_query($conn,$sql); 
-while($row=mysqli_fetch_array($result) )
+while($row=mysqli_fetch_array($result))
 {
 ?>
  <tr>
@@ -15536,7 +15559,7 @@ while($row=mysqli_fetch_array($result) )
           <td><?=$row['Address']; 
                ?>
             </td>
-            <td></td>
+            <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['id'];?>);" ></i></td>
 </tr><?php
 }
 ?>
@@ -15547,6 +15570,275 @@ while($row=mysqli_fetch_array($result) )
     
 
    }
+   elseif($code==278)  //170976
+   { 
+   $univ_rollno=$_POST['id'];
+   $result1 = "SELECT  * FROM mess_idcard where id='$univ_rollno'";
+   $stmt1 = mysqli_query($conn,$result1);
+   if($row = mysqli_fetch_array($stmt1) )
+   {
+   
+    // $IDNo= $row['IDNo'];
+?>
+<div class="row">
+
+
+<input type="hidden" class="form-control" value="<?=$row['id'];?>" name="student_roll_no" id="student_roll_no1">
+
+<div class="col-lg-3 col-md-3">
+   <label>Name</label>
+<input type="text" class="form-control" value="<?=$row['Name'];?>" name="name" id="name1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Father Name</label>
+<input type="text" class="form-control" value="<?=$row['FatherName'];?>" name="father_name" id="father_name1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Designation</label>
+<input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Contractor</label>
+<input type="text" class="form-control" value="<?=$row['Contractor'];?>" name="contractor" id="contractor1">
+</div>
+<div class="col-lg-3 col-md-3">
+   <label>Hostel Name</label>
+<input type="text" class="form-control" value="<?=$row['CollegeName'];?>" name="CollegeName" id="CollegeName1">
+</div>
+ <div class="col-lg-3 col-md-3">
+   <label>Address</label>
+<textarea type="text" class="form-control"  name="address" id="address1"><?=$row['Address'];?></textarea>
+</div>
+</div>
+<?php 
+   }
+   }
+     elseif($code==279) //170976
+   {
+        $IdNo=$_POST['student_roll_no'];
+    $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+    $contractor=$_POST['contractor'];
+    $CollegeName=$_POST['CollegeName'];
+ $result1 = "UPDATE mess_idcard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE id='$IdNo'";
+   $stmt1 = mysqli_query($conn,$result1);
+   if ($stmt1==true)
+    {
+   echo "1";   // code...
+   }
+   else
+   {
+      echo "0";
+   }
+   }
+
+   elseif($code==280)
+   {
+      ?>
+ <ul class="users-list clearfix">
+               <?php
+                    $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT Incharge from building_master where Incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['Incharge'];
+         $c++;
+      }
+      $total=count($array);
+               for ($i=0; $i < $total ; $i++) 
+               { 
+                  $Emp_Name='';
+                             $Emp_Image='';
+                             $emp_pic='';
+                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
+                           $stmt = sqlsrv_query($conntest,$staff);  
+                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                           {
+                             $Emp_Name=$row_staff['Name'];
+                             $Emp_Image=$row_staff['Snap'];
+                             $emp_pic=base64_encode($Emp_Image);
+                           }
+                  $res='';
+                  $data='';
+                  $blocks='';
+                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
+                  while($data=mysqli_fetch_array($res))
+                  {
+                     $blocks.=$data[0]."  ";
+                  }
+               ?>
+               <li>
+                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
+                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
+                  <span class="users-list-date"><?=$blocks?></span>
+               </li>
+               <?php 
+            }
+            ?>
+            </ul>
+   <?php
+}
+elseif($code==281)
+{
+     $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT infra_incharge from building_master where infra_incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['infra_incharge'];
+         $c++;
+      }
+      $total=count($array);
+   ?> <ul class="users-list clearfix">
+               <?php
+               for ($i=0; $i < $total ; $i++) 
+               { 
+                  $Emp_Name='';
+                             $Emp_Image='';
+                             $emp_pic='';
+                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
+                           $stmt = sqlsrv_query($conntest,$staff);  
+                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                           {
+                             $Emp_Name=$row_staff['Name'];
+                             $Emp_Image=$row_staff['Snap'];
+                             $emp_pic=base64_encode($Emp_Image);
+                           }
+                  $res='';
+                  $data='';
+                  $blocks='';
+                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
+                  while($data=mysqli_fetch_array($res))
+                  {
+                     $blocks.=$data[0]."  ";
+                  }
+               ?>
+               <li>
+                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
+                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
+                  <span class="users-list-date"><?=$blocks?></span>
+               </li>
+               <?php 
+            }
+            ?>
+            </ul><?php
+}
+elseif($code==282)
+{
+       $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT electrical_incharge from building_master where electrical_incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['electrical_incharge'];
+         $c++;
+      }
+      $total=count($array); 
+   ?> <ul class="users-list clearfix">
+               <?php
+               for ($i=0; $i < $total ; $i++) 
+               { 
+                  $Emp_Name='';
+                             $Emp_Image='';
+                             $emp_pic='';
+                  $staff="SELECT Name,Snap FROM Staff Where IDNo='$array[$i]'";
+                           $stmt = sqlsrv_query($conntest,$staff);  
+                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                           {
+                             $Emp_Name=$row_staff['Name'];
+                             $Emp_Image=$row_staff['Snap'];
+                             $emp_pic=base64_encode($Emp_Image);
+                           }
+                  $res='';
+                  $data='';
+                  $blocks='';
+                  $res=mysqli_query($conn,"SELECT Name from building_master where Incharge='$array[$i]'");
+                  while($data=mysqli_fetch_array($res))
+                  {
+                     $blocks.=$data[0]."  ";
+                  }
+               ?>
+               <li>
+                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="User Image" height="128px" style="height: 70px; width: 70px;">
+                  <a class="users-list-name" href="#"><?=$Emp_Name?></a>
+                  <span class="users-list-date"><?=$blocks?></span>
+               </li>
+               <?php 
+            }
+            ?>
+            </ul><?php
+}
+elseif($code==283)
+{   
+      $c=0;
+      $sql="SELECT DISTINCT location_owner from location_master where location_owner>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['location_owner'];
+         $c++;
+      }
+      $total=count($array);
+   ?> <ul class="users-list clearfix">
+               <?php
+               for ($i=0; $i < $total ; $i++) 
+               { 
+                             $Emp_Name='';
+                             $Emp_ID='';
+                             $Emp_Image='';
+                             $emp_pic='';
+                  $staff="SELECT Name,Snap,IDNo FROM Staff Where IDNo='$array[$i]'";
+                           $stmt = sqlsrv_query($conntest,$staff);  
+                           while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                           {
+                              $Emp_ID=$row_staff['IDNo'];
+                             $Emp_Name=$row_staff['Name'];
+                             $Emp_Image=$row_staff['Snap'];
+                             $emp_pic=base64_encode($Emp_Image);
+                             $emp_id=$array[$i];
+                           }
+                  $res='';
+                  $data='';
+                  $blocks='';
+                  $res=mysqli_query($conn,"SELECT distinct Name from location_master inner join building_master on building_master.ID=location_master.Block where location_owner='$array[$i]'");
+                  while($data=mysqli_fetch_array($res))
+                  {
+                     $blocks.=$data[0]."  ";
+                  }
+               
+               ?>
+               <li>
+                  <a href="reports.php">
+                     <?php if ($emp_pic) 
+                     {
+                        ?>
+                  <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="<?=$Emp_Name?>" height="128px" style="height: 40px; width: 40px;">
+                     <?php
+                     }
+                     else
+                     {
+                        ?>
+                  <img src="dummy-user.png" alt="<?=$Emp_Name?>" height="128px" style="height: 70px; width: 70px;">
+                        <?php
+                     }
+                     ?>
+                  <a class="users-list-name" href="reports.php"><?=$Emp_Name?>
+                 <br> <?=$Emp_ID?>
+                  <span class="users-list-date"><?=$blocks?></span>
+               </a>
+               </a>
+               </li>
+               <?php 
+            }
+            ?>
+            </ul><?php
+}
  else
 {
 echo "select code";

@@ -166,11 +166,21 @@
  <div class="col-lg-3 col-md-3">
    <label>Address</label>
 <input type="text" class="form-control"  name="address" id="address">
+</div> 
+<div class="col-lg-1 col-md-1">
+   <label>Yes</label>
+   
+<input type="radio"  value="1"  name="yes1" id="yes" checked>
+</div>
+<div class="col-lg-1 col-md-1">
+   <label>No</label>
+
+<input type="radio"  value="0" name="yes1" id="yes">
 </div>
 </div>
 
        
-
+ 
 
 
             </div>
@@ -380,12 +390,13 @@
                      spinner.style.display='none';
             if (data==1) 
             {
+                      // console.log(data);
 
             }
             else
             {
                   showVisitors(student_roll_no);
-                      console.log(data);
+                      // console.log(data);
 
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
@@ -422,7 +433,7 @@
     Webcam.attach( '#my_camera' );
 
                             function take_snapshot() {
-
+       
         Webcam.snap( function(data_uri) {
             $(".image-tag").val(data_uri);
             document.getElementById('results').innerHTML = "<img src='"+data_uri+"'>";
