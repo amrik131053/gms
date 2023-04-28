@@ -10973,7 +10973,7 @@ $validUpto=$validUpto->format('d-M-Y');
                 </div>
                 <div class="col-lg-1 col-sm-1">
 <?php 
-  if($EmployeeID==131053 ||$EmployeeID==121031 ||$EmployeeID==171601) {?>
+  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601) {?>
         <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
         <?php
      }
