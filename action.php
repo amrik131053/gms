@@ -12850,9 +12850,9 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                         echo "NA";
                       } ?>  </li>
 
-                        <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo $password; 
+                        <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo ""; 
 
-?><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
+?><span onclick="copy_pass();"><?=$password;?></span><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
                       ?>  </li>
                      
       <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>

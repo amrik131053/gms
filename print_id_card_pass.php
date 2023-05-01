@@ -1309,7 +1309,7 @@ $left=10;
    $pdf-> Image('dist\img\idcardbg.png',$left,$down+104,66,6);
    // $pdf-> Image('dist\img\idcardbg.png',$left,$down+15,57,10);
 
-   $pdf-> Image('dist\img\sign_suporting_staff.png',$left+20,$down+90,30,12);
+   $pdf-> Image('dist\img\sign_suporting_staff.png',$left+20,$down+84,30,12);
            $pdf->SetFont('Arial','B',12);
    
    $sql="SELECT * FROM Staff where IDNo='$value'";
@@ -1347,6 +1347,16 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   {
     $pdf->MultiCell(66,5,$row['Designation'],'0','C');
   }
+
+     $pdf->SetTextColor(0,0,0);
+  $up="SELECT valid FROM  suporting_staff where IDNo='$value'";
+   $up1 =mysqli_query($conn,$up);
+   while ($row1=mysqli_fetch_array($up1)) 
+   {
+     $pdf->SetXY($left,$down+42+55);
+   $pdf->SetFont('Arial','B',12);
+       $pdf->MultiCell(66,5,"Valid UpTo :".$row1['valid'],'1','C');
+   }
    $pdf->SetXY($left,$down+105);
    
    $pdf->SetTextColor(255,255,255);
@@ -1544,6 +1554,13 @@ while($row=mysqli_fetch_array($result) )
   {
     $pdf->MultiCell(66,5,$row['Designation'],'0','C');
   }
+
+
+
+
+
+
+
    $pdf->SetXY($left,$down+105);
    
    $pdf->SetTextColor(255,255,255);
