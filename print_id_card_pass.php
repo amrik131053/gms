@@ -1356,7 +1356,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
      $pdf->SetXY($left,$down+42+55);
    $pdf->SetFont('Arial','B',12);
    $exdate1=$row1['valid'];
-   $exdate=$exdate1->format('d-m-Y');
+$exdate = date("d-m-Y", strtotime($exdate1))
 
        $pdf->MultiCell(66,5,"Valid Upto : ".$exdate,'1','C');
    }
