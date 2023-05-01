@@ -6686,6 +6686,10 @@ if($count>0)
          {
             $floorName='Third';
          } 
+         elseif ($floorValue=='4') 
+         {
+            $floorName='Fourth';
+         } 
          ?>
 <option value="<?=$floorValue?>"><?=$floorName?></option>
 <?php
