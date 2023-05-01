@@ -93,7 +93,7 @@
    //$pdf->MultiCell(80,2.1,$row['batch']);
    $pdf->SetXY($left+30,$down+33);
    $pdf->SetFont('Arial','B',8);
-   $pdf->Write(0,'Valid Up To :');
+   $pdf->Write(0,'Valid Upto :');
    
     $newDate = date("d-m-Y", strtotime($row['valid']));
    $pdf->SetXY($left+50,$down+33);
@@ -364,7 +364,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -486,7 +486,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -740,7 +740,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -871,7 +871,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -993,7 +993,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1125,7 +1125,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1247,7 +1247,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1355,7 +1355,8 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
    {
      $pdf->SetXY($left,$down+42+55);
    $pdf->SetFont('Arial','B',12);
-       $pdf->MultiCell(66,5,"Valid UpTo :".$row1['valid'],'1','C');
+   $exdate=$row1['valid']->format('d-m-Y');
+       $pdf->MultiCell(66,5,"Valid Upto : ".$exdate,'1','C');
    }
    $pdf->SetXY($left,$down+105);
    
