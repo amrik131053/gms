@@ -88,7 +88,7 @@ ini_set('max_execution_time', '0');
          {
          $location_num=$location_num+1;?>
       <tr>
-         <td><input type="checkbox" class="checkbox v_check" value="<?=$location_row['ID'];?>"></td>
+         <td><input type="checkbox" class="checkbox v_check" value="<?=$location_row['l_id'];?>"></td>
          <td><?=$location_num;?></td>
          <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
          <td><?=$location_row['FloorName'];?></td>
@@ -125,7 +125,7 @@ else
 {
    $per = implode(",",$_POST['subjectIDs']);
 }
-        $verified_study="INSERT into group_master (GroupName,LocationID) values('$groupname','$per')";
+       echo $verified_study="INSERT into group_master (GroupName,LocationID) values('$groupname','$per')";
          $verified_study_run=mysqli_query($conn,$verified_study);  
           if ($verified_study_run==true) {
       echo "1";
@@ -150,7 +150,6 @@ else
 <table class="table table-head-fixed text-nowrap table-bordered" id="example">
    <thead>
       <tr>
-         <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
          <th>ID</th>
          <th>Block</th>
          <th>Floor</th>
@@ -165,7 +164,7 @@ else
          {
          $location_num=$location_num+1;?>
       <tr>
-         <td><input type="checkbox" class="checkbox v_check" value="<?=$location_row['ID'];?>"></td>
+
          <td><?=$location_num;?></td>
          <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
          <td><?=$location_row['FloorName'];?></td>
