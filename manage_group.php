@@ -2,6 +2,8 @@
    include "header.php";   
    ?>
 <section class="content">
+
+
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg " role="document">
     <div class="modal-content">
@@ -165,8 +167,8 @@
                   {?>
                      <tr>
                         <th><?=$sr;?></th>
-                     <th  onclick="show_group_member(<?=$row['Id'];?>);"><b><?=$row['GroupName'];?></b></th>
-                     <th><i class="fa fa-edit"></i></th>
+                     <th  ><b><?=$row['GroupName'];?></b></th>
+                     <th><i class="fa fa-eye fa-lg"onclick="show_group_member(<?=$row['Id'];?>);"></i></th>
                      </tr>
                   <?php
                   $sr++; }
@@ -191,7 +193,7 @@ Create Group
            </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive" id="show_group_member_">
-              fff
+              
                
             </div>
             <!-- /.card -->
@@ -226,9 +228,9 @@ var len_student= un_verifiy.length;
     alert('Select atleast one Subject');
   }
   else
-  {
+   {
          fun(subjectIDs);
-}
+   }
 }
         function fun(subjectIDs) {
  var GroupName=prompt ("This is a prompt box", "Hello world");
