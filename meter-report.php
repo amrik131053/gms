@@ -228,7 +228,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
 function groupexport(id)
       {
             var exportCode='17';
-            alert(id);
+            //alert(id);
             var group=id;
             
           window.location.href="export.php?building="+group+"&exportCode="+exportCode;
