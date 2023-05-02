@@ -15859,6 +15859,21 @@ elseif($code==283)
             ?>
             </ul><?php
 }
+
+else if($code=284)
+{
+   ?>
+   <table class="table"><tr><th>Group Name</th><th>Export pdf</th><th>Export Excel</th>
+   <?php 
+    $group=mysqli_query($conn,"SELECT *  from group_master");
+                  while($data=mysqli_fetch_array($group))
+                  {
+                    ?><tr><td><?=$data['GroupName'];?></td><td>
+
+                     <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel-o fa-lg'>gfgh</i></button></td><td><?=$data['GroupName'];?></td>
+                    <?php 
+                  }
+}
  else
 {
 echo "select code";

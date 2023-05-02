@@ -37,9 +37,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <div class="card card-info" >
                <div class="card-header" style="background-color: #223260;">
                   <div class="row">
-                     <div class="col-lg-1">
-                        <h3 class="card-title">Reports</h3>
-                     </div>
+                     
                      <div class="col-lg-11">
                         <div class="card-tools">
                            <div class="row">
@@ -81,9 +79,15 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="search_meter_at_location()" >Search</button>
                                  </div>
                               </div>
-                              <div class="col-lg-2">
+                              <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations('0')" >Export All</button>
+                                 </div>
+                              </div>
+
+                               <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMetergroup()" >Group</button>
                                  </div>
                               </div>
                               <div class="col-lg-2">
@@ -218,6 +222,20 @@ while($permission_data=mysqli_fetch_array($permission_res))
             var room=document.getElementById("hostelRoomID").value;
           window.location.href="export.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room;
       }
+
+
+
+function groupexport(id)
+      {
+            var exportCode='17';
+            alert(id);
+            var group=id;
+            
+          window.location.href="export.php?building="+group+"&exportCode="+exportCode;
+      }
+
+
+
 
       function updateMeterReading(id,articleNum) 
       {
@@ -393,6 +411,47 @@ while($permission_data=mysqli_fetch_array($permission_res))
             alert("Select Hostel");
          }
       }
+    
+
+     function  exportMetergroup()
+
+{
+         
+         var code='284';
+         
+         var spinner=document.getElementById("ajax-loader");
+                              spinner.style.display='block';
+            
+            $.ajax({
+            url:'action.php',
+            data:{code:code},
+            type:'POST',
+            success:function(data){
+            if(data != "")
+            {
+               spinner.style.display='none';
+               $("#meterReportData").html("");
+               $("#meterReportData").html(data);
+            }
+            }
+            });
+         
+         
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       function student_stock(locationID,studentID)
       {
          // alert(studentID);
