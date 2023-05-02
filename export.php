@@ -1362,8 +1362,7 @@ $ids1=$data['LocationID'];
  for($i=0;$i<$length;$i++)
  {
   
-   $sql="SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block 
-     where location_master.ID='$ids[$i]' order by building_master.Name desc, location_master.RoomNo asc";
+   $sql="SELECT  IDNo, from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID   where location_master.ID='$ids[$i]' AND stock_summary.status='2' ANd ArticleCode='34' ";
 
 
     $res=mysqli_query($conn,$sql);
@@ -1375,8 +1374,8 @@ $ids1=$data['LocationID'];
         $roomName='';
         
         $count++;
-        $article_num=$data['article_no'];
-        $buildingName=$data['Name'];
+        $article_num=$data['IDNo'];
+        $buildingName='';
 
    $readingQry="SELECT *, meter_reading.id as meter_reading_id, room_name_master.RoomName as room_name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block INNER JOIN room_name_master ON room_name_master.ID=location_master.RoomName where article_no='$article_num' ORDER by meter_reading.ID desc";
 
