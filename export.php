@@ -1334,7 +1334,12 @@ $ids1=$data['LocationID'];
                 <th>Building</th>
                 <th>Room Name</th>
                 <th>Room No.</th>
-              
+                <th>
+                <table border='1'>
+                <tr><th colspan='2'>Owner</th></tr>
+                <tr><th>Name</th><th>ID</th></tr>
+                </table>
+                </th>
                 <th>
                 <table border='1'>
                 <tr><th colspan='2'>Old</th></tr>
@@ -1405,11 +1410,7 @@ $ids1=$data['LocationID'];
             $meterLocation=$data1['location_id'];
             $flag=0;
             $sr=0;
-
-
-            $locationQry="SELECT distinct Corrent_owner from stock_summary where LocationID='$meterLocation' ORDER by Corrent_owner desc";
-
-
+            $locationQry="SELECT  Corrent_owner from stock_summary where IDNo='$article_num' ORDER by Corrent_owner desc";
             $locationRes=mysqli_query($conn,$locationQry);
             while($locationData=mysqli_fetch_array($locationRes))
             {
@@ -1424,12 +1425,11 @@ $ids1=$data['LocationID'];
                 {
               $sr++;
             
-                  
                   $ClassRollNo= $row['ClassRollNo'];
                   $UniRollNo= $row['UniRollNo'];
                   $StudentName = $row['StudentName'];
                   
-                  //$ownerTable.="<tr><td>{$StudentName}</td><td>{$ClassRollNo}/{$UniRollNo}</td></tr>";
+                  $ownerTable.="<tr><td>{$StudentName}</td><td>{$ClassRollNo}/{$UniRollNo}</td></tr>";
 
                 }
               }
@@ -1443,7 +1443,7 @@ $ids1=$data['LocationID'];
                     $userName = $row['name'];
                     
                     $Designation = $row['designation'];
-                    //$ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
+                    $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
                   }
               }
               else
@@ -1465,7 +1465,7 @@ $ids1=$data['LocationID'];
                     {
                       $ContactNo = $row['MobileNo'];
                     }
-                    //$ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
+                    $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
                     
                   }
                 }
@@ -1483,7 +1483,7 @@ $ids1=$data['LocationID'];
                         $exportMeterHeader="<table class='table' border='1'>
                             <thead>
                                 <tr>
-                                    <th colspan='11'><h3 style='color:Red'>Meter Reading Report</h3></th>                                
+                                    <th colspan='13'><h3 style='color:Red'>Meter Reading Report</h3></th>                                
                                 </tr>
                             </thead></table>";
                     }
@@ -1492,7 +1492,7 @@ $ids1=$data['LocationID'];
                         $exportMeterHeader="<table class='table' border='1'>
                             <thead>
                                 <tr>
-                                    <th colspan='11'><h3 style='color:Red'> Meter Reading Report</h3></th>                                
+                                    <th colspan='13'><h3 style='color:Red'>{$buildingName} Meter Reading Report</h3></th>                                
                                 </tr>
                             </thead></table>";
                     }
@@ -1505,7 +1505,11 @@ $ids1=$data['LocationID'];
                 <td style='color:Red'><b>{$buildingName}</b></td>
                 <td>{$roomName}</td>
                 <td>{$room_no}</td>
-               
+                <td>
+                <table border='1' >
+                {$ownerTable}
+                </table>
+                </td>
                 <td>
                 <table border='1' >
                 {$oldDateTable}
@@ -1526,7 +1530,7 @@ $ids1=$data['LocationID'];
     }
     }
     $meterLocationsData.=" <tr>
-                <th colspan='8'>Total Amount</th>                                
+                <th colspan='9'>Total Amount</th>                                
                 <th>{$totalBill}</th>                                
             </tr></table>";
     echo $exportMeterHeader;
@@ -1538,7 +1542,7 @@ $ids1=$data['LocationID'];
     }
     else
     {
-     $fileName="Meter Report";
+     $fileName=$buildingName." Meter Report";
     }
 
 
