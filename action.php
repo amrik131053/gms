@@ -12136,7 +12136,7 @@ elseif($Status==8)
   $c = 0;
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
- $univ_rollno = $filesop[0];
+  $univ_rollno = $filesop[0];
    if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
  } elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
    $semester='Seventh'; } elseif ($sem==8) {    $semester='Eight'; } else {  $semester='Nine'; } 
@@ -12145,11 +12145,12 @@ elseif($Status==8)
 unset($SubjectCode);
 unset($SubjectType);
 
-$sql = "SELECT  IDNo,course,batch,college,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
+$sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
+
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $IDNo= $row['IDNo'];                         
+             $IDNo= $row['IDNo'];                         
             $course = $row['Course'];           
             $batch = $row['Batch'];
             $college = $row['CollegeName'];
@@ -12159,6 +12160,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
         $s_counter = 0;
         $stmt2 = sqlsrv_query($conntest,$result1);
+   
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
           $subject[]=$row1['SubjectName'];   
@@ -12178,6 +12180,7 @@ if( $stmt === false) {
 else{
  $sql_limit = "SELECT TOP 1 * FROM ExamForm ORDER BY Id DESC";
 $stmt1 = sqlsrv_query($conntest,$sql_limit);
+
 if( $stmt1  === false) {
     die( print_r( sqlsrv_errors(), true) );
 }
@@ -12185,8 +12188,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
   $cutlist_id= $row1['ID'];
 }
-// print_r($subject);
-// echo $s_counter;
+
 
 
        for($a=0;$a<$s_counter;$a++)

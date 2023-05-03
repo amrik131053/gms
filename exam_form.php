@@ -450,7 +450,7 @@ ini_set('max_execution_time', '0');
                  processData: false,
                  success: function(data)
                   {
-                     // console.log(data);
+                     console.log(data);
                           spinner.style.display='none';
                           if (data=='1')
                            {

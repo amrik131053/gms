@@ -1,10 +1,10 @@
 <?php
-session_start();
-
-ini_set('max_execution_time', '0');
-   if(!(ISSET($_SESSION['usr']))) 
-   {
-?>
+   session_start();
+   
+   ini_set('max_execution_time', '0');
+      if(!(ISSET($_SESSION['usr']))) 
+      {
+   ?>
 <script> window.location.href = 'index.php'; </script> 
 <?php
    }
@@ -22,7 +22,7 @@ ini_set('max_execution_time', '0');
    include "connection/connection.php";
    
    $code = $_POST['code'];
-
+   
    if($code=='1')
    {
        $count=0;
@@ -33,9 +33,9 @@ ini_set('max_execution_time', '0');
                            
         if ($building=='' && $floor=='' && $room=='') 
        {
-
+   
          $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID ";
-
+   
          
        }
        elseif ($building=='' && $floor=='' && $room!='') 
@@ -79,7 +79,6 @@ ini_set('max_execution_time', '0');
          <th>Floor</th>
          <th>Room Type/No</th>
          <th>Owner Name</th>
-         
       </tr>
    </thead>
    <tbody  >
@@ -105,7 +104,6 @@ ini_set('max_execution_time', '0');
             
              ?>                 
          </td>
-         
       </tr>
       <?php 
          }
@@ -116,18 +114,30 @@ ini_set('max_execution_time', '0');
    }
    elseif($code==2)
    {
+   
+      $id=$_POST['id'];
       $groupname=$_POST['groupname'];
-if($_POST['subjectIDs'] == "")
-{
+   if($_POST['subjectIDs'] == "")
+   {
    $per = 0;
-}
-else
-{
+   }
+   else
+   {
    $per = implode(",",$_POST['subjectIDs']);
-}
-       echo $verified_study="INSERT into group_master (GroupName,LocationID) values('$groupname','$per')";
-         $verified_study_run=mysqli_query($conn,$verified_study);  
-          if ($verified_study_run==true) {
+   }
+   if ($id==0) 
+         {
+   
+        $verified_study="INSERT into group_master (GroupName,LocationID) values('$groupname','$per')";
+         $verified_study_run=mysqli_query($conn,$verified_study); 
+        }
+      else
+      {
+       $verified_study="UPDATE  group_master SET LocationID=CONCAT(LocationID,',$per') where Id='$groupname'";
+         $verified_study_run=mysqli_query($conn,$verified_study); 
+         } 
+          if ($verified_study_run==true)
+           {
       echo "1";
    }
    else
@@ -135,18 +145,8 @@ else
       echo "0";
    }
    }
-    if($code==3)
-   {
-       $count=0;
-       $building=$_POST['id'];
-      $location_num=0;
-                           
-      
-        $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID  where Block='$building'";
-                         
-   
-                           $location_run=mysqli_query($conn,$location);
-                           ?>
+    elseif($code==3)
+   {?>
 <table class="table table-head-fixed text-nowrap table-bordered" id="example">
    <thead>
       <tr>
@@ -155,16 +155,35 @@ else
          <th>Floor</th>
          <th>Room Type/No</th>
          <th>Owner Name</th>
-         
       </tr>
    </thead>
    <tbody  >
+      <?php
+         $count=0;
+         $building=$_POST['id'];
+         $get_locations="SELECT LocationID FROM group_master where Id='$building'";
+         $get_locations_run=mysqli_query($conn,$get_locations);
+         while($r=mysqli_fetch_array($get_locations_run))
+         {
+         $ids=$r['LocationID'];
+         }
+         
+         $location_num=0;
+                             
+          $ids=explode(',',$ids);
+          $ids=array_unique($ids);
+          foreach ($ids as $key => $value) {
+            
+          $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID  where l.ID='$value'";
+                           
+         
+                             $location_run=mysqli_query($conn,$location);
+                             ?>
       <?php
          while ($location_row=mysqli_fetch_array($location_run)) 
          {
          $location_num=$location_num+1;?>
       <tr>
-
          <td><?=$location_num;?></td>
          <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
          <td><?=$location_row['FloorName'];?></td>
@@ -181,19 +200,63 @@ else
             
              ?>                 
          </td>
-         
       </tr>
       <?php 
+         }
          }
          ?>
    </tbody>
 </table>
 <?php
    }
+   elseif($code==4)
+   {
+   $id=$_POST['id'];
+   $delte="DELETE FROM `group_master` WHERE Id='$id'";
+   $delt_run=mysqli_query($conn,$delte);
+   if ($delt_run==true) 
+   {
+   echo "1";   // code...
+   }
    else
    {
-
-
+   echo "0";
    }
-}
-?>
+   }
+   elseif($code==5)
+   {?>
+<table class="table" id="">
+   <thead>
+      <tr>
+         <th>#</th>
+         <th>Name</th>
+         <th>Action</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody>
+      <?php 
+         $sr=1;
+         $get_group="SELECT * FROM group_master";
+         $get_group_run=mysqli_query($conn,$get_group);
+         while($row=mysqli_fetch_array($get_group_run))
+         {?>
+      <tr>
+         <th><?=$sr;?></th>
+         <th data-toggle="modal" onclick="modal_khali(<?=$row['Id'];?>);" data-target="#exampleModalCenter" ><b><?=$row['GroupName'];?></b></th>
+         <th><i class="fa fa-eye" onclick="show_group_member(<?=$row['Id'];?>);"></i></th>
+         <th><i class="fa fa-trash" onclick="group_delete(<?=$row['Id'];?>);"></i></th>
+      </tr>
+      <?php
+         $sr++; }
+           ?>
+   </tbody>
+</table>
+<?php
+   }
+   else
+   {
+   
+   }
+   }
+   ?>
