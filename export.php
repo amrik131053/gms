@@ -1059,6 +1059,7 @@ elseif($exportCode=='15')
               {
                 if ($flag==0) 
                 {
+
                   $sql1 = "SELECT * FROM Staff Where IDNo='$user'";
                   $q1 = sqlsrv_query($conntest, $sql1);
                   while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
@@ -1362,7 +1363,7 @@ $ids1=$data['LocationID'];
  for($i=0;$i<$length;$i++)
  {
   
-   $sql="SELECT  IDNo, from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID   where location_master.ID='$ids[$i]' AND stock_summary.status='2' ANd ArticleCode='34' ";
+   $sql="SELECT  IDNo,building_master.Name as bname  from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID  INNer join building_master on building_master.Id=location_master.Block  where location_master.ID='$ids[$i]' AND stock_summary.status='2' ANd ArticleCode='34' ";
 
 
     $res=mysqli_query($conn,$sql);
@@ -1375,7 +1376,7 @@ $ids1=$data['LocationID'];
         
         $count++;
         $article_num=$data['IDNo'];
-        $buildingName='';
+        $buildingName=$data['bname'];
 
    $readingQry="SELECT *, meter_reading.id as meter_reading_id, room_name_master.RoomName as room_name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block INNER JOIN room_name_master ON room_name_master.ID=location_master.RoomName where article_no='$article_num' ORDER by meter_reading.ID desc";
 
@@ -1409,30 +1410,42 @@ $ids1=$data['LocationID'];
             $meterLocation=$data1['location_id'];
             $flag=0;
             $sr=0;
-            $locationQry="SELECT  Corrent_owner from stock_summary where IDNo='$article_num' ORDER by Corrent_owner desc";
+            $locationQry="SELECT Corrent_owner,multiowner from stock_summary where IDNo='$article_num' ORDER by Corrent_owner desc";
+            
             $locationRes=mysqli_query($conn,$locationQry);
+
             while($locationData=mysqli_fetch_array($locationRes))
             {
               $user='';
               $user=$locationData['Corrent_owner'];
-              if (strlen($user)>7) 
-              {
+              $multiowner=$locationData['multiowner'];
+
+if($multiowner>0)
+                {
+
+$locationQrym="SELECT UserId from multiple_owners where ArticleCode='$article_num'";
+   $locationRes=mysqli_query($conn,$locationQrym);
+   while($locationDatam=mysqli_fetch_array($locationRes))
+            {
+              $user='';
+              $user=$locationDatam['UserId'];
+              
+
+
+ if (strlen($user)>7) 
+              {                
                 $flag=1;
                 $result1 = "SELECT  * FROM Admissions where UniRollNo='$user' or ClassRollNo='$user' or IDNo='$user'";
                 $stmt1 = sqlsrv_query($conntest,$result1);
                 while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                {
-              $sr++;
-            
-                  $ClassRollNo= $row['ClassRollNo'];
+                { $sr++;
+                 $ClassRollNo= $row['ClassRollNo'];
                   $UniRollNo= $row['UniRollNo'];
                   $StudentName = $row['StudentName'];
-                  
                   $ownerTable.="<tr><td>{$StudentName}</td><td>{$ClassRollNo}/{$UniRollNo}</td></tr>";
-
+                 }
                 }
-              }
-              elseif (strlen($user)<3) 
+                 elseif (strlen($user)<3) 
               {
                 $flag=1;
                 $sql1 = "SELECT * FROM outside_owners Where id='$user'";
@@ -1445,7 +1458,8 @@ $ids1=$data['LocationID'];
                     $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
                   }
               }
-              else
+
+             else
               {
                 if ($flag==0) 
                 {
@@ -1454,22 +1468,70 @@ $ids1=$data['LocationID'];
                   while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
                   {
               $sr++;
-                    $userName = $row['Name'];
-                    $fatherName = $row['FatherName'];
-                    $CollegeName = $row['CollegeName'];
-                    $Designation = $row['Designation'];
-                    $EmailID = $row['EmailID'];
-                    $ContactNo = $row['ContactNo'];
-                    if ($ContactNo=='') 
-                    {
-                      $ContactNo = $row['MobileNo'];
-                    }
+                    $userName = $row['Name'];                        
                     $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
                     
                   }
                 }
               }
+
+
+                }
+
+
             }
+
+                else
+                {
+
+              if (strlen($user)>7) 
+              {                
+                $flag=1;
+                $result1 = "SELECT  * FROM Admissions where UniRollNo='$user' or ClassRollNo='$user' or IDNo='$user'";
+                $stmt1 = sqlsrv_query($conntest,$result1);
+                while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                { $sr++;
+                 $ClassRollNo= $row['ClassRollNo'];
+                  $UniRollNo= $row['UniRollNo'];
+                  $StudentName = $row['StudentName'];
+                  $ownerTable.="<tr><td>{$StudentName}</td><td>{$ClassRollNo}/{$UniRollNo}</td></tr>";
+                 }
+                }
+                 elseif (strlen($user)<3) 
+              {
+                $flag=1;
+                $sql1 = "SELECT * FROM outside_owners Where id='$user'";
+                  $q1 = mysqli_query($conn, $sql1);
+                  while ($row = mysqli_fetch_array($q1)) 
+                  {
+                    $userName = $row['name'];
+                    
+                    $Designation = $row['designation'];
+                    $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
+                  }
+              }
+
+             else
+              {
+                if ($flag==0) 
+                {
+                  $sql1 = "SELECT * FROM Staff Where IDNo='$user'";
+                  $q1 = sqlsrv_query($conntest, $sql1);
+                  while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+                  {
+              $sr++;
+                    $userName = $row['Name'];                        
+                    $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
+                    
+                  }
+                }
+              }
+
+
+                }
+
+                       }
+
             $newDateTable.="<tr><td rowspan='{$sr}'>{$date}</td><td rowspan='{$sr}'>{$reading}</td></tr>";
             $oldDateTable.="<tr><td rowspan='{$sr}'>{$previousReadingDate}</td><td rowspan='{$sr}'>{$previousReading}</td></tr>";
 
@@ -1551,8 +1613,6 @@ if ($fileName=='')
 {   
     $fileName = 'LIMS';
 }
-
-
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");

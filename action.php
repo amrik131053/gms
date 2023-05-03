@@ -12807,7 +12807,7 @@ $IDNo= $_POST['IDNo'];
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Updated</b>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{?> <input type="text" class="form-control"  id='classroll'><?php } ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 
@@ -12852,7 +12852,9 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
                         <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo ""; 
 
-?><span onclick="copy_pass();"><?=$password;?></span><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
+?><?=$password;?>  <a href="#" onclick="copyToClipboard('<?= $password;?>')" title="Copy Link">
+   <span class="fa fa-copy" style="color:green"></span></a>
+<button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
                       ?>  </li>
                      
       <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
@@ -12932,8 +12934,8 @@ elseif($code==220)
     $status=$_POST['status'];
    $lock=$_POST['lock'];
    $id=$_POST['id'];
-   
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock' where IDNo='$id'";
+    $classroll=$_POST['classroll'];
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',ClassRollNo='$classroll' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -15863,14 +15865,20 @@ elseif($code==283)
 else if($code=284)
 {
    ?>
-   <table class="table"><tr><th>Group Name</th><th>Export pdf</th><th>Export Excel</th>
+   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
    <?php 
     $group=mysqli_query($conn,"SELECT *  from group_master");
                   while($data=mysqli_fetch_array($group))
                   {
-                    ?><tr><td><?=$data['GroupName'];?></td><td>
+                    ?><tr style="text-align: center;"><td><?=$data['GroupName'];?></td>
+                     <td>
 
-                     <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel-o fa-lg'>gfgh</i></button></td><td><?=$data['GroupName'];?></td>
+                     <button class='btn btn-xs' type='submit' style='color:green;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel fa-2x'></i></button></td>
+
+
+                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
+
+                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td>
                     <?php 
                   }
 }

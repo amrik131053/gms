@@ -211,19 +211,29 @@ input[type=radio]:checked + label {
 </div>
 <script type="text/javascript">
  
-const span = document.querySelector("span");
-alert(span);
-span.onclick = function() {
-  document.execCommand("copy");
+function copyToClipboard(copyText) {
+ 
+  navigator.clipboard.writeText(copyText);
+SuccessToast('Copied');
+  
 }
 
-span.addEventListener("copy", function(event) {
-  event.preventDefault();
-  if (event.clipboardData) {
-    event.clipboardData.setData("text/plain", span.textContent);
-    console.log(event.clipboardData.getData("text"))
-  }
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       $(document).ready(function (e) {    // image upload form submit
            $("#university_upload").on('submit',(function(e) {
@@ -415,9 +425,7 @@ span.addEventListener("copy", function(event) {
    var  batch = document.getElementById('ubatch').value;
    var  status = document.getElementById('ustatus').value;
    var  lock = document.getElementById('ulocked').value;
-    
-  
-
+   var  classroll = document.getElementById('classroll').value;
    var code=220;   
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -427,7 +435,7 @@ span.addEventListener("copy", function(event) {
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll
             },
             success:function(response) 
             {
