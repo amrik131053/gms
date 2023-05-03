@@ -254,6 +254,115 @@
 </table>
 <?php
    }
+   elseif($code==6)
+   {
+      $id=$_POST['id'];
+      $location_ID=$_POST['location_ID'];
+      $ArticleCode=$_POST['ArticleCode'];
+      $In="INSERT into  multiple_owners(UserId,ArticleCode) values('$id','$ArticleCode')"; 
+      $in_run=mysqli_query($conn,$In);
+      $In1="UPDATE stock_summary SET multiowner='1' where IDNo='$ArticleCode'"; 
+      $in_run1=mysqli_query($conn,$In1);
+   } 
+   elseif($code==7)
+   {
+      $id=$_POST['id'];
+      
+      $In="SELECT * FROM  multiple_owners  WHERE ArticleCode='$id'"; 
+      $in_run=mysqli_query($conn,$In);
+      while($row=mysqli_fetch_array($in_run))
+      {
+         ?>
+         <tr>
+            <td>
+<?=$empID=$row['UserId'];?>
+</td>
+<td>
+<?=$row['ArticleCode'];?>
+</td> <td><?php 
+       $staff="SELECT * FROM Staff Where IDNo='$empID'";
+       $stmt = sqlsrv_query($conntest,$staff);  
+       if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+       {
+           $jobStatus=$row_staff['JobStatus'];
+           if ($jobStatus=='1') 
+           {
+               echo "<b>".$Emp_Name=$row_staff['Name'];
+           }
+           else
+           {
+               echo "<b>Can not assign to ".$empID;
+           }
+           // $array[]=$row_staff;
+       }
+       ?>
+      </td>
+      <th><i class="fa fa-trash" onclick="owner_delete(<?=$empID;?>,<?=$row['ArticleCode'];?>);"></i></th>
+<?php       }
+
+   }
+   else if ($code==8) 
+   {
+      $empID=$_POST['id'];
+       $staff="SELECT * FROM Staff Where IDNo='$empID'";
+       $stmt = sqlsrv_query($conntest,$staff);  
+       if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+       {
+           $jobStatus=$row_staff['JobStatus'];
+           if ($jobStatus=='1') 
+           {
+               echo "<b>".$Emp_Name=$row_staff['Name'];
+           }
+           else
+           {
+               echo "<b>Can not assign to ".$empID;
+           }
+           $array[]=$row_staff;
+       }
+   //print_r($array);
+   }
+    elseif($code==9)
+   {
+   $id=$_POST['id'];
+   $articleID=$_POST['articleID'];
+   $delte="DELETE FROM `multiple_owners` WHERE UserId='$id' and ArticleCode='$articleID'";
+   $delt_run=mysqli_query($conn,$delte);
+   if ($delt_run==true) {
+      // code...
+   
+   $chek="SELECT * FROM multiple_owners where ArticleCode='$articleID' ";
+   $chek_run=mysqli_query($conn,$chek);
+    $co=mysqli_num_rows($chek_run);
+while($rr=mysqli_fetch_array($chek_run))
+{
+if ($co>0) 
+{
+$updateQry="UPDATE stock_summary SET  Corrent_owner='".$rr['UserId']."' WHERE  IDNo='$articleID'";
+               mysqli_query($conn,$updateQry);
+}
+}
+if ($co<1) {
+   // code...
+   $updateQry="UPDATE stock_summary SET  Corrent_owner='' WHERE IDNo='$articleID'";
+               mysqli_query($conn,$updateQry);
+}
+
+ if ($delt_run==true) 
+   {
+   echo "1";   // code...
+   }
+   else
+   {
+   echo "0";
+   }
+
+}
+else
+{
+
+}
+  
+   }
    else
    {
    
