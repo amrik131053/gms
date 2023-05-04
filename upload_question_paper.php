@@ -296,6 +296,7 @@ echo $status;
 }
 
 ?>
+ <div class="card-body table-responsive ">
 <table class="table" id="example" >
    <thead> 
  <tr><th>Sr No</th> <th>Course</th><th>Batch</th><th>Semester</th><th>Subject Name</th><th>Subject Code</th><th>Question Paper</th><th colspan="2">Action</th></tr>
@@ -391,6 +392,7 @@ $p=0;
 
 </table>
 </div>
+</div>
 </div> 
               </div>
              
@@ -400,13 +402,7 @@ $p=0;
               
                
             </div>
-            <?php  if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
-                                          {
-            ?>
-            <div class="card-footer" style="text-align: right;">
-               <input type="button" name="" value="Submit" class="btn btn-success" onclick="submitQuestion();">
-            </div>
-            <?php }  ?>
+            
             <!-- /.card-footer -->
             <!-- </form> -->
          </div>
