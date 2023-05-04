@@ -186,7 +186,7 @@ $Semester=$_POST['Semester'];
 
 if($EmployeeID!='')
 {
- echo $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  Course='$Course' AND Batch='$Batch' ANd Examination='$current_session'";
+  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  Course='$Course' AND Batch='$Batch' ANd Examination='$current_session'";
 
  $result = mysqli_query($conn, $sql);
    if (mysqli_num_rows($result)>0)
