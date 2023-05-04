@@ -2382,20 +2382,37 @@ else if($code==28)
        $deviceSerialNo=$data['DeviceSerialNo'];
        $workingStatus=$data['WorkingStatus'];
        $referenceNo=$data['reference_no'];
-       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', 'Returned', '$currentLocation', '$currentOwner', 'Owner Change', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', 'Returned', '$currentLocation', '$emp_id', 'Owner Remove', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
        $res=mysqli_query($conn,$qry);
        if ($res) 
        {
-            $updateQry="UPDATE stock_summary SET Corrent_owner='',reference_no=''  WHERE IDNo='$id'";
-            mysqli_query($conn,$updateQry);
+               $delte="DELETE FROM `multiple_owners` WHERE UserId='$emp_id' and ArticleCode='$id'";
+   $delt_run=mysqli_query($conn,$delte);
+   if ($delt_run==true) {
+   $chek="SELECT * FROM multiple_owners where ArticleCode='$id' ";
+   $chek_run=mysqli_query($conn,$chek);
+    $co=mysqli_num_rows($chek_run);
+while($rr=mysqli_fetch_array($chek_run))
+{
+if ($co>0) 
+{
+$updateQry="UPDATE stock_summary SET  Corrent_owner='".$rr['UserId']."' WHERE  IDNo='$id'";
+               mysqli_query($conn,$updateQry);
+}
+}
+if ($co<1) {
+   // code...
+   $updateQry="UPDATE stock_summary SET  Corrent_owner='' ,multiowner='0' WHERE IDNo='$id'";
+               mysqli_query($conn,$updateQry);
+     
+}
        }
 
 
     }
-      // $owner_update=" UPDATE stock_summary SET Corrent_owner=''  Where IDNo='$id'  ";
-      //                   $owner_update_run=mysqli_query($conn,$owner_update);
                        
              
+}
 }
 
 

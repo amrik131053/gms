@@ -743,12 +743,10 @@ option value = "" > Select < /option> <?php
    {
        $RoomType = $_POST['RoomType'];
        $location_ID_ = $_POST['officeID'];
-       $get_location="  SELECT *, colleges.shortname as clg_name , room_master.Floor as Floor_name1 ,room_name_master.ID as rnm_id,location_master.ID as lm_id,location_master.Floor as Floor_name  FROM location_master left join room_type_master on room_type_master.ID=location_master.Type left join room_name_master on room_name_master.ID=location_master.RoomName left JOIN building_master on building_master.ID=location_master.Block left join colleges on location_master.CollegeID=colleges.ID inner JOIN room_master ON room_master.FloorID=location_master.Floor  where  location_master.ID='$location_ID_' and location_master.Type='$RoomType' order by location_master.ID asc";
+       $get_location="  SELECT *, colleges.shortname as clg_name , room_master.Floor as Floor_name1 ,room_name_master.ID as rnm_id,location_master.ID as lm_id,location_master.RoomNo as Rroom ,location_master.Floor as Floor_name  FROM location_master left join room_type_master on room_type_master.ID=location_master.Type left join room_name_master on room_name_master.ID=location_master.RoomName left JOIN building_master on building_master.ID=location_master.Block left join colleges on location_master.CollegeID=colleges.ID inner JOIN room_master ON room_master.FloorID=location_master.Floor  where  location_master.ID='$location_ID_' and location_master.Type='$RoomType' order by location_master.ID asc";
         $res_r = mysqli_query($conn, $get_location);
                   if($data = mysqli_fetch_array($res_r)) 
-                  { 
-               
-                   
+                  {     
    ?>
    <div class="container">
       <center>
@@ -756,7 +754,7 @@ option value = "" > Select < /option> <?php
    <label><h5><b><?=$data['Floor_name1'];?>&nbsp;&nbsp;</b></h5></label>
    <label><h5><b><?=$data['RoomType'];?>
    &nbsp;&nbsp;</b></h5></label>
-   <label><h5><b><?=$data['RoomNo'];?>&nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['Rroom'];?>&nbsp;&nbsp;</b></h5></label>
 </center>
   </div>
 
@@ -911,13 +909,21 @@ while ($building_rowo=mysqli_fetch_array($building_out))
                   ?>
                <td>
                   <div class="row" id="sinlge_assign1" >
-                     <div class="col-lg-8">
+                     <div class="col-lg-8" >
                         <?=$name;?> <br>(<?=$building_row['Corrent_owner'];?>)<br> <?php if($UniRollNo!=''){ echo $UniRollNo;
 
                         }?>
                      </div>
                      <div class="col-lg-4">
-                        <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger">Remove</button>
+                        <?php    $chek="SELECT * FROM multiple_owners where ArticleCode='".$building_row['IDNo']."'";
+   $chek_run=mysqli_query($conn,$chek);
+    $co=mysqli_num_rows($chek_run);
+if ($co<2) 
+{?>
+
+                        <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger"><i class="fa fa-trash fa-lg"></i></button>
+<?php }?>
+                         <button type="button" onclick="add_more_owner(<?=$location_ID_?>,'<?=$building_row['Corrent_owner'];?>',<?=$building_row['IDNo'];?>,<?=$building_row['Type'];?>);" data-toggle="modal" data-target="#multiple_owner_modal"  class="btn-xs btn btn-success"><i class="fa fa-plus fa-lg"></i></button>
                      </div>
                   </div>
                </td>
@@ -1951,12 +1957,12 @@ if($count>0)
    $two= date("myd");
    $three= substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'),1,8);
    $four=substr(str_shuffle($one.$two.$three),1,8);
-  echo  $result =$one.$three.$two.$four;
-
-
-
+    $result =$one.$three.$two.$four;
     
-  echo   $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge' , reference_no='$result' where IDNo='$articleID'";
+     $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge',Updated_By='$EmployeeID' , reference_no='$result' where IDNo='$articleID'";
+
+ $In="INSERT into  multiple_owners(UserId,ArticleCode) values('$Incharge','$articleID')"; 
+      $in_run=mysqli_query($conn,$In);
 
    $building_run = mysqli_query($conn, $updateCurrentOwner);
    if ($building_run==true) 
@@ -2830,6 +2836,7 @@ if($count>0)
          <?php
             $location_num = 0;
             $returnArray[] = '';
+            $direction="";
             $array = array();
             $sql = "SELECT distinct reference_no FROM stock_description  where OwerID='$EmployeeID' ORDER BY Direction desc";
             $result = mysqli_query($conn, $sql);
