@@ -418,7 +418,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                  },
                                  success:function(response) 
                                  {  
-                                    console.log(response);
+                                    // console.log(response);
                                     document.getElementById("search_record").innerHTML =response;
                                      spinner.style.display='none';
                                     $(document).ajaxStop(function()
@@ -700,7 +700,7 @@ var code=9;
             },
             success:function(response) 
             {
-               console.log(response);
+               // console.log(response);
                if (response==1) {
                   show_save_onwer();
 
@@ -718,6 +718,7 @@ xmlhttp.onreadystatechange = function() {
 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 {
 // location.reload(true);
+   // console.log(xmlhttp);
   view_office_stock(location_ID,RoomType);
 }
 }
@@ -1120,6 +1121,7 @@ function save_onwer()
       success:function(response) 
       { 
          show_save_onwer();
+         // console.log(response);
          var onwer_id=document.getElementById("onwer_id").value="";
 
          document.getElementById("emp_detail_status_onwer").innerHTML ="";

@@ -263,6 +263,20 @@
       $in_run=mysqli_query($conn,$In);
       $In1="UPDATE stock_summary SET multiowner='1' where IDNo='$ArticleCode'"; 
       $in_run1=mysqli_query($conn,$In1);
+          $sql="SELECT * FROM stock_summary  where IDNo='$ArticleCode'";
+    $result = mysqli_query($conn,$sql);
+    $date=date('Y-m-d');
+    while($data=mysqli_fetch_array($result))
+    {
+       $currentOwner=$data['Corrent_owner'];
+       $currentLocation=$data['LocationID'];
+       $deviceSerialNo=$data['DeviceSerialNo'];
+       $workingStatus=$data['WorkingStatus'];
+       $referenceNo=$data['reference_no'];
+       $Direction='Owner Add:'.$id;
+       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', '$Direction', '$currentLocation', '$id', 'Add multiowner', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+       mysqli_query($conn,$qry);
+    }
    } 
    elseif($code==7)
    {
@@ -327,8 +341,23 @@
    $articleID=$_POST['articleID'];
    $delte="DELETE FROM `multiple_owners` WHERE UserId='$id' and ArticleCode='$articleID'";
    $delt_run=mysqli_query($conn,$delte);
+            $sql="SELECT * FROM stock_summary  where IDNo='$articleID'";
+    $result = mysqli_query($conn,$sql);
+    $date=date('Y-m-d');
+    while($data=mysqli_fetch_array($result))
+    {
+       $currentOwner=$data['Corrent_owner'];
+       $currentLocation=$data['LocationID'];
+       $deviceSerialNo=$data['DeviceSerialNo'];
+       $workingStatus=$data['WorkingStatus'];
+       $referenceNo=$data['reference_no'];
+       $Direction='Owner Remove:'.$id;
+       $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', '$Direction', '$currentLocation', '$id', 'Remove multiowner:', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+       mysqli_query($conn,$qry);
+    }
+
    if ($delt_run==true) {
-      // code...
+
    
    $chek="SELECT * FROM multiple_owners where ArticleCode='$articleID' ";
    $chek_run=mysqli_query($conn,$chek);

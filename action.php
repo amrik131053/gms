@@ -915,7 +915,14 @@ while ($building_rowo=mysqli_fetch_array($building_out))
                         }?>
                      </div>
                      <div class="col-lg-4">
+                        <?php    $chek="SELECT * FROM multiple_owners where ArticleCode='".$building_row['IDNo']."'";
+   $chek_run=mysqli_query($conn,$chek);
+    $co=mysqli_num_rows($chek_run);
+if ($co<2) 
+{?>
+
                         <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger"><i class="fa fa-trash fa-lg"></i></button>
+<?php }?>
                          <button type="button" onclick="add_more_owner(<?=$location_ID_?>,'<?=$building_row['Corrent_owner'];?>',<?=$building_row['IDNo'];?>,<?=$building_row['Type'];?>);" data-toggle="modal" data-target="#multiple_owner_modal"  class="btn-xs btn btn-success"><i class="fa fa-plus fa-lg"></i></button>
                      </div>
                   </div>
@@ -1950,12 +1957,9 @@ if($count>0)
    $two= date("myd");
    $three= substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'),1,8);
    $four=substr(str_shuffle($one.$two.$three),1,8);
-  echo  $result =$one.$three.$two.$four;
-
-
-
+    $result =$one.$three.$two.$four;
     
-     $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge' , reference_no='$result' where IDNo='$articleID'";
+     $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge',Updated_By='$EmployeeID' , reference_no='$result' where IDNo='$articleID'";
 
  $In="INSERT into  multiple_owners(UserId,ArticleCode) values('$Incharge','$articleID')"; 
       $in_run=mysqli_query($conn,$In);
@@ -2832,6 +2836,7 @@ if($count>0)
          <?php
             $location_num = 0;
             $returnArray[] = '';
+            $direction="";
             $array = array();
             $sql = "SELECT distinct reference_no FROM stock_description  where OwerID='$EmployeeID' ORDER BY Direction desc";
             $result = mysqli_query($conn, $sql);
