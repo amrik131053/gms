@@ -7,7 +7,7 @@
 <section class="content">
    <div class="container-fluid">
    <div class="row">
-      <div class="col-lg-12 col-sm-3 col-md-12">
+      <div class="col-lg-12 col-sm-3 col-md-12"> 
          <div class="card card-info">
             <div class="card-header">
                <div class="col-lg-2">

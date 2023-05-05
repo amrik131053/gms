@@ -10061,9 +10061,16 @@ elseif($code==170)
       <div class="col-lg-2 col-sm-2 col-md-2">
          <button class="btn btn-warning form-control" data-toggle="modal" onclick="reAssignModal(<?=$id?>)" data-target="#returnModal">Owner Change</button>
       </div>
-      <div class="col-lg-2 col-sm-2 col-md-2">
+<?php 
+     $mail="SELECT * from stock_summary inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where IDNo='$id'  and is_admin='1' AND employee_id='$EmployeeID'";
+            $mail_run=mysqli_query($conn,$mail);
+            while ($mail_row=mysqli_fetch_array($mail_run)) 
+            {
+             ?>
+        <div class="col-lg-2 col-sm-2 col-md-2">
          <button class="btn btn-danger form-control" data-toggle="modal" onclick="returnModal(<?=$id?>)" data-target="#returnModal">Return</button>
       </div> 
+   <?php }?>
    </div>
    
   
