@@ -4266,6 +4266,119 @@ echo $count++;
 }
 
 
+else if($code=='48')
+{
+
+ 
+ $CollegeID = $_GET['college'];
+
+ $exam = $_GET['examination'];
+  $type = $_GET['type'];
+ 
+  $allow=0;
+  ?>
+  <table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:50px;text-align:left">Course</th>
+                                                
+                      
+                       <th style="width:25px;text-align: center;"> Semester</th>
+                       <th style="width:25px;text-align: center;">Batch</th>
+                         <th style="width:50px;text-align: center;"> Subject Name </th>
+                   <th style="width:50px;text-align: center;">Subject Code</th>
+                                     <th style="width:50px;text-align: center;">Subject Type</th>
+            <th style="width:10px;text-align: center;">No Of Paper </th>
+                  
+                     <th style="width:10px;text-align: center;">Emp ID </th>
+                              <th style="width:10px;text-align: center;">Status </th>
+                      
+                </tr>
+            
+ 
+
+
+
+             
+               
+               
+            
+
+
+
+<?php 
+
+ $pendingpa = "Select  Distinct es.Course,es.SubjectName,es.SubjectCode,es.SemesterID,es.SubjectType,es.Batch from ExamformSubject es  inner join ExamForm  ef on ef.ID = es.Examid  inner  join MasterCourseStructure mcs on es.SubjectCode=mcs.SubjectCode where es.Examination='$exam' ANd es.ExternalExam='Y' ANd ef.CollegeID='$CollegeID' ANd es.Type='Reappear' order by SemesterID";
+
+$stmt = sqlsrv_query($conntest,$pendingpa);  
+                     while($p_row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                 
+                 $Subjectcodes[]=$p_row['SubjectCode'];
+                 $SubjectName[]=$p_row['SubjectName'];
+                 $SubjectType[]=$p_row['SubjectType'];
+                  $Course[]=$p_row['Course'];
+                 $Semester[]=$p_row['SemesterID'];
+                 $Batch[]=$p_row['Batch'];
+                  }
+               
+             $loop= count($Subjectcodes);
+
+
+
+?>
+                  
+
+    
+
+<?php 
+for($i=0,$sr=1;$i<$loop;$i++,$sr++)
+{
+$emp_id="";
+$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]'";
+$z=0;
+ $result = mysqli_query($conn, $sql);
+     while($row=mysqli_fetch_array($result))
+  {
+
+  $emp_id=$row['UpdatedBy'];
+   
+$z++;
+  }?>    
+ <tr><td><?=$sr;?></td><td><?= $Course[$i];?></td><td style="width:25px;text-align: center;"><?=  $Semester[$i];?></td>
+
+   <td style="width:50px;text-align: center;"><?= $Batch[$i];?></td><td style="width:25px;text-align: center;"><?= $SubjectName[$i];?></td><td style="width:25px;text-align: center;"><?= $Subjectcodes[$i];?></td><td style="width:25px;text-align: center;"><?= $SubjectType[$i];?></td><td style="width:25px;text-align: center;"> <b><?=$z;   ?> </b>
+</td><td style="width:25px;text-align: center;"><?= $emp_id;?></td><td style="width:25px;text-align: center;"> <?php if($z>0){?><i class="fa fa-check fa-2x" style="color:green"></i><?php }
+else{?><i class="fa fa-times fa-2x" style="color:red"></i><?php 
+};   ?> 
+</td></tr>           
+
+<?php 
+}
+?>
+
+
+
+
+<?php 
+               
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
        else
        {
    

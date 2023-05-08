@@ -1316,7 +1316,7 @@ elseif($exportCode=='17')
     $group=mysqli_query($conn,"SELECT *  from group_master where Id='$building'");
                   while($data=mysqli_fetch_array($group))
                   {
-$ids1=$data['LocationID'];
+ $ids1=$data['LocationID'];
                   }
 
 
@@ -1420,10 +1420,10 @@ $ids1=$data['LocationID'];
               $user=$locationData['Corrent_owner'];
               $multiowner=$locationData['multiowner'];
 
-if($multiowner>0)
+  if($multiowner>0)
                 {
 
-$locationQrym="SELECT UserId from multiple_owners where ArticleCode='$article_num'";
+  $locationQrym="SELECT UserId from multiple_owners where ArticleCode='$article_num'";
    $locationRes=mysqli_query($conn,$locationQrym);
    while($locationDatam=mysqli_fetch_array($locationRes))
             {
@@ -1596,7 +1596,7 @@ $locationQrym="SELECT UserId from multiple_owners where ArticleCode='$article_nu
             </tr></table>";
     echo $exportMeterHeader;
     echo $meterLocationsData;
-}
+
     if ($building==0) 
     {
      $fileName="Meter Report";
@@ -1606,12 +1606,116 @@ $locationQrym="SELECT UserId from multiple_owners where ArticleCode='$article_nu
      $fileName=$buildingName." Meter Report";
     }
 
+   if ($fileName=='') 
+   {   
+    $fileName = 'LIMS';
+    }
+}
+
+elseif($exportCode=='18')
+{
+    $CollegeID = $_GET['college'];
+
+ $exam = $_GET['examination'];
+  
+ 
+  $allow=0;
+
+    
+
+
+    $questionData='';
+    $questionData.="<table class='table'  border=1'>
+
+    <thead>
+ <tr>
+                 
+ 
+                  <th> Sr No </th>
+                <th>Course</th>
+                                                
+                      
+                       <th> Semester</th>
+                       <th>Batch</th>
+                         <th> Subject Name </th>
+                   <th>Subject Code</th>
+                                     <th>Subject Type</th>
+            <th>No Of Paper </th>
+                  
+                     <th>Emp ID </th>
+                              <th   >Status </th>
+                      
+                </tr></thead>";
+
+
+ $pendingpa = "Select  Distinct es.Course,es.SubjectName,es.SubjectCode,es.SemesterID,es.SubjectType,es.Batch from ExamformSubject es  inner join ExamForm  ef on ef.ID = es.Examid  inner  join MasterCourseStructure mcs on es.SubjectCode=mcs.SubjectCode where es.Examination='$exam' ANd es.ExternalExam='Y' ANd ef.CollegeID='$CollegeID' ANd es.Type='Reappear' order by SemesterID";
+
+$stmt = sqlsrv_query($conntest,$pendingpa);  
+                     while($p_row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                 
+                 $Subjectcodes[]=$p_row['SubjectCode'];
+                 $SubjectName[]=$p_row['SubjectName'];
+                 $SubjectType[]=$p_row['SubjectType'];
+                  $Course[]=$p_row['Course'];
+                 $Semester[]=$p_row['SemesterID'];
+                 $Batch[]=$p_row['Batch'];
+                  }
+               
+             $loop= count($Subjectcodes);
+
+for($i=0,$sr=1;$i<$loop;$i++,$sr++)
+{
+$emp_id="";
+$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]'";
+$z=0;
+ $result = mysqli_query($conn, $sql);
+     while($row=mysqli_fetch_array($result))
+  {
+
+  $emp_id=$row['UpdatedBy'];
+   
+$z++;
+  }  
+   $questionData.="<tr >
+                <td>{$sr}</td>
+                <td>{$Course[$i]}</td>
+                <td>{$Semester[$i]}</td>
+                <td>{$Batch[$i]}</td>
+                <td>{$SubjectName[$i]}</td>
+                <td>
+                {$Subjectcodes[$i]}
+                </td>
+
+                <td>
+                {$SubjectType[$i]}
+                </td>
+                <td>
+               
+                         {$z}
+
+                </td>
+                <td>{$emp_id}</td>
+                
+                <td></tr>";
+        
+    }
+    
+    $questionData.="                                 
+                                           
+            </tr></table>";
+    echo $questionData;
+    
+
+   
 
 
 
 if ($fileName=='') 
 {   
-    $fileName = 'LIMS';
+    $fileName = $CollegeID;
+}
+
 }
 
 
