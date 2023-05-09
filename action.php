@@ -15878,7 +15878,7 @@ elseif($code==283)
             </ul><?php
 }
 
-else if($code=284)
+else if($code==284)
 {
    ?>
    <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
@@ -15900,40 +15900,90 @@ else if($code=284)
 }
 
 
-else if($code=285)
+else if($code==285)
 {
+ $empid=$_POST['IDNo'];
    ?>
-   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
-   <?php 
-    $group=mysqli_query($conn,"SELECT *  from group_master");
-                  while($data=mysqli_fetch_array($group))
-                  {
-                    ?><tr style="text-align: center;"><td><?=$data['GroupName'];?></td>
-                     <td>
+     
+ <table class="table">
+  
+       <th>Photo</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Ack'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
 
-                     <button class='btn btn-xs' type='submit' style='color:green;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel fa-2x'></i></button></td>
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+          <td style="width: 50px;text-align: center;"> <p style="text-align: center"><img src="images/faculty/<?=$emp_image;?>" style="border-radius:50%;height: 50px;width:50px"></p> </td><td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>   <input type="submit" value="Check-in" class="btn btn-primary btn-xs" name="accept"></form> </td>
+ </tr>
+
+<?php
 
 
-                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
 
-                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td>
-                    <?php 
-                  }
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
 }
 
 
+else if($code==286)
+{
+ $empid=$_POST['IDNo'];
+    $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='ack'  ORDER BY id DESC ";
+   $result = mysqli_query($conn,$list_sql); ?> 
+<table class="table">
+       <th>Photo</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+        <?php 
+ 
+ while($row = mysqli_fetch_array($result))  
+      {  
+
+
+?>
+      
+      <tr><form action="#" method="POST" >
+          <td style="width: 50px;text-align: center;"> <p style="text-align: center"><img src="images/faculty/<?=$emp_image;?>" style="border-radius:50%;height: 50px;width:50px"></p> </td><td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+ </tr>
+
+<?php
+
+
+
+      }
 
 
 
 
+?>
+</table><?php
 
 
-
-
-
-
-
-
+  
+}
 
 
 

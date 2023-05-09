@@ -73,13 +73,13 @@
                   
                 <label><b style="color:black">Enter Remarks</b></label>
 
-      <textarea rows="3"  class="form-control">
+      <textarea rows="3"  class="form-control" name="remarks">
       </textarea>
    <br>
        
      
       
-      <input type="submit" class="form-control btn btn-primary"  name="qpupload" >
+      <input type="submit" class="form-control btn btn-primary"  name="request_time_out" >
    </form>
                     
                   </div>
@@ -96,7 +96,59 @@
             <div class="card-header">
                <h3 class="card-title">My Time out's</h3>
 </div>
+<?php
+echo "sdfasfsfd"; 
 
+if (isset($_POST['request_time_out'])) {
+
+
+
+
+echo $purpose=$_POST['purpose'];
+$location= $_POST['location'];
+$remarks= $_POST['remarks'];
+$exit_date =date('Y-m-d');
+
+
+date_default_timezone_set("Asia/Kolkata"); 
+$exit_time = date('H:i');
+ $status='draft';
+
+
+  $staff="SELECT * FROM Staff Where IDNo='$EmployeeID'";
+    $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+
+    // $emp_image = $row_staff['image'];
+      $empid = $row_staff['IDNo'];
+
+      $name = $row_staff['Name'];
+
+      $college = $row_staff['CollegeName'];
+      $dep = $row_staff['Department'];
+      $designation = $row_staff['Designation'];
+      $mob1 = $row_staff['Mobile'];
+     
+      $email = $row_staff['Email'];
+      $superwiser_id = $row_staff['superwiser_id'];
+
+        }
+
+
+
+
+
+
+ echo $result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name)
+                                                 values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name')");
+
+?>
+<script> //window.location.href="http://10.0.8.10/gkuadmin/profile/movement.php";</script>
+
+<?php }
+
+?>
  <div class="panel-body">
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
@@ -204,14 +256,14 @@ function bg(id)
        var code=285;
 
        var IDNo=document.getElementById('IDNo').value;
-      alert(IDNo);
+      alert(code);
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
             url:'action.php',
             type:'POST',
             data:{
-               code:code,
+               code:code,IDNo:IDNo
                   },
             success: function(response) 
             {
@@ -234,5 +286,16 @@ function bg(id)
 
 
 <div>
+
+
+
+
+
+
+
+
+
+
+
 <?php include "footer.php";  ?>
 
