@@ -15898,6 +15898,45 @@ else if($code=284)
                     <?php 
                   }
 }
+
+
+else if($code=285)
+{
+   ?>
+   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
+   <?php 
+    $group=mysqli_query($conn,"SELECT *  from group_master");
+                  while($data=mysqli_fetch_array($group))
+                  {
+                    ?><tr style="text-align: center;"><td><?=$data['GroupName'];?></td>
+                     <td>
+
+                     <button class='btn btn-xs' type='submit' style='color:green;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel fa-2x'></i></button></td>
+
+
+                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
+
+                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td>
+                    <?php 
+                  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  else
 {
 echo "select code";

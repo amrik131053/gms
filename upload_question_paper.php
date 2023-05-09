@@ -161,7 +161,7 @@ $Semester=$_POST['Semester'];
       }
 
 
- $sql = "SELECT * from  MasterCourseStructure  where  SubjectCode ='$SubjectCode' ANd CourseID='$CourseID' ";
+ $sql = "SELECT * from  MasterCourseStructure  where  SubjectCode ='$SubjectCode' ANd CourseID='$CourseID'  ";
      
        $result = sqlsrv_query($conntest,$sql);
        
@@ -186,7 +186,7 @@ $Semester=$_POST['Semester'];
 
 if($EmployeeID!='')
 {
-  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  Course='$Course' AND Batch='$Batch' ANd Examination='$current_session'";
+  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  Course='$Course' AND Batch='$Batch' ANd Examination='$current_session' ANd Status>=0";
 
  $result = mysqli_query($conn, $sql);
    if (mysqli_num_rows($result)>0)
