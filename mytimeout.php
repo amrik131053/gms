@@ -57,7 +57,7 @@
                 <form  method="post"  class="form-horizontal" enctype="multipart/form-data">   
                      <label>Purpose<b style="color:red;">*</b></label>
 
-                     <input type="text"  name="IDNo" id="IDNo" value="<?= $EmployeeID;?>">
+                     <input type="hidden"  name="IDNo" id="IDNo" value="<?= $EmployeeID;?>">
                      <select  id="purpose" class="form-control" Name='purpose' >
                         <option value='Offcial'>Official</option>
                         <option value='Personal'>Personal</option>
@@ -66,7 +66,7 @@
                  
                      <label>Location <b style="color:red;">*</b></label>
                      <select  id="location" class="form-control" Name='location' >
-                        <option value='Inside Campuse'>Inside Campus</option>
+                        <option value='Inside Campus'>Inside Campus</option>
                         <option value='Outside Campus'>Outside Campus</option>
                      </select>                 
                                           
@@ -97,14 +97,19 @@
                <h3 class="card-title">My Time out's</h3>
 </div>
 <?php
-echo "sdfasfsfd"; 
+
+
+
+
+
+
 
 if (isset($_POST['request_time_out'])) {
 
 
 
 
-echo $purpose=$_POST['purpose'];
+ $purpose=$_POST['purpose'];
 $location= $_POST['location'];
 $remarks= $_POST['remarks'];
 $exit_date =date('Y-m-d');
@@ -128,10 +133,10 @@ $exit_time = date('H:i');
       $college = $row_staff['CollegeName'];
       $dep = $row_staff['Department'];
       $designation = $row_staff['Designation'];
-      $mob1 = $row_staff['Mobile'];
+      $mob1 = $row_staff['ContactNo'];
      
-      $email = $row_staff['Email'];
-      $superwiser_id = $row_staff['superwiser_id'];
+      $email = $row_staff['EmailID'];
+      $superwiser_id = $row_staff['LeaveSanctionAuthority'];
 
         }
 
@@ -140,7 +145,7 @@ $exit_time = date('H:i');
 
 
 
- echo $result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name)
+  $result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name)
                                                  values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name')");
 
 ?>
@@ -168,7 +173,7 @@ $exit_time = date('H:i');
          <div  id="table_load">
 
   <table class="table">
-       <th>Photo</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th>
 <?php 
 
    
@@ -199,7 +204,7 @@ $emp_image = $row['image'];
 ?>
       
       <tr><form action="#" method="POST" >
-          <td style="width: 50px;text-align: center;"> <p style="text-align: center"><img src="images/faculty/<?=$emp_image;?>" style="border-radius:50%;height: 50px;width:50px"></p> </td><td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id"> </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id"> </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td>
  </tr>
 
 <?php
@@ -256,7 +261,7 @@ function bg(id)
        var code=285;
 
        var IDNo=document.getElementById('IDNo').value;
-      alert(code);
+    
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
@@ -273,6 +278,97 @@ function bg(id)
          });
 
      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function refused()
+          {
+       var code=286;
+
+       var IDNo=document.getElementById('IDNo').value;
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,IDNo:IDNo
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+ function Reports()
+          {
+       var code=287;
+
+       var IDNo=document.getElementById('IDNo').value;
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,IDNo:IDNo
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+
+
+  function checkin(id)
+          {
+       var code=288;
+
+       
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+
+
+
+
+
+
 
 
 

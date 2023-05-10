@@ -15907,7 +15907,7 @@ else if($code==285)
      
  <table class="table">
   
-       <th>Photo</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
        <?php 
  $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Ack'  ORDER BY id DESC ";
  //
@@ -15930,7 +15930,21 @@ while($row=mysqli_fetch_array($result))
 
       
       <tr><form action="#" method="POST" >
-          <td style="width: 50px;text-align: center;"> <p style="text-align: center"><img src="images/faculty/<?=$emp_image;?>" style="border-radius:50%;height: 50px;width:50px"></p> </td><td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>   <input type="submit" value="Check-in" class="btn btn-primary btn-xs" name="accept"></form> </td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+
+<?php if($row['location']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
+         </button> 
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved 
+         </button> 
+<?php } ?>
+            </td>
  </tr>
 
 <?php
@@ -15953,20 +15967,34 @@ while($row=mysqli_fetch_array($result))
 else if($code==286)
 {
  $empid=$_POST['IDNo'];
-    $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='ack'  ORDER BY id DESC ";
-   $result = mysqli_query($conn,$list_sql); ?> 
-<table class="table">
-       <th>Photo</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
-        <?php 
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='rejected'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
  
- while($row = mysqli_fetch_array($result))  
-      {  
+ 
+ 
 
-
-?>
       
       <tr><form action="#" method="POST" >
-          <td style="width: 50px;text-align: center;"> <p style="text-align: center"><img src="images/faculty/<?=$emp_image;?>" style="border-radius:50%;height: 50px;width:50px"></p> </td><td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
  </tr>
 
 <?php
@@ -15984,6 +16012,122 @@ else if($code==286)
 
   
 }
+
+else if($code==287)
+{
+ $empid=$_POST['IDNo'];
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Check-in'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+    <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+else if($code='288')
+{
+ $id=$_POST['id'];
+
+$list_sql = "SELECT * FROM movement where id='$id'";
+
+$result = mysqli_query($conn,$list_sql); 
+while($row = mysqli_fetch_array($result))  
+      { 
+       $out_time=$row['out_time'];
+      }
+
+
+$return_date =date('Y-m-d');
+date_default_timezone_set("Asia/Kolkata"); 
+$return_time = date('H:i');
+ $status='Check-in';
+$return_date=date("Y-m-d");
+
+ $h1=substr("$out_time",0,2)."<br>";
+ $h2=substr("$return_time",0,2)."<br>";
+$m1=substr("$out_time",3,2)."<br>";
+  $m2=substr("$return_time",3,2)."<br>";
+
+if($m2>$m1)
+{
+ $r=(int)$h2-(int)$h1;
+
+ $r1=(int)$m2-(int)$m1;
+}
+
+else
+{
+
+ $r=(int)$h2-(int)$h1-1;
+
+  $r1=(int)$m2+60-(int)$m1;
+
+}
+if($r==0)
+{
+   $count=$r1."Minutes";
+}
+else
+{
+  $count=$r."Hours".$r1."Minutes";
+}
+if($r1>0)
+{
+ $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
+}
+else
+{
+  }
+
+?>
+
+<?php 
+
+
+
+
+}
+
+
+
+
+
 
 
 
