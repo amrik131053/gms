@@ -209,7 +209,7 @@ else
             </ul>
     <?php
                   $ids = join("','",$array_aa); 
-                  $q = mysqli_query($conn,"SELECT id, submenu, mainmenu, page_link FROM permissions WHERE id IN ('$ids') and type = 'Menu' ORDER BY priorityorder ASC");
+                  $q = mysqli_query($conn,"SELECT id, submenu, mainmenu, page_link FROM permissions WHERE id IN ('$ids') and type = 'Menu' ORDER BY mainmenu ASC");
                   
                   // prepare data 
                   $groups = Array();
