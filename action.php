@@ -14635,10 +14635,12 @@ elseif($code==255)
 }
  elseif($code==256)
    {
+      
             $file = $_FILES['file_exl']['tmp_name'];
             $CollegeID=$_POST['College'];
             $CourseID=$_POST['Course'];
-             $batch=$_POST['batch'];
+            $batch=$_POST['batch'];
+
             $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
          while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
