@@ -16084,6 +16084,9 @@ $return_date=date("Y-m-d");
 $m1=substr("$out_time",3,2)."<br>";
   $m2=substr("$return_time",3,2)."<br>";
 
+
+
+
 if($m2>$m1)
 {
  $r=(int)$h2-(int)$h1;

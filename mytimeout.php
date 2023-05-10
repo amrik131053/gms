@@ -149,7 +149,7 @@ $exit_time = date('H:i');
                                                  values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name')");
 
 ?>
-<script> //window.location.href="http://10.0.8.10/gkuadmin/profile/movement.php";</script>
+<script> window.location.href="mytimeout.php";</script>
 
 <?php }
 
