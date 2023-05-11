@@ -43,6 +43,8 @@
                               <option value="1">All</option>
                               <option value="2">Issued</option>
                               <option value="3">Not Issued</option>
+                              <option value="4">Faulty</option>
+                              <option value="5">Discarted</option>
                            </select>
                           </div>
                         <div class="col-lg-2">
@@ -91,7 +93,7 @@
                      <tbody >
                         <?php 
                            $building_num=0;
-                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode inner join category_permissions on category_permissions.CategoryCode=c.ID where category_permissions.employee_id='$EmployeeID' order by IDNo DESC ";
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode inner join category_permissions on category_permissions.CategoryCode=c.ID where category_permissions.employee_id='$EmployeeID' order by IDNo DESC limit 1 ";
                            $building_run=mysqli_query($conn,$building);
                            while ($building_row=mysqli_fetch_array($building_run)) 
                            {
@@ -192,6 +194,32 @@
       </div>
    </div>
 </div>
+<div class="modal fade" id="exampleModal_discard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+   <div class="modal-dialog modal-xl" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Discard Stock </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form action="action.php" method="post">
+            <input type="hidden" name="code" value="15">
+            <div class="modal-body" id="stock_samry_discart">
+               ...
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+
+
 <div class="modal fade" id="exampleModal_assign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog modal-xl" role="document" >
       <div class="modal-content"  >
@@ -284,7 +312,7 @@
       {
          // var id=id1;
          //var RoomType= document.getElementById("RoomType").value;
-         //alert(RoomType);
+         //alert(id);
          var code=47;
          $.ajax(
          {
@@ -325,6 +353,37 @@
             },
             success:function(response) 
             {  
+               //console.log(response);
+               // location.reload(true);
+            }
+         });      
+    }
+    else
+    {
+      alert("Enter Remarks and Working Status");
+
+    }
+      }
+
+
+
+         function returnSubmita(id){
+   var code=289;
+   alert(id);
+   var returnRemark= document.getElementById("returnRemark").value;
+   var workingStatus= document.getElementById("workingStatus").value;
+    if (returnRemark!='' && workingStatus!='') 
+    {
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus
+            },
+            success:function(response) 
+            {  
                console.log(response);
                // location.reload(true);
             }
@@ -341,6 +400,8 @@
 
 
       }
+
+
 </script>
 <?php include "footer.php"; 
 

@@ -238,7 +238,7 @@ $EmployeeID=$_SESSION['usr'];
 <tbody>
 <?php 
    $building_num=0;
-   $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
+ $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
    $building_run=mysqli_query($conn,$building);
    while ($building_row=mysqli_fetch_array($building_run)) 
    {
@@ -276,7 +276,9 @@ $EmployeeID=$_SESSION['usr'];
 </select>
 </td>
 <td>
-<input type="text" name="UserID" required="" class="form-control"> </td>
+   <input type="text" name="stockOwner" required="" class="form-control">
+
+<input type="hidden" name="UserID"  class="form-control"> </td>
 <input type="hidden" name="iDNo_assing" id="out"> 
 </tr>
 <?php 
@@ -2435,8 +2437,25 @@ if ($co<1) {
  elseif($Status==3)
  {
     $building_num=0;
-                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.Status='1' and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.Status='1' and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID' ";
  }
+ elseif($Status==4)
+ {
+    $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.WorkingStatus='1' and s.Status!='3'  and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+ }
+
+elseif($Status==5)
+ {
+    $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.WorkingStatus='1' AND s.Status='3'  and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+ }
+
+
+
+
+
+
  else
  { $building_num=0;
                            $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
@@ -2497,12 +2516,25 @@ if ($co<1) {
                              <?php 
                                  if ($building_row['CPU']!='' and $building_row['OS']!='' and $building_row['Memory']!='' and $building_row['Brand']!='' and $building_row['Storage']!='' and $building_row['Model']!='')
                                   {
-                                     if($building_row['Status']=="1")
+                                     if($building_row['Status']=="1" &&  $building_row['WorkingStatus']=='0')
                                     {?>
                               <a class="btn btn-warning btn-xs"  onclick="stock_assign(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_assign" style="color: white;">Available</a>
                               <?php
                                  }
-                                 else if($building_row['Status']=="2")
+                                  else if ($building_row['Status']=="1" &&  $building_row['WorkingStatus']=='1')
+                                    {?>
+                              <a class="btn btn-primary btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard1" style="color: white;">Faulty (Return)</a>
+                              <?php
+                                 }
+
+
+                                 else if ($building_row['Status']=="2" &&  $building_row['WorkingStatus']=='1')
+                                 {
+                                 ?>
+                                    <a class="btn btn-warning btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard1" style="color: white;">Faulty</a>
+                              <?php  # code...
+                                 }
+                                 else if ($building_row['Status']=="2")
                                  {
                                  ?>
                                     <a class="btn btn-danger btn-xs" data-dismiss="modal" onclick="return_assigned_stock(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#return_stock_Modal" style="color:white;">Return</a>
@@ -2510,12 +2542,13 @@ if ($co<1) {
                                  }
                                  else
                                  {
-                                    
+                                   echo "------"; 
                                  }
                                  }
-                                 else{
-                                 
-                                 }  ?>
+                                 else{?>
+                                 <a class="btn btn-secondary btn-xs"  dstyle="color:white;">Not Updated</a>
+
+                                <?php  }  ?>
                                  
                            </td>
                            
@@ -4268,46 +4301,24 @@ echo $count++;
 
 else if($code=='48')
 {
-
- 
  $CollegeID = $_GET['college'];
-
  $exam = $_GET['examination'];
   $type = $_GET['type'];
- 
-  $allow=0;
+   $allow=0;
   ?>
   <table   class="table"  style="border: 2px solid black"  >
- <tr>
-                 
- 
-                  <th style="width:25px;text-align: left;"> Sr No </th>
+ <tr> <th style="width:25px;text-align: left;"> Sr No </th>
                 <th  style="width:50px;text-align:left">Course</th>
-                                                
-                      
-                       <th style="width:25px;text-align: center;"> Semester</th>
+                     <th style="width:25px;text-align: center;"> Semester</th>
                        <th style="width:25px;text-align: center;">Batch</th>
                          <th style="width:50px;text-align: center;"> Subject Name </th>
                    <th style="width:50px;text-align: center;">Subject Code</th>
-                                     <th style="width:50px;text-align: center;">Subject Type</th>
+                     <th style="width:50px;text-align: center;">Subject Type</th>
             <th style="width:10px;text-align: center;">No Of Paper </th>
-                  
-                     <th style="width:10px;text-align: center;">Emp ID </th>
-                              <th style="width:10px;text-align: center;">Status </th>
-                      
-                </tr>
-            
- 
-
-
-
-             
-               
-               
-            
-
-
-
+              <th style="width:10px;text-align: center;">Emp ID </th>
+              <th style="width:10px;text-align: center;">Status </th>
+            </tr>
+      
 <?php 
 
  $pendingpa = "Select  Distinct es.Course,es.SubjectName,es.SubjectCode,es.SemesterID,es.SubjectType,es.Batch from ExamformSubject es  inner join ExamForm  ef on ef.ID = es.Examid  inner  join MasterCourseStructure mcs on es.SubjectCode=mcs.SubjectCode where es.Examination='$exam' ANd es.ExternalExam='Y' ANd ef.CollegeID='$CollegeID' ANd es.Type='Reappear' order by SemesterID";
@@ -4357,21 +4368,165 @@ else{?><i class="fa fa-times fa-2x" style="color:red"></i><?php
 
 <?php 
 }
-?>
-
-
-
-
-<?php 
-               
-
-
-
-
 
 
 }
 
+
+else if($code==49)
+{
+   $id=$_GET['id'];
+   $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
+   $result = mysqli_query($conn,$sql);
+   $array = array();
+   $a=0;
+   
+   while($row=mysqli_fetch_array($result))
+   {
+   $a++;
+   $array[] = $row;
+   //print_r($array);
+   }
+   
+   for ($i=0; $i<$a; $i++)
+   { 
+   $emp_id=$array[$i]['Corrent_owner'];
+   $category=$array[$i]['ArticleName'];
+   $working=$array[$i]['WorkingStatus'];
+   $issue_date=$array[$i]['IssueDate'];
+   $description=$array[$i]['CPU'].' '.$array[$i]['Brand'].' '.$array[$i]['Model'].' '.$array[$i]['DeviceSerialNo'];
+   if ($working=='0'||$working=='') 
+   {
+   $remarks='Working';
+   }
+   elseif ($working=='1') 
+   {
+   $remarks='Faulty';
+   }
+   
+   }
+   $sql1="SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$emp_id'";
+   
+   $q1 = sqlsrv_query($conntest,$sql1);
+   
+   while($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC) )
+        {
+   $name=$row['Name'];
+   $Department=$row['Department'];
+   $Designation=$row['Designation'];
+   $CollegeName=$row['CollegeName'];
+   $img= $row['Snap'];
+   $pic = 'data://text/plain;base64,' . base64_encode($img);
+   }
+   
+   
+   $location_num=0;
+   ?>
+<div class="card-body table-responsive p-0" style="height: 100%;">
+   <?php 
+  $id=$_GET['id'];
+      $location="SELECT *, lm.RoomNo as abc FROM stock_summary ss inner join master_calegories mc on ss.CategoryID=mc.ID INNER join master_article ma on ss.ArticleCode=ma.ArticleCode inner join location_master lm on lm.ID=ss.LocationID inner join room_master rm on rm.FloorID=lm.Floor inner join building_master bm on bm.ID=lm.Block inner join room_type_master rtm on rtm.ID=lm.Type inner join room_name_master rnm on rnm.ID=lm.RoomName inner join user on ss.Corrent_owner=user.emp_id WHERE ss.IDNo='$id'";
+         $location_run=mysqli_query($conn,$location);
+         if ($location_row=mysqli_fetch_array($location_run)) 
+         {
+          $location_num=$location_num+1;
+      ?>
+
+   <br>
+    <label>Location</label>
+    <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            <th>Block</th>
+            <th>Floor</th>
+            <th>Room No</th>
+            <th>Room Type</th>
+            <th>Room Name</th>
+            
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            
+            <td>
+               <?=$location_row['Name'];?>
+            </td>
+            <td>
+               <?=$location_row['Floor'];?>
+            </td>
+            <td>
+               <?=$location_row['abc'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomType'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomName'];?>
+            </td>
+            
+         </tr>
+      </tbody>
+   </table>
+   
+   <br>
+   <label>Particular's Description(<?=$id?>)</label>
+   <table class="table table-head-fixed text-nowrap" border="1" style="border: 2px solid black;">
+      <thead>
+         <tr>
+            <th>Article </th>
+            <th>View</th>
+            <th>Brand</th>
+            <th>OS</th>
+            <th>Model</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>
+               <?=$location_row['ArticleName'];?>
+            </td>
+            <td>
+               <?=$location_row['CPU'];?>
+            </td>
+            <td>
+               <?=$location_row['Brand'];?>
+            </td>
+            <td>
+               <?=$location_row['OS'];?>
+            </td>
+            <td>
+               <?=$location_row['Model'];?>
+            </td>
+         </tr>
+         <?php
+            }
+            ?>
+      </tbody>
+   </table>
+   <br>
+   <div class="row" >
+      <div class="col-lg-6">
+         <label>Remarks</label>
+         <input type="text" id="returnRemark" class="form-control" required>
+      </div>
+      <div class="col-lg-3">
+         <label>Status</label>
+         <select id="workingStatus" class="form-control" required>
+            <option value="">Select</option>
+            <option value="0">Working</option>
+            <option value="1">Discard</option>
+            
+         </select>
+      </div>
+      <div class="col-lg-3">
+         <label>&nbsp;</label>
+         <button type="submit" data-dismiss="modal" class="form-control btn-danger btn" onclick="returnSubmita(<?=$id?>)">Update</button>
+      </div>
+   </div>
+   <br>
+</div><?php 
+}
 
 
 

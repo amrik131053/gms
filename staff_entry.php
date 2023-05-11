@@ -13,7 +13,7 @@
                      <h3 class="card-title">Staff Profile</h3>
                      <div class="card-tools">
                      <div class="btn-group input-group-sm">
-                                 <input type="text"  style="width:150px"  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Employee ID" aria-describedby="button-addon2" value="">
+                                 <input type="text"  style="width:150px "  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Employee ID" aria-describedby="button-addon2" value="">
                               <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
                            </div>
                      

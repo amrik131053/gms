@@ -273,7 +273,7 @@ option value = "" > Select < /option> <?php
        $description_insert="INSERT INTO stock_description (IDNo,Date_issue,Direction,LocationID,OwerID,Remarks,WorkingStatus,DeviceSerialNo,Updated_By,reference_no) values ('$ID','$date','Issued','$LocationID','$stockOwner','Issued','0','0','$EmployeeID','$result')";
        mysqli_query($conn, $description_insert);
       ?>
-<script> window.location.href='stock-summary.php'; </script> 
+<script> //window.location.href='stock-summary.php'; </script> 
 <?php
    } else {
        echo "Ohh yaar ";
@@ -16070,7 +16070,7 @@ while($row=mysqli_fetch_array($result))
 
   
 }
-else if($code='288')
+else if($code=='288')
 {
  $id=$_POST['id'];
 
@@ -16136,7 +16136,54 @@ else
 
 
 }
+else if($code='289')
+{
+     $id=$_POST['article_id'];
+       $workingStatus=$_POST['workingStatus'];
+       $returnRemark=$_POST['returnRemark'];
+       if($workingStatus='0')
+{
+   $ws="update status to Working";
+}
+else
+{
+   $ws="update status to Discarded";
+}
 
+       $date=date('Y-m-d');
+       $sql="SELECT * FROM stock_summary  where IDNo='$id'";
+       $result = mysqli_query($conn,$sql);
+       while($data=mysqli_fetch_array($result))
+       {
+          $currentOwner=$data['Corrent_owner'];
+          $currentLocation=$data['LocationID'];
+          $deviceSerialNo=$data['DeviceSerialNo'];
+          $referenceNo=$data['reference_no'];
+          $qry="INSERT INTO stock_description (IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', '$ws', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+         
+          $res=mysqli_query($conn,$qry);
+          if ($res) 
+          {    
+           if ($workingStatus==1) 
+           {
+               $tokenQry="SELECT token_no FROM faulty_track ORDER BY token_no Desc ";
+           $tokenRes=mysqli_query($conn,$tokenQry);
+           if ($tokenData=mysqli_fetch_array($tokenRes)) 
+           {
+               $token=$tokenData['token_no'];
+               $token=$token+1;
+           }
+               $insFaultyTrack="INSERT INTO faulty_track (article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
+               mysqli_query($conn,$insFaultyTrack);
+           }
+              echo  $updateQry="UPDATE stock_summary SET LocationID=0, Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+               mysqli_query($conn,$updateQry);
+          }
+   
+   
+       }
+   
+}
 
 
 
