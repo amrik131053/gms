@@ -316,6 +316,7 @@ question_paper_files.Examination=question_session.Id
       {
     
    $course1[]=$row["CourseID"];
+   $Batch1[]=$row["Batch"];
    $subject_code[]=$row["SubjectCode"];
    $count++;
   }
@@ -324,7 +325,7 @@ for($w=0;$w<$count;$w++)
   {
    $r=$w;   
 
-  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$subject_code[$w]' AND  CourseID='$course1[$w]'  AND UpdatedBy='$EmployeeID' ANd Status>=0";
+  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$subject_code[$w]' AND  CourseID='$course1[$w]' AND Batch='$Batch1[$w]'  AND UpdatedBy='$EmployeeID' ANd Status>=0";
 
 $z=0;
  $result = mysqli_query($conn, $sql);
@@ -333,7 +334,7 @@ $z=0;
  $z++;
   }
 
-  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$subject_code[$w]' AND  CourseID='$course1[$w]'  AND UpdatedBy='$EmployeeID' ANd Status>=0";
+  $sql = "SELECT *  FROM question_paper_files WHERE SubjectCode='$subject_code[$w]' AND  CourseID='$course1[$w]' AND Batch='$Batch1[$w]' AND UpdatedBy='$EmployeeID' ANd Status>=0";
 
 $p=0;
  $result = mysqli_query($conn, $sql);
