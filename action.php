@@ -14534,11 +14534,11 @@ elseif($code==252)
                               <th>Srno</th>
                               <th>Name</th>
                               <th>Code</th>
-                              <th colspan="3">Type</th>
-                              <th>Int Marks</th>
-                              <th>Ext Marks</th>
-                              <th colspan="3">Elective</th>
-                              <th>Lacture</th>
+                              <th >Type</th>
+                              <th>Int</th>
+                              <th>Ext </th>
+                              <th >Elective</th>
+                              <th>Lecture</th>
                               <th>Practical</th>
                               <th>Tutorial</th>
                               <th>No of Credits</th>
@@ -14549,20 +14549,27 @@ elseif($code==252)
                      <?php 
 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='1'";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
+                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                        
+                       
+                        {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
+                           
                             $count_0++;
                            ?> 
 
                               <tr>
                                  <td><?=$count_0;?></td>
-                                 <td><input type="text" class="form-control" id="subject_name<?=$get_row['SrNo'];?>" value="<?=$get_row['SubjectName'];?>">
+                                 <td> <textarea style="font-size:14px" class="form-control"  rows=2 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
+
+                                  
                                     </td>
-                                 <td colspan=""><input type="text" id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
-                                 <td colspan="3">
-                                    <select class="form-control" id="subject_type<?=$get_row['SrNo'];?>">
+                                 <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
+                                 <td >
+                                    <select class="form-control" style="width:60px"  id="subject_type<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
                                         <option value="T">Theory</option>
                                          <option value="P">Practical</option>
@@ -14570,33 +14577,34 @@ elseif($code==252)
                                          <option value="V">Value Added</option>
                                     </select>
                                     </td>
-                                 <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['IntMaxMarks'];?>"></td>
-                                 <td><input type="text" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['ExtMaxMarks'];?>"></td>
-                                 <td colspan="3">
-                                    <select class="form-control" id="elective<?=$get_row['SrNo'];?>">
-                                       <option value="<?=$get_row['Elective'];?>"><?=$get_row['Elective'];?></option>
+                                 <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control"  style="width:50px" value="<?=$get_row['IntMaxMarks'];?>"></td>
+                                 <td><input type="text" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['ExtMaxMarks'];?>"></td>
+                                 <td>
+                                    <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
+                                       <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
                                         <option value="YES">Yes</option>
                                          <option value="NO">No</option>
                                        
                                     </select>
                                  </td>
-                                 <td><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
-                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
-                                 <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
-                                 <td><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
+                                 <td><input type="text"  id="lecture<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['Lecture'];?>"></td>
+                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" style="width:50px"  value="<?=$get_row['Practical'];?>"></td>
+                                 <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" style="width:50px"  value="<?=$get_row['Tutorial'];?>"></td>
+                                 <td><input type="text"  style="width:50px"  id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
                                  <td><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
                        
                               </tr>
                         <?php
                          // print_r($get_row);
                          }
-                       if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
+                       
 
                        }
                        else
                        {
-                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                        echo "<tr><td colspan='16'><div class='alert alert-warning' role='alert'>
+No Record Found
+</div></td></tr>";
                        }
                        ?>
                     </tbody>
@@ -14668,7 +14676,7 @@ elseif($code==255)
             $NoOfCredits = $filesop[12];
             $SubjectGroup = $filesop[13];
 
-                $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
+            $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
                   if ($add_study_scheme_run2==true)
