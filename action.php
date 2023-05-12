@@ -11997,14 +11997,10 @@ elseif($Status==8)
             <a href="" style="text-decoration: none;">
 <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
             </td>
-                <tr/>
+               </tr>
            <?php 
             }
-        ?>
-        <tr>
-            
-</tr>
-<?php 
+    
 }
 else
 {
@@ -13666,8 +13662,10 @@ elseif($code==227)
                      <?php 
 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='0'";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
                             $count_0++;
@@ -13686,8 +13684,7 @@ elseif($code==227)
                         <?php
                          // print_r($get_row);
                          }
-                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
+                        
 
                        }
                        else
@@ -13723,8 +13720,10 @@ elseif($code==227)
                            </tr>
                      <?php 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified=1";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_1=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
                             $count_1++;
@@ -13739,11 +13738,8 @@ elseif($code==227)
                                  <td><input type="checkbox" class="checkbox v_check" value="<?=$get_row['SrNo'];?>"></td>   
                               </tr>
                         <?php 
-                     }  
-                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
-
-                       }
+                      }  
+                      }
                        else
                        {
                         echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
@@ -14511,14 +14507,30 @@ elseif($code==252)
  }
  elseif($code==254)
 {
-                  $CollegeID=$_POST['CollegeID'];
-                  $Course=$_POST['Course'];
-                  $Batch=$_POST['Batch'];
-                  $Semester=$_POST['Semester'];
+                   $CollegeID=$_POST['CollegeID'];    
+                   $Course=$_POST['Course'];
+                   $Batch=$_POST['Batch'];
+                   $Semester=$_POST['Semester'];
+                
+
 ?>
+
                   <div class="col-lg-12 col-md-12 col-sm-12 ">
                   <div class="card-header">
                      Study Scheme Update
+                     <div class="card-tools">
+<form action="action_g.php" method="post" enctype="multipart/form-data" target="_blank">
+       <input type="hidden" name="code" value="23">  
+<input type="hidden" name="CollegeID" value="<?=$CollegeID;?>">
+<input type="hidden" name="Course" value="<?=$Course;?>">
+<input type="hidden" name="Batch" value="<?=$Batch;?>">
+<input type="hidden" name="Semester" value="<?=$Semester;?>">
+           <input type="file" required class="" name="file_exl">
+            <button type="submit"  class="btn btn-success" >
+             Upload
+            </button>
+         </form>
+          </div>
                   </div>
                      <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
                         <table class="table">
@@ -14542,8 +14554,10 @@ elseif($code==252)
                      <?php 
 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='1'";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
+                       if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
                             $count_0++;
@@ -14583,8 +14597,6 @@ elseif($code==252)
                         <?php
                          // print_r($get_row);
                          }
-                       if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
 
                        }
                        else
