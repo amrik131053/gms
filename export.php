@@ -1646,6 +1646,14 @@ elseif($exportCode=='18')
                               <th   >Status </th>
                       
                 </tr></thead>";
+   
+ $filenamedata = "Select  Distinct CollegeName from  ExamForm  Where CollegeID='$CollegeID' ";
+
+$stmt = sqlsrv_query($conntest,$filenamedata);  
+                     while($p_row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                    $fileName=$p_row['CollegeName'];
+}
 
 
  $pendingpa = "Select  Distinct es.Course,es.SubjectName,es.SubjectCode,es.SemesterID,es.SubjectType,es.Batch from ExamformSubject es  inner join ExamForm  ef on ef.ID = es.Examid  inner  join MasterCourseStructure mcs on es.SubjectCode=mcs.SubjectCode where es.Examination='$exam' ANd es.ExternalExam='Y' ANd ef.CollegeID='$CollegeID' ANd es.Type='Reappear' order by SemesterID";
@@ -1667,7 +1675,7 @@ $stmt = sqlsrv_query($conntest,$pendingpa);
 for($i=0,$sr=1;$i<$loop;$i++,$sr++)
 {
 $emp_id="";
-$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]'";
+$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]' ANd Batch='$Batch[$i]' AND Status>=0";
 $z=0;
  $result = mysqli_query($conn, $sql);
      while($row=mysqli_fetch_array($result))
@@ -1706,8 +1714,6 @@ $z++;
             </tr></table>";
     echo $questionData;
     
-
-   
 
 
 

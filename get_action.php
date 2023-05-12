@@ -4348,7 +4348,7 @@ $stmt = sqlsrv_query($conntest,$pendingpa);
 for($i=0,$sr=1;$i<$loop;$i++,$sr++)
 {
 $emp_id="";
-$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]'";
+$sql = "SELECT * FROM question_paper_files WHERE SubjectCode='$Subjectcodes[$i]' ANd Course='$Course[$i]' ANd Batch='$Batch[$i]' AND Status>=0";
 $z=0;
  $result = mysqli_query($conn, $sql);
      while($row=mysqli_fetch_array($result))

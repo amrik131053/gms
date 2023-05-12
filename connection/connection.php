@@ -22,6 +22,7 @@ $connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','
 
 
 
+
 $servername1 = "localhost";
 $username1 = "bhagi";
 $password1 = "@Sarbjot@98157";

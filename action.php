@@ -16185,6 +16185,110 @@ else
    
 }
 
+elseif ($code==290) 
+{
+    $subjectCode=$_POST['subjectCode'];
+  
+    $courseId=$_POST['courseId'];
+    ?>
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Subject Name</th>
+                <th>Subject Code</th>
+                <th>Batch</th>
+                <!-- <th>Session</th> -->
+                <th>Action</th>
+                <th>Paper Id</th>
+          
+            </tr>
+        </thead>
+        <?php 
+        $sr=0;
+        if ($examSession=='New') 
+        {
+           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1' ";
+        }
+        elseif ($examSession=='Old') 
+        {
+            $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='0' ";
+        }
+        $res=mysqli_query($conn,$sql);
+        while($data=mysqli_fetch_array($res))
+        {
+         $Semester=$data['Semester'];
+         $sqlSubject = "SELECT Course,SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$courseId."' ";
+                    $resultSubject = sqlsrv_query($conntest,$sqlSubject);
+                    if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
+                    {
+                        $CourseName=$rowSubject["Course"]; 
+                        $SubjectName=$rowSubject["SubjectName"]; 
+                    }
+            
+                         ?>
+                <tr>
+                <td><?=1?></td>
+                <td><?=$CourseName?></td>
+                <td><?=$SubjectName?>(<?=$subjectCode?>)</td>
+                <td><?=$data['Batch']?></td>
+                <td><?=$data['Semester']?></td>
+                <!-- <td><?=$data['session_name']?></td> -->
+                <td><?php
+                    $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                    $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
+                    if ($data1=mysqli_fetch_array($checkGenerateRes)) 
+                    {
+                        ?>
+                    <form action="print-paper.php" method="post" target="_blank">
+                        <input type="hidden" name="paperId" value="<?=$data1['id']?>">
+                    <!-- <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
+                        <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
+                    </form>
+                    <?php 
+                    }                    
+                    else
+                    {
+
+                    ?>
+                    <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+                    <?php 
+                    }
+                    ?>
+                </td>
+                <td>
+
+                  <?php
+                if ($EmployeeID=='131053') 
+                    {
+                    
+                    ?>
+                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$data1['id']?>)" ><?=$data1['id']?></i>
+                    <?php 
+                    }
+                    else
+                    {
+                     ?>
+                    <i class="fa text-danger fa-2x"  ><?=$data1['id']?></i>
+                    <?php
+                     
+                    }
+                    ?>
+                  
+                </td>
+
+                 
+                
+            </tr>
+                <?php
+            }
+        ?>
+    </table>
+<?php
+
+}
+
 
 
 
