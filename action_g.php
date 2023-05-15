@@ -397,7 +397,7 @@
                    $dropdown_team_run = sqlsrv_query($conntest,$dropdown_team);  
                  if($dropdown_row_staff = sqlsrv_fetch_array($dropdown_team_run, SQLSRV_FETCH_ASSOC) )
                  {
-                  $LeaveRecommendingAuthority=$dropdown_row_staff['LeaveRecommendingAuthority'];
+                  $LeaveRecommendingAuthority=$dropdown_row_staff['LeaveSanctionAuthority'];
                  }
       $task_name=$_POST['task_name'];
       $task_discription=$_POST['task_discription'];
@@ -417,8 +417,22 @@
       }
       $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$LeaveRecommendingAuthority','$EmployeeID', '', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
+      if ($insert_task==true) 
+      {
+         if ($EmployeeID==$assignTo) 
+         {
+
+         }
+         else
+         {
          $insert_task_copy="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
-      $insert_task=mysqli_query($conn,$insert_task_copy);
+           mysqli_query($conn,$insert_task_copy);
+         }
+      }
+      else
+      {
+
+      }
       if ($insert_task==true)
        {
          echo "1";   
@@ -552,26 +566,19 @@
                        <?php }?>
                       </td>
                       <td class="project-actions text-right">
-                           <?php 
-                        if ($show_task_row['Status']>0  ) {
-
-                        ?>
+                        
                           <a class="btn btn-primary btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
                               View
                           </a>
-                          <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
-                             
+                           <?php  if ($status_show['Status']!=3)
+                            {
+                          ?>
+                          <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
                               Forward
                           </a>
-                         <?php }
-                         else
-                         {
-                           ?> <a class="btn btn-warning btn-sm" onclick="task_accept(<?=$status_show['ID'];?>);" data-toggle="modal" data-target="#AcceptTaskModal" href="#">
-                              
-                              Accept
-                          </a><?php 
-                         }
+                         <?php 
+                          }
                          ?>
                           <!-- <a class="btn btn-danger btn-sm" href="#">
                               <i class="fas fa-trash">
@@ -640,7 +647,8 @@
 
                           <ul class="list-inline"> 
 
-                           <?php  $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' and AssignTo!='$EmployeeID'  ";
+                           <?php  
+                           $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' and AssignTo!='$EmployeeID'  ";
                 $show_task_run_=mysqli_query($conn,$show_task_);
                 while ($show_task_row_=mysqli_fetch_array($show_task_run_))
                  {
@@ -724,10 +732,14 @@
                               
                               View
                           </a>
+                          <?php  if ($status_show['Status']!=3) {
+                             
+                          ?>
                           <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
                              
                               Forward
                           </a>
+                       <?php }?>
                          
                       </td>
                   </tr>
@@ -773,8 +785,6 @@
    elseif($code==14){
       $TokenNo=$_POST['Token_No'];
       ?> 
-      
-
         <!-- Timelime example  -->
         <div class="row">
           <div class="col-md-12">
@@ -793,7 +803,8 @@
                 while ($timeline_row=mysqli_fetch_array($timeline_run)) 
                 {
                   $marks=$timeline_row['marks'];
-                  if ($timeline_row['EmpID']==$EmployeeID) {
+                  if ($timeline_row['EmpID']==$EmployeeID) 
+                  {
                      $Self="(You)";
                   }
                   else
@@ -838,27 +849,48 @@
                   $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                   if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                   {
+                     if ($timeline_row['EmpID']==$EmployeeID) 
+                     {
+                     $EmpName="";
+                     $EmpID_U="";
+                    }
+                    else
+                    {
                   $EmpName=$row_staff['Name'];
-                  }else
+                  $EmpID_U='('.$timeline_row['EmpID'].')';
+                    }
+                  }
+                  else
                   {
                      $EmpName="";
+                     $EmpID_U="";
                   }
                     $AssignToempID=$timeline_row['AssignTo'];
                  $get_emp_details1="SELECT Name FROM Staff Where IDNo='$AssignToempID'";
                   $get_emp_details_run1=sqlsrv_query($conntest,$get_emp_details1);
                   if($row_staff1=sqlsrv_fetch_array($get_emp_details_run1,SQLSRV_FETCH_ASSOC))
                   {
-                  $AssignToempID=$row_staff1['Name'];
+                     if ($timeline_row['AssignTo']==$timeline_row['EmpID'])
+                      {
+                        $AssignToempName="";
+                     $AssignToempID="";
+                    }
+                  else
+                   {
+                  $AssignToempName=" To &nbsp;&nbsp;".$row_staff1['Name'];
+                  $AssignToempID="(".$timeline_row['AssignTo'].")";
+                    }
                   }
                   else
                   {
+                     $AssignToempName="";
                      $AssignToempID="";
                   }
                  ?>
                 <i class="fa fa-<?=$envolp_icon;?> bg-<?=$envolp;?>"></i>
                 <div class="timeline-item">
                   <span class="time bg-<?=$envolp;?>"><b> <?=$envolp_msg;?></b></span>
-                  <h3 class="timeline-header"><b><?=$Self;?> &nbsp;&nbsp;<?=$EmpName;?></b><a >(<?=$timeline_row['EmpID']; ?>)</a>&nbsp;&nbsp;To&nbsp;&nbsp;<a ><b><?=$AssignToempID;?></b>(<?=$timeline_row['AssignTo']; ?>)</a></h3>
+                  <h3 class="timeline-header"><b><?=$Self;?> &nbsp;&nbsp;<?=$EmpName;?></b><a ><?=$EmpID_U; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a ><b><?=$AssignToempName;?></b><?=$AssignToempID; ?></a></h3>
 
                   <div class="timeline-body">
                   <?=$timeline_row['Description'];?> 
