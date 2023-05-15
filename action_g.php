@@ -1397,7 +1397,7 @@ $count=1;
 ?>
 </table>
 </div>
-<div class="col-lg-6">
+<!-- <div class="col-lg-6">
 <table   class="table"  style="border: 2px solid black"  >
  <tr>             
  <th>Srno</th>
@@ -1406,7 +1406,7 @@ $count=1;
                
  
 </table>
-</div>
+</div> -->
 <table   class="table"  style="border: 2px solid black"  >
  <tr>             
  <th>Srno</th>

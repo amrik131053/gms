@@ -11,7 +11,7 @@ ini_set('max_execution_time', '0');
    else
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H-i-s');
+   $timeStamp=date('Y-m-d H-i');
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -14544,8 +14544,8 @@ elseif($code==252)
                               <th>Ext Marks</th>
                               <th colspan="3">Elective</th>
                               <th>Lacture</th>
-                              <th>Practical</th>
                               <th>Tutorial</th>
+                              <th>Practical</th>
                               <th>No of Credits</th>
                               <th>Action</th>
                            </tr>
@@ -14588,8 +14588,8 @@ elseif($code==252)
                                     </select>
                                  </td>
                                  <td><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
-                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
                                  <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
+                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
                                  <td><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
                                  <td><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
                        
