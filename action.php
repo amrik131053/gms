@@ -16136,7 +16136,7 @@ else
 
 
 }
-else if($code='289')
+else if($code=='289')
 {
      $id=$_POST['article_id'];
        $workingStatus=$_POST['workingStatus'];
@@ -16187,9 +16187,10 @@ else
 
 elseif ($code==290) 
 {
-    $subjectCode=$_POST['subjectCode'];
+    $SubjectCode=$_POST['subjectCode'];
   
     $courseId=$_POST['courseId'];
+    $current_session=$_POST['examination'];
     ?>
     <table class="table" id="example">
         <thead>
@@ -16207,45 +16208,44 @@ elseif ($code==290)
         </thead>
         <?php 
         $sr=0;
-        if ($examSession=='New') 
-        {
-           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1' ";
-        }
-        elseif ($examSession=='Old') 
-        {
-            $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='0' ";
-        }
+
+
+
+        
+          echo  $sql="SELECT Distinct Batch,SubjectCode,SubjectName,Course,Semester FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$courseId' ANd   Status>=0 
+          order by Examination DEsc";
+        
+        
         $res=mysqli_query($conn,$sql);
         while($data=mysqli_fetch_array($res))
         {
          $Semester=$data['Semester'];
-         $sqlSubject = "SELECT Course,SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$courseId."' ";
-                    $resultSubject = sqlsrv_query($conntest,$sqlSubject);
-                    if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
-                    {
-                        $CourseName=$rowSubject["Course"]; 
-                        $SubjectName=$rowSubject["SubjectName"]; 
-                    }
-            
-                         ?>
+         
+           $Course=$data['Course'];
+          $SubjectCode=$data['SubjectCode'];
+          $semester=$data['Semester'];
+           $SubjectName=$data['SubjectName'];
+       ?>
                 <tr>
                 <td><?=1?></td>
-                <td><?=$CourseName?></td>
-                <td><?=$SubjectName?>(<?=$subjectCode?>)</td>
+                <td><?= $Course;?></td>
+                <td><?=$SubjectName?>(<?=$SubjectCode?>)</td>
                 <td><?=$data['Batch']?></td>
                 <td><?=$data['Semester']?></td>
-                <!-- <td><?=$data['session_name']?></td> -->
-                <td><?php
-                    $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                <!-- <?=$data['session_name']?></td>  -->
+                <td>
+
+<?php
+                   echo  $checkGenerateQry="Select * from generated_question_paper where Session='$current_session'  and SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester'";
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
                     if ($data1=mysqli_fetch_array($checkGenerateRes)) 
                     {
                         ?>
-                    <form action="print-paper.php" method="post" target="_blank">
+                 <!--    <form action="print-paper.php" method="post" target="_blank">
                         <input type="hidden" name="paperId" value="<?=$data1['id']?>">
                     <!-- <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
                         <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
-                    </form>
+                    </form> -->
                     <?php 
                     }                    
                     else
@@ -16256,24 +16256,13 @@ elseif ($code==290)
                     <?php 
                     }
                     ?>
+
+
+
                 </td>
                 <td>
 
-                  <?php
-                if ($EmployeeID=='131053') 
-                    {
-                    
-                    ?>
-                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$data1['id']?>)" ><?=$data1['id']?></i>
-                    <?php 
-                    }
-                    else
-                    {
-                     ?>
-                    <i class="fa text-danger fa-2x"  ><?=$data1['id']?></i>
-                    <?php
-                     
-                    }
+            
                     ?>
                   
                 </td>

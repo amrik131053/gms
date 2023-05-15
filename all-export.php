@@ -252,7 +252,7 @@ else
     }
 }
 $fileName = 'LMS';
-header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
+header("Content-Disposition: attachment; filename=".$fileName.".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
 

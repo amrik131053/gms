@@ -8,7 +8,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 include 'connection/connection.php';
 $exportCode = '';
-$fileName = '';
+$fileName = 'My File';
 if (isset($_POST['exportCode']))
 {
     $exportCode = $_POST['exportCode'];

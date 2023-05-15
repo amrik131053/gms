@@ -53,7 +53,25 @@
                      <div class="card-tools">
                         <div class="row">
                           
-                         
+                          <div class="col-lg-2">
+                              <div class="input-group-sm">
+                                <select class="form-control" id="examSession" >
+                                   
+                                    <?php
+                                    $examQry="SELECT * FROM question_session order by Id desc";
+                                    $examRes=mysqli_query($conn,$examQry);
+                                    while ($examData = mysqli_fetch_array($examRes)) 
+                                    {
+                                       ?>
+                                        <option value = "<?=$examData['id']?>" > <?=$examData['session_name'];?> </option> 
+                                        <?php
+                                    }
+                                    ?> 
+                                    
+                                    
+                                 </select>
+                              </div>
+                           </div>
                            <div class="col-lg-2">
                               <div class="input-group-sm">
                                 <Input type="text"  class="form-control subject_code" onchange="courseName(this.value)" name="subject_code" id="subject_code"  required="" aria-describedby="button-addon2" placeholder="Subject Code" required />
@@ -182,7 +200,7 @@
     function searchSubjectCode() 
     {
         
-       
+       var examination=document.getElementById('examSession').value;
             var subjectCode=document.getElementById('subject_code').value;
        
             var courseId=document.getElementById('courseName').value;
@@ -198,7 +216,7 @@
             url:'action.php',
             type:'post',
             data:{
-                code:code,subjectCode:subjectCode,courseId:courseId
+                code:code,subjectCode:subjectCode,courseId:courseId,examination:examination
             },
             success: function(response)
             {
