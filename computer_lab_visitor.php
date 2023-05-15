@@ -81,7 +81,7 @@
              
                
                 
-                $sql = "SELECT * FROM computer_lab_entry where entry_time like '$date%' ORDER BY id DESC";
+                $sql = "SELECT * FROM computer_lab_entry where entry_time like '$date%' ORDER BY Status ASC ";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -205,11 +205,12 @@
          type:'POST',
          success:function(data)
          {
-            location.reload(true);
+            labUsers();
+            // location.reload(true);
             // document.getElementById("lab_users_data").innerHTML=data;
             // $('#example').DataTable({ 
-            //           "destroy": true, //use for reinitialize datatable
-            //        });
+                      // "destroy": true, //use for reinitialize datatable
+                   // });
          }
          });
    }
@@ -225,7 +226,7 @@
          data:{code:code,id:id,systemNo:systemNo,remarks:remarks},
          type:'POST',
          success:function(data){
-            console.log(data);
+            // console.log(data);
          if(data != "")
          {
             labUsers();
@@ -251,7 +252,7 @@
          data:{code:code,userId:userId},
          type:'POST',
          success:function(data){
-            console.log(data);
+            // console.log(data);
          if(data != "")
          {
             document.getElementById('student_search_record').innerHTML=data;
