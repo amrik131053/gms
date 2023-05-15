@@ -61,7 +61,7 @@
                </div>
                <div class="card-body table-responsive" id="lab_users_data">
 
-           <table class="table  " id="">  <thead>
+           <table class="table  " id="example">  <thead>
               <tr>
                   <th>#</th>
                  <th>Image</th>
@@ -81,7 +81,7 @@
              
                
                 
-                $sql = "SELECT * FROM computer_lab_entry where entry_time like '$date%' ORDER BY id DESC ";
+                $sql = "SELECT * FROM computer_lab_entry where entry_time like '$date%' ORDER BY Status ASC ";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)

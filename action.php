@@ -10460,7 +10460,7 @@ elseif ($code==176)
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM computer_lab_entry  where entry_time like '$date%' ORDER BY id DESC";
+                $sql = "SELECT * FROM computer_lab_entry  where entry_time like '$date%' ORDER BY Status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
