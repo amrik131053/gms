@@ -14543,19 +14543,19 @@ elseif($code==252)
                         <table class="table">
                            <thead>
                            <tr>
-                              <th>Srno</th>
+                              <th style="width:50px">Srno</th>
                               <th>Name</th>
-                              <th>Code</th>
+                              <th style="width:90px">Code</th>
 
-                              <th >Type</th>
-                              <th>Int</th>
-                              <th>Ext </th>
-                              <th >Elective</th>
-                              <th>Lecture</th>                          
+                              <th style="width:50px" >Type</th>
+                              <th style="width:50px">Int</th>
+                              <th style="width:50px">Ext </th>
+                              <th style="width:80px" >Elective</th>
+                              <th style="width:50px">Lecture</th>                          
 
                             
-                              <th>Tutorial</th>
-                              <th>Practical</th>
+                              <th style="width:50px">Tutorial</th>
+                              <th style="width:50px">Practical</th>
                             
                               <th>No of Credits</th>
                               <th>Action</th>
@@ -14578,11 +14578,12 @@ elseif($code==252)
                         {
                            
                             $count_0++;
+                            $SubjectCode=$get_row['SubjectCode'];
                            ?> 
 
                               <tr>
                                  <td><?=$count_0;?></td>
-                                 <td> <textarea style="font-size:14px" class="form-control"  rows=2 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
+                                 <td style="width:250px" >  <textarea style="font-size:14px" class="form-control"  rows=2 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
 
                                   
                                     </td>
@@ -14606,12 +14607,32 @@ elseif($code==252)
                                        
                                     </select>
                                  </td>
-                        <td><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
-                                 <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
-                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
-                                 <td><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
+                        <td style="width:50px" ><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
+                                 <td style="width:50px"><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
+                                 <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
+                                 <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
 
-                                 <td><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
+                                 <td style="width:80px"><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
+
+<?php 
+$get_exam_form="SELECT * FROM ExamFormSubject WHERE SemesterID='$Semester' and Batch='$Batch' AND SubjectCode='$SubjectCode'";
+
+                        $get_exam_form_run=sqlsrv_query($conntest,$get_exam_form,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                      
+
+                        if(sqlsrv_num_rows($get_exam_form_run)>0)  { }
+                         
+                           else{ ?>
+ <button class="btn btn-danger btn-xs" onclick="delete_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-trash" aria-hidden="true" style="color:white;" ></i></button>
+                        <?php 
+
+
+                           }
+     ?>
+
+
+
+                                 </td>
                        
                               </tr>
                         <?php
@@ -16297,11 +16318,13 @@ elseif ($code==290)
 
 }
 
-
-
-
-
-
+elseif ($code==291) 
+{
+ $id=$_POST['id'];
+ $delete_study_scheme="Delete  FROM MasterCourseStructure WHERE SrNo='$id'";
+ $stmt1 = sqlsrv_query($conntest,$delete_study_scheme);
+ echo 1;
+}
 
  else
 {

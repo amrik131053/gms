@@ -2,42 +2,7 @@
    include "header.php"; 
     $code_access;  
     ?>
-<script>
-   $(document).ready(function(){
-   
-       $(document).on('keydown','.subject_code', function() {
-   
-           // Initialize jQuery UI autocomplete
-           $("#subject_code").autocomplete({
-                 source: function( request, response ) {
-               $.ajax({
-         
-               url: "action.php",
-                 type: 'post',
-                 dataType: "json",
-                 data: {
-                     search: request.term,code:116
-                 },
-                 success: function( data ) {
-                     response( data );
-                     // console.log(data);
-                 },
-                 error: function (error) {
-                 // console.log(error);
-                  }
-               });
-             },
-             select: function (event, ui) {
-               $(this).val(ui.item.label); // display the selected text
-               var subject_code = ui.item.value; // selected value
-   
-                       
-             return false;
-             }
-           });
-       });
-     });
-</script>
+
 <section class="content">
    <div class="container-fluid">
    <div class="card card-info">
@@ -47,13 +12,40 @@
       <div class="col-lg-3 col-md-4 col-sm-3">
          <div class="card card-info">
             <div class="card-header">
-               <h3 class="card-title">Request Time out</h3>
+               <h3 class="card-title">My Team</h3>
               
              <b id="total_count"></b>
             </div>
             <!--  <form class="form-horizontal" action="" method="POST"> -->
             <div class="card-body" id="" >
              
+
+     <?php 
+    echo $staff="SELECT * FROM Staff Where LeaveSanctionAuthority='$EmployeeID' ANd JobStatus='1'";
+
+    $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+
+     //$emp_image = $row_staff['image'];
+     echo  $empid = $row_staff['IDNo'];
+
+      $name = $row_staff['Name'];
+
+      $college = $row_staff['CollegeName'];
+      $dep = $row_staff['Department'];
+      $designation = $row_staff['Designation'];
+      $mob1 = $row_staff['ContactNo'];
+     
+      $email = $row_staff['EmailID'];
+      $superwiser_id = $row_staff['LeaveSanctionAuthority'];
+
+        }
+?>
+
+
+
+
                 <form  method="post"  class="form-horizontal" enctype="multipart/form-data">   
                      <label>Purpose<b style="color:red;">*</b></label>
 
