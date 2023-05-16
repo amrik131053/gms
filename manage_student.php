@@ -210,6 +210,31 @@ input[type=radio]:checked + label {
 </div>
 </div>
 <script type="text/javascript">
+ 
+function copyToClipboard(copyText) {
+ 
+  navigator.clipboard.writeText(copyText);
+SuccessToast('Copied');
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       $(document).ready(function (e) {    // image upload form submit
            $("#university_upload").on('submit',(function(e) {
               e.preventDefault();
@@ -400,9 +425,7 @@ input[type=radio]:checked + label {
    var  batch = document.getElementById('ubatch').value;
    var  status = document.getElementById('ustatus').value;
    var  lock = document.getElementById('ulocked').value;
-    
-  
-
+   var  classroll = document.getElementById('classroll').value;
    var code=220;   
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -412,7 +435,7 @@ input[type=radio]:checked + label {
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll
             },
             success:function(response) 
             {

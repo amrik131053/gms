@@ -571,10 +571,33 @@ if (xmlhttp.readyState==4 && xmlhttp.status==200)
 {
 document.getElementById("stock_samry_assign").innerHTML=xmlhttp.responseText;
 }
+else
+{
+  //console.log(xmlhttp.responseText)  ;
+}
 }
 xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
 xmlhttp.send();
 } 
+
+function stock_discard(id){
+
+var code=49;
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("stock_samry_discart").innerHTML=xmlhttp.responseText;
+}
+else
+{
+ 
+}
+}
+xmlhttp.open("GET", "get_action.php?id=" + id+"&code="+code, true);
+xmlhttp.send();
+} 
+
 function edit_building(id){
 var code=3;
 //alert(id);

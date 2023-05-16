@@ -1,5 +1,5 @@
 <?php 
-
+ 
   include "header.php";
   // $array[]=''; 
  $permissionCount=0;
@@ -26,6 +26,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
    background-color:#223260;
    } 
 </style>
+
 <section class="content">
    <div class="container-fluid">
       <div class="row">
@@ -417,7 +418,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                  },
                                  success:function(response) 
                                  {  
-                                    console.log(response);
+                                    // console.log(response);
                                     document.getElementById("search_record").innerHTML =response;
                                      spinner.style.display='none';
                                     $(document).ajaxStop(function()
@@ -437,6 +438,17 @@ while($permission_data=mysqli_fetch_array($permission_res))
 
 
    <script type="text/javascript">
+         function add_more_owner(location_ID,current_owner,ArticleCode,Type)
+         {
+               document.getElementById("onwer_id_").value=current_owner;
+               document.getElementById("location_ID_onwer").value=location_ID;
+               document.getElementById("ArticleCode_onwer").value=ArticleCode;
+               document.getElementById("RoomType_onwer").value=Type;
+            // alert(ArticleCode);
+                  show_save_onwer();
+            
+         }
+
       function view_office_stock(officeID,RoomType)   
       {
          // var id=id1;
@@ -674,6 +686,30 @@ xmlhttp.send();
       }
 
 // -----------------------------------------------------
+
+        function owner_delete(id,articleID){
+var code=9;
+// alert(id);
+   $.ajax(
+         {
+            url:"action_g.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,articleID:articleID
+            },
+            success:function(response) 
+            {
+               // console.log(response);
+               if (response==1) {
+                  show_save_onwer();
+
+               }
+            }
+         });
+}
+
+
   function remove(id,current_owner,RoomType,location_ID){
 var code=28;
 // alert(id);
@@ -682,6 +718,7 @@ xmlhttp.onreadystatechange = function() {
 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 {
 // location.reload(true);
+   // console.log(xmlhttp);
   view_office_stock(location_ID,RoomType);
 }
 }
@@ -704,7 +741,7 @@ xmlhttp.send();
             },
             success:function(response) 
             {
-               console.log(response);
+               // console.log(response);
 
                view_office_stock(location_ID,RoomType);
             }
@@ -810,7 +847,7 @@ view_office_stock(location_ID,RoomType);
             },
             success:function(response) 
             {  
-               console.log(response);
+               // console.log(response);
                // location.reload(true);
             }
          });      
@@ -874,6 +911,24 @@ view_office_stock(location_ID,RoomType);
                {
                   document.getElementById("emp_detail_status_"+sr).innerHTML =response;
                }
+            }
+         });
+      } 
+
+      function emp_detail_verify_for_multi(id){
+   var code=8;
+    //alert(a);
+         $.ajax(
+         {
+            url:"action_g.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,
+            },
+            success:function(response) 
+            {  
+                  document.getElementById("emp_detail_status_onwer").innerHTML =response;
             }
          });
       }
@@ -1047,8 +1102,66 @@ function cleardues(id)
    });
 }
 
+function save_onwer() 
+{
+   var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block'; 
+         var onwer_id=document.getElementById("onwer_id").value;
+         var location_ID=document.getElementById("location_ID_onwer").value;
+         var ArticleCode=document.getElementById("ArticleCode_onwer").value;
+           var code=6;
+   $.ajax(
+   {
+      url:"action_g.php ",
+      type:"POST",
+      data:
+      {
+         code:code,id:onwer_id,location_ID:location_ID,ArticleCode:ArticleCode
+      },
+      success:function(response) 
+      { 
+         show_save_onwer();
+         // console.log(response);
+         var onwer_id=document.getElementById("onwer_id").value="";
 
+         document.getElementById("emp_detail_status_onwer").innerHTML ="";
+         spinner.style.display='none';
+      },
+      error:function()
+      {
+         alert("error");
+      }
+   });
+}
+function show_save_onwer() {
+   var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         var location_ID=document.getElementById("location_ID_onwer").value;
+                 var ArticleCode=document.getElementById("ArticleCode_onwer").value;
+                 var RoomType_onwer=document.getElementById("RoomType_onwer").value;
 
+           var code=7;
+   $.ajax(
+   {
+      url:"action_g.php ",
+      type:"POST",
+      data:
+      {
+         code:code,id:ArticleCode
+      },
+      success:function(response) 
+      { 
+         view_office_stock(location_ID,RoomType_onwer);
+         document.getElementById("show_save_onwer_").innerHTML =response;
+         spinner.style.display='none';
+        
+      },
+      error:function()
+      {
+         alert("error");
+      }
+   });
+}
 
 
 
@@ -1078,6 +1191,7 @@ function cleardues(id)
    </div>
    </div>
 </div>
+
 
 
 
@@ -1295,7 +1409,8 @@ function cleardues(id)
       </div>
    </div>
 </div>
-<div class="modal fade" id="view_assign_stock_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<d
+iv class="modal fade" id="view_assign_stock_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog modal-lg" role="document" >
       <div class="modal-content"  >
          <div class="modal-header">
@@ -1315,6 +1430,59 @@ function cleardues(id)
             </div>
          </form>
       </div>
+   </div>
+</div>
+<div class="modal fade" id="multiple_owner_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-dialog-centered" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add More Owner</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+
+               <input type="hidden" id="location_ID_onwer">
+               <input type="hidden" id="ArticleCode_onwer">
+               <input type="hidden" id="RoomType_onwer">
+               <div class="col-lg-6">
+                  <input type="number" id="onwer_id" class="form-control" onkeyup="emp_detail_verify_for_multi(this.value);">
+                  <input type="hidden" id="onwer_id_" class="form-control">
+         <p id="emp_detail_status_onwer"></p>
+                      
+                  
+               </div>
+               <div class="col-lg-2">
+                  <input type="button" onclick="save_onwer();" value="Save" class="btn btn-success" name="">
+               </div>
+            </div>
+            <div class="row">
+               <hr>
+            </div>
+            <div class="row">
+               <div class="col-lg-12">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th>
+                              SrNo
+                           </th>
+                           <th>
+                              ID
+                           </th>
+                           <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody id="show_save_onwer_">
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+
+   </div>
    </div>
 </div>
 <!-- Modal -->

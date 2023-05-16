@@ -11,7 +11,7 @@ ini_set('max_execution_time', '0');
    else
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H-i-s');
+   $timeStamp=date('Y-m-d H-i');
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -273,7 +273,7 @@ option value = "" > Select < /option> <?php
        $description_insert="INSERT INTO stock_description (IDNo,Date_issue,Direction,LocationID,OwerID,Remarks,WorkingStatus,DeviceSerialNo,Updated_By,reference_no) values ('$ID','$date','Issued','$LocationID','$stockOwner','Issued','0','0','$EmployeeID','$result')";
        mysqli_query($conn, $description_insert);
       ?>
-<script> window.location.href='stock-summary.php'; </script> 
+<script> //window.location.href='stock-summary.php'; </script> 
 <?php
    } else {
        echo "Ohh yaar ";
@@ -739,12 +739,26 @@ option value = "" > Select < /option> <?php
 </form>
 <?php
    }
-   else if ($code == 30) {
+   else if ($code == 30) 
+   {
        $RoomType = $_POST['RoomType'];
        $location_ID_ = $_POST['officeID'];
-   
-   
+       $get_location="  SELECT *, colleges.shortname as clg_name , room_master.Floor as Floor_name1 ,room_name_master.ID as rnm_id,location_master.ID as lm_id,location_master.RoomNo as Rroom ,location_master.Floor as Floor_name  FROM location_master left join room_type_master on room_type_master.ID=location_master.Type left join room_name_master on room_name_master.ID=location_master.RoomName left JOIN building_master on building_master.ID=location_master.Block left join colleges on location_master.CollegeID=colleges.ID inner JOIN room_master ON room_master.FloorID=location_master.Floor  where  location_master.ID='$location_ID_' and location_master.Type='$RoomType' order by location_master.ID asc";
+        $res_r = mysqli_query($conn, $get_location);
+                  if($data = mysqli_fetch_array($res_r)) 
+                  {     
    ?>
+   <div class="container">
+      <center>
+   <label><h5><b><?=$data['clg_name'];?>(<?=$data['Name'];?>)&nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['Floor_name1'];?>&nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['RoomType'];?>
+   &nbsp;&nbsp;</b></h5></label>
+   <label><h5><b><?=$data['Rroom'];?>&nbsp;&nbsp;</b></h5></label>
+</center>
+  </div>
+
+<?php }?>
 <div class="modal-body">
    <div class="row">
       <div class="col-lg-3">
@@ -895,13 +909,21 @@ while ($building_rowo=mysqli_fetch_array($building_out))
                   ?>
                <td>
                   <div class="row" id="sinlge_assign1" >
-                     <div class="col-lg-8">
+                     <div class="col-lg-8" >
                         <?=$name;?> <br>(<?=$building_row['Corrent_owner'];?>)<br> <?php if($UniRollNo!=''){ echo $UniRollNo;
 
                         }?>
                      </div>
                      <div class="col-lg-4">
-                        <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger">Remove</button>
+                        <?php    $chek="SELECT * FROM multiple_owners where ArticleCode='".$building_row['IDNo']."'";
+   $chek_run=mysqli_query($conn,$chek);
+    $co=mysqli_num_rows($chek_run);
+if ($co<2) 
+{?>
+
+                        <button type="button" onclick="remove(<?=$building_row['IDNo'];?>,<?=$building_row['Corrent_owner'];?>,<?=$RoomType?>,<?=$location_ID_?>);"  class="btn-xs btn btn-danger"><i class="fa fa-trash fa-lg"></i></button>
+<?php }?>
+                         <button type="button" onclick="add_more_owner(<?=$location_ID_?>,'<?=$building_row['Corrent_owner'];?>',<?=$building_row['IDNo'];?>,<?=$building_row['Type'];?>);" data-toggle="modal" data-target="#multiple_owner_modal"  class="btn-xs btn btn-success"><i class="fa fa-plus fa-lg"></i></button>
                      </div>
                   </div>
                </td>
@@ -1935,12 +1957,12 @@ if($count>0)
    $two= date("myd");
    $three= substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'),1,8);
    $four=substr(str_shuffle($one.$two.$three),1,8);
-  echo  $result =$one.$three.$two.$four;
-
-
-
+    $result =$one.$three.$two.$four;
     
-  echo   $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge' , reference_no='$result' where IDNo='$articleID'";
+     $updateCurrentOwner = "UPDATE  stock_summary SET Corrent_owner='$Incharge',Updated_By='$EmployeeID' , reference_no='$result' where IDNo='$articleID'";
+
+ $In="INSERT into  multiple_owners(UserId,ArticleCode) values('$Incharge','$articleID')"; 
+      $in_run=mysqli_query($conn,$In);
 
    $building_run = mysqli_query($conn, $updateCurrentOwner);
    if ($building_run==true) 
@@ -2814,6 +2836,7 @@ if($count>0)
          <?php
             $location_num = 0;
             $returnArray[] = '';
+            $direction="";
             $array = array();
             $sql = "SELECT distinct reference_no FROM stock_description  where OwerID='$EmployeeID' ORDER BY Direction desc";
             $result = mysqli_query($conn, $sql);
@@ -6670,6 +6693,10 @@ if($count>0)
          {
             $floorName='Third';
          } 
+         elseif ($floorValue=='4') 
+         {
+            $floorName='Fourth';
+         } 
          ?>
 <option value="<?=$floorValue?>"><?=$floorName?></option>
 <?php
@@ -10034,9 +10061,16 @@ elseif($code==170)
       <div class="col-lg-2 col-sm-2 col-md-2">
          <button class="btn btn-warning form-control" data-toggle="modal" onclick="reAssignModal(<?=$id?>)" data-target="#returnModal">Owner Change</button>
       </div>
-      <div class="col-lg-2 col-sm-2 col-md-2">
+<?php 
+     $mail="SELECT * from stock_summary inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where IDNo='$id'  and is_admin='1' AND employee_id='$EmployeeID'";
+            $mail_run=mysqli_query($conn,$mail);
+            while ($mail_row=mysqli_fetch_array($mail_run)) 
+            {
+             ?>
+        <div class="col-lg-2 col-sm-2 col-md-2">
          <button class="btn btn-danger form-control" data-toggle="modal" onclick="returnModal(<?=$id?>)" data-target="#returnModal">Return</button>
       </div> 
+   <?php }?>
    </div>
    
   
@@ -10433,7 +10467,7 @@ elseif ($code==176)
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM computer_lab_entry  where entry_time like '$date%' ORDER BY id DESC";
+                $sql = "SELECT * FROM computer_lab_entry  where entry_time like '$date%' ORDER BY Status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -10957,7 +10991,7 @@ $validUpto=$validUpto->format('d-M-Y');
                 </div>
                 <div class="col-lg-1 col-sm-1">
 <?php 
-  if($EmployeeID==131053 ||$EmployeeID==121031 ||$EmployeeID==171601) {?>
+  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601) {?>
         <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
         <?php
      }
@@ -11970,14 +12004,10 @@ elseif($Status==8)
             <a href="" style="text-decoration: none;">
 <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
             </td>
-                <tr/>
+               </tr>
            <?php 
             }
-        ?>
-        <tr>
-            
-</tr>
-<?php 
+    
 }
 else
 {
@@ -12116,7 +12146,7 @@ elseif($Status==8)
   $c = 0;
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
- $univ_rollno = $filesop[0];
+  $univ_rollno = $filesop[0];
    if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
  } elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
    $semester='Seventh'; } elseif ($sem==8) {    $semester='Eight'; } else {  $semester='Nine'; } 
@@ -12125,11 +12155,12 @@ elseif($Status==8)
 unset($SubjectCode);
 unset($SubjectType);
 
-$sql = "SELECT  IDNo,course,batch,college,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
+$sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
+
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $IDNo= $row['IDNo'];                         
+             $IDNo= $row['IDNo'];                         
             $course = $row['Course'];           
             $batch = $row['Batch'];
             $college = $row['CollegeName'];
@@ -12139,6 +12170,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
         $s_counter = 0;
         $stmt2 = sqlsrv_query($conntest,$result1);
+   
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
           $subject[]=$row1['SubjectName'];   
@@ -12158,6 +12190,7 @@ if( $stmt === false) {
 else{
  $sql_limit = "SELECT TOP 1 * FROM ExamForm ORDER BY Id DESC";
 $stmt1 = sqlsrv_query($conntest,$sql_limit);
+
 if( $stmt1  === false) {
     die( print_r( sqlsrv_errors(), true) );
 }
@@ -12165,8 +12198,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
   $cutlist_id= $row1['ID'];
 }
-// print_r($subject);
-// echo $s_counter;
+
 
 
        for($a=0;$a<$s_counter;$a++)
@@ -12787,7 +12819,7 @@ $IDNo= $_POST['IDNo'];
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Updated</b>";} ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{?> <input type="text" class="form-control"  id='classroll'><?php } ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 
@@ -12830,9 +12862,11 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                         echo "NA";
                       } ?>  </li>
 
-                        <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo $password; 
+                        <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo ""; 
 
-?><button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
+?><?=$password;?>  <a href="#" onclick="copyToClipboard('<?= $password;?>')" title="Copy Link">
+   <span class="fa fa-copy" style="color:green"></span></a>
+<button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
                       ?>  </li>
                      
       <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
@@ -12912,8 +12946,8 @@ elseif($code==220)
     $status=$_POST['status'];
    $lock=$_POST['lock'];
    $id=$_POST['id'];
-   
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock' where IDNo='$id'";
+    $classroll=$_POST['classroll'];
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',ClassRollNo='$classroll' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -13635,8 +13669,10 @@ elseif($code==227)
                      <?php 
 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='0'";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
                             $count_0++;
@@ -13655,8 +13691,7 @@ elseif($code==227)
                         <?php
                          // print_r($get_row);
                          }
-                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
+                        
 
                        }
                        else
@@ -13692,8 +13727,10 @@ elseif($code==227)
                            </tr>
                      <?php 
                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified=1";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_1=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
                             $count_1++;
@@ -13708,11 +13745,8 @@ elseif($code==227)
                                  <td><input type="checkbox" class="checkbox v_check" value="<?=$get_row['SrNo'];?>"></td>   
                               </tr>
                         <?php 
-                     }  
-                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
-
-                       }
+                      }  
+                      }
                        else
                        {
                         echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
@@ -14480,29 +14514,49 @@ elseif($code==252)
  }
  elseif($code==254)
 {
-                  $CollegeID=$_POST['CollegeID'];
-                  $Course=$_POST['Course'];
-                  $Batch=$_POST['Batch'];
-                  $Semester=$_POST['Semester'];
+                   $CollegeID=$_POST['CollegeID'];    
+                   $Course=$_POST['Course'];
+                   $Batch=$_POST['Batch'];
+                   $Semester=$_POST['Semester'];
+                
+
 ?>
+
                   <div class="col-lg-12 col-md-12 col-sm-12 ">
                   <div class="card-header">
                      Study Scheme Update
+                     <div class="card-tools">
+<form action="action_g.php" method="post" enctype="multipart/form-data" target="_blank">
+       <input type="hidden" name="code" value="23">  
+<input type="hidden" name="CollegeID" value="<?=$CollegeID;?>">
+<input type="hidden" name="Course" value="<?=$Course;?>">
+<input type="hidden" name="Batch" value="<?=$Batch;?>">
+<input type="hidden" name="Semester" value="<?=$Semester;?>">
+           <input type="file" required class="" name="file_exl">
+            <button type="submit"  class="btn btn-success" >
+             Upload
+            </button>
+         </form>
+          </div>
                   </div>
                      <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
                         <table class="table">
                            <thead>
                            <tr>
-                              <th>Srno</th>
+                              <th style="width:50px">Srno</th>
                               <th>Name</th>
-                              <th>Code</th>
-                              <th colspan="3">Type</th>
-                              <th>Int Marks</th>
-                              <th>Ext Marks</th>
-                              <th colspan="3">Elective</th>
-                              <th>Lacture</th>
-                              <th>Practical</th>
-                              <th>Tutorial</th>
+                              <th style="width:90px">Code</th>
+
+                              <th style="width:50px" >Type</th>
+                              <th style="width:50px">Int</th>
+                              <th style="width:50px">Ext </th>
+                              <th style="width:80px" >Elective</th>
+                              <th style="width:50px">Lecture</th>                          
+
+                            
+                              <th style="width:50px">Tutorial</th>
+                              <th style="width:50px">Practical</th>
+                            
                               <th>No of Credits</th>
                               <th>Action</th>
                            </tr>
@@ -14510,21 +14564,32 @@ elseif($code==252)
                         <tbody>
                      <?php 
 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='1'";
-                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme);
+
+                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' ";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
+                        if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                        
+                       
+
+                       {
+
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                         {
+                           
                             $count_0++;
+                            $SubjectCode=$get_row['SubjectCode'];
                            ?> 
 
                               <tr>
                                  <td><?=$count_0;?></td>
-                                 <td><input type="text" class="form-control" id="subject_name<?=$get_row['SrNo'];?>" value="<?=$get_row['SubjectName'];?>">
+                                 <td style="width:250px" >  <textarea style="font-size:14px" class="form-control"  rows=2 id="subject_name<?=$get_row['SrNo'];?>"><?= $get_row['SubjectName'];?></textarea>
+
+                                  
                                     </td>
-                                 <td colspan=""><input type="text" id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
-                                 <td colspan="3">
-                                    <select class="form-control" id="subject_type<?=$get_row['SrNo'];?>">
+                                 <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
+                                 <td >
+                                    <select class="form-control" style="width:60px"  id="subject_type<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
                                         <option value="T">Theory</option>
                                          <option value="P">Practical</option>
@@ -14532,33 +14597,54 @@ elseif($code==252)
                                          <option value="V">Value Added</option>
                                     </select>
                                     </td>
-                                 <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['IntMaxMarks'];?>"></td>
-                                 <td><input type="text" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['ExtMaxMarks'];?>"></td>
-                                 <td colspan="3">
-                                    <select class="form-control" id="elective<?=$get_row['SrNo'];?>">
-                                       <option value="<?=$get_row['Elective'];?>"><?=$get_row['Elective'];?></option>
+                                 <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control"  style="width:50px" value="<?=$get_row['IntMaxMarks'];?>"></td>
+                                 <td><input type="text" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['ExtMaxMarks'];?>"></td>
+                                 <td>
+                                    <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
+                                       <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
                                         <option value="YES">Yes</option>
                                          <option value="NO">No</option>
                                        
                                     </select>
                                  </td>
-                                 <td><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
-                                 <td><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
-                                 <td><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
-                                 <td><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
-                                 <td><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button></td>
+                        <td style="width:50px" ><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
+                                 <td style="width:50px"><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
+                                 <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
+                                 <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
+
+                                 <td style="width:80px"><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
+
+<?php 
+$get_exam_form="SELECT * FROM ExamFormSubject WHERE SemesterID='$Semester' and Batch='$Batch' AND SubjectCode='$SubjectCode'";
+
+                        $get_exam_form_run=sqlsrv_query($conntest,$get_exam_form,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                      
+
+                        if(sqlsrv_num_rows($get_exam_form_run)>0)  { }
+                         
+                           else{ ?>
+ <button class="btn btn-danger btn-xs" onclick="delete_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-trash" aria-hidden="true" style="color:white;" ></i></button>
+                        <?php 
+
+
+                           }
+     ?>
+
+
+
+                                 </td>
                        
                               </tr>
                         <?php
                          // print_r($get_row);
                          }
-                       if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                       {
 
                        }
                        else
                        {
-                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                        echo "<tr><td colspan='16'><div class='alert alert-warning' role='alert'>
+No Record Found
+</div></td></tr>";
                        }
                        ?>
                     </tbody>
@@ -14597,10 +14683,12 @@ elseif($code==255)
 }
  elseif($code==256)
    {
+      
             $file = $_FILES['file_exl']['tmp_name'];
             $CollegeID=$_POST['College'];
             $CourseID=$_POST['Course'];
-             $batch=$_POST['batch'];
+            $batch=$_POST['batch'];
+
             $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
          while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
@@ -14628,7 +14716,7 @@ elseif($code==255)
             $NoOfCredits = $filesop[12];
             $SubjectGroup = $filesop[13];
 
-                $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
+            $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
                   if ($add_study_scheme_run2==true)
@@ -15839,6 +15927,559 @@ elseif($code==283)
             ?>
             </ul><?php
 }
+
+else if($code==284)
+{
+   ?>
+   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
+   <?php 
+    $group=mysqli_query($conn,"SELECT *  from group_master");
+                  while($data=mysqli_fetch_array($group))
+                  {
+                    ?><tr style="text-align: center;"><td><?=$data['GroupName'];?></td>
+                     <td>
+
+                     <button class='btn btn-xs' type='submit' style='color:green;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel fa-2x'></i></button></td>
+
+
+                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
+
+                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td>
+                    <?php 
+                  }
+}
+
+
+else if($code==285)
+{
+ $empid=$_POST['IDNo'];
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Ack'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+
+<?php if($row['location']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
+         </button> 
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved 
+         </button> 
+<?php } ?>
+            </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+
+
+else if($code==286)
+{
+ $empid=$_POST['IDNo'];
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='rejected'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+
+else if($code==287)
+{
+ $empid=$_POST['IDNo'];
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Check-in'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+    <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+else if($code=='288')
+{
+ $id=$_POST['id'];
+
+$list_sql = "SELECT * FROM movement where id='$id'";
+
+$result = mysqli_query($conn,$list_sql); 
+while($row = mysqli_fetch_array($result))  
+      { 
+       $out_time=$row['out_time'];
+      }
+
+
+$return_date =date('Y-m-d');
+date_default_timezone_set("Asia/Kolkata"); 
+$return_time = date('H:i');
+ $status='Check-in';
+$return_date=date("Y-m-d");
+
+ $h1=substr("$out_time",0,2)."<br>";
+ $h2=substr("$return_time",0,2)."<br>";
+$m1=substr("$out_time",3,2)."<br>";
+  $m2=substr("$return_time",3,2)."<br>";
+
+
+
+
+if($m2>$m1)
+{
+ $r=(int)$h2-(int)$h1;
+
+ $r1=(int)$m2-(int)$m1;
+}
+
+else
+{
+
+ $r=(int)$h2-(int)$h1-1;
+
+  $r1=(int)$m2+60-(int)$m1;
+
+}
+if($r==0)
+{
+   $count=$r1."Minutes";
+}
+else
+{
+  $count=$r."Hours".$r1."Minutes";
+}
+if($r1>0)
+{
+ $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
+}
+else
+{
+  }
+
+?>
+
+<?php 
+}
+else if($code=='289')
+{
+     $id=$_POST['article_id'];
+       $workingStatus=$_POST['workingStatus'];
+       $returnRemark=$_POST['returnRemark'];
+       if($workingStatus='0')
+{
+   $ws="update status to Working";
+}
+else
+{
+   $ws="update status to Discarded";
+}
+
+       $date=date('Y-m-d');
+       $sql="SELECT * FROM stock_summary  where IDNo='$id'";
+       $result = mysqli_query($conn,$sql);
+       while($data=mysqli_fetch_array($result))
+       {
+          $currentOwner=$data['Corrent_owner'];
+          $currentLocation=$data['LocationID'];
+          $deviceSerialNo=$data['DeviceSerialNo'];
+          $referenceNo=$data['reference_no'];
+          $qry="INSERT INTO stock_description (IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', '$ws', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+         
+          $res=mysqli_query($conn,$qry);
+          if ($res) 
+          {    
+           if ($workingStatus==1) 
+           {
+               $tokenQry="SELECT token_no FROM faulty_track ORDER BY token_no Desc ";
+           $tokenRes=mysqli_query($conn,$tokenQry);
+           if ($tokenData=mysqli_fetch_array($tokenRes)) 
+           {
+               $token=$tokenData['token_no'];
+               $token=$token+1;
+           }
+               $insFaultyTrack="INSERT INTO faulty_track (article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
+               mysqli_query($conn,$insFaultyTrack);
+           }
+              echo  $updateQry="UPDATE stock_summary SET LocationID=0, Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+               mysqli_query($conn,$updateQry);
+          }
+   
+   
+       }
+   
+}
+
+elseif ($code==290) 
+{
+    $SubjectCode=$_POST['subjectCode'];
+  
+    $courseId=$_POST['courseId'];
+    $current_session=$_POST['examination'];
+    ?>
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Subject Name</th>
+                <th>Subject Code</th>
+                <th>Batch</th>
+                <!-- <th>Session</th> -->
+                <th>Action</th>
+                <th>Paper Id</th>
+          
+            </tr>
+        </thead>
+        <?php 
+        $sr=0;
+
+
+
+        
+          echo  $sql="SELECT Distinct Batch,SubjectCode,SubjectName,Course,Semester FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$courseId' ANd   Status>=0 
+          order by Examination DEsc";
+        
+        
+        $res=mysqli_query($conn,$sql);
+        while($data=mysqli_fetch_array($res))
+        {
+         $Semester=$data['Semester'];
+         
+           $Course=$data['Course'];
+          $SubjectCode=$data['SubjectCode'];
+          $semester=$data['Semester'];
+           $SubjectName=$data['SubjectName'];
+       ?>
+                <tr>
+                <td><?=1?></td>
+                <td><?= $Course;?></td>
+                <td><?=$SubjectName?>(<?=$SubjectCode?>)</td>
+                <td><?=$data['Batch']?></td>
+                <td><?=$data['Semester']?></td>
+                <!-- <?=$data['session_name']?></td>  -->
+                <td>
+
+<?php
+                   echo  $checkGenerateQry="Select * from generated_question_paper where Session='$current_session'  and SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester'";
+                    $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
+                    if ($data1=mysqli_fetch_array($checkGenerateRes)) 
+                    {
+                        ?>
+                 <!--    <form action="print-paper.php" method="post" target="_blank">
+                        <input type="hidden" name="paperId" value="<?=$data1['id']?>">
+                <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
+                        <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
+                    </form> -->
+                    <?php 
+                    }                    
+                    else
+                    {
+
+                    ?>
+                    <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+                    <?php 
+                    }
+                    ?>
+
+
+
+                </td>
+                <td>
+
+            
+                    ?>
+                  
+                </td>
+
+                 
+                
+            </tr>
+                <?php
+            }
+        ?>
+    </table>
+<?php
+
+}
+
+elseif ($code==291) 
+{
+ $id=$_POST['id'];
+ $delete_study_scheme="Delete  FROM MasterCourseStructure WHERE SrNo='$id'";
+ $stmt1 = sqlsrv_query($conntest,$delete_study_scheme);
+ echo 1;
+}
+
+
+else if($code==292)
+{
+
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Ack'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+
+else if($code==293)
+{
+
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Refused'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+else if($code==294)
+{
+
+   ?>
+     
+ 
+
+
+
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where  superwiser_id='$EmployeeID' AND status='Check-in'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+    <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table>
+
+
+
+
+
+
+
+<?php
+
+
+  
+}
+
  else
 {
 echo "select code";

@@ -361,6 +361,43 @@ function add_submit()
 
 
 }
+
+
+function delete_study_scheme(id)
+{
+ 
+       
+var a=confirm('Are you sure to Delete');
+
+   var code=291;
+   if (a==true) {
+
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({ url:'action.php',
+            type:'POST',
+            data:{id:id,code:code}, success: function(response) 
+            { 
+              
+               spinner.style.display='none';
+               
+               if (response==1) {
+                update_study_scheme_search();
+                  SuccessToast('Successfully Deleted');
+               }
+               else
+               {
+                  ErrorToast('Try Again','bg-danger');
+               }
+            }
+
+
+
+
+         });
+
+   }
+}
 function update_study_scheme(srno)
 {
   
