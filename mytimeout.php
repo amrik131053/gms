@@ -92,7 +92,24 @@
              
    <div class="card card-info">
             <div class="card-header">
-               <h3 class="card-title">My Time out's</h3>
+                <div class="row">
+<div class="col-sm-10"><h3 class="card-title">My Time out's</h3></div>
+<div class="col-sm-2">
+ <a class="btn btn-app bg-success">
+                  <span class="badge bg-purple">891</span>
+                  <i class="fas fa-users"></i> Requests
+                </a>
+
+
+            </div>
+                </div>
+               
+
+
+                
+
+
+
 </div>
 <?php
 

@@ -380,7 +380,7 @@ var a=confirm('Are you sure to Delete');
             { 
               
                spinner.style.display='none';
-               console.log(response);
+               
                if (response==1) {
                 update_study_scheme_search();
                   SuccessToast('Successfully Deleted');

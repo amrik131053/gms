@@ -15,6 +15,12 @@ $connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','
 // $password1 = "";
 // $dbname1 = "lims";
 
+// $servername1 = "10.0.8.10";
+// $username1 = "as";
+// $password1 = "Bathinda@123";
+// $dbname1 = "lims";
+
+
 
 
 $servername1 = "localhost";

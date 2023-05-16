@@ -16171,10 +16171,6 @@ else
 ?>
 
 <?php 
-
-
-
-
 }
 else if($code=='289')
 {
@@ -16324,6 +16320,164 @@ elseif ($code==291)
  $delete_study_scheme="Delete  FROM MasterCourseStructure WHERE SrNo='$id'";
  $stmt1 = sqlsrv_query($conntest,$delete_study_scheme);
  echo 1;
+}
+
+
+else if($code==292)
+{
+
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Ack'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+
+else if($code==293)
+{
+
+   ?>
+     
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Refused'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+else if($code==294)
+{
+
+   ?>
+     
+ 
+
+
+
+ <table class="table">
+  
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where  superwiser_id='$EmployeeID' AND status='Check-in'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+    <tr><form action="#" method="POST" >
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table>
+
+
+
+
+
+
+
+<?php
+
+
+  
 }
 
  else
