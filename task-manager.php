@@ -296,7 +296,7 @@ function submit_marks(ID)
                 // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
-                  
+                    $("#ViewTaskModal").modal('hide');
                   my_task();
                 }
                 else
@@ -517,7 +517,7 @@ window.onload = function() {
 
           <div class="card-tools">
           <button type="button" data-toggle="modal" data-target="#createTaskModal" class="btn btn-primary" >
-             ADD NEW
+            Create Task <i class="fa fa-plus " aria-hidden="true"></i>
             </button> 
            <!--  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
               <i class="fas fa-times"></i>

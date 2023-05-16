@@ -567,15 +567,15 @@
                       </td>
                       <td class="project-actions text-right">
                         
-                          <a class="btn btn-primary btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
+                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
-                              View
+                             <i class="fa fa-eye fa-lg"></i>
                           </a>
                            <?php  if ($status_show['Status']!=3)
                             {
                           ?>
-                          <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
-                              Forward
+                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
+                              <i class="fa fa-share" aria-hidden="true"></i>
                           </a>
                          <?php 
                           }
@@ -728,16 +728,16 @@
                        <?php }?>
                       </td>
                       <td class="project-actions text-right">
-                          <a class="btn btn-primary btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
+                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
-                              View
+                              <i class="fa fa-eye fa-lg"></i>
                           </a>
                           <?php  if ($status_show['Status']!=3) {
                              
                           ?>
-                          <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
+                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
                              
-                              Forward
+                            <i class="fa fa-share" aria-hidden="true"></i>
                           </a>
                        <?php }?>
                          
@@ -765,11 +765,20 @@
      $token=$row_token['TokenNo'];
      $task_name=$row_token['TaskName'];
       $task_discription=$row_token['Description'];
-}
+      }
       $update="UPDATE task_master SET AssignTo='$assignTo',Status='2' where EmpID='$EmployeeID' and TokenNo='$token'";
-      mysqli_query($conn,$update);
+      $up=mysqli_query($conn,$update);
+     if ($up==true) 
+       {
+         if ($assignTo!=$EmployeeID) {
       $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$forward_remarks', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
+   }
+   else
+        {
+
+       }
+   }
        
       if ($insert_task==true)
        {
