@@ -95,9 +95,20 @@
                 <div class="row">
 <div class="col-sm-10"><h3 class="card-title">My Time out's</h3></div>
 <div class="col-sm-2">
- <a class="btn btn-app bg-success">
-                  <span class="badge bg-purple">891</span>
-                  <i class="fas fa-users"></i> Requests
+ <a class="btn btn-danger" href="movement-admin.php">
+                  
+                  Requests &nbsp;
+<?php 
+ $count=0;
+  $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='draft' ";
+ //
+$result = mysqli_query($conn,$list_sql);
+ while($row = mysqli_fetch_array($result))  
+      {
+        $count++;
+      }?>
+
+                  <span class="badge bg-purple"><?=$count;?></span>
                 </a>
 
 

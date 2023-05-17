@@ -16422,13 +16422,7 @@ while($row=mysqli_fetch_array($result))
 }
 else if($code==294)
 {
-
    ?>
-     
- 
-
-
-
  <table class="table">
   
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
@@ -16447,11 +16441,6 @@ while($row=mysqli_fetch_array($result))
       $mob1 = $row['mobile'];
      
       $email = $row['email']; ?> 
-
- 
- 
- 
-
     <tr><form action="#" method="POST" >
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
  </tr>
