@@ -160,7 +160,7 @@ function forward_task()
               },
               success: function(response) 
               {
-                // console.log(response);
+                
                   spinner.style.display='none';
                 if (response==1) {
                   SuccessToast('Success');
@@ -214,7 +214,6 @@ function assign_task()
 }
 function task_timeline(Token_No)
 {
- // alert(Token_No);
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=14;
@@ -227,14 +226,6 @@ function task_timeline(Token_No)
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
-                if (response==1) {
-                  SuccessToast('Success');
-                }
-                else
-                {
-
-                }
                  document.getElementById("view_timeline_data").innerHTML=response;
               }
            });
