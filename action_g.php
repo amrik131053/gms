@@ -405,7 +405,7 @@
 
       $end_date=$_POST['end_date'];
       $asign_date=date('Y-m-d');
-      $get_token="SELECT  *  from task_master order by ID DESC LIMIT 1 ";
+      $get_token="SELECT  *  from task_master order by TokenNo DESC LIMIT 1 ";
       $get_token_run=mysqli_query($conn,$get_token);
       if($row_token=mysqli_fetch_array($get_token_run))
       {
@@ -446,7 +446,7 @@
    }
    elseif($code==11)
    {
-      ?>    <table class="table table-striped projects">
+      ?>    <table class="table table-striped">
               <thead>
                   <tr>
                       <th style="width: 1%">
@@ -465,7 +465,8 @@
                       <th style="width: 8%" class="text-center">
                           Status
                       </th>
-                      <th style="width: 20%">
+                      <th  class="text-center">
+                        Action
                       </th>
                   </tr>
               </thead>
@@ -595,7 +596,7 @@
    }
    elseif($code==12)
    {
-      ?>    <table class="table table-striped projects">
+      ?>    <table class="table table-striped ">
               <thead>
                   <tr>
                       <th style="width: 1%">
@@ -615,19 +616,26 @@
                       <th style="width: 8%" class="text-center">
                           Status
                       </th>
-                      <th style="width: 20%">
+                      <th  class="text-center">
+                        Action
                       </th>
                   </tr>
               </thead>
               <tbody>
                 <?php
                 $sr=1;
-                $show_task="SELECT * FROM task_master Where AssignBy='$EmployeeID'  ";
+                 $show_task11="SELECT DISTINCT TokenNo FROM task_master Where AssignBy='$EmployeeID'  ";
+                $show_task_run11=mysqli_query($conn,$show_task11);
+                while ($show_task_row11=mysqli_fetch_array($show_task_run11))
+                 {
+                  $TokenNo1=$show_task_row11['TokenNo'];
+                $show_task="SELECT * FROM task_master Where TokenNo='$TokenNo1' and AssignBy='$EmployeeID'";
                 $show_task_run=mysqli_query($conn,$show_task);
-                while ($show_task_row=mysqli_fetch_array($show_task_run))
+                if ($show_task_row=mysqli_fetch_array($show_task_run))
                  {
                    $marks=$show_task_row['marks'];
                   $TokenNo=$show_task_row['TokenNo'];
+                  $AssignTo=$show_task_row['AssignBy'];
                    ?>
                   <tr>
                       <td>
@@ -648,17 +656,17 @@
                           <ul class="list-inline"> 
 
                            <?php  
-                           $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' and AssignTo!='$EmployeeID'  ";
+                           $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' and AssignBy='$AssignTo'  ";
                 $show_task_run_=mysqli_query($conn,$show_task_);
                 while ($show_task_row_=mysqli_fetch_array($show_task_run_))
                  {
-                  $AssignTo=$show_task_row_['AssignTo'];
+                  $AssignTo_ui=$show_task_row_['AssignTo'];
 
                   ?>
                              <li class="list-inline-item" style="">
                                   <?php
 
-                 $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$AssignTo'";
+                 $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$AssignTo_ui'";
                   $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                   if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                   {
@@ -669,7 +677,7 @@
                                  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";
                               } ?>
 
-             <!-- <SMALL> <?=$row_staff['Name'];?></SMALL><BR> -->
+             <!-- <SMALL> <?=$show_task_row_['AssignBy'];?></SMALL><BR> -->
                               </li>
 
              
@@ -727,7 +735,7 @@
                           <span class="badge badge-<?=$status_color;?>"><?=$status;?></span>
                        <?php }?>
                       </td>
-                      <td class="project-actions text-right">
+                      <td class=" text-center">
                           <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
                               <i class="fa fa-eye fa-lg"></i>
@@ -735,17 +743,17 @@
                           <?php  if ($status_show['Status']!=3) {
                              
                           ?>
-                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
+                         <!--  <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
                              
                             <i class="fa fa-share" aria-hidden="true"></i>
-                          </a>
+                          </a> -->
                        <?php }?>
                          
                       </td>
                   </tr>
                 <?php
                 $sr++;
-                 }?>
+                 } } ?>
               </tbody>
           </table>
           <?php 
@@ -758,19 +766,27 @@
       $assignTo=$_POST['assignTo'];
       $end_date=$_POST['end_date'];
       $asign_date=date('Y-m-d');
-      $get_token="SELECT  *  from task_master where TokenNo='$token' LIMIT 1 ";
-      $get_token_run=mysqli_query($conn,$get_token);
-      while($row_token=mysqli_fetch_array($get_token_run))
+      $already_token="SELECT * from task_master where TokenNo='$token' and EmpID='$assignTo' and AssignTo='$assignTo' ";
+      $already_token_run=mysqli_query($conn,$already_token);
+      if($row_token=mysqli_fetch_array($already_token_run))
       {
-     $token=$row_token['TokenNo'];
-     $task_name=$row_token['TaskName'];
-      $task_discription=$row_token['Description'];
+echo "2";
       }
-      $update="UPDATE task_master SET AssignTo='$assignTo',Status='2' where EmpID='$EmployeeID' and TokenNo='$token'";
+      else
+      {
+
+      $get_token="SELECT  TokenNo,TaskName,Description from task_master where TokenNo='$token' ";
+      $get_token_run=mysqli_query($conn,$get_token);
+      if($row_token=mysqli_fetch_array($get_token_run))
+      {
+      $token=$row_token['TokenNo'];
+      $task_name=$row_token['TaskName']; 
+      $update="UPDATE task_master SET AssignTo='$assignTo',ForwardTo='$assignTo',Status='2' where EmpID='$EmployeeID' and TokenNo='$token'";
       $up=mysqli_query($conn,$update);
+      }
      if ($up==true) 
        {
-         if ($assignTo!=$EmployeeID) {
+       if ($assignTo!=$EmployeeID) {
       $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$forward_remarks', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
    }
@@ -788,6 +804,7 @@
        {
          echo "0";
        }
+    }
 
 
    }
@@ -807,7 +824,7 @@
               <!-- timeline item -->
 
               <?php 
-                $timeline="SELECT * FROM task_master where TokenNo='$TokenNo'";
+                $timeline="SELECT * FROM task_master where TokenNo='$TokenNo' ";
                 $timeline_run=mysqli_query($conn,$timeline);
                 while ($timeline_row=mysqli_fetch_array($timeline_run)) 
                 {
@@ -1274,8 +1291,8 @@ if ($Insert_daily_report_run==true) {
                        <?php }?></td>
                         <td class="project-actions text-right">
                         
-                          <select class="form-control" id="<?=$show_daily_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$show_daily_task_row['ID'];?>);">
-                          
+                          <!-- <select class="form-control" id="<?=$show_daily_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_reportpp(<?=$show_daily_task_row['ID'];?>);"> -->
+                                                    <select class="form-control" id="<?=$show_daily_task_row['ID'];?>_change_status1">
                              <option value="">Select</option>
                              <option value="3">Complete</option>
                              <option value="1">UnderProgress</option>
@@ -1298,9 +1315,7 @@ if ($Insert_daily_report_run==true) {
    elseif($code==22)
    {
     
- $IDs=$_POST['id_status1'];
- $status=$_POST['change_status1'];
-      $TodayDate=$_POST['date_r'];
+       $TodayDate=$_POST['date_r'];
       $check_report = "SELECT * FROM daily_report WHERE emp_id ='$EmployeeID' AND submit_date='$TodayDate' ";
       $check_report_run=mysqli_query($conn,$check_report);
       $count_report=mysqli_num_rows($check_report_run);
@@ -1322,27 +1337,61 @@ if ($Insert_daily_report_run==true) {
       $Insert_daily_report_run=mysqli_query($conn,$Insert_daily_report);
                   if ($Insert_daily_report_run==true)
                      {
+                        $IDs=$_POST['id_status1'];
+                        $status=$_POST['change_status1'];
+
                      $get_report_id="SELECT * FROM daily_report where emp_id='$EmployeeID' and submit_date='$TodayDate' ";
                   $get_report_id_run=mysqli_query($conn,$get_report_id);
                   if ($get_report_id_row=mysqli_fetch_array($get_report_id_run)) 
                   {
                      for ($i=0; $i <count($IDs) ; $i++)
                       { 
-                        
+                      if ($status[$i]==0)
+                        {
+                           $task_percentage='0%';
+                        }
+                        elseif ($status[$i]==1)
+                        {
+                           $task_percentage='20%';
+                        }
+                        elseif($status[$i]==2)
+                        {
+                           $task_percentage='60%';    
+                        }
+                        else
+                        {
+                           $task_percentage='100%';    
+
+                        }
+                          if ($status[$i]==3)
+                         {
+                           $CompleteDate=date('Y-m-d');
+                         }
+                        else
+                         {
+                           $CompleteDate="0000-00-00";
+                         }
+                 $Update_marks="UPDATE task_master SET Status='".$status[$i]."',CompleteDate='$CompleteDate',task_percentage='$task_percentage' where ID='$IDs[$i]'";
+                    $Update_marks_run=mysqli_query($conn,$Update_marks);
+
                       $in_task="INSERT INTO `daily_task_report` ( `report_id`, `task_id`, `t_status`) VALUES ('".$get_report_id_row['id']."', '$IDs[$i]', '$status[$i]');";
                          mysqli_query($conn,$in_task);
                       }
+
                   }
                   }
-      if ($Insert_daily_report_run==true)
-       {
-      echo "1";   
-      }
-      else
-      {
-         echo "0";
-      }
+                 
+                     if ($Insert_daily_report_run==true)
+                      {
+                     echo "1";   
+                     }
+                     else
+                     {
+                        echo "0";
+                     }
+     
    }
+
    }
    elseif($code==23) // temp master course code update old to new
    {
@@ -1399,9 +1448,6 @@ if ($Insert_daily_report_run==true) {
 
 ?>
 
-<!-- <form action="post_action.php" method="post"> -->
-
-
 
               <div class="row">
              
@@ -1434,20 +1480,10 @@ $count=1;
                
 <?php    
 }
-// print_r($ID);
 ?>
 </table>
 </div>
-<!-- <div class="col-lg-6">
-<table   class="table"  style="border: 2px solid black"  >
- <tr>             
- <th>Srno</th>
- <th> Subject Code </th>
-</tr>
-               
- 
-</table>
-</div> -->
+
 <table   class="table"  style="border: 2px solid black"  >
  <tr>             
  <th>Srno</th>
@@ -1476,25 +1512,7 @@ for ($i=0; $i <count($ID) ; $i++) {
                          
 }
 }
-                  ?>
-
-
-
-               <!--    <tr>
-                     <td>
-                <?= $count++;?>
-              </td>
-                <td>
-                <?= $ID[$i];?>
-              </td>
-                 
-
-              <td> <?=$e_row1['ID'];?></td>
-             </tr> -->
-               
-<?php         
-
-// print_r($SubjecodeArray);
+          
 ?>
 </table>
 </div>
@@ -1503,7 +1521,62 @@ for ($i=0; $i <count($ID) ; $i++) {
 
         
 }
+elseif($code==25)
+{
+   ?>
 
+<table class="table">
+   <thead>
+      <tr><th>
+         SrNo
+      </th>
+      <th>
+         Employee ID
+      </th>
+      <th>Date</th>
+      <th>Activity</th>
+      <th>Admission</th>
+      <th>Research</th>
+      <th>No Of Task</th>
+      <th>Completed Tasks</th>
+
+      </tr>
+ </thead>
+ <tbody>
+   <?php 
+   $sr=1;
+$empID=$_POST['emp_id'];
+ $get_report_all="SELECT * FROM daily_report WHERE emp_id='$empID'";
+$get_report_all_run=mysqli_query($conn,$get_report_all);
+while($row_report_print=mysqli_fetch_array($get_report_all_run))
+{?>
+<tr>
+   <td>
+      <?=$sr;?>
+   </td>
+   <td>
+      <?=$row_report_print['emp_id'];?>
+   </td> <td>
+      <?=$row_report_print['submit_date'];?>
+   </td> 
+
+   <td>
+      <?=$row_report_print['bnoon'];?>
+   </td>
+    <td>
+      <?=$row_report_print['admission'];?>
+   </td>
+    <td>
+      <?=$row_report_print['naac'];?>
+   </td> 
+</tr>
+<?php 
+$sr++;
+}
+?> 
+</tbody> 
+</table><?php
+}
    else
    {
    

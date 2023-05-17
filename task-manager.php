@@ -137,7 +137,7 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
+              
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
@@ -147,7 +147,7 @@ function create_task()
                 {
 
                 }
-                 // document.getElementById("question_count").innerHTML=response;
+                 ("question_count").innerHTML=response;
               }
            });
 }
@@ -165,8 +165,8 @@ function forward_task()
   var other_id = document.getElementById("forward_other_div").value;
   var assignTo=team_id+other_id;
   var end_date = document.getElementById("forward_end_date").value;
- var spinner=document.getElementById("ajax-loader");
-   spinner.style.display='block';
+ // var spinner=document.getElementById("ajax-loader");
+ //   spinner.style.display='block';
            var code=13;
            $.ajax({
               url:'action_g.php',
@@ -176,18 +176,21 @@ function forward_task()
               },
               success: function(response) 
               {
-                // console.log(response);
-                  spinner.style.display='none';
+                  // spinner.style.display='none';
                 if (response==1) {
                   SuccessToast('Success');
                      $("#ForwardTaskModal").modal('hide');
                   my_task();
                 }
+                else if(response==2)
+                {
+                   ErrorToast('Already assign','bg-warning');
+                }
                 else
                 {
 
                 }
-                 // document.getElementById("question_count").innerHTML=response;
+                 
               }
            });
 }
@@ -207,7 +210,6 @@ function my_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-             
                  document.getElementById("data_show").innerHTML=response;
               }
            });
@@ -227,7 +229,6 @@ function assign_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-              
                  document.getElementById("data_show").innerHTML=response;
               }
            });
@@ -257,8 +258,7 @@ function submit_marks(ID)
  // alert(Token_No);
   var Marks = document.getElementById("marks").value;
   var Remarks = document.getElementById("remarks").value;
-  var spinner=document.getElementById("ajax-loader");
-   spinner.style.display='block';
+  
            var code=15;
            $.ajax({
               url:'action_g.php',
@@ -268,8 +268,7 @@ function submit_marks(ID)
               },
               success: function(response) 
               {
-                  spinner.style.display='none';
-                // console.log(response);
+                  
                 if (response==1) {
                   SuccessToast('Success');
                     $("#ViewTaskModal").modal('hide');
@@ -277,7 +276,6 @@ function submit_marks(ID)
                 }
                 else
                 {
-
                  document.getElementById("view_timeline_data").innerHTML=response;
                 }
               }
@@ -508,10 +506,10 @@ window.onload = function() {
                         <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="assign_task();"><b>Assign Task</b></a>
                      </li>
                   </ul>
-        <div class="card-body p-0" id="data_show">
+        <div class="card-body table-responsive " id="data_show">
       
         </div>
-        <!-- /.card-body -->
+        
       </div>
       <!-- /.card -->
 
