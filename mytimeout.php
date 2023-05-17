@@ -97,7 +97,7 @@
 <div class="col-sm-2">
  <a class="btn btn-danger" href="movement-admin.php">
                   
-                  Requests &nbsp;
+                <i class="fas fa-walking"></i> &nbsp;
 <?php 
  $count=0;
   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='draft' ";

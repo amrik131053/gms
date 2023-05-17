@@ -87,7 +87,7 @@
              
    <div class="card card-info">
             <div class="card-header">
-               <h3 class="card-title">My Time out's</h3>
+               <h3 class="card-title">My Reports</h3>
 </div>
 
 
@@ -104,8 +104,8 @@
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Reports();bg(this.id);"> Reports </a>
                      <?php if($EmployeeID=='131053')
              { ?>
-              <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
-                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
+              <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Movements </a>
+                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> GKU Report </a>
          <?php } ?>
                    
                   </div>

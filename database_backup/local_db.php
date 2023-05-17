@@ -2,12 +2,12 @@
 include "../connection/connection.php";
 ini_set('max_execution_time', '0');
 // set_time_limit(0);
-// ini_set('memory_limit', '900M');
+ini_set('memory_limit', '20000M');
 // ini_set('upload_max_filesize', '512M');
 // ini_set('post_max_size', '512M');
 date_default_timezone_set("Asia/Kolkata");
 // $dbname=$_POST['db'];
-$servername = "localhost";
+$servername = "10.0.8.10";
 $username = "$username1";
 $password = "$password1";
 // Database configuration
