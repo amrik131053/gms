@@ -6,6 +6,8 @@ include "header.php";
 
       function emp_detail_verify(id){
    var code=51;
+    //alert(a);
+  
          $.ajax(
          {
             url:"action.php ",
@@ -17,12 +19,16 @@ include "header.php";
             success:function(response) 
             {  
               
-                  document.getElementById("emp_detail_status_").innerHTML =response; 
+                  document.getElementById("emp_detail_status_").innerHTML =response;
+               
+               
             }
          });
       }     
        function emp_detail_verify_for(id){
    var code=51;
+    //alert(a);
+  
          $.ajax(
          {
             url:"action.php ",
@@ -33,7 +39,10 @@ include "header.php";
             },
             success:function(response) 
             {  
-     document.getElementById("emp_detail_status_for").innerHTML =response;  
+              
+                  document.getElementById("emp_detail_status_for").innerHTML =response;
+               
+               
             }
          });
       } 
@@ -45,6 +54,8 @@ include "header.php";
             document.getElementById("other_div").value="";
             document.getElementById("self_div").value="";
             document.getElementById("emp_detail_status_").innerHTML="";
+
+
               x.style.display = "none";
               y.style.display = "block";
               z.style.display = "none";
@@ -60,6 +71,8 @@ include "header.php";
     x.style.display = "none";
     y.style.display = "block";
     z.style.display = "none";
+
+
 }   
  function self_show() {
 
@@ -72,6 +85,7 @@ include "header.php";
  document.getElementById("other_div").value="";
 
  document.getElementById("self_div").value=id;
+
     x.style.display = "none";
     y.style.display = "none";
     z.style.display = "block";
@@ -123,6 +137,7 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
+                // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
@@ -132,6 +147,7 @@ function create_task()
                 {
 
                 }
+                 // document.getElementById("question_count").innerHTML=response;
               }
            });
 }
@@ -160,7 +176,7 @@ function forward_task()
               },
               success: function(response) 
               {
-                
+                // console.log(response);
                   spinner.style.display='none';
                 if (response==1) {
                   SuccessToast('Success');
@@ -171,6 +187,7 @@ function forward_task()
                 {
 
                 }
+                 // document.getElementById("question_count").innerHTML=response;
               }
            });
 }
@@ -190,12 +207,14 @@ function my_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-                  document.getElementById("data_show").innerHTML=response;
+             
+                 document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function assign_task()
 {
+ 
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=12;
@@ -207,13 +226,15 @@ function assign_task()
               },
               success: function(response) 
               {
-                  spinner.style.display='none'; 
+                  spinner.style.display='none';
+              
                  document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function task_timeline(Token_No)
 {
+ // alert(Token_No);
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=14;
@@ -226,6 +247,7 @@ function task_timeline(Token_No)
               success: function(response) 
               {
                   spinner.style.display='none';
+             
                  document.getElementById("view_timeline_data").innerHTML=response;
               }
            });
@@ -504,4 +526,4 @@ window.onload = function() {
 include "footer.php";
 
 
-?> 
+?>

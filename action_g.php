@@ -477,7 +477,6 @@
                 while ($show_task_row=mysqli_fetch_array($show_task_run))
                  {
                   $marks=$show_task_row['marks'];
-                  $t_ID=$show_task_row['ID'];
 
                    ?>
                   <tr>
@@ -535,11 +534,11 @@
                       </td>
                       <td class="project-state">
                             <?php 
-                        $status_up="SELECT * FROM task_master Where ID='$t_ID'";
+                        $status_up="SELECT * FROM task_master Where ID='".$show_task_row['ID']."'";
                         $status_up_run=mysqli_query($conn,$status_up);
                         if($status_show=mysqli_fetch_array($status_up_run))
                         {
-                           $t_token=$status_show['TokenNo'];
+
                                if ($status_show['Status']==0) {
 
                               $status="Pending";
@@ -568,14 +567,14 @@
                       </td>
                       <td class="project-actions text-right">
                         
-                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$t_token;?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
+                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
                              <i class="fa fa-eye fa-lg"></i>
                           </a>
                            <?php  if ($status_show['Status']!=3)
                             {
                           ?>
-                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$t_token;?>);" > 
+                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
                               <i class="fa fa-share" aria-hidden="true"></i>
                           </a>
                          <?php 
@@ -627,7 +626,6 @@
                 $show_task_run=mysqli_query($conn,$show_task);
                 while ($show_task_row=mysqli_fetch_array($show_task_run))
                  {
-                  $t_ID=$show_task_row['ID'];
                    $marks=$show_task_row['marks'];
                   $TokenNo=$show_task_row['TokenNo'];
                    ?>
@@ -698,11 +696,10 @@
                       </td>
                       <td class="project-state">
                         <?php 
-                        $status_up="SELECT * FROM task_master Where ID='$t_ID'";
+                        $status_up="SELECT * FROM task_master Where ID='".$show_task_row['ID']."'";
                         $status_up_run=mysqli_query($conn,$status_up);
                         if($status_show=mysqli_fetch_array($status_up_run))
                         {
-                           $t_token=$status_show['TokenNo'];
 
                                 if ($status_show['Status']==0) {
 
@@ -731,14 +728,14 @@
                        <?php }?>
                       </td>
                       <td class="project-actions text-right">
-                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$t_token;?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
+                          <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                               
                               <i class="fa fa-eye fa-lg"></i>
                           </a>
                           <?php  if ($status_show['Status']!=3) {
                              
                           ?>
-                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$t_token;?>);" >
+                          <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" >
                              
                             <i class="fa fa-share" aria-hidden="true"></i>
                           </a>
@@ -815,7 +812,6 @@
                 while ($timeline_row=mysqli_fetch_array($timeline_run)) 
                 {
                   $marks=$timeline_row['marks'];
-                  $T_ID=$timeline_row['ID'];
                   if ($timeline_row['EmpID']==$EmployeeID) 
                   {
                      $Self="(You)";
@@ -939,7 +935,7 @@
                              
 
                               <div class="col-lg-12">
-                             <input type="button" value="Submit" onclick="submit_marks(<?=$T_ID;?>)" class="btn btn-primary btn-xs" name="">
+                             <input type="button" value="Submit" onclick="submit_marks(<?=$timeline_row['ID'];?>)" class="btn btn-primary btn-xs" name="">
                           </div>
                        <?php }?>
                           </div>
