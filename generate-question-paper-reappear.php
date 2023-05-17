@@ -75,7 +75,7 @@
                            <div class="col-lg-2">
                               <div class="input-group-sm">
                                 <Input type="text"  class="form-control subject_code" onchange="courseName(this.value)" name="subject_code" id="subject_code"  required="" aria-describedby="button-addon2" placeholder="Subject Code" required />
-                                <!-- <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="searchSubjectCode('0','0')"><i class="fa fa-search"></i></button> -->
+                                
                                 
 
                               </div>
@@ -85,7 +85,7 @@
                                 <select class="form-control" id="courseName"  required="" aria-describedby="button-addon2" >
                                 </select>
 
-                                <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="searchSubjectCode()"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="searchSubjectCode_paper();"><i class="fa fa-search"></i></button>
                                 
 
                               </div>
@@ -138,32 +138,34 @@
             },
             success: function(response)
             {
-                console.log(response);
+                
                 document.getElementById("courseName").innerHTML=response;
             }
         });
     }
-    function generateQuestionPaper(SubjectCode,Semester,CourseID,examName) 
-    {
-        var code=138;
+    function generateQuestionPaper_file(CourseID,SubjectCode,Batch,Semester,Examination) 
+    { 
+        var code=295;
+
         var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
-        // alert(SubjectCode+' '+Semester+' '+CourseID+' '+examName);
+         
         $.ajax({
             url:'action.php',
             type:'post',
             data:{
-                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,examName:examName
+                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,Batch:Batch,Examination:Examination
             },
             success: function(response)
             {
-                // location.reload(true);
-                searchSubjectCode(examName,SubjectCode,CourseID);
-                document.getElementById("table_load").innerHTML='';
-                document.getElementById('subject_code').value='';
-                document.getElementById('courseName').value='';
+
+                
+               
+ document.getElementById("table_load").innerHTML='';
+              searchSubjectCode_paper();
+                           
             spinner.style.display='none';
-                 console.log(response);
+                
             if (response=='Successfully Generated') 
             {
                 SuccessToast(response);
@@ -197,7 +199,7 @@
             }
         });
     }
-    function searchSubjectCode() 
+    function searchSubjectCode_paper() 
     {
         
        var examination=document.getElementById('examSession').value;
@@ -220,6 +222,7 @@
             },
             success: function(response)
             {
+
                 spinner.style.display='none';
                 document.getElementById("table_load").innerHTML=response;
             }

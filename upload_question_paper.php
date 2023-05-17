@@ -161,7 +161,7 @@ $Semester=$_POST['Semester'];
       }
 
 
- $sql = "SELECT * from  MasterCourseStructure  where  SubjectCode ='$SubjectCode' ANd CourseID='$CourseID'  ";
+ $sql = "SELECT * from  MasterCourseStructure  where  SubjectCode ='$SubjectCode' ANd CourseID='$CourseID' ";
      
        $result = sqlsrv_query($conntest,$sql);
        
@@ -173,16 +173,6 @@ $Semester=$_POST['Semester'];
           $CourseID=$row['CourseID'];
            $SubjectName=$row['SubjectName'];
        }
-   
-
-
-
-
-
-
-
-
-
 
 if($EmployeeID!='')
 {

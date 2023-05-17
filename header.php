@@ -225,10 +225,10 @@ else
           <li class="user-body">
             <div class="row">
               <div class="col-4 text-center">
-                <a class=" btn btn-primary btn-xs" href="mytimeout.php">Movement</a>
+                <a class=" btn btn-primary btn-xs" href="mytimeout.php">Time out</a>
               </div>
               <div class="col-4 text-center">
-                <a href="#" class=" btn btn-warning btn-xs">Attendance</a>
+                <a href="task-manager.php" class=" btn btn-warning btn-xs">My Task</a>
               </div>
               <div class="col-4 text-center">
                 <a href="employee-articles.php" class=" btn btn-info btn-xs">My Stock</a>
@@ -239,7 +239,7 @@ else
           <!-- Menu Footer-->
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>
+            <a href="sign-out.php" class="btn btn-default btn-flat float-right">Sign out</a>
           </li>
         </ul>
       </li>

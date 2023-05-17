@@ -16233,10 +16233,11 @@ elseif ($code==290)
             <tr>
                 <th>#</th>
                 <th>Course Name</th>
-                <th>Subject Name</th>
-                <th>Subject Code</th>
+                <th>Subject Name/Code</th>
+                
                 <th>Batch</th>
-                <!-- <th>Session</th> -->
+                <th>Semester</th>
+                 <th>Question Bank</th>
                 <th>Action</th>
                 <th>Paper Id</th>
           
@@ -16244,23 +16245,21 @@ elseif ($code==290)
         </thead>
         <?php 
         $sr=0;
-
-
-
-        
-          echo  $sql="SELECT Distinct Batch,SubjectCode,SubjectName,Course,Semester FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$courseId' ANd   Status>=0 
-          order by Examination DEsc";
-        
+ $sql="SELECT * FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$courseId' ANd   Status>=0   group by  Batch,SubjectCode,SubjectName,CourseID,Course,Semester,Examination order by Examination DEsc  ";
+           
         
         $res=mysqli_query($conn,$sql);
         while($data=mysqli_fetch_array($res))
         {
          $Semester=$data['Semester'];
-         
+          $CourseID=$data['CourseID'];
+          $Batch=$data['Batch'];
            $Course=$data['Course'];
           $SubjectCode=$data['SubjectCode'];
           $semester=$data['Semester'];
            $SubjectName=$data['SubjectName'];
+           $Examination=$data['Examination'];
+            $PaperFile=$data['PaperFile'];
        ?>
                 <tr>
                 <td><?=1?></td>
@@ -16268,30 +16267,52 @@ elseif ($code==290)
                 <td><?=$SubjectName?>(<?=$SubjectCode?>)</td>
                 <td><?=$data['Batch']?></td>
                 <td><?=$data['Semester']?></td>
-                <!-- <?=$data['session_name']?></td>  -->
+
+
+                <td>
+                  <?php   $get_session="SELECT * FROM question_session where id='$Examination'";
+      $get_session_run=mysqli_query($conn,$get_session);
+      if ($get_row=mysqli_fetch_array($get_session_run))
+       {
+      // code...
+     echo  $current_session_name=$get_row['session_name'];    // code...
+      }
+?>
+
+                  </td> 
                 <td>
 
 <?php
-                   echo  $checkGenerateQry="Select * from generated_question_paper where Session='$current_session'  and SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester'";
+                     $checkGenerateQry="Select * from generated_question_paper where   SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester' ANd Batch='$Batch'";
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
-                    if ($data1=mysqli_fetch_array($checkGenerateRes)) 
-                    {
-                        ?>
-                 <!--    <form action="print-paper.php" method="post" target="_blank">
-                        <input type="hidden" name="paperId" value="<?=$data1['id']?>">
-                <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
-                        <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
-                    </form> -->
-                    <?php 
-                    }                    
-                    else
-                    {
+                   
 
-                    ?>
-                    <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
-                    <?php 
-                    }
-                    ?>
+                     while($row=mysqli_fetch_array($checkGenerateRes)) 
+                        {   
+                        $sessions=$row['Session']  
+                        ?>
+
+                        
+                           <?php   $get_session="SELECT * FROM question_session where id='$sessions'";
+      $get_session_run=mysqli_query($conn,$get_session);
+      if ($get_row=mysqli_fetch_array($get_session_run))
+       {
+?> 
+<a href="http://10.0.8.10/LMS/QuestionPaper/<?= $Course;?>/<?= $Batch;?>/<?= $semester;?>/<?=$SubjectCode;?>/<?= $PaperFile;?>"> <?=  $get_row['session_name']; ?> </a><br>
+<?php 
+      }
+?>
+                     
+                        
+                    <?php
+                    } ?>
+
+
+
+                 
+                                     
+                    <button class="btn btn-xs btn-success"   style="border-radius: 40px; font-size: 12px;" onclick="generateQuestionPaper_file('<?=$CourseID?>','<?=$SubjectCode?>','<?=$Batch?>','<?=$Semester?>','<?= $current_session?>')">Generate</button>
+                    
 
 
 
@@ -16299,7 +16320,7 @@ elseif ($code==290)
                 <td>
 
             
-                    ?>
+                    
                   
                 </td>
 
@@ -16423,11 +16444,11 @@ while($row=mysqli_fetch_array($result))
 else if($code==294)
 {
    ?>
- <table class="table">
+<table class="table">
   
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
        <?php 
- $list_sql = "SELECT * FROM movement where  superwiser_id='$EmployeeID' AND status='Check-in'  ORDER BY id DESC ";
+ $list_sql = "SELECT * FROM movement where  superwiser_id='$EmployeeID' AND status='Check-in'  ORDER BY id DESC";
  //
 $result = mysqli_query($conn,$list_sql);
 while($row=mysqli_fetch_array($result)) 
@@ -16446,29 +16467,45 @@ while($row=mysqli_fetch_array($result))
  </tr>
 
 <?php
-
-
-
-      }
-
-
-
-
+ }
 ?>
 </table>
-
-
-
-
-
-
-
 <?php
-
-
-  
 }
 
+else if($code==295)
+{
+
+   $SubjectCode=$_POST['SubjectCode'];
+   $CourseID=$_POST['CourseID'];
+   $Batch=$_POST['Batch'];
+   $Semester=$_POST['Semester'];
+   $Examination=$_POST['Examination'];
+   $myids=array();
+$sql ="SELECT Id  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$CourseID' AND Batch='$Batch' ANd Examination='$Examination' ANd  Semester='$Semester' ANd Status>=0 ANd Generate='0'";
+
+
+ $result = mysqli_query($conn,$sql);
+   if (mysqli_num_rows($result)>0)
+   {
+     while($row=mysqli_fetch_array($result)) 
+  {
+    
+   $myids[]=$row['Id'];
+    }
+ }
+ $random_keys=array_rand($myids,1);
+$date=date('Y-m-d H-i-s');
+ $paperId=$myids[$random_keys];
+
+ $sql="INSERT INTO generated_question_paper (Session,PaperID,SubjectCode,CourseID,GeneratedBy,Semester,generatedon,Batch) VALUES ('$Examination','$paperId', '$SubjectCode', '$CourseID','$EmployeeID', '$Semester','$date','$Batch')";
+  $res=mysqli_query($conn,$sql);
+
+  $update="Update question_paper_files set Generate='1' where Id='$paperId'";
+  $res=mysqli_query($conn,$update);
+ 
+
+}
  else
 {
 echo "select code";

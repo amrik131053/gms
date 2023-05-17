@@ -7,7 +7,7 @@ ini_set('memory_limit', '20000M');
 // ini_set('post_max_size', '512M');
 date_default_timezone_set("Asia/Kolkata");
 // $dbname=$_POST['db'];
-$servername = "10.0.8.10";
+$servername = "localhost";
 $username = "$username1";
 $password = "$password1";
 // Database configuration
