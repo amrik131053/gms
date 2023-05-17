@@ -3,33 +3,87 @@
 include "header.php";
  ?>
  <script type="text/javascript">
+
+      function emp_detail_verify(id){
+   var code=51;
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,
+            },
+            success:function(response) 
+            {  
+              
+                  document.getElementById("emp_detail_status_").innerHTML =response; 
+            }
+         });
+      }     
+       function emp_detail_verify_for(id){
+   var code=51;
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,
+            },
+            success:function(response) 
+            {  
+     document.getElementById("emp_detail_status_for").innerHTML =response;  
+            }
+         });
+      } 
                      function team_show() 
                      {
             var x = document.getElementById("other_div");
-            document.getElementById("other_div").value="";
-
+            var z = document.getElementById("self_div");
             var y = document.getElementById("team_div");
-
+            document.getElementById("other_div").value="";
+            document.getElementById("self_div").value="";
+            document.getElementById("emp_detail_status_").innerHTML="";
               x.style.display = "none";
               y.style.display = "block";
+              z.style.display = "none";
 
                   }
    function other_show() {
   var x = document.getElementById("team_div");
   var y = document.getElementById("other_div");
+  var z = document.getElementById("self_div");
  document.getElementById("team_div").value="";
-
+ document.getElementById("self_div").value="";
+ document.getElementById("emp_detail_status_").innerHTML="";
     x.style.display = "none";
     y.style.display = "block";
-
-
+    z.style.display = "none";
 }   
+ function self_show() {
+
+  var id = document.getElementById("emp_id").value;
+  var x = document.getElementById("team_div");
+  var y = document.getElementById("other_div");
+  var z = document.getElementById("self_div");
+ document.getElementById("emp_detail_status_").innerHTML="";
+ document.getElementById("team_div").value="";
+ document.getElementById("other_div").value="";
+
+ document.getElementById("self_div").value=id;
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "block";
+
+
+} 
                   function forward_team_show() 
                      {
   var x = document.getElementById("forward_other_div");
   document.getElementById("forward_other_div").value="";
-
   var y = document.getElementById("forward_team_div");
+  document.getElementById("emp_detail_status_for").innerHTML="";
 
     x.style.display = "none";
     y.style.display = "block";
@@ -39,19 +93,22 @@ include "header.php";
   var x = document.getElementById("forward_team_div");
   var y = document.getElementById("forward_other_div");
  document.getElementById("forward_team_div").value="";
+  document.getElementById("emp_detail_status_for").innerHTML="";
 
     x.style.display = "none";
     y.style.display = "block";
 
 
 } 
+
 function create_task()
 {
   var task_name = document.getElementById("task_name").value;
   var task_discription = document.getElementById("task_discription").value;
   var team_id = document.getElementById("team_div").value;
   var other_id = document.getElementById("other_div").value;
-  var assignTo=team_id+other_id;
+  var self_id = document.getElementById("self_div").value;
+  var assignTo=team_id+other_id+self_id;
   var end_date = document.getElementById("end_date").value;
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -66,7 +123,6 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
@@ -76,7 +132,6 @@ function create_task()
                 {
 
                 }
-                 // document.getElementById("question_count").innerHTML=response;
               }
            });
 }
@@ -105,7 +160,7 @@ function forward_task()
               },
               success: function(response) 
               {
-                // console.log(response);
+                
                   spinner.style.display='none';
                 if (response==1) {
                   SuccessToast('Success');
@@ -116,7 +171,6 @@ function forward_task()
                 {
 
                 }
-                 // document.getElementById("question_count").innerHTML=response;
               }
            });
 }
@@ -136,23 +190,12 @@ function my_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
-
-                if (response==1) {
-                  SuccessToast('Success');
-                  my_task();
-                }
-                else
-                {
-
-                }
-                 document.getElementById("data_show").innerHTML=response;
+                  document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function assign_task()
 {
- 
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=12;
@@ -164,23 +207,13 @@ function assign_task()
               },
               success: function(response) 
               {
-                  spinner.style.display='none';
-                // console.log(response);
-                if (response==1) {
-                  SuccessToast('Success');
-                  my_task();
-                }
-                else
-                {
-
-                }
+                  spinner.style.display='none'; 
                  document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function task_timeline(Token_No)
 {
- // alert(Token_No);
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=14;
@@ -193,14 +226,6 @@ function task_timeline(Token_No)
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
-                if (response==1) {
-                  SuccessToast('Success');
-                }
-                else
-                {
-
-                }
                  document.getElementById("view_timeline_data").innerHTML=response;
               }
            });
@@ -225,7 +250,7 @@ function submit_marks(ID)
                 // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
-                  
+                    $("#ViewTaskModal").modal('hide');
                   my_task();
                 }
                 else
@@ -236,41 +261,7 @@ function submit_marks(ID)
               }
            });
 }
-function task_accept(id)
-{
 
-  let text = "Are you sure to Accept.";
-  if (confirm(text) == true) {
-   
-       var code=16;
-           $.ajax({
-              url:'action_g.php',
-              type:'POST',
-              data:{
-                 code:code,ID:id
-              },
-              success: function(response) 
-              {
-                  // spinner.style.display='none';
-                // console.log(response);
-                if (response==1) {
-                  SuccessToast('Success');
-                  my_task();
-                }
-                else
-                {
-
-                }
-                 
-              }
-           });
-  } 
-  else
-   {
-  
-  }
-  
-}
 window.onload = function() {
   my_task();
 };
@@ -314,7 +305,7 @@ window.onload = function() {
                       <div class="modal-body">
                             <div class="row">
                               <input type="hidden" name="" id="Token_No">
-                 <div class="col-lg-4">
+                 <div class="col-lg-3">
                  <label>Forward To</label>
                 </div>
                 <div class="col-lg-4">
@@ -332,7 +323,8 @@ window.onload = function() {
                           Other
                         </label>
                       </div>
-                </div>
+                </div> 
+                
                
                 </div>
              <div class="row">
@@ -358,7 +350,9 @@ window.onload = function() {
                    ?>
                 </select>
                 <?php  //print_r($aaa);?>
-                  <input type="text" class="form-control" placeholder="Emp ID" id="forward_other_div" style="display: none;">
+                  <input type="text" class="form-control" placeholder="Emp ID" id="forward_other_div" onkeyup="emp_detail_verify_for(this.value)" style="display: none;">
+                    <p id="emp_detail_status_for"></p>
+                 
                 </div>
                 <div class="col-lg-12">
                 <label>End Date</label>
@@ -398,10 +392,10 @@ window.onload = function() {
                     <textarea  class="form-control" id="task_discription" ></textarea>
 
                         <div class="row">
-                 <div class="col-lg-4">
+                 <div class="col-lg-3">
                  <label>Assign To</label>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                  <div class="icheck-primary d-inline">
                         <input type="radio" id="radioPrimary2" name="team1" onclick="team_show();" checked>
                         <label for="radioPrimary2">
@@ -409,11 +403,20 @@ window.onload = function() {
                         </label>
                       </div>
                 </div>
-                 <div class="col-lg-4">
+                 <div class="col-lg-3">
                   <div class="icheck-primary d-inline">
                         <input type="radio" id="radioPrimary1" onclick="other_show();" name="team1" >
                         <label for="radioPrimary1">
                           Other
+                        </label>
+                      </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="icheck-primary d-inline">
+                    <input type="hidden" value="<?=$EmployeeID;?>" id="emp_id">
+                        <input type="radio" id="radioPrimary5" onclick="self_show();" name="team1" >
+                        <label for="radioPrimary1">
+                          Self
                         </label>
                       </div>
                 </div>
@@ -439,7 +442,9 @@ window.onload = function() {
                  }
                    ?>
                 </select>
-                  <input type="text" class="form-control" placeholder="Emp ID" id="other_div" style="display: none;">
+                  <input type="text" class="form-control" placeholder="Emp ID" onkeyup="emp_detail_verify(this.value)" id="other_div" style="display: none;">
+                  <p id="emp_detail_status_"></p>
+                   <input type="hidden" class="form-control" value="<?=$EmployeeID;?>" id="self_div" style="display: none;">
                 </div>
                 </div>
                        <label>End Date</label>
@@ -466,7 +471,7 @@ window.onload = function() {
 
           <div class="card-tools">
           <button type="button" data-toggle="modal" data-target="#createTaskModal" class="btn btn-primary" >
-             ADD NEW
+            Create Task <i class="fa fa-plus " aria-hidden="true"></i>
             </button> 
            <!--  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
               <i class="fas fa-times"></i>
@@ -499,4 +504,4 @@ window.onload = function() {
 include "footer.php";
 
 
-?>
+?> 
