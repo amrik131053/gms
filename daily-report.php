@@ -100,10 +100,11 @@
                           ?>
                           <span class="badge badge-<?=$status_color;?>"><?=$status;?></span>
                        <?php }?></td>
-                      <td class="project-actions text-right">
+                      <td class="text-center">
                        
                         <input type="hidden" value="<?=$show_daily_task_row['ID'];?>" name="id_status1[]"  id="id_status1">
-                          <select class="form-control" name="change_status1[]" id="<?=$show_daily_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$show_daily_task_row['ID'];?>);" required>
+                          <!-- <select class="form-control" name="change_status1[]" id="<?=$show_daily_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_reportpp(<?=$show_daily_task_row['ID'];?>);" required> -->
+                             <select class="form-control" name="change_status1[]" id="<?=$show_daily_task_row['ID'];?>_change_status1" required>
                              <option value="">Select</option>
                              <option value="3">Complete</option>
                              <option value="1">UnderProgress</option>
@@ -386,11 +387,11 @@ else
         });
     });
 
-       $(document).ready(function (e) {    // image upload form submit
+       $(document).ready(function (e) {   
            $("#submit_daily_report").on('submit',(function(e) {
               e.preventDefault();
-              var spinner=document.getElementById("ajax-loader");
-   spinner.style.display='block';
+   //            var spinner=document.getElementById("ajax-loader");
+   // spinner.style.display='block';
               $.ajax({
                     url: "action_g.php",
                  type: "POST",
@@ -401,21 +402,20 @@ else
                  success: function(data)
                   {
    
-                         spinner.style.display='none';
-                // console.log(data);
-                if (data==1) {
+                         // spinner.style.display='none';
+                          if (data==1) {
                   SuccessToast('Successfully Submited');
                    show_daily_report();
                 }
                 else if(data==2)
                 {
-                  ErrorToast('Today Report Already Submited','bg-danger');
+                  ErrorToast('Today Report Already Submited','bg-warning');
 
                 }
                 else
                 {
                   ErrorToast('Try after some time','bg-danger');
-
+                  
                 }
                   },
                  
@@ -438,7 +438,7 @@ else
               success: function(response) 
               {
                   spinner.style.display='none';
-                // console.log(response);
+                
                   show_task_after_chnage();
                  document.getElementById("show_daily_report").innerHTML=response;
               }
@@ -460,9 +460,7 @@ else
               success: function(response) 
               {
                   spinner.style.display='none';
-                  console.log(response);
                   // show_task_after_chnage();
-                 // document.getElementById("task_show_after_onchange").innerHTML=response;
               }
            });
    } 
@@ -478,7 +476,6 @@ else
               },
               success: function(response) 
               {
-               // console.log(response);
                  document.getElementById("task_show_after_onchange").innerHTML=response;
               }
            });

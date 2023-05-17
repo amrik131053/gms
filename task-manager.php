@@ -6,6 +6,8 @@ include "header.php";
 
       function emp_detail_verify(id){
    var code=51;
+    //alert(a);
+  
          $.ajax(
          {
             url:"action.php ",
@@ -17,12 +19,16 @@ include "header.php";
             success:function(response) 
             {  
               
-                  document.getElementById("emp_detail_status_").innerHTML =response; 
+                  document.getElementById("emp_detail_status_").innerHTML =response;
+               
+               
             }
          });
       }     
        function emp_detail_verify_for(id){
    var code=51;
+    //alert(a);
+  
          $.ajax(
          {
             url:"action.php ",
@@ -33,7 +39,10 @@ include "header.php";
             },
             success:function(response) 
             {  
-     document.getElementById("emp_detail_status_for").innerHTML =response;  
+              
+                  document.getElementById("emp_detail_status_for").innerHTML =response;
+               
+               
             }
          });
       } 
@@ -45,6 +54,8 @@ include "header.php";
             document.getElementById("other_div").value="";
             document.getElementById("self_div").value="";
             document.getElementById("emp_detail_status_").innerHTML="";
+
+
               x.style.display = "none";
               y.style.display = "block";
               z.style.display = "none";
@@ -60,6 +71,8 @@ include "header.php";
     x.style.display = "none";
     y.style.display = "block";
     z.style.display = "none";
+
+
 }   
  function self_show() {
 
@@ -72,6 +85,7 @@ include "header.php";
  document.getElementById("other_div").value="";
 
  document.getElementById("self_div").value=id;
+
     x.style.display = "none";
     y.style.display = "none";
     z.style.display = "block";
@@ -123,6 +137,7 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
+              
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
@@ -132,6 +147,7 @@ function create_task()
                 {
 
                 }
+                 ("question_count").innerHTML=response;
               }
            });
 }
@@ -149,8 +165,8 @@ function forward_task()
   var other_id = document.getElementById("forward_other_div").value;
   var assignTo=team_id+other_id;
   var end_date = document.getElementById("forward_end_date").value;
- var spinner=document.getElementById("ajax-loader");
-   spinner.style.display='block';
+ // var spinner=document.getElementById("ajax-loader");
+ //   spinner.style.display='block';
            var code=13;
            $.ajax({
               url:'action_g.php',
@@ -160,17 +176,21 @@ function forward_task()
               },
               success: function(response) 
               {
-                
-                  spinner.style.display='none';
+                  // spinner.style.display='none';
                 if (response==1) {
                   SuccessToast('Success');
                      $("#ForwardTaskModal").modal('hide');
                   my_task();
                 }
+                else if(response==2)
+                {
+                   ErrorToast('Already assign','bg-warning');
+                }
                 else
                 {
 
                 }
+                 
               }
            });
 }
@@ -190,12 +210,13 @@ function my_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-                  document.getElementById("data_show").innerHTML=response;
+                 document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function assign_task()
 {
+ 
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=12;
@@ -207,13 +228,14 @@ function assign_task()
               },
               success: function(response) 
               {
-                  spinner.style.display='none'; 
+                  spinner.style.display='none';
                  document.getElementById("data_show").innerHTML=response;
               }
            });
 }
 function task_timeline(Token_No)
 {
+ // alert(Token_No);
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=14;
@@ -226,6 +248,7 @@ function task_timeline(Token_No)
               success: function(response) 
               {
                   spinner.style.display='none';
+             
                  document.getElementById("view_timeline_data").innerHTML=response;
               }
            });
@@ -235,8 +258,7 @@ function submit_marks(ID)
  // alert(Token_No);
   var Marks = document.getElementById("marks").value;
   var Remarks = document.getElementById("remarks").value;
-  var spinner=document.getElementById("ajax-loader");
-   spinner.style.display='block';
+  
            var code=15;
            $.ajax({
               url:'action_g.php',
@@ -246,8 +268,7 @@ function submit_marks(ID)
               },
               success: function(response) 
               {
-                  spinner.style.display='none';
-                // console.log(response);
+                  
                 if (response==1) {
                   SuccessToast('Success');
                     $("#ViewTaskModal").modal('hide');
@@ -255,7 +276,6 @@ function submit_marks(ID)
                 }
                 else
                 {
-
                  document.getElementById("view_timeline_data").innerHTML=response;
                 }
               }
@@ -486,10 +506,10 @@ window.onload = function() {
                         <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="assign_task();"><b>Assign Task</b></a>
                      </li>
                   </ul>
-        <div class="card-body p-0" id="data_show">
+        <div class="card-body table-responsive " id="data_show">
       
         </div>
-        <!-- /.card-body -->
+        
       </div>
       <!-- /.card -->
 
@@ -504,4 +524,4 @@ window.onload = function() {
 include "footer.php";
 
 
-?> 
+?>
