@@ -63,7 +63,7 @@
                                     while ($examData = mysqli_fetch_array($examRes)) 
                                     {
                                        ?>
-                                        <option value = "<?=$examData['id']?>" > <?=$examData['session_name'];?> </option> 
+                                        <option value = "<?=$examData['session_name'];?>" > <?=$examData['session_name'];?> </option> 
                                         <?php
                                     }
                                     ?> 
@@ -143,8 +143,10 @@
             }
         });
     }
-    function generateQuestionPaper_file(CourseID,SubjectCode,Batch,Semester,Examination) 
+    function generateQuestionPaper_file(CourseID,SubjectCode,Batch,Semester,exam_session,Examination) 
     { 
+
+     
         var code=295;
 
         var spinner=document.getElementById("ajax-loader");
@@ -154,25 +156,30 @@
             url:'action.php',
             type:'post',
             data:{
-                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,Batch:Batch,Examination:Examination
+                code:code,SubjectCode:SubjectCode,Semester:Semester,CourseID:CourseID,Batch:Batch,Examination:Examination,exam_session:exam_session
             },
             success: function(response)
             {
 
                 
-               
+              // console.log(response);
  document.getElementById("table_load").innerHTML='';
               searchSubjectCode_paper();
                            
             spinner.style.display='none';
                 
-            if (response=='Successfully Generated') 
+            if (response=='0') 
             {
-                SuccessToast(response);
+                SuccessToast("Sucess");
+            }
+            else if(response=='1')
+            {
+              ErrorToast("Already Generated",'bg-danger');
+            
             }
             else
             {
-                ErrorToast(response,'bg-danger');
+                ErrorToast('Already Generated','bg-danger');
             }
 
             }
