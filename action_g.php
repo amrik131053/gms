@@ -415,7 +415,7 @@
       {
       $token="2300";
       }
-      $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$LeaveRecommendingAuthority','$EmployeeID', '', '0', '$token');";
+      $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$LeaveRecommendingAuthority','$EmployeeID', '$EmployeeID', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
       if ($insert_task==true) 
       {
@@ -629,13 +629,13 @@
                 while ($show_task_row11=mysqli_fetch_array($show_task_run11))
                  {
                   $TokenNo1=$show_task_row11['TokenNo'];
-                $show_task="SELECT * FROM task_master Where TokenNo='$TokenNo1' and AssignBy='$EmployeeID'";
+                $show_task="SELECT * FROM task_master Where TokenNo='$TokenNo1'";
                 $show_task_run=mysqli_query($conn,$show_task);
                 if ($show_task_row=mysqli_fetch_array($show_task_run))
                  {
                    $marks=$show_task_row['marks'];
                   $TokenNo=$show_task_row['TokenNo'];
-                  $AssignTo=$show_task_row['AssignBy'];
+                  $AssignTo=$show_task_row['AssignTo'];
                    ?>
                   <tr>
                       <td>
@@ -656,7 +656,7 @@
                           <ul class="list-inline"> 
 
                            <?php  
-                           $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' and AssignBy='$AssignTo'  ";
+                           $show_task_="SELECT DISTINCT AssignTo FROM task_master Where TokenNo='$TokenNo' ";
                 $show_task_run_=mysqli_query($conn,$show_task_);
                 while ($show_task_row_=mysqli_fetch_array($show_task_run_))
                  {
@@ -668,7 +668,7 @@
 
                  $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$AssignTo_ui'";
                   $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
-                  if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
+                  while($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                   {
                   $Emp_Image=$row_staff['Snap'];
                   $emp_pic=base64_encode($Emp_Image);
@@ -781,7 +781,7 @@ echo "2";
       {
       $token=$row_token['TokenNo'];
       $task_name=$row_token['TaskName']; 
-      $update="UPDATE task_master SET AssignTo='$assignTo',ForwardTo='$assignTo',Status='2' where EmpID='$EmployeeID' and TokenNo='$token'";
+      $update="UPDATE task_master SET AssignTo='$assignTo',Status='2' where EmpID='$EmployeeID' and TokenNo='$token'";
       $up=mysqli_query($conn,$update);
       }
      if ($up==true) 
@@ -829,6 +829,7 @@ echo "2";
                 while ($timeline_row=mysqli_fetch_array($timeline_run)) 
                 {
                   $marks=$timeline_row['marks'];
+                  $ForwardBy=$timeline_row['ForwardTo'];
                   if ($timeline_row['EmpID']==$EmployeeID) 
                   {
                      $Self="(You)";
@@ -837,6 +838,7 @@ echo "2";
                   {
                      $Self="";
                   }
+
                   
 
                 ?>
@@ -907,16 +909,26 @@ echo "2";
                   $AssignToempID="(".$timeline_row['AssignTo'].")";
                     }
                   }
+               
                   else
                   {
                      $AssignToempName="";
                      $AssignToempID="";
                   }
+               if ($ForwardBy!=0)
+                {
+                 $createBy="Create By ";
+               }
+               else
+               {
+                 $createBy=" ";
+
+               }
                  ?>
                 <i class="fa fa-<?=$envolp_icon;?> bg-<?=$envolp;?>"></i>
                 <div class="timeline-item">
                   <span class="time bg-<?=$envolp;?>"><b> <?=$envolp_msg;?></b></span>
-                  <h3 class="timeline-header"><b><?=$Self;?> &nbsp;&nbsp;<?=$EmpName;?></b><a ><?=$EmpID_U; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a ><b><?=$AssignToempName;?></b><?=$AssignToempID; ?></a></h3>
+                  <h3 class="timeline-header"><b><?=$createBy;?></b><b><?=$Self;?> &nbsp;&nbsp;<?=$EmpName;?></b><a ><?=$EmpID_U; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a ><b><?=$AssignToempName;?></b><?=$AssignToempID; ?></a></h3>
 
                   <div class="timeline-body">
                   <?=$timeline_row['Description'];?> 
