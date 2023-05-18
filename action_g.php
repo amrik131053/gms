@@ -425,6 +425,9 @@
          }
          else
          {
+            $Notification="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+           mysqli_query($conn,$Notification);
+
          $insert_task_copy="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
            mysqli_query($conn,$insert_task_copy);
          }
@@ -1588,6 +1591,193 @@ $sr++;
 ?> 
 </tbody> 
 </table><?php
+}
+elseif ($code==26) {
+    ?>  
+     <div class="dropdown-divider"></div>
+     <?php 
+  $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID'";
+  $result_1 = mysqli_query($conn, $query_1);
+  $count = mysqli_num_rows($result_1);
+    if ($count>0) 
+    {
+  while ($row=mysqli_fetch_array($result_1)) 
+   {?>
+
+            <?php 
+    $Noti_color="";
+    $ID=$row['ID'];
+    $comment_subject=$row['Subject'];
+    $comment_text=$row['Discriptions'];
+    $comment_status=$row['Status'];
+    $Page_link=$row['Page_link'];
+    $SendBy=$row['SendBy'];
+   $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$SendBy'";
+                  $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
+                  if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
+                  {
+                  $Emp_Image=$row_staff['Snap'];
+                  $SendByName=$row_staff['Name'];
+                  $emp_pic=base64_encode($Emp_Image);
+                              }
+    $Notification_type=$row['Notification_type'];
+    if ($Notification_type=='0') 
+    {
+       $Noti_color="text-primary";
+    }
+    elseif($Notification_type=='1')
+    {
+       $Noti_color="text-success";
+    } 
+    elseif($Notification_type=='2')
+    {
+       $Noti_color="text-warning";
+    }
+     else
+    {
+       $Noti_color="text-danger";
+    }
+
+    $datetime=$row['DateTime'];?>
+          <?php 
+    ?>
+                   <a href="<?=$Page_link;?>" class="dropdown-item">
+
+          <div class="media">
+                <?php echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' >";?>
+              <div class="media-body" onclick="seen_notification(<?=$ID;?>);">
+                <h3 class="dropdown-item-title">
+                 &nbsp;&nbsp;<b class="<?=$Noti_color;?>"> <?=$comment_subject;?></b>
+                  <span class="float-right text-sm text-danger"></span> 
+                  <!-- <i class="fas fa-star"></i> -->
+                </h3>
+                <p class="text-sm">&nbsp;&nbsp;&nbsp;&nbsp;<?=$SendByName;?></p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> <?=$datetime;?></p>
+              </div>
+            </div>
+             </a>
+          <?php
+      }
+      ?><?php
+   }
+   else
+   {
+    ?> <a href="#" class="dropdown-item dropdown-footer ">No Notifications</a><?php 
+   }
+  ?><div class="dropdown-divider"></div>
+          <a href="all-notification.php" class="dropdown-item dropdown-footer text-success"><b>See All Notifications</b></a><?php
+}
+elseif ($code==27)
+{
+  $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID' ";
+ $result_1 = mysqli_query($conn, $query_1);
+ echo $count = mysqli_num_rows($result_1);
+}
+elseif ($code==28)
+{
+   $ID=$_POST['n_id'];
+  $query_1 = "UPDATE  notifications SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+ $result_1 = mysqli_query($conn, $query_1);
+}
+elseif ($code==29) {
+   ?>
+   <table class="table" id="example">
+   <thead>
+      <tr>
+         <th>SrNo</th>
+         <th>Subject</th>
+         <th>Discription</th>
+         <th>Send By</th>
+         <th>Date Time</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody><?php 
+  $query_1 = "SELECT * FROM notifications WHERE Status=1 and EmpID='$EmployeeID'";
+  $result_1 = mysqli_query($conn, $query_1);
+  $count = mysqli_num_rows($result_1);
+    if ($count>0) 
+    {
+      $sr=1;
+  while ($row=mysqli_fetch_array($result_1)) 
+   {
+      $ID=$row['ID'];
+      ?>
+
+      <tr>
+         <td><?=$sr;?></td>
+         <td><?=$row['Subject'];?></td>
+         <td><?=$row['Discriptions'];?></td>
+         <td><?=$row['SendBy'];?></td>
+         <td><?=$row['DateTime'];?></td>
+         <td><button class="btn btn-warning btn-sm" onclick="mark_unread(<?=$ID;?>);">Mark UnRead</button></td>
+      </tr>
+   
+   <?php $sr++; }
+   ?><?php 
+   }
+   else{
+     ?><tr>
+         <td colspan="5"><center><p style='color:red;'>No Record</p></center></td></tr><?php 
+   }
+   ?></tbody>
+</table><?php 
+}
+elseif ($code==30) {
+   ?>
+   <table class="table" id="example">
+   <thead>
+      <tr>
+         <th>SrNo</th>
+         <th>Subject</th>
+         <th>Discription</th>
+         <th>Send By</th>
+         <th>Date Time</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody><?php 
+  $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID'";
+  $result_1 = mysqli_query($conn, $query_1);
+  $count = mysqli_num_rows($result_1);
+    if ($count>0) 
+    {
+      $sr=1;
+  while ($row=mysqli_fetch_array($result_1)) 
+   {
+      $ID=$row['ID'];
+      ?>
+
+      <tr>
+         <td><?=$sr;?></td>
+         <td><?=$row['Subject'];?></td>
+         <td><?=$row['Discriptions'];?></td>
+         <td><?=$row['SendBy'];?></td>
+         <td><?=$row['DateTime'];?></td>
+        <td><button class="btn btn-warning btn-sm" onclick="mark_read(<?=$ID;?>);">Mark Read</button></td>
+      </tr>
+   
+   <?php $sr++; }
+    
+   }
+   else{
+     ?><tr>
+         <td colspan="5"><center><p style='color:red;'>No Record</p></center></td></tr><?php 
+      }
+   ?></tbody>
+</table><?php
+}
+elseif ($code==31)
+{
+   $ID=$_POST['id'];
+  $query_1 = "UPDATE  notifications SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+ $result_1 = mysqli_query($conn, $query_1);
+}
+elseif ($code==32)
+{
+   $ID=$_POST['id'];
+  $query_1 = "UPDATE  notifications SET Status='0' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+ $result_1 = mysqli_query($conn, $query_1);
 }
    else
    {

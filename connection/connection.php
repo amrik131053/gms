@@ -10,10 +10,10 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 //$connection_web_in_website= new mysqli('119.18.54.49:3306', 'guruk2cy_connect','Amrik@123','guruk2cy_website');
 
 
-// $servername1 = "localhost";
-// $username1 = "root";
-// $password1 = "";
-// $dbname1 = "lims";
+$servername1 = "localhost";
+$username1 = "root";
+$password1 = "";
+$dbname1 = "lims";
 
 
 
@@ -24,10 +24,10 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 // $dbname1 = "lims";
 
 
-$servername1 = "localhost";
-$username1 = "bhagi";
-$password1 = "@Sarbjot@98157";
-$dbname1 = "lims";
+// $servername1 = "localhost";
+// $username1 = "bhagi";
+// $password1 = "@Sarbjot@98157";
+// $dbname1 = "lims";
 
 
 $conn = new mysqli($servername1, $username1, $password1, $dbname1);

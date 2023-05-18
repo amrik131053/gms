@@ -5,7 +5,7 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 
 if(!(ISSET($_SESSION['usr']))) 
 {?>
-<script type="text/javascript">
+<script type="text/javascript"> 
    //window.location.href="index.php";
 </script>
 <?php }
@@ -172,41 +172,28 @@ else
             </div>
          </form>
          <!-- Right navbar links -->
+
          <ul class="navbar-nav ml-auto">
             <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;"></li>
              <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" data-toggle="dropdown" href="#" onclick="show_notification();">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge count" id="count"></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="show_notification_tab">
+          
+         
+            
         </div>
       </li>
+       <P class="count"></P>
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
 
 <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
 
 
-          
+         
           <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -244,6 +231,7 @@ else
         </ul>
       </li>
          </ul>
+
       </nav>
       <!-- /.navbar -->
       <!-- Main Sidebar Container -->

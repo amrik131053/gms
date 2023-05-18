@@ -76,13 +76,65 @@
         body: text
       })
    } 
+function seen_notification(n_id) 
+{
+  var code=28;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code,n_id:n_id},
+   
+   success:function(data)
+   {
+     
+   }
+  });
+}
+function show_notification(id) 
+{
+  var code=26;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code,id:id},
+   
+   success:function(data)
+   {
+     document.getElementById('show_notification_tab').innerHTML=data;
+   }
+  });
+}
+$(document).ready(function(){
+ function load_unseen_notification()
+ {
+  var code=27;
+  $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code},
+   
+   success:function(data)
+   {
+    if (data==0) {
+
+     document.getElementById('count').innerHTML="";
+    }
+    else
+    {
+     document.getElementById('count').innerHTML=data;
+    }
+   }
+  });
+ }
+ load_unseen_notification();
+ 
+ setInterval(function(){ 
+  load_unseen_notification();; 
+ }, 1000);
+ 
+});
 
 
 </script>
-
-
-<!-- <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script> -->
-<!-- <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script> -->
-<!-- <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script> -->
 </body>
 </html>
