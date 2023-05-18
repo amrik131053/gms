@@ -3352,7 +3352,7 @@ $Course = $_GET['Course'];
 
 
 $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch'ANd ExamForm.SemesterID='$Semester' ORDER BY Admissions.UniRollNo";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ORDER BY Admissions.UniRollNo";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
 

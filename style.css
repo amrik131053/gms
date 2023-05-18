@@ -2,13 +2,12 @@
 background-color: #223260 !important;
 color: white;
 }
-.btn-info
+.btn-info1
 {
-	background-color:#a62535 !important;
+	/background-color:#a62535 !important;
 	color: white; 
 	border-color: none !important;
 }
-
 
 
 #ajax-loader 

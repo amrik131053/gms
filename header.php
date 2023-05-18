@@ -2,11 +2,11 @@
 session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    include "connection/connection.php";
-
+$timeStamp=date('Y-m-d H-i');
 if(!(ISSET($_SESSION['usr']))) 
 {?>
 <script type="text/javascript">
-   //window.location.href="index.php";
+   window.location.href="index.php";
 </script>
 <?php }
 else
@@ -154,14 +154,14 @@ else
                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-               <a href="#" class="nav-link">Home</a>
+               <a href="dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            <!-- <li class="nav-item d-none d-sm-inline-block">
                <a href="#" class="nav-link">Contact</a>
-            </li>
+            </li> -->
          </ul>
          <!-- SEARCH FORM -->
-         <form class="form-inline ml-3">
+        <!--  <form class="form-inline ml-3">
             <div class="input-group input-group-sm">
                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                <div class="input-group-append">
@@ -170,7 +170,7 @@ else
                   </button>
                </div>
             </div>
-         </form>
+         </form> -->
          <!-- Right navbar links -->
          <ul class="navbar-nav ml-auto">
             <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;"></li>
