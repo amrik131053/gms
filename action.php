@@ -15931,8 +15931,8 @@ elseif($code==283)
 
 else if($code==284)
 {
-   ?>
-   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th>
+   ?><div class="card-body table-responsive">
+   <table class="table"><tr  style="text-align: center;"><th>Group Name</th><th>Export Excel</th><th>Print Bill</th></tr>
    <?php 
     $group=mysqli_query($conn,"SELECT *  from group_master");
                   while($data=mysqli_fetch_array($group))
@@ -15945,9 +15945,10 @@ else if($code==284)
 
                      <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
 
-                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td>
+                        <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td></tr>
                     <?php 
-                  }
+                  }?></table></div>
+                  <?php 
 }
 
 
@@ -15955,6 +15956,7 @@ else if($code==285)
 {
 
    ?>
+   <div class="card-body table-responsive">
     <table class="table">
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th><th>Action</th>
 <?php 
@@ -16009,6 +16011,7 @@ $emp_image = $row['image'];
 
 ?>
 </table>
+</div>
      
 <?php
 
@@ -16021,7 +16024,7 @@ else if($code==286)
 {
  $empid=$_POST['IDNo'];
    ?>
-     
+    <div class="card-body table-responsive"> 
  <table class="table">
   
        <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
@@ -16047,7 +16050,7 @@ while($row=mysqli_fetch_array($result))
  
 
       
-      <tr><form action="#" method="POST" >
+      <tr>
           <td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
  </tr>
@@ -16062,7 +16065,8 @@ while($row=mysqli_fetch_array($result))
 
 
 ?>
-</table><?php
+</table>
+</div><?php
 
 
   
@@ -16072,7 +16076,7 @@ else if($code==287)
 {
  $empid=$_POST['IDNo'];
    ?>
-     
+   <div class="card-body table-responsive">  
  <table class="table">
   
         <th>Ref No</th><th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
@@ -16097,7 +16101,7 @@ while($row=mysqli_fetch_array($result))
  
  
 
-    <tr><form action="#" method="POST" > <td><?php echo $id;?></td>
+    <tr><td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
  </tr>
 
@@ -16111,7 +16115,8 @@ while($row=mysqli_fetch_array($result))
 
 
 ?>
-</table><?php
+</table>
+</div><?php
 
 
   
@@ -16241,6 +16246,7 @@ elseif ($code==290)
     $courseId=$_POST['courseId'];
     $current_session=$_POST['examination'];
     ?>
+    <div class="card-body table-responsive">
     <table class="table" id="example">
         <thead>
             <tr>
@@ -16340,7 +16346,7 @@ elseif ($code==290)
                 $i++;
             }
         ?>
-    </table>
+    </table></div>
 <?php
 $i++;
 }
@@ -16358,7 +16364,7 @@ else if($code==292)
 {
 
    ?>
-     
+     <div class="card-body table-responsive">
  <table class="table">
   
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
@@ -16383,7 +16389,7 @@ while($row=mysqli_fetch_array($result))
  
 
       
-      <tr><form action="#" method="POST" >
+      <tr>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-success btn-xs">Approved</button> </td>
  </tr>
 
@@ -16397,7 +16403,9 @@ while($row=mysqli_fetch_array($result))
 
 
 ?>
-</table><?php
+</table></div>
+
+<?php
 
 
   
@@ -16407,7 +16415,7 @@ else if($code==293)
 {
 
    ?>
-     
+     <div class="card-body table-responsive">
  <table class="table">
   
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
@@ -16432,7 +16440,7 @@ while($row=mysqli_fetch_array($result))
  
 
       
-      <tr><form action="#" method="POST" >
+      <tr>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
  </tr>
 
@@ -16446,6 +16454,7 @@ while($row=mysqli_fetch_array($result))
 
 
 ?>
+</table>
 </table><?php
 
 
@@ -16540,7 +16549,7 @@ else if($code==296)
 {
  $empid=$_POST['IDNo'];
    ?>
-     
+     <div class="card-body table-responsive">
  <table class="table">
   
        <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
@@ -16566,7 +16575,7 @@ while($row=mysqli_fetch_array($result))
  
 
       
-      <tr><form action="#" method="POST" >
+      <tr>
          <td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
 
@@ -16633,7 +16642,8 @@ else if ($row['status']=='Check-in')
 
 
 ?>
-</table><?php
+</table>
+</div><?php
 
 
   
@@ -16663,7 +16673,114 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
 }
 
 
+else if($code==299)
+{?>
+ <div class="card-body table-responsive">
+ <table class="table">
+  
+         <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+    $list_sql = "SELECT * FROM movement where  (status='Ack' OR status='check-out')  AND location='Outside Campus' AND request_date='$todaydate'  ORDER BY id DESC";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+      $id = $row['id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     $purpose=  $row['purpose'];
+      $location=$row['location'];
+      $email = $row['email'];
+      $mleave = $row['mleave'];
+     $status= $row['status']; ?> 
+ 
 
+      
+      <tr>
+         <td><?php echo $id;?> </td>
+         <td  onclick="staff_search_by_id('<?=$empid;?>');"
+           style="color: red"><b><?php echo $empid;?></b></td> 
+
+
+            <td><?php echo  $name;?> </td><td> <?= $purpose; ?>  </td><td>  <?= $location; ?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?></td>
+         <td> <?php if($status=='Ack')
+         {?>  
+
+ <button class="btn btn-danger btn-xs" onclick="checkout('<?=$id;?>','<?=$location;?>','<?=$mleave;?>')">Check-Out</button>
+
+        
+      <?php 
+   }
+      else if($status=='check-out' AND $row['purpose']!='Leave' ) {
+         ?>
+
+         <button class="btn btn-success btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
+      
+        
+         <?php }
+
+
+         else if($status=='check-out' AND $row['purpose']=='Leave' AND $row['mleave']!='Full' ) {
+         ?>
+      
+
+         <button class="btn btn-warning btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
+         <?php }
+
+
+
+         else {
+
+            echo " on Leave";
+         }?>
+
+      </td>
+ </tr>
+
+<?php
+      }
+?></table>
+</div>
+<?php 
+
+
+}
+//gate entry checkin
+else if($code==300)
+{
+   $id=$_POST['id'];
+
+ $purpose=$_POST['purpose'];
+ $mleave=$_POST['mleave'];
+date_default_timezone_set("Asia/Kolkata"); 
+ $exit_date =date('Y-m-d');
+
+//$noti=$purpose."(".$location.")";
+
+
+$exit_time = date('H:i');
+
+if($purpose!='Leave')
+{
+ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time' where id='$id'");
+}
+else if($purpose=='Leave' AND $mleave!='Full' )
+{
+ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time'  where id='$id'");
+}
+else 
+{
+$result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time',return_date='$exit_date',return_time='17:00'   where id='$id'");   
+
+
+}
+ 
+}
 
 
  else

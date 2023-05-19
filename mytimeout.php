@@ -193,7 +193,7 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
            mysqli_query($conn,$Notification);
 
 ?>
-<script> //window.location.href="mytimeout.php";</script>
+<script> window.location.href="mytimeout.php";</script>
 
 <?php }
 

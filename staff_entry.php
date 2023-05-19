@@ -15,16 +15,14 @@
                      <div class="card-tools">
                      <div class="btn-group input-group-sm">
                                  <input type="text"  style="width:150px "  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Employee ID" aria-describedby="button-addon2" value="">
-                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
+                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="staff_search();" name="search"><i class="fa fa-search"></i></button>
                            </div>
-                     
-                  </div>
+                   </div>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body table-responsive p-0"  id="student_search_record">
                      
                   </div>
-
                  
                </div>
               
@@ -37,131 +35,12 @@
                </div>
              
                   <div class="card-body" id="checked_out_students"  >
-                     <table class="table">
-  
-         <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
-       <?php 
-    $list_sql = "SELECT * FROM movement where  (status='Ack' OR status='check-out')  AND location='Outside Campus'   ORDER BY id DESC";
- //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
-  {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-      $id = $row['id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email'];
-     $status= $row['status']; ?> 
- 
-
-      
-      <tr>
-         <td><?php echo $id;?> </td>
-         <td><?php echo $empid;?> </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?></td>
-         <td> <?php if($status=='Ack')
-         {?>  
-            <form action="" method="POST">
-               <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
-               <input type="hidden" value="<?php echo  $row['mleave'];?>" name="mleave"> 
-
-         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-danger btn-xs"  name='checkout' type="Submit">Check Out
-         </button> </form>
-      <?php 
-   }
-      else if($status=='check-out' AND $row['purpose']!='Leave' ) {
-         ?>
-
-         <button class="btn btn-success btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
-      
-        <!--  <form action="" method="POST">
-               <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
-
-                        <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-success btn-xs"  name='checkin'  type="Submit">Check in
-         </button></form>  -->
-         <?php }
 
 
-         else if($status=='check-out' AND $row['purpose']=='Leave' AND $row['mleave']!='Full' ) {
-         ?>
-      <!-- 
-         <form action="" method="POST">
-               <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
-
-         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-warning btn-xs"  name='checkin' type="Submit">Check in
-         </button></form>  -->
-
-         <button class="btn btn-warning btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
-         <?php }
-
-
-
-         else {
-
-            echo " on Leave";
-         }?>
-
-      </td>
- </tr>
-
-<?php
-
-
-
-      }
-
-
-
-if (isset($_POST['checkout'])) {
-
- $id=$_POST['id'];
-
- $purpose=$_POST['purpose'];
- $mleave=$_POST['mleave'];
-date_default_timezone_set("Asia/Kolkata"); 
- $exit_date =date('Y-m-d');
-
-//$noti=$purpose."(".$location.")";
-
-
-$exit_time = date('H:i');
-
-if($purpose!='Leave')
-{
- $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time' where id='$id'");
-}
-else if($purpose=='Leave' AND $mleave!='Full' )
-{
- $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time'  where id='$id'");
-}
-else 
-{
-$result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time',return_date='$exit_date',return_time='17:00'   where id='$id'");   
-
-
-}
- ?>
-<script> window.location.href="staff_entry.php";</script>
-
-<?php 
-
-
-}
-
-
-
-
-
-
-?>
-
-
-</table>
                   </div>
+
+
+
 
                   <div class="card-footer">           
                   </div>
@@ -184,98 +63,38 @@ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$
 <script type="text/javascript">
 
 
-   window.onload = function() {
-
-};
-
-  function checkin(id)
-          {
-       var code=288;
-
-       
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,id:id
-                  },
-            success: function(response) 
-            { spinner.style.display='none';
-               console.log(response);
-             //location.reload(true);
-              
-               //document.getElementById("table_load").innerHTML=response;
+  function staff_search_by_id(rollNo)
+   {
+          
+      var code=257;
+      
+      if (rollNo!='') 
+      {
+         var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,rollNo:rollNo
+            },
+            success:function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("student_search_record").innerHTML =response;
             }
          });
-
-     }
-
-
-
-   function checked_out_student() 
-   {
-      
-      var code=144;
-      $.ajax(
+      }
+      else
       {
-         url:"action.php ",
-         type:"POST",
-         data:
-         {
-            code:code
-         },
-         success:function(response) 
-         {
-            // student_search();
-            document.getElementById("checked_out_students").innerHTML =response;
-         }
-      });
-   }
-   function gateEntryCheckIn(studentId,direction,gateEntryId)
-   {
-       // alert(direction);
-      var code=142;
-      $.ajax(
-      {
-         url:"action.php ",
-         type:"POST",
-         data:
-         {
-            code:code,studentId:studentId,direction:direction,gateEntryId:gateEntryId
-         },
-         success:function(response) 
-         {
-            checked_out_student();
-            student_search();
-            // console.log(response);
-            // document.getElementById("student_search_record").innerHTML =response;
-         }
-      });
-   }
-   function gateEntryCheckOut(studentId,direction)
-   {
-      // alert(studentId);
-      var code=143;
-      $.ajax(
-      {
-         url:"action.php ",
-         type:"POST",
-         data:
-         {
-            code:code,studentId:studentId,direction:direction
-         },
-         success:function(response) 
-         {
-            checked_out_student();
-            student_search();
-            // document.getElementById("student_search_record").innerHTML =response;
-         }
-      });
-   }
-  
-   function student_search()
+         document.getElementById("student_search_record").innerHTML ='';
+      }
+   } 
+
+
+   function staff_search()
    {
       var code=257;
       var rollNo= document.getElementById("student_roll_no").value;
@@ -300,30 +119,90 @@ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$
       }
       else
       {
-         // alert("Please Enter the Roll No.");
          document.getElementById("student_search_record").innerHTML ='';
       }
    } 
-   function studentDetail(IDNo)
+
+
+
+ $(window).on('load', function() 
+          {
+          time_out_staff();
+          
+           })
+
+
+
+   function time_out_staff() 
    {
-      var code=141;
-      document.getElementById("student_roll_no").value=IDNo;
+       var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+      var code=299;
       $.ajax(
       {
          url:"action.php ",
          type:"POST",
          data:
          {
-            code:code,rollNo:IDNo
+            code:code
          },
          success:function(response) 
          {
-            document.getElementById("student_search_record").innerHTML =response;
+             spinner.style.display='none';
+          
+            document.getElementById("checked_out_students").innerHTML =response;
          }
       });
-      
    }
-    
+
+
+ 
+    function checkin(id)
+          {
+       var code=288;
+
+       
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            { spinner.style.display='none';
+              time_out_staff() ;
+            }
+         });
+
+     }
+
+
+
+ 
+
+   function checkout(id,purpose,mleave)
+   {
+       var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+      var code=300;
+      $.ajax(
+      {
+         url:"action.php ",
+         type:"POST",
+         data:
+         {
+            code:code,id:id,purpose:purpose,mleave:mleave
+         },
+         success:function(response) 
+         {
+            spinner.style.display='none';
+            time_out_staff();
+         }
+      });
+   }
+  
 </script>
 
 <?php include "footer.php";  ?>
