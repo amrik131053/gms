@@ -58,15 +58,26 @@
                      <label>Purpose<b style="color:red;">*</b></label>
 
                      <input type="hidden"  name="IDNo" id="IDNo" value="<?= $EmployeeID;?>">
-                     <select  id="purpose" class="form-control" Name='purpose' >
+                     <select  id="purpose" class="form-control" Name='purpose' required >
+                         <option value=''>Select </option>
                         <option value='Official'>Official</option>
                         <option value='Personal'>Personal</option>
                         <option value='Leave'>Leave</option>
                      </select>
-                
-                 
+                     <div id='leavetype'  style="display:none" >
+              <label>Leave Type<b style="color:red;">*</b></label>
+                 <select  id="leavetype" class="form-control" Name='leavetype' required  >
+                    <option value='NA'>Select </option>
+                        <option value='Full'>Remaining Full Time</option>
+
+                        <option value='Half'>Remaining Half Time</option>
+                        
+                     </select> 
+</div>
+
                      <label>Location <b style="color:red;">*</b></label>
-                     <select  id="location" class="form-control" Name='location' >
+                     <select  id="location" class="form-control" Name='location'  required >
+                         <option value=''>Select </option>
                         <option value='Inside Campus'>Inside Campus</option>
                         <option value='Outside Campus'>Outside Campus</option>
                      </select>                 
@@ -137,9 +148,11 @@ if (isset($_POST['request_time_out'])) {
 
  $purpose=$_POST['purpose'];
 $location= $_POST['location'];
+ $leavetype= $_POST['leavetype'];
 $remarks= $_POST['remarks'];
 $exit_date =date('Y-m-d');
 
+$noti=$purpose."(".$location.")";
 
 date_default_timezone_set("Asia/Kolkata"); 
 $exit_time = date('H:i');
@@ -171,11 +184,16 @@ $exit_time = date('H:i');
 
 
 
-  $result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name)
-                                                 values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name')");
+$result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name,mleave,request_time,request_date)
+                    values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name','$leavetype','$exit_time','$exit_date')");
+
+
+
+$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id', '$EmployeeID', 'Time out Request','$noti', 'movement-admin.php','$timeStamp','0','0')";
+           mysqli_query($conn,$Notification);
 
 ?>
-<script> window.location.href="mytimeout.php";</script>
+<script> //window.location.href="mytimeout.php";</script>
 
 <?php }
 
@@ -185,8 +203,8 @@ $exit_time = date('H:i');
   <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);">Pending </a>
-                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Acknowledged</a>
+                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">My Request</a>
+                    <!-- <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Acknowledged</a> -->
                       <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="refused();bg(this.id);"> Refused</a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Reports();bg(this.id);"> Reports </a>
                   
@@ -198,51 +216,7 @@ $exit_time = date('H:i');
 
          <div  id="table_load">
 
-  <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th>
-<?php 
 
-   
-     
- 
- $list_sql = "SELECT * FROM movement where emp_id='$EmployeeID' AND status='draft'  ORDER BY id DESC ";
- //
-$result = mysqli_query($conn,$list_sql);
- while($row = mysqli_fetch_array($result))  
-      {  
-
-
-$emp_image = $row['image'];
-      $empid = $row['emp_id'];
-     $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email'];
-       ?> 
-
-        <?php 
- 
-
-
-?>
-      
-      <tr><form action="#" method="POST" >
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id"> </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td>
- </tr>
-
-<?php
-
-
-
-      }
-
-
-
-?>
-</table>
         </div>
 
 
@@ -271,10 +245,32 @@ $emp_image = $row['image'];
 
 <script type="text/javascript">
 
+
+$(document).ready(function(){
+    $('#purpose').on('change', function() {
+
+            if ( this.value == 'Leave')
+      
+      {
+        $("#leavetype").show();
+      }
+      else
+      {
+        $("#leavetype").hide();
+      }
+    });
+});
+
+
+
+
  $(window).on('load', function() 
           {
+            pending();
          $('#btn6').toggleClass("bg-success"); 
            })
+
+
 function bg(id)
           {
          $('.btn').removeClass("bg-success");
@@ -282,9 +278,10 @@ function bg(id)
          }
   
 
-     function acknowledged()
+
+     function pending()
           {
-       var code=285;
+       var code=296;
 
        var IDNo=document.getElementById('IDNo').value;
     
@@ -298,13 +295,14 @@ function bg(id)
                   },
             success: function(response) 
             {
+
+
                spinner.style.display='none';
                document.getElementById("table_load").innerHTML=response;
             }
          });
 
      }
-
 
 
 
@@ -382,20 +380,13 @@ function bg(id)
                   },
             success: function(response) 
             {
+                  pending();
                spinner.style.display='none';
                document.getElementById("table_load").innerHTML=response;
             }
          });
 
      }
-
-
-
-
-
-
-
-
 
 
 </script>

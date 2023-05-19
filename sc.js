@@ -31,7 +31,7 @@ function selectAll()
             $('#select_all').prop('checked',false);
         }
     });
- 
+  
 }
 
 
@@ -173,7 +173,7 @@ var len_subject= subjects.length;
                                   spinner.style.display='block';
   $.ajax({
          url:'action.php',
-         data:{students:student_str, subjects:subject_str,code:code},
+         data:{students:student_str,subjects:subject_str,code:code},
          type:'POST',
          success:function(data) {
             spinner.style.display='none';

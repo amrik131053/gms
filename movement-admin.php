@@ -98,7 +98,7 @@
   <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);">Pending </a>
+                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">Pending </a>
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Granted</a>
                       <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="refused();bg(this.id);"> Refused</a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Reports();bg(this.id);"> Reports </a>
@@ -114,54 +114,7 @@
 
          <div  id="table_load">
 
-  <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th><th>Action</th>
-<?php 
-
-   
-     
  
- $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Draft'  ORDER BY id DESC";
- //
-$result = mysqli_query($conn,$list_sql);
- while($row = mysqli_fetch_array($result))  
-      {  
-
-
-$emp_image = $row['image'];
-      $empid = $row['emp_id'];
-     $name = $row['name'];
-      $college = $row['college'];
-  $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email'];
-       ?> 
-
-        <?php 
- 
-
-
-?>
-      
-      <tr>
-         <td><?php echo $empid;?></td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td> 
-<form action="#" method="POST" ><input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
-           <input type="submit" value="Grant" class="btn btn-primary btn-xs" name="accept">&nbsp;&nbsp;
-       </form><form action="#" method="POST" ><input type="hidden" value="<?php echo  $row['id'];?>" name="id"> <input type="submit" value="Cancel" class="btn btn-primary btn-xs" name="cancel"></form> </td>
- </tr>
-
-<?php
-
-
-
-      }
-
-
-
-?>
-</table>
         </div>
 
 
@@ -189,44 +142,16 @@ $emp_image = $row['image'];
 </section>
 
 
-<?php
-
-if (isset($_POST['accept'])) {
-
- $id=$_POST['id'];
-
- $result = mysqli_query($conn,"update movement set status='Ack' where id='$id'");
-
- ?>
-<script> window.location.href="movement-admin.php";</script>
-
-<?php 
-
-
-}?>
-
-<?php
-
-if (isset($_POST['cancel'])) {
-
- $id=$_POST['id'];
-
- $result = mysqli_query($conn,"update movement set status='Refused' where id='$id'");
-
- ?>
-<script> window.location.href="movement-admin.php";</script>
-
-<?php 
-
-
-}?>
 
 <script type="text/javascript">
 
  $(window).on('load', function() 
           {
+            pending();
          $('#btn6').toggleClass("bg-success"); 
            })
+
+
 function bg(id)
           {
          $('.btn').removeClass("bg-success");
@@ -238,6 +163,30 @@ function bg(id)
           {
             
        var code=292;
+       
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+                  },
+            success: function(response) 
+            {
+                
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+
+function pending()
+          {
+            
+       var code=285;
 
        
     
@@ -258,6 +207,60 @@ function bg(id)
          });
 
      }
+
+
+  function grant(id,emp_id)
+            {
+            var code=297;
+            var spinner=document.getElementById('ajax-loader');
+            spinner.style.display='block';
+            $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id,emp_id:emp_id
+                 },
+            success: function(response) 
+              {
+
+               spinner.style.display='none';
+               pending();
+               
+              }
+                });
+         }
+
+
+
+  function cancel(id,emp_id)
+            {
+            var code=298;
+            var spinner=document.getElementById('ajax-loader');
+            spinner.style.display='block';
+            $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+                code:code,id:id,emp_id:emp_id
+                 },
+            success: function(response) 
+              {
+                   pending();
+               spinner.style.display='none';
+               
+              }
+                });
+         }
+
+
+
+
+
+
+
+
+
+
 
 
   function refused()

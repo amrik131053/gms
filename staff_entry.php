@@ -1,5 +1,6 @@
 <?php 
   include "header.php";   
+  $todaydate=date('Y-m-d');
 ?>
 
 <section class="content">
@@ -38,15 +39,16 @@
                   <div class="card-body" id="checked_out_students"  >
                      <table class="table">
   
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+         <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
        <?php 
- $list_sql = "SELECT * FROM movement where  (status='Ack' OR status='check-out')  AND location='Outside Campus'   ORDER BY id DESC ";
+    $list_sql = "SELECT * FROM movement where  (status='Ack' OR status='check-out')  AND location='Outside Campus'   ORDER BY id DESC";
  //
 $result = mysqli_query($conn,$list_sql);
 while($row=mysqli_fetch_array($result)) 
   {
      $emp_image = $row['image'];
       $empid = $row['emp_id'];
+      $id = $row['id'];
       $name = $row['name'];
       $college = $row['college'];
       $dep = $row['department'];
@@ -59,26 +61,47 @@ while($row=mysqli_fetch_array($result))
 
       
       <tr>
+         <td><?php echo $id;?> </td>
          <td><?php echo $empid;?> </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?></td>
          <td> <?php if($status=='Ack')
          {?>  
             <form action="" method="POST">
                <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
+               <input type="hidden" value="<?php echo  $row['mleave'];?>" name="mleave"> 
 
-         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-success btn-xs"  name='checkout' type="Submit">Check Out
+         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-danger btn-xs"  name='checkout' type="Submit">Check Out
          </button> </form>
       <?php 
    }
       else if($status=='check-out' AND $row['purpose']!='Leave' ) {
          ?>
+
+         <button class="btn btn-success btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
       
+        <!--  <form action="" method="POST">
+               <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
+
+                        <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-success btn-xs"  name='checkin'  type="Submit">Check in
+         </button></form>  -->
+         <?php }
+
+
+         else if($status=='check-out' AND $row['purpose']=='Leave' AND $row['mleave']!='Full' ) {
+         ?>
+      <!-- 
          <form action="" method="POST">
                <input type="hidden" value="<?php echo  $row['id'];?>" name="id"> 
 
-         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-danger btn-xs"  name='checkin' type="Submit">Check in
-         </button></form> 
+         <input type="hidden" value="<?php echo  $row['purpose'];?>" name="purpose"><button class="btn btn-warning btn-xs"  name='checkin' type="Submit">Check in
+         </button></form>  -->
+
+         <button class="btn btn-warning btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
          <?php }
+
+
+
          else {
+
             echo " on Leave";
          }?>
 
@@ -95,19 +118,31 @@ while($row=mysqli_fetch_array($result))
 
 if (isset($_POST['checkout'])) {
 
- echo $id=$_POST['id'];
+ $id=$_POST['id'];
 
-echo $purpose=$_POST['purpose'];
+ $purpose=$_POST['purpose'];
+ $mleave=$_POST['mleave'];
+date_default_timezone_set("Asia/Kolkata"); 
+ $exit_date =date('Y-m-d');
+
+//$noti=$purpose."(".$location.")";
+
+
+$exit_time = date('H:i');
 
 if($purpose!='Leave')
 {
-   $result = mysqli_query($conn,"update movement set status='check-out' where id='$id'");
+ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time' where id='$id'");
 }
-else
+else if($purpose=='Leave' AND $mleave!='Full' )
 {
-   echo "ye to gya";
+ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time'  where id='$id'");
+}
+else 
+{
+$result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time',return_date='$exit_date',return_time='17:00'   where id='$id'");   
 
- $result = mysqli_query($conn,"update movement set status='check-out' where id='$id'");
+
 }
  ?>
 <script> window.location.href="staff_entry.php";</script>
@@ -119,7 +154,12 @@ else
 
 
 
+
+
+
 ?>
+
+
 </table>
                   </div>
 
@@ -142,9 +182,38 @@ else
 <p id="ajax-loader"></p>
 
 <script type="text/javascript">
+
+
    window.onload = function() {
-  //checked_out_student();
+
 };
+
+  function checkin(id)
+          {
+       var code=288;
+
+       
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            { spinner.style.display='none';
+               console.log(response);
+             //location.reload(true);
+              
+               //document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+
+
    function checked_out_student() 
    {
       

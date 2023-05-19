@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+$timeStamp=date('Y-m-d H-i');
+$todaydate=date('Y-m-d');
 ini_set('max_execution_time', '0');
    if(!(ISSET($_SESSION['usr']))) 
    {
@@ -11,7 +12,7 @@ ini_set('max_execution_time', '0');
    else
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H-i');
+   
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -6591,7 +6592,7 @@ if($count>0)
    $Batchi= $row_in['Batch'];
    $Semesteridi= $row_in['Semesterid'];
    $Semesteri=$row_in['Semester'];
-     $Typei=$row_in['Type'];
+   $Typei=$row_in['Type'];
    $FormDatei=$row_in['SubmitFormDate']->Format('Y-m-d H:i:s.v');
    }
    $sql_in1="SELECT * from MasterCourseStructure where SrNo='$SrNo' ";
@@ -6605,7 +6606,7 @@ if($count>0)
     $SubjectTypei = $rowin1['SubjectType']; 
    
    }
-   
+    
    
    echo $insersub= "Insert into ExamFormSubject(IDNo,Examid,CollegeName,Course,Batch,SemesterID,Semester,Examination,SubjectName,SubjectCode,SubjectType,Status,InternalExam,ExternalExam,Type,SubmitFormDate)Values('$IDNoi','$Examid','$CollegeNamei','$Coursei','$Batchi','$Semesteridi','$Semesteri','$Examinationi','$SubjectNamei','$SubjectCodei','$SubjectTypei','0','Y','Y','$Typei','$FormDatei')";
      $stmtinsert = sqlsrv_query($conntest,$insersub);     
@@ -15952,49 +15953,50 @@ else if($code==284)
 
 else if($code==285)
 {
- $empid=$_POST['IDNo'];
+
    ?>
+    <table class="table">
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th><th>Action</th>
+<?php 
+
+   
      
- <table class="table">
-  
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
-       <?php 
- $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Ack'  ORDER BY id DESC ";
+ 
+ $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Draft'  ORDER BY id DESC";
  //
 $result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
-  {
-     $emp_image = $row['image'];
+ while($row = mysqli_fetch_array($result))  
+      {  
+
+
+$emp_image = $row['image'];
       $empid = $row['emp_id'];
-      $name = $row['name'];
+     $name = $row['name'];
       $college = $row['college'];
-      $dep = $row['department'];
+  $dep = $row['department'];
       $designation = $row['designation'];
       $mob1 = $row['mobile'];
      
-      $email = $row['email']; ?> 
+      $email = $row['email'];
+       ?> 
 
- 
- 
+        <?php 
  
 
+
+?>
       
-      <tr><form action="#" method="POST" >
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+      <tr>
+         <td><?php echo $empid;?></td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td> 
 
-<?php if($row['location']=='Inside Campus')
-{?>
-   
-<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
-         </button> 
-  
-<?php }
-else
-{?>
-<button class="btn btn-success btn-xs">Approved 
-         </button> 
-<?php } ?>
-            </td>
+
+
+
+       <button class="btn btn-success btn-xs" onclick="grant(<?=$row['id'];?>,<?=$empid;?>)">Grant</button>
+
+ <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['id'];?>,<?=$empid;?>)">Cancel</button>
+
+       </td>
  </tr>
 
 <?php
@@ -16005,9 +16007,10 @@ else
 
 
 
-
 ?>
-</table><?php
+</table>
+     
+<?php
 
 
   
@@ -16021,7 +16024,7 @@ else if($code==286)
      
  <table class="table">
   
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
        <?php 
  $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='rejected'  ORDER BY id DESC ";
  //
@@ -16030,6 +16033,7 @@ while($row=mysqli_fetch_array($result))
   {
      $emp_image = $row['image'];
       $empid = $row['emp_id'];
+       $id = $row['id'];
       $name = $row['name'];
       $college = $row['college'];
       $dep = $row['department'];
@@ -16044,6 +16048,7 @@ while($row=mysqli_fetch_array($result))
 
       
       <tr><form action="#" method="POST" >
+          <td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
  </tr>
 
@@ -16070,7 +16075,7 @@ else if($code==287)
      
  <table class="table">
   
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+        <th>Ref No</th><th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
        <?php 
  $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Check-in'  ORDER BY id DESC ";
  //
@@ -16079,6 +16084,7 @@ while($row=mysqli_fetch_array($result))
   {
      $emp_image = $row['image'];
       $empid = $row['emp_id'];
+       $id = $row['id'];
       $name = $row['name'];
       $college = $row['college'];
       $dep = $row['department'];
@@ -16091,7 +16097,7 @@ while($row=mysqli_fetch_array($result))
  
  
 
-    <tr><form action="#" method="POST" >
+    <tr><form action="#" method="POST" > <td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
  </tr>
 
@@ -16120,6 +16126,9 @@ $result = mysqli_query($conn,$list_sql);
 while($row = mysqli_fetch_array($result))  
       { 
        $out_time=$row['out_time'];
+       $superwiser_id=$row['superwiser_id'];
+        $emp_id_in=$row['emp_id'];
+       $out_date=$row['out_date'];
       }
 
 
@@ -16129,29 +16138,27 @@ $return_time = date('H:i');
  $status='Check-in';
 $return_date=date("Y-m-d");
 
+
+  $diff = strtotime($return_date)-strtotime($out_date);
+     $days= round($diff / 86400);
+
+
  $h1=substr("$out_time",0,2)."<br>";
  $h2=substr("$return_time",0,2)."<br>";
-$m1=substr("$out_time",3,2)."<br>";
-  $m2=substr("$return_time",3,2)."<br>";
+ $m1=substr("$out_time",3,2)."<br>";
+ $m2=substr("$return_time",3,2)."<br>";
 
-
-
-
-if($m2>$m1)
+if($m2>=$m1)
 {
  $r=(int)$h2-(int)$h1;
-
  $r1=(int)$m2-(int)$m1;
 }
-
 else
 {
-
  $r=(int)$h2-(int)$h1-1;
-
-  $r1=(int)$m2+60-(int)$m1;
-
+ $r1=(int)$m2+60-(int)$m1;
 }
+
 if($r==0)
 {
    $count=$r1."Minutes";
@@ -16162,11 +16169,17 @@ else
 }
 if($r1>0)
 {
- $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
+   
+  $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
+
+  $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id','$emp_id_in','cheked in','NA', 'movement-admin.php','$timeStamp','0','1')";
+ mysqli_query($conn,$Notification);
 }
 else
 {
-  }
+
+
+ }
 
 ?>
 
@@ -16212,7 +16225,7 @@ else
                $insFaultyTrack="INSERT INTO faulty_track (article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
                mysqli_query($conn,$insFaultyTrack);
            }
-              echo  $updateQry="UPDATE stock_summary SET LocationID=0, Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+             $updateQry="UPDATE stock_summary SET LocationID=0, Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
                mysqli_query($conn,$updateQry);
           }
    
@@ -16246,7 +16259,7 @@ elseif ($code==290)
         <?php 
         $sr=0;
  $sql="SELECT * FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$courseId' ANd   Status>=0   group by  Batch,SubjectCode,SubjectName,CourseID,Course,Semester,Examination order by Examination DEsc  ";
-           
+        $i=1;   
         
         $res=mysqli_query($conn,$sql);
         while($data=mysqli_fetch_array($res))
@@ -16260,9 +16273,10 @@ elseif ($code==290)
            $SubjectName=$data['SubjectName'];
            $Examination=$data['Examination'];
             $PaperFile=$data['PaperFile'];
+
        ?>
                 <tr>
-                <td><?=1?></td>
+                <td><?=$i;?></td>
                 <td><?= $Course;?></td>
                 <td><?=$SubjectName?>(<?=$SubjectCode?>)</td>
                 <td><?=$data['Batch']?></td>
@@ -16283,25 +16297,20 @@ elseif ($code==290)
                 <td>
 
 <?php
-                     $checkGenerateQry="Select * from generated_question_paper where   SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester' ANd Batch='$Batch'";
+                    // $checkGenerateQry="Select * from generated_question_paper where   SubjectCode='$SubjectCode' and CourseID='$courseId' and Semester='$semester' ANd Batch='$Batch'";
+
+ $checkGenerateQry="Select *,gqp.Examination as myexm from generated_question_paper gqp left join question_paper_files  qpf on  gqp.PaperID=qpf.Id where  gqp.SubjectCode='$SubjectCode' and gqp.CourseID='$courseId' and gqp.Semester='$semester' ANd gqp.Batch='$Batch'";
+
+
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
                    
-
-                     while($row=mysqli_fetch_array($checkGenerateRes)) 
+                     while($row1=mysqli_fetch_array($checkGenerateRes)) 
                         {   
-                        $sessions=$row['Session']  
+                        $sessions=$row1['myexm'];
+                         $PaperFile=$row1['PaperFile'];  ;
                         ?>
+<a href="http://10.0.8.10/LMS/QuestionPaper/<?= $Course;?>/<?= $Batch;?>/<?= $semester;?>/<?=$SubjectCode;?>/<?= $PaperFile;?>"> <?= $sessions; ?> </a><br>
 
-                        
-                           <?php   $get_session="SELECT * FROM question_session where id='$sessions'";
-      $get_session_run=mysqli_query($conn,$get_session);
-      if ($get_row=mysqli_fetch_array($get_session_run))
-       {
-?> 
-<a href="http://10.0.8.10/LMS/QuestionPaper/<?= $Course;?>/<?= $Batch;?>/<?= $semester;?>/<?=$SubjectCode;?>/<?= $PaperFile;?>"> <?=  $get_row['session_name']; ?> </a><br>
-<?php 
-      }
-?>
                      
                         
                     <?php
@@ -16311,7 +16320,7 @@ elseif ($code==290)
 
                  
                                      
-                    <button class="btn btn-xs btn-success"   style="border-radius: 40px; font-size: 12px;" onclick="generateQuestionPaper_file('<?=$CourseID?>','<?=$SubjectCode?>','<?=$Batch?>','<?=$Semester?>','<?= $current_session?>')">Generate</button>
+                    
                     
 
 
@@ -16320,7 +16329,7 @@ elseif ($code==290)
                 <td>
 
             
-                    
+                    <button class="btn btn-xs btn-success"   style="border-radius: 40px; font-size: 12px;" onclick="generateQuestionPaper_file('<?=$CourseID?>','<?=$SubjectCode?>','<?=$Batch?>','<?=$Semester?>','<?= $current_session?>','<?=$Examination;?>')">Generate</button>
                   
                 </td>
 
@@ -16328,11 +16337,12 @@ elseif ($code==290)
                 
             </tr>
                 <?php
+                $i++;
             }
         ?>
     </table>
 <?php
-
+$i++;
 }
 
 elseif ($code==291) 
@@ -16374,7 +16384,7 @@ while($row=mysqli_fetch_array($result))
 
       
       <tr><form action="#" method="POST" >
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-success btn-xs">Approved</button> </td>
  </tr>
 
 <?php
@@ -16481,8 +16491,10 @@ else if($code==295)
    $Batch=$_POST['Batch'];
    $Semester=$_POST['Semester'];
    $Examination=$_POST['Examination'];
+     $exam_session=$_POST['exam_session'];
+
    $myids=array();
-$sql ="SELECT Id  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$CourseID' AND Batch='$Batch' ANd Examination='$Examination' ANd  Semester='$Semester' ANd Status>=0 ANd Generate='0'";
+  $sql ="SELECT Id  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND  CourseID='$CourseID' AND Batch='$Batch' ANd Examination='$Examination' ANd  Semester='$Semester' ANd Status>=0 ANd Generate='0'";
 
 
  $result = mysqli_query($conn,$sql);
@@ -16493,19 +16505,167 @@ $sql ="SELECT Id  FROM question_paper_files WHERE SubjectCode='$SubjectCode' AND
     
    $myids[]=$row['Id'];
     }
- }
- $random_keys=array_rand($myids,1);
+
+    $random_keys=array_rand($myids,1);
 $date=date('Y-m-d H-i-s');
  $paperId=$myids[$random_keys];
 
- $sql="INSERT INTO generated_question_paper (Session,PaperID,SubjectCode,CourseID,GeneratedBy,Semester,generatedon,Batch) VALUES ('$Examination','$paperId', '$SubjectCode', '$CourseID','$EmployeeID', '$Semester','$date','$Batch')";
-  $res=mysqli_query($conn,$sql);
+$sqlp="INSERT INTO generated_question_paper (Session,PaperID,SubjectCode,CourseID,GeneratedBy,Semester,generatedon,Batch,Examination) VALUES ('$Examination','$paperId', '$SubjectCode', '$CourseID','$EmployeeID', '$Semester','$date','$Batch','$exam_session')";
+  if($re_in=mysqli_query($conn,$sqlp))
 
+ {
   $update="Update question_paper_files set Generate='1' where Id='$paperId'";
   $res=mysqli_query($conn,$update);
+Echo '0';
+  }
+ else
+ {
+echo '1';
+ }
+ 
+ }
+ else
+ {
+  Echo '1';
+ }
+
+ 
+
+ 
  
 
 }
+
+else if($code==296)
+{
+ $empid=$_POST['IDNo'];
+   ?>
+     
+ <table class="table">
+  
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <?php 
+ $list_sql = "SELECT * FROM movement where emp_id='$empid' AND request_date='$todaydate'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+            $id = $row['id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+     
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr><form action="#" method="POST" >
+         <td><?php echo $id;?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+
+
+
+<?php 
+if($row['status']=='draft')
+
+{?>
+<button class="btn btn-warning btn-xs"  ><i>Waiting</i>
+         </button> 
+<?php }
+
+else if ($row['status']=='Ack')
+{
+
+if($row['location']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
+         </button> 
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
+
+}
+else if ($row['status']=='Refused')
+{?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+<?php }
+else if ($row['status']=='check-out')
+{?>
+<button class="btn btn-primary btn-xs">Checked out
+         </button> 
+
+<?php }
+else if ($row['status']=='Check-in')
+{?>
+<button class="btn btn-info btn-xs">Completed
+         </button> 
+
+<?php }
+?>
+
+
+
+
+            </td>
+ </tr>
+
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table><?php
+
+
+  
+}
+
+else if($code==297)
+{
+$id=$_POST['id'];
+ $emp_id=$_POST['emp_id'];
+ $result = mysqli_query($conn,"update movement set status='Ack' where id='$id'");
+
+
+
+$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out Request Accepted','', 'mytimeout.php','$timeStamp','0','1')";
+           mysqli_query($conn,$Notification);
+
+}
+
+else if($code==298)
+{
+$id=$_POST['id'];
+ $emp_id=$_POST['emp_id'];
+$result = mysqli_query($conn,"update movement set status='Refused' where id='$id'");
+
+$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out request cancelled',' ', 'mytimeout.php','$timeStamp','0','2')";
+           mysqli_query($conn,$Notification);
+}
+
+
+
+
+
  else
 {
 echo "select code";
