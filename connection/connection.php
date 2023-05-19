@@ -1,6 +1,6 @@
 <?php
  
-$serverName = "10.0.10.11"; //serverName\instanceName
+$serverName = "103.18.70.79"; //serverName\instanceName
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect( $serverName,$connectionInfo);
 
@@ -18,10 +18,6 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
 
 
-// $servername1 = "10.0.8.10";
-// $username1 = "as";
-// $password1 = "Bathinda@123";
-// $dbname1 = "lims";
 
 
 $servername1 = "localhost";
