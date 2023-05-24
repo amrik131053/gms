@@ -428,6 +428,9 @@
             $Notification="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
            mysqli_query($conn,$Notification);
 
+           $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveSanctionAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+           mysqli_query($conn,$Notification1);
+
          $insert_task_copy="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
            mysqli_query($conn,$insert_task_copy);
          }
@@ -792,6 +795,8 @@ echo "2";
        if ($assignTo!=$EmployeeID) {
       $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$forward_remarks', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
+       $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+           mysqli_query($conn,$Notification1);
    }
    else
         {
@@ -993,7 +998,8 @@ echo "2";
       $Update_marks_run=mysqli_query($conn,$Update_marks);
       if ($Update_marks_run==true)
        {
-      echo "1";   // code...
+      echo "1";  
+
       }
       else
       {
@@ -1564,14 +1570,41 @@ $empID=$_POST['emp_id'];
  $get_report_all="SELECT * FROM daily_report WHERE emp_id='$empID'";
 $get_report_all_run=mysqli_query($conn,$get_report_all);
 while($row_report_print=mysqli_fetch_array($get_report_all_run))
-{?>
+{
+ $check_task_all="SELECT * FROM daily_report inner join daily_task_report on daily_report.id=daily_task_report.report_id WHERE daily_report.emp_id='$empID' and daily_report.submit_date='".$row_report_print['submit_date']."'";
+$check_task_all_run=mysqli_query($conn,$check_task_all);
+$count=mysqli_num_rows($check_task_all_run);
+
+ $check_task_all1="SELECT * FROM daily_report inner join daily_task_report on daily_report.id=daily_task_report.report_id WHERE daily_report.emp_id='$empID' and daily_task_report.t_status='1' and daily_report.submit_date='".$row_report_print['submit_date']."'";
+$check_task_all_run1=mysqli_query($conn,$check_task_all1);
+$count_complete=mysqli_num_rows($check_task_all_run1);
+if($Complete_report=mysqli_fetch_array($check_task_all_run))
+{
+if($Complete_report['t_status']==1)
+{
+   $t_status="Under Process";
+}
+elseif($Complete_report['t_status']==2)
+{
+$t_status="Forwarded";
+}
+elseif($Complete_report['t_status']==3)
+{
+   $t_status="Completed";
+}else
+{
+   $t_status="Pendig";
+}
+}
+   ?>
 <tr>
    <td>
       <?=$sr;?>
    </td>
    <td>
       <?=$row_report_print['emp_id'];?>
-   </td> <td>
+   </td>
+    <td>
       <?=$row_report_print['submit_date'];?>
    </td> 
 
@@ -1583,6 +1616,12 @@ while($row_report_print=mysqli_fetch_array($get_report_all_run))
    </td>
     <td>
       <?=$row_report_print['naac'];?>
+   </td>
+    <td>
+      <?=$count;?>
+   </td> 
+    <td>
+      <?=$t_status;?>
    </td> 
 </tr>
 <?php 
@@ -1706,7 +1745,7 @@ elseif ($code==29) {
 
       <tr>
          <td><?=$sr;?></td>
-         <td><?=$row['Subject'];?></td>
+         <td><a href="<?=$row['Page_link'];?>"><b><?=$row['Subject'];?></b></a></td>
          <td><?=$row['Discriptions'];?></td>
          <td><?=$row['SendBy'];?></td>
          <td><?=$row['DateTime'];?></td>
@@ -1750,7 +1789,7 @@ elseif ($code==30) {
 
       <tr>
          <td><?=$sr;?></td>
-         <td><?=$row['Subject'];?></td>
+         <td ><a href="<?=$row['Page_link'];?>"><?=$row['Subject'];?></a></td>
          <td><?=$row['Discriptions'];?></td>
          <td><?=$row['SendBy'];?></td>
          <td><?=$row['DateTime'];?></td>
@@ -1777,6 +1816,12 @@ elseif ($code==32)
 {
    $ID=$_POST['id'];
   $query_1 = "UPDATE  notifications SET Status='0' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+ $result_1 = mysqli_query($conn, $query_1);
+}
+elseif ($code==33)
+{
+   $ID=$_POST['n_id'];
+  $query_1 = "UPDATE  notifications SET Web_Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
  $result_1 = mysqli_query($conn, $query_1);
 }
    else

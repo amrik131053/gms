@@ -45,7 +45,7 @@
 <script>
       function employeeSearch()
    {
-      alert('id');
+      // alert('id');
     var id=document.getElementById('table_search').value;
       var code=25;
       $.ajax(

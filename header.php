@@ -70,7 +70,7 @@ else
            header('Location:not_found.php');
        } 
     }
-    $staff="SELECT Name,Snap,Designation,Department,DateOfJoining FROM Staff Where IDNo='$EmployeeID'";
+    $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         {
@@ -79,6 +79,7 @@ else
     $Emp_Department=$row_staff['Department'];
      $Emp_Designation=$row_staff['Designation'];
     $DateOfJoining=$row_staff['DateOfJoining'];
+    $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
         }
    // ----------------------------------------------------------------------------------------
         $code_access="";
