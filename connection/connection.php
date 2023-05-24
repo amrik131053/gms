@@ -8,15 +8,15 @@ $conntest = sqlsrv_connect( $serverName,$connectionInfo);
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
-// $servername1 = "localhost";
-// $username1 = "root";
-// $password1 = "";
-// $dbname1 = "lims";
+$servername1 = "localhost";
+$username1 = "root";
+$password1 = "";
+$dbname1 = "lims";
 
-	$servername1 = "localhost";
-	$username1 = "bhagi";
-	$password1 = "@Sarbjot@98157";
-	$dbname1 = "lims";
+	// $servername1 = "localhost";
+	// $username1 = "bhagi";
+	// $password1 = "@Sarbjot@98157";
+	// $dbname1 = "lims";
 
 
 $conn = new mysqli($servername1, $username1, $password1, $dbname1);

@@ -1635,7 +1635,7 @@ elseif ($code==26) {
     ?>  
      <div class="dropdown-divider"></div>
      <?php 
-  $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID'";
+  $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID' order by ID DESC LIMIT 3";
   $result_1 = mysqli_query($conn, $query_1);
   $count = mysqli_num_rows($result_1);
     if ($count>0) 

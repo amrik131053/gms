@@ -45,6 +45,14 @@
 
 <!-- Modal -->
 <script>
+  
+ $(window).on('load', function() 
+          {
+           
+   read_notification();
+           })
+
+   
       function read_notification()
    {
        var spinner=document.getElementById("ajax-loader");
@@ -97,7 +105,6 @@
          }
       });
    }
-   read_notification();
 
    function mark_read(id)
     {
