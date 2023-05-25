@@ -4,10 +4,9 @@ include "header.php";
  ?>
  <script type="text/javascript">
 
-      function emp_detail_verify(id){
+      function emp_detail_verify(id)
+      {
    var code=51;
-    //alert(a);
-  
          $.ajax(
          {
             url:"action.php ",
@@ -27,8 +26,6 @@ include "header.php";
       }     
        function emp_detail_verify_for(id){
    var code=51;
-    //alert(a);
-  
          $.ajax(
          {
             url:"action.php ",
@@ -38,11 +35,8 @@ include "header.php";
                code:code,id:id,
             },
             success:function(response) 
-            {  
-              
-                  document.getElementById("emp_detail_status_for").innerHTML =response;
-               
-               
+            {     
+                  document.getElementById("emp_detail_status_for").innerHTML =response;   
             }
          });
       } 
@@ -137,17 +131,22 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-              
+              console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
                   my_task();
                 }
+                else if(response==2)
+                {
+                   ErrorToast('Leave Recommending Authority not Updated ','bg-warning');
+                   $("#createTaskModal").modal('hide');
+                  my_task();
+                }
                 else
                 {
-
                 }
-                 ("question_count").innerHTML=response;
+                
               }
            });
 }
@@ -177,6 +176,7 @@ function forward_task()
               success: function(response) 
               {
                   // spinner.style.display='none';
+                // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
                      $("#ForwardTaskModal").modal('hide');
