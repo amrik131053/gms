@@ -398,7 +398,10 @@
                  if($dropdown_row_staff = sqlsrv_fetch_array($dropdown_team_run, SQLSRV_FETCH_ASSOC) )
                  {
                   $LeaveRecommendingAuthority=$dropdown_row_staff['LeaveSanctionAuthority'];
-                 }
+               }
+               if ($LeaveRecommendingAuthority!='' or $LeaveRecommendingAuthority!=null)
+                {
+                  
       $task_name=$_POST['task_name'];
       $task_discription=$_POST['task_discription'];
       $assignTo=$_POST['assignTo'];
@@ -428,7 +431,7 @@
             $Notification="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
            mysqli_query($conn,$Notification);
 
-           $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveSanctionAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+           $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveRecommendingAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
            mysqli_query($conn,$Notification1);
 
          $insert_task_copy="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
@@ -447,6 +450,12 @@
        {
          echo "0";
        }
+    }
+    else
+    {
+      echo "2";
+    }
+
 
 
    }
@@ -792,10 +801,12 @@ echo "2";
       }
      if ($up==true) 
        {
-       if ($assignTo!=$EmployeeID) {
+       if ($assignTo!=$EmployeeID)
+        {
       $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$forward_remarks', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
       $insert_task=mysqli_query($conn,$insert_task);
-       $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+      
+       $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$forward_remarks ', 'task-manager.php', '$timeStamp', '0')";
            mysqli_query($conn,$Notification1);
    }
    else
