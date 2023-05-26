@@ -211,11 +211,12 @@ input[type=radio]:checked + label {
 </div>
 <script type="text/javascript">
  
-function copyToClipboard(copyText) {
- 
-  navigator.clipboard.writeText(copyText);
-SuccessToast('Copied');
-   
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
 }
 
 
