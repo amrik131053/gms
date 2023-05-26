@@ -12820,7 +12820,22 @@ $IDNo= $_POST['IDNo'];
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{?> <input type="text" class="form-control"  id='classroll'><?php } ?><br>Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){ echo $UniRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Issued yet</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php
+                 if($ClassRollNo!='')
+                { echo $ClassRollNo;
+                 ?> 
+                 <input type="hidden" class="form-control" value="<?=$ClassRollNo;?>"  id='classroll'>
+                  <?php } else {?> 
+                  <input type="text" class="form-control"   id='classroll'><?php } ?>
+                  <br>
+                  Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){
+
+
+                   echo $UniRollNo;?>
+                   <input type="hidden" class="form-control"  value="<?=$UniRollNo;?>" id='uniroll'><?php }
+                   else{ ?><input type="text" class="form-control"  id='uniroll'><?php } ?>
+
+                   <br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 
@@ -12948,7 +12963,8 @@ elseif($code==220)
    $lock=$_POST['lock'];
    $id=$_POST['id'];
     $classroll=$_POST['classroll'];
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',ClassRollNo='$classroll' where IDNo='$id'";
+     $uniroll=$_POST['uniroll'];
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 

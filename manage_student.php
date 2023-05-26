@@ -6,7 +6,7 @@
    <div class="row">
       <!-- left column -->
       <!-- Button trigger modal -->
-      <div class="col-lg-4 col-md-4 col-sm-3">
+      <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
             <form id="eligibility_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -69,7 +69,7 @@
             <!-- /.card-footer -->
          </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-3">
+      <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
               <form id="abc_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -398,6 +398,7 @@ SuccessToast('Copied');
 
    function StudentUpdatedata(id)
    {
+      
       var code=219;
           
    var  spinner= document.getElementById("ajax-loader");
@@ -422,11 +423,14 @@ SuccessToast('Copied');
 
  function updateStudentdata(id)
  {
+
    var  batch = document.getElementById('ubatch').value;
    var  status = document.getElementById('ustatus').value;
    var  lock = document.getElementById('ulocked').value;
    var  classroll = document.getElementById('classroll').value;
+    var uniroll = document.getElementById('uniroll').value;
    var code=220;   
+   alert(uniroll);
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
          $.ajax(
@@ -435,7 +439,7 @@ SuccessToast('Copied');
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll
             },
             success:function(response) 
             {
