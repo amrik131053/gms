@@ -37,6 +37,38 @@
             <p id="error" style="display: none;"></p>
             <!-- /.card-footer -->
          </div>
+
+
+           <div class="card card-info">
+            <form id="eligibility_upload" action="action.php" method="post" enctype="multipart/form-data">
+            <div class="card-header ">
+               <h3 class="card-title">Left</h3>
+               <button type="button" class="btn btn-success btn-xs" style="float: right;">
+             <a href="formats/eligibility.csv" style="color:white;"> Format</a>
+               </button> 
+            </div>
+            <div class="card-body">
+               <div class="form-group row ">
+                &nbsp;&nbsp;  <label style="color:#A62535;">For Active:&nbsp;1 &nbsp; For Left:0</label>
+                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <div class="col-lg-12">
+                     <input type="hidden" name="code" value="301">
+                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
+                     <input type="file" name="file_exl" class="form-control">
+                  </div>
+               </div>
+            </div>
+            <div class="card-footer">
+                <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                          {
+            ?>
+               <button type="submit" class="btn btn-info">Submit</button>
+            <?php }?>
+            </div>
+         </form>
+            <p id="error" style="display: none;"></p>
+            <!-- /.card-footer -->
+         </div>
          <!-- /.card -->
          <div class="card card-info">
             <form id="university_upload" action="action.php" method="post" enctype="multipart/form-data">
@@ -69,6 +101,8 @@
             <!-- /.card-footer -->
          </div>
       </div>
+
+
       <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
               <form id="abc_upload" action="action.php" method="post" enctype="multipart/form-data">

@@ -16798,6 +16798,42 @@ $result = mysqli_query($conn,"update movement set status='check-out',out_date='$
  
 }
 
+elseif($code==301)
+   {
+    $code_access=$_POST['code_access'];
+  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                          {
+                  $file = $_FILES['file_exl']['tmp_name'];
+                  $handle = fopen($file, 'r');
+                  $c = 0;
+                  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+                  {
+                    $class_rollno = $filesop[0];
+                    $status =$filesop[1]; 
+
+                    $reason = $filesop[2];  
+
+                    echo $sql = "UPDATE  Admissions set  Status='$status', Reason='$reason' where ClassRollNo='$class_rollno'";
+                 $result = sqlsrv_query($conntest,$sql);
+                if($result=== false)
+                 {
+                    die( print_r( sqlsrv_errors(), true) );
+                 }
+                
+                    $c = $c + 1;
+                    
+                  }
+                 if ($c>0)
+                      {
+                     echo "1";
+                     }
+                     else
+                     {
+                     echo "0";
+                     } 
+                }
+      }
+
 
  else
 {
