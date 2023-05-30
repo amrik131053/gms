@@ -1,5 +1,6 @@
 <?php
 session_start();
+ date_default_timezone_set("Asia/Kolkata");
 $timeStamp=date('Y-m-d H-i');
 $todaydate=date('Y-m-d');
 ini_set('max_execution_time', '0');
