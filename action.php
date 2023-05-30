@@ -16835,6 +16835,133 @@ elseif($code==301)
       }
 
 
+
+else if($code==302)
+{
+ 
+   ?>
+
+
+     <div class="card-body table-responsive">
+ <table class="table" id="example">
+  <thead>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th></thead>
+       <tbody>
+       <?php 
+ $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY id DESC ";
+ //
+$result = mysqli_query($conn,$list_sql);
+while($row=mysqli_fetch_array($result)) 
+  {
+     $emp_image = $row['image'];
+      $empid = $row['emp_id'];
+            $id = $row['id'];
+      $name = $row['name'];
+      $college = $row['college'];
+      $dep = $row['department'];
+      $designation = $row['designation'];
+      $mob1 = $row['mobile'];
+      $email = $row['email']; ?> 
+
+ 
+ 
+ 
+
+      
+      <tr>
+         <td><?php echo $id;?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+
+
+
+<?php 
+if($row['status']=='draft')
+
+{?>
+<button class="btn btn-warning btn-xs"  ><i>Waiting</i>
+         </button> 
+<?php }
+
+else if ($row['status']=='Ack')
+{
+
+if($row['location']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
+         </button> 
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
+
+}
+else if ($row['status']=='Refused')
+{?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+<?php }
+else if ($row['status']=='check-out')
+{?>
+<button class="btn btn-primary btn-xs">Checked out
+         </button> 
+
+<?php }
+else if ($row['status']=='Check-in')
+{?>
+<button class="btn btn-info btn-xs">Completed
+         </button> 
+
+<?php }
+?>
+
+
+
+
+            </td>
+ </tr>
+</tbody>
+<?php
+
+
+
+      }
+
+
+
+
+?>
+</table>
+</div><?php
+
+
+  
+}
+
+else if($code=='303')
+{
+
+?>
+<div class='row' style="margin-top:50px">
+
+<div class="col-lg-3"><input type="text" class="form-control" placeholder="EmployeeID"></div>
+<div class="col-lg-3"><input type="date" class="form-control" placeholder="EmployeeID"></div>
+<div class="col-lg-3"><input type="date" class="form-control" placeholder="EmployeeID"></div>
+<div class="col-lg-3"> <button class="btn btn-info">Export</button></div>
+
+</div>
+
+
+<?php 
+
+
+
+}
+
  else
 {
 echo "select code";
