@@ -2,7 +2,7 @@
    include "header.php"; 
   
 $tz = 'Asia/Kolkata';   
-   date_default_timezone_set($tz):   ?>
+   date_default_timezone_set($tz);  ?>
 <section class="content">
    <div class="container-fluid">
       <div class="row">
