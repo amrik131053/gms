@@ -44,7 +44,7 @@
             <div class="card-header ">
                <h3 class="card-title">Left</h3>
                <button type="button" class="btn btn-success btn-xs" style="float: right;">
-             <a href="formats/eligibility.csv" style="color:white;"> Format</a>
+             <a href="formats/left.csv" style="color:white;"> Format</a>
                </button> 
             </div>
             <div class="card-body">
