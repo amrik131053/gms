@@ -60,7 +60,7 @@ var xmlhttp = new XMLHttpRequest();
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
       {     
 
-
+ 
           //x.style.display = "none";
           spinner.style.display='none';
           document.getElementById("live_data_Exam_student").innerHTML=xmlhttp.responseText;

@@ -14,162 +14,38 @@ ini_set('max_execution_time', '0');
          <div class="card card-info">
             <div class="card-header ">
                 <div class="row">
-                  <div class="col-lg-4">    
+                  <div class="col-lg-1">    
                <h3 class="card-title">Exam From</h3>
                    </div>
-                  <div class="col-lg-1">
-                     <a href="formats/examform.csv" class="btn btn-warning "> Format</a>
-                  </div>
-                   <div class="col-lg-3">
+                 
+                   <div class="col-lg-2">
                      <input type="text" class="form-control"  id="rollno" placeholder="RollNo">
                   </div>
-                  <div class="col-lg-2">
-                     <button type="button" class="btn btn-info" onclick="search_exam_form()">Search</button>
+                  <div class="col-lg-1">
+                     <button type="button" class="btn btn-info" onclick="search_exam_form()"> <i class="fa fa-search" aria-hidden="true"></i></button>
                   </div>
-                  <div class="col-lg-2">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal_upload" style="float: right;">
+
+ <div class="col-lg-6">
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal_upload1" style="float: center;"> Filter
+               
+               </button>  
+                  </div>
+
+                   <div class="col-lg-1">
+                     <a href="formats/examform.csv" class="btn btn-warning "> Format</a>
+                  </div>
+                  <div class="col-lg-1">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal_upload" style="float: center;">
                <i class="fa fa-upload" aria-hidden="true"></i>
                </button>  
                   </div>
                </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive  "  style="height: 600px; font-size: 14px;">
-                            <table class="table table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>ID</th>
-                                        <th>Uni Roll No</th>
-                                        <th>Name</th>
-                                        <th>Course</th>
-                                        <th>Sem</th>
-                                        <th>Batch</th>
-                                        <th>Examination</th>
-                                        <th>Type</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Update</th> 
-                                        <th >Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table_load">
-<?php
+            <div class="card-body table-responsive"  style="font-size: 14px;" id="live_data_Exam_student">
+                            
 
-                $list_sql = "SELECT TOP 100   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
-                $list_result = sqlsrv_query($conntest,$list_sql);
-                 $count = 1;
-                if($list_result === false)
-                 {
-                die( print_r( sqlsrv_errors(), true) );
-                }
-              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-                    {
-                $Status= $row['Status'];
-                $issueDate=$row['SubmitFormDate'];
-                echo "<tr>";
-                echo "<td>".$count++."</td>";
-                echo "<td>".$row['ID']."</td>";
-                ?><td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a>
-                 </td>
-                <?php echo "<td>".$row['StudentName']."</a></td>";
-                echo "<td>".$row['Course']."</td>";
-                echo "<td>".$row['Semesterid']."</td>";
-                echo "<td>".$row['Batch']."</td>";
-                echo "<td>".$row['Examination']."</td>";
-                if($row['ReceiptDate']!='')
-                {
-                  $rdate=$row['ReceiptDate']->format('Y-m-d');
-                }
-                else
-                {
-                $rdate='';
-                }
-?>
-               <td>
-              <?=$row['Type'];?>
-              </td>
-                <td>
-                    <center><?php 
-
- if($Status==-1)
-                {
-                  echo "Fee<br>pending";
-
-                }
-
-                elseif($Status==0)
-                {
-                  echo "Draft";
-                }elseif($Status==1)
-                {
-                  echo 'Forward<br>to<br>dean';
-                }
-
-                elseif($Status==2)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
-                }
-                 elseif($Status==3)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
-                }
-
-                elseif($Status==4)
-                {
-                  echo 'Forward <br>to<br> Account';
-                }
-                elseif($Status==5)
-                {
-                  echo 'Forward <br>to<br> Examination<br> Branch';
-                }
-                elseif($Status==6)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
-                }
-                 elseif($Status==7)
-                {
-                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
-                }           
-                elseif($Status==8)
-                {
-                  echo "<b style='color:green'>Accepted</b>";
-                }   ?>        
-             </center>
-               </td>  
-               <td> <?php if($issueDate!='')
-               {
-               echo $t= $issueDate->format('Y-m-d'); 
-               }
-               else
-               { 
-               }
-               ?>
-
-              </td>
-        <td> 
-              <Select id='Status'  class="form-control">
-                <option value="-1">Fee pending</option>
-                <option value="0">Draft</option>
-                <option value="4">Forward to Account</option>
-                <option value="5">Forward to Examination Branch</option>
-                <option value="8">Accepted</option>
-              </Select>
-        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
-    
-  </td>
-        <td>
-            <a href="" style="text-decoration: none;">
-<i class="fa fa-trash fa-md" onclick="delexam(<?= $row['ID'];?>)" style="color:red"></i></a>
-       </td>
-                <tr/>
-           <?php 
-            }
-        ?>
-      </tbody>
-        </table>
+      
             </div>
             <!-- /.card -->
          </div>
@@ -209,7 +85,7 @@ ini_set('max_execution_time', '0');
   <div class="modal-dialog" role="document"style="width: 700px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">EmamFrom Submit</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -309,6 +185,261 @@ ini_set('max_execution_time', '0');
     </div>
     </div>
   </div>
+
+
+
+
+<!-- 
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" >
+     <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exam fsfdFrom Submit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body" id="edit_stu">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button> 
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<div class="modal fade" id="exampleModal_upload1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document"style="width: 700px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-lg-12">
+        
+        <input type="hidden" name="code" value="203" >
+            <div class="card-body">
+
+
+
+
+
+
+
+   <div class="row">
+          <!-- left column -->
+          <div class="col-lg-6 col-md-4 col-sm-3">
+
+
+   <label>Colleged</label>
+       <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
+                <option value=''>Select Course</option>
+                  <?php
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $college = $row1['CollegeName']; 
+     $CollegeID = $row1['CollegeID'];
+    ?>
+<option  value="<?=$CollegeID;?>"><?= $college;?></option>
+<?php    }
+
+?>
+              </select> 
+
+
+
+          </div>
+              <div class="col-lg-6 col-md-4 col-sm-3">
+   
+          
+ <label>Course</label>
+              <select name="Course" id="Course" class="form-control">
+                <option value=''>Select Course</option>
+                
+              </select>
+          </div>
+
+
+          <div class="col-lg-6 col-md-4 col-sm-3">
+            
+
+
+
+
+              <label>Batch</label>
+            <select name="batch"  class="form-control" id="Batch" required="">
+              <option value="">Batch</option>
+                       <?php 
+for($i=2013;$i<=2030;$i++)
+{?>
+   <option value="<?=$i?>"><?=$i?></option>
+<?php }
+            ?>
+
+            </select>
+
+        </div>
+
+ <div class="col-lg-6 col-md-4 col-sm-3">
+<label> Semester</label>
+            <select   id='Semester' class="form-control" required="">
+              <option value="">Sem</option>
+            <?php 
+for($i=1;$i<=12;$i++)
+{?>
+   <option value="<?=$i?>"><?=$i?></option>
+<?php }
+            ?>
+             
+            </select>
+
+</div>
+ <div class="col-lg-6 col-md-4 col-sm-3">
+  <label>Type</label>
+              <select  id="Type" class="form-control" required="">
+                 <option value="">Select</option>
+                <option value="Regular">Regular</option>
+                 <option value="Reappear">Reappear</option>
+                  <option value="Additional">Additional</option>
+                   <option value="Improvement">Improvement</option>
+
+                
+              </select>
+
+</div>
+
+ <div class="col-lg-6    col-md-4 col-sm-3">
+  <label>Group</label>
+              <select id="Group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+
+</div>
+
+ <div class="col-lg-6 col-md-4 col-sm-3">
+  <label>Examination</label>
+              <select  id="Examination" class="form-control" required="">
+                 <option value="">Examination</option>
+                       <?php
+   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Examination']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+
+</div>
+
+
+ <div class="col-lg-6 col-md-4 col-sm-3">
+  <label>Search</label><br>
+            <button class="btn btn-danger" onclick="Search_exam_student1()"><i  class="fa fa-search" ></i></button>
+
+</div>
+
+
+
+        <!-- /.row -->
+      </div>
+
+
+            </div>
+          
+            <p id="error" style="display: none;"></p>
+            <!-- /.card-footer -->
+            </form>
+         </div>
+         <!-- /.card -->
+    
+      
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 </body>
@@ -317,9 +448,12 @@ ini_set('max_execution_time', '0');
 
   function status_update(id)
   {
+    var status=document.getElementById(id+'_status').value;
+    alert(status);
   var r = confirm("Do you really want to Change");
   if(r == true) 
      {
+
           var status=document.getElementById('Status').value;
           var spinner=document.getElementById("ajax-loader");
           spinner.style.display='block';
@@ -363,8 +497,9 @@ ini_set('max_execution_time', '0');
               success: function(response) 
               {
                 console.log(response);
-               // spinner.style.display='none';
-              // search_exam_form();
+               spinner.style.display='none';
+              search_exam_form();
+              Search_exam_student1();
                 if (response=='1')
                            {
                            SuccessToast('Successfully Delete');
@@ -384,6 +519,7 @@ ini_set('max_execution_time', '0');
     {
        var rollNo=document.getElementById('rollno').value;
       var spinner=document.getElementById("ajax-loader");
+      var sub_data=1;
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
      var code=202;
@@ -391,17 +527,21 @@ ini_set('max_execution_time', '0');
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,rollNo:rollNo
+                 code:code,rollNo:rollNo,sub_data:sub_data
               },
               success: function(response) 
               {
+
                // $('#modal-lg-view-question').modal('toggle');
                spinner.style.display='none';
-                document.getElementById("table_load").innerHTML=response;
+                document.getElementById("live_data_Exam_student").innerHTML=response;
                 
               }
            });
-    }  function exam_type_update(id)
+    }  
+
+
+    function exam_type_update(id)
     {
          var r = confirm("Do you really want to Change");
           if(r == true) 
@@ -439,6 +579,7 @@ ini_set('max_execution_time', '0');
          $(document).ready(function (e) {    // image upload form submit
            $("#submit_exam_form").on('submit',(function(e) {
               e.preventDefault();
+              
               var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
               $.ajax({
@@ -520,6 +661,7 @@ ini_set('max_execution_time', '0');
                            {
                            SuccessToast('Successfully Updated');
                            search_exam_form();
+                           Search_exam_student1();
                            }
                           else
                            {
@@ -557,6 +699,7 @@ ini_set('max_execution_time', '0');
                            {
                            SuccessToast('Successfully Updated');
                            search_exam_form();
+                           Search_exam_student1();
                            }
                           else
                            {
@@ -568,4 +711,61 @@ ini_set('max_execution_time', '0');
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+function Search_exam_student1()
+{
+
+var code=202;
+var sub_data=2;
+var College=document.getElementById("College").value;
+var Course=document.getElementById("Course").value;
+var Batch=document.getElementById("Batch").value;
+var Semester=document.getElementById("Semester").value;
+var Type=document.getElementById("Type").value;
+var Group=document.getElementById("Group").value;
+var Examination=document.getElementById("Examination").value;
+
+ if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
+ {
+
+ //x.style.display = "block";
+var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+
+
+
+
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,College:College,Course:Course,Batch:Batch,Semester:Semester,Type:Type,Group:Group,Examination:Examination,sub_data:sub_data
+              },
+              success: function(response) 
+              {
+               // $('#modal-lg-view-question').modal('toggle');
+               spinner.style.display='none';
+                document.getElementById("live_data_Exam_student").innerHTML=response;
+                
+              }
+           });
+}
+}
+
+
+
+
+
+
 </script>

@@ -11898,11 +11898,71 @@ $ecat=$_POST['ecat'];
 
                elseif($code==202)
                {
-               $univ_rollno=$_POST['rollNo'];
-               if ($univ_rollno!='') 
+                $sub_data=$_POST['sub_data']; 
+
+               
+
+               if($sub_data==1) 
                {
+                  $univ_rollno=$_POST['rollNo'];
+
+                   if( $_POST['rollNo'] !='') 
+                   {
                $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
+            }
+            else
+            {
+               $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+            }
+
+            }
+ else if($sub_data==2)
+{
+
+$College = $_POST['College'];
+$Course = $_POST['Course'];
+  $Batch = $_POST['Batch'];
+  $Semester = $_POST['Semester'];
+  $Type = $_POST['Type'];
+    $Group = $_POST['Group'];
+        $Examination = $_POST['Examination'];
+
+
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
+
+}
+
+else 
+
+{
+    $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
+}
+?>
+
+<table class="table table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ID</th>
+                                        <th>Uni Roll No</th>
+                                        <th>Name</th>
+                                        <th>Course</th>
+                                        <th>Sem</th>
+                                        <th>Batch</th>
+                                        <th>Examination</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Update</th> 
+                                        <th >Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+<?php
                 $list_result = sqlsrv_query($conntest,$list_sql);
                     $count = 1;
                if($list_result === false)
@@ -11913,11 +11973,14 @@ $ecat=$_POST['ecat'];
                    {
                 $Status= $row['Status'];
                 $issueDate=$row['SubmitFormDate'];
-                echo "<tr>";
-                echo "<td>".$count++."</td>";
-                echo "<td>".$row['ID']."</td>";
-                ?><td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></td>
+                ?>
+                <tr>
+                <td><?= $count++;?></td>
+                <td><?= $row['ID']?></td>
+                
+                <td>
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a>
+             </td>
                   <?php echo "<td>".$row['StudentName']."</a></td>";
                 echo "<td>".$row['Course']."</td>";
                 echo "<td>".$row['Semesterid']."</td>";
@@ -11934,7 +11997,8 @@ $ecat=$_POST['ecat'];
 ?>
                <td>
                 <?=$row['Type'];?></td>
-                <td><center><?php 
+
+                <td  style="width:100px"><center><?php 
 
  if($Status==-1)
                 {
@@ -11993,7 +12057,7 @@ elseif($Status==8)
 
               </td>
   <td> 
- <Select id='Status'  class="form-control">
+ <Select id='<?=$row['ID'];?>_status'  class="form-control" style="width: 100px;">
                 <option value="-1">Fee pending</option>
                 <option value="0">Draft</option>
                 <option value="4">Forward to Account</option>
@@ -12003,140 +12067,28 @@ elseif($Status==8)
         <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
           </td>
           <td>
-            <a href="" style="text-decoration: none;">
-<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
+            
+
+<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i>
+
+
             </td>
                </tr>
            <?php 
-            }
+            }?>
+
+            </tbody>
+        </table>
+            <?php
     
-}
-else
-{
-$list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
-  $list_result = sqlsrv_query($conntest,$list_sql);
-
-        $count = 1;
-if($list_result === false)
- {
-die( print_r( sqlsrv_errors(), true) );
-}
-  while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-        {
-          $Status= $row['Status'];
-          $issueDate=$row['SubmitFormDate'];
-                echo "<tr>";
-                // echo "<td><input type='checkbox' name='amrik[]' class='checkBoxClass' value='".$row['ID']."'></td>";
-                echo "<td>".$count++."</td>";
-                echo "<td>".$row['ID']."</td>";
-                ?><td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></td>
-                  <?php echo "<td>".$row['StudentName']."</a></td>";
-                echo "<td>".$row['Course']."</td>";
-                echo "<td>".$row['Semesterid']."</td>";
-                echo "<td>".$row['Batch']."</td>";
-               
-                echo "<td>".$row['Examination']."</td>";
-               // echo "<td>".$row['Type']."</td>";
-if($row['ReceiptDate']!='')
-{
-  $rdate=$row['ReceiptDate']->format('Y-m-d');
-}
-else
-{
-$rdate='';
-}
-?>
-               <td>
-             <?=$row['Type'];?>
-        </td>
-                <td>
-                    <center><?php 
-
- if($Status==-1)
-                {
-                  echo "Fee<br>pending";
-
-                }
-
-                elseif($Status==0)
-                {
-                  echo "Draft";
-                }elseif($Status==1)
-                {
-                  echo 'Forward<br>to<br>dean';
-                }
-
-                elseif($Status==2)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
-                }
-                 elseif($Status==3)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
-                }
-
- elseif($Status==4)
-                {
-                  echo 'Forward <br>to<br> Account';
-                }
- elseif($Status==5)
-                {
-                  echo 'Forward <br>to<br> Examination<br> Branch';
-                }
-
- elseif($Status==6)
-                {
-                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
-                }
-      elseif($Status==7)
-                {
-                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
-                }           
-
-elseif($Status==8)
-                {
-                  echo "<b style='color:green'>Accepted</b>";
-                }   ?>        
-</center>
-               </td>
-                
-               <td> <?php if($issueDate!='')
-               {
-               echo $t= $issueDate->format('Y-m-d'); 
-
-               }else{ 
-
-               }?>
-
-              </td>
-  <td> 
- <Select id='Status'  class="form-control">
-                <option value="-1">Fee pending</option>
-                <option value="0">Draft</option>
-                <option value="4">Forward to Account</option>
-                <option value="5">Forward to Examination Branch</option>
-                <option value="8">Accepted</option>
-              </Select>
-        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
-
-          </td>
-
-          <!-- <td style="text-align: center;">  <i class="fa fa-print fa-2x" onclick="result(<?= $row['Id'];?>)" style="color:#002147"></i>
-          </td> -->
-          <td>
-            <a href="" style="text-decoration: none;">
-<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i></a>
-
-
-            </td>
-                <tr/>
-           <?php 
-            }
         
-}
+
    }
+
+
+
+
+
    elseif($code==203)
    {
         $type=$_POST['type']; 
@@ -12144,11 +12096,14 @@ elseif($Status==8)
   $examination=$_POST['month'];
    $Status=$_POST['Status'];
   $file = $_FILES['file_exl']['tmp_name'];
+
+
   $handle = fopen($file, 'r');
   $c = 0;
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
   $univ_rollno = $filesop[0];
+
    if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
  } elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
    $semester='Seventh'; } elseif ($sem==8) {    $semester='Eight'; } else {  $semester='Nine'; } 
@@ -12170,6 +12125,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CollegeID=$row['CollegeID'];
           }
  $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
+
         $s_counter = 0;
         $stmt2 = sqlsrv_query($conntest,$result1);
    
@@ -12183,6 +12139,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
        $receipt_date=   date("Y-m-d");
 
  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
+
    VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
 
 $stmt = sqlsrv_query($conntest,$query);
@@ -12583,10 +12540,10 @@ elseif($code==211)
 elseif($code==212)
 {
     $id=$_POST['id'];
-    echo  $sq1="Delete FROM ExamForm  Where ID='$id'"; 
+      $sq1="Delete FROM ExamForm  Where ID='$id'"; 
     $list1 = sqlsrv_query($conntest,$sq1);
-   echo   $sq2="Delete FROM ExamFormSubject  Where examid='$id'"; 
-     $list2 = sqlsrv_query($conntest,$sq2);
+      $sq2="Delete FROM ExamFormSubject  Where examid='$id'"; 
+      $list2 = sqlsrv_query($conntest,$sq2);
    if($list1==true and $list2==true)
        {
          echo "1";
