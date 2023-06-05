@@ -11,10 +11,10 @@
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
                     <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);"> Upload </a>
-                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
+                   <!--  <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
-                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
+                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> -->
                     <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
                   </div>
 
