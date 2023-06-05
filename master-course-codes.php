@@ -27,9 +27,34 @@
         </h5>
         </center>
         </div>
-               <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
+              
            <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-3" style="text-align: center;">
+             <label>Select Session</label>
+  <br>
+<select name="session1"class="btn btn-default">
+<?php 
+for($s='2015';$s<='2030';$s++)
+{
+  ?>
+  <option value='<?=$s;?>'><?=$s;?></option>
+  <?php }?>
+</select>
+<select name="session2" class="btn btn-default">
+<?php 
+for($s1='16';$s1<='31';$s1++)
+{
+  ?>
+  <option value='<?=$s1;?>'><?=$s1;?></option>
+  <?php }?>
+</select>
+<select name="session3" class="btn btn-default">
+  <option value=''></option>
+  <option value='A'>A</option>
+   <option value='J'>J</option>
+</select>
+   </div>
+   <div class="col-lg-3" style="text-align: center;">
                   <input type="hidden" name="code" value="256" >
                 <label>College Name</label>
                  <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
@@ -47,7 +72,7 @@
                         ?>
                </select> 
               </div>
-               <div class="col-lg-2">
+               <div class="col-lg-2" style="text-align: center;">
                  <label>Department</label>
                   <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
                      <option value=''>Select Department</option>
@@ -55,7 +80,7 @@
               </div>  
 
 
-              <div class="col-lg-2">
+              <div class="col-lg-2" style="text-align: center;">
                  <label>Course</label>
                   <select  id="Course" name="Course" class="form-control" required >
                      <option value=''>Select Course</option>
@@ -65,7 +90,7 @@
 
              
 
-              <div class="col-lg-1">
+              <div class="col-lg-2" style="text-align: center;">
                  <label>Batch</label>
                    <select id="batch" name="batch"  class="form-control" required>
                        <option value="">Batch</option>
@@ -77,23 +102,52 @@
                                   ?>
                  </select>
               </div>   
-              <div class="col-lg-2">
-               <label>File .xls</label>
-               <input type="file" name="file_exl" id="file_exl" class="form-control" name=""  required>
+                          
+          
+                         
+            </div>
+        <br>
+
+          <div class="row">
+              <div class="col-lg-3" style="text-align:center;">
+                  <input type="hidden" name="code" value="256" >
+                <label>First RollNo</label>
+                 <input type="text" name="Classroll" class="form-control"> 
               </div>
+               <div class="col-lg-3" style="text-align:center;">
+                  <input type="hidden" name="code" value="256" >
+                <label>Last RollNo </label>
+                 <input type="text" name="Classroll" class="form-control"> 
+              </div>
+
+
+              <div class="col-lg-2">
+                 <label>ValidUpto</label>
+                  <input type="date" name="Classroll" class="form-control"> 
+              </div>
+
+
+             
+
+              <div class="col-lg-2">
+                 <label>Lateral Entry</label>
+                   <select id="batch" name="batch"  class="form-control" required>
+                       <option value="No">NO</option>
+                        <option value="Yes">Yes</option>
+                          
+                                  ?>
+                 </select>
+              </div>   
+           
               
           
               <div class="col-lg-1">
                  <label>Action</label><br>
                 <input type="submit" name="" class="btn btn-success" value="Upload">
               </div>
-              <div class="col-lg-1">
-                 <label>Format</label><br>
-                   <button class="btn btn-warning" type="button" onclick="format();">Download</button>
-              </div>
+             
             
             </div>
-         </form>
         </div>
    </div>
    <!-- /.container-fluid -->

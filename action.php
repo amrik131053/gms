@@ -13474,8 +13474,8 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                     <option value="">Select</option>
                     <option value="T">Theory</option>
                     <option value="P">Practical</option>
-                    <option value="M">MOOC</option>
-                    <option value="V">Value Added</option>
+                    <option value="TP">Theory/Practical</option>
+                    
                  </select>
               </div>
               <div class="col-lg-3">
@@ -13932,10 +13932,11 @@ elseif($code==230)
         </center>
         </div>
            <div class="row">
-              <div class="col-lg-3">
+                <div class="col-lg-3">
+                  <input type="hidden" name="code" value="256" >
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
-                 <option value=''>Select Course</option>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
@@ -13949,13 +13950,27 @@ elseif($code==230)
                         ?>
                </select> 
               </div>
+               <div class="col-lg-2">
+                 <label>Department</label>
+                  <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
+
+
               <div class="col-lg-2">
                  <label>Course</label>
-                  <select  id="Course" class="form-control">
+                  <select  id="Course" name="Course" class="form-control" required >
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-2">
+
+
+
+
+
+
+              <div class="col-lg-1">
                  <label>Batch</label>
                    <select id="batch"  class="form-control">
                        <option value="">Batch</option>
@@ -13967,7 +13982,7 @@ elseif($code==230)
                                   ?>
                  </select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-1">
                  <label>Semester</label>
                       <select   id='semester' class="form-control">
                        <option value="">Sem</option>
@@ -13997,64 +14012,7 @@ elseif($code==230)
 elseif($code==241)
    {
      ?>
-        <div class="card">
-        <center>
-         <h5>
-         <b>Study Scheme Upload</b>
-        </h5>
-        </center>
-        </div>
-               <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
-           <div class="row">
-              <div class="col-lg-3">
-                  <input type="hidden" name="code" value="256" >
-                <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
-                 <option value=''>Select Course</option>
-                  <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-                     $stmt2 = sqlsrv_query($conntest,$sql);
-                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-                      {   
-                        $college = $row1['CollegeName']; 
-                        $CollegeID = $row1['CollegeID'];
-                        ?>
-                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
-                 <?php }
-                        ?>
-               </select> 
-              </div>
-              <div class="col-lg-3">
-                 <label>Course</label>
-                  <select  id="Course" name="Course" class="form-control">
-                     <option value=''>Select Course</option>
-                 </select>
-              </div>
-              <div class="col-lg-3">
-                 <label>Batch</label>
-                   <select id="batch" name="batch"  class="form-control">
-                       <option value="">Batch</option>
-                          <?php 
-                              for($i=2013;$i<=2030;$i++)
-                                 {?>
-                               <option value="<?=$i?>"><?=$i?></option>
-                           <?php }
-                                  ?>
-                 </select>
-              </div>
-              <div class="col-lg-2">
-               <label>File .xls</label>
-               <input type="file" name="file_exl" id="file_exl" class="form-control" name="" >
-              </div>
-          
-              <div class="col-lg-1">
-                 <label>Action</label><br>
-                <input type="submit" name="" class="btn btn-success" value="Upload">
-              </div>
-            
-            </div>
-         </form>
-        </div>
+        
 
   <?php  
 }
@@ -14564,12 +14522,12 @@ elseif($code==252)
                                     </td>
                                  <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
                                  <td >
-                                    <select class="form-control" style="width:60px"  id="subject_type<?=$get_row['SrNo'];?>">
+                                    <select class="form-control" style="width:80px"  id="subject_type<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
                                         <option value="T">Theory</option>
                                          <option value="P">Practical</option>
-                                         <option value="M">MOOC</option>
-                                         <option value="V">Value Added</option>
+                                         <option value="TP">Theory/Practical</option>
+                                        
                                     </select>
                                     </td>
                                  <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control"  style="width:50px" value="<?=$get_row['IntMaxMarks'];?>"></td>
@@ -14577,8 +14535,11 @@ elseif($code==252)
                                  <td>
                                     <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
-                                        <option value="YES">Yes</option>
-                                         <option value="NO">No</option>
+                                        <option value="C">C</option>
+                                         <option value="E">E</option>
+                                           <option value="O">O</option>
+                                             <option value="M">M</option>
+                                               <option value="V">V</option>
                                        
                                     </select>
                                  </td>
@@ -14663,6 +14624,7 @@ elseif($code==255)
             $CollegeID=$_POST['College'];
             $CourseID=$_POST['Course'];
             $batch=$_POST['batch'];
+             $department=$_POST['Department'];
 
             $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
@@ -14676,24 +14638,41 @@ elseif($code==255)
              $c = 0;
              while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
             {
-            $SemesterID = $filesop[0];
-            $Semester = $filesop[1];
+             if($c>0)
+               {
+             $SemesterID = ($filesop[0]);
+            $SubjectCode = $filesop[1];
             $SubjectName = $filesop[2];
-            $SubjectType = $filesop[3];
-            $SubjectCode = $filesop[4];
-            $SubjectShortName = $filesop[5];
-            $Elective = $filesop[6];
-            $IntMaxMarks = $filesop[7];
-            $ExtMaxMarks = $filesop[8];
-            $Lacture = $filesop[9];
-            $Tutorials = $filesop[10];
-            $Practical = $filesop[11];
-            $NoOfCredits = $filesop[12];
-            $SubjectGroup = $filesop[13];
+            $SkillType = $filesop[3];
+            $Lacture = $filesop[4];
+            $Tutorials = $filesop[5];
+            $Practical = $filesop[6];
+            $NoOfCredits = $filesop[7];
+            $SubjectType = $filesop[8];
+            $Elective = $filesop[9];
+            $SubjectGroup = $filesop[10];
 
-            $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','$IntMaxMarks','$ExtMaxMarks','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectShortName')";
+if ($SemesterID=='1')
+ {  echo  $Semester='First'; }
+
+  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) {  $Semester='Third';
+ } elseif ($SemesterID==4) {   $Semester='Four'; } elseif ($SemesterID==5) {  $Semester='Five'; } elseif ($SemesterID==6) {   $Semester='Sixth'; } elseif ($SemesterID==7) {
+   $Semester='Seven'; } elseif ($SemesterID==8) {    $Semester='Eight'; } 
+
+   elseif ($SemesterID==9) {  $Semester='Nine'; }    elseif ($SemesterID==10) { $Semester='Ten'; } 
+   elseif ($SemesterID==11) { $Semester='Eleven'; }    elseif ($SemesterID==12) { $Semester='Twelve'; } 
+   else
+   {
+
+   }
+
+
+
+             $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
+            $c++;
+         }
                   if ($add_study_scheme_run2==true)
                    {
                   echo "1";   
@@ -16919,6 +16898,52 @@ else if($code=='303')
 
 
 }
+
+  elseif($code=='304') 
+   {
+   $College=$_POST['College'];
+   
+   
+    $sql = "SELECT  Id,DepartmentFullName FROM MasterDepartment WHERE collegeId='$College' order by DepartmentFullName ASC";
+   
+   $stmt = sqlsrv_query($conntest,$sql); 
+   ?> 
+ <option value=''>Deaprtment</option>
+ <?php 
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+ ?>  
+ <option value='<?=$row["Id"];?>'><?= $row["DepartmentFullName"];?></option>
+ <?php   }
+   
+   }
+
+  elseif($code=='305') 
+   {
+   $College=$_POST['College'];
+   $Department=$_POST['department'];
+   
+   
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' order by Course ASC";
+   
+   $stmt = sqlsrv_query($conntest,$sql);  
+   echo "<option value=''>Course</option>";
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+   echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
+   }
+   
+   }
+
+
+
+
+
+
+
 
  else
 {
