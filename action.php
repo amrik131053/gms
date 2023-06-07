@@ -10930,7 +10930,7 @@ $type=$_POST['option'];
  }
  elseif ($type==3 ANd is_numeric($univ_rollno)) 
  {
-  echo $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
+  $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
  }
  else
  {
@@ -10994,9 +10994,24 @@ $validUpto=$validUpto->format('d-M-Y');
                 <div class="col-lg-1 col-sm-1">
 <?php 
   if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601) {?>
-        <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
+
+  <?php $resultp = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
+  $stmtp = sqlsrv_query($conntest,$resultp, array(), array( "Scrollable" => 'static' ));  
+
+$row_count = sqlsrv_num_rows($stmtp);
+if($row_count>0)
+   {
+  
+?>
+ <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
         <?php
      }
+     else{
+      ?>
+      <button class="btn btn-danger btn-xs"   onclick="Studentsignup(<?= $IDNo;?>,'<?= $college;?>')" style="text-align:right"><i class="fa fa fa-plus"></i></button>
+      <?php
+     }
+  }
 
 ?>
       </div>
@@ -17134,6 +17149,23 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
 }
 
+elseif($code=='308') 
+   {
+   
+$id_s=$_POST['id'];
+$id_c=$_POST['college'];
+ echo $query1="INSERT INTO UserMaster(UserName,Password,LoginType,ApplicationType,ApplicationName,CollegeName,RightsLevel)
+VALUES ('$id_s','12345678','Student','Web','Campus','$id_c','Student')";
+
+$stmt2 = sqlsrv_query($conntest,$query1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+
+
+   }
 
  else
 {
