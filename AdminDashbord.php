@@ -205,18 +205,473 @@ $stmt = sqlsrv_query($conntest,$sql_att);
       </div>
 
 
-
+     <?php if ($permissionCount>0) 
+      {
+?>
  
 
 
+ <div class="row">
+   <div class="col-md-6">
+      <div class="row">
+   <?php 
+      $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT Incharge from building_master where Incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['Incharge'];
+         $c++;
+      }
+      $total=count($array);  
+   ?>
+         <div class="col-lg-12">
+             <div class="card collapsed-card">
+              <div class="card-header">
+                 <h3 class="card-title">IT Incharges</h3>
+
+                <div class="card-tools">
+                <span class="badge badge-danger"><?=$total?> Incharges</span>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="it_instructor();"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <div class="d-md-flex">
+                  <div class="p-1 " >
+                    <!-- Map will be created here -->
+                    <div>
+                      <div id="it_instructor"></div>
+                    </div>
+                  </div>
+                </div><!-- /.d-md-flex -->
+              </div>
+              <!-- /.card-body -->
+            </div>
+   
+   </div>
+</div>
+<div class="row">
+   <?php 
+      $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT infra_incharge from building_master where infra_incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['infra_incharge'];
+         $c++;
+      }
+      $total=count($array);  
+   ?>
+         <div class="col-lg-12">
+      <div class="card collapsed-card">
+         <div class="card-header">
+            <h3 class="card-title">Infrastructure Incharges</h3>
+            <div class="card-tools">
+               <span class="badge badge-danger"><?=$total?> Incharges</span>
+               <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="Infrastructure();"></i>
+                  </button>
+            </div>
+         </div>
+         <div class="card-body p-0" id="Infrastructure">
+           
+         </div>
+      </div>
+   </div>
+</div>
+
+
+</div>
+ <?php 
+      $c=0;
+      $sql="SELECT DISTINCT location_owner from location_master where location_owner>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['location_owner'];
+         $c++;
+      }
+      $total=count($array);  
+   ?>
+<div class="col-md-6" >
+
+      <div class="card collapsed-card">
+         <div class="card-header">
+            <h3 class="card-title">Location Owners</h3>
+            <div class="card-tools">
+               <span class="badge badge-danger"><?=$total?> Location Owners</span>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="LocationOwners();"></i>
+                  </button>
+            </div>
+         </div>
+         <div class="card-body p-0" id="LocationOwners">
+           
+         </div>
+
+<!-- <div class="card-footer text-center">
+<a href="javascript:">View All Users</a>
+</div> -->
+
+</div>
+<div class="row">
+   <?php 
+      $c=0;
+      $array=array();
+      $sql="SELECT DISTINCT electrical_incharge from building_master where electrical_incharge>0";
+      $res=mysqli_query($conn,$sql);
+      while($data=mysqli_fetch_array($res))
+      {
+         $array[$c]=$data['electrical_incharge'];
+         $c++;
+      }
+      $total=count($array);  
+   ?>
+         <div class="col-lg-12">
+      <div class="card collapsed-card">
+         <div class="card-header">
+            <h3 class="card-title">Electrical Incharges</h3>
+            <div class="card-tools">
+               <span class="badge badge-danger"><?=$total?> Incharges</span>
+               <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus" onclick="Electrical();"></i>
+                  </button>
+            </div>
+         </div>
+         <div class="card-body p-0" id="Electrical">
+           
+         </div>
+      </div>
+   </div>
+</div>
+
+</div>
+
+
+
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-header">
+                           <h5 class="card-title">Application Detail</h5>
+                           <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                              </button>
+                            
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                              </button>
+                           </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <p class="text-center">
+                                    <strong>Assigned Articles </strong>
+                                 </p>
+
+
+<?php   $sql_up="SELECT *  FROM master_article inner join category_permissions on category_permissions.CategoryCode=master_article.CategoryCode where employee_id='$EmployeeID' ";
+            $res_r_up = mysqli_query($conn, $sql_up);
+                                        
+                                        while ($data_up = mysqli_fetch_array($res_r_up)) 
+                                        {
+                                          $postshow=$data_up['ArticleCode']; 
+                                          $ArticleName=$data_up['ArticleName']; 
+                                          ?>
+<div class="progress-group">
+   <?= $ArticleName;?>
+   <span class="float-right">
+   <b>
+   <?php
+      $count=0;
+      $sql_upd="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' and LocationID!=0 and Status='2'";
+      $res_sql_upd = mysqli_query($conn, $sql_upd);
+      while ($data_sql_upd = mysqli_fetch_array($res_sql_upd)) 
+      {
+            $count++;
+      }
+      
+      echo $a=$count;
+       ?>
+   </b>/ <?php
+      $countt=0;
+       $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' ";
+         $res = mysqli_query($conn, $sql);
+         while ($data = mysqli_fetch_array($res)) 
+         {
+               $countt++;
+         }
+        
+         echo $b=$countt;
+         ?>
+   </span>
+      
+   <div class="progress progress-sm">
+      <?php
+      if ($b==0) 
+      {
+         $b=1;
+      }
+      ?>
+       <div class="progress-bar bg-primary" style="width:<?=($a/$b)*100?>%"></div>
+   </div>
+</div>
+<?php  }?>
+
+                             
+                                 
+
+                              </div>
+                          
+  <div class="col-md-6">
+                                 <p class="text-center">
+                                    <strong>Updated Articles </strong>
+                                 </p>
+
+
+<?php   $sql="SELECT *  FROM master_article inner join category_permissions on category_permissions.CategoryCode=master_article.CategoryCode where employee_id='$EmployeeID' ";
+            $res_r = mysqli_query($conn, $sql);
+                                        
+                                        while ($data = mysqli_fetch_array($res_r)) 
+                                        {
+                                          $postshow=$data['ArticleCode']; 
+                                          $ArticleName=$data['ArticleName']; 
+                                          ?>
+<div class="progress-group">
+   <?= $ArticleName;?>
+   <span class="float-right">
+
+   <b>
+   <?php
+      $count=0;
+      $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' and Status='1'";
+      $res = mysqli_query($conn, $sql);
+      while ($data = mysqli_fetch_array($res)) 
+      {
+            $count++;
+      }
+      
+      echo $a=$count;
+       ?>
+   </b>/ <?php
+      $countt=0;
+       $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' ";
+         $res = mysqli_query($conn, $sql);
+         while ($data = mysqli_fetch_array($res)) 
+         {
+               $countt++;
+         }
+        
+         echo $b=$countt;
+         ?>
+   </span>
+      
+   <div class="progress progress-sm">
+      <?php
+      if ($b==0) 
+      {
+         $b=1;
+      }
+      ?>
+       <div class="progress-bar bg-primary" style="width:<?=($a/$b)*100?>%"></div>
+   </div>
+</div>
+<?php  }?>
+
+                             
+                                 
+
+                              </div>
+
+
+
+                           </div>
+                        </div>
+
+                      
+                     </div>
+                  </div>
+               </div>
+<?php }
+else
+{
+   ?>
 
 
 
 
+
+<?php 
+if ($permissionCount>0) 
+{
+?>
+
+
+ <div class="row">
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-header">
+                           <h5 class="card-title">Application Detail</h5>
+                           <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                              </button>
+                            
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                              </button>
+                           </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <p class="text-center">
+                                    <strong>Issued Articles </strong>
+                                 </p>
+
+
+<?php   $sql_up="SELECT *  FROM master_article ";
+            $res_r_up = mysqli_query($conn, $sql_up);
+                                        
+                                        while ($data_up = mysqli_fetch_array($res_r_up)) 
+                                        {
+                                          $postshow=$data_up['ArticleCode']; 
+                                          $ArticleName=$data_up['ArticleName']; 
+                                          ?>
+<div class="progress-group">
+   <?= $ArticleName;?>
+   <span class="float-right">
+   <b> 
+   <?php
+      $count=0;
+      $sql_upd="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' and LocationID!=0 and Status='2' and Corrent_owner='$EmployeeID' ";
+      $res_sql_upd = mysqli_query($conn, $sql_upd);
+      while ($data_sql_upd = mysqli_fetch_array($res_sql_upd)) 
+      {
+            $count++;
+      }
+      
+      echo $a=$count;
+       ?>
+   </b>/ <?php
+      $countt=0;
+       $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' ";
+         $res = mysqli_query($conn, $sql);
+         while ($data = mysqli_fetch_array($res)) 
+         {
+               $countt++;
+         }
+        
+         echo $b=$countt;
+         ?>
+   </span>
+      
+   <div class="progress progress-sm">
+      <?php
+      if ($b==0) 
+      {
+         $b=1;
+      }
+      ?>
+       <div class="progress-bar bg-primary" style="width:<?=($a/$b)*100?>%"></div>
+   </div>
+</div>
+<?php  }?>
+
+                             
+                                 
+
+                              </div>
+                          
+  <div class="col-md-6">
+                                 <p class="text-center">
+                                    <strong>Updated Articles </strong>
+                                 </p>
+
+
+<?php   $sql="SELECT *  FROM master_article ";
+            $res_r = mysqli_query($conn, $sql);
+                                        
+                                        while ($data = mysqli_fetch_array($res_r)) 
+                                        {
+                                          $postshow=$data['ArticleCode']; 
+                                          $ArticleName=$data['ArticleName']; 
+                                          ?>
+<div class="progress-group">
+   <?= $ArticleName;?>
+   <span class="float-right">
+
+   <b>
+   <?php
+      $count=0;
+      $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' and Status='1' and Corrent_owner='$EmployeeID'";
+      $res = mysqli_query($conn, $sql);
+      while ($data = mysqli_fetch_array($res)) 
+      {
+            $count++;
+      }
+      
+      echo $a=$count;
+       ?>
+   </b>/ <?php
+      $countt=0;
+       $sql="SELECT LocationID FROM stock_summary where ArticleCode='$postshow' and Corrent_owner='$EmployeeID'";
+         $res = mysqli_query($conn, $sql);
+         while ($data = mysqli_fetch_array($res)) 
+         {
+               $countt++;
+         }
+        
+         echo $b=$countt;
+         ?>
+   </span>
+      
+   <div class="progress progress-sm">
+      <?php
+      if ($b==0) 
+      {
+         $b=1;
+      }
+      ?>
+       <div class="progress-bar bg-primary" style="width:<?=($a/$b)*100?>%"></div>
+   </div>
+</div>
+<?php  }?>
+
+                             
+                                 
+
+                              </div>
+
+
+
+                           </div>
+                        </div>
+
+                      
+                     </div>
+                  </div>
+               </div>
+
+
+
+
+
+
+<?php }
+
+}
+?>
 <div class="row">
 <?php 
 
- $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='131045' and CategoryID='1' GROUP BY Incharge";
+$qry="SELECT DISTINCT Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='1'";
 $resl=mysqli_query($conn,$qry);
 while ($dataIncharge=mysqli_fetch_array($resl)) 
 {  
@@ -386,7 +841,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header  border-bottom-0">
-                  Infrastructure Inchargeasd (<?=$BlockName?>)
+                  Infrastructure Incharge (<?=$BlockName?>)
                 </div>
                 <div class="card-body pt-0">
                   <div class="row">
