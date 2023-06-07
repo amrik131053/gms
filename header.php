@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    include "connection/connection.php";
+   $todaydate=date('Y-m-d');
 $timeStamp=date('Y-m-d H-i');
 if(!(ISSET($_SESSION['usr']))) 
 {?>

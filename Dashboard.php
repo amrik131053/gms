@@ -21,22 +21,47 @@ while($permission_data=mysqli_fetch_array($permission_res))
       {
 ?>
       <div class="row">
+
+           <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+               <span class="info-box-icon bg-success"><i class="far fa-calendar"></i></span>
+               <div class="info-box-content">
+                 <span class="info-box-text"><b>
+                <?= $day = date('l', strtotime($todaydate));?>
+
+                 
+      </b></span>
+                  <span class="info-box-number">
+                  <?php  echo $timeStamp =date("d-m-Y",strtotime($todaydate));?>
+
+                  </span>
+               </div>
+               <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+         </div>
          <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-               <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+               <span class="info-box-icon bg-info"><i class="fa  fa-clock"></i></span>
                <div class="info-box-content">
-                  <span class="info-box-text">Category</span>
+              <!--     <span class="info-box-text"><b> <?php  echo $timeStamp =date("d-m-Y",strtotime($todaydate));?>
+
+      </b></span> -->
                   <span class="info-box-number">
-                  <?php
-                     $count_c=0;
-                       $Category="SELECT * FROM master_calegories";
-                     $reslut=mysqli_query($conn,$Category);
-                     while ($row=mysqli_fetch_array($reslut))
-                      {
-                         $count_c++;
-                       }  
-                       echo $count_c;
-                       ?>
+
+                    <?php  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+ from DeviceLogsAll  where LogDateTime Between '$todaydate 00:00:00.000'  AND 
+'$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $intime=$row_staff_att['mytime'];
+             $outtime=$row_staff_att['mytime1'];
+}
+            ?><b style='color:red'> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?><br>
+            <b style='color:red'> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i');} else { echo "<b style='color:red'>Nopunch</b>";}?>
+                
                   </span>
                </div>
                <!-- /.info-box-content -->
@@ -44,28 +69,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- /.info-box -->
          </div>
          <!-- /.col -->
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-               <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Locations</span>
-                  <span class="info-box-number">
-                  <?php
-                     $count_l=0;
-                       $location="SELECT * FROM location_master";
-                     $reslut_location=mysqli_query($conn,$location);
-                     while ($row_location=mysqli_fetch_array($reslut_location))
-                      {
-                         $count_l++;
-                       }  
-                       echo $count_l;
-                       ?>
-                  </span>
-               </div>
-               <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-         </div>
+       
          <!-- /.col -->
          <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">

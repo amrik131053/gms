@@ -377,7 +377,7 @@ function Upload()
                           }
                           else
                           {
-                           ErrorToast('Invalid CSV File ','bg-danger' );
+                           ErrorToast('something went wrong','bg-danger' );
                           }
                   }, 
               });

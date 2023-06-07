@@ -14626,13 +14626,15 @@ elseif($code==255)
             $batch=$_POST['batch'];
              $department=$_POST['Department'];
 
-            $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
+          $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
          while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
                {
-               $CollegeName=$college_row['CollegeName'];                          
+                $CollegeName=$college_row['CollegeName'];                          
                $Course=$college_row['Course'];
+
                }
+               echo "<br>";
                
              $handle = fopen($file, 'r');
              $c = 0;
@@ -14640,7 +14642,7 @@ elseif($code==255)
             {
              if($c>0)
                {
-             $SemesterID = ($filesop[0]);
+            $SemesterID = ($filesop[0]);
             $SubjectCode = $filesop[1];
             $SubjectName = $filesop[2];
             $SkillType = $filesop[3];
@@ -14653,9 +14655,9 @@ elseif($code==255)
             $SubjectGroup = $filesop[10];
 
 if ($SemesterID=='1')
- {  echo  $Semester='First'; }
+ {    $Semester='First'; }
 
-  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) {  $Semester='Third';
+  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) { echo  $Semester='Third';
  } elseif ($SemesterID==4) {   $Semester='Four'; } elseif ($SemesterID==5) {  $Semester='Five'; } elseif ($SemesterID==6) {   $Semester='Sixth'; } elseif ($SemesterID==7) {
    $Semester='Seven'; } elseif ($SemesterID==8) {    $Semester='Eight'; } 
 
@@ -14666,12 +14668,16 @@ if ($SemesterID=='1')
 
    }
 
+"INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
 
 
-             $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
+
+           $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
+
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
             $c++;
+
          }
                   if ($add_study_scheme_run2==true)
                    {
@@ -16938,11 +16944,195 @@ else if($code=='303')
    
    }
 
+  elseif($code=='306') 
+   {
+   ?>
+   
+<div class="card">
+        <center>
+         <h5>
+         <b>Attedance Report</b>
+        </h5>
+        </center>
+        </div>
+           <div class="row">
+                <div class="col-lg-3">
+                  <input type="hidden" name="code" value="256" >
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-2">
+                 <label>Department</label>
+                  <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
+
+
+              <div class="col-lg-2">
+                 <label>Start Date</label>
+                 <input type="date" name="start_date" id="start_date"   class="form-control" required >
+                   
+             
+              </div>
+
+
+
+              <div class="col-lg-2">
+                 <label>End Date</label>
+                 <input type="date" name="end_date" id="end_date"   class="form-control" required >
+                   
+             
+              </div>
+
+                <div class="col-lg-1">
+                 <label>Attendance</label>
+                 <select  id="Attendance" name="Attedance" class="form-control"   required>
+                     <option value='0'>All</option>
+                     <option value='1'>Present</option>
+                      <option value='2'>Absent</option>
+                 </select>
+                  </div>
 
 
 
 
 
+
+
+         
+              <div class="col-lg-2">
+                 <label>Action</label><br>
+                 <button onclick="search_daily_attendance();" class="btn btn-success">Search</button>
+              </div>
+            
+            </div>   
+<?php 
+
+   }
+
+ elseif($code=='307') 
+   {
+
+$start_date=$_POST['start_date'];
+          $end_date=$_POST['end_date'];
+
+            $attendance=$_POST['attendance'];
+             
+if($attendance==0)
+{
+
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' ";
+
+}
+else if($attendance==1)
+{
+ $sql_a="select Distinct EmpCode from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
+'$end_date 23:59:00.000' ANd Len(EmpCode)<=6";
+
+}
+else if($attendance==2)
+{
+
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
+}
+
+$emp_codes=array();
+$stmt = sqlsrv_query($conntest,$sql_a);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+            $emp_codes[]=$row_staff['EmpCode'];
+            }
+
+
+echo $no_of_emp=count($emp_codes);
+//print_r($emp_codes);
+
+ $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
+ from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
+'$end_date 23:59:00.000'";
+
+$stmt = sqlsrv_query($conntest,$sql_dates);  
+            while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+    $datee[]=$row_dates['mydate'];
+
+}
+echo $no_of_dates=count($datee);
+//print_r($datee);?>
+
+<table class="table">
+   <tr><th>Sr NO</th><th>Name </th><th>Emp ID</th><th>COllege</th>
+<?php 
+for($dc=0;$dc<$no_of_dates;$dc++)
+{?>
+<th colspan="2" style="text-align:center;"><?= $datee[$dc]->format('d-m-Y');?></th>
+<?php }
+?>
+</tr>
+<?php
+$srno=1;
+for ($i=0;$i<$no_of_emp;$i++)
+{
+
+$sql_staff="select * from Staff where IDNo='$emp_codes[$i]'";
+$stmt = sqlsrv_query($conntest,$sql_staff);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+           $Name=$row_staff['Name'];
+             $IDNo=$row_staff['IDNo'];
+                  $College=$row_staff['CollegeName'];
+
+?>
+
+<tr><td><?=$srno;?></td><td><?= $IDNo;?></td><td><?= $Name;?></td><td><?= $College;?></td>
+<?php 
+$srno++;
+for ($at=0;$at<$no_of_dates;$at++)
+{
+   $start=$datee[$at]->format('Y-m-d');
+  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+ from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND 
+'$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            $intime=$row_staff_att['mytime'];
+            $outtime=$row_staff_att['mytime1']
+
+            ?>
+
+<td style="text-align:center;"> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?>
+   
+</td style="text-align:center;"><td>
+<?php if($outtime!=""){ echo $outtime->format('h:i');} else { echo "--";}?>
+   
+</td>
+<?php }
+
+}
+
+
+}
+
+}
+
+
+}
 
 
  else
