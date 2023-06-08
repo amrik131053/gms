@@ -92,16 +92,21 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Book Issued</span>
-                  <span class="info-box-number">     <!-- <?php
-                     $count_a=0;
-                       $Articles="SELECT * FROM master_article";
-                     $reslut_Articles=mysqli_query($conn,$Articles);
-                     while ($row_Articles=mysqli_fetch_array($reslut_Articles))
-                      {
-                         $count_a++;
-                       }  
-                       echo $count_a;
-                       ?> --></span>
+                  <span class="info-box-number">   
+
+  <?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+           $bcount=$row_staff_att['cc'];
+             
+}
+
+
+                     
+                       echo "&nbsp;&nbsp;&nbsp;" .$bcount;
+                       ?> </span>
                </div>
                <!-- /.info-box-content -->
             </div>
