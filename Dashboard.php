@@ -216,7 +216,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 <div class="row">
 <?php 
 
- $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='131045' and CategoryID='1' GROUP BY Incharge";
+  $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='1' GROUP BY Incharge";
 $resl=mysqli_query($conn,$qry);
 while ($dataIncharge=mysqli_fetch_array($resl)) 
 {  
@@ -386,7 +386,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header  border-bottom-0">
-                  Infrastructure Inchargeasd (<?=$BlockName?>)
+                  Infrastructure Incharge (<?=$BlockName?>)
                 </div>
                 <div class="card-body pt-0">
                   <div class="row">
