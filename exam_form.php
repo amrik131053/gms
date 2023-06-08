@@ -449,12 +449,12 @@ for($i=1;$i<=12;$i++)
   function status_update(id)
   {
     var status=document.getElementById(id+'_status').value;
-    alert(status);
+   // alert(status);
   var r = confirm("Do you really want to Change");
   if(r == true) 
      {
 
-          var status=document.getElementById('Status').value;
+          //var status=document.getElementById('Status').value;
           var spinner=document.getElementById("ajax-loader");
           spinner.style.display='block';
           var code=213;

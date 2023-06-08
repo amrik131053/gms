@@ -97,6 +97,8 @@
             
             </div>
          </form><br><br>
+
+
          <div class="row" id="load_study_scheme">
 
              
@@ -121,7 +123,7 @@
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
-
+ 
           function search_study_scheme()
           {
        var code=227;
@@ -324,14 +326,16 @@ function Update(){
                   {
                       console.log(data);
                           spinner.style.display='none';
-                          if (data=='1')
+                          if (data==1)
                            {
                            SuccessToast('Successfully Uploaded');
                           update_study_scheme_search();
+
                           }
                           else
                           {
-                           ErrorToast('Invalid CSV File ','bg-danger' );
+                           ErrorToast('Somthing Went Wrong','bg-danger' );
+                           update_study_scheme_search();
                           }
                   }, 
               });

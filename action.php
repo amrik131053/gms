@@ -13948,7 +13948,7 @@ elseif($code==230)
         </div>
            <div class="row">
                 <div class="col-lg-3">
-                  <input type="hidden" name="code" value="256" >
+                 
                 <label>College Name</label>
                  <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
@@ -14669,22 +14669,22 @@ elseif($code==255)
             {
              if($c>0)
                {
-            $SemesterID = ($filesop[0]);
-            $SubjectCode = $filesop[1];
-            $SubjectName = $filesop[2];
-            $SkillType = $filesop[3];
-            $Lacture = $filesop[4];
-            $Tutorials = $filesop[5];
-            $Practical = $filesop[6];
-            $NoOfCredits = $filesop[7];
-            $SubjectType = $filesop[8];
-            $Elective = $filesop[9];
-            $SubjectGroup = $filesop[10];
+            $SemesterID = trim($filesop[0]);
+            $SubjectCode = trim($filesop[1]);
+            $SubjectName = trim($filesop[2]);
+            $SkillType = trim($filesop[3]);
+            $Lacture = trim($filesop[4]);
+            $Tutorials = trim($filesop[5]);
+            $Practical = trim($filesop[6]);
+            $NoOfCredits = trim($filesop[7]);
+            $SubjectType = trim($filesop[8]);
+            $Elective = trim($filesop[9]);
+            $SubjectGroup = trim($filesop[10]);
 
 if ($SemesterID=='1')
  {    $Semester='First'; }
 
-  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) { echo  $Semester='Third';
+  elseif ($SemesterID==2) {   $Semester='Second'; } elseif ($SemesterID==3) { $Semester='Third';
  } elseif ($SemesterID==4) {   $Semester='Four'; } elseif ($SemesterID==5) {  $Semester='Five'; } elseif ($SemesterID==6) {   $Semester='Sixth'; } elseif ($SemesterID==7) {
    $Semester='Seven'; } elseif ($SemesterID==8) {    $Semester='Eight'; } 
 
@@ -14694,24 +14694,23 @@ if ($SemesterID=='1')
    {
 
    }
-
-"INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
-
+ 
 
 
-           $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
+    $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
             }
             $c++;
 
          }
-                  if ($add_study_scheme_run2==true)
+         if ($add_study_scheme_run2==true)
                    {
                   echo "1";   
                   }
                   else
                   {
+                die( print_r( sqlsrv_errors(), true) );
                   echo "0";
                   }
    }
@@ -16984,7 +16983,7 @@ else if($code=='303')
         </div>
            <div class="row">
                 <div class="col-lg-3">
-                  <input type="hidden" name="code" value="256" >
+             
                 <label>College Name</label>
                  <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
