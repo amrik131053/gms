@@ -14474,7 +14474,9 @@ elseif($code==252)
                   <div class="card-header">
                      Study Scheme Update
                      <div class="card-tools">
-<form action="action_g.php" method="post" enctype="multipart/form-data" target="_blank">
+
+                        <!--back end chnages -->
+<!-- <form action="action_g.php" method="post" enctype="multipart/form-data" target="_blank">
        <input type="hidden" name="code" value="23">  
 <input type="hidden" name="CollegeID" value="<?=$CollegeID;?>">
 <input type="hidden" name="Course" value="<?=$Course;?>">
@@ -14483,7 +14485,7 @@ elseif($code==252)
            <input type="file" required class="" name="file_exl">
             <button type="submit"  class="btn btn-success" >
              Upload
-            </button>
+            </button> -->
          </form>
           </div>
                   </div>
@@ -14512,8 +14514,18 @@ elseif($code==252)
                         <tbody>
                      <?php 
 
+                     if($Semester!='')
+                     {
+                      $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'";
+                     }
+                     else{
+ $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch'  ";
+                     }
 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' ";
+                  
+
+
+                        
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                         if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -14649,7 +14661,7 @@ elseif($code==255)
                $Course=$college_row['Course'];
 
                }
-               echo "<br>";
+              // echo "<br>";
                
              $handle = fopen($file, 'r');
              $c = 0;

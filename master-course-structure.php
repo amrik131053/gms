@@ -76,6 +76,9 @@
                            <?php }
                                   ?>
                  </select>
+                  <input type ="hidden" id="semester" name="semester"  class="form-control" >
+                     
+            
               </div>   
               <div class="col-lg-2">
                <label>File .xls</label>
@@ -93,7 +96,11 @@
               </div>
             
             </div>
-         </form>
+         </form><br><br>
+         <div class="row" id="load_study_scheme">
+
+             
+            </div>
         </div>
    </div>
    <!-- /.container-fluid -->
@@ -279,24 +286,24 @@ function Update(){
             }
          });
 }
-function Upload()
-{ //241
-  var code=241;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-}
+// function Upload()
+// { //241
+//   var code=241;
+//          var spinner=document.getElementById('ajax-loader');
+//          spinner.style.display='block';
+//          $.ajax({
+//             url:'action.php',
+//             type:'POST',
+//             data:{
+//                code:code
+//                },
+//             success: function(response) 
+//             { 
+//                spinner.style.display='none';
+//                document.getElementById("table_load").innerHTML=response;
+//             }
+//          });
+// }
 
 
    $(document).ready(function (e) {    // image upload form submit
@@ -320,6 +327,7 @@ function Upload()
                           if (data=='1')
                            {
                            SuccessToast('Successfully Uploaded');
+                          update_study_scheme_search();
                           }
                           else
                           {
