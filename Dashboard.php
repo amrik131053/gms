@@ -46,14 +46,15 @@ while($permission_data=mysqli_fetch_array($permission_res))
       </b></span> -->
                   <span class="info-box-number">
 
-                    <?php  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
- from DeviceLogsAll  where LogDateTime Between '$todaydate 00:00:00.000'  AND 
+                    <?php  
+                    echo $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+ from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
 '$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
-            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
            {
-           $intime=$row_staff_att['mytime'];
+           echo $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }
             ?><b style='color:red'> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?><br>
