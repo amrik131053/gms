@@ -47,7 +47,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                   <span class="info-box-number">
 
                     <?php  
-                    echo $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+                    $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
 '$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
 
