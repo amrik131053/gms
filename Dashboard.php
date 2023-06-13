@@ -54,7 +54,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
            {
-           echo $intime=$row_staff_att['mytime'];
+       $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }
             ?><b style='color:red'> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?><br>
