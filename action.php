@@ -14697,12 +14697,22 @@ if ($SemesterID=='1')
  
 
 
-    $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','$SubjectName','$department','$SkillType')";
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
+                  if ($add_study_scheme_run2==true)
+                   {
+                  //echo "1";   
+                  }
+                  else
+                  {
+                die( print_r( sqlsrv_errors(), true) );
+                  echo $SubjectCode."-".$SubjectName."Not Uploaded";
+
+                  }
             }
             $c++;
-
+ 
          }
          if ($add_study_scheme_run2==true)
                    {

@@ -334,7 +334,7 @@ function Update(){
                           }
                           else
                           {
-                           ErrorToast('Somthing Went Wrong','bg-danger' );
+                           ErrorToast(data,'bg-danger' );
                            update_study_scheme_search();
                           }
                   }, 

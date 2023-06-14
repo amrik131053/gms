@@ -43,19 +43,22 @@ if(ISSET($_POST['email_imp']))
     $id = $filesop[0];
     $SubjectName =$filesop[1];
 
-   $subjecttype = $filesop[2];
-     $subjectcode= $filesop[3];
-         $l= $filesop[4];
-             $t= $filesop[5];
-                 $p= $filesop[6];
-                   $c= $filesop[7];
+   // $subjecttype = $filesop[2];
+   //   $subjectcode= $filesop[3];
+   //       $l= $filesop[4];
+   //           $t= $filesop[5];
+   //               $p= $filesop[6];
+   //                 $c= $filesop[7];
 
 //echo $query1="INSERT into StudentRegistrationForm (Session,IDNo,Status,SemesterId) Values('$reg_id','$reg_id1','$reg_id2','$reg_id3')";
 
- echo $query1="UPDATE MasterCOurseStructure  Set SubjectName='$SubjectName',SubjectType='$subjecttype',
- SubjectCode='$subjectcode',Lecture='$l' ,Tutorial='$t',Practical='$p',NoOFCredits='$c'  where SrNo='$id'";
+ $query1="UPDATE Admissions  Set ClassRollNo='$SubjectName'  where IDNo='$id'";
+
+
+ // echo $query1="UPDATE MasterCOurseStructure  Set SubjectName='$SubjectName',SubjectType='$subjecttype',
+ // SubjectCode='$subjectcode',Lecture='$l' ,Tutorial='$t',Practical='$p',NoOFCredits='$c'  where SrNo='$id'";
 echo"<br>";
- $stmt2 = sqlsrv_query($conntest,$query1);
+ //$stmt2 = sqlsrv_query($conntest,$query1);
 
  if( $stmt2  === false) {
 
