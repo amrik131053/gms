@@ -189,6 +189,46 @@
                 </div>
              </form>
           </div>
+       </div> 
+
+          <div class="col-lg-3 col-md-8 col-sm-3">
+            <div class="card card-info">
+               <div class="card-header">
+                  <h3 class="card-title">BarCode</h3>
+                  <div class="card-tools">
+                     
+                  </div>
+               </div>
+               <!-- /.card-header -->
+                      
+                              <form action="print-barcode.php" method="post" target="_blank">
+      
+                <div class="card-body">
+                  <div class="row">
+                    
+                        <div class="col-lg-6"> <label>From</label>
+                  <input type="text" class="form-control" name="From" value=""></div>
+                        <div class="col-lg-6"><label>To</label>
+                  <input type="text" class="form-control" name="To" value=""></div>
+                     </div>
+                     <center><b>OR</b></center>
+                  <div class="row">
+                     <div class="col-lg-12">
+                  
+                
+                 
+                 <label>Array(Optional)</label>
+                  <input type="text" class="form-control" name="print_qty" value="">
+                  </div>
+            
+             </div>
+                </div>
+                <div class="card-footer">
+                  <input type="submit"  value="Print" class="btn btn-primary">
+               
+                </div>
+             </form>
+          </div>
        </div>
     
 
