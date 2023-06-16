@@ -202,11 +202,14 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
+
         <div class="btn-group w-100 mb-2">
                     <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">My Request</a>
                     <!-- <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Acknowledged</a> -->
                       <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="refused();bg(this.id);"> Refused</a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Reports();bg(this.id);"> Reports </a>
+
+                    
                   
                   <!--   <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
                     <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a> -->

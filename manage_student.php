@@ -6,7 +6,7 @@
    <div class="row">
       <!-- left column -->
       <!-- Button trigger modal -->
-      <div class="col-lg-4 col-md-4 col-sm-3">
+      <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
             <form id="eligibility_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -21,6 +21,38 @@
                   <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="184">
+                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
+                     <input type="file" name="file_exl" class="form-control">
+                  </div>
+               </div>
+            </div>
+            <div class="card-footer">
+                <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                          {
+            ?>
+               <button type="submit" class="btn btn-info">Submit</button>
+            <?php }?>
+            </div>
+         </form>
+            <p id="error" style="display: none;"></p>
+            <!-- /.card-footer -->
+         </div>
+
+
+           <div class="card card-info">
+            <form id="eligibility_upload" action="action.php" method="post" enctype="multipart/form-data">
+            <div class="card-header ">
+               <h3 class="card-title">Left</h3>
+               <button type="button" class="btn btn-success btn-xs" style="float: right;">
+             <a href="formats/left.csv" style="color:white;"> Format</a>
+               </button> 
+            </div>
+            <div class="card-body">
+               <div class="form-group row ">
+                &nbsp;&nbsp;  <label style="color:#A62535;">For Active:&nbsp;1 &nbsp; For Left:0</label>
+                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <div class="col-lg-12">
+                     <input type="hidden" name="code" value="301">
                       <input type="hidden" name="code_access" value="<?=$code_access;?>">
                      <input type="file" name="file_exl" class="form-control">
                   </div>
@@ -69,7 +101,9 @@
             <!-- /.card-footer -->
          </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-3">
+
+
+      <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
               <form id="abc_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -211,27 +245,15 @@ input[type=radio]:checked + label {
 </div>
 <script type="text/javascript">
  
-function copyToClipboard(copyText) {
- 
-  navigator.clipboard.writeText(copyText);
-SuccessToast('Copied');
-  
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  SuccessToast('Copied');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -390,7 +412,7 @@ SuccessToast('Copied');
       else
       {
          // alert("Please Enter the Roll No.");
-         document.getElementById("student_search_record").innerHTML ='';
+         document.getElementById("student_search_record").innerHTML ='Enter Roll No';
       }
    } 
 
@@ -398,6 +420,7 @@ SuccessToast('Copied');
 
    function StudentUpdatedata(id)
    {
+      
       var code=219;
           
    var  spinner= document.getElementById("ajax-loader");
@@ -420,13 +443,11 @@ SuccessToast('Copied');
       }
       
 
- function updateStudentdata(id)
- {
-   var  batch = document.getElementById('ubatch').value;
-   var  status = document.getElementById('ustatus').value;
-   var  lock = document.getElementById('ulocked').value;
-   var  classroll = document.getElementById('classroll').value;
-   var code=220;   
+   function Studentsignup(id,college)
+   {
+     
+      var code=308;
+          
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
          $.ajax(
@@ -435,7 +456,36 @@ SuccessToast('Copied');
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll
+               code:code,id:id,college:college
+            },
+            success:function(response) 
+            {
+               //console.log(response);
+               spinner.style.display='none';
+              student_search();
+            }
+         });
+      }
+
+ function updateStudentdata(id)
+ {
+
+   var  batch = document.getElementById('ubatch').value;
+   var  status = document.getElementById('ustatus').value;
+   var  lock = document.getElementById('ulocked').value;
+   var  classroll = document.getElementById('classroll').value;
+    var uniroll = document.getElementById('uniroll').value;
+   var code=220;   
+   alert(uniroll);
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll
             },
             success:function(response) 
             {

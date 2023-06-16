@@ -18,7 +18,7 @@ $j = 0;
 
 $startDate=$_POST['startDate'];
 $endDate=$_POST['endDate'];
-$sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate 00:00:00' and '$endDate 11:59:59'  Order by entry_time asc";
+$sql123 = "SELECT * FROM computer_lab_entry  where entry_time between '$startDate' and '$endDate'  Order by entry_time asc";
 $stmt123 = mysqli_query($conn, $sql123);
 while ($row123 = mysqli_fetch_array($stmt123)) {
     $IDNo[] = $row123['UserID'];

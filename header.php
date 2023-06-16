@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    include "connection/connection.php";
+   $todaydate=date('Y-m-d');
 $timeStamp=date('Y-m-d H-i');
 if(!(ISSET($_SESSION['usr']))) 
 {?>
@@ -139,7 +140,10 @@ else
   <!-- Toastr -->
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
-
+<link rel="stylesheet" href="plugins/fullcalendar/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-daygrid/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-timegrid/main.min.css">
+  <link rel="stylesheet" href="plugins/fullcalendar-bootstrap/main.min.css">
 
   
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">

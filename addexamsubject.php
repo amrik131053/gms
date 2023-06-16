@@ -22,6 +22,148 @@ function checkall()
         document.getElementById("check1").style.display = "block";
 }
 
+    function edit_stu(id)
+          {
+               var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+     var code=204;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                document.getElementById("edit_stu").innerHTML=response;
+                
+              }
+           });
+          
+         }
+
+function sub_code_int_ext_type_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+         var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
+         var int=document.getElementById(id+"_Int").value;
+         var ext=document.getElementById(id+"_Ext").value;
+         var intm=document.getElementById(id+"_intmarks").value;
+         var extm=document.getElementById(id+"_extmarks").value;
+         var subtype=document.getElementById(id+"_subtype").value;
+         var code=210;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype
+              },
+              success: function(response) 
+              {
+                console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                          Search_exam_student();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}       function receipt_date_no_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+          spinner.style.display='block';
+         var rdate=document.getElementById("asreceipt_date").value;
+       var rno=document.getElementById("asreceipt_no").value;
+      
+         var code=211;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,receipt_date:rdate,receipt_no:rno
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                          Search_exam_student();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}
+
+
+  function exam_type_update(id)
+    {
+         var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+       var type=document.getElementById('type_').value;
+       var examination=document.getElementById('examination_').value;
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(type+' '+examination);
+     var code=208;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,examination:examination,type:type
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Update');
+                           Search_exam_student();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+    }
+
+
+
 function uncheckall()
 {
 
@@ -239,5 +381,24 @@ for($i=1;$i<=12;$i++)
       <!-- /.container-fluid -->
     </section>
 
+   <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" >
+     <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body" id="edit_stu">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 <div
     <?php include "footer.php";  ?>

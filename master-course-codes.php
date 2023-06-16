@@ -11,10 +11,10 @@
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
                     <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);"> Upload </a>
-                   <!--  <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
+                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
-                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> -->
+                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
                     <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
                   </div>
 
@@ -27,9 +27,34 @@
         </h5>
         </center>
         </div>
-               <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
+              
            <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-3" style="text-align: center;">
+             <label>Select Session</label>
+  <br>
+<select name="session1"class="btn btn-default">
+<?php 
+for($s='2015';$s<='2030';$s++)
+{
+  ?>
+  <option value='<?=$s;?>'><?=$s;?></option>
+  <?php }?>
+</select>
+<select name="session2" class="btn btn-default">
+<?php 
+for($s1='16';$s1<='31';$s1++)
+{
+  ?>
+  <option value='<?=$s1;?>'><?=$s1;?></option>
+  <?php }?>
+</select>
+<select name="session3" class="btn btn-default">
+  <option value=''></option>
+  <option value='A'>A</option>
+   <option value='J'>J</option>
+</select>
+   </div>
+   <div class="col-lg-3" style="text-align: center;">
                   <input type="hidden" name="code" value="256" >
                 <label>College Name</label>
                  <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
@@ -47,7 +72,7 @@
                         ?>
                </select> 
               </div>
-               <div class="col-lg-2">
+               <div class="col-lg-2" style="text-align: center;">
                  <label>Department</label>
                   <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
                      <option value=''>Select Department</option>
@@ -55,7 +80,7 @@
               </div>  
 
 
-              <div class="col-lg-2">
+              <div class="col-lg-2" style="text-align: center;">
                  <label>Course</label>
                   <select  id="Course" name="Course" class="form-control" required >
                      <option value=''>Select Course</option>
@@ -65,7 +90,7 @@
 
              
 
-              <div class="col-lg-1">
+              <div class="col-lg-2" style="text-align: center;">
                  <label>Batch</label>
                    <select id="batch" name="batch"  class="form-control" required>
                        <option value="">Batch</option>
@@ -76,32 +101,52 @@
                            <?php }
                                   ?>
                  </select>
-                  <input type ="hidden" id="semester" name="semester"  class="form-control" >
-                     
-            
               </div>   
-              <div class="col-lg-2">
-               <label>File .xls</label>
-               <input type="file" name="file_exl" id="file_exl" class="form-control" name=""  required>
+                          
+          
+                         
+            </div>
+        <br>
+
+          <div class="row">
+              <div class="col-lg-3" style="text-align:center;">
+                  <input type="hidden" name="code" value="256" >
+                <label>First RollNo</label>
+                 <input type="text" name="Classroll" class="form-control"> 
               </div>
+               <div class="col-lg-3" style="text-align:center;">
+                  <input type="hidden" name="code" value="256" >
+                <label>Last RollNo </label>
+                 <input type="text" name="Classroll" class="form-control"> 
+              </div>
+
+
+              <div class="col-lg-2">
+                 <label>ValidUpto</label>
+                  <input type="date" name="Classroll" class="form-control"> 
+              </div>
+
+
+             
+
+              <div class="col-lg-2">
+                 <label>Lateral Entry</label>
+                   <select id="batch" name="batch"  class="form-control" required>
+                       <option value="No">NO</option>
+                        <option value="Yes">Yes</option>
+                          
+                                  ?>
+                 </select>
+              </div>   
+           
               
           
               <div class="col-lg-1">
                  <label>Action</label><br>
                 <input type="submit" name="" class="btn btn-success" value="Upload">
               </div>
-              <div class="col-lg-1">
-                 <label>Format</label><br>
-                   <button class="btn btn-warning" type="button" onclick="format();">Download</button>
-              </div>
-            
-            </div>
-         </form><br><br>
-
-
-         <div class="row" id="load_study_scheme">
-
              
+            
             </div>
         </div>
    </div>
@@ -123,7 +168,7 @@
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
- 
+
           function search_study_scheme()
           {
        var code=227;
@@ -288,24 +333,24 @@ function Update(){
             }
          });
 }
-// function Upload()
-// { //241
-//   var code=241;
-//          var spinner=document.getElementById('ajax-loader');
-//          spinner.style.display='block';
-//          $.ajax({
-//             url:'action.php',
-//             type:'POST',
-//             data:{
-//                code:code
-//                },
-//             success: function(response) 
-//             { 
-//                spinner.style.display='none';
-//                document.getElementById("table_load").innerHTML=response;
-//             }
-//          });
-// }
+function Upload()
+{ //241
+  var code=241;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+}
 
 
    $(document).ready(function (e) {    // image upload form submit
@@ -326,16 +371,13 @@ function Update(){
                   {
                       console.log(data);
                           spinner.style.display='none';
-                          if (data==1)
+                          if (data=='1')
                            {
                            SuccessToast('Successfully Uploaded');
-                          update_study_scheme_search();
-
                           }
                           else
                           {
-                           ErrorToast(data,'bg-danger' );
-                           update_study_scheme_search();
+                           ErrorToast('something went wrong','bg-danger' );
                           }
                   }, 
               });

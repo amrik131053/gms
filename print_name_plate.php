@@ -105,18 +105,18 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
    $pdf->Rotate(0);
 
 // $pdf->RotatedText(159,12,'Hello!',45);
-   $pdf->SetXY($left+220,$down+49);
+   $pdf->SetXY($left+300,$down+49);
    $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
     // $pdf->StartTransform();          
    // $pdf->Rotate(180);
    $pdf->Rotate(180);
-   $pdf->MultiCell(220,25,$Name,'0','R');
+   $pdf->MultiCell(300,25,$Name,'0','R');
    $pdf->Rotate(0);
    $pdf->SetXY($left1,$down1);
    $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
-   $pdf->MultiCell(220,25,$Name,'0','R');
+   $pdf->MultiCell(250,25,$Name,'0','L');
 
    $pdf->SetXY($left1+60,$down1+36);
    $pdf->SetFont('Arial','B',20);

@@ -35,6 +35,7 @@ function selectAll()
 }
 
 
+
 function Search_exam_student()
 {
 
@@ -59,7 +60,7 @@ var xmlhttp = new XMLHttpRequest();
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
       {     
 
-
+ 
           //x.style.display = "none";
           spinner.style.display='none';
           document.getElementById("live_data_Exam_student").innerHTML=xmlhttp.responseText;
@@ -134,6 +135,27 @@ $("#Course").html(data);
 });
 
 }
+function collegeByDepartment(College) 
+{  
+     
+var code='304';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+     
+$("#Department").html("");
+$("#Department").html(data);
+}
+}
+});
+
+}
+
+
 
 function add_subject_examform()
 {

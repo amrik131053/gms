@@ -1,6 +1,9 @@
 <?php 
-   include "header.php";   
-   ?>
+   include "header.php"; 
+  
+$tz = 'Asia/Kolkata';   
+   date_default_timezone_set($tz);  ?>
+
 <section class="content">
    <div class="container-fluid">
       <div class="row">
@@ -29,12 +32,12 @@
                                        <div class="input-group-prepend">
                                           <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
                                        </div>
-                                       <input required type="date" class="form-control" name="startDate" aria-describedby="button-addon2">
+                                       <input required type="datetime-local" class="form-control" name="startDate" aria-describedby="button-addon2">
                                        &nbsp;
                                        <div class="input-group-prepend">
                                           <span class="input-group-text bg-success" id="inputGroup-sizing-sm">End</span>
                                        </div>
-                                       <input required type="date" class="form-control" name="endDate" aria-describedby="button-addon2">
+                                       <input required type="datetime-local" class="form-control" name="endDate" aria-describedby="button-addon2">
                                        <button class="btn btn-info btn-sm" type="submit" id="button-addon2" ><i class="fa fa-file-export"></i></button>
                                     </div>
                                  </form>

@@ -3352,7 +3352,7 @@ $Course = $_GET['Course'];
 
 
 $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ORDER BY Admissions.UniRollNo";
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
 
@@ -3381,7 +3381,9 @@ if($list_result === false) {
                 echo "<td>".$count++."</td>";
                 // echo "<td>".$row['ID']."</td>";
                 ?><td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal" data-target="#exampleModal"><?=$row['UniRollNo'];?></a></td>
+                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></b>
+
+             </td>
                   <?php echo "<td>".$row['StudentName']."</a></td>";
                 echo "<td>".$row['Course']."</td>";
                 echo "<td>".$row['Semesterid']."</td>";

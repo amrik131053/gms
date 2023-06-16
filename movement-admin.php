@@ -5,8 +5,7 @@
 
 <section class="content">
    <div class="container-fluid">
-   <div class="card card-info">
-   </div>
+  
    <div class="row">
       <!-- left column -->
       <div class="col-lg-4 col-md-4 col-sm-4">
@@ -86,8 +85,27 @@
   
              
    <div class="card card-info">
+
+
             <div class="card-header">
-               <h3 class="card-title">My Reports</h3>
+<div class="row">
+
+<div class="col-sm-8">               <h3 class="card-title">My Reports</h3>
+
+
+</div>
+<div class="col-sm-4"> 
+
+               <?php if($EmployeeID=='131053')
+             { ?>
+              <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Movements();bg(this.id);">  GKU Movements </a>
+
+
+                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="adminreports();bg(this.id);"> GKU Report </a>
+         <?php } ?>
+
+     </div>
+ </div>
 </div>
 
 
@@ -102,11 +120,7 @@
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Granted</a>
                       <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="refused();bg(this.id);"> Refused</a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Reports();bg(this.id);"> Reports </a>
-                     <?php if($EmployeeID=='131053')
-             { ?>
-              <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Movements </a>
-                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> GKU Report </a>
-         <?php } ?>
+                    
                    
                   </div>
 
@@ -124,6 +138,9 @@
 </div>
 </div>
 </div> 
+             
+
+
               </div>
              
 
@@ -330,9 +347,52 @@ function pending()
 
      }
 
+ function Movements()
+          {
+       var code=302;
+
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
 
 
 
+
+ function adminreports()
+          {
+       var code=303;
+
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
 
 
 
