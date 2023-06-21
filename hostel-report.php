@@ -41,7 +41,24 @@ while($permission_data=mysqli_fetch_array($permission_res))
                      <div class="col-lg-12">
                         <div class="card-tools">
                            <div class="row">
-                              
+                              <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="Session" id='Session'>
+                                       <!-- <option value="">Session</option> -->
+                                       <?php
+                                       $sessionSql="SELECT Distinct session FROM hostel_student_summary order by session DESC";
+                                       $sessionRes=mysqli_query($conn,$sessionSql);
+                                       while($sessionData=mysqli_fetch_array($sessionRes))
+                                       {
+                                          $session=$sessionData['session'];
+                                          ?>
+                                          <option value="<?=$session?>"><?=$session?></option>
+                                          <?php
+                                       } 
+                                       ?>
+                                    </select>
+                                 </div>
+                              </div>
                               <div class="col-lg-2">
                                  <div class="input-group-sm">
                                     <select class="form-control" name="hostel" id='hostel_id' onchange="hostelFloor(this.value)"  >
@@ -94,24 +111,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="fullReport()" >All</button>
                                  </div>
                               </div>
-                              <div class="col-lg-2">
-                                 <div class="input-group-sm">
-                                    <select class="form-control" name="Session" id='Session'>
-                                       <option value="">Select Session</option>
-                                       <?php
-                                       $sessionSql="SELECT Distinct session FROM hostel_student_summary";
-                                       $sessionRes=mysqli_query($conn,$sessionSql);
-                                       while($sessionData=mysqli_fetch_array($sessionRes))
-                                       {
-                                          $session=$sessionData['session'];
-                                          ?>
-                                          <option value="<?=$session?>"><?=$session?></option>
-                                          <?php
-                                       } 
-                                       ?>
-                                    </select>
-                                 </div>
-                              </div>
+                              
                               <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportHostelReport()" >Export</button>
@@ -237,7 +237,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
          
          var code='83';
          var building=document.getElementById("hostel_id").value;
-         if (building!='') 
+         var session=document.getElementById("Session").value;
+         if (building!=''&& session!='') 
          {
          var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';
@@ -248,7 +249,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             // alert(room);
             $.ajax({
             url:'action.php',
-            data:{code:code,building:building,floor:floor,room:room},
+            data:{code:code,building:building,floor:floor,room:room,session:session},
             type:'POST',
             success:function(data){
             if(data != "")

@@ -5221,23 +5221,25 @@ if($count>0)
    {   
    $count=0;
    $building=$_POST['building'];
+   $session=$_POST['session'];
    $floor=$_POST['floor'];
    $room=$_POST['room'];
    if ($building!='' && $floor=='' && $room=='') 
    {
-      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building' and hostel_student_summary.status='0'";
+      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  AND session='$session' order by hostel_student_summary.status  ASC ";
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building' and hostel_student_summary.status='0' and RoomNo='$room'";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' AND session='$session' order by hostel_student_summary.status ASC ";
+   //and hostel_student_summary.status='0'
    }
    elseif ($building!='' && $floor!='' && $room=='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building' and hostel_student_summary.status='0' and Floor='$floor'";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and Floor='$floor' AND session='$session' order by hostel_student_summary.status ASC ";
    }
    elseif ($building!='' && $floor!='' && $room!='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building' and hostel_student_summary.status='0' and RoomNo='$room' and Floor='$floor'";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' and Floor='$floor' AND session='$session' order by hostel_student_summary.status ASC";
    }
    
    ?>
@@ -5279,7 +5281,8 @@ if($count>0)
               $batch = $row['Batch'];
               $college = $row['CollegeName'];
           }
-          $sql1="SELECT * from hostel_student_summary where status='0' and student_id='$IDNo'";
+           //$sql1="SELECT * from hostel_student_summary where status='0' and student_id='$IDNo'";
+          $sql1="SELECT * from hostel_student_summary where  student_id='$IDNo' ";
           $res1=mysqli_query($conn,$sql1);
           while($data1=mysqli_fetch_array($res1))
           {
@@ -5301,7 +5304,23 @@ if($count>0)
          <center><img src="data:image/jpeg;base64,<?=$img?>" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></center>
       </td>
       <td><?=$data['check_in_date']?></td>
-      <td><i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"></i></td>
+
+
+      <td>  <?php if($data['status']!='0')
+      {?>
+         <i class="fa fa-check"></i>
+
+      <?php }
+            else
+               {
+?>
+
+ <i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"></i>
+
+            <?php    }
+      ?>
+
+        </td>
       <td><i class="fa fa-eye fa-lg" onclick="studentAttendance(<?=$IDNo?>);" data-toggle="modal" data-target="#student_attendance" style="color:red;"></i></td>
    </tr>
    <?php
