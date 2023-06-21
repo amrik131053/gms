@@ -3865,7 +3865,7 @@ $TokenNo=$_POST['Token_No'];
    if($check_flow_row=mysqli_fetch_array($check_flow_run))
    {
 
-if ($check_flow_row['status']<1)
+if ($check_flow_row['status']<2)
  {
 ?>    <label class="btn btn-warning  btn-xs ">
                     <input type="radio" name="options" onclick="toggleDiv_recommend();" id="option_a1" autocomplete="off"> Recommend
