@@ -2054,7 +2054,7 @@ $TokenNo=2300;
          $CollegeName=$get_auth_details_row['CollegeName'];
          $Department=$get_auth_details_row['Department'];
       }
-           $insert_request="INSERT INTO `vehicle_allotment` (`emp_id`,`name`,`designation`,`college`,`department`, `token_no`, `station`, `purpose`, `attachment`, `submit_date_time`, `journey_start_date`, `journey_end_date`, `vehicle_type`, `vehicle_alloted_id`, `status`,`flow_index`) VALUES ('$EmployeeID','$Emp_Name','$Emp_Designation','$Emp_CollegeName','$Emp_Department' ,'$TokenNo', '$station', '$purpose', 'NA', '$timeStamp', '$from', '$to', '$type', '0', '3','0');";
+           $insert_request="INSERT INTO `vehicle_allotment` (`emp_id`,`name`,`designation`,`college`,`department`, `token_no`, `station`, `purpose`, `attachment`, `submit_date_time`, `journey_start_date`, `journey_end_date`, `vehicle_type`, `vehicle_alloted_id`, `status`,`flow_index`,`flow_index1`) VALUES ('$EmployeeID','$Emp_Name','$Emp_Designation','$Emp_CollegeName','$Emp_Department' ,'$TokenNo', '$station', '$purpose', 'NA', '$timeStamp', '$from', '$to', '$type', '0', '3','0','1');";
       $insert_request_run=mysqli_query($conn,$insert_request);
 
          $insert_request_process="INSERT INTO `vehicle_allotment_process` (`token_no`, `emp_id`, `name`, `designation`, `college`, `department`, `forward_emp_id`, `farward_name`, `farward_designation`, `farward_college`, `farward_department`, `remarks`, `date_time`, `action`) VALUES ( '$TokenNo', '$user_auth[0]', '$Name', ' $Designation', '$CollegeName', '$Department', NULL, '', '', '', '', NULL, '$timeStamp', '0');";
