@@ -8349,6 +8349,15 @@ elseif ($code==138)
       $flag=1;
 
    }
+
+    elseif($examName=='4')
+   {
+
+      // for sports quota or 50 marks 
+      $questionCountQry="Select * from question_generate_count where unit='5'";
+      $flag=1;
+
+   }
    else
    {
       $flag=0;
@@ -8390,8 +8399,21 @@ else
             {
                $unit=rand(1,2);
             }
+
+            if($unit>4)
+            {
+           $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+            }
+            else
+            {
+                $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+            }
         
-             $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+
+            
+
+
+
             $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
              while($questionBankData1=mysqli_fetch_array($questionBankRes1))
