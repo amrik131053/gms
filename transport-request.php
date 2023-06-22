@@ -24,11 +24,6 @@ include "header.php";
             }
          });
       }     
- 
-                  
-
-   
-
 
 function create_request()
 {
@@ -97,7 +92,7 @@ function my_transport_request()
                  document.getElementById("data_show").innerHTML=response;
               }
            });
-}
+} 
 
 function view_request_submit(Token_No)
 {
@@ -114,7 +109,6 @@ function view_request_submit(Token_No)
               success: function(response) 
               {
                   spinner.style.display='none';
-             
                  document.getElementById("view_timeline_data").innerHTML=response;
               }
            });
@@ -136,6 +130,7 @@ window.onload = function() {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
                       <div class="modal-body" id="view_timeline_data" style="font-size:15px !important;">
                            
 

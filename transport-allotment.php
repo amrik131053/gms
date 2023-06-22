@@ -146,7 +146,7 @@ function allotment_by_allotment_auth()
                  if (response==1) 
                  {
                     SuccessToast('Successfully Alloted');
-                  show_timeline_verification_approve(token);
+                 show_timeline_verification_alott(token);
                   pending_requests();
                  }
                  else
@@ -163,7 +163,7 @@ function reject_by_allotment_auth() {
     var id=document.getElementById('time_line_id').value;
   var token=document.getElementById('time_line_token').value;
   var userId=document.getElementById('time_line_userId').value;
-  var forward_remarks=document.getElementById('comment_approve').value;
+  var forward_remarks=document.getElementById('comment_reject').value;
  // alert(id+token+userId+forward_remarks);
     var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -176,12 +176,12 @@ function reject_by_allotment_auth() {
               },
               success: function(response) 
               {
-                
+                console.log(response);
                   spinner.style.display='none';
                   if (response==1) 
                  {
                     SuccessToast('Successfully Rejected');
-                  show_timeline_verification_approve(token);
+                  show_timeline_verification_alott(token);
                   pending_requests();
                  }
                  else
@@ -212,12 +212,12 @@ function approve_by_allotment_auth()
               },
               success: function(response) 
               {
-                console.log(response);
+                // console.log(response);
                   spinner.style.display='none';
                   if (response==1) 
                  {
                     SuccessToast('Successfully Approved');
-                  show_timeline_verification_approve(token);
+                  show_timeline_verification_alott(token);
                   pending_requests();
                  }
                  else
@@ -364,72 +364,13 @@ window.onload = function() {
           </div>
         </div>
        
-        <div class="card-body table-responsive " id="action_button" style="display:;">
-      
-          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="action_button_dynamic">
-          
-
-
-            
-               <!--    <label class="btn btn-warning  btn-xs ">
-                    <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Approve
-                  </label>
-                  <label class="btn btn-danger btn-xs">
-                    <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
-                  </label>
-                  <label class="btn btn-success btn-xs">
-                    <input type="radio" name="options" onclick="toggleDiv_allotment();" id="option_a3" autocomplete="off"> Allotment
-                  </label>
-                 -->
-                </div>
-                <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
-                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_allotment_auth();"  value="Submit" style="display:none;">
-
-
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
-                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_allotment_auth();"  value="Submit" style="display:none;">
-<div class="row">
-     <div class="col-lg-12" id="comment_allotment" style="display:none;">
-                          <label>Type of Vehicle</label>
-                             <select class="form-control"onchange="drop_type_vehicle(this.value);" id="type" >
-            <option value="">Select</option>
-            <?php  $get_type1="SELECT * FROM vehicle_types";
-              $get_type_run1=mysqli_query($conn,$get_type1);
-              while($row1=mysqli_fetch_array($get_type_run1))
-              {?>
-            <option value="<?=$row1['id'];?>"><?=$row1['name'];?></option>
-            <?php 
-              }
-             ?>
-          </select>
-                          <label> Vehicle</label>
-
-          <select class="form-control" id="vehicle_name" >
-           
-          </select>
-                          <label> Driver Name</label>
-
-          <select class="form-control" id="driver" >
-              <?php  $get_type="SELECT * FROM Staff Where Designation='Driver' and JobStatus='1'";
-              $get_type_run=sqlsrv_query($conntest,$get_type);
-              while($row=sqlsrv_fetch_array($get_type_run,SQLSRV_FETCH_ASSOC))
-              {?>
-            <option value="<?=$row['IDNo'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['IDNo'];?>)</option>
-            <?php 
-              }
-             ?>
-          </select>
-                         </div>
-                </div>
-                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_allotment" onclick="allotment_by_allotment_auth();"  value="Submit" style="display:none;">
+        <div class="card-body table-responsive " id="action_button_dynamic"  style="height:440px;">
+        
           </div>
         
       </div>
   </div>
 </div>
-      <!-- Default box -->
-   
-      <!-- /.card -->
 
     </section>
     <!-- /.content -->

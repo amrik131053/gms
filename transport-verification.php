@@ -73,7 +73,6 @@ function show_timeline_verification(token)
               {
                   spinner.style.display='none';
                  document.getElementById("show_timeline_verification_div").innerHTML=response;
-                 // $('#action_button').show('slow');
                  show_action_button_with_status(token);
               }
            });
@@ -261,25 +260,9 @@ function reject_by_verify()
           </div>
         </div>
        
-        <div class="card-body table-responsive " id="action_button" style="display:">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="action_button_dynamic">
-                 <!--  <label class="btn btn-warning  btn-xs ">
-                    <input type="radio" name="options" onclick="toggleDiv_recommend();" id="option_a1" autocomplete="off"> Recommend
-                  </label>
-                  <label class="btn btn-danger btn-xs">
-                    <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
-                  </label>
-                  -->
-                
-                </div>
-                    <textarea class="form-control " placeholder="Recommend Remarks" rows="3" id="comment_recommend" style="display:none;"></textarea>
-                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_recommend" onclick="recommend_by_verify();"  value="Submit" style="display:none;">
+        <div class="card-body table-responsive " id="action_button_dynamic"  style="height:440px;">
+                       
 
-
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
-                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_verify();"  value="Submit" style="display:none;">
-        </div>
-        
       </div>
   </div> 
 </div>

@@ -2099,7 +2099,7 @@ echo "3"; // flow set please
            </tr>
          </thead>
          <tbody>
-            <?php  $sr=1; $get_requests="SELECT * FROM vehicle_allotment where emp_id='$EmployeeID'"; 
+            <?php  $sr=1; $get_requests="SELECT * ,vehicle_types.name as t_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.emp_id='$EmployeeID' order by  vehicle_allotment.id DESC"; 
                   $get_requests_run=mysqli_query($conn,$get_requests);
                   while($get_row=mysqli_fetch_array($get_requests_run))
                   {
@@ -2121,18 +2121,17 @@ echo "3"; // flow set please
                      }
                      elseif($get_row['status']==4)
                      {
-                     $status_user_side="<b class='bg-warning'>Forward To Registrar</b>";
+                     $status_user_side="<b class='bg-warning'>Approved by Registrar</b>";
                      }
                      elseif($get_row['status']==5)
                      {
-                     $status_user_side="<b class='bg-success'>Complete</b>";
+                        
+                     $status_user_side="<b class='bg-success'>Allotted</b>";
                      }
                      else
                      {
 
                      }
-
-
              ?>
             <tr>
                <td><?=$sr;?></td>
@@ -2140,9 +2139,31 @@ echo "3"; // flow set please
                <td><?=$get_row['station'];?></td>
                <td><?=$get_row['purpose'];?></td>
                <td><?=$get_row['journey_start_date'];?></td>
-               <td><?=$get_row['vehicle_type'];?></td>
-               <td><?=$status_user_side;?></td>
-               <td><i class="fa fa-eye fa-lg" data-toggle="modal" data-target="#ViewRequestModal"  onclick="view_request_submit(<?=$get_row['token_no'];?>);"></i></td>
+               <td><?=$get_row['t_name'];?></td>
+               <td><?=$status_user_side;?> </td>
+               <td>
+ <button type="button" data-toggle="modal" data-target="#ViewRequestModal"  onclick="view_request_submit(<?=$get_row['token_no'];?>);" class="btn btn-info btn-sm "><i class="fa fa-eye" aria-hidden="true"></i></button>
+                 
+               <?php if($get_row['status']==5)
+                     {
+                         $vehicle_id=$get_row['vehicle_alloted_id'];
+                          $get_driver_details="SELECT * FROM vehicle_book_details  where vehicle_id='$vehicle_id'"; 
+                  $get_driver_details_run=mysqli_query($conn,$get_driver_details);
+                  if($get_driver_details_run_row=mysqli_fetch_array($get_driver_details_run))
+                  {  
+                $driver_id=$get_driver_details_run_row['driver_id'];
+                 $get_emp_driver="SELECT * FROM Staff Where IDNo='$driver_id' and JobStatus='1'";
+              $get_emp_driver_run=sqlsrv_query($conntest,$get_emp_driver);
+              if($row=sqlsrv_fetch_array($get_emp_driver_run,SQLSRV_FETCH_ASSOC))
+              {     
+                        ?>
+                  <a href="tel:<?=$row['MobileNo'];?>"><button type="button" class="btn btn-success btn-sm "><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;Driver</button></a>
+                  <?php  }
+
+           }?>
+               </td>
+                     
+<?php                      }?>
               
             </tr>
          <?php $sr++; }?>
@@ -2165,7 +2186,7 @@ echo "3"; // flow set please
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -2173,8 +2194,8 @@ echo "3"; // flow set please
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2199,7 +2220,7 @@ echo "3"; // flow set please
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'";
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'";
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -2207,8 +2228,8 @@ echo "3"; // flow set please
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2233,7 +2254,7 @@ echo "3"; // flow set please
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment.status='2'";
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment.status='2'";
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -2241,8 +2262,8 @@ echo "3"; // flow set please
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2266,16 +2287,17 @@ echo "3"; // flow set please
           </thead>
           <tbody>
              <?php  
-              $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
+              $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id   where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
+
              ?>
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2300,7 +2322,7 @@ echo "3"; // flow set please
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'";  
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'";  
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -2308,8 +2330,8 @@ echo "3"; // flow set please
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2335,16 +2357,16 @@ echo "3"; // flow set please
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='2'"; 
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='2'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
              ?>
             <tr>
               <td><?=$sr;?></td>
-              <td><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -2366,18 +2388,21 @@ echo "3"; // flow set please
                 <span class="bg-red">Token No:<?=$TokenNo;?></span>
               </div>
              <?php 
-      $get_details_token="SELECT * FROM  vehicle_allotment   where token_no='$TokenNo'"; 
+      $get_details_token="SELECT * ,vehicle_types.name as t_name,vehicle_allotment.name as e_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.token_no='$TokenNo'"; 
                   $get_details_token_run=mysqli_query($conn,$get_details_token);
                   if($get_row_token=mysqli_fetch_array($get_details_token_run))
                   {       
    ?>  
-              <div >
+
+              <div>
+
                <i class="fa fa-stop-circle bg-primary" aria-hidden="true"></i>
                 <div class="timeline-item">
-                  <span class="time"><i class="fas fa-clock"></i> <?=$get_row_token['submit_date_time'];?></span>
-                 <h3 class="timeline-header"><b>Request by&nbsp;&nbsp;:&nbsp;&nbsp;<?=$get_row_token['emp_id'];?></b>&nbsp;&nbsp;<?=$get_row_token['name'];?></h3>
 
-                  <div class="timeline-body" >
+                  <span class="time"><i class="fas fa-clock"></i>   <?=date("d-m-Y h:i:A", strtotime($get_row_token['submit_date_time']));?></span>
+                 <h3 class="timeline-header"><b>Request by&nbsp;&nbsp;:&nbsp;&nbsp;<?=$get_row_token['emp_id'];?></b>&nbsp;&nbsp;<?=$get_row_token['e_name'];?></h3>
+
+                  <div class="timeline-body table-responsive" >
                     <table class="table">
                        <tr>
                           <th>Name</th>
@@ -2386,10 +2411,10 @@ echo "3"; // flow set please
                           <th>Vehicle Name</th>
                        </tr>
                        <tr>
-                          <td><?=$get_row_token['name'];?></td>
+                          <td><?=$get_row_token['e_name'];?></td>
                           <td><?=$get_row_token['designation'];?></td>
                           <td><?=$get_row_token['department'];?></td>
-                          <td><?=$get_row_token['vehicle_type'];?></td>
+                          <td><?=$get_row_token['t_name'];?></td>
                          
                        </tr>  
                         <tr>
@@ -2401,8 +2426,10 @@ echo "3"; // flow set please
                        <tr>
                           <td><?=$get_row_token['station'];?></td>
                           <td><?=$get_row_token['purpose'];?></td>
-                          <td><?=$get_row_token['journey_start_date'];?></td>
-                          <td><?=$get_row_token['journey_end_date'];?></td>
+
+                          <td><?=date("d-m-Y h:i:A", strtotime($get_row_token['journey_start_date']));?></td>
+
+                          <td><?=date("d-m-Y h:i:A", strtotime($get_row_token['journey_end_date']));?></td>
                          
                        </tr>
                     </table>
@@ -2484,20 +2511,36 @@ echo "3"; // flow set please
                   }
                   
             ?>
+
                <div>
+
             <i class="fa fa-<?=$envolp_icon;?> bg-<?=$envolp;?>" aria-hidden="true"></i>
                 <div class="timeline-item">
-                  <span class="time"><i class="fas fa-clock"></i> <?=$get_details_run_row['date_time'];?></span>
+
+                  <span class="time"><i class="fas fa-clock"></i> <?=date("d-m-Y h:i:A", strtotime($get_details_run_row['date_time']));?></span>
+
                  <p class="timeline-header"><?=$Self;?>&nbsp;&nbsp;<?=$get_details_run_row['process_name'];?>&nbsp;(<?=$get_details_run_row['process_emp_id'];?>)<?=$forward_to_;?></p>
 
+               <!--   <div class="ribbon-wrapper ribbon-sm">
+                        <div class="ribbon bg-primary ">
+                          Complete
+                        </div>
+                      </div> -->
                   <div class="timeline-body">
-               
+               <?php 
+               if ($get_details_run_row['remarks']!='')
+                {
+                  echo "<b>Remarks: &nbsp;</b>".$get_details_run_row['remarks'];
+               }
+               else
+               {
+
+               }
               
-           <b>Remarks:</b>   <?=$get_details_run_row['remarks'];?>
-           <?php 
-           if ($get_details_run_row['action']==5) {
+            
+           if ($get_details_run_row['action']==5)
+            {
               // code...
-           
            $get_driver_details="SELECT * FROM  vehicle_allotment inner join vehicle_book_details  ON vehicle_allotment.vehicle_alloted_id=vehicle_book_details.vehicle_id  inner join vehicle ON vehicle.id=vehicle_allotment.vehicle_alloted_id   where vehicle_allotment.token_no='$TokenNo'"; 
                   $get_driver_details_run=mysqli_query($conn,$get_driver_details);
                   if($get_driver_details_run_row=mysqli_fetch_array($get_driver_details_run))
@@ -2507,6 +2550,7 @@ echo "3"; // flow set please
               $get_emp_driver_run=sqlsrv_query($conntest,$get_emp_driver);
               while($row=sqlsrv_fetch_array($get_emp_driver_run,SQLSRV_FETCH_ASSOC))
               {?>
+     <div class="table-responsive">          
 <table class="table">
    <tr>
       <td><b>Driver ID:</b><?=$row['IDNo'];?></td>
@@ -2519,6 +2563,7 @@ echo "3"; // flow set please
       <td><?=$get_driver_details_run_row['image'];?></td>
    </tr>
 </table>
+</div>
               <?php }
                   }
                   else
@@ -2636,14 +2681,14 @@ echo "3"; // flow set please
  {
 $userId=$_POST['userId'];
 $TokenNo=$_POST['token'];
-$forward_remarks=$_POST['comment_reject'];
+$forward_remarks=$_POST['forward_remarks'];
 
       
-        $action_update_after_forward="UPDATE vehicle_allotment_process SET date_time='$timeStamp', remarks='$forward_remarks', action='2' where token_no='$TokenNo' and emp_id='$EmployeeID'";
+         $action_update_after_forward="UPDATE vehicle_allotment_process SET date_time='$timeStamp', remarks='$forward_remarks', action='2' where token_no='$TokenNo' and emp_id='$EmployeeID'";
 
       $insert_request_process_run=mysqli_query($conn,$action_update_after_forward);
 
-      $action_update_after_forward1="UPDATE vehicle_allotment SET  status='2' where token_no='$TokenNo' ";
+       $action_update_after_forward1="UPDATE vehicle_allotment SET  status='2' where token_no='$TokenNo' ";
       mysqli_query($conn,$action_update_after_forward1);
 
       
@@ -3586,7 +3631,7 @@ else
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
+             <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id   where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='0'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -3594,8 +3639,8 @@ else
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -3623,7 +3668,7 @@ else
           <tbody>
              <?php 
               $sr=1; 
-              $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'"; 
+              $get_pending="SELECT *,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -3631,8 +3676,8 @@ else
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -3659,7 +3704,7 @@ else
           <tbody>
              <?php 
               $sr=1; 
-              $get_pending="SELECT * FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='2'"; 
+              $get_pending="SELECT * ,vehicle_types.name as v_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id   where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='2'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -3667,8 +3712,8 @@ else
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -3752,7 +3797,11 @@ while($row_v=mysqli_fetch_array($get_cehicle_run))
             </tr>
           </thead>
           <tbody>
-             <?php  $sr=1; $get_pending="SELECT * FROM vehicle_allotment where  status='5'"; 
+             <?php  $sr=1; $get_pending="SELECT DISTINCT vehicle_allotment.token_no,vehicle_allotment.submit_date_time,vehicle_types.name as v_name FROM 
+             vehicle_allotment_process inner join vehicle_allotment  ON 
+             vehicle_allotment_process.token_no=vehicle_allotment.token_no
+              inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id 
+               where  vehicle_allotment.status='5'"; 
                   $get_pending_run=mysqli_query($conn,$get_pending);
                   while($get_row=mysqli_fetch_array($get_pending_run))
                   {
@@ -3760,8 +3809,8 @@ while($row_v=mysqli_fetch_array($get_cehicle_run))
             <tr>
               <td><?=$sr;?></td>
               <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><?=$get_row['token_no'];?></td>
-              <td><?=$get_row['vehicle_type'];?></td>
-              <td><?=$get_row['submit_date_time'];?></td>
+              <td><?=$get_row['v_name'];?></td>
+              <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td>
              
             </tr>
 
@@ -3820,34 +3869,82 @@ $user_flow_id=$check_flow_row['flow_index1'];
    }
    elseif($code==72)
    {
-$TokenNo=$_POST['Token_No'];
-                $check_flow="SELECT status FROM  vehicle_allotment  Where token_no='$TokenNo'";
+       $TokenNo=$_POST['Token_No'];
+    $check_flow="SELECT status FROM  vehicle_allotment  Where token_no='$TokenNo'";
    $check_flow_run=mysqli_query($conn,$check_flow);
    if($check_flow_row=mysqli_fetch_array($check_flow_run))
    {
 
-if ($check_flow_row['status']<=3)
+if ($check_flow_row['status']<=4)
  {
-?>   <label class="btn btn-warning  btn-xs ">
+?>  
+
+  <div class="btn-group btn-group-toggle" data-toggle="buttons" >
+           <label class="btn btn-warning  btn-xs ">
                     <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Approve
                   </label> <label class="btn btn-danger btn-xs">
                     <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
-                  </label> <?php   // code...
-}
-elseif($check_flow_row['status']==4)
-{
-?><label class="btn btn-success btn-xs">
+                  </label>
+                  <label class="btn btn-success btn-xs">
                     <input type="radio" name="options" onclick="toggleDiv_allotment();" id="option_a3" autocomplete="off"> Allotment
                   </label>
-                  <label class="btn btn-danger btn-xs">
-                    <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
-                  </label><?php
+
+                </div>
+                <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
+                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_allotment_auth();"  value="Submit" style="display:none;">
+
+
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_allotment_auth();"  value="Submit" style="display:none;">
+               <div class="row">
+                  <div class="col-lg-12" id="comment_allotment" style="display:none;">
+                          <label>Type of Vehicle</label>
+                             <select class="form-control"onchange="drop_type_vehicle(this.value);" id="type" >
+            <option value="">Select</option>
+            <?php  $get_type1="SELECT * FROM vehicle_types";
+              $get_type_run1=mysqli_query($conn,$get_type1);
+              while($row1=mysqli_fetch_array($get_type_run1))
+              {?>
+            <option value="<?=$row1['id'];?>"><?=$row1['name'];?></option>
+            <?php 
+              }
+             ?>
+          </select>
+                          <label> Vehicle</label>
+
+          <select class="form-control" id="vehicle_name" >
+           
+          </select>
+                          <label> Driver Name</label>
+
+          <select class="form-control" id="driver" >
+              <?php  $get_type="SELECT * FROM Staff Where Designation='Driver' and JobStatus='1'";
+              $get_type_run=sqlsrv_query($conntest,$get_type);
+              while($row=sqlsrv_fetch_array($get_type_run,SQLSRV_FETCH_ASSOC))
+              {?>
+            <option value="<?=$row['IDNo'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['IDNo'];?>)</option>
+            <?php 
+              }
+             ?>
+          </select>
+                         </div>
+                </div>
+                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_allotment" onclick="allotment_by_allotment_auth();"  value="Submit" style="display:none;">
+                <?php
 }
-elseif($check_flow_row['status']>3)
+elseif($check_flow_row['status']==5)
 {
-?><label class="btn btn-primary btn-xs">
-                    <input type="radio" name="options" onclick="" id="" autocomplete="off"> Print 
-                  </label><?php
+?>
+                   <form action="transport_allotted_slip.php" method="POST" target="_blank">
+   <!-- <input type="hidden" name="token_no" value="<?=$check_flow_row['token_no'];?>"> -->
+   <input type="hidden" name="token_no" value="<?=$TokenNo;?>">
+<input type="submit"  class="btn btn-primary btn-xs"  value="Print" >
+</form>
+                <?php
+}
+else
+{
+
 }
    }
       ?>
@@ -3867,12 +3964,28 @@ $TokenNo=$_POST['Token_No'];
 
 if ($check_flow_row['status']<2)
  {
-?>    <label class="btn btn-warning  btn-xs ">
+?>    
+           <div class="btn-group btn-group-toggle" data-toggle="buttons" >
+<label class="btn btn-warning  btn-xs ">
                     <input type="radio" name="options" onclick="toggleDiv_recommend();" id="option_a1" autocomplete="off"> Recommend
                   </label>
                     <label class="btn btn-danger btn-xs">
                     <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
                   </label> 
+
+          </div>
+        
+          <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_recommend" style="display:none;"></textarea>
+          
+                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_recommend" onclick="recommend_by_verify();"  value="Submit" style="display:none;">
+
+       
+
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+
+                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_verify();"  value="Submit" style="display:none;">
+
+                 
                   <?php   // code...
 }
    }
@@ -3883,10 +3996,95 @@ if ($check_flow_row['status']<2)
                 <?php
    }
 
-   
+   elseif($code==74)
+   {
+$TokenNo=$_POST['Token_No'];
+                $check_flow="SELECT status FROM  vehicle_allotment  Where token_no='$TokenNo'";
+   $check_flow_run=mysqli_query($conn,$check_flow);
+   if($check_flow_row=mysqli_fetch_array($check_flow_run))
+   {
+
+if ($check_flow_row['status']<4)
+ {
+?>    
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-success  btn-xs ">
+                    <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Approve
+                  </label>
+                  <label class="btn btn-danger btn-xs">
+                    <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
+                  </label>     
+                </div>
+
+                 <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
+                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_approved_auth();"  value="Submit" style="display:none;">
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_approved_auth();"  value="Submit" style="display:none;">
+                 
+                  <?php   // code...
+}
+elseif ($check_flow_row['status']==5)
+ {
+?>
+<form action="transport_allotted_slip.php" method="POST" target="_blank">
+   <input type="hidden" name="token_no" value="<?=$TokenNo;?>">
+<input type="submit"  class="btn btn-primary btn-xs"  value="Print" >
+</form>
+<?php 
+
+   }
+     
+   }
+}
+   elseif($code==75)
+   {?>
+ <div class="row">
+<?php 
+ $empID=$_POST['emp_id'];
+ $get_flow_user="SELECT * FROM flow_user Where emp_id='$empID'";
+ $get_flow_user_run=$conn->query($get_flow_user);
+ if($row=mysqli_fetch_array($get_flow_user_run))
+ {
+   if ($row['type']=='Transport') 
+   {
+      ?>
+                <div class="col-lg-6">
+                  <label> Transport</label>
+                   <input type="text" class="form-control" value="<?=$row['flow'];?>">
+                </div>
+              
+      <?php 
+   }
+   else
+   {?>
+  <div class="col-lg-6">
+                   <label>Inventry</label>
+                   <input type="text"  class="form-control" value="<?=$row['flow'];?>">
+
+                </div>
+   <?php }
+
+ }
+   else
+   {
+      ?>
+       <div class="col-lg-6">
+                  <label> Transport</label>
+                   <textarea type="text" class="form-control" placeholder="Enter employee IDs with '&nbsp;,&nbsp;'"></textarea>
+                </div>
+  <div class="col-lg-6">
+                   <label>Inventry</label>
+                   <textarea type="text"  class="form-control" placeholder="Enter employee IDs with '&nbsp;,&nbsp;'"></textarea>
+
+                </div>
+   <?php
+   }
+             ?></div><?php 
+   }
    else
    {
    
    }
    }
+
    ?>     
