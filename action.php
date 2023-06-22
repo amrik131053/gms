@@ -8266,13 +8266,13 @@ elseif ($code==135)
                     {
                     
                     ?>
-                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$data1['id']?>)" ><?=$data1['id']?></i>
+                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$data1['id']?>)" ><?= $data1['id']?></i>
                     <?php 
                     }
                     else
                     {
                      ?>
-                    <i class="fa text-danger fa-2x"  ><?=$data1['id']?></i>
+                    <i class="fa text-danger fa-2x"  ><?= $data1['id']?></i>
                     <?php
                      
                     }
@@ -8354,7 +8354,7 @@ elseif ($code==138)
    {
 
       // for sports quota or 50 marks 
-      $questionCountQry="Select * from question_generate_count where unit='5'";
+  $questionCountQry="Select * from question_generate_count where unit='5'";
       $flag=1;
 
    }
@@ -8373,7 +8373,7 @@ else
 
    if ($flag>0) 
    {
-      $examNameQry="SELECT exam_name FROM question_exam WHERE id='$examName'";
+     $examNameQry="SELECT exam_name FROM question_exam WHERE id='$examName'";
     $examNameRes=mysqli_query($conn,$examNameQry);
     if ($examNameData=mysqli_fetch_array($examNameRes)) 
     {
@@ -8400,36 +8400,33 @@ else
                $unit=rand(1,2);
             }
 
-            if($unit>4)
+            if($unit > 4)
             {
-           $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+         $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             }
             else
             {
-                $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+             $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             }
         
 
-            
-
-
-
-            $questionBankRes1=mysqli_query($conn,$questionBankQry1);
+         $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
              while($questionBankData1=mysqli_fetch_array($questionBankRes1))
          {
                 $questionArray[]=$questionBankData1['Id'];
+         
 
          }   
                    
          
          }    
-         // print_r($questionArray);
+          //print_r($questionArray);
 
        $countarray=count($questionArray);
 
 
-        if(!array_unique($questionArray))
+ if(!array_unique($questionArray))
 {
     echo 'Please Regenerate';
     print_r($questionArray);
