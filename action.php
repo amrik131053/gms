@@ -8446,6 +8446,10 @@ $gene=1;
     {
 $gene=1;
     } 
+    elseif($examName== 5 && $countarray==27)
+    {
+$gene=1;
+    } 
     else
     {
       $gene=0;
