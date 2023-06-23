@@ -3767,18 +3767,53 @@ if($set_status_4_run_row=mysqli_fetch_array($set_status_4_run))
    }
    elseif($code==69)
    {
-$id=$_POST['id'];
+$type=$_POST['id'];
+ $journey_start_date=$_POST['journey_start_date'];
+ $journey_end_date=$_POST['journey_end_date'];
 
 
-$get_cehicle="SELECT * FROM vehicle where type_id='$id'";
-$get_cehicle_run=$conn->query($get_cehicle);
-while($row_v=mysqli_fetch_array($get_cehicle_run))
-{?>
-<option value="<?=$row_v['id'];?>"><?=$row_v['name'];?>&nbsp;(<?=$row_v['vehicle_number'];?>)</option>
-<?php }
-      
-    
+       $from=date("Y-m-d H:i:s", strtotime($journey_start_date));
+      $to=date("Y-m-d H:i:s", strtotime($journey_end_date));
+      $show_all_vehicle="SELECT * FROM vehicle where type_id='$type' ";
+      $show_all_vehicle_run=$conn->query($show_all_vehicle);
+      $v_count=0;
+      while($row_all=mysqli_fetch_array($show_all_vehicle_run))
+      {
+    $chek_booking="SELECT * FROM vehicle_book_details  WHERE  status='0' and vehicle_id='".$row_all['id']."'";
+
+      $chek_booking_run=$conn->query($chek_booking);
+                     if($row=mysqli_fetch_array($chek_booking_run))
+                     {
+  $existingStartTime = date('Y-m-d H:i:s', strtotime($row['from_date']));
+ $existingEndTime = date('Y-m-d H:i:s', strtotime($row['to_date']));
+// Calculate the overlapping duration
+$overlapDuration = max(0, min(strtotime($existingEndTime), strtotime($to)) - max(strtotime($existingStartTime), strtotime($from)));
+$overlapDurationMinutes = floor($overlapDuration / 60);
+$hours = floor($overlapDurationMinutes / 60);
+$overlapDurationMinutes=($overlapDurationMinutes%60);
+if ($overlapDurationMinutes > 0) 
+{
+   $v_count++;
+   ?>
    
+   <option value="Not"  style="color:red;"><b>Not Available:</b><?=$row_all['name'];?>(<?=$row_all['vehicle_number'];?>)</option>
+
+   <?PHP 
+} 
+else 
+{ 
+   ?> 
+   <!-- <option value="<?=$row_all['id'];?>"><?=$row_all['name'];?>(<?=$row_all['vehicle_number'];?>)</option> -->
+                            <?php 
+}
+                     }
+                     ?>
+   <option value="<?=$row_all['id'];?>"><?=$row_all['name'];?>(<?=$row_all['vehicle_number'];?>)</option>
+
+                     <?PHP 
+
+
+                 }
 
  }
    elseif($code==70)  // allotemented
@@ -3870,7 +3905,7 @@ $user_flow_id=$check_flow_row['flow_index1'];
    elseif($code==72)
    {
        $TokenNo=$_POST['Token_No'];
-    $check_flow="SELECT status FROM  vehicle_allotment  Where token_no='$TokenNo'";
+    $check_flow="SELECT status,journey_start_date,journey_end_date FROM  vehicle_allotment  Where token_no='$TokenNo'";
    $check_flow_run=mysqli_query($conn,$check_flow);
    if($check_flow_row=mysqli_fetch_array($check_flow_run))
    {
@@ -3910,6 +3945,8 @@ if ($check_flow_row['status']<=4)
               }
              ?>
           </select>
+          <input type="hidden" id="journey_start_date" value="<?=$check_flow_row['journey_start_date'];?>">
+          <input type="hidden" id="journey_end_date" value="<?=$check_flow_row['journey_end_date'];?>">
                           <label> Vehicle</label>
 
           <select class="form-control" id="vehicle_name" >
@@ -4080,6 +4117,97 @@ elseif ($check_flow_row['status']==5)
    <?php
    }
              ?></div><?php 
+   }
+
+   elseif($code==76)
+   {?> <div class="col-lg-12">
+                          <table class="table table-bordered border-primary ">
+                            <tr>
+                              <th>#</th>
+                              <th>Date/Vehicle Number</th>
+                              <th>Vehicle Name</th>
+                              <th>Status</th>
+                            </tr><?php 
+      $type=$_POST['type'];
+      $from1=$_POST['from'];
+       $from=date("Y-m-d H:i:s", strtotime($from1));
+      $to1=$_POST['to'];
+      $to=date("Y-m-d H:i:s", strtotime($to1));
+      $show_all_vehicle="SELECT * FROM vehicle where type_id='$type' ";
+      $show_all_vehicle_run=$conn->query($show_all_vehicle);
+      $sr=1;
+      $av_coount=0;
+      while($row_all=mysqli_fetch_array($show_all_vehicle_run))
+      {
+    $chek_booking="SELECT * FROM vehicle_book_details  WHERE status='0' and   vehicle_id='".$row_all['id']."'";
+      $chek_booking_run=$conn->query($chek_booking);
+                     if($row=mysqli_fetch_array($chek_booking_run))
+                     {
+$existingStartTime = date('Y-m-d H:i:s', strtotime($row['from_date']));
+$existingEndTime = date('Y-m-d H:i:s', strtotime($row['to_date']));
+// Calculate the overlapping duration
+$overlapDuration = max(0, min(strtotime($existingEndTime), strtotime($to)) - max(strtotime($existingStartTime), strtotime($from)));
+$overlapDurationMinutes = floor($overlapDuration / 60);
+$hours = floor($overlapDurationMinutes / 60);
+$overlapDurationMinutes=($overlapDurationMinutes%60);
+if ($overlapDurationMinutes > 0) 
+{
+    
+    ?> 
+    
+     <tr>
+                              <td><?=$sr;?></td>
+                              <td><?=date("d-m-Y h:i:A", strtotime($row['from_date']));?> <b>To</b>
+                             <?=date("d-m-Y h:i:A", strtotime($row['to_date']));echo "<br><small class='text-danger'>This time slot is not available. Overlapping duration: ".$hours .'&nbsp;hours and&nbsp;' . $overlapDurationMinutes . " minutes.</small>"; ?></td>
+                              <td><?=$row_all['name']; ?></td>
+                              
+                              <td><button type="button" class="btn btn-danger btn-sm disabled ">No Available</button></td>
+                            </tr><tr>
+       <!-- <td colspan="4"><?php ?></td> -->
+    </tr><?php
+} 
+else 
+{ $av_coount++;
+   ?> <tr>
+                              <td><?=$sr;?></td>
+                              <td><?=$row_all['vehicle_number'];?></td>
+                              <td><?=$row_all['name'];?></td>
+                             
+                              <td><button type="button" class="btn btn-info btn-sm disabled">Availble</button></td>
+                            </tr>
+                            <?php 
+
+}
+                     }
+                     else
+                     {
+                        $av_coount++;
+                        ?>
+                          <tr>
+                              <td><?=$sr;?></td>
+                              <td><?=$row_all['vehicle_number'];?></td>
+                              <td><?=$row_all['name'];?></td>
+                             
+                              <td><button type="button" class="btn btn-info btn-sm disabled">Availble</button></td>
+                            </tr><?php 
+                     }
+               $sr++;   }?> </table>
+                        </div>
+                        <?php 
+if ($av_coount>0) 
+{
+  ?>
+                        <div class="col-lg-12">
+                          <label>Station (s) to be visited</label>
+                           <input type="text" class="form-control" id="station">
+                         </div>
+                         <div class="col-lg-12">
+                          <label>Purpose</label>
+                           <input type="text" class="form-control" id="purpose">
+                         </div>
+
+  <?php 
+}
    }
    else
    {

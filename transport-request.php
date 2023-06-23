@@ -117,6 +117,60 @@ function view_request_submit(Token_No)
 window.onload = function() {
   my_transport_request();
 };
+
+function check_availablity()
+ {
+                 $('#purpose_div').hide();
+ var type=document.getElementById('type').value;
+ var from=document.getElementById('from').value;
+ var to=document.getElementById('to').value;
+ if (from!='' && to!='' && type!='') {
+ var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+
+           var code=76;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,type:type,from:from,to:to
+              },
+              success: function(response) 
+              {
+               
+                  spinner.style.display='none';
+                 document.getElementById("booking_table").innerHTML=response;
+                 
+              }
+           });
+         }
+         else
+         {
+          ErrorToast('All Input Required','bg-warning');
+         }
+}
+
+function show_purpose_div()
+ {
+  $('#purpose_div').show();
+ var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=77;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+               
+                  spinner.style.display='none';
+                 document.getElementById("purpose_div").innerHTML=response;
+              }
+           });
+}
+
  </script>
 
                   <div class="modal fade" id="ViewRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -147,7 +201,7 @@ window.onload = function() {
 
 <!-- Modal -->
 <div class="modal fade" id="createRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
@@ -158,10 +212,9 @@ window.onload = function() {
         </button>
       </div>
                       <div class="modal-body">
-                          <!--  <input type="text" class="form-control" placeholder="Emp ID" onkeyup="emp_detail_verify(this.value)" id="other_div" >
-                  <p id="emp_detail_status_"></p> -->
+                          
                        <div class="row">
-                         <div class="col-lg-12">
+                         <div class="col-lg-2">
                           <label>Type of Vehicle</label>
                              <select class="form-control" id="type" >
             <option value="">Select</option>
@@ -175,23 +228,25 @@ window.onload = function() {
              ?>
           </select>
                          </div>
-                         <div class="col-lg-6">
+                           <div class="col-lg-4">
                            <label>From Date/Time</label>
                            <input type="datetime-local" class="form-control" id="from">
                          </div>
-                         <div class="col-lg-6">
+                         <div class="col-lg-4">
                            <label>To Date/Time</label>
                            <input type="datetime-local" class="form-control" id="to">
                          </div>
-                         <div class="col-lg-12">
-                          <label>Station (s) to be visited</label>
-                           <input type="text" class="form-control" id="station">
+                          <div class="col-lg-2">
+                           <label>&nbsp;</label><br>
+                          <input type="button" class="btn btn-primary" onclick="check_availablity();" value="Search">
                          </div>
-                         <div class="col-lg-12">
-                          <label>Purpose</label>
-                           <input type="text" class="form-control" id="purpose">
-                         </div>
-
+                       </div>
+                       <div class="row"><br></div>
+                       <div class="row" id="booking_table" >
+                    
+                       </div>
+                       <div class="row" id="purpose_div" >
+                       
                        </div>
 
                    

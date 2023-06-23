@@ -1,38 +1,30 @@
-<?php
+<?php 
+$vehicleId = 1;
+$existingStartTime = '4:00 PM';
+$existingEndTime = '6:00 PM';
+$newStartTime = '3:00 PM';
+$newEndTime = '4:30 PM';
 
-include "connection/connection.php";
+// Convert 12-hour format to 24-hour format
+$existingStartTime24Hour = date('H:i', strtotime($existingStartTime));
+$existingEndTime24Hour = date('H:i', strtotime($existingEndTime));
+$newStartTime24Hour = date('H:i', strtotime($newStartTime));
+$newEndTime24Hour = date('H:i', strtotime($newEndTime));
 
+// Calculate the overlapping duration
+$overlapDuration = max(0, min(strtotime($existingEndTime24Hour), strtotime($newEndTime24Hour)) - max(strtotime($existingStartTime24Hour), strtotime($newStartTime24Hour)));
 
-if (isset($_POST['btn'])) 
-{
-	// code...
-$univ_rollno=$_POST['uni'];
-$result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
+// Convert the overlap duration to minutes
+$overlapDurationMinutes = floor($overlapDuration / 60);
 
-   $update_run1=sqlsrv_query($conntest,$result1);
-   if ($row=sqlsrv_fetch_array($update_run1,SQLSRV_FETCH_ASSOC)) {
-   $IDNo=$row['IDNo'];
+if ($overlapDurationMinutes > 0) {
+    // Display alert message
+    echo "This time slot is not available. Overlapping duration: " . $overlapDurationMinutes . " minutes.";
+} else {
+    // Proceed with the booking process
+    // ...
 
-  $update_student="UPDATE UserMaster SET Password='12345678' where UserName='$IDNo'";
-   $update_run=sqlsrv_query($conntest,$update_student);
-   if ($update_run==TRUE) 
-   {
-   echo "Successfully";
-   }
-}
+    // Display success message or perform the necessary operations
+    echo "Booking successful!";
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-</head>
-<body>
-	<form action="#" method="post">
-<input type="text" name="uni">
-<button type="submit" name="btn">Update</button>
-</form>
-</body>
-</html>

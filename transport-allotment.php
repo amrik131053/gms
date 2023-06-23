@@ -131,6 +131,8 @@ function allotment_by_allotment_auth()
   var vehicle_name=document.getElementById('vehicle_name').value;
   var driver=document.getElementById('driver').value;
   // alert(id+token+userId+forward_remarks);
+  if (vehicle_name!='Not' && driver!='') 
+  {
     var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=68;
@@ -157,6 +159,15 @@ function allotment_by_allotment_auth()
 
               }
            });
+       }
+       else if(vehicle_name=='Not')
+       {
+        ErrorToast('Vehicle Not Available','bg-danger');
+       }
+       else
+       {
+        ErrorToast('Select All Required Inputs','bg-warning');
+       }
 }
 function reject_by_allotment_auth() {
 
@@ -164,7 +175,7 @@ function reject_by_allotment_auth() {
   var token=document.getElementById('time_line_token').value;
   var userId=document.getElementById('time_line_userId').value;
   var forward_remarks=document.getElementById('comment_reject').value;
- // alert(id+token+userId+forward_remarks);
+ 
     var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
            var code=49;
@@ -264,11 +275,12 @@ function approve_by_allotment_auth()
 
     function drop_type_vehicle(id) 
 {  
-    // alert(id);
+   var journey_start_date=document.getElementById('journey_start_date').value; // alert(id);
+   var journey_end_date=document.getElementById('journey_end_date').value; // alert(id);
 var code=69;
 $.ajax({
 url:'action_g.php',
-data:{id:id,code:code},
+data:{id:id,code:code,journey_start_date:journey_start_date,journey_end_date:journey_end_date},
 type:'POST',
 success:function(data){
 if(data != "")
