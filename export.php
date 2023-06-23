@@ -792,7 +792,7 @@ $sql="SELECT * from stock_summary inner join location_master on stock_summary.Lo
     {
         $srno++;
         $RoomNo=$data['RoomNo'];
-      echo   $studentID=$data['student_id'];
+         $studentID=$data['student_id'];
         $RoomNo=$data['RoomNo'];
         $result1 = "SELECT   FatherMobileNo,StudentMobileNo,StudentName,UniRollNo,FatherName,Course, ClassRollNo, max(SemesterId) as SemesterID FROM StudentRegistrationForm inner join Admissions on StudentRegistrationForm.IDNo=Admissions.IDNo where Admissions.UniRollNo='$studentID' or Admissions.ClassRollNo='$studentID' or Admissions.IDNo='$studentID' group by ClassRollNo ,StudentName,  UniRollNo, FatherName, Course,StudentMobileNo,FatherMobileNo";
         $stmt1 = sqlsrv_query($conntest,$result1);
