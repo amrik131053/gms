@@ -7489,11 +7489,11 @@ if($count>0)
    elseif($code==116)
    {
        $search = $_POST['search'];
-       $query = "SELECT Distinct SubjectCode from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode like '%".$search."%'";
+       $query = "SELECT Distinct SubjectCode,SubjectName,SemesterID,Course from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode like '%".$search."%' or SubjectName like '%".$search."%' ";
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']);
+           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']."(".$row['SubjectName'].")"."(".$row['SemesterID'].")"."(".$row['Course'].")");
        }
        echo json_encode($response);
        exit;
@@ -8211,11 +8211,11 @@ elseif ($code==135)
         $sr=0;
         if ($examSession=='New') 
         {
-           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1' ";
+           $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='1'  ";
         }
         elseif ($examSession=='Old') 
         {
-            $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='0' ";
+             $sql="SELECT Distinct SubjectCode,CourseID,Semester,Batch FROM question_bank  inner join question_session on question_bank.Exam_Session=question_session.id  WHERE SubjectCode ='$subjectCode'    and CourseID='$courseId' and session_status='0' ";
         }
         $res=mysqli_query($conn,$sql);
         while($data=mysqli_fetch_array($res))

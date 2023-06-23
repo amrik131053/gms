@@ -31,8 +31,13 @@
                          $pdf->MultiCell(250, 10,'Registration No.'.$RegistrationNo, 0, 'R'); 
                          $pdf->SetXY(25,22);
                          $pdf->MultiCell(250, 10,'University Roll No.'.$UnirollNo, 0, 'R');  
+
                          $pdf->Image('qr_code_barcode.jpg',35,38,23,23); 
-                         $pdf->Image('170976.jpg',245,32,24,24); 
+
+
+                        $pdf->Image('http://10.0.10.11/Images/Students/9618225325.PNG',245,32,24,24); 
+
+
                           $pdf->SetXY(25,100);
                          $pdf->SetFont('Times','B',25);          
                          $pdf->SetTextColor(255,3,0);
@@ -88,8 +93,13 @@
                          $pdf->MultiCell(250, 10,'Registration No.'.$RegistrationNo, 0, 'R'); 
                          $pdf->SetXY(25,22);
                          $pdf->MultiCell(250, 10,'University Roll No.'.$UnirollNo, 0, 'R');  
+
+
+
+
+
                          $pdf->Image('qr_code_barcode.jpg',35,38,23,23); 
-                         $pdf->Image('170976.jpg',245,32,24,24); 
+                         $pdf->Image('http://erp.gku.ac.in/Images/Students/9618225325.PNG',245,32,24,24); 
                           $pdf->SetXY(25,100);
                          $pdf->SetFont('Times','B',25);          
                          $pdf->SetTextColor(255,3,0);
