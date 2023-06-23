@@ -9,7 +9,7 @@ ini_set('max_execution_time', '0');
 ?>
 <script> window.location.href = 'index.php'; </script> 
 <?php
-   }
+   } 
    else
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
@@ -4989,7 +4989,7 @@ if($count>0)
            $locOwner=$locOwnerData['location_owner'];
        }
    
-       $room_type_insert = "UPDATE  stock_summary SET LocationID='$locID',Corrent_owner='$locOwner',IssueDate='$date' ,Status='2', reference_no='$result' where IDNo='$articleId'";
+       $room_type_insert = "UPDATE  stock_summary SET LocationID='$locID',Corrent_owner='',IssueDate='$date' ,Status='2', reference_no='$result' where IDNo='$articleId'";
        $type_run = mysqli_query($conn,$room_type_insert);
        if ($type_run == true) 
        {
@@ -7229,19 +7229,19 @@ if($count>0)
 <?php
    if ($building!='' && $floor=='' && $room=='') 
    {
-      $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building'";
+      $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' ANd CategoryID='3' ";
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
-       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and RoomNo='$room'";
+       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and RoomNo='$room'   ANd CategoryID='3'";
    }
    elseif ($building!='' && $floor!='' && $room=='') 
    {
-       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and Floor='$floor'";
+       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and Floor='$floor'  ANd CategoryID='3' ";
    }
    elseif ($building!='' && $floor!='' && $room!='') 
    {
-       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and RoomNo='$room' and Floor='$floor'";
+       $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' and RoomNo='$room' and Floor='$floor'  ANd CategoryID='3'";
    }
    // $sql="SELECT distinct Corrent_owner,RoomNo,ArticleName from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID INNER JOIN master_article ON stock_summary.ArticleCode=master_article.ArticleCode where Block='$building' ";
    
@@ -7493,7 +7493,7 @@ if($count>0)
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']."(".$row['SubjectName'].")"."(".$row['SemesterID'].")"."(".$row['Course'].")");
+           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']."(".$row['SubjectName'].")"."(".$row['SemesterID'].")"."(".$row['SubjectName'].")");
        }
        echo json_encode($response);
        exit;
@@ -9842,7 +9842,7 @@ elseif($code==151)
    $room=$_POST['room'];
    if ($building!='' && $floor=='' && $room=='') 
    {
-      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner JOIN master_article  on master_article.ArticleCode=stock_summary.ArticleCode where ArticleName='Bed'and Block='$building'";
+      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner JOIN master_article  on master_article.ArticleCode=stock_summary.ArticleCode where ArticleName='Bed'and Block='$building'" ;
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
@@ -11373,7 +11373,7 @@ elseif($code==194)
       <tr>
          <td><?=$sr?></td>
          <td><span class="text-info<?=$sr;?>" id="emp<?=$sr;?>"><?=$data['UpdatedBy']?></span></td>
-         <td><?=$data['SubjectCode']?></td>
+         <td><?=$data['SubjectCode']?><?=$data['SubjectName']?></td>
          <td><?php $sqlcourse = "SELECT DISTINCT Course from MasterCourseStructure WHERE CourseID='$CourseID'";
          $result = sqlsrv_query($conntest,$sqlcourse);
          if($rowCourse= sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )

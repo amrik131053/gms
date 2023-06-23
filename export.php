@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 ini_set('max_execution_time', '0');
 
@@ -784,13 +784,15 @@ elseif ($exportCode == 13)
     // echo 'Report From '.date("d-M-Y", strtotime($startDate)).' to '.date("d-M-Y", strtotime($endDate)). "\n";
     // echo "Sr. No."."\t"."Room No."."\t"."Class Roll No."."\t"."University Roll No."."\t"."Student Name"."\t"."Father Name"."\t"."Mobile No."."\t"."Father Mobile No."."\t"."Course"."\t"."Semester"."\n";
     $srno=0;
-    $sql="SELECT * from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id where session='$session' and Block='$hostel' and hostel_student_summary.status='0' order by RoomNo asc";
+    //$sql="SELECT * from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id where session='$session' and Block='$hostel' and hostel_student_summary.status='0' order by RoomNo asc";
+$sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$hostel'   AND session='$session' order by hostel_student_summary.status ASC ";
+
     $res=mysqli_query($conn,$sql);
     while($data=mysqli_fetch_array($res))
     {
         $srno++;
         $RoomNo=$data['RoomNo'];
-        $studentID=$data['student_id'];
+      echo   $studentID=$data['student_id'];
         $RoomNo=$data['RoomNo'];
         $result1 = "SELECT   FatherMobileNo,StudentMobileNo,StudentName,UniRollNo,FatherName,Course, ClassRollNo, max(SemesterId) as SemesterID FROM StudentRegistrationForm inner join Admissions on StudentRegistrationForm.IDNo=Admissions.IDNo where Admissions.UniRollNo='$studentID' or Admissions.ClassRollNo='$studentID' or Admissions.IDNo='$studentID' group by ClassRollNo ,StudentName,  UniRollNo, FatherName, Course,StudentMobileNo,FatherMobileNo";
         $stmt1 = sqlsrv_query($conntest,$result1);
