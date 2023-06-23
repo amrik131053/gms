@@ -86,7 +86,8 @@ while ($data=mysqli_fetch_array($res))
                     <th colspan='3' valign="bottom" align="center">
                       <span style="font-size: 30px;">GURU KASHI UNIVERSITY</span>
                       <br>
-                      <?=$examName?>
+                      
+                      <!-- <?=$examName?> -->
                     </th>
                   </tr>
                   <tr>
