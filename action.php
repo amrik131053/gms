@@ -7489,11 +7489,11 @@ if($count>0)
    elseif($code==116)
    {
        $search = $_POST['search'];
-       $query = "SELECT Distinct SubjectCode,SubjectName,SemesterID,Course from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode like '%".$search."%' or SubjectName like '%".$search."%' ";
+       $query = "SELECT Distinct SubjectCode from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode like '%".$search."%' or SubjectName like '%".$search."%' ";
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']."(".$row['SubjectName'].")"."(".$row['SemesterID'].")"."(".$row['SubjectName'].")");
+           $response[] = array("value"=>$row['SubjectCode'],"label"=>$row['SubjectCode']);
        }
        echo json_encode($response);
        exit;
