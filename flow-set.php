@@ -1,76 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    .drag-list {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      width: 200px;
-    }
-    
-    .drag-item {
-      background-color: #f1f1f1;
-      border: 1px solid #ccc;
-      padding: 8px;
-      margin-bottom: 4px;
-      cursor: move;
-    }
-    
-    .drag-item:hover {
-      background-color: #e0e0e0;
-    }
-    
-    .drag-list:hover .drag-item {
-      background-color: #f1f1f1;
-    }
-    
-    .drag-list:hover .drag-item:hover {
-      background-color: #e0e0e0;
-    }
-  </style>
-  <script>
-    function allowDrop(event) {
-      event.preventDefault();
-    }
-    
-    function drag(event) {
-      event.dataTransfer.setData("text", event.target.id);
-    }
-    
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData("text");
-      var draggedItem = document.getElementById(data);
-      
-      // Check if the item is being dropped within the same list
-      if (draggedItem.parentElement === event.target) {
-        // If the item is being dropped in a different position within the same list
-        if (draggedItem.nextSibling === event.target.firstElementChild) {
-          event.target.insertBefore(draggedItem, event.target.firstElementChild);
-        } else {
-          event.target.appendChild(draggedItem);
-        }
-      } else {
-        event.target.appendChild(draggedItem);
+<?php 
+   include "header.php";   
+   ?>
+   <script type="text/javascript">
+      function search_flow() {
+         var code=75;
+            var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         var emp_id=document.getElementById('emp_id').value;
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,emp_id:emp_id
+            },
+             success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("data_show").innerHTML=response;
+              }
+
+         });
       }
-    }
-  </script>
-</head>
-<body>
-  <h2>Drag and Drop List</h2>
+     
+   </script>
+<section class="content">
+   <div class="container-fluid">
+   <div class="row">
+      <!-- left column -->
+      <!-- Button trigger modal -->
+      <div class="col-lg-4 col-md-4 col-sm-3">
+         <div class="card card-info">
+            <div class="card-header ">
+               <h3 class="card-title">----</h3>   
+            </div>
+            <div class="card-body">
+               <div class="form-group row">
+                 <input type="text" class="form-control" id="emp_id">
+                 <button class="btn btn-primary btn-xs" onclick="search_flow();">Search</button>
+               </div>
+            </div>
+            <!-- /.card-footer -->
+         </div>
+         <!-- /.card -->
+       
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12">
+         <div class="card card-info">
+            <div class="card-header ">
+            - <h3 class="card-title">-----</h3>
+           </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive" id="data_show">
+            
+            </div>
+            <!-- /.card -->
+         </div>
+      </div>
+      <!-- /.row -->
+   </div>
+   <!-- /.container-fluid -->
+</section>
+<p id="ajax-loader"></p>
 
-  <ul id="list1" class="drag-list" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <li id="item1" class="drag-item" draggable="true" ondragstart="drag(event)">Item 1</li>
-    <li id="item2" class="drag-item" draggable="true" ondragstart="drag(event)">Item 2</li>
-    <li id="item3" class="drag-item" draggable="true" ondragstart="drag(event)">Item 3</li>
-    <li id="item4" class="drag-item" draggable="true" ondragstart="drag(event)">Item 4</li>
-  </ul>
+<!-- Modal -->
 
-  <ul id="list2" class="drag-list" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <li id="item5" class="drag-item" draggable="true" ondragstart="drag(event)">Item 5</li>
-    <li id="item6" class="drag-item" draggable="true" ondragstart="drag(event)">Item 6</li>
-    <li id="item7" class="drag-item" draggable="true" ondragstart="drag(event)">Item 7</li>
-  </ul>
-</body>
-</html>
+
+<?php
+
+
+ include "footer.php";  ?>

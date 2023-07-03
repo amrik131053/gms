@@ -23,41 +23,6 @@
     <script src="plugins/webcam.js/webcam.js"> </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
    <script>
-      // $(document).ready(function()
-      // {
-      //    $(document).on('click', '.passno', function() 
-      //    {
-
-      //       $("#passno").autocomplete(
-      //       {
-      //          source: function( request, response ) 
-      //          {
-      //             $.ajax(
-      //             {
-      //                url: "action.php",
-      //                type: 'post',
-      //                dataType: "json",
-      //                data: 
-      //                {
-      //                   search: request.term,code:157
-      //                },
-      //                success: function( data ) 
-      //                {
-      //                   response( data );
-      //                   console.log(data);
-      //                }
-      //             });
-      //          },
-      //          select: function (event, ui) 
-      //          {
-      //             $(this).val(ui.item.label); // display the selected text
-      //             // var userid = ui.item.value; // selected value
-      //             return false;
-      //          }
-      //       });
-      //    });
-      // });
-
    $(window).on('load', function() 
           {
          $('#btn2').toggleClass("bg-success"); 
@@ -67,7 +32,6 @@
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
-
 function Visitor()
 {
       $('#Visitor').show();

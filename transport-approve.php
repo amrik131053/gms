@@ -55,7 +55,7 @@ function rejected_requests()
               success: function(response) 
               {
                   spinner.style.display='none';
-                 document.getElementById("verification_allot").innerHTML=response;
+                 document.getElementById("verification_approve").innerHTML=response;
               }
            });
 }
@@ -74,7 +74,7 @@ function show_timeline_verification_approve(token)
               {
                   spinner.style.display='none';
                  document.getElementById("timeline_approve").innerHTML=response;
-                 $('#action_button').show('slow');
+                 show_action_button_with_status(token);
               }
            });
 }
@@ -169,6 +169,25 @@ function approve_by_approved_auth()
     window.onload = function() {
   pending_requests();
 };
+
+
+function show_action_button_with_status(token)
+ {
+     
+           var code=74;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,Token_No:token
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("action_button_dynamic").innerHTML=response;
+              }
+           });
+}
  </script>
 
 
@@ -233,32 +252,12 @@ function approve_by_approved_auth()
         <div class="card-header">
 
           <h3 class="card-title">Action</h3>
-
-          <div class="card-tools">
-          
-           
+          <div class="card-tools">       
           </div>
+        </div>   
+        <div class="card-body table-responsive " id="action_button_dynamic" style="height:440px;" >
+
         </div>
-       
-        <div class="card-body table-responsive " id="action_button" style="display:none;">
-  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-success  btn-xs ">
-                    <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Approve
-                  </label>
-                  <label class="btn btn-danger btn-xs">
-                    <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
-                  </label>
-                
-                </div>
-
-                 <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
-                <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_approved_auth();"  value="Submit" style="display:none;">
-
-
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
-                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_approved_auth();"  value="Submit" style="display:none;">
-        </div>
-        
       </div>
   </div>
 </div>
