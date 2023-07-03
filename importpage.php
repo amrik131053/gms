@@ -58,7 +58,7 @@ if(ISSET($_POST['email_imp']))
  // echo $query1="UPDATE MasterCOurseStructure  Set SubjectName='$SubjectName',SubjectType='$subjecttype',
  // SubjectCode='$subjectcode',Lecture='$l' ,Tutorial='$t',Practical='$p',NoOFCredits='$c'  where SrNo='$id'";
 echo"<br>";
- //$stmt2 = sqlsrv_query($conntest,$query1);
+ $stmt2 = sqlsrv_query($conntest,$query1);
 
  if( $stmt2  === false) {
 
