@@ -137,10 +137,10 @@
          <div class="row">
             <div style="height: 152px;"></div>
             <!-- // space -->
-            <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 65px;margin-left: 62px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
+            <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 64px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
          </div>
          <div class="row">
-            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 85px;margin-left: 64px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
 
 <?php 
 $ge1="son";
@@ -164,13 +164,13 @@ $ms1="<strike>Mr.</strike>";    // code...
 
                <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this Diploma and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
             </div>
-            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 64px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
                <?php  echo $ExtraRow;?>
                </i>
             </div>
          </div>
          <div class="row">
-            <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 65px;margin-left: 62px;"><i><?php  echo "Given under the seal of the University";?></i></div>
+            <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 64px;"><i><?php  echo "Given under the seal of the University";?></i></div>
          </div>
          <div style="height: 90px;"></div>
          <!-- // space -->

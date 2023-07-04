@@ -4263,7 +4263,8 @@ else
                   <?php if ($degree_row['Status']==1) {
                      ?>
 
-                    <i class="fa fa fa-check text-green" onclick="marks_as_print(<?=$degree_row['id'];?>);"> </i>
+                                        <b style="color: green;">Printed</b>
+
                      <?php 
                   }else{
                      ?>
@@ -4276,6 +4277,33 @@ else
                         <?php
                       }
                      
+   }
+   elseif($code==79)
+   {
+        $file = $_FILES['file_exl']['tmp_name'];
+  $handle = fopen($file, 'r');
+  $c = 0;
+  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+  {
+         $UniRollNo= $filesop[0];
+         $CGPA = $filesop[1];
+         $StudentName = $filesop[2];
+         $FatherName = $filesop[3];
+         $RegistrationNo = $filesop[4];
+         $Course = $filesop[5];
+         $Examination = $filesop[6];
+         $ExtraRow = $filesop[7];
+
+         $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow');";
+         $insert_run=mysqli_query($conn,$insert);
+
+      }
+      if ($insert_run==true)
+       {
+         ?>
+<script type="text/javascript">alert('Uploaded Success');</script>
+         <?php 
+      }
    }
    else
    {

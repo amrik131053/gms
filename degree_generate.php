@@ -10,11 +10,22 @@ include "header.php";
           <div class="col-lg-12 col-md-12 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
-                  <!-- <h3 class="card-title">All Records</h3> -->
-                 <div class="card-tools">
+                     <form action="action_g.php" method="post" enctype="multipart/form-data">
+                  <div class="input-group input-group-sm row">
+                     <input type="hidden" name="code" value="79">
+                 <button class="btn btn-info btn-sm"><a href="formats/degree.csv" >Format</a></button>
+                 <div class="col-lg-1"></div>
+                     <div class="col-lg-2"> <input type="file"  name="file_exl" class="form-control f"  required></div>
+                     <div class="col-lg-2"><input type="submit"   class="btn btn-secondary btn-xs" value="Upload"></div>
 
+                  </div>
+                     </form>
+                 <div class="card-tools">
+                  
+                        
                         <form action="print_degree1.php" method="post" target="blank">
-                     <div class="input-group input-group-sm" style="width: auto;">
+                     <div class="input-group input-group-sm">
+                       
                         <input type="hidden" name="code" value="2">
                         <input type="text" placeholder="Start" name="start" class="form-control"  required>
                         <input type="text" name="end" placeholder="End" class="form-control" required >
@@ -186,6 +197,8 @@ if (response==1) {
       }
     });
 }
+
+
 </script>
 <?php 
      
