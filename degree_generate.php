@@ -32,7 +32,9 @@ include "header.php";
                      <thead>
                         <tr>
                            <th>Sr. No.</th>
+
                            <th>Name</th>
+                           <th>Image</th>
                            <th>Uni Roll No</th>
                            <th>Father Name</th>
                           
@@ -49,10 +51,18 @@ include "header.php";
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
+                          $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='".$degree_row['UniRollNo']."'";
+                          $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                          {
+                              $snap=$row_student['Snap'];
+                              $pic=base64_encode($snap);
+                          }
                         $count++;
                         ?>
                         <tr>
                            <td><?=$count;?></td>
+                           <td><img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="50" height="50"></td>
                            <td><?=$degree_row['StudentName'];?></td>
                            <td><?=$degree_row['UniRollNo'];?></td>
                            <td><?=$degree_row['FatherName'];?></td>

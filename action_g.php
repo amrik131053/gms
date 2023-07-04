@@ -2619,7 +2619,7 @@ $forward_remarks=$_POST['forward_remarks'];
 
       $action_update_after_forward="UPDATE vehicle_allotment_process SET forward_emp_id='$user_flow[$user_flow_id]',farward_name='$Name',farward_designation='$Designation',farward_college='$CollegeName',farward_department='$Department',remarks='$forward_remarks', action='1' where token_no='$TokenNo' and emp_id='$EmployeeID'";
       mysqli_query($conn,$action_update_after_forward);
-
+ 
        $insert_request_process="INSERT INTO `vehicle_allotment_process` (`token_no`, `emp_id`, `name`, `designation`, `college`, `department`, `forward_emp_id`, `farward_name`, `farward_designation`, `farward_college`, `farward_department`, `remarks`, `date_time`, `action`) VALUES ( '$TokenNo', '$user_flow[$user_flow_id]', '$Name', ' $Designation', '$CollegeName', '$Department', NULL, '', '', '', '', NULL, '$timeStamp', '0');";
       $insert_request_process_run=mysqli_query($conn,$insert_request_process);
       // $user_flow_id=$user_flow_id+1;
@@ -3925,14 +3925,14 @@ if ($check_flow_row['status']<=4)
                   </label>
 
                 </div>
-                <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
+                <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;margin-top: 10px;"></textarea>
                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_allotment_auth();"  value="Submit" style="display:none;">
 
 
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;margin-top: 10px;"></textarea>
                  <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_allotment_auth();"  value="Submit" style="display:none;">
                <div class="row">
-                  <div class="col-lg-12" id="comment_allotment" style="display:none;">
+                  <div class="col-lg-12" id="comment_allotment" style="display:none;margin-top: 10px;">
                           <label>Type of Vehicle</label>
                              <select class="form-control"onchange="drop_type_vehicle(this.value);" id="type" >
             <option value="">Select</option>
@@ -4011,14 +4011,14 @@ if ($check_flow_row['status']<2)
                   </label> 
 
           </div>
-        
-          <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_recommend" style="display:none;"></textarea>
+       
+          <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_recommend" style="display:none; margin-top: 10px;"></textarea>
           
                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_recommend" onclick="recommend_by_verify();"  value="Submit" style="display:none;">
 
        
 
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none; margin-top: 10px;"></textarea>
 
                  <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_verify();"  value="Submit" style="display:none;">
 
@@ -4053,9 +4053,9 @@ if ($check_flow_row['status']<4)
                   </label>     
                 </div>
 
-                 <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;"></textarea>
+                 <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;margin-top: 10px;"></textarea>
                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_approved_auth();"  value="Submit" style="display:none;">
-                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;"></textarea>
+                <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;margin-top: 10px;"></textarea>
                  <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_approved_auth();"  value="Submit" style="display:none;">
                  
                   <?php   // code...
