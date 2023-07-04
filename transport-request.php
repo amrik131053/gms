@@ -270,7 +270,7 @@ function show_purpose_div()
 
         <div class="card-header">
 
-          <h3 class="card-title">All Requests</h3>
+          <h3 class="card-title" style="font-family: baskvill ;"><i>All Requests</i></h3>
 
           <div class="card-tools">
           <button type="button" data-toggle="modal" data-target="#createRequestModal" class="btn btn-primary" >

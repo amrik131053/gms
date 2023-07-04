@@ -13,14 +13,14 @@ include "header.php";
                   <!-- <h3 class="card-title">All Records</h3> -->
                  <div class="card-tools">
 
-                        <form action="print_degree.php" method="post" target="blank">
+                        <form action="print_degree1.php" method="post" target="blank">
                      <div class="input-group input-group-sm" style="width: auto;">
                         <input type="hidden" name="code" value="2">
                         <input type="text" placeholder="Start" name="start" class="form-control"  required>
                         <input type="text" name="end" placeholder="End" class="form-control" required >
                         <input type="submit"  value="Print"  class="btn btn-primary btn-xs">
                           &nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text"  class="form-control " id="unirollno" placeholder="Search"  required>
+                        <input type="text"  class="form-control " id="unirollno" placeholder="Search" >
                         <input type="button"  class="btn btn-success btn-xs" onclick="search_degree_record();"  value="Search">
                      </div>
                      </form>
@@ -35,7 +35,7 @@ include "header.php";
                            <th>Name</th>
                            <th>Uni Roll No</th>
                            <th>Father Name</th>
-                           <th>Mother Name</th>
+                          
                            <th>Examination</th>
                            <th>Course Name</th>
                            <th>CGPA</th>
@@ -56,13 +56,13 @@ include "header.php";
                            <td><?=$degree_row['StudentName'];?></td>
                            <td><?=$degree_row['UniRollNo'];?></td>
                            <td><?=$degree_row['FatherName'];?></td>
-                           <td><?=$degree_row['MotherName'];?></td>
+                           
                            <td><?=$degree_row['Examination'];?></td>
                            <td><?=$degree_row['Course'];?></td>
                            <td><?=$degree_row['CGPA'];?></td>
                       
                            <td>
-                              <form action='print_degree.php' method='post'>
+                              <form action='print_degree1.php' method='post'>
                                  <input type="hidden" name="code" value="1">
                         <input type='hidden' name='p_id' value="<?=$degree_row['id'];?>">
                         <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
