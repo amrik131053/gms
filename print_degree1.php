@@ -140,7 +140,7 @@
             <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 65px;margin-left: 62px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
          </div>
          <div class="row">
-            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify-all; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
 
 <?php 
 $ge1="son";
@@ -162,9 +162,9 @@ $ms1="<strike>Mr.</strike>";    // code...
 
  ?>
 
-               <?php  echo $ms1."/".$ms."<b>".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b> ,having completed the requirments for the award of this Diploma and having passed the  prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
+               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this Diploma and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
             </div>
-            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify-all; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
                <?php  echo $ExtraRow;?>
                </i>
             </div>
@@ -175,7 +175,7 @@ $ms1="<strike>Mr.</strike>";    // code...
          <div style="height: 90px;"></div>
          <!-- // space -->
             <div id="footer">
-            <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 68px; color:#0E345C;">
+            <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 68px; color:#0D729C;">
                <p>
                   <b><?php  echo "CONTROLLER OF EXAMINATIONS";?></b>
                      <span style="border: ;
@@ -306,7 +306,7 @@ $start=$_POST['start'];
             <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 65px;margin-left: 62px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
          </div>
          <div class="row">
-            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify-all; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
 
 <?php 
 $ge1="son";
@@ -330,7 +330,7 @@ $ms1="<strike>Mr.</strike>";    // code...
 
                <?php  echo $ms1."/".$ms." <b>".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b> ,having completed the requirments for the award of this Diploma and having passed the  prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
             </div>
-            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify-all; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+            <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 65px;margin-left: 62px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
                <?php  echo $ExtraRow;?>
                </i>
             </div>
@@ -341,7 +341,7 @@ $ms1="<strike>Mr.</strike>";    // code...
          <div style="height: 90px;"></div>
          <!-- // space -->
          <div id="footer">
-            <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 68px; color:#0E345C;">
+            <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 68px; color:#0D729C;">
                <p>
                   <b><?php  echo "CONTROLLER OF EXAMINATIONS";?></b>
                      <span style="border: ;
