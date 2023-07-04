@@ -3916,7 +3916,7 @@ if ($check_flow_row['status']<=4)
 
   <div class="btn-group btn-group-toggle" data-toggle="buttons" >
            <label class="btn btn-warning  btn-xs ">
-                    <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Approve
+                    <input type="radio" name="options" onclick="toggleDiv_approve();" id="option_a1" autocomplete="off"> Available
                   </label> <label class="btn btn-danger btn-xs">
                     <input type="radio" name="options" onclick="toggleDiv_reject();" id="option_a2" autocomplete="off"> Reject
                   </label>
@@ -3925,7 +3925,7 @@ if ($check_flow_row['status']<=4)
                   </label>
 
                 </div>
-                <textarea class="form-control " placeholder="Approved Remarks" rows="3" id="comment_approve" style="display:none;margin-top: 10px;"></textarea>
+                <textarea class="form-control " placeholder="Available Remarks" rows="3" id="comment_approve" style="display:none;margin-top: 10px;"></textarea>
                 <input type="button"  class="btn btn-success btn-xs" id="btn_comment_approve" onclick="approve_by_allotment_auth();"  value="Submit" style="display:none;">
 
 
@@ -4208,6 +4208,74 @@ if ($av_coount>0)
 
   <?php 
 }
+   }
+   elseif($code==77)
+   {
+$id=$_POST['id'];
+$marks_as_print="UPDATE degree_print SET Status='1'  WHERE id='$id'";
+$marks_as_print_run=$conn->query($marks_as_print);
+if ($marks_as_print_run==true) 
+{
+echo "1";   // code...
+}
+else
+{
+   echo "0";
+}
+   } 
+     elseif($code==78)
+   {
+                     $count=0;
+                     $degree="SELECT * FROM degree_print";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                          $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='".$degree_row['UniRollNo']."'";
+                          $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                          {
+                              $snap=$row_student['Snap'];
+                              $pic=base64_encode($snap);
+                          }
+                        $count++;
+                        ?>
+                        <tr>
+                           <!-- <td><?=$count;?></td> -->
+                           <td><img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="50" height="50"></td>
+                           <td style="word-wrap: break-word!important;width: 70px;"><?=$degree_row['StudentName'];?></td>
+                           <td><?=$degree_row['UniRollNo'];?></td>
+                           <td><?=$degree_row['FatherName'];?></td>
+                           
+                           <td><?=$degree_row['Examination'];?></td>
+                           <td><?=$degree_row['Course'];?></td>
+                           <!-- <td><?=$degree_row['CGPA'];?></td> -->
+                      
+                           <td>
+                              <form action='print_degree1.php' method='post'>
+                                 <input type="hidden" name="code" value="1">
+                        <input type='hidden' name='p_id' value="<?=$degree_row['id'];?>">
+                        <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
+                            <i  class='fa fa-print' aria-hidden='true'></i>
+                        </button>
+                    </form>
+                 </td>
+                 <td>
+                  <?php if ($degree_row['Status']==1) {
+                     ?>
+
+                    <i class="fa fa fa-check text-green" onclick="marks_as_print(<?=$degree_row['id'];?>);"> </i>
+                     <?php 
+                  }else{
+                     ?>
+                    <i class="fa fa fa-check" onclick="marks_as_print(<?=$degree_row['id'];?>);"> </i>
+
+                     <?php 
+                  } ?>
+                 </td>
+                        </tr>
+                        <?php
+                      }
+                     
    }
    else
    {

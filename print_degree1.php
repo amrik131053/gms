@@ -323,7 +323,6 @@ else{
 $ge1="<strike>son</strike>"; 
 $ms1="<strike>Mr.</strike>";    // code...
    // code...
-
 }
 
  ?>

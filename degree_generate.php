@@ -28,19 +28,20 @@ include "header.php";
                </div>
                <!-- /.card-header -->
                <div class="card-body table-responsive" >
-                  <table class="table table-head-fixed text-nowrap table-bordered " id="example">
+                  <table class="table table-head-fixed text-nowrap table-bordered " id="">
                      <thead>
                         <tr>
-                           <th>Sr. No.</th>
+                           <!-- <th>Sr. No.</th> -->
 
-                           <th>Name</th>
                            <th>Image</th>
+                           <th>Name</th>
                            <th>Uni Roll No</th>
                            <th>Father Name</th>
                           
                            <th>Examination</th>
                            <th>Course Name</th>
-                           <th>CGPA</th>
+                           <!-- <th>CGPA</th> -->
+                           <th>Action</th>
                            <th>Action</th>
                         </tr>
                      </thead>
@@ -61,15 +62,15 @@ include "header.php";
                         $count++;
                         ?>
                         <tr>
-                           <td><?=$count;?></td>
+                           <!-- <td><?=$count;?></td> -->
                            <td><img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="50" height="50"></td>
-                           <td><?=$degree_row['StudentName'];?></td>
+                           <td style="word-wrap: break-word!important;width: 70px;"><?=$degree_row['StudentName'];?></td>
                            <td><?=$degree_row['UniRollNo'];?></td>
                            <td><?=$degree_row['FatherName'];?></td>
                            
                            <td><?=$degree_row['Examination'];?></td>
                            <td><?=$degree_row['Course'];?></td>
-                           <td><?=$degree_row['CGPA'];?></td>
+                           <!-- <td><?=$degree_row['CGPA'];?></td> -->
                       
                            <td>
                               <form action='print_degree1.php' method='post'>
@@ -79,6 +80,19 @@ include "header.php";
                             <i  class='fa fa-print' aria-hidden='true'></i>
                         </button>
                     </form>
+                 </td>
+                 <td>
+                  <?php if ($degree_row['Status']==1) {
+                     ?>
+
+                    <b style="color: green;">Printed</b>
+                     <?php 
+                  }else{
+                     ?>
+                    <i class="fa fa fa-check" onclick="marks_as_print(<?=$degree_row['id'];?>);"> </i>
+
+                     <?php 
+                  } ?>
                  </td>
                         </tr>
                         <?php
@@ -122,8 +136,52 @@ function search_degree_record()
       success:function(response)
       {
        spinner.style.display='none';
-console.log(response);
       document.getElementById("search_record").innerHTML=response;
+
+      }
+    });
+}
+
+function load_table()
+{
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+   var code=78;
+ $.ajax({
+      url:'action_g.php',
+      type:'post',
+      data:{
+        code:code
+      },
+      success:function(response)
+      {
+       spinner.style.display='none';
+      document.getElementById("search_record").innerHTML=response;
+
+      }
+    });
+}
+
+function marks_as_print(id)
+{
+  var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+   var code=77;
+ $.ajax({
+      url:'action_g.php',
+      type:'post',
+      data:{
+        id:id,code:code
+      },
+      success:function(response)
+      {
+       spinner.style.display='none';
+// console.log(response);
+if (response==1) {
+   load_table();
+   SuccessToast('Successfully Updated');
+}
+      // document.getElementById("search_record").innerHTML=response;
 
       }
     });
