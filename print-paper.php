@@ -10,6 +10,7 @@ $res=mysqli_query($conn,$sql);
 while ($data=mysqli_fetch_array($res)) 
 {
     $examName=$data['exam_name'];
+     $examid=$data['id'];
     $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CourseID=".$data['course'];
     $resultCourse = sqlsrv_query($conntest,$sqlCourse);
     while($rowCourse = sqlsrv_fetch_array($resultCourse, SQLSRV_FETCH_ASSOC) )
@@ -86,7 +87,16 @@ while ($data=mysqli_fetch_array($res))
                     <th colspan='3' valign="bottom" align="center">
                       <span style="font-size: 30px;">GURU KASHI UNIVERSITY</span>
                       <br>
-                      <?=$examName?>
+<?php if($examid==4) 
+{
+
+}
+else
+{
+echo  $examName;
+}
+?>
+                      <!-- <?=$examName?> -->
                     </th>
                   </tr>
                   <tr>

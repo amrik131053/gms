@@ -19,10 +19,10 @@
                  },
                  success: function( data ) {
                      response( data );
-                     //console.log(data);
+                    // console.log(data);
                  },
                  error: function (error) {
-                 //console.log(error);
+                // console.log(error);
                   }
                });
              },
