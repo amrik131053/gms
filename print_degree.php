@@ -64,20 +64,20 @@ QRcode::png($text, $file, $ecc, $pixel_Size, 2);
                          $pdf->MultiCell(250, 10,'Registration No.'.$RegistrationNo, 0, 'R'); 
                          $pdf->SetXY(25,22);
                          $pdf->MultiCell(250, 10,'University Roll No.'.$UnirollNo, 0, 'R');  
-<<<<<<< HEAD
-                         $pdf->Image($file,35,34,23,23); 
-                         $pdf->Image($pic,236,38,24,24,$extension); 
-                          $pdf->SetXY(25,92);
-=======
+// <<<<<<< HEAD
+//                          $pdf->Image($file,35,34,23,23); 
+//                          $pdf->Image($pic,236,38,24,24,$extension); 
+//                           $pdf->SetXY(25,92);
+// =======
 
-                         $pdf->Image('qr_code_barcode.jpg',35,38,23,23); 
-
-
-                        $pdf->Image('http://10.0.10.11/Images/Students/9618225325.PNG',245,32,24,24); 
+//                          $pdf->Image('qr_code_barcode.jpg',35,38,23,23); 
 
 
-                          $pdf->SetXY(25,100);
->>>>>>> 855be896520a5780ff36aa8b5d108fcc7b30a98f
+//                         $pdf->Image('http://10.0.10.11/Images/Students/9618225325.PNG',245,32,24,24); 
+
+
+//                           $pdf->SetXY(25,100);
+// >>>>>>> 855be896520a5780ff36aa8b5d108fcc7b30a98f
                          $pdf->SetFont('Times','B',25);          
                          $pdf->SetTextColor(255,3,0);
                          $pdf->MultiCell(250, 10, $course, 0, 'C');  
