@@ -12404,6 +12404,8 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
       <option><?=$row7['SubjectType'];?></option>
       <option value="T">T</option>
       <option value="P">P</option>
+      <option value="TP">TP</option>
+      <option value="O">O</option>
      </select>
   </td>
   <td><input type="text"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
