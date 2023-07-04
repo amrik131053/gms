@@ -13,12 +13,14 @@ include "header.php";
                      <form action="action_g.php" method="post" enctype="multipart/form-data">
                   <div class="input-group input-group-sm row">
                      <input type="hidden" name="code" value="79">
-                 <button class="btn btn-info btn-sm"><a href="formats/degree.csv" >Format</a></button>
-                 <div class="col-lg-1"></div>
-                     <div class="col-lg-2"> <input type="file"  name="file_exl" class="form-control f"  required></div>
-                     <div class="col-lg-2"><input type="submit"   class="btn btn-secondary btn-xs" value="Upload"></div>
+                 <div class="col-lg-1">
+               <a href="formats/degree.csv" >  <input type="button" value="Format" class="btn btn-warning btn-xs"></a>
+                    
+                 </div>
+                     <div class="col-lg-2"> <input type="file"  name="file_exl" class="form-control form-control-sm"  required></div>
+                     <div class="col-lg-1"><input type="submit"   class="btn btn-success btn-xs" value="Upload"></div>
 
-                  </div>
+                 
                      </form>
                  <div class="card-tools">
                   
@@ -27,7 +29,7 @@ include "header.php";
                      <div class="input-group input-group-sm">
                        
                         <input type="hidden" name="code" value="2">
-                        <input type="text" placeholder="Start" name="start" class="form-control"  required>
+                        <input type="text" placeholder="Start" name="start" class="form-control input-group-sm"  required>
                         <input type="text" name="end" placeholder="End" class="form-control" required >
                         <input type="submit"  value="Print"  class="btn btn-primary btn-xs">
                           &nbsp;&nbsp;&nbsp;&nbsp;
@@ -36,6 +38,7 @@ include "header.php";
                      </div>
                      </form>
                   </div> 
+                   </div>
                </div>
                <!-- /.card-header -->
                <div class="card-body table-responsive" >
@@ -59,7 +62,7 @@ include "header.php";
                      <tbody id="search_record">
                      <?php
                      $count=0;
-                     $degree="SELECT * FROM degree_print";                     
+                     $degree="SELECT * FROM degree_print order by Status ASC";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {

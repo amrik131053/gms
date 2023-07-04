@@ -4226,7 +4226,7 @@ else
      elseif($code==78)
    {
                      $count=0;
-                     $degree="SELECT * FROM degree_print";                     
+                     $degree="SELECT * FROM degree_print order by Status ASC";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
