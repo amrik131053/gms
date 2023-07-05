@@ -1,4 +1,7 @@
-<?php include "header.php"; 
+<?php
+
+ include "header.php"; 
+ include "dashboard-alert.php"; 
 
 if(!(ISSET($_SESSION['usr']))) 
 {
@@ -511,5 +514,10 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                                     }
                                  });
                            }
+
+                 $(window).on('load', function() {
+                  
+        $('#modal-lg-notification').modal('show');
+    });          
                         </script>
 <?php include "footer.php"; ?> 
