@@ -26,7 +26,7 @@ while($row=mysqli_fetch_array($Notification_run))
                         </div>
                       </div>
                       <h5>Number of Request for Movement:&nbsp;<?=$count;?></h5>
-                   <a href="mytimeout.php"> <input type="button" class="btn btn-success btn-xs" value="Click here" ></a>
+                   <a href="movement-admin.php"> <input type="button" class="btn btn-success btn-xs" value="Click here" ></a>
                     </div>
                   </div>
             </div>
