@@ -2,7 +2,7 @@
    include "header.php";   
    $servername1 = "10.0.8.10";
 $username1 = "as";
-$password1 = "Sukhdeep@1995";
+$password1 = "Bathinda@123";
 $dbname1 = "local";
 
 

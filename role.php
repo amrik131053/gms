@@ -25,7 +25,7 @@
                            $get_run=mysqli_query($conn,$get_role);
                            while ($get_row=mysqli_fetch_array($get_run))
                             {?>
-                        <option value='<?=$get_row['id'];?>'><?=$get_row['role_name'];?></option>
+                        <option value='<?=$get_row['id'];?>'><?=$get_row['role_name'];?> (<?=$get_row['id'];?>)</option>
                         ";
                         <?php }
                            ?>

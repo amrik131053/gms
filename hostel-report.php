@@ -9,7 +9,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
 {
    $permissionCount++;
 }
-  
+
+ 
 ?>
 <style type="text/css">
   
@@ -43,6 +44,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
                            <div class="row">
                               <div class="col-lg-1">
                                  <div class="input-group-sm">
+                                    <input type="hidden" value="<?= $code_access;?>" id='code_access'>
+
                                     <select class="form-control" name="Session" id='Session'>
                                        <!-- <option value="">Session</option> -->
                                        <?php
@@ -235,9 +238,11 @@ while($permission_data=mysqli_fetch_array($permission_res))
       function search_hostel_student()
       {
          
-         var code='83';
+          var code='83';
          var building=document.getElementById("hostel_id").value;
          var session=document.getElementById("Session").value;
+          var code_access=document.getElementById("code_access").value;
+         
          if (building!=''&& session!='') 
          {
          var spinner=document.getElementById("ajax-loader");
@@ -249,7 +254,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             // alert(room);
             $.ajax({
             url:'action.php',
-            data:{code:code,building:building,floor:floor,room:room,session:session},
+            data:{code:code,building:building,floor:floor,room:room,session:session,code_access:code_access},
             type:'POST',
             success:function(data){
             if(data != "")
@@ -301,13 +306,13 @@ while($permission_data=mysqli_fetch_array($permission_res))
       }
       function student_stock(locationID,studentID)
       {
-         // alert(studentID);
+         var code_access=document.getElementById("code_access").value;
           var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';
          var code='85';
          $.ajax({
          url:'action.php',
-         data:{code:code,locationID:locationID,studentID:studentID},
+         data:{code:code,locationID:locationID,studentID:studentID,code_access:code_access},
          type:'POST',
          success:function(data){
          if(data != "")

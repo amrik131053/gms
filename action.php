@@ -1,4 +1,6 @@
 <?php
+
+
 session_start();
 date_default_timezone_set("Asia/Kolkata");
 $timeStamp=date('Y-m-d H-i');
@@ -12,6 +14,7 @@ ini_set('max_execution_time', '0');
    } 
    else
    {
+
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    
    $EmployeeID=$_SESSION['usr'];
@@ -22,6 +25,9 @@ ini_set('max_execution_time', '0');
 </script>
 <?php }
    include "connection/connection.php";
+
+
+
     $permissionCount=0;
    $permission_qry="SELECT * FROM category_permissions where employee_id='$EmployeeID' and is_admin='1'";
    $permission_res=mysqli_query($conn,$permission_qry);
@@ -5224,22 +5230,24 @@ if($count>0)
    $session=$_POST['session'];
    $floor=$_POST['floor'];
    $room=$_POST['room'];
+   $code_access=$_POST['code_access'];
+
    if ($building!='' && $floor=='' && $room=='') 
    {
-      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  AND session='$session' order by hostel_student_summary.status  ASC ";
+      $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  AND session='$session' and hostel_student_summary.status='0'  order by hostel_student_summary.status  ASC ";
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' AND session='$session' order by hostel_student_summary.status ASC ";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' AND session='$session' and hostel_student_summary.status='0' order by hostel_student_summary.status ASC ";
    //and hostel_student_summary.status='0'
    }
    elseif ($building!='' && $floor!='' && $room=='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and Floor='$floor' AND session='$session' order by hostel_student_summary.status ASC ";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and Floor='$floor' AND session='$session' and hostel_student_summary.status='0' order by hostel_student_summary.status ASC ";
    }
    elseif ($building!='' && $floor!='' && $room!='') 
    {
-       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' and Floor='$floor' AND session='$session' order by hostel_student_summary.status ASC";
+       $sql="SELECT * from stock_summary inner join location_master on stock_summary.LocationID=location_master.ID inner join hostel_student_summary on hostel_student_summary.article_no=stock_summary.IDNo where Block='$building'  and RoomNo='$room' and Floor='$floor' AND session='$session' and hostel_student_summary.status='0' order by hostel_student_summary.status ASC";
    }
    
    ?>
@@ -5315,7 +5323,7 @@ if($count>0)
                {
 ?>
 
- <i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"></i>
+ <i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"> </i>
 
             <?php    }
       ?>
@@ -5491,13 +5499,18 @@ if($count>0)
    {
    $locationID=$_POST['locationID'];
    $studentID=$_POST['studentID'];
+   $code_access=$_POST['code_access'];
    $flag=0;
+
    $assignCheckQry="Select * from location_master where ID='$locationID' and location_owner='$EmployeeID'";
    $assignCheckRes=mysqli_query($conn,$assignCheckQry);
    if (mysqli_fetch_array($assignCheckRes)) 
    {
-       $flag=1;
+        $flag=1;
    }
+
+
+
    ?>
 <div class="modal-header">
    <h5 class="modal-title" id="exampleModalLabel">Student Stock</h5>
@@ -5528,9 +5541,9 @@ if($count>0)
    <table class="table">
       <?php
          }
-         $studentStockAssigned[$building_num][]=$building_row['IDNo'];
-         $studentStockAssigned[$building_num][]=$building_row['ArticleName'];
-         $studentStockAssigned[$building_num][]=$building_row['RoomNo'];
+          $studentStockAssigned[$building_num][]=$building_row['IDNo'];
+          $studentStockAssigned[$building_num][]=$building_row['ArticleName'];
+          $studentStockAssigned[$building_num][]=$building_row['RoomNo'];
          unset($name); 
          $building_num=$building_num+1;
          }
@@ -5544,9 +5557,11 @@ if($count>0)
          <th>Article Name</th>
          <th>Room No.</th>
          <th>View</th>
-         <?php if ($flag==1) 
-            {
-                ?>
+
+        <?php  if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
+                                          {         
+                ?>  
+               
          <th>Check Out</th>
          <?php
             }
@@ -5569,22 +5584,22 @@ if($count>0)
             }
             ?>
          <td>
-            <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$studentStockAssigned[$i][0]?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"></i>
+            <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$studentStockAssigned[$i][0]?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"> </i>
          </td>
-         <?php if ($flag==1) 
-            {
-                ?>
+         
          <td>
-            <?php if ($building_num<2 || $studentStockAssigned[$i][1]!='Bed') 
-               {
+           <?php  if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
+                                          {         
                 ?>   
             <i class="fa fa-arrow-left fa-lg" onclick="check_out(<?=$studentStockAssigned[$i][0]?>,<?=$IDNo?>,<?=$locationID?>);" style="color:red;"></i>
-            <?php }
+            <?php
+
+             }
+
+
                ?>
          </td>
-         <?php
-            }
-            ?>
+         
       </tr>
       <?php
          }
@@ -16775,7 +16790,7 @@ while($row=mysqli_fetch_array($result))
 
          else {
 
-            echo " on Leave";
+            echo "on Leave";
          }?>
 
       </td>
@@ -16789,7 +16804,7 @@ while($row=mysqli_fetch_array($result))
 
 
 }
-//gate entry checkin
+//gate entry checkout
 else if($code==300)
 {
    $id=$_POST['id'];

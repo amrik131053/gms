@@ -131,7 +131,7 @@
           
            })
 
-
+ 
 
    function time_out_staff() 
    {
@@ -170,8 +170,10 @@
             data:{
                code:code,id:id
                   },
-            success: function(response) 
-            { spinner.style.display='none';
+                 success: function(response) 
+            { // console.log(response);
+
+               spinner.style.display='none';
               time_out_staff() ;
             }
          });
