@@ -1,18 +1,6 @@
 <?php 
    include "header.php";   
-   $servername1 = "10.0.8.10";
-$username1 = "as";
-$password1 = "Bathinda@123";
-$dbname1 = "local";
-
-
-$connection_local = new mysqli($servername1, $username1, $password1, $dbname1);
-   $ftp_server = "10.0.8.10";
-   $ftp_user_name = "gurukashi";
-   $ftp_user_pass = "Amrik@123";
-   $remote_file = "";
-   $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
-   $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
+   include"connection/ftp.php";
    ?>
 <section class="content">
    <div class="container-fluid">
@@ -35,6 +23,7 @@ if($EmployeeID =='105201'|| $EmployeeID=='131053')
                     <label>File Name</label>
             
             <input type="text" name="doc_name" class="form-control" required>
+
             <input type="hidden" name="doc_type"  value="Software">
             <br/>  
             <label>File Category</label>
@@ -45,16 +34,26 @@ if($EmployeeID =='105201'|| $EmployeeID=='131053')
                    <option value="Driver">Driver</option> 
                          <option value="Trial">Trial</option> 
             </select>
-            <br/>
+
+
+            <br/>     <br/>
             <label>Browse File</label>
-            <input type="file" name="fileToUpload"  accept=".exe , .zip, .rar" required>
+            <input type="file" name="fileToUpload"  accept=".exe , .zip, .rar" required class="form-control">
            <br/>
             
           
                </div>
             </div>
             <div class="card-footer">
-              <input type="submit" value="Upload" class="btn btn-primary btn-block" name="uploadbtn">
+              <?php if($login_result)
+              {?>
+    <input type="submit" value="Upload" class="btn btn-primary btn-block" name="uploadbtn">
+              <?php }
+              else
+              {
+echo "FTP Server Off";
+              }
+          ?>
             </div>
               </form>
           
@@ -83,22 +82,22 @@ if($EmployeeID =='105201'|| $EmployeeID=='131053')
                     <th>Name</th>
                     <th>Type</th>
                     <th>Category</th>
-                    <th>Link</th>
+                    <th style="text-align: center;">Link</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-  if($EmployeeID=='105201'|| $EmployeeID='131053')
+  if($EmployeeID=='105201'|| $EmployeeID=='131053')
   { 
-   $sql = "SELECT * FROM software ORDER BY status Desc";
+   $sql = "SELECT * FROM software ORDER BY id Desc";
  }
 else
 {
-   $sql = "SELECT * FROM software where doc_category!='License' ORDER BY status Desc";
+   $sql = "SELECT * FROM software where doc_category!='License' ORDER BY id Desc";
 
 }
   
-  $result = mysqli_query($connection_local, $sql);
+  $result = mysqli_query($conn, $sql);
   $counter = 1;
   if(mysqli_num_rows($result) > 0)
   {
@@ -106,6 +105,7 @@ else
     {
       extract($row);
       $id=$row['id'];
+      $file= $row['doc_file'];
       ?>
       <tr>
         <td><?= $counter++; ?></td>
@@ -113,8 +113,21 @@ else
         <td><?= $row['doc_type']; ?></td>
         <td><?= $row['doc_category']; ?></td>
         <td style="text-align: center;">
-  
-        <a href="http://assknk.gurukashiuniversity.co.in/data-server/software/<?= $row['doc_file'];?>" title="Copy Link">Download</a>
+          <?php 
+  if($EmployeeID=='105201'|| $EmployeeID=='131053')
+  { ?>
+        <a href="http://assknk.gurukashiuniversity.co.in/data-server/software/<?= $row['doc_file'];?>" title="Copy Link"><i class="fa fa-download"></i></a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <i class="fa fa-trash" style="color:red" onclick="deletesoft(<?=$id;?>,'<?=$file;?>')"></i>
+
+<?php }
+else
+{ ?>
+ <a href="http://assknk.gurukashiuniversity.co.in/data-server/software/<?= $row['doc_file'];?>" title="Copy Link"><i class="fa fa-download"></i></a>
+<?php }
+  ?>
+
         </td>
 
 
@@ -172,10 +185,12 @@ else
 
   
     $sqlupload = "INSERT INTO software (doc_type,doc_name,doc_category,doc_file,status) VALUES ('$doc_type','$doc_name','$doc_category','$file_name','$status')"; 
-    if(mysqli_query($connection_local,$sqlupload))
+    if(mysqli_query($conn,$sqlupload))
     {
-      header("location:software.php");
-    }
+?>
+
+      <script> window.location.href="software.php";</script>
+   <?php  }
     else
     {
       //echo "Error:<br>" . mysqli_error($connection_web_in);
@@ -184,3 +199,34 @@ else
  include "footer.php"; 
 
   ?>
+  <script>
+  function deletesoft(id,file)
+   {
+
+    var r = confirm("Do you really want to Delete ");
+  if(r == true) 
+     {
+        
+        
+      var code=309;
+      
+     var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,file:file
+            },
+            success:function(response) 
+            {
+              console.log(response);
+               spinner.style.display='none';
+          location.reload(true);
+            }
+         });
+      }
+   } 
+ </script>

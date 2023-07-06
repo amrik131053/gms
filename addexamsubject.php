@@ -1,5 +1,5 @@
 
-
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><?php 
 
   include "header.php";   
@@ -24,6 +24,8 @@ function checkall()
 
     function edit_stu(id)
           {
+
+            alert(id);
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
@@ -86,11 +88,14 @@ function sub_code_int_ext_type_update(id)
            });
 
   }
-}       function receipt_date_no_update(id)
+}    
+
+   function receipt_date_no_update(id)
            {
         var r = confirm("Do you really want to Change");
           if(r == true) 
            {
+
          // alert(id);
         var spinner=document.getElementById("ajax-loader");
           spinner.style.display='block';
@@ -161,6 +166,68 @@ function sub_code_int_ext_type_update(id)
            });
        }
     }
+
+
+ function Delete_sub_code_int_ext_type_update(id)
+    {
+         var r = confirm("Do you really want to Delete");
+          if(r == true) 
+           {
+
+     var r = confirm("it is going to Delete");
+          if(r == true) 
+           {
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     
+     var code=310;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully deleted');
+                           Search_exam_student();
+                           edit_stu(id);
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+   }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

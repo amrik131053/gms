@@ -3451,8 +3451,57 @@ if($list_result === false) {
                
                </tr>
 
+
+
+
+<?php
+}?>
+
+<tr> <td colspan="4"><h2> Open Elective</h2></td></tr>
+<?php 
+$list_sql = "Select * from MasterCourseStructure where CollegeID!='$College' AND Batch='$Batch'ANd SemesterID='$Semester'  AND Elective='O'";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th>Select</th><th>SrNo</th> <th>Code</th>
+    <th>Subject Name</th></tr>
+   
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        {?>
+
+         
+             
+             <tr>
+            
+            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
+             
+             <td><?=$count++;?></td>
+             
+                <td>
+                <?=$row['SubjectCode'];?></td>
+                  <td><?= $row['SubjectName'];?></td>
+             
+               
+               </tr>
+
+
+
+               
+
 <?php
 }
+
+
 
 
 ?>

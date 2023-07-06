@@ -12430,7 +12430,9 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     
   </td>
        <td>
-  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-primary"><i class="fa fa-check"></i></button>
+  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> <br>
+<br>
+  <button type="submit" id="type" onclick="Delete_sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
 
 
 
@@ -17247,6 +17249,53 @@ if( $stmt2  === false) {
 
    }
 
+   elseif($code=='309') 
+   {
+   include 'connection/ftp.php';
+
+ $id=$_POST['id'];
+$file=$_POST['file'];
+ $query1="Delete from Software where Id='$id'";
+$del_run = mysqli_query($conn, $query1);
+   if ($del_run == true) {
+
+  ftp_chdir($conn_id, "software/") or die("Could not change directory");
+      if (ftp_delete($conn_id, $file)) {
+ echo "$file deleted successful\n";
+} else {
+ echo "could not delete $file\n";
+}
+       echo "Successfully deleted";
+   } else {
+       echo "Ohh yaar ";
+   }
+
+
+
+   }
+
+ elseif($code=='310') 
+   {
+
+$id_s=$_POST['id'];
+
+$query1="Delete from ExamFormSubject where ID='$id_s'";
+
+$stmt2 = sqlsrv_query($conntest,$query1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+   echo "1";
+}
+
+
+
+
+   }
  else
 {
 echo "select code";

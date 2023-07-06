@@ -123,16 +123,16 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-            <div class="col-md-1">
+            <div class="col-md-2">
             <div class="form-group">
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
-                <option value="CE1">CE-1</option>
-                <option value="MST1">MST-1</option>
-                 <option value="CE2">CE-2</option>
-                <option value="MST2">MST-2</option>
-                <option value="CE3">CE-3</option>
-                 <option value="ESE">ESE</option>
+                <option value="CE1">CA-1 & CA-2</option>
+                <option value="MST1">MST Marks </option>
+                 <!-- <option value="CE2">CE-2</option> -->
+                <!-- <option value="MST2">MST-2</option> -->
+                <option value="CE3">CA-3</option>
+                 <option value="ESE">End Semester Exam</option>
                     <option value="Attendance">Attendance</option>
 
                 
