@@ -2337,7 +2337,7 @@
             <span class="bg-red">Token No:<?=$TokenNo;?></span>
          </div>
          <?php 
-            $get_details_token="SELECT * ,vehicle_types.name as t_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.token_no='$TokenNo'"; 
+            $get_details_token="SELECT * ,vehicle_types.name as t_name,vehicle_allotment.name as e_name FROM vehicle_allotment inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id where vehicle_allotment.token_no='$TokenNo'"; 
                         $get_details_token_run=mysqli_query($conn,$get_details_token);
                         if($get_row_token=mysqli_fetch_array($get_details_token_run))
                         {       
