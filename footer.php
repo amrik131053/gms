@@ -15,7 +15,7 @@
 <script src="plugins/fullcalendar-timegrid/main.min.js"></script>
 <script src="plugins/fullcalendar-interaction/main.min.js"></script>
 <script src="plugins/fullcalendar-bootstrap/main.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -29,6 +29,7 @@
 <script src="plugins/toastr/toastr.min.js"></script>
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 
 <script src="dist/js/adminlte.js"></script>
 <script src="sc.js"></script>

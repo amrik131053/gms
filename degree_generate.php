@@ -35,6 +35,8 @@ include "header.php";
                           &nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="text"  class="form-control " id="unirollno" placeholder="Search" >
                         <input type="button"  class="btn btn-success btn-xs" onclick="search_degree_record();"  value="Search">
+                        <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+                     <!-- <input type="button" value="Receiving " class="btn btn-primary btn-xs" > -->
                      </div>
                      </form>
                   </div> 
