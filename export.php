@@ -17,6 +17,12 @@ elseif (isset($_GET['exportCode']))
 {
     $exportCode = $_GET['exportCode'];
 }
+
+if($exportCode==19)
+   {
+       include "connection/connection_web.php"; 
+
+   }
 if ($exportCode == 0)
 {
     $count = 1;
@@ -879,7 +885,7 @@ elseif($exportCode==14)
         $article_num=$data['article_no'];
         
             $room_no=$data['RoomNo'];
-            $date=date("d-M-Y", strtotime($data['reading_date']));
+            $date=date("d-M-Y",strtotime($data['reading_date']));
             $reading=$data['current_reading'];
             $unitsConsumed=$data['unit'];
             $id=$data['mrID'];
@@ -1742,8 +1748,85 @@ if ($fileName=='')
 }
 
 }
+elseif($exportCode=='19')
+{
+    $start_date=$_GET['start_date'];
+  $end_date=$_GET['end_date'];
+
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where purpose='New Admission' AND status='success' AND batch='2023' ANd Created_date Between '$start_date' AND  '$end_date' ");
+    $counter = 1; 
+     
+    
+        
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Name</th>
+          <th>Father Name</th>
+           <th>Course/Batch</th>
+          <th>Email</th> 
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+           <th>Admissions Status</th>
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+      $admissionstatus=$row['merge'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+        if($admissionstatus>0)
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>
+                <td>{$name}</td>
+                <td>{$father_name}</td>
+                <td>{$course}</td>
+                <td>{$email}</td>
+                <td>{$phone}</td>
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+                <td>{$adstatus}</td>
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Admissions Report".$start_date." to ".$end_date;
 
 
+}
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

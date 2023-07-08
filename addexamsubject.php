@@ -25,7 +25,7 @@ function checkall()
     function edit_stu(id)
           {
 
-            alert(id);
+            //alert(id);
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
@@ -168,7 +168,7 @@ function sub_code_int_ext_type_update(id)
     }
 
 
- function Delete_sub_code_int_ext_type_update(id)
+ function Delete_sub_code_int_ext_type_update(id,nid)
     {
          var r = confirm("Do you really want to Delete");
           if(r == true) 
@@ -195,7 +195,11 @@ function sub_code_int_ext_type_update(id)
                            {
                            SuccessToast('Successfully deleted');
                            Search_exam_student();
-                           edit_stu(id);
+                          
+
+                           edit_stu(nid);
+
+
                           }
                           else
                           {
