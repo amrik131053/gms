@@ -3856,7 +3856,7 @@ if ($check_flow_row['status']<4) {
             <option value="<?=$row['IDNo'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['IDNo'];?>)</option>
             <?php 
                }
-               ?>
+                ?>
          </select>
       </div>
    </div>

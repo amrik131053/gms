@@ -146,7 +146,7 @@ setInterval(function(){pushNotify();}, 8000);
         function pushNotify() {
           if (!("Notification" in window)) {
                 // checking if the user's browser supports web push Notification
-                alert("Web browser does not support desktop notification");
+                // alert("Web browser does not support desktop notification");
             }
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
