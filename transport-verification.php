@@ -79,14 +79,13 @@ function show_timeline_verification(token)
 }
 function recommend_by_verify()
  {
-  // alert(id);
   var id=document.getElementById('time_line_id').value;
   var token=document.getElementById('time_line_token').value;
   var userId=document.getElementById('time_line_userId').value;
   var forward_remarks=document.getElementById('comment_recommend').value;
     var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=48;
+           var code=90;
            $.ajax({
               url:'action_g.php',
               type:'POST',
@@ -125,11 +124,11 @@ function reject_by_verify()
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,id:id,userId:userId,comment_reject:comment_reject,token:token
+                 code:code,id:id,userId:userId,forward_remarks:comment_reject,token:token
               },
               success: function(response) 
               {
-                // console.log(response);
+                console.log(response);
                   spinner.style.display='none';
                   if (response==1) 
                  {
