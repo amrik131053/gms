@@ -131,7 +131,7 @@ function create_task()
               success: function(response) 
               {
                   spinner.style.display='none';
-              console.log(response);
+              // console.log(response);
                 if (response==1) {
                   SuccessToast('Success');
                   $("#createTaskModal").modal('hide');
@@ -194,7 +194,45 @@ function forward_task()
               }
            });
 }
+      function task_submit_with_daily_report(id) 
+     {
+ var spinner=document.getElementById("ajax-loader");
+  var change_status=document.getElementById(id+"_change_status1").value;
+// alert(id);
+   spinner.style.display='block';
+           var code=19;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,change_status:change_status,id:id
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+                  spinner.style.display='none';
+                  show_task_after_chnage();
+                  my_task();
 
+              }
+           });
+   } 
+    function show_task_after_chnage() 
+     {
+
+           var code=20;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                 document.getElementById("task_show_after_onchange").innerHTML=response;
+              }
+           });
+   }
 function my_task()
 {
  
@@ -227,7 +265,7 @@ function assign_task()
                  code:code
               },
               success: function(response) 
-              {
+               {
                   spinner.style.display='none';
                  document.getElementById("data_show").innerHTML=response;
               }
