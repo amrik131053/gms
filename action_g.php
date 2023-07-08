@@ -27,6 +27,10 @@
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
       }
+      else
+      {
+         // echo "inter net off";
+      }
    
    $code = $_POST['code'];
    
@@ -480,14 +484,17 @@
             <th style="width: 20%">
                Task Name
             </th>
-            <th style="width: 30%">
+            <th style="width: 25%">
                Assign By
             </th>
             <th>
                Task Progress
             </th>
             <th>Marks</th>
-            <th style="width: 8%" class="text-center">
+            <th  class="">
+               Status
+            </th>
+            <th style="width: 10%" class="text-center">
                Status
             </th>
             <th  class="text-center">
@@ -584,15 +591,25 @@
                <span class="badge badge-<?=$status_color;?>"><?=$status;?></span>
                <?php }?>
             </td>
+            <td>
+               <input type="hidden" value="<?=$show_task_row['ID'];?>" name="id_status1[]"  id="id_status1">
+                          <select class="form-control form-control-sm" name="change_status1[]" id="<?=$show_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$show_task_row['ID'];?>);" required>
+                            
+                             <option value="">Select</option>
+                             <option value="3">Complete</option>
+                             <option value="1">UnderProgress</option>
+                             <!-- <option value="No">No Action</option> -->
+                          </select>
+            </td>
             <td class="project-actions text-right">
                <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
-               <i class="fa fa-eye fa-lg"></i>
+               <i class="fa fa-eye fa-sm"></i>
                </a>
                <?php  if ($status_show['Status']!=3)
                   {
                   ?>
                <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
-               <i class="fa fa-share" aria-hidden="true"></i>
+               <i class="fa fa-share fa-sm" aria-hidden="true"></i>
                </a>
                <?php 
                   }
@@ -825,12 +842,7 @@
       <div class="col-md-12">
          <!-- The time line -->
          <div class="timeline">
-            <!-- timeline time label -->
-            <!-- <div class="time-label">
-               <span class="bg-red">10 Feb. 2014</span>
-               </div> -->
-            <!-- /.timeline-label -->
-            <!-- timeline item -->
+            
             <?php 
                $timeline="SELECT * FROM task_master where TokenNo='$TokenNo' ";
                $timeline_run=mysqli_query($conn,$timeline);
@@ -1224,6 +1236,7 @@
             <th>#</th>
             <th>Task Name</th>
             <th> Assign By</th>
+            <th> Status</th>
             <th> Status</th>
             <th>Action</th>
          </tr>
@@ -3887,7 +3900,7 @@ if ($check_flow_row['status']<4) {
          <label> Driver Name</label>
          <select class="form-control" id="driver" >
             <option value="">Select</option>
-            
+
             <?php  $get_type="SELECT IDNo,Name FROM Staff Where Designation='Driver' and JobStatus='1'";
                $get_type_run=sqlsrv_query($conntest,$get_type);
                while($row=sqlsrv_fetch_array($get_type_run,SQLSRV_FETCH_ASSOC))
