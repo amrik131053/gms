@@ -2176,7 +2176,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -2208,7 +2208,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -2238,7 +2238,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -2270,7 +2270,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -2300,7 +2300,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -2330,7 +2330,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -3550,7 +3550,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -3583,7 +3583,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -3615,7 +3615,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_approve(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -3739,7 +3739,7 @@
             ?>
          <tr>
             <td><?=$sr;?></td>
-            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><B class="text-primary"><?=$get_row['token_no'];?></B></td>
+            <td onclick="show_timeline_verification_alott(<?=$get_row['token_no'];?>);"><a href="#"><B class="text-primary"><?=$get_row['token_no'];?></B></a></td>
             <td><?=$get_row['v_name'];?></td>
             <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
             <td><?=$get_row['e_name'];?></td>
@@ -4069,7 +4069,8 @@ if ($check_flow_row['status']<4) {
                <?=date("d-m-Y h:i:A", strtotime($row['to_date']));echo "<br><small class='text-danger'>This time slot is not available. Overlapping duration: ".$hours .'&nbsp;hours and&nbsp;' . $overlapDurationMinutes . " minutes.</small>"; ?>
             </td>
             <td><?=$row_all['name']; ?></td>
-            <td><button type="button" class="btn btn-danger btn-sm disabled ">No Available</button></td>
+                        <td><b  class="text-danger">Not Availble</b></td>
+
          </tr>
          <tr>
             <!-- <td colspan="4"><?php ?></td> -->
@@ -4083,7 +4084,7 @@ if ($check_flow_row['status']<4) {
             <td><?=$sr;?></td>
             <td><?=$row_all['vehicle_number'];?></td>
             <td><?=$row_all['name'];?></td>
-            <td><button type="button" class="btn btn-info btn-sm disabled">Availble</button></td>
+            <td><b  class="text-success">Availble</b></td>
          </tr>
          <?php 
             }
@@ -4096,7 +4097,8 @@ if ($check_flow_row['status']<4) {
             <td><?=$sr;?></td>
             <td><?=$row_all['vehicle_number'];?></td>
             <td><?=$row_all['name'];?></td>
-            <td><button type="button" class="btn btn-info btn-sm disabled">Availble</button></td>
+                        <td><b  class="text-success">Availble</b></td>
+
          </tr>
          <?php 
             }
@@ -4108,12 +4110,19 @@ if ($check_flow_row['status']<4) {
       {
         ?>
    <div class="col-lg-12">
-      <label>Station (s) to be visited</label>
+      <label>Station (s) to be visited<span class="text-danger">&nbsp;*</span></label>
       <input type="text" class="form-control" id="station">
    </div>
    <div class="col-lg-12">
-      <label>Purpose</label>
+      <label>Purpose <span class="text-danger">&nbsp;*</span></label>
       <input type="text" class="form-control" id="purpose">
+   </div>
+   <div class="col-lg-12">
+
+   <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="create_request();">Submit</button>
+      </div>
    </div>
    <?php 
       }

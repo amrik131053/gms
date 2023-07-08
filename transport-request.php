@@ -32,6 +32,7 @@ function create_request()
   var to = document.getElementById("to").value;
   var station = document.getElementById("station").value;
   var purpose = document.getElementById("purpose").value;
+  if (station!='' && purpose!='' ) {
  var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
      
@@ -70,6 +71,12 @@ function create_request()
                 
               }
            });
+         }
+         else
+         {
+                            ErrorToast('All Inputs Required','bg-warning');
+
+         }
 }
 
 
@@ -117,7 +124,7 @@ function view_request_submit(Token_No)
 window.onload = function() {
   my_transport_request();
 };
-
+ 
 function check_availablity()
  {
                  $('#purpose_div').hide();
@@ -241,7 +248,8 @@ function show_purpose_div()
                           <input type="button" class="btn btn-primary" onclick="check_availablity();" value="Search">
                          </div>
                        </div>
-                       <div class="row"><br></div>
+                       <div class="row"><br>
+                       </div>
                        <div class="row" id="booking_table" >
                     
                        </div>
@@ -253,12 +261,11 @@ function show_purpose_div()
 
                       
                     </div>
-                
-      
-      <div class="modal-footer">
+
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="create_request();">Submit</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

@@ -15,8 +15,6 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 // $dbname1 = "lims";
 
 
-
-
 $servername1 = "localhost";
 $username1 = "root";
 $password1 = "";
