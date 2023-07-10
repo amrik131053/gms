@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
- $mailpath="D:/xampp/htdocs/ums/PHPMailer/src/";
+ $mailpath="E:/xampp/htdocs/ums/PHPMailer/src/";
 /* Exception class. */
 require $mailpath.'Exception.php';
 
