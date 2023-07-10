@@ -541,13 +541,14 @@ for($i=1;$i<=12;$i++)
     }  
 
 
-    function exam_type_update(id)
+      function exam_type_update(id)
     {
          var r = confirm("Do you really want to Change");
           if(r == true) 
            {
        var type=document.getElementById('type_').value;
        var examination=document.getElementById('examination_').value;
+        var sgroup=document.getElementById('sgroup_').value;
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(type+' '+examination);
@@ -556,7 +557,7 @@ for($i=1;$i<=12;$i++)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,examination:examination,type:type
+                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,
               },
               success: function(response) 
               {
@@ -576,6 +577,7 @@ for($i=1;$i<=12;$i++)
            });
        }
     }
+
          $(document).ready(function (e) {    // image upload form submit
            $("#submit_exam_form").on('submit',(function(e) {
               e.preventDefault();

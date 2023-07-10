@@ -65,6 +65,149 @@
 
 </section>
 
+
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" >
+     <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Admission Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+
+       <div class="modal-body" >
+         <div id ="abc"></div>
+      <table class="table" style="font-size: 14px" >
+
+  <thead>
+         
+                  <tr>
+          <th>Sr. No</th>
+          <th>P ID/ Ref no</th>
+          <th>Name</th>
+          <th>Father Name</th>
+           <th>Course/Batch</th>
+          <th>Email</th> <th><i class="fa fa-download" style="color: green"></i></th>
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+         </tr>
+         </thead>
+         <tbody style="height:1px" id="edit_stu" ></tbody> 
+         </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+  function confirnation(id)
+          {
+
+          
+               var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+     var code=313;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+              
+               spinner.style.display='none';
+                document.getElementById("edit_stu").innerHTML=response;
+                
+              }
+           });
+          
+         }
+
+
+
+</script>
+
+
+
+
+<script>
+
+  function send_confirnation(id)
+          {
+
+      var employeeid=document.getElementById('employeeid').value;
+      var classroll=document.getElementById('classroll').value;
+      var adstatus=document.getElementById('adstatus').value;
+
+
+if(adstatus!='')
+{
+     var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+     var code=314;
+
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,employeeid:employeeid,classroll:classroll,adstatus:adstatus,
+              },
+              success: function(response) 
+              {
+              //console.log(response);
+               spinner.style.display='none';
+                if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                           document.getElementById("abc").innerHTML="<div class='alert alert-success' role='alert'>Admission Status Updated and Email Has been sent !!!!!!!!!!!!! </div>";
+                           confirnation(id);
+                           load_admission_data();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+
+                
+                
+              }
+           });
+          
+         }
+         else
+         {
+            ErrorToast('Invalid data','bg-danger' );
+            document.getElementById("abc").innerHTML=
+            "<div class='alert alert-danger' role='alert'>Please enter Class RollNumber and  Admission Status</div>";
+         }
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
 <script>
  $(window).on('load', function() 
           {
@@ -130,7 +273,7 @@ function searchadmission()
          var start_date=document.getElementById('start_date').value;
        var end_date=document.getElementById('end_date').value;
 
-       alert(start_date);
+      
         if (start_date!='' && end_date!='') 
          {
             // alert("export.php?exportCode="+exportCode+"&hostel="+hostel+"&session="+session);
@@ -144,10 +287,7 @@ function searchadmission()
         
       }
 
-function confirnation(id)
-{
-alert(id);
-}
+
 
 </script>
 <p id="ajax-loader"></p>

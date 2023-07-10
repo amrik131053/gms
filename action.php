@@ -37,7 +37,7 @@ ini_set('max_execution_time', '0');
    }
    $code = $_POST['code'];
 
-   if($code=='311' || $code=='312')
+   if($code=='311' || $code=='312'||$code=='313' ||$code=='314')
    {
        include "connection/connection_web.php"; 
 
@@ -11986,12 +11986,12 @@ $ecat=$_POST['ecat'];
 
                    if( $_POST['rollNo'] !='') 
                    {
-               $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' ORDER BY ExamForm.ID DESC"; 
             }
             else
             {
-               $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+               $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
             }
 
@@ -12008,7 +12008,7 @@ $Course = $_POST['Course'];
         $Examination = $_POST['Examination'];
 
 
-$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
 
 }
@@ -12016,7 +12016,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 else 
 
 {
-    $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+    $list_sql = "SELECT TOP 150   ExamForm.Course,ExamForm.SGroup,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY ExamForm.ID DESC"; 
 }
 ?>
@@ -12033,6 +12033,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                                         <th>Batch</th>
                                         <th>Examination</th>
                                         <th>Type</th>
+                                        <th>Group</th>
                                         <th>Status</th>
                                         <th>Date</th>
                                         <th>Update</th> 
@@ -12075,6 +12076,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
 ?>
                <td>
                 <?=$row['Type'];?></td>
+                <td><?= $row['SGroup'];?></td>
 
                 <td  style="width:100px"><center><?php 
 
@@ -12278,6 +12280,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
              $IDNo=$row5['IDNo'];
              $type=$row5['Type'];
              $examination=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
              $formid=$row5['ID'];
@@ -12336,18 +12339,20 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {    
-     $Sgroup = $row1['Examination'];  
+     $examination = $row1['Examination'];  
     ?>
-<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<option  value="<?=$examination;?>"><?= $examination;?></option>
 <?php    }
 ?>
               </select>
+
 
 
       <?php ?>
          
 
       </td>
+
    <td><b>Type:</b></td>
    <td colspan="3">
              <select  id="type_" class="form-control" required="">
@@ -12357,13 +12362,34 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {    
-     $Sgroup = $row1['Type'];  
+     $type = $row1['Type'];  
+    ?>
+<option  value="<?=$type;?>"><?= $type;?></option>
+<?php    }
+?>
+              </select>
+
+<br>
+              
+               <select  id="sgroup_" class="form-control" required="">
+
+                 <option value="<?=$sgroup;?>"><?=$sgroup;?></option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $Sgroup = $row1['Sgroup'];  
     ?>
 <option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
 <?php    }
 ?>
               </select>
+
+
+      
    </td>
+
    <td colspan="1"><button type="button"  onclick="exam_type_update(<?=$formid;?>);"  class="btn btn-primary"><i class="fa fa-check"></i></button></td>
  </tr>
  <th colspan="1">Receipt Date:</th>
@@ -12542,7 +12568,8 @@ else
        $id =$_POST['id'];  
        $examination=$_POST['examination'];
        $type=$_POST["type"];
-       $sq="Update ExamForm set Type='$type',Examination='$examination' Where ID='$id'"; 
+        $sgroup=$_POST["sgroup"];
+       $sq="Update ExamForm set Type='$type',Examination='$examination',SGroup='$sgroup' Where ID='$id'"; 
        $list = sqlsrv_query($conntest,$sq);
        if ($list==true) 
        {
@@ -14565,9 +14592,10 @@ elseif($code==252)
                               <th style="width:90px">Code</th>
 
                               <th style="width:50px" >Type</th>
-                              <th style="width:50px">Int</th>
-                              <th style="width:50px">Ext </th>
+                              <!-- <th style="width:50px">Int</th>
+                              <th style="width:50px">Ext </th> -->
                               <th style="width:80px" >Elective</th>
+                               <th style="width:180px" >Group</th>
                               <th style="width:50px">Lecture</th>                          
 
                             
@@ -14624,8 +14652,10 @@ elseif($code==252)
                                         
                                     </select>
                                     </td>
-                                 <td><input type="text" id="int_marks<?=$get_row['SrNo'];?>" class="form-control"  style="width:50px" value="<?=$get_row['IntMaxMarks'];?>"></td>
-                                 <td><input type="text" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['ExtMaxMarks'];?>"></td>
+                                 <!-- <td> -->
+                                    <input type="hidden" id="int_marks<?=$get_row['SrNo'];?>" class="form-control"  style="width:50px" value="<?=$get_row['IntMaxMarks'];?>"><!-- </td>
+                                 <td> --><input type="hidden" id="ext_marks<?=$get_row['SrNo'];?>" class="form-control" style="width:50px" value="<?=$get_row['ExtMaxMarks'];?>">
+                                 <!-- </td> -->
                                  <td>
                                     <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
@@ -14637,6 +14667,23 @@ elseif($code==252)
                                        
                                     </select>
                                  </td>
+
+<td>   
+               <select  id="sgroup<?=$get_row['SrNo'];?>" class="form-control" required="">
+
+                 <option value="<?= $get_row['SGroup'];?>"><?= $get_row['SGroup'];?></option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $Sgroup = $row1['Sgroup'];  
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+?>
+              </select></td>
+
                         <td style="width:50px" ><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
                                  <td style="width:50px"><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
                                  <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
@@ -14699,7 +14746,8 @@ elseif($code==255)
                $practical=$_POST['practical'];
                $tutorials=$_POST['tutorials'];
                $credits=$_POST['credits'];
-                $update_study="UPDATE  MasterCourseStructure SET SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',NoOFCredits='$credits' WHERE SrNo='$SrNo'";
+                      $group=$_POST['group'];
+                $update_study="UPDATE  MasterCourseStructure SET SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
          $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
@@ -17333,7 +17381,7 @@ $adstatus="Pending";
         }
        
       
-if($row['send_mail']==1  AND $admissionstatus> 0  )
+if($row['confirmation']==2  AND $admissionstatus> 0  )
 {?>
             <tr style="background-color:#dff0d8" >
    <?php   }
@@ -17347,7 +17395,7 @@ if($row['send_mail']==1  AND $admissionstatus> 0  )
       <?php
       echo $counter++;?>
      </td>
-     <td onclick="confirnation(<?=$user_id;?>)" style="color:#1963b1">
+     <td onclick="confirnation(<?= $user_id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
      <b><?php 
 if($payment_id!=''){?>
         <?= $payment_id.'('.$id.')';?><?php 
@@ -17385,6 +17433,7 @@ if($payment_id!=''){?>
         {
       $id = $row['slip_no'];
       $payment_id = $row['payment_id'];
+       $user_id = $row['user_id'];
       $name = $row['name'];
       $father_name = $row['father_name'];
       $roll_no = $row['roll_no'];
@@ -17409,7 +17458,7 @@ $adstatus="Pending";
         }
        
       
-if($row['send_mail']==1)
+if($row['merge']==1)
 {?>
             <tr style="background-color:#dff0d8">
    <?php   }
@@ -17424,7 +17473,7 @@ if($row['send_mail']==1)
       echo $counter++;?>
      </td>
   
-      <td onclick="confirnation(<?=$id;?>)" style="color:#1963b1">
+      <td onclick="confirnation(<?=$user_id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
      <b><?php 
 if($payment_id!=''){?>
         <?= $payment_id.'('.$id.')';?><?php 
@@ -17451,11 +17500,170 @@ if($payment_id!=''){?>
 
 <?php 
    }
+ elseif($code=='313') 
+   {
+  $id=$_POST['id'];
+ 
+
+   $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  user_id='$id'");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $idslip = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['Class_rollno'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+      $merge=$row['merge'];
+       $admissionstatus=$row['merge'];
+       if($admissionstatus>0)
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+      
+if($row['merge']==1)
+{?>
+            <tr style="background-color:#dff0d8">
+   <?php   }
+   else if($row['send_mail']==2)
+    {?>
+ <tr style="background-color:#e692a9">
+   <?php }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+  
+      <td >
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$idslip.')';?><?php 
+      } ?></b>
+ </td>
+
+ <td><?php echo $name ;?></td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?>(<?php echo $batch; ?>)</td>    
+ <td><?php echo $email;?> </td>
+  <td style="text-align: left;">  <?php if($row['receipt']!="")
+{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+   <?php 
+}
+?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+  
+      </tr>
+
+       <tr >
+   <?php }
+  ?>  
+ 
+  <td> 
 
 
+      <?php
+      echo $counter++;?>
+     </td>
+  <?php 
+
+if($merge>0)
+{?>
+<td >
+         <input type="text" name="classroll" value="<?= $roll_no;?>" class="form-control" placeholder="Class RollNo" id='classroll' readonly>
+   
+ </td>
+
+ <td colspan="2">
+  <select  class="form-control" id='adstatus'>
+      <
+      <option value="Admitted">Admitted</option>
+
+   
+    </select></td>
+
+ <td><input type='text' value="<?=$EmployeeID;?>"  id='employeeid' readonly class='form-control'></td>    
+ <td><button class="btn btn-warning" onclick="send_confirnation(<?=$id;?>)">Re Confirmation</button></td>
+
+<?php
+}
+else
+{?>
+
+ <td >
+         <input type="text" name="classroll" class="form-control" placeholder="Class RollNo" id='classroll'>
+   
+ </td>
+
+ <td colspan="2">
+  <select  multiple size="3" class="form-control" id='adstatus'>
+      <option value="">Select Status</option>
+      <option value="Admitted">Admitted</option>
+      <option value="Not Admitted">Not Admitted</option>
+   
+    </optgroup></td>
+
+ <td><input type='text' value="<?=$EmployeeID;?>"  id='employeeid' readonly class='form-control'></td>    
+ <td><button class="btn btn-danger" onclick="send_confirnation(<?=$id;?>)">Send Confirmation</button></td>
+ 
+     
+  
+      </tr>
+        
+
+<?php }
 
 
+   
+   }
 
+else if($code=='314')
+{
+
+     $id=$_POST['id'];
+    $employeeid=$_POST['employeeid'];
+    $classroll=$_POST['classroll'];
+    $adstatus=$_POST['adstatus'];
+
+    if($adstatus=='Admitted')
+    {
+
+   $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  user_id='$id'");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $idslip = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+     }
+    include 'email/email_code.php';
+
+
+$result = mysqli_query($conn_online,"Update online_payment set  merge='1', Class_rollno='$classroll',confirmation='2',exam_id='$employeeid'  where  user_id='$id'");
+}
+   
+       
+}
 
 
  else

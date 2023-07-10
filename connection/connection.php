@@ -15,16 +15,16 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
 
 
-$servername1 = "localhost";
-$username1 = "root";
-$password1 = "";
+//$servername1 = "localhost";
+//$username1 = "root";
+//$password1 = "";
 $dbname1 = "lims";
-
+$dbname2 = "store";
 
 	
-// $servername1 = "10.0.8.10";
-// $username1 = "as";
-// $password1 = "Bathinda@123";
+ $servername1 = "10.0.8.10";
+ $username1 = "as";
+ $password1 = "Bathinda@123";
 
 // $dbname1 = "lims";
 
@@ -38,9 +38,17 @@ $dbname1 = "lims";
 
 
 $conn = new mysqli($servername1, $username1, $password1, $dbname1);
+$conns = new mysqli($servername1, $username1, $password1, $dbname2);
+
 if ($conn) {
 
 }
+
+
+
+
+
+
 
 
 ?>

@@ -15,7 +15,9 @@ require $mailpath.'SMTP.php';
 $mail = new PHPMailer(true);
 try 
 				{
-					$mail->SMTPDebug = 3;                                       
+					$mail->SMTPDebug  = SMTP::DEBUG_OFF;
+					//$mail->SMTPDebug = 3;SMTP::DEBUG_CLIENT: Client messages     
+					//$mail->SMTP::DEBUG_CLIENT: Client messages;                                  
 					$mail->isSMTP();                                            
 					$mail->Host ='smtp.gmail.com';                    
 					$mail->SMTPAuth   = true;    
@@ -34,6 +36,7 @@ $subject='Test';
 
 					$recevieremail='ratandeep2@gmail.com';
 					$receviername='Amrik Singh';
+
 		         include "new-admissin-confirmation.php";  
    	
 					//From email address and name
@@ -55,21 +58,20 @@ $subject='Test';
 					//$mail->AltBody = 'Body in plain text for non-HTML mail clients';
 					if($mail->send())
 					{
-						$_SESSION['message'] = "Please verify your account using link sent on your offical email";
+						echo "1";
 						
 						//echo '<script>window.location="login.php"</script>';
 					}
 					else
 					{
-						$_SESSION['error'] = "Mail could not be sent...";
-						echo '<script>window.location="login.php"</script>';
+						echo "0";
 					}
 	
 				} 
 				catch (Exception $e) 
 				{
-					//ECHO "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-					//$_SESSION['error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
+					ECHO "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+					$_SESSION['error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
 				}
 				
 				

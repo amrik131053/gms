@@ -208,7 +208,7 @@ table, td { color: #0d4f93; } #u_body a { color: #a31912; text-decoration: none;
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 60px 50px;font-family:"Montserrat",sans-serif;" align="left">
         
   <div class="v-font-size" style="font-size: 14px; color: #444444; line-height: 170%; text-align: justify; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 170%;"><span style="font-size: 16px; line-height: 27.2px;"><b>Dear Student Name </b><br>Your Admission in  <b>CourseName</b>  Guru Kashi University is Confirmed.Login Detailed are Mentioned Below  </span></p>
+    <p style="font-size: 14px; line-height: 170%;"><span style="font-size: 16px; line-height: 27.2px;"><b>Dear '.$name.' </b><br>Your Admission in  Guru Kashi University is Confirmed.Login Detailed are Mentioned Below  </span></p>
   </div>
 
       </td>
@@ -271,7 +271,7 @@ table, td { color: #0d4f93; } #u_body a { color: #a31912; text-decoration: none;
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:0px;font-family:"Montserrat",sans-serif;" align="left">
         
-  <h1 class="v-font-size" style="margin: 0px; color: #ffffff; line-height: 160%; text-align: center; word-wrap: break-word; font-family: "Montserrat",sans-serif; font-size: 20px; font-weight: 400;"><strong>Student Name </strong></h1>
+  <h1 class="v-font-size" style="margin: 0px; color: #ffffff; line-height: 160%; text-align: center; word-wrap: break-word; font-family: "Montserrat",sans-serif; font-size: 20px; font-weight: 400;"><strong>'.$name.'</strong></h1>
 
       </td>
     </tr>
@@ -285,7 +285,7 @@ table, td { color: #0d4f93; } #u_body a { color: #a31912; text-decoration: none;
         
   <div class="v-font-size" style="font-size: 14px; color: #f1f8f5; line-height: 200%; text-align: left; word-wrap: break-word;">
     <p style="font-size: 14px; line-height: 200%;"><span style="color: #f7e1b5; font-size: 14px; line-height: 28px;"><strong><span style="font-size: 14px; line-height: 28px;">✓</span></strong>&nbsp;</span>
-    Class Roll No :</p>
+    Class Roll No :'.$classroll.'</p>
    
 <p style="font-size: 14px; line-height: 200%;"><span style="color: #f7e1b5; font-size: 14px; line-height: 28px;"><strong>✓</strong></span> &nbsp; Default Password : 12345678</p>
 

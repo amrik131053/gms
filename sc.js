@@ -48,8 +48,8 @@ var Type=document.getElementById("Type").value;
 var Group=document.getElementById("Group").value;
 var Examination=document.getElementById("Examination").value;
 
- if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
- {
+ // if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
+ // {
 
  //x.style.display = "block";
 var spinner=document.getElementById("ajax-loader");
@@ -60,7 +60,6 @@ var xmlhttp = new XMLHttpRequest();
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
       {     
 
- 
           //x.style.display = "none";
           spinner.style.display='none';
           document.getElementById("live_data_Exam_student").innerHTML=xmlhttp.responseText;
@@ -72,11 +71,11 @@ Examination_Subjects();
         xmlhttp.send();
 
 
- }
-else
-{
-  alert("Wrong Input");
-}
+//  }
+// else
+// {
+//   alert("Wrong Input");
+// }
 
 
 
@@ -103,6 +102,7 @@ var xmlhttp = new XMLHttpRequest();
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
       {     
      
+ 
           document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
 
         }

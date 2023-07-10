@@ -452,6 +452,7 @@ function update_study_scheme(srno)
 {
   
    var subject_name=document.getElementById('subject_name'+srno).value;
+   var group=document.getElementById('sgroup'+srno).value;
     // alert(subject_name);
    var subject_code=document.getElementById('subject_code'+srno).value;
    var subject_type=document.getElementById('subject_type'+srno).value;
@@ -485,7 +486,7 @@ function update_study_scheme(srno)
                practical:practical,
                tutorials:tutorials,
                credits:credits,
-               srno:srno
+               srno:srno,group:group
                },
             success: function(response) 
             { 

@@ -1772,6 +1772,7 @@ elseif($exportCode=='19')
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
            <th>Admissions Status</th>
+            <th>ClassRollNo</th>
          </tr>
         </thead>";
        
@@ -1795,6 +1796,7 @@ elseif($exportCode=='19')
       $Created_time=$row['Created_time'];
       $amount=$row['amount'];
       $email = $row['email'];
+      $classRollNo=$row['Class_rollno'];
       $phone = $row['phone'];
         if($admissionstatus>0)
         {
@@ -1816,6 +1818,7 @@ $adstatus="Pending";
                 <td>{$amount}</td>
                 <td>{$Created_date}&nbsp;{$Created_time}</td>
                 <td>{$adstatus}</td>
+                <td>{$classRollNo}</td>
             </tr>";
 $count++;
     }

@@ -138,6 +138,7 @@ function sub_code_int_ext_type_update(id)
            {
        var type=document.getElementById('type_').value;
        var examination=document.getElementById('examination_').value;
+        var sgroup=document.getElementById('sgroup_').value;
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(type+' '+examination);
@@ -146,11 +147,11 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,examination:examination,type:type
+                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,
               },
               success: function(response) 
               {
-               
+               console.log(response);
                spinner.style.display='none';
                   if (response=='1')
                            {
