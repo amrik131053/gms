@@ -25,7 +25,7 @@ function checkall()
     function edit_stu(id)
           {
 
-            alert(id);
+            //alert(id);
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
@@ -138,6 +138,7 @@ function sub_code_int_ext_type_update(id)
            {
        var type=document.getElementById('type_').value;
        var examination=document.getElementById('examination_').value;
+        var sgroup=document.getElementById('sgroup_').value;
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(type+' '+examination);
@@ -146,11 +147,11 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,examination:examination,type:type
+                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,
               },
               success: function(response) 
               {
-               
+               console.log(response);
                spinner.style.display='none';
                   if (response=='1')
                            {
@@ -168,7 +169,7 @@ function sub_code_int_ext_type_update(id)
     }
 
 
- function Delete_sub_code_int_ext_type_update(id)
+ function Delete_sub_code_int_ext_type_update(id,nid)
     {
          var r = confirm("Do you really want to Delete");
           if(r == true) 
@@ -195,7 +196,11 @@ function sub_code_int_ext_type_update(id)
                            {
                            SuccessToast('Successfully deleted');
                            Search_exam_student();
-                           edit_stu(id);
+                          
+
+                           edit_stu(nid);
+
+
                           }
                           else
                           {

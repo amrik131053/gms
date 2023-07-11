@@ -3407,7 +3407,7 @@ if($list_result === false) {
 
  elseif ($code==41) {
 
-$College = $_GET['College'];
+  $College = $_GET['College'];
 $Course = $_GET['Course'];
   $Batch = $_GET['Batch'];
   $Semester = $_GET['Semester'];
@@ -3416,7 +3416,7 @@ $Course = $_GET['Course'];
       
 
 
-$list_sql = "Select * from MasterCourseStructure where CollegeID='$College' AND CourseID='$Course'AND Batch='$Batch'ANd SemesterID='$Semester' ";
+  $list_sql = "Select * from MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SemesterID='$Semester' ANd SGroup='$Group'  AND Elective!='O' ";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
 
@@ -3428,7 +3428,7 @@ if($list_result === false) {
 }
 ?>
 <table class="table"><tr>
-   <th>Select</th><th>SrNo</th> <th>Code</th>
+   <th>sSelect</th><th>SrNo</th> <th>Code</th>
     <th>Subject Name</th></tr>
    
    <?php 
