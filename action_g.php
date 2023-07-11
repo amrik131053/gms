@@ -490,7 +490,7 @@
             <th>
                Task Progress
             </th>
-            <th>Marks</th>
+            
             <th  class="">
                Status
             </th>
@@ -552,12 +552,7 @@
                <?=$show_task_row['task_percentage'];?> Complete
                </small>
             </td>
-            <td>
-               <?php if ($marks!='')
-                  {
-                    echo $marks;
-                  }else{ echo "NA";}?>
-            </td>
+           
             <td class="project-state">
                <?php 
                   $status_up="SELECT * FROM task_master Where TokenNo='".$show_task_row['TokenNo']."'";
@@ -646,12 +641,10 @@
             <th>
                Task Progress
             </th>
-            <th>
-               Marks
-            </th>
-           <!--  <th style="width: 8%" class="text-center">
+            
+            <th style="width: 8%" class="text-center">
                Status
-            </th> -->
+            </th>
             <th  class="text-center">
                Action
             </th>
@@ -722,12 +715,7 @@
                <?=$show_task_row['task_percentage'];?> Complete
                </small>
             </td>
-            <td>
-               <?php if ($marks!='')
-                  {
-                    echo $marks;
-                  }else{ echo "NA";}?>
-            </td>
+            
             <td class="project-state">
                <?php 
                   $status_up="SELECT * FROM task_master Where ID='".$show_task_row['ID']."'";
@@ -951,12 +939,7 @@
                   <h3 class="timeline-header"><b><?=$createBy;?></b><b><?=$Self;?> &nbsp;&nbsp;<?=$EmpName;?></b><a ><?=$EmpID_U; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a ><b><?=$AssignToempName;?></b><?=$AssignToempID; ?></a></h3>
                   <div class="timeline-body">
                      <?=$timeline_row['Description'];?> 
-                     <h6 style="text-align:right;"><b>Marks:
-                        <?php if ($marks!='')
-                           {
-                             echo $marks;
-                           }else{ echo "NA";}?></b> 
-                     </h6>
+                    
                   </div>
                   <div class="timeline-footer">
                      <!-- <a class="btn btn-primary btn-sm">Read more</a>
