@@ -494,10 +494,10 @@
             <th  class="">
                Status
             </th>
-            <th style="width: 10%" class="text-center">
+           <!--  <th style="width: 10%" class="text-center">
                Status
-            </th>
-            <th  class="text-center">
+            </th> -->
+            <th  class="">
                Action
             </th>
          </tr>
@@ -560,7 +560,7 @@
             </td>
             <td class="project-state">
                <?php 
-                  $status_up="SELECT * FROM task_master Where ID='".$show_task_row['ID']."'";
+                  $status_up="SELECT * FROM task_master Where TokenNo='".$show_task_row['TokenNo']."'";
                   $status_up_run=mysqli_query($conn,$status_up);
                   if($status_show=mysqli_fetch_array($status_up_run))
                   {
@@ -591,21 +591,21 @@
                <span class="badge badge-<?=$status_color;?>"><?=$status;?></span>
                <?php }?>
             </td>
-            <td>
+            <!-- <td >
                <input type="hidden" value="<?=$show_task_row['ID'];?>" name="id_status1[]"  id="id_status1">
-                          <select class="form-control form-control-sm" name="change_status1[]" id="<?=$show_task_row['ID'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$show_task_row['ID'];?>);" required>
+                          <select class="form-control form-control-sm" name="change_status1[]" id="<?=$show_task_row['TokenNo'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$show_task_row['TokenNo'];?>);" required>
                             
                              <option value="">Select</option>
                              <option value="3">Complete</option>
                              <option value="1">UnderProgress</option>
-                             <!-- <option value="No">No Action</option> -->
-                          </select>
-            </td>
-            <td class="project-actions text-right">
+                            <option value="No">No Action</option> -->
+                          <!-- </select> -->
+            <!-- </td>  -->
+            <td class="project-actions ">
                <a class="btn btn-success btn-sm" onclick="task_timeline(<?=$status_show['TokenNo'];?>);" data-toggle="modal" data-target="#ViewTaskModal" href="#">
                <i class="fa fa-eye fa-sm"></i>
                </a>
-               <?php  if ($status_show['Status']!=3)
+               <?php  if ($status_show['Status']==0)
                   {
                   ?>
                <a class="btn btn-warning btn-sm" href="#" data-toggle="modal" data-target="#ForwardTaskModal" onclick="forward_set_id(<?=$show_task_row['TokenNo'];?>);" > 
@@ -649,9 +649,9 @@
             <th>
                Marks
             </th>
-            <th style="width: 8%" class="text-center">
+           <!--  <th style="width: 8%" class="text-center">
                Status
-            </th>
+            </th> -->
             <th  class="text-center">
                Action
             </th>
@@ -965,10 +965,26 @@
                         <div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: <?=$timeline_row['task_percentage'];?>">
                         </div>
                      </div>
+                   <br>
                      <small>
                      <?=$timeline_row['task_percentage'];?> Complete
                      </small>
-                     <div class="row" >
+                     <?PHP 
+                     if ($timeline_row['EmpID']==$EmployeeID and $timeline_row['Status']!=3) {
+                        // code...
+                     ?>
+                       <div class="col-lg-3" style="float:right;">
+                     <input type="hidden" value="<?=$timeline_row['ID'];?>" name="id_status1[]"  id="id_status1">
+                          <select class="form-control form-control-sm" name="change_status1[]" id="<?=$timeline_row['TokenNo'];?>_change_status1" onchange="task_submit_with_daily_report(<?=$timeline_row['TokenNo'];?>);" required>
+                            
+                             <option value="">Select</option>
+                             <option value="3">Complete</option>
+                             <option value="1">UnderProgress</option>
+                             <!-- <option value="No">No Action</option> -->
+                          </select>
+                       </div>
+                    <?php }?>
+                     <div class="row" style="display: none;" >
                         <?php  if ( $timeline_row['Status']==3 && $timeline_row['AssignBy']==$EmployeeID && $timeline_row['marks']=='') 
                            {
                               // code...
@@ -1215,7 +1231,7 @@
              $CompleteDate="0000-00-00";
           }
           
-        $Update_marks="UPDATE task_master SET Status='$change_status',CompleteDate='$CompleteDate',task_percentage='$task_percentage' where ID='$ID'";
+        $Update_marks="UPDATE task_master SET Status='$change_status',CompleteDate='$CompleteDate',task_percentage='$task_percentage' where TokenNo='$ID'";
           $Update_marks_run=mysqli_query($conn,$Update_marks);
           if ($Update_marks_run==true)
            {

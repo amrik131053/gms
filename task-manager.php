@@ -198,7 +198,7 @@ function forward_task()
      {
  var spinner=document.getElementById("ajax-loader");
   var change_status=document.getElementById(id+"_change_status1").value;
-// alert(id);
+alert(id);
    spinner.style.display='block';
            var code=19;
            $.ajax({
@@ -213,6 +213,7 @@ function forward_task()
                   spinner.style.display='none';
                   show_task_after_chnage();
                   my_task();
+                  task_timeline(id);
 
               }
            });
