@@ -92,7 +92,7 @@ $this->SetFont('Times','',8);
 }
 $pdf = new PDF();
 
-  $get_driver_details="SELECT *,vehicle_allotment.name as e_name,vehicle.name as v_name FROM  vehicle_allotment inner join vehicle_book_details  ON vehicle_allotment.vehicle_alloted_id=vehicle_book_details.vehicle_id  inner join vehicle ON vehicle.id=vehicle_allotment.vehicle_alloted_id   where vehicle_allotment.token_no='$token_no'"; 
+  $get_driver_details="SELECT *,vehicle_allotment.name as e_name,vehicle.name as v_name FROM  vehicle_allotment inner join vehicle_book_details  ON vehicle_allotment.token_no=vehicle_book_details.TokenNo  inner join vehicle ON vehicle.id=vehicle_allotment.vehicle_alloted_id   where vehicle_allotment.token_no='$token_no'"; 
                   $get_driver_details_run=mysqli_query($conn,$get_driver_details);
                   if($get_driver_details_run_row=mysqli_fetch_array($get_driver_details_run))
                   {  

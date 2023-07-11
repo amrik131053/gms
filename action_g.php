@@ -2485,7 +2485,7 @@
                      if ($get_details_run_row['action']==5)
                      {
                      // code...
-                     $get_driver_details="SELECT * FROM  vehicle_allotment inner join vehicle_book_details  ON vehicle_allotment.vehicle_alloted_id=vehicle_book_details.vehicle_id  inner join vehicle ON vehicle.id=vehicle_allotment.vehicle_alloted_id   where vehicle_allotment.token_no='$TokenNo'"; 
+                     $get_driver_details="SELECT * FROM  vehicle_allotment inner join vehicle_book_details  ON vehicle_allotment.token_no=vehicle_book_details.TokenNo  inner join vehicle ON vehicle.id=vehicle_allotment.vehicle_alloted_id   where vehicle_allotment.token_no='$TokenNo'"; 
                         $get_driver_details_run=mysqli_query($conn,$get_driver_details);
                         if($get_driver_details_run_row=mysqli_fetch_array($get_driver_details_run))
                         {  
@@ -3649,11 +3649,19 @@
         {
           $journey_start_date=$row['journey_start_date'];
           $journey_end_date=$row['journey_end_date'];
-      $dates_update_after_forward="INSERT into  vehicle_book_details SET vehicle_id='$vehicle_name',from_date='$journey_start_date',to_date='$journey_end_date',driver_id='$driver'";
+
+          $check_booking="SELECT * FROM vehicle_book_details WHERE TokenNo='$TokenNo'";
+          $check_booking_run=mysqli_query($conn,$check_booking);
+          if (mysqli_num_rows($check_booking_run)>0)
+           {
+            $dates_update_after_forward="UPDATE  vehicle_book_details SET vehicle_id='$vehicle_name',from_date='$journey_start_date',to_date='$journey_end_date',driver_id='$driver' where TokenNo='$TokenNo'";
+          }
+          else
+          {
+      $dates_update_after_forward="INSERT into  vehicle_book_details SET vehicle_id='$vehicle_name',from_date='$journey_start_date',to_date='$journey_end_date',driver_id='$driver',TokenNo='$TokenNo'";
+             }
          $insert_request_process_run= mysqli_query($conn,$dates_update_after_forward);
-        }
-            
-          
+        }      
       
           if ( $insert_request_process_run==true) 
           {
