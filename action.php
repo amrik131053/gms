@@ -547,19 +547,26 @@ option value = "" > Select < /option> <?php
    } 
    }
    elseif ($code==28) {
+
    $LocationID=$_POST['locationID'];
+
     $location_owner = $_POST['location_owner'];
+
     $type =$_POST['RoomType'];
+
     $roomname=$_POST['RoomName'];
+
     $College=$_POST['College'];
-      $update_location = "UPDATE  location_master SET Type='$type',location_owner='$location_owner',RoomName='$roomname',CollegeID='$College' where ID='$LocationID'";
+
+    echo   $update_location = "UPDATE  location_master SET Type='$type',location_owner='$location_owner',RoomName='$roomname',CollegeID='$College' where ID='$LocationID'";
    $type_run = mysqli_query($conn, $update_location);
    if ($type_run == true) {
-      ?>
-<script > window.location.href='location-master.php'; </script> 
-<?php
-   } else {
-       echo "Ohh yaar ";
+
+     echo "1";
+
+   } 
+   else {
+       echo "0";
    }
    
    }
@@ -12416,7 +12423,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 <?php 
 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'";  
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {

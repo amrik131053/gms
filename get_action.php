@@ -362,12 +362,12 @@ $EmployeeID=$_SESSION['usr'];
    </div> 
    <div class="row"> 
      
-       <input type="hidden" name="locationID" value="<?=$id;?>">
+       <input type="hidden" name="locationID" id='locationID' value="<?=$id;?>">
                  
            
    <div class="col-lg-2 col-sm-12 col-md-12">
        <label>Room Type</label>
-       <select class="form-control" name="RoomType" id="RoomNo" required="">
+       <select class="form-control" name="RoomType" id="RoomType" required="">
                                  <option value="<?=$location_row['rtmID'];?>"><?=$location_row['RoomType'];?></option>
                                   <?php
                                     $room_type_select="SELECT Distinct RoomType,ID FROM room_type_master";
@@ -382,7 +382,7 @@ $EmployeeID=$_SESSION['usr'];
    </div>
     <div class="col-lg-2 col-sm-12 col-md-12">
        <label>Room Name</label>
-        <select class="form-control" name="RoomName" id="RoomName" required="">
+        <select class="form-control" name="RoomName" id="RoomName1" required="">
                                  <option value="<?=$location_row['rmnID'];?>"><?=$location_row['RoomName'];?></option>
                                   <?php
                                     $room_type_select="SELECT Distinct RoomName,ID FROM room_name_master";
@@ -397,11 +397,11 @@ $EmployeeID=$_SESSION['usr'];
    </div>     
     <div class="col-lg-2 col-sm-12 col-md-12">
       <label>location_owner </label>
-        <input type="text" name="location_owner" class="form-control" value="<?=$location_row['location_owner'];?>" required="">
+        <input type="text" name="location_owner" class="form-control" id='location_owner' value="<?=$location_row['location_owner'];?>" required="">
 
     </div> <div class="col-lg-4 col-sm-12 col-md-12">
        <label>College Name</label>
-        <select class="form-control" name="College" id="" required="">
+        <select class="form-control" name="College" id="college" required="">
                                  <option value="<?=$location_row['clgID'];?>"><?=$location_row['CollegeName'];?></option>
                                  <?php
                                     $colleges_select="SELECT Distinct name,ID FROM colleges";
@@ -413,12 +413,18 @@ $EmployeeID=$_SESSION['usr'];
                                     
                                     ?>
                               </select>
+                           </div>
+                              <div class="col-lg-1 col-sm-12 col-md-12">
+                                 <label>&nbsp;</label>
+                               <button  class="btn btn-primary" onclick="update_location(<?=$id;?>)">Update</button>
+
    </div>     
 
              
            
-            </form>
-         
+          
+
+
          <?php
             }
             ?>

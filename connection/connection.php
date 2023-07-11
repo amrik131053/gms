@@ -15,11 +15,11 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
 
 
-$servername1 = "localhost";
-$username1 = "root";
-$password1 = "";
-$dbname1 = "lims";
-$dbname2 = "store";
+// $servername1 = "localhost";
+// $username1 = "root";
+// $password1 = "";
+// $dbname1 = "lims";
+// $dbname2 = "store";
 
 	
  // $servername1 = "10.0.8.10";
@@ -30,10 +30,10 @@ $dbname2 = "store";
 
 
 
-	 // $servername1 = "localhost";
-	 // $username1 = "bhagi";
-	 // $password1 = "@Sarbjot@98157";
-	 // $dbname1 = "lims";
+	 $servername1 = "localhost";
+	 $username1 = "bhagi";
+	 $password1 = "@Sarbjot@98157";
+	 $dbname1 = "lims";
 
 
 

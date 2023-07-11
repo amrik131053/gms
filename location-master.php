@@ -268,7 +268,7 @@ else {
       }
       function searchLocations()
       {
-         
+          
          var code='115';
          var building=document.getElementById("hostel_id").value;
          
@@ -563,16 +563,26 @@ else {
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="action.php" method="post">
-            <input type="hidden" name="code" value="28">
-            <div class="modal-body" id="view_location">
+
+ 
+       
+           
+            <div class="modal-body" >
+               <div id='Update_location'></div>
+<div id="view_location" ></div>
+
                
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+               
             </div>
-         </form>
+      
+
+
+
+
+
       </div>
    </div>
 </div>
@@ -649,7 +659,61 @@ else
    document.getElementById("chnagesowner").innerHTML ="<div class='alert alert-danger' role='alert'> Incorrect Data</div>";
 }
 }
+
+
+function update_location(id)
+{
+code=28;
+var RoomType= document.getElementById("RoomType").value;
+var RoomName= document.getElementById("RoomName1").value;
+var location_owner= document.getElementById("location_owner").value;
+var College = document.getElementById("college").value;
+
+
+if(College!='' && RoomName!='' && RoomType!='')
+{
+$.ajax({
+url:"action.php",
+type:"POST",
+data:{code:code,College:College,locationID:id,location_owner:location_owner,RoomType:RoomType,RoomName:RoomName},
+  success:function(data){
+         if(data != "")
+         {
+         
+          SuccessToast('Successfully Updated');
+searchLocations();
+        //document.getElementById("Update_location").innerHTML ="<div class='alert alert-success' role='alert'> Updated Successfully</div>";
+
+
+
+
+
+         }
+         }
+         });
+}
+else
+{
+   ErrorToast('Invalid data','bg-danger' );
+   //document.getElementById("Update_location").innerHTML ="<div class='alert alert-danger' role='alert'> Incorrect Data</div>";
+}
+}
+
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
     <?php 
     include "footer.php"; ?>
 
