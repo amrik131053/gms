@@ -15,13 +15,9 @@
                </div>
             </div>
             <div class="card-body table-responsive " >
+                <div class="row">
                <div class="col-lg-12">
-                  <div class="panel panel-primary">
-                     <!-- Default panel contents -->
-                     <div class="row panel-heading">
-                        <h4>Request Articles</h4>
-                     </div>
-                     <br/>
+                
                      <div  id="message"  style="text-align: center;">
                      </div>
                      <?php 
@@ -37,11 +33,11 @@
                         }
                         ?>    
                      <div class="row">
-                        <div class="col-sm-12" style="text-align:left;" id ="data">
+                        <div class="col-sm-12" style="text-align:left;" id="data">
                            <div id="live_data"></div>
                         </div>
                         <div class="col-lg-3">
-                           <lable ><b>Category</b></lable>
+                           <label>Category</label>
                            <?php
                               if($a=='121031'|| $a=='131053'||$a =='170129'||$a=='170675'||$a=='170236'||$a=='101155'||$a=='121400')
                               {
@@ -93,36 +89,40 @@
                            <?php 
                               }
                               ?>
-                           <br/>
-                           <br> 
+                           
                         </div>
                         <div class="col-lg-3">
-                           <lable ><b>Article</b></lable>
+                           <label>Article</label>
                            <select class="form-control" id="item_name">
                               <option>Select Article </option>
                            </select>
-                           <br/>
+                         
                         </div>
                         <div class="col-lg-2">
-                           <lable ><b>Quantity</b></lable>
+                           <label>Quantity</label>
                            <input type="number"  placeholder="Quanity" id="quantity"  min="1"  class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $a;?>" id="emp_id" class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $dep;?>" id="department" class="form-control">
                            <input type="hidden" name="text"  value="<?php echo $name;?>" id="name" class="form-control">
                         </div>
                         <div class="col-lg-2">
-                           <lable ><b>Specification</b></lable>
+                           <label>Specification</label>
                            <input type="text"  placeholder="Specification" id="specification" class="form-control">
                         </div>
+
                         <div class="col-lg-1">
-                           <lable ><b><br></b></lable>
-                           <input type="button" name="submit" id="add_request" style="border-radius: 20px" placeholder="submit" class="btn-primary" value="Add">
+                           <label >Action</label><br>
+                           <input type="button" name="submit" id="add_request" class="btn btn-primary" value="Add">
                         </div>
                      </div>
-                  </div>
+                 
                </div>
-               <div id="show_request">
+           </div>
+           <br>
+               <div class="row">
+               <div class="col-lg-12" id="show_request">
                </div>
+           </div>
                <!-- ------------- -->
             </div>
          </div>
@@ -161,10 +161,10 @@
                </li>
             </ul>
             <div class="card-body table-responsive " >
-               <div class="col-lg-4">
+               <div class="col-lg-12">
                   <div class="list-group"><br/></div>
                   <div class="tab-content">
-                     <div id="d5" class="tab-pane fade in  active over_flow" >
+                     <div id="d5" class="tab-pane fade in  active " >
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='pending'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -200,7 +200,7 @@
                               ?>
                         </table>
                      </div>
-                     <div id="dd5" class="tab-pane fade in   over_flow" >
+                     <div id="dd5" class="tab-pane fade in   " >
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='recommending'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -236,7 +236,7 @@
                               ?>
                         </table>
                      </div>
-                     <div id="d2" class="tab-pane fade in over_flow ">
+                     <div id="d2" class="tab-pane fade in  ">
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='approved'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -264,7 +264,7 @@
                               ?>
                         </table>
                      </div>
-                     <div id="d6" class="tab-pane fade in over_flow ">
+                     <div id="d6" class="tab-pane fade in  ">
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='verified'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -292,7 +292,7 @@
                               ?>
                         </table>
                      </div>
-                     <div id="d3" class="tab-pane fade in over_flow ">
+                     <div id="d3" class="tab-pane fade in  ">
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='issued'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -320,7 +320,7 @@
                               ?>
                         </table>
                      </div>
-                     <div id="cancel" class="tab-pane fade in over_flow ">
+                     <div id="cancel" class="tab-pane fade in  ">
                         <?php   
                            $list_sql = "SELECT * FROM ledger where emp_id='$a' AND request_status='Canceled'  ORDER BY ID DESC ";
                            $result = mysqli_query($connection_s,$list_sql); ?> 
@@ -390,7 +390,7 @@
          document.getElementById("show_request").innerHTML=xmlhttp.responseText;
        }
        }
-     xmlhttp.open("GET", "../gkuadmin/store/fetch_request.php?reference_no=" + reference_no, true);
+     xmlhttp.open("GET", "store/fetch_request.php?reference_no=" + reference_no, true);
        xmlhttp.send();
    }
    
@@ -405,7 +405,7 @@
          document.getElementById("show_request").innerHTML=xmlhttp.responseText;
        }
        }
-     xmlhttp.open("GET", "../gkuadmin/store/approved_request.php?reference_no=" + reference_no, true);
+     xmlhttp.open("GET", "store/approved_request.php?reference_no=" + reference_no, true);
        xmlhttp.send();
    }
    
@@ -421,7 +421,7 @@
          document.getElementById("show_request").innerHTML=xmlhttp.responseText;
        }
        }
-     xmlhttp.open("GET", "../gkuadmin/store/varified_quantity.php?reference_no=" + reference_no, true);
+     xmlhttp.open("GET", "store/varified_quantity.php?reference_no=" + reference_no, true);
        xmlhttp.send();
    }
    
@@ -437,7 +437,7 @@
          document.getElementById("show_request").innerHTML=xmlhttp.responseText;
        }
        }
-     xmlhttp.open("GET", "../gkuadmin/store/issued_request.php?reference_no=" + reference_no, true);
+     xmlhttp.open("GET", "store/issued_request.php?reference_no=" + reference_no, true);
        xmlhttp.send();
    }
    
@@ -455,22 +455,7 @@
    }
 </style>
 <script>
-   function edit_user(user_id) 
-   {   
-   var xmlhttp = new XMLHttpRequest();
-           xmlhttp.onreadystatechange = function() {
-               if (xmlhttp.readyState==4 && xmlhttp.status==200)
-           {
-           document.getElementById("edit_user").innerHTML=xmlhttp.responseText;
-           
-           }
-       }
-          xmlhttp.open("GET", "../gkuadmin/store/edit_user.php?user_id=" + user_id, true);
-           xmlhttp.send();
-   
-       
-       }
-       
+
    
    function delete_request(user_id) 
    { 
@@ -479,7 +464,7 @@
      if(r == true) {
      
      
-       window.location.href ="../gkuadmin/store/delete_request.php?user_id=" + user_id;
+       window.location.href ="store/delete_request.php?user_id=" + user_id;
      } else {
        return;
      }
@@ -491,34 +476,12 @@
        var r = confirm("Do you really want to Delete");
        if(r == true) {
        
-           window.location.href ="../gkuadmin/store/delete_article.php?user_id=" + user_id;
+           window.location.href ="store/delete_article.php?user_id=" + user_id;
        } else {
            return;
        }
    }
    
-   function reset_user(user_id) 
-   {   
-       var r = confirm("Do you really want to reset defaut password ");
-       if(r == true) {
-       
-           window.location.href ="../gkuadmin/store/reset_user.php?user_id=" + user_id;
-       } else {
-           return;
-       }
-   }
-   function givep(user_id)
-   {
-     var xmlhttp = new XMLHttpRequest();
-     xmlhttp.onreadystatechange = function() {
-       if (xmlhttp.readyState==4 && xmlhttp.status==200)
-       {
-         document.getElementById("permissions").innerHTML=xmlhttp.responseText;
-       }
-     }
-     xmlhttp.open("GET", "../gkuadmin/store/permi.php?user_id=" + user_id, true);
-     xmlhttp.send();
-   }
    
 </script>
 <script>
@@ -537,7 +500,7 @@
       var category = $("#category").val();
       var code = "123";
           $.ajax({
-          url:'../gkuadmin/store/category_action.php',
+          url:'store/category_action.php',
           data:{category:category,code:code},
           type:'POST',
           success:function(data){
@@ -571,7 +534,7 @@
    
      var code = "2";
           $.ajax({
-          url:'../gkuadmin/store/category_action.php',
+          url:'store/category_action.php',
           data:{category:category,item:item,emp_id:emp_id,department:department,name:name,specification:specification,quantity:quantity,code:code},
           type:'POST',
           success:function(data){
@@ -579,20 +542,13 @@
               {
                   $("#message").html("");
                   $("#message").html(data);
-   
-   
                   $('#specification').val("");
                   $('#quantity').val("");
                    $('#category').val("");
-                 
-   
-   
               }
-              
-          
            $.ajax({  
-              url:"../gkuadmin/store/my_request.php", 
-      data:{emp_id:emp_id,code:code},
+              url:"store/my_request.php", 
+      data:{emp_id:emp_id},
               method:"POST",  
               success:function(data){  
                    $('#live_data').html(data);  
@@ -600,12 +556,6 @@
          });
          
       }
-   
-   
-   
-   
-   
-   
         });
    });
    });
@@ -614,11 +564,11 @@
    $( document ).ready(function() {
    
    var emp_id = $("#emp_id").val();
-         var code = "2";
+        
          
    $.ajax({  
-                 url:"../gkuadmin/store/my_request.php", 
-         data:{emp_id:emp_id,code:code},
+                 url:"store/my_request.php", 
+         data:{emp_id:emp_id},
                  method:"POST",  
                  success:function(data){  
                       $('#live_data').html(data);  
@@ -632,11 +582,11 @@
    $(document).ready(function(){
      function fetch_data()  
        {  
-        var code = "2";
+        
        var emp_id = $("#emp_id").val();
            $.ajax({  
-                   url:"../gkuadmin/store/my_request.php", 
-           data:{emp_id:emp_id,code:code},       
+                   url:"store/my_request.php", 
+           data:{emp_id:emp_id},       
                    method:"POST",  
                    success:function(data){  
                         $('#live_data').html(data);  
