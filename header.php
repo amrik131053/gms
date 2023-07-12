@@ -8,7 +8,7 @@ if(!(ISSET($_SESSION['usr'])))
 {?>
 
 <script type="text/javascript">
-   window.location.href="index.php";
+    window.location.href="index.php";
 </script>
 <?php }
 else

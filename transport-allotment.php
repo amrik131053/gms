@@ -121,7 +121,7 @@ function show_action_button_with_status(token)
  
 
 
-function allotment_by_allotment_auth()
+function allotment_by_allotment_auth(Token_No)
  {
   var id=document.getElementById('time_line_id').value;
   // alert(id);
@@ -144,6 +144,7 @@ function allotment_by_allotment_auth()
               },
               success: function(response) 
               {
+                console.log(response);
                   spinner.style.display='none';  
                  if (response==1) 
                  {
