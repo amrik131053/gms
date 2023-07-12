@@ -767,7 +767,50 @@ var spinner=document.getElementById("ajax-loader");
 
 
 
+ function Delete_sub_code_int_ext_type_update(id,nid)
+    {
+         var r = confirm("Do you really want to Delete");
+          if(r == true) 
+           {
 
+     var r = confirm("it is going to Delete");
+          if(r == true) 
+           {
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     
+     var code=310;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully deleted');
+                           
+                           search_exam_form();
+                           Search_exam_student1();
+                          
+                           edit_stu(nid);
+
+
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+   }
+    }
 
 
 </script>
