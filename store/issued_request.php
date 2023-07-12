@@ -5,7 +5,7 @@
 
 
 <?php  
-include 'connection_stroe.php';
+include '../connection/connection.php';
 
 $output = '';  
 //$ctime = date("d-m-Y");
