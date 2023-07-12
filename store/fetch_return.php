@@ -44,7 +44,7 @@
                </p>
             </th>
             <th style="text-align: right;" >
-               <img src='https://barcode.tec-it.com/barcode.ashx?data=<?php echo $reference_num;?>&code=Code11&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0' alt='Barcode '/>
+               <img src='https://barcode.tec-it.com/barcode.ashx?data=<?php echo $reference_num;?>&code=Code11&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0' alt='Barcode ' />
             </th>
          </tr>
          <tr>
