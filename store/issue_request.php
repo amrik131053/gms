@@ -3,46 +3,7 @@
 session_start();
  include '../connection/connection.php';
 
-   
-if(!(ISSET($_SESSION['usr']))) {
-header('Location:index.php'); 
-  
-}
-
-else
-{
-  $a=$_SESSION['usr'];
-    $u_permissions = "";
-    $u_permissions = $_SESSION['u_permissions'];
-    $permissions_array ="";
-    $permissions_array = explode(",",$u_permissions);
-    $file = basename($_SERVER['PHP_SELF']);
-    $id = "";
-    $result = mysqli_query($connection1,"SELECT id from permissions WHERE page_link = '$file'");
-    while($row=mysqli_fetch_array($result))
-    {
-        $id = $row['id'];
-
-    }
-    if(!in_array($id,$permissions_array))
-    {
-        //echo $file;
-        //header('Location:not_found.php');
-    }
-?>                  
-
-
-<script>
-   
-    function action()
-     {
-    alert("tryeedd");
-    }
-</script>
-
-
-
-
+?>
 
 
 
@@ -53,18 +14,11 @@ else
 <div style="border-radius: 2px;border: 2px;border-style: groove;" >
 
 <?php  
-include 'connection_stroe.php';
-
 $output = '';  
 //$ctime = date("d-m-Y");
 //$nowtime = strtotime($ctime);
 $reference = $_GET['reference_no'];
 $sql = '';
-
-
-
-
-
 $list_sqlw = "SELECT * FROM  ledger where reference_no='$reference'";
 $result1 = mysqli_query($connection_s,$list_sqlw); 
 while($row = mysqli_fetch_array($result1))  
@@ -110,7 +64,7 @@ $count = 1;
 
 ?>  <div class="row"> 
                           <table  class="table table-striped"  id="example"> <tr><th  style="min-width:auto;margin-left: 30px;text-align: left;">
-                           No:<b> <?php echo $request_no;?></b></th>  <th   style="text-align: center;"> <h1> Central Store</h1><p style="margin-top: -10px">
+                           No:<b> <?php echo $request_no;?></b></th>  <th   style="text-align: center;"> <h3> Central Store</h3><p style="margin-top: -10px">
                      Guru Kashi University</p></th><th style="text-align: right;" >
                           <img src='https://barcode.tec-it.com/barcode.ashx?data=<?php echo $reference_num;?>&code=Code11&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0' alt='Barcode '/></th></tr> 
  
@@ -118,7 +72,7 @@ $count = 1;
                      
                    <tr>
                          <th >
-                          <h4>College: <?php echo $college;?></h4></th><th style="text-align: center;"> </th><th><h4> Department: <?php echo $college_dept;?></h4></th>
+                          <h5>College: <?php echo $college;?></h5></th><th style="text-align: center;"> </th><th><h5> Department: <?php echo $college_dept;?></h5></th>
 
 </tr></table>
                        </div>

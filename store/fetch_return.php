@@ -1,4 +1,4 @@
-<div style="border-radius: 2px;border: 2px;border-style: groove;" >
+<div style="border-radius: 2px;border: 2px;border-style: solid;" >
    <?php  
       include '../connection/connection.php';
       

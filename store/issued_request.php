@@ -1,19 +1,12 @@
 
 <div style="border-radius: 2px;border: 2px;border-style: groove;" >
-
-
-
-
 <?php  
 include '../connection/connection.php';
-
 $output = '';  
 //$ctime = date("d-m-Y");
 //$nowtime = strtotime($ctime);
 $reference = $_GET['reference_no'];
 $sql = '';
-
-
 $list_sqlw = "SELECT * FROM  ledger where reference_no='$reference'";
 $result1 = mysqli_query($connection_s,$list_sqlw); 
 while($row = mysqli_fetch_array($result1))  
@@ -21,23 +14,15 @@ while($row = mysqli_fetch_array($result1))
 $reference_num=$row["reference_no"];
 $request_no=$row["id"];
 $request_status=$row["request_status"];
-
 $college_dept=$row["college_dept"];
 $college=$row["college"];
-
 $name=$row["name"];
 $comments=$row["comments"];
-
 $designation=$row["designation"];
-
-
-
 $a_autho=$row["approving_athority"];
 $a_autho_desig=$row["authority_desig"];
  $a1_date=$row["approved_date"];  
  $a_date=date("d-m-Y", strtotime($a1_date));
-
-
 $r1_date=$row["submit_date"];
 $r_date=date("d-m-Y", strtotime($r1_date));
 
