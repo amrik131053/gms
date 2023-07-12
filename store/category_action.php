@@ -406,7 +406,7 @@ $result = mysqli_query($connection_s,"UPDATE returned set request_status='$reque
 }
 
 mysqli_close($connection_s);
-header('Location:../store_retrun.php');
+header('Location:../store_return.php');
 
 }
 

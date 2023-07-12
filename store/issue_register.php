@@ -1,7 +1,7 @@
 <?php
 session_start();
-    include 'connection_stroe.php';
-    include '../connection1.php';
+         include '../connection/connection.php';
+
 
   
 if(!(ISSET($_SESSION['usr']))) {

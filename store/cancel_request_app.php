@@ -1,5 +1,5 @@
 <?php 
-include 'connection_stroe.php';
+include '../connection/connection.php';
 print "<br>";
 $user_id=$_GET["user_id"];
 
