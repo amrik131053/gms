@@ -200,5 +200,21 @@ $ms1="<strike>Mr.</strike>";    // code...
       
       </span>
 <!-- <div style="page-break-before: always;"></div> -->
+<div style="page-break-before: always;"></div>
       <?php 
+ // $margin_date=$margin_date*2;
+     
 }
+?>
+ <script type="text/javascript">
+         (function() {
+           window['__CF$cv$params'] = {
+             r: '6fd182094c9f8483',
+             m: 'hwVN6GXvHYexZclQZJUSrFKHbdNUbXAOx8bVyEvXSpY-1650160206-0-AWTBxiwy+nwRmiSN9/OSS+8sqJOTzghIeKBZNWVr45G9J73BNDNAG5jBvebUOPzrPPyRr8IQtXkh1ua8suq0yOqqmnPJ3Dn3tI/yQA7tItQnRvVBvPcV/YyCARqzHGrbtheadqLJcqrwCijFlPnuYHr0N1tLOHh6ZDxRfnofAoEnZWIRqQcPSAZTLXVOj36x6w==',
+             s: [0x6aa72617c0, 0xc4ac533f3e],
+             u: '/cdn-cgi/challenge-platform/h/b'
+           }
+         })();
+      </script>
+   </body>
+</html>
