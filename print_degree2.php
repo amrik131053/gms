@@ -45,6 +45,7 @@ foreach ($id as $key => $value) {
                             // $gender=$degree_row['Gender'];
                             $course_head=strtoupper($degree_row['Course']);
                             $CGPA=$degree_row['CGPA'];
+                               $CGPA= number_format((float)$degree_row['CGPA'], 2, '.', '');
                             $ExtraRow=$degree_row['ExtraRow'];
                             $Examination=$degree_row['Examination'];
                             $RegistrationNo=$degree_row['RegistrationNo'];
@@ -66,7 +67,8 @@ foreach ($id as $key => $value) {
    $yoa=$row_student['Batch'];
    $gender=$row_student['Sex'];
    $course=$degree_row['Course'];
-   $cgpa=$degree_row['CGPA'];
+   // $cgpa=$degree_row['CGPA'];
+    $cgpa= number_format((float)$degree_row['CGPA'], 2, '.', '');
    
    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UniRollNO."\nCGPA:".$cgpa;
    $path = 'degreeqr/';
