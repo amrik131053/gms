@@ -1,9 +1,10 @@
-<?php 
+ <?php 
    include 'phpqrcode/qrlib.php';
      date_default_timezone_set("Asia/Kolkata");  
      include 'connection/connection.php';
-       $dateColumn=$_POST['Todate'];
-          $code=$_POST['code'];
+       
+   $dateColumn=$_GET['Todate'];
+         
  function getOrdinalSuffix($day) {
         if ($day >= 11 && $day <= 13) {
             return "th";
@@ -21,14 +22,19 @@
             }
         }
     }
+// Replace this with your actual date column value
 
-  $today = date("j", strtotime($dateColumn));
+$today = date("j", strtotime($dateColumn));
 $month = date("F", strtotime($dateColumn));
 $year = date("Y", strtotime($dateColumn));
 $ordinalSuffix = getOrdinalSuffix($today);
-   if ($code==1) {
-        $id=$_POST['p_id'];
-   $degree="SELECT * FROM degree_print where id='$id'";                     
+
+ $sel=array();
+   $sel=$_GET['id_array'];
+    $id=explode(",",$sel);
+foreach ($id as $key => $value) {
+
+   $degree="SELECT * FROM degree_print where id='$value'";                     
                        $degree=mysqli_query($conn,$degree);
                        if ($degree_row=mysqli_fetch_array($degree)) 
                        {
@@ -195,22 +201,4 @@ $ms1="<strike>Mr.</strike>";    // code...
       </span>
 <!-- <div style="page-break-before: always;"></div> -->
       <?php 
-  }
-
-elseif($code==2)
-{
-  
 }
-      ?>
-      <script type="text/javascript">
-         (function() {
-           window['__CF$cv$params'] = {
-             r: '6fd182094c9f8483',
-             m: 'hwVN6GXvHYexZclQZJUSrFKHbdNUbXAOx8bVyEvXSpY-1650160206-0-AWTBxiwy+nwRmiSN9/OSS+8sqJOTzghIeKBZNWVr45G9J73BNDNAG5jBvebUOPzrPPyRr8IQtXkh1ua8suq0yOqqmnPJ3Dn3tI/yQA7tItQnRvVBvPcV/YyCARqzHGrbtheadqLJcqrwCijFlPnuYHr0N1tLOHh6ZDxRfnofAoEnZWIRqQcPSAZTLXVOj36x6w==',
-             s: [0x6aa72617c0, 0xc4ac533f3e],
-             u: '/cdn-cgi/challenge-platform/h/b'
-           }
-         })();
-      </script>
-   </body>
-</html>

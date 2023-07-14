@@ -4148,56 +4148,24 @@ if ($check_flow_row['status']<4) {
          echo "0";
       }
          } 
-           elseif($code==78)
-         {
-                           $count=0;
-                           $degree="SELECT * FROM degree_print order by Status ASC";                     
-                           $degree_run=mysqli_query($conn,$degree);
-                           while ($degree_row=mysqli_fetch_array($degree_run)) 
-                           {
-                                $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='".$degree_row['UniRollNo']."'";
-                                $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
-                                if($row_student=sqlsrv_fetch_array($get_student_details_run))
-                                {
-                                    $snap=$row_student['Snap'];
-                                    $pic=base64_encode($snap);
-                                }
-                              $count++;
-                              ?>
-<tr>
-   <!-- <td><?=$count;?></td> -->
-   <td><img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="50" height="50"></td>
-   <td style="word-wrap: break-word!important;width: 70px;"><?=$degree_row['StudentName'];?></td>
-   <td><?=$degree_row['UniRollNo'];?></td>
-   <td><?=$degree_row['FatherName'];?></td>
-   <td><?=$degree_row['Examination'];?></td>
-   <td><?=$degree_row['Course'];?></td>
-   <!-- <td><?=$degree_row['CGPA'];?></td> -->
-   <td>
-      <form action='print_degree1.php' method='post'>
-         <input type="hidden" name="code" value="1">
-         <input type='hidden' name='p_id' value="<?=$degree_row['id'];?>">
-         <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
-         <i  class='fa fa-print' aria-hidden='true'></i>
-         </button>
-      </form>
-   </td>
-   <td>
-      <?php if ($degree_row['Status']==1) {
-         ?>
-      <b style="color: green;">Printed</b>
-      <?php 
-         }else{
-            ?>
-      <i class="fa fa fa-check" onclick="marks_as_print(<?=$degree_row['id'];?>);"> </i>
-      <?php 
-         } ?>
-   </td>
-</tr>
-<?php
-   }
-   
-   }
+               elseif($code==78)
+      {
+
+                     $degree="SELECT * FROM degree_print order by UniRollNo   ";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                      
+                     $data[]=$degree_row;
+                     }
+                     // print_r($row_student);
+                     $page = $_POST['page'];
+                     $recordsPerPage = 100;
+                     $startIndex = ($page - 1) * $recordsPerPage;
+                     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+                     echo json_encode($pagedData);
+
+      }
    elseif($code==79)
    {
    $file = $_FILES['file_exl']['tmp_name'];
@@ -4212,7 +4180,14 @@ if ($check_flow_row['status']<4) {
    $RegistrationNo = $filesop[4];
    $Course = $filesop[5];
    $Examination = $filesop[6];
+   if ($filesop[7]!=0)
+    {
    $ExtraRow = $filesop[7];
+   }
+   else
+   {
+   $ExtraRow =" ";
+   }
    
    $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow');";
    $insert_run=mysqli_query($conn,$insert);
@@ -4225,19 +4200,7 @@ if ($check_flow_row['status']<4) {
 <?php 
    }
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
    elseif($code==80)
    {
    $emp_id=$_POST['emp_id'];         
@@ -4600,6 +4563,112 @@ if ($check_flow_row['status']<4) {
           
       
       } 
+ elseif($code==91)
+ {
+$UniRollNo=$_POST['uni'];
+     $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where UniRollNo='$UniRollNo'";
+                          $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                          {
+                              $snap=$row_student['Snap'];
+                                 $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime_type = $finfo->buffer($snap);
+    $extension = '';
+    switch ($mime_type) {
+        case 'image/jpeg':
+            $extension = 'jpg';
+            break;
+        case 'image/png':
+            $extension = 'png';
+            break;
+        
+    }
+    // echo $extension;
+    $pic = base64_encode($snap);
+    // $pic = base64_encode($pic);
+    ?>
+    <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+    <br>
+    <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
+
+<form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" id="image" class="form-control input-group-sm">
+        <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
+        <input type="hidden" name="code" value="92">
+        <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
+        </form>
+<div id="result"></div>
+
+    <?php
+               
+                              
+                           
+
+                          }
+ }
+ else if($code==92)
+ {
+ 
+   $UniRollNo=$_POST['unirollno'];
+    $get_student_details="SELECT IDNo FROM Admissions where UniRollNo='$UniRollNo'";
+                          $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                          {
+   $IDNo=$row_student['IDNo'];
+}
+     $file_name = $_FILES['image']['name'];
+    $file_tmp = $_FILES['image']['tmp_name'];
+    $type = $_FILES['image']['type'];
+     $file_data = file_get_contents($file_tmp);
+    $characters = '';
+   $result = $IDNo;
+   $image_name =$result;
+   $ftp_server1 = "10.0.10.11";
+   $ftp_user_name1 = "Gurpreet";
+   $ftp_user_pass1 = "Guri@123";
+   $remote_file1 = "";
+   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+   $destdir = 'Students';
+   ftp_chdir($conn_id, "Students/") or die("Could not change directory");
+   ftp_pasv($conn_id,true);
+   file_put_contents($destdir.$image_name.'.PNG',$file_data);
+   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   ftp_close($conn_id);
+   $upimage = "UPDATE Admissions SET Snap = ? WHERE UniRollNo = ?";
+$params = array($file_data, $UniRollNo);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+if ($upimage_run === false) {
+    $errors = sqlsrv_errors();
+    // echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
+else
+ {
+    echo "1";
+}
+ }
+ else if($code==93)
+ {
+   $data=array();
+      $page=$_POST['searchData'];
+
+                      $degree="SELECT * FROM degree_print  where UniRollNo='".$page["search"]."'";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                      
+                     $data[]=$degree_row;
+                     }
+                     // print_r($row_student);
+                     echo json_encode($data);
+                   
+                    // echo print_r($data);
+
+      
+ }
+
+
    else
    {
    
