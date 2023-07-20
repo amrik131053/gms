@@ -1830,6 +1830,74 @@ $count++;
 
 
 }
+elseif($exportCode==20)
+{
+  $string=$_GET['CollegeId'];
+  $parts = explode('=', $string);
+  $ColomName = isset($parts[0]) ? $parts[0] : '';
+$value = isset($parts[1]) ? $parts[1] : '';
+
+if ($ColomName=='JobStatus') {
+         $get_category1="SELECT * FROM Staff where  $ColomName='$value'";
+  
+} else
+{
+         $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
+
+}
+
+            $get_category_run1=sqlsrv_query($conntest,$get_category1);
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Emp ID</th>
+          <th>Name</th>
+          <th>FatherName</th>
+          <th>MotherName</th>
+           <th>College</th>
+           <th>Department</th>
+           <th>Designation</th>
+          <th>Email</th> 
+          <th>Phone</th>
+          
+          
+         </tr>
+        </thead>";
+      $count=1;
+     while($row=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
+        {
+      $IDNo = $row['IDNo'];
+      $Name = $row['Name'];
+      $FatherName = $row['FatherName'];
+      $MotherName = $row['MotherName'];
+      $CollegeName = $row['CollegeName'];
+      $Department = $row['Department'];
+      $Designation = $row['Designation'];
+      $email = $row['EmailID'];
+      $phone = $row['MobileNo'];
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$IDNo}</td>
+                <td>{$Name}</td>
+                <td>{$FatherName}</td>
+                <td>{$MotherName}</td>
+                <td>{$CollegeName}</td>
+                <td>{$Department}</td>
+                <td>{$Designation}</td>
+                <td>{$email}</td>
+                <td>{$phone}</td>
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Staff Report";
+
+}
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
