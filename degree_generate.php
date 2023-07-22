@@ -42,7 +42,7 @@ include "header.php";
                   </div>
                </div>
                <script>
-                  var currentPage = 0;
+                  var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
                     
@@ -108,13 +108,13 @@ include "header.php";
                      function updatePagination(page) {
                         var totalPages = Math.ceil(100000 / 100);
 
-                        if (page == 0) {
+                        if (page == 1) {
                            $('#prev-btn').prop('disabled', true);
                         } else {
                            $('#prev-btn').prop('disabled', false);
                         }
 
-                        if (page == totalPages) {
+                        if (page+1 == totalPages) {
                            $('#next-btn').prop('disabled', true);
                         } else {
                            $('#next-btn').prop('disabled', false);

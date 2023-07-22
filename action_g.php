@@ -4235,11 +4235,10 @@ if ($check_flow_row['status']<4) {
                elseif($code==78)
       {
 
-                     $degree="SELECT * FROM degree_print order by UniRollNo   ";                     
+                     $degree="SELECT * FROM degree_print order by Id ASC  ";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
-                      
                      $data[]=$degree_row;
                      }
                      // print_r($row_student);
@@ -4989,7 +4988,1765 @@ $get_Department="SELECT  Department,Id FROM MasterDepartment Where CollegeId='$c
                                                    <option value="<?=$get_DepartmentRow['Id'];?>"><?=$get_DepartmentRow['Department'];?>(<?=$get_DepartmentRow['Id'];?>)</option>
                                                 <?php }
 }
+elseif ($code==97)  // Sic record search
+{
+   $userId=$_POST['userId'];
+   $date=date('Y-m-d');
+   // echo strlen($userId);
+      $result1 = "SELECT  * FROM Admissions where UniRollNo='$userId' or ClassRollNo='$userId' or IDNo='$userId'";
+      $stmt1 = sqlsrv_query($conntest,$result1);
+      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+      {
+        $IDNo= $row['IDNo'];
+         $StudentName = $row['StudentName'];
+         $img= $row['Snap'];
+      $pic = 'data://text/plain;base64,' . base64_encode($img);
+         $ClassRollNo= $row['ClassRollNo'];
+         $UniRollNo= $row['UniRollNo'];
+         $father_name = $row['FatherName'];
+         $course = $row['Course'];
+         $email = $row['EmailID'];
+         $phone = $row['StudentMobileNo'];
+         $batch = $row['Batch'];
+         $college = $row['CollegeName'];
+         $courseShortName = $row['CourseShortName'];
+         ?>
+         <div class="row">
+            <div class="col-lg-11">
+               
+         <div class="row">
+            <div class="col-lg-3">
+               <label>Student Name</label>
+               <input type="text" value="<?=$row['StudentName'];?>" class="form-control" readonly=""> 
+            </div>
+            <div class="col-lg-3">
+               <label>Father Name</label>
+               <input type="text" value="<?=$row['FatherName'];?>"class="form-control" readonly=""> 
+            </div>
+            <div class="col-lg-3">
+               <label>College Name</label>
+               <input type="text" value="<?=$row['CollegeName'];?>"class="form-control" readonly="">  
+            </div>
+            <div class="col-lg-3">
+               <label>Course</label>
+               <input type="text" value="<?=$row['Course'];?>"class="form-control" readonly="">  
+            </div>
+            <div class="col-lg-3">
+               <!-- <input type="hidden"  value="<?= date('Y-m-d');?>" class="form-control" required="" > -->
+              <label>Apply For</label>  
+<select id="applyfor" name="applyfor" class="form-control" required="" name="applyfor">
+                <option value="">Select option</option> 
+                <option value="Degree">Degree</option> 
+                <option value="Migration Certificate">Migration Certificate</option> 
+                <option value="PDC">PDC</option> 
+                 <option value="Transcript">Transcript</option>              
+            </select>
+            </div>
+            <div class="col-lg-3">
+              <label>Receive By</label>  
+<select id="receive" name="receive" class="form-control" required="" onchange="ShowHideDiv_address(this.value);" >
+                <option value="">Select option</option> 
+                <option value="By Hand">By Hand</option> 
+                <option value="By Post">By Post</option> 
+                          
+            </select>
+            </div> 
+            <div class="col-lg-3" style="display:none;" id="address_div">
+              <label>Address</label>  
 
+            <textarea  class="form-control" rows="1" cols="10" name="address" id="address"></textarea>
+            </div>
+
+            <div class="col-lg-3">
+               <label>&nbsp;</label>
+               <button class="btn btn-primary form-control" onclick="assignSystem(<?=$row['IDNo']?>)">Submit</button>
+            </div>
+         </div>
+            </div>
+            <div class="col-lg-1">
+               <img src="<?=$pic?>" width='90px' height='90%'>
+            
+            </div>
+         </div>
+                  <?php
+     
+   }
+
+}
+elseif ($code==98) 
+{
+   $userId=$_POST['id'];
+   $receive=$_POST['receive'];
+   $applyfor=$_POST['applyfor'];
+   $address=$_POST['address'];
+   $sql="INSERT INTO sic_document_record (idno, receive_by, document_type,address, apply_date, status) VALUES ('$userId', '$receive', '$applyfor','$address','$timeStamp', '0')";
+   $res=mysqli_query($conn,$sql);
+   if ($res==true) 
+   {
+      echo "Success";
+   }
+
+}
+elseif($code==99) // home sic 
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+if($row['status']==0)
+                      {
+                        $clr="#E3F9A6";
+                      }elseif($row['status']==1)
+                      {
+                        $clr="#48FC8F";
+                        
+                      }elseif($row['status']==2)
+                      {
+                        $clr="#5DC854";
+                      }elseif($row['status']==3)
+                      {
+                        $clr="#48FC8F";
+                      }elseif($row['status']==4)
+                      {
+                        $clr="#FABFF6";
+                      }
+                           ?>
+                             <tr style='background:<?=$clr;?>'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }
+                   ?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==100) // sic
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='1'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#48FC8F;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==101) //sic
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#FABFF6;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==102) //sic
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='2'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#5DC854;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==103) //sic
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='0'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#E3F9A6;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+
+// exam document cell
+elseif($code==104) // home exam 
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+if($row['status']==0)
+                      {
+                        $clr="#E3F9A6";
+                      }elseif($row['status']==1)
+                      {
+                        $clr="#48FC8F";
+                        
+                      }elseif($row['status']==2)
+                      {
+                        $clr="#F97D55";
+                      }elseif($row['status']==3)
+                      {
+                        $clr="#48FC8F";
+                      }elseif($row['status']==4)
+                      {
+                        $clr="#FABFF6";
+                      }
+                           ?>
+                             <tr style='background:<?=$clr;?>'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "<b>Accepted</b>";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==3)
+                      {
+                       echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }
+                   ?></td>
+                        <td>
+                        <?php  if($row['status']==0)
+                      {
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" onclick="acceptByExamBranch(\'' . $row['idno'] . '\');">Accept</button>
+                        <button type="button" class="btn btn-danger btn-xs" onclick="rejectByExamBranch(\'' . $row['idno'] . '\');">Reject</button>
+                       
+                      </div>';
+                      }
+                      elseif($row['status']==1)
+                      {
+                        echo "Ready To Print";
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==105) // exam ready to print
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='1'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#48FC8F;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                           echo "<b>Accepted</b>";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                         echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" onclick="printByExamBranch(\'' . $row['idno'] . '\');">Print</button>
+                      </div>';
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==106) //exam reject
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='2'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#F97D55;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                       <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                        echo "";
+                        
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==107) //exam print 
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='3'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#5DC854;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                                            <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                       <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                         
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-warning btn-xs" onclick="handOverByExamBranch(\'' . $row['idno'] . '\');">HandOver</button>
+                      </div>';
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+// exam verified auth 
+elseif($code==108) // home verified by printing section
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='4'   ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+if($row['status']==0)
+                      {
+                        $clr="#E3F9A6";
+                      }elseif($row['status']==1)
+                      {
+                        $clr="#48FC8F";
+                        
+                      }elseif($row['status']==2)
+                      {
+                        $clr="#5DC854";
+                      }elseif($row['status']==3)
+                      {
+                        $clr="#48FC8F";
+                      }elseif($row['status']==4)
+                      {
+                        $clr="#FABFF6";
+                      }
+                           ?>
+                             <tr style='background:<?=$clr;?>'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }
+                   ?></td>
+                        <td>
+                        <?php  if($row['status']==0)
+                      {
+                        
+                      }
+                      elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs">Accept</button>
+                        
+                       
+                      </div>';
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==109) // exam verified forwarded
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#48FC8F;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                      <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                        
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "Rejected";
+                      }
+                      elseif($row['status']==4)
+                      {
+                         echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs">Vefified</button>
+                      </div>';
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==110) //exam verifed ok
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='5'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#F97D55;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                       <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                        echo "";
+                        
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      } 
+                       elseif($row['status']==5)
+                      {
+                         echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs">By Post</button>
+                        <button type="button" class="btn btn-primary btn-xs">HandOver To Sic</button>
+                      </div>';
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==111) //exam handoverto sic 
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='6'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#5DC854;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==3)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                       <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                         
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-warning btn-xs">HandOver</button>
+                      </div>';
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==112) // accept by  exam branch
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='1' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==113) // reject by  exam branch
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='2' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==114) // print by  exam branch
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='3' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==115) // handover by  exam branch
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='4' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==116) //exam competed
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Apply Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                           ?>
+                             <tr style='background:#F97D55;height:30px;'>
+                        <?php
+                     
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['apply_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }elseif($row['status']==3)
+                      {
+                        echo "<b>Printed</b>";
+                      }elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?></td>
+                       <td>
+                        <?php  if($row['status']==0)
+                      {
+                       
+                      }
+                      elseif($row['status']==1)
+                      {
+                        echo "";
+                        
+                      }
+                      elseif($row['status']==2)
+                      {
+                        echo "Rejected";
+                      }
+                      elseif($row['status']==3)
+                      {
+                        echo "";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        echo "Posted";
+                      }?>
+                       
+                    </td>
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
    else
    {
    
