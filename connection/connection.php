@@ -17,13 +17,17 @@ $username1 = "as";
 $password1 = "Bathinda@123";
 
 
- $dbname1 = "lims";
- $dbname2 = "store";
+$dbname1 = "lims";
+$dbname2 = "store";
 
+<<<<<<< HEAD
+=======
+
+// $servername1 = "localhost";
+// $username1 = "root";
+// $password1 = "";
+>>>>>>> 86cc5f0c17e9f230a1afea96acc853d00256de75
 // $dbname1 = "lims";
-
-
-
 
 
 
