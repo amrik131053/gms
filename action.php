@@ -11037,6 +11037,7 @@ $row_count = sqlsrv_num_rows($stmt1);
     $courseId= $row['CourseID'];
     $Status = $row['Status'];
         $Locked=$row['Locked'];
+         $Eligibility = $row['Eligibility'];
     $validUpto=$row['ValidUpTo'];
    }
   if($validUpto!='')
@@ -11063,7 +11064,8 @@ $validUpto=$validUpto->format('d-M-Y');
                 </div>
                 <div class="col-lg-1 col-sm-1">
 <?php 
-  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601) {?>
+  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601) { ?>
+
 
   <?php $resultp = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
   $stmtp = sqlsrv_query($conntest,$resultp, array(), array( "Scrollable" => 'static' ));  
@@ -11082,7 +11084,12 @@ if($row_count>0)
       <?php
      }
   }
+else {
+   
+   ?><button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedatar(<?= $IDNo;?>)" data-target="#Updatestudentmodalr" style="text-align:right"><i class="fa fa fa-edit"></i></button>
 
+<?php
+}
 ?>
       </div>
              </div>
@@ -11142,6 +11149,23 @@ if($row_count>0)
 
                   </b>
                      </li>
+
+<li class="nav-link"><b>Eligibility</b> :&nbsp;&nbsp;&nbsp;
+   <b class="text-danger">
+<?php if ($Eligibility>0)  {
+   
+   echo "Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>   
+                 
+</b>
+
+
+
                   </li>
                   
                   
@@ -12879,6 +12903,7 @@ $IDNo= $_POST['IDNo'];
     $abcid = $row['ABCID'];
     $Status = $row['Status'];
     $Locked = $row['Locked'];
+     $Eligibility = $row['Eligibility'];
     $validUpto='NA';
     $password= $row['Password'];
           }
@@ -13016,6 +13041,37 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                      ?>
                   </select>
                      </li>
+
+
+<li class="nav-link"><b>Eligibility</b> :&nbsp;&nbsp;&nbsp;
+   <b class="text-danger">
+<?php if ($Eligibility>0)  {
+   
+   echo "Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>   
+                 
+</b>
+ <select class="btn btn-md"  id='eligible'>
+
+<option value="<?=$Eligibility;?>">Select</option>
+<option value="1">Eligible</option>
+<option value="0">Not Eligible</option>
+
+
+
+                     ?>
+                  </select>
+
+
+
+
+
+
                   </li>                                  
                 </ul>
               </div>
@@ -13036,9 +13092,10 @@ elseif($code==220)
     $status=$_POST['status'];
    $lock=$_POST['lock'];
    $id=$_POST['id'];
+    $eligible=$_POST['eligible'];
     $classroll=$_POST['classroll'];
      $uniroll=$_POST['uniroll'];
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll' where IDNo='$id'";
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -17671,7 +17728,182 @@ $result = mysqli_query($conn_online,"Update online_payment set  merge='1', Class
    
        
 }
+else if($code=='315')
+{
+$IDNo= $_POST['IDNo'];
+  $result1 = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
+     $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
+   {     
+    $IDNo= $row['IDNo'];
+    $ClassRollNo= $row['ClassRollNo'];
+    $img= $row['Snap'];
+    $UniRollNo= $row['UniRollNo'];
+    $name = $row['StudentName'];
+    $CourseID=$row['CourseID'];
+    $CollegeID=$row['CollegeID'];
+    $father_name = $row['FatherName'];
+    $Course = $row['Course'];
+    $email = $row['EmailID'];
+    $phone = $row['StudentMobileNo'];
+    $Batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $RegistrationNo = $row['RegistrationNo'];
+    $abcid = $row['ABCID'];
+    $Status = $row['Status'];
+    $Locked = $row['Locked'];
+      $Eligibility = $row['Eligibility'];
 
+    $validUpto='NA';
+    $password= $row['Password'];
+          }
+?>
+
+
+     <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php
+                 if($ClassRollNo!='')
+                { echo $ClassRollNo;
+                 ?> 
+                 <input type="hidden" class="form-control" value="<?=$ClassRollNo;?>"  id='classroll'>
+                  <?php } else {?> 
+                  <input type="text" class="form-control"   id='classroll'><?php } ?>
+                  <br>
+                  Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){
+
+
+                   echo $UniRollNo;?>
+                   <input type="hidden" class="form-control"  value="<?=$UniRollNo;?>" id='uniroll'><?php }
+                   else{ ?><input type="text" class="form-control"  id='uniroll'><?php } ?>
+
+                   <br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                </div>
+                <div class="col-lg-1 col-sm-1">
+
+        </div>
+             </div>
+               
+               
+
+
+              </div>
+
+              <div class="card-footer p-0" style="text-align: left;">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b>&nbsp;&nbsp;&nbsp;:
+                        <select class="btn btn-md" id="ubatch" >
+<option value="<?=$Batch;?>"><?=$Batch;?></option>
+                        <?php
+for($i=$Batch-5;$i<$Batch+5;$i++)
+{?>
+<option value="<?=$i;?>"><?=$i;?></option>
+<?php 
+}                     ?>
+                  </select>
+                  </li>
+                  </li>
+
+
+
+                   <li class="nav-item">
+                     <li class="nav-link"><b>ABC ID</b> :&nbsp;&nbsp;&nbsp;<?php if($abcid!=''){echo $abcid; 
+
+?> <?php 
+                     } else {
+
+                        echo "NA";
+                      } ?>  </li>
+
+                      
+                     
+      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
+                 
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $Course; ?>&nbsp;<b>(<?= $CourseID;?>)</b></li>
+         
+                
+                    
+
+
+
+                     <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger">
+
+
+<?php if ($Status==0)  {
+
+                        echo "Left";?>  
+                     <?php } else{
+                        echo "Active";?>   
+                     <?php
+                     } ?></b>
+
+                        <select class="btn btn-md" id='ustatus'>
+
+<option value="<?=$Status;?>">Select</option>
+<option value="1">Active</option>
+<option value="0">Left</option>
+
+                     ?>
+                  </select>
+
+
+                     </li>
+                      <input type="hidden"  class="form-control"  value="<?=$Locked;?>" id='ulocked'> 
+     <li class="nav-link"><b>Eligibility</b> :&nbsp;&nbsp;&nbsp;
+
+<b class="text-danger">
+
+<?php 
+
+
+
+if ($Eligibility>0)  {
+   
+   echo "Eligible";
+    } 
+    else
+    {
+
+      echo "Not Eligible";
+   } ?>   
+                  
+</b>
+                        <select class="btn btn-md"  id='eligible' >
+
+<option value="<?=$Eligibility;?>">Select</option>
+<option value="1">Eligible</option>
+<option value="0">Not Eligible</option>
+
+
+
+                     ?>
+                  </select>
+                     </li>
+                  </li>                                  
+                </ul>
+              </div>
+            </div>  </div>   
+<div class="modal-footer">    
+   <button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Close</button>
+   <button type="submit" class="btn btn-primary btn-xs" onclick="updateStudentdata(<?= $IDNo;?>)">Update</button>
+   </div>
+   <?php 
+
+
+
+}
 
  else
 {

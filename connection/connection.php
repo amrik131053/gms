@@ -12,14 +12,14 @@ $username1 = "bhagi";
 $password1 = "@Sarbjot@98157";
 
 
- $dbname1 = "lims";
- $dbname2 = "store";
+$dbname1 = "lims";
+$dbname2 = "store";
 
 
+// $servername1 = "localhost";
+// $username1 = "root";
+// $password1 = "";
 // $dbname1 = "lims";
-
-
-
 
 
 

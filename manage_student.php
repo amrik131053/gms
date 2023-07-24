@@ -243,6 +243,26 @@ input[type=radio]:checked + label {
 
 </div>
 </div>
+</div>
+
+
+
+<div class="modal fade" id="Updatestudentmodalr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-md   " role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id='student_record_for_updater' style="text-align:center">
+          
+ </div>
+
+</div>
+</div>
+</div>
 <script type="text/javascript">
  
 
@@ -420,7 +440,7 @@ function copyToClipboard(element) {
 
    function StudentUpdatedata(id)
    {
-      
+    
       var code=219;
           
    var  spinner= document.getElementById("ajax-loader");
@@ -441,7 +461,29 @@ function copyToClipboard(element) {
             }
          });
       }
-      
+       function StudentUpdatedatar(id)
+   {
+    
+      var code=315;
+        
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+               document.getElementById("student_record_for_updater").innerHTML =response;
+            }
+         });
+      } 
 
    function Studentsignup(id,college)
    {
@@ -471,12 +513,13 @@ function copyToClipboard(element) {
  {
 
    var  batch = document.getElementById('ubatch').value;
+    var  eligible = document.getElementById('eligible').value;
    var  status = document.getElementById('ustatus').value;
    var  lock = document.getElementById('ulocked').value;
    var  classroll = document.getElementById('classroll').value;
     var uniroll = document.getElementById('uniroll').value;
    var code=220;   
-   alert(uniroll);
+ 
    var  spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
          $.ajax(
@@ -485,7 +528,7 @@ function copyToClipboard(element) {
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible
             },
             success:function(response) 
             {
