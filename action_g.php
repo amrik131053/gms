@@ -5110,7 +5110,7 @@ elseif($code==99) // home sic
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where  Status!='8' and Status!='7'   ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -5133,30 +5133,12 @@ elseif($code==99) // home sic
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#5DC854";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+ include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
-                        <?php
-                     
-                     ?>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar"></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5167,21 +5149,45 @@ if($row['status']==0)
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
+                      <td><?php   if($row['status']==0)
                       {
                         echo "Draft";
                       }elseif($row['status']==1)
                       {
-                        echo "Printed";
+                        echo "Under Process";
                       }elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }elseif($row['status']==3)
                       {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
+                        echo "Under Process";
+                      }
+                      elseif($row['status']==4)
                       {
                         echo "Posted";
+                      }
+                      elseif($row['status']==5)
+                      {
+                        echo "Forward To Verification";
+                      }
+                       elseif($row['status']==6)
+                      {
+                        echo "Printed";
+                      } 
+                      elseif($row['status']==7)
+                      {
+                        echo "By Post";
+                      }
+                      elseif($row['status']==8)
+                      {
+                        echo "Issued";
+                      } 
+                      elseif($row['status']==9)
+                      {
+                         echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="postBySic(\'' . $row['ID'] . '\');">By Post</button>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="handOverToBySic(\'' . $row['ID'] . '\');">By Hand</button>
+                      </div>';
                       }
                    ?></td>
                       <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
@@ -5222,7 +5228,7 @@ elseif($code==100) // sic
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='1'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where  status='9'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -5246,13 +5252,12 @@ elseif($code==100) // sic
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                           include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#48FC8F;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5271,14 +5276,34 @@ elseif($code==100) // sic
                         echo "Printed";
                       }elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }elseif($row['status']==3)
                       {
                         echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
+                      }
+                      elseif($row['status']==4)
                       {
                         echo "Posted";
-                      }?></td>
+                      } 
+                      elseif($row['status']==6)
+                      {
+                        echo "Printed";
+                      }
+                      elseif($row['status']==7)
+                      {
+                        echo "By Post";
+                      }  elseif($row['status']==8)
+                      {
+                        echo "By Hand";
+                      }
+                      elseif($row['status']==9)
+                      {
+                          echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="postBySic(\'' . $row['ID'] . '\');">By Post</button>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="handOverToBySic(\'' . $row['ID'] . '\');">By Hand</button>
+                      </div>';
+                      }
+                   ?></td>
                       <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
                    
             
@@ -5294,7 +5319,7 @@ elseif($code==100) // sic
         </table>
         <?php 
 }
-elseif($code==101) //sic
+elseif($code==101) //sic post
 {
    ?>
    <table class="table" id="example" > 
@@ -5317,7 +5342,7 @@ elseif($code==101) //sic
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status='7' and speedpostno!=''  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -5341,13 +5366,12 @@ elseif($code==101) //sic
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                           include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#FABFF6;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5370,9 +5394,9 @@ elseif($code==101) //sic
                       }elseif($row['status']==3)
                       {
                         echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
+                      }elseif($row['status']==7)
                       {
-                        echo "Posted";
+                        echo "<b>By Posted</b>";
                       }?></td>
                       <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
                    
@@ -5389,7 +5413,102 @@ elseif($code==101) //sic
         </table>
         <?php 
 }
-elseif($code==102) //sic
+elseif($code==102) //sic issued
+{
+   ?>
+   <table class="table" id="example" > 
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>RollNo</th>
+                  <th>Name</th>
+                  <th>FatherName</th>
+                  <th>MotherName</th>
+                  <th>Course/Department</th>
+                  <th>Batch</th>
+                  <th>Mode</th>
+                  <th>Document</th>
+                  <th>Issue Date</th>
+                  <th>Status</th>
+                  <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT * FROM sic_document_record where status='8' or status='7'   ORDER BY status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                    
+                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
+                        $stmt1 = sqlsrv_query($conntest,$result1);
+                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+                        {
+                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
+                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
+                           $name = $row1['StudentName'];
+                           $father_name = $row1['FatherName'];
+                           $mother_name = $row1['MotherName'];
+                           $college = $row1['CollegeName'];
+                           $batch = $row1['Batch'];
+                           $Department = $row1['Course'];                           
+                           $img= $row1['Snap'];
+                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+
+                          include "document-section-tr-color.php";
+                           ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$father_name?></td>
+                       <td><?=$mother_name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$batch?></td>
+                      
+                    <td><?=$row['receive_by']?></td>
+                      <td><?=$row['document_type']?></td>
+                      <td><?=$row['issue_date']?></td>
+                      <td><?php  if($row['status']==0)
+                      {
+                        echo "Draft";
+                      }elseif($row['status']==1)
+                      {
+                        echo "Printed";
+                      }elseif($row['status']==2)
+                      {
+                        echo "Issued";
+                      }elseif($row['status']==8 && $row['speedpostno']=='')
+                      {
+                        echo "<b>By Hand</b>";
+                      }
+                      elseif($row['status']==7 && $row['speedpostno']!='')
+                      {
+                        echo "<b>By Posted</b>";
+                      }?></td>
+                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                   
+            
+                  </tr>
+                  <?php 
+                        }
+                    }
+                 }
+              
+             
+            ?>
+          </tbody>
+        </table>
+        <?php 
+}
+elseif($code==103) //sic pending
 {
    ?>
    <table class="table" id="example" > 
@@ -5412,7 +5531,7 @@ elseif($code==102) //sic
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='2'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status='6'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -5436,13 +5555,12 @@ elseif($code==102) //sic
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                           include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#5DC854;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5465,105 +5583,12 @@ elseif($code==102) //sic
                       }elseif($row['status']==3)
                       {
                         echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
+                      }
+                      elseif($row['status']==4)
                       {
                         echo "Posted";
-                      }?></td>
-                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
-                   
-            
-                  </tr>
-                  <?php 
-                        }
-                    }
-                 }
-              
-             
-            ?>
-          </tbody>
-        </table>
-        <?php 
-}
-elseif($code==103) //sic
-{
-   ?>
-   <table class="table" id="example" > 
-            <thead>
-              <tr>
-                  <th>#</th>
-                  <th>Image</th>
-                  <th>RollNo</th>
-                  <th>Name</th>
-                  <th>FatherName</th>
-                  <th>MotherName</th>
-                  <th>Course/Department</th>
-                  <th>Batch</th>
-                  <th>Mode</th>
-                  <th>Document</th>
-                  <th>Apply Date</th>
-                  <th>Status</th>
-                  <!-- <th>Action</th> -->
-              </tr>
-            </thead>
-            <tbody>
-            <?php
-                $sql = "SELECT * FROM sic_document_record where status='0'  ORDER BY status ASC";
-                $result = mysqli_query($conn, $sql);
-                $count = 1;
-                if(mysqli_num_rows($result) > 0)
-                {
-                  while($row = mysqli_fetch_array($result))
-                  {
-                     $userId='';
-                    
-                        $result1 = "SELECT  * FROM Admissions where IDNo='".$row['idno']."'";
-                        $stmt1 = sqlsrv_query($conntest,$result1);
-                        while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-                        {
-                           $userId.=$ClassRollNo= $row1['ClassRollNo'];
-                           $userId.="/".$UniRollNo= $row1['UniRollNo'];
-                           $name = $row1['StudentName'];
-                           $father_name = $row1['FatherName'];
-                           $mother_name = $row1['MotherName'];
-                           $college = $row1['CollegeName'];
-                           $batch = $row1['Batch'];
-                           $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
-                           ?>
-                             <tr style='background:#E3F9A6;height:30px;'>
-                        <?php
-                     
-                     ?>
-                      <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
-                       <td><?=$userId?></td>
-                       <td><?=$name?></td>
-                       <td><?=$father_name?></td>
-                       <td><?=$mother_name?></td>
-                       <td><?=$Department?></td>
-                       <td><?=$batch?></td>
-                      
-                    <td><?=$row['receive_by']?></td>
-                      <td><?=$row['document_type']?></td>
-                      <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      }
+                   ?></td>
                       <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
                    
             
@@ -5598,13 +5623,13 @@ elseif($code==104) // home exam
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record  where status='0' ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -5627,30 +5652,12 @@ elseif($code==104) // home exam
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#F97D55";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
-                        <?php
-                     
-                     ?>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5661,23 +5668,7 @@ if($row['status']==0)
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "<b>Accepted</b>";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==3)
-                      {
-                       echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }
-                   ?></td>
+                      
                         <td>
                         <?php  if($row['status']==0)
                       {
@@ -5701,7 +5692,7 @@ if($row['status']==0)
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo "Completed";
                       }?>
                        
                     </td>
@@ -5736,7 +5727,7 @@ elseif($code==105) // exam ready to print
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
@@ -5766,13 +5757,12 @@ elseif($code==105) // exam ready to print
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                           include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#48FC8F;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5783,22 +5773,7 @@ elseif($code==105) // exam ready to print
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                           echo "<b>Accepted</b>";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      
                       <td>
                         <?php  if($row['status']==0)
                       {
@@ -5812,7 +5787,7 @@ elseif($code==105) // exam ready to print
                       }
                       elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }
                       elseif($row['status']==3)
                       {
@@ -5820,7 +5795,7 @@ elseif($code==105) // exam ready to print
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo "Completed";
                       }?>
                        
                     </td>
@@ -5855,7 +5830,7 @@ elseif($code==106) //exam reject
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
@@ -5885,13 +5860,12 @@ elseif($code==106) //exam reject
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                          include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#F97D55;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -5902,22 +5876,7 @@ elseif($code==106) //exam reject
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      
                        <td>
                         <?php  if($row['status']==0)
                       {
@@ -5925,7 +5884,7 @@ elseif($code==106) //exam reject
                       }
                       elseif($row['status']==1)
                       {
-                        echo "";
+                        echo "Accept";
                         
                       }
                       elseif($row['status']==2)
@@ -5934,11 +5893,11 @@ elseif($code==106) //exam reject
                       }
                       elseif($row['status']==3)
                       {
-                        echo "";
+                        echo "Printed";
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo "Completed";
                       }?>
                        
                     </td>
@@ -5973,7 +5932,7 @@ elseif($code==107) //exam print
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
@@ -6003,13 +5962,12 @@ elseif($code==107) //exam print
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                          include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#5DC854;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                                            <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                                            <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6020,34 +5978,19 @@ elseif($code==107) //exam print
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                     
                        <td>
                         <?php  if($row['status']==0)
                       {
-                       
+                       echo "";
                       }
                       elseif($row['status']==1)
                       {
-                         
+                         echo "";
                       }
                       elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }
                       elseif($row['status']==3)
                       {
@@ -6057,7 +6000,7 @@ elseif($code==107) //exam print
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo "Completed";
                       }?>
                        
                     </td>
@@ -6093,7 +6036,7 @@ elseif($code==108) // home verified by printing section
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
@@ -6122,30 +6065,12 @@ elseif($code==108) // home verified by printing section
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#5DC854";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+ include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
-                        <?php
-                     
-                     ?>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6156,23 +6081,7 @@ if($row['status']==0)
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }
-                   ?></td>
+                     
                         <td>
                         <?php  if($row['status']==0)
                       {
@@ -6184,19 +6093,19 @@ if($row['status']==0)
                       }
                       elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }
                       elseif($row['status']==3)
                       {
-                        echo ' <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-xs">Accept</button>
-                        
-                       
-                      </div>';
+                        echo "";
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs" onclick="acceptByVerifiedAuth(\'' . $row['idno'] . '\');">Accept</button>
+                        
+                       
+                      </div>';
                       }?>
                        
                     </td>
@@ -6231,13 +6140,13 @@ elseif($code==109) // exam verified forwarded
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status='5'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -6261,13 +6170,12 @@ elseif($code==109) // exam verified forwarded
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                           include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#48FC8F;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6278,22 +6186,7 @@ elseif($code==109) // exam verified forwarded
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      
                       <td>
                         <?php  if($row['status']==0)
                       {
@@ -6305,16 +6198,16 @@ elseif($code==109) // exam verified forwarded
                       }
                       elseif($row['status']==2)
                       {
-                        echo "Issued";
+                        echo "Rejected";
                       }
                       elseif($row['status']==3)
                       {
-                        echo "Rejected";
+                        echo "Printed";
                       }
-                      elseif($row['status']==4)
+                      elseif($row['status']==5)
                       {
                          echo ' <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-xs">Vefified</button>
+                        <button type="button" class="btn btn-success btn-xs" onclick="verifiedByVerifiedAuth(\'' . $row['idno'] . '\');">Vefified</button>
                       </div>';
                       }?>
                        
@@ -6350,13 +6243,13 @@ elseif($code==110) //exam verifed ok
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='5'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status='6'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -6380,13 +6273,12 @@ elseif($code==110) //exam verifed ok
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                          include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#F97D55;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6397,22 +6289,7 @@ elseif($code==110) //exam verifed ok
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                     
                        <td>
                         <?php  if($row['status']==0)
                       {
@@ -6435,11 +6312,11 @@ elseif($code==110) //exam verifed ok
                       {
                         echo "Posted";
                       } 
-                       elseif($row['status']==5)
+                       elseif($row['status']==6)
                       {
                          echo ' <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-xs">By Post</button>
-                        <button type="button" class="btn btn-primary btn-xs">HandOver To Sic</button>
+                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#verifyActionModal" onclick="PostByVerifiedAuth(\'' . $row['ID'] . '\');">By Post</button>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#verifyActionModal" onclick="handOverToByVerifiedAuth(\'' . $row['ID'] . '\');">HandOver To Sic</button>
                       </div>';
                       }?>
                        
@@ -6475,13 +6352,13 @@ elseif($code==111) //exam handoverto sic
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='6'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status>=7  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -6505,13 +6382,12 @@ elseif($code==111) //exam handoverto sic
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                          include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#5DC854;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6522,22 +6398,7 @@ elseif($code==111) //exam handoverto sic
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Issued";
-                      }elseif($row['status']==3)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      
                        <td>
                         <?php  if($row['status']==0)
                       {
@@ -6557,10 +6418,14 @@ elseif($code==111) //exam handoverto sic
                         <button type="button" class="btn btn-warning btn-xs">HandOver</button>
                       </div>';
                       }
-                      elseif($row['status']==4)
+                      elseif($row['status']==7)
                       {
-                        echo "Posted";
-                      }?>
+                        echo "By Posted";
+                      } elseif($row['status']==8)
+                      {
+                        echo "By Hand";
+                      }
+                      ?>
                        
                     </td>
                    
@@ -6606,7 +6471,7 @@ else
 elseif($code==114) // print by  exam branch
 {
 $IdNo=$_POST['idno'];
-$acceptByExamBranch="UPDATE sic_document_record SET status='3' where idno='$IdNo'";
+$acceptByExamBranch="UPDATE sic_document_record SET status='3',print_date='$timeStamp' where idno='$IdNo'";
 $acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
 if ($acceptByExamBranchRun==true) {
       echo "1";
@@ -6645,14 +6510,14 @@ elseif($code==116) //exam competed
                   <th>Batch</th>
                   <th>Mode</th>
                   <th>Document</th>
-                  <th>Apply Date</th>
-                  <th>Status</th>
+                  <th>Print Date</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record where status='4'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record where status>=5  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -6676,13 +6541,12 @@ elseif($code==116) //exam competed
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
 
+                          include "document-section-tr-color.php";
                            ?>
-                             <tr style='background:#F97D55;height:30px;'>
-                        <?php
-                     
-                     ?>
+                             <tr style='background:<?=$clr;?>'>
+                        
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -6692,23 +6556,8 @@ elseif($code==116) //exam competed
                       
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
-                      <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Posted";
-                      }?></td>
+                      <td><?=$row['print_date']?></td>
+                      
                        <td>
                         <?php  if($row['status']==0)
                       {
@@ -6747,6 +6596,178 @@ elseif($code==116) //exam competed
         </table>
         <?php 
 }
+elseif($code==117) // accept by  verified auth
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='5' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==118) // verified by  verified auth
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='6',print_date='$timeStamp' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==119) // handOverToByVerifiedAuth
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='9' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==120) // postByVerifiedAuth
+{
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='7' where idno='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==121) // postBysic
+{
+   $IDNo=$_POST['idno'];
+?>
+<div class="row">
+<div class="col-lg-4">
+   <label>Any ID Proof</label>
+  <select class="form-control" id="idproof<?=$IDNo;?>" >
+     <option value="Adhar Card">Adhar Card</option>
+     <option value="Pan Card">Pan Card</option>
+     <option value="Voter Card">Voter Card</option>
+     <option value="Pass Port">Pass Port</option>
+  </select>
+</div> 
+<div class="col-lg-4">
+   <label> ID Proof No</label>
+   <input type="text" class="form-control" id="idproofno<?=$IDNo;?>">
+   <input type="hidden" class="form-control" value="<?=$IDNo;?>">
+</div>
+<div class="col-lg-4">
+
+   <label>Speed Post No</label>
+   <input type="text" class="form-control" id="speedpostno<?=$IDNo;?>">
+</div>
+ </div>
+ <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="postBySicAction(<?=$IDNo;?>);">Submit</button>
+      </div>
+<?php 
+}
+elseif($code==122) // handBysic
+{
+ $IDNo=$_POST['idno'];
+?>
+<div class="row">
+<div class="col-lg-6">
+   <label>Any ID Proof</label>
+  <select class="form-control" id="idproof<?=$IDNo;?>" >
+     <option value="Adhar Card">Adhar Card</option>
+     <option value="Pan Card">Pan Card</option>
+     <option value="Voter Card">Voter Card</option>
+     <option value="Pass Port">Pass Port</option>
+  </select>
+</div> 
+<div class="col-lg-6">
+   <label> ID Proof No</label>
+   <input type="text" class="form-control" id="idproofno<?=$IDNo;?>">
+   <input type="hidden" class="form-control" value="<?=$IDNo;?>">
+</div>
+
+ </div>
+ <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="handOverToBySicAction(<?=$IDNo;?>);">Submit</button>
+      </div>
+<?php 
+}
+elseif($code==123) // handBysic
+{
+$idproof=$_POST['idproof'];
+$idproofno=$_POST['idproofno'];
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='8',idproof='$idproof',idproofno='$idproofno', issue_date='$timeStamp' where ID='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==124) // postBysic
+{
+$idproof=$_POST['idproof'];
+$idproofno=$_POST['idproofno'];
+$speedpostno=$_POST['speedpostno'];
+$IdNo=$_POST['idno'];
+$acceptByExamBranch="UPDATE sic_document_record SET status='7',idproof='$idproof',idproofno='$idproofno',speedpostno='$speedpostno' where ID='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+elseif($code==125) // handByAUTH
+{
+   $IDNo=$_POST['idno'];
+?>
+<div class="row">
+<div class="col-lg-12">
+   <label>Emp ID</label>
+  <input type="text" id="EmpID" class="form-control">
+</div> 
+</div>
+ <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="handBySicAction(<?=$IDNo;?>);">Submit</button>
+      </div>
+<?php 
+}
+elseif($code==126) // handOverToBySICbyAuth
+{
+$IdNo=$_POST['idno'];
+$Empid=$_POST['Empid'];
+ $acceptByExamBranch="UPDATE sic_document_record SET status='9' ,sic_emp='$Empid' where ID='$IdNo'";
+$acceptByExamBranchRun=mysqli_query($conn,$acceptByExamBranch);
+if ($acceptByExamBranchRun==true) {
+      echo "1";
+}
+else
+{
+   echo "0";
+}
+}
+
    else
    {
    

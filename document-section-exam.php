@@ -96,13 +96,13 @@ $tz = 'Asia/Kolkata';
                   <th>Mode</th>
                   <th>Document</th>
                   <th>Apply Date</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                   <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record  where status='0'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -125,23 +125,7 @@ $tz = 'Asia/Kolkata';
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-                     if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#F97D55";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+                     include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
                         <?php
@@ -159,22 +143,7 @@ $tz = 'Asia/Kolkata';
                     <td><?=$row['receive_by']?></td>
                       <td><?=$row['document_type']?></td>
                       <td><?=$row['apply_date']?></td>
-                      <td><?php  if($row['status']==0)
-                      {
-                        echo "Draft";
-                      }elseif($row['status']==1)
-                      {
-                        echo "Printed";
-                      }elseif($row['status']==2)
-                      {
-                        echo "Rejected";
-                      }elseif($row['status']==3)
-                      {
-                        echo "<b>Printed</b>";
-                      }elseif($row['status']==4)
-                      {
-                        echo "Completed";
-                      }?></td>
+                      
                       <td>
                         <?php  if($row['status']==0)
                       {
@@ -196,7 +165,7 @@ $tz = 'Asia/Kolkata';
                       {
                         echo "<b>Printed</b>";
                       }
-                      elseif($row['status']==4)
+                      elseif($row['status']==5)
                       {
                         echo "Completed";
                       }?>

@@ -13,13 +13,10 @@ $tz = 'Asia/Kolkata';
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="verifyActionModalLabel_Record">
+      <div class="modal-body" id="sicActionModalLabel_Record">
         
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -102,7 +99,7 @@ $tz = 'Asia/Kolkata';
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record  where status='3'  ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record  where status='4'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -125,30 +122,14 @@ $tz = 'Asia/Kolkata';
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-                     if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#5DC854";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+                    include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
                         <?php
                      
                      ?>
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#verifyActionModal" onClick="verifyActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar"  onClick="verifyActionModal(<?=$row['idno'];?>);"></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -198,7 +179,11 @@ $tz = 'Asia/Kolkata';
                       }
                       elseif($row['status']==4)
                       {
-                        echo "Posted";
+                        echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs" onclick="acceptByVerifiedAuth(\'' . $row['idno'] . '\');">Accept</button>
+                        
+                       
+                      </div>';
                       }?>
                        
                     </td>
@@ -298,22 +283,87 @@ function verify_verified(){
          }
          });
 }
-// function verify_pending(){
-//   var code='103';
-//          $.ajax({
-//          url:'action_g.php',
-//          data:{code:code},
-//          type:'POST',
-//          success:function(data)
-//          {
-//             document.getElementById("lab_users_data").innerHTML=data;
-//             $('#example').DataTable({ 
-//                       "destroy": true, //use for reinitialize datatable
-//                    });
-//          }
-//          });
-// }
+
+function acceptByVerifiedAuth(IDNo)
+ {
+      var code='117';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {
+            console.log(data);
+           if (data==1) 
+           {
+                labUsers();
+           }
+         }
+         });
+ }
+ function verifiedByVerifiedAuth(IDNo)
+ {
+      var code='118';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {
+            console.log(data);
+           if (data==1) 
+           {
+                labUsers();
+           }
+         }
+         });
+ }
+function handBySicAction(IDNo){
+    
+    var Empid=document.getElementById("EmpID").value;
+   var code='126';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo,Empid:Empid},
+         type:'POST',
+         success:function(data)
+         {
+            console.log(data);
+           if (data==1) 
+           {
+                labUsers();
+           }
+         }
+         });
+}
  
+ function PostByVerifiedAuth(IDNo){
+  var code='121';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {
+            
+    document.getElementById("sicActionModalLabel_Record").innerHTML=data;
+
+         }
+         });
+}
+function handOverToByVerifiedAuth(IDNo)
+{
+  var code='125';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {      
+    document.getElementById("sicActionModalLabel_Record").innerHTML=data;
+         }
+         });
+}
 function verifyActionModal(IDNo) {
     document.getElementById("verifyActionModalLabel_Record").innerHTML=IDNo;
 }

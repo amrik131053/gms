@@ -16,10 +16,7 @@ $tz = 'Asia/Kolkata';
       <div class="modal-body" id="sicActionModalLabel_Record">
         
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -107,7 +104,7 @@ $tz = 'Asia/Kolkata';
             </thead>
             <tbody>
             <?php
-                $sql = "SELECT * FROM sic_document_record   ORDER BY status ASC";
+                $sql = "SELECT * FROM sic_document_record Where Status!='8' and Status!='7'  ORDER BY status ASC";
                 $result = mysqli_query($conn, $sql);
                 $count = 1;
                 if(mysqli_num_rows($result) > 0)
@@ -130,30 +127,14 @@ $tz = 'Asia/Kolkata';
                            $Department = $row1['Course'];                           
                            $img= $row1['Snap'];
                            $pic = 'data://text/plain;base64,' . base64_encode($img);
-if($row['status']==0)
-                      {
-                        $clr="#E3F9A6";
-                      }elseif($row['status']==1)
-                      {
-                        $clr="#48FC8F";
-                        
-                      }elseif($row['status']==2)
-                      {
-                        $clr="#5DC854";
-                      }elseif($row['status']==3)
-                      {
-                        $clr="#48FC8F";
-                      }elseif($row['status']==4)
-                      {
-                        $clr="#FABFF6";
-                      }
+ include "document-section-tr-color.php";
                            ?>
                              <tr style='background:<?=$clr;?>'>
                         <?php
                      
                      ?>
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar" data-toggle="modal" data-target="#sicActionModal" onClick="sicActionModal(<?=$row['idno'];?>);"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar"  ></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$father_name?></td>
@@ -169,18 +150,43 @@ if($row['status']==0)
                         echo "Draft";
                       }elseif($row['status']==1)
                       {
-                        echo "Accepted";
+                        echo "Under Process";
                       }elseif($row['status']==2)
                       {
                         echo "Rejected";
                       }elseif($row['status']==3)
                       {
                         echo "Under Process";
-                      }elseif($row['status']==4)
+                      }
+                      elseif($row['status']==4)
                       {
                         echo "Posted";
-                      }?></td>
-                      <!-- <td><i class="fa fa-eye fa-lg"></i></td> -->
+                      }
+                      elseif($row['status']==5)
+                      {
+                        echo "Forward To Verification";
+                      }
+                       elseif($row['status']==6)
+                      {
+                        echo "Printed";
+                      } 
+                      elseif($row['status']==7)
+                      {
+                        echo "By Post";
+                      }
+                      elseif($row['status']==8)
+                      {
+                        echo "By Hand";
+                      } 
+                      elseif($row['status']==9)
+                      {
+                         echo ' <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="postBySic(\'' . $row['ID'] . '\');">By Post</button>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#sicActionModal" onclick="handOverToBySic(\'' . $row['ID'] . '\');">By Hand</button>
+                      </div>';
+                      }
+                  ?></td>
+                     
                    
             
                   </tr>
@@ -337,6 +343,78 @@ function sic_pending(){
             $('#example').DataTable({ 
                       "destroy": true, //use for reinitialize datatable
                    });
+         }
+         });
+}
+
+
+function postBySic(IDNo){
+  var code='121';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {
+            
+    document.getElementById("sicActionModalLabel_Record").innerHTML=data;
+
+         }
+         });
+}
+function handOverToBySic(IDNo)
+{
+  var code='122';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo},
+         type:'POST',
+         success:function(data)
+         {      
+    document.getElementById("sicActionModalLabel_Record").innerHTML=data;
+         }
+         });
+}
+function handOverToBySicAction(IDNo)
+{
+      var idproof=document.getElementById('idproof'+IDNo).value;
+
+      var idproofno=document.getElementById('idproofno'+IDNo).value;
+
+  var code='123';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo,idproof:idproof,idproofno:idproofno},
+         type:'POST',
+        success:function(data)
+         {
+            // console.log(data);
+           if (data==1) 
+           {
+                labUsers();
+           }
+         }
+         });
+}
+function postBySicAction(IDNo)
+{
+      var idproof=document.getElementById('idproof'+IDNo).value;
+
+      var idproofno=document.getElementById('idproofno'+IDNo).value;
+      var speedpostno=document.getElementById('speedpostno'+IDNo).value;
+
+  var code='124';
+         $.ajax({
+         url:'action_g.php',
+         data:{code:code,idno:IDNo,idproof:idproof,idproofno:idproofno,speedpostno:speedpostno},
+         type:'POST',
+        success:function(data)
+         {
+            // console.log(data);
+           if (data==1) 
+           {
+                labUsers();
+           }
          }
          });
 }

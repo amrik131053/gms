@@ -1,0 +1,39 @@
+<?php
+  if($row['status']==0)
+                      {
+                        $clr="#F5FFFA";
+                      }elseif($row['status']==1)
+                      {
+                        $clr="#F0FFF0";
+                        
+                      }elseif($row['status']==2)
+                      {
+                        $clr="#F75D59";
+                      }elseif($row['status']==3)
+                      {
+                         $clr="#E8F1D4";
+                      }
+                      elseif($row['status']==4)
+                      {
+                        $clr="#DBF9DB";
+                      }
+                       elseif($row['status']==5)
+                      {
+                        $clr="#C2E5D3";
+                      }
+                      elseif($row['status']==6)
+                      {
+                        $clr="#C3FDB8";
+                      }
+                       elseif($row['status']==7)
+                      {
+                        $clr="#E3F9A6";
+                      } elseif($row['status']==8)
+                      {
+                        $clr="#B5EAAA ";
+                      }
+                      elseif($row['status']==9)
+                      {
+                        $clr="#98FF98";
+                      }
+                    ?>
