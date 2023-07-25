@@ -173,12 +173,12 @@ $ms1="<strike>Mr.</strike>";    // code...
                </i>
             </div>
          </div>
-         <div style="height: 10px;"></div>
+         <div style="height: 30px;"></div>
 
          <div class="row">
             <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
          </div>
-         <div style="height: 90px;"></div>
+         <div style="height: 70px;"></div>
          <!-- // space -->
             <div id="footer">
             <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 85.3px; color:#0D729C;">
@@ -187,7 +187,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                      <span style="border: ;
             position: absolute;
             top: 40px;
-            left: 187px; color: black!important; font-size: 14px;">
+            left: 255px; color: black!important; font-size: 14px;">
          <?php echo  $today . "<sup>" . $ordinalSuffix . "</sup> " . $month ." ". $year; ?></span>
                   <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php // echo "REGISTRAR";?></b>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b><?php//  echo "PRO VICE CHANCELLOR";?></b>
