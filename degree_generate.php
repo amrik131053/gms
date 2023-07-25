@@ -73,7 +73,7 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="3"></td><td><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " ><i class="fa fa-print fa-lg"></i> </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other Print </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
                         table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th></tr>';
                         for (var i = 0; i < data.length; i++) {
@@ -155,6 +155,22 @@ include "header.php";
    }
    if (id_array_main.length > 0) {
       window.open('print_degree2.php?id_array=' + id_array_main+'&Todate='+Todate);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}     
+         function printSelectedRows_all_course() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var Todate = document.getElementById('date').value;
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_degree3.php?id_array=' + id_array_main+'&Todate='+Todate);
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }
