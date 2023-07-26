@@ -138,8 +138,8 @@
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                      <label>Questions<b style="color:red;">*</b> (<b style="color:red; font-family:Serif;">Note: Upload one question at a time without serial  number and without Apostrophe ( ' ) symbol)</b></label>
-                       <textarea class="textarea_quetions"  required  id="question" placeholder="Type Questions Here.........."
-                          style=" visibility: hidden; min-width:0px;max-height: 0px;"></textarea>
+                      <!--  <textarea class="textarea_quetions"  required  id="question" placeholder="Type Questions Here.........."
+                          style=" visibility: hidden; min-width:0px;max-height: 0px;"></textarea> -->
                           <p id="error_question" style="display:none; color: red;"><b>You Can`t Insert this Question. You have already uploaded for this selection</b></p>
                   </div>
                </div>
