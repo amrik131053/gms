@@ -196,6 +196,9 @@ $ms1="<strike>Mr.</strike>";    // code...
          </div>
       
       </span>
-<!-- <div style="page-break-before: always;"></div> -->
+<div style="page-break-before: always;"></div>
       <?php 
 }
+?>     
+   </body>
+</html>

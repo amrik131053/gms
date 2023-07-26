@@ -185,9 +185,9 @@ $ms1="<strike>Mr.</strike>";    // code...
                <p>
                   <b><?php  echo "CONTROLLER OF EXAMINATIONS";?></b>
                      <span style="border: ;
-            position: absolute;
-            top: 40px;
-            left: 187px; color: black!important; font-size: 14px;">
+                        position: absolute;
+                        top: 40px;
+                        left: 187px; color: black!important; font-size: 14px;">
          <?php echo  $today . "<sup>" . $ordinalSuffix . "</sup> " . $month ." ". $year; ?></span>
                   <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php  echo "REGISTRAR";?></b>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b><?php  echo "PRO VICE CHANCELLOR";?></b>
@@ -196,6 +196,9 @@ $ms1="<strike>Mr.</strike>";    // code...
          </div>
       
       </span>
-<!-- <div style="page-break-before: always;"></div> -->
+<div style="page-break-before: always;"></div>
       <?php 
 }
+?>      
+   </body>
+</html>
