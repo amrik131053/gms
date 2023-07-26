@@ -1,4 +1,4 @@
-<?php
+<?php 
    session_start(); 
    ini_set('max_execution_time', '0');
       if(!(ISSET($_SESSION['usr']))) 
