@@ -6,1155 +6,925 @@
   }
 </style>
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-      <script type="text/javascript">
-                    function r1_show() {
-  var x = document.getElementById("r1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function r1_hide() {
-  var x = document.getElementById("r1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}                    function c1_show() {
-  var x = document.getElementById("c1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function c1_hide() {
-  var x = document.getElementById("c1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
- function d1_show() {
-  var x = document.getElementById("d1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function d1_hide() {
-  var x = document.getElementById("d1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
- function e1_show() {
-  var x = document.getElementById("e1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function e1_hide() {
-  var x = document.getElementById("e1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-} 
-function f1_show() {
-  var x = document.getElementById("f1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function f1_hide() {
-  var x = document.getElementById("f1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function g1_show() {
-  var x = document.getElementById("g1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function g1_hide() {
-  var x = document.getElementById("g1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function h1_show() {
-  var x = document.getElementById("h1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function h1_hide() {
-  var x = document.getElementById("h1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function i1_show() {
-  var x = document.getElementById("i1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function i1_hide() {
-  var x = document.getElementById("i1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function j1_show() {
-  var x = document.getElementById("j1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function j1_hide() {
-  var x = document.getElementById("j1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function k1_show() {
-  var x = document.getElementById("k1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function k1_hide() {
-  var x = document.getElementById("k1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function l1_show() {
-  var x = document.getElementById("l1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function l1_hide() {
-  var x = document.getElementById("l1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-function m1_show() {
-  var x = document.getElementById("m1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-           function m1_hide() {
-  var x = document.getElementById("m1_div");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-                </script>
+     
+<?php 
+     $dropdown_team="SELECT * FROM Staff WHERE IDNo='$EmployeeID' ";
+                      $dropdown_team_run = sqlsrv_query($conntest,$dropdown_team);  
+                    
+                    if($dropdown_row_staff=sqlsrv_fetch_array($dropdown_team_run,SQLSRV_FETCH_ASSOC))
+                    $LeaveRecommendingAuthority=$dropdown_row_staff['LeaveSanctionAuthority'];
+                     $LeaveSanctionAuthority=$dropdown_row_staff['LeaveRecommendingAuthority'];
+                   
+
+
+ $dropdown_team1="SELECT * FROM Staff WHERE IDNo='$LeaveRecommendingAuthority' ";
+                      $dropdown_team_run1 = sqlsrv_query($conntest,$dropdown_team1);  
+                    
+                    if($dropdown_row_staff1=sqlsrv_fetch_array($dropdown_team_run1,SQLSRV_FETCH_ASSOC))
+                                    $rname=$dropdown_row_staff1['Name'];
+                                  $rsnap=$dropdown_row_staff1['Snap'];
+                                    $rdesignation=$dropdown_row_staff1['Designation'];
+
+
+                                     $dropdown_team2="SELECT * FROM Staff WHERE IDNo='$LeaveSanctionAuthority' ";
+                      $dropdown_team_run2 = sqlsrv_query($conntest,$dropdown_team2);  
+                    
+                    if($dropdown_row_staff2=sqlsrv_fetch_array($dropdown_team_run2,SQLSRV_FETCH_ASSOC))
+                                    $aname=$dropdown_row_staff2['Name'];
+                                  $asnap=$dropdown_row_staff2['Snap'];
+                                    $adesignation=$dropdown_row_staff2['Designation'];
+
+                     
+                     ?>
+
  <section class="content">
    <div class="container-fluid">
       <!-- SELECT2 EXAMPLE -->
       <div class="card card-default">
          <div class="card-header">
-            <center><h3 >Staff Appraisal</h3></center>
-            <!-- <div class="card-tools">
-               <button type="button" class="btn btn-tool" data-card-widget="collapse">
-               <i class="fas fa-minus"></i>
-               </button>
-               <button type="button" class="btn btn-tool" data-card-widget="remove">
-               <i class="fas fa-times"></i>
-               </button>
-            </div> -->
-         </div>
-         <!-- /.card-header -->
+
+          <div class="row"><div class="col-md-2"><h3 >Staff Appraisal</h3> </div>
+
+<div class="col-md-9" style="text-align: right"> <a class="btn btn-danger" href="verify_aprisal.php">
+                  
+                 &nbsp;
+<?php 
+ $count=0;
+
+ //SELECT * FROM staff_aprisal where rec_auth='121031' AND ap_auth='121031' 
+   $list_sql = "SELECT * FROM staff_aprisal where  rec_auth_status='0' AND ap_auth!='$EmployeeID' AND rec_auth='$EmployeeID'";
+ 
+$result = mysqli_query($conn,$list_sql);
+ while($row = mysqli_fetch_array($result))  
+      {
+        $count++;
+      }?>
+
+                  <span class="badge bg-purple"><?=$count;?></span>
+                </a> </div>
+             
+                <div class="col-md-1  " style="text-align: right"> <a class="btn btn-success" href="approve_aprisal.php">
+                  
+                 &nbsp;
+<?php 
+ $count=0;
+
+
+ $list_sql = "SELECT * FROM staff_aprisal where  (rec_auth_status='0'  AND ap_auth='$EmployeeID' AND rec_auth='$EmployeeID') OR (rec_auth_status='1'  AND ap_auth='$EmployeeID' ) ";
+ 
+$result = mysqli_query($conn,$list_sql);
+ while($row = mysqli_fetch_array($result))  
+      {
+        $count++;
+      }?>
+
+                  <span class="badge bg-purple"><?=$count;?></span>
+                </a> </div>
+
+        </div>
+            <left></center>  
+
+            <br> 
+<table>
+  <tr>
+  <td><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></  center>';?><br>
+            <?=$Emp_Name;?>(You)</td>
+
+        <td width="100px"></td>   
+
+
+        <?php  if($LeaveRecommendingAuthority!=$LeaveSanctionAuthority){?>
+     <td>
+ <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode( $rsnap).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
+            <?=$rname;?>(Reporting Officer)
+</td>
+<?php }?>
+ <td width="100px"></td>    
+     <td>
+ <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode( $asnap).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
+            <?=$aname;?>(Officiating Head)
+</td></tr>
+</table>
+       </div>
+         <!-- /.c
+          ard-header -->
          <div class="card-body">
-            <h5 class="fw-bold">Class Adjustment</h5>
-            <div class="row">
-               <div class="col-md-2">
-                  <div class="form-group">
-                     <label>Date
-                     </label>
-                     <input type="date" name="" class="form-control">
-                  </div>
-               </div>
-               <div class="col-md-2">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Lecture</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <!-- /.col -->
-               <div class="col-md-3">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Course</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Subject </label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-               </div>
-               <div class="col-md-2">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Teacher ID</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <!-- /.col -->
-            </div>
-<div class="row">
-  <div class="col-lg-12">
-  <center><input type="button" class="btn btn-primary" value="Save" name="">
-    <input type="button" class="btn btn-warning" value="Reset" name=""></center>
-</div>
-</div>
-<div class="row">
-  <hr>
-</div>
-<div class="row">
-<div class="col-lg-12">
-  <table class="table table-striped">
-    <tbody>
-    <tr>
-      <th>Srno</th>
-      <th>Date</th>
-      <th>Course</th>
-      <th>Subject</th>
-      <th>Teacher ID</th>
-      <th>Action</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>12-12-22</td>
-      <td>MCA</td>
-      <td>Php</td>
-      <td>170976</td>
-      <td><i class="fa fa-trash"></i></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-</div>
-             <h5>Classes Delivered</h5>
-            <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Total No of Theory Lecture
-                     </label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-               </div>
-               <div class="col-md-2">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Total No of Practical</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-               </div>
-            </div>
-<div class="row">
-  <div class="col-lg-12">
-  <center><input type="button" class="btn btn-primary" value="Save" name="">
-    <input type="button" class="btn btn-warning" value="Reset" name=""></center>
-</div>
-</div>
-<div class="row">
-  <hr>
-</div>
-<div class="row">
-<div class="col-lg-12">
-  <table class="table table-striped">
-    <tbody>
-    <tr>
-      <th>Srno</th>
-      <th>Total No of Theory Lecture</th>
-      <th>Total No of Practical</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>12</td>
-      <td>3</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+
+   <div class="col-md-12" style="text-align: center;">
+               <label><b style="color:red;text-align: center"> 1<sup>st</sup> August 2022 to 30<sup>th</sup> July 2023 </b></label>
+
+               <br>
+              <b style="color:red;text-align: center"> if you want to add more than one records than separated by ,  for instance   (title of paper1 &nbsp;,&nbsp;title of paper2) </b>
+         </div>
+        
+         <div class="card-body table-responsive p-0" >
+         <table class="table table-striped">
+   
+
+<?php   
+$yourdata="select * from staff_aprisal where emp_id='$EmployeeID' limit 1 ";
+ $insQryRun=mysqli_query($conn,$yourdata);
+ while ($show_task_row=mysqli_fetch_array($insQryRun))
+             {?>
+  <tr><td> Employment Category</td><td><?= $show_task_row['ecategory'];?></td>
+    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?></td></tr> 
+
+
+    <tr><td> Books Published :<?= $show_task_row['book_published'];?> </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+      <td>Name of Books: <?= $show_task_row['name_of_books'];?></td><td>ISBN: <?= $show_task_row['isbn'];?></td>
+   </tr>  
+
+   <tr><td> Research paper Published :<?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+      <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td><td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td><td>Publication Index: <?= $show_task_row['publication_index'];?></td>
+   </tr>         
+         
+<tr><td> Consultancy :<?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
+      
+   </tr>         
+   <tr><td> Admission Initative:<?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+      <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+   </tr>             
+
+<tr><td> Patent:<?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
+      
+   </tr> 
+   <tr><td colspan="2"> PhD. Candidate:<?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+      
+   </tr>
+     <tr><td colspan="5"> Other Duty /Task:<?= $show_task_row['extra'];?> </td>
+      
+   </tr>
+
+          <?php    } ?>
+       </tbody></table>
+
+
+
+
 </div>
 
-                 <h5>Faculty Outcome</h5>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                    <!--  <label>Total No of Theory Lecture
-                     </label> -->
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-               
-            </div>
-              <div class="row">
-                 <div class="col-md-3">
-                 <h5>E-Content Development</h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary2" name="r1" onclick="r1_show();">
-                        <label for="radioPrimary2">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary1" onclick="r1_hide();" name="r1" checked>
-                        <label for="radioPrimary1">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-            
-              <div class="col-lg-12" style="display: none;" id="r1_div" >
-                 <div class="row ">
-             
-                 <div class="col-md-3">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Course</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Subject </label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Topic</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>file upload </label>
-                     <input type="file" name="" class="form-control">
-                  </div>
-               </div>
-            </div> 
-</div>
-              <div class="row">
-                 <div class="col-md-3">
-                 <h5>Collaborative Work</h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary3" onclick="c1_show();" name="c1">
-                        <label for="radioPrimary3">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary4" onclick="c1_hide();" name="c1" checked>
-                        <label for="radioPrimary4">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-              <div class="col-lg-12" style="display: none;" id="c1_div" >
-              <div class="row" >
-             
-                 <div class="col-md-3">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>organsation</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>File </label>
-                     <input type="file" name="" class="form-control">
-                  </div>
-               </div> 
-                
-               
-            </div> 
-          </div>
-            <h5>Ph.D Related</h5>
-              <div class="row">
-             
-                 <div class="col-md-3">
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                     <label>Suprwe wise</label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-                  <!-- /.form-group -->
-               </div>
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>co superwiser </label>
-                     <input type="text" name="" class="form-control">
-                  </div>
-               </div> 
-                
-               
-            </div>
-                <h5>Requirement</h5>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <!-- <label>Total No of Theory Lecture
-                     </label> -->
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-            </div>  
-                 <h5>Maintenance</h5>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <!-- <label>Total No of Theory Lecture
-                     </label> -->
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-            </div>
-             <div class="row">
-                 <div class="col-md-3">
-                 <h5>Admission Initiatives</h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary5" onclick="d1_show();" name="d1">
-                        <label for="radioPrimary5">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary6" onclick="d1_hide();" name="d1" checked>
-                        <label for="radioPrimary6">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="d1_div">
-                   <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <!-- <label>Total No of Theory Lecture
-                     </label> -->
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-            </div> 
-          </div>
-              <div class="row">
-                 <div class="col-md-3">
-                 <h5>Grievances and Redressal </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary7" onclick="e1_show();" name="e1">
-                        <label for="radioPrimary7">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary8" onclick="e1_hide();" name="e1" checked>
-                        <label for="radioPrimary8">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="e1_div">
-                   <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <!-- <label>Total No of Theory Lecture
-                     </label> -->
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-            </div> 
-          </div>
-              <div class="row">
-                 <div class="col-md-3">
-                 <h5>Mentee-Mentor Interaction </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary9" onclick="f1_show();" name="f1">
-                        <label for="radioPrimary9">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary10" onclick="f1_hide();" name="f1" checked>
-                        <label for="radioPrimary10">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="f1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Attendance record uoload
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-6">
-                  <div class="form-group">
-                     <label>--
-                     </label> 
-                     <textarea  name="" class="form-control"></textarea>
-                  </div>
-               </div>
-            </div>  
-          </div>
-            <h5>Membership of Professional Bodies </h5>
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Month
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>organisation
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>valid upto
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>File
-                     </label> 
-                    <input type="file"  name="" class="form-control">
-                  </div>
-               </div>
-            </div>
+<hr>
 
-               <div class="row">
-                 <div class="col-md-3">
-                 <h5>Competitive Exams </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary11" onclick="g1_show();" name="g1">
-                        <label for="radioPrimary11">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary12" onclick="g1_hide();" name="g1" checked>
-                        <label for="radioPrimary12">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="g1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Exam name
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-6">
-                  <div class="form-group">
-                     <label>Score or gradxe
-                     </label> 
-      <input type="text"  name="" class="form-control">
 
-                  </div>
-               </div>
-            </div>  
-</div>
-              <div class="row">
-                 <div class="col-md-3">
-                 <h5>Higher Education </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary13" onclick="h1_show();" name="h1">
-                        <label for="radioPrimary13">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary14" onclick="h1_hide();" name="h1" checked>
-                        <label for="radioPrimary14">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="h1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Program
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>University/board
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-6">
-                  <div class="form-group">
-                     <label>File upload</label> 
-                      <input type="file"  name="" class="form-control">
-                  </div>
-               </div>
-            </div>  
-          </div>
-            <h5>Entrepreneurship</h5>
-               <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <label>--
-                     </label>
-                     <textarea name="" class="form-control"></textarea>
-                  </div>
-               </div> 
-               
-            </div> 
+<br>
 
-            <div class="row">
-                 <div class="col-md-3">
-                 <h5>Alumni Contribution </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary15"  onclick="i1_show();" name="i1">
-                        <label for="radioPrimary15">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary16" onclick="i1_hide();" name="i1" checked>
-                        <label for="radioPrimary16">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div> 
-                     <div class="col-lg-12" style="display:none;" id="i1_div">
-                     <div class="row">
-               <div class="col-md-12">
-                  <div class="form-group">
-                     <label>--
-                     </label>
-                     <textarea name="" class="form-control"></textarea>
-                  </div>
-               </div> 
-               
-            </div> 
-            </div> 
+
 
  <div class="row">
-                 <div class="col-md-3">
-                 <h5>Alumni Student Records </h5>
+                 <div class="col-md-2">
+                  <label>Employment Category <b style="color:red;">*</b></label>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary17" onclick="j1_show();"  name="j1">
-                        <label for="radioPrimary17">
-                          Yes
+                        <input type="radio" id="radioPrimary15"  onclick="emc1_show();" value="Teaching" name="empc1">
+                        <label for="radioPrimary15">
+                         Teaching
                         </label>
                       </div>
                 </div>
-                 <div class="col-md-1">
+                 <div class="col-md-2">
                   <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary18" onclick="j1_hide();" name="j1" checked>
-                        <label for="radioPrimary18">
-                          No
+                        <input type="radio" id="radioPrimary16" onclick="emc1_hide();"  value="Non-Teaching" name="empc1" checked="">
+                        <label for="radioPrimary16">
+                         Non Teaching
                         </label>
                       </div>
                 </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="j1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>No. OF Students
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Photos and attendance
 
-                     </label> 
-      <input type="text"  name="" class="form-control">
+                  <div class="col-md-6" style="display: none;" id="lect_div">
 
+                    <div class="row ">
+             
+                 <div class="col-md-4">
+                    <label>Weekly Teaching Load <b style="color:red;">*</b></label>
+                   </div>
+                  <div class="col-md-3"><!-- /.form-group -->
+                  <div class="form-group">
+                     
+                     <input type="number" id='nooflecture' name="" class="form-control">
                   </div>
+                  <!-- /.form-group -->
                </div>
-            </div>
-          </div>
-            <div class="row">
-                 <div class="col-md-3">
-                 <h5>Alumni Meet Record </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary19"  onclick="k1_show();" name="k1">
-                        <label for="radioPrimary19">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary20" onclick="k1_hide();"  name="k1" checked>
-                        <label for="radioPrimary20">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="k1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>No. OF Students
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Photos and attendance
-
-                     </label> 
-      <input type="text"  name="" class="form-control">
-
-                  </div>
-               </div>
-            </div> 
-            </div> 
-  <div class="row">
-                 <div class="col-md-3">
-                 <h5>Placement Record - Summary </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary21"  onclick="l1_show();" name="l1">
-                        <label for="radioPrimary21">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary22" onclick="l1_hide();" name="l1" checked>
-                        <label for="radioPrimary22">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="l1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>No. OF Students
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Photos and attendance
-
-                     </label> 
-      <input type="text"  name="" class="form-control">
-
-                  </div>
-               </div>
-            </div> 
-            </div> 
-<h5>Student Placement Records Institutional Social Responsibility/Outreach & Extension Activity
-</h5>
-  <div class="row">
-                 <div class="col-md-12">
-                 <textarea class="form-control"></textarea>
-                </div>
+                </div> 
               </div>
+
+      </div>         
+
+<script>
+    function emc1_show() {
+  var x = document.getElementById("lect_div");
+
+    x.style.display = "block";
+
+
+}
+           function emc1_hide() {
+  var x = document.getElementById("lect_div");
+ 
+    x.style.display = "none";
+  }
+
+
+</script>
+
+<hr>
+ <div class="row">
+
+
+
+  
+              
+                 <div class="col-md-2">
+               <label>Book Published <b style="color:red;">*</b></label>
+               
+                     
+                   
+                </div>
+                  <div class="col-md-1">
+                 <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryb15"  onclick="book_show();" value="Yes" name="book">
+                        <label for="radioPrimaryb15">
+                       Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryb16" onclick="book_hide();" value="No" name="book" checked="">
+                        <label for="radioPrimaryb16">
+                       No
+                        </label>
+                      </div>
+                </div>
+                <div class="col-md-1">
+                     <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryb17" onclick="book_hide();" book="NA" name="book">
+                        <label for="radioPrimaryb17">
+                      NA
+                        </label>
+                      </div>
+                </div>
+               
+ 
+              <div class="col-lg-7" style="display: none;" id="book_div" >
+                 <div class="row ">
+             
+                 <div class="col-md-2">
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                     <label>No of Books</label>
+                     <input type="number" name="" id="noofbooks" class="form-control">
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <div class="col-md-4">
+                  <div class="form-group">
+                     <label>Name of Books </label>
+                     <input type="text" name=""  id="nameofbooks" class="form-control">
+                  </div>
+               </div> 
+                <div class="col-md-3">
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                     <label>ISBN</label>
+                     <input type="text" name=""  id ="isbn" class="form-control">
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+            
+            </div> 
+</div>
+                 
+  </div>
+
+<script>
+
+
+    function book_show() 
+    {
+  
+ 
+      var x = document.getElementById("book_div"); 
+
+  
+    x.style.display = "block";
+  
+}  
+
+  function book_hide(book) 
+    {
+  //var book1 = document.getElementById("bookp").value();
+      var x = document.getElementById("book_div"); 
+
+
+    x.style.display = "none";
+  }
+
+
+
+ </script>
+
+<hr>
+
+
+
+
+ <div class="row">
+
+
+
+  
+              
+                 <div class="col-md-2">
+              
+   
+
+
+                     <label>Research Paper Published <b style="color:red;">*</b></label>
+                  
+                </div>
+ <div class="col-md-1">
+                 <div class="icheck-primary d-inline">
+                <input type="radio" id="radioPrimaryr15"  onclick="research_show();" value="Yes" name="research">
+                        <label for="radioPrimaryr15">
+                       Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+           <input type="radio" id="radioPrimaryr16" onclick="research_hide();"  value="No" name="research" checked="">
+                        <label for="radioPrimaryr16"> 
+                       No
+                        </label>
+                      </div>
+                </div>
+                <div class="col-md-1">
+                     <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryr17"  value="NA" onclick="research_hide();" name="research">
+                        <label for="radioPrimaryr17">
+                      NA
+                        </label>
+                      </div>
+                </div>
+               
+               
+ 
+              <div class="col-lg-9" style="display: none;" id="research_div" >
+                 <div class="row ">
+             <div class="col-md-2">
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                     <label>Number of Paper</label>
+                     <input type="number" name="" id="noofpaper" class="form-control">
+                  </div>
+                </div>
+                 <div class="col-md-3">
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                     <label>Title of Paper</label>
+                  <textarea  name=""  id="titleofpaper" class="form-control"></textarea>
+                   
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <div class="col-md-4">
+                  <div class="form-group">
+                     <label>Name of Journal</label>
+                           <textarea  name="" id="nameofjour" class="form-control"></textarea>
+                  </div>
+               </div> 
+                 <div class="col-md-2">
+                  <div class="form-group">
+                     <label>Publication Index</label>
+                           <textarea  name="" id="publicationindex" class="form-control"></textarea>
+                  </div>
+               </div> 
+            
+            </div> 
+</div>
+                 
+  </div>
+   
+<script>
+
+
+    function research_show() 
+   {
+
+      var x = document.getElementById("research_div"); 
+
+    x.style.display = "block";
+ 
+}
+
+   function research_hide() 
+   
+  {
+      var x = document.getElementById("research_div"); 
+
+    x.style.display = "none";
+ 
+}
+
+
+ </script>
+
+
+<hr>
+
+
+
+
+ <div class="row">
+                 <div class="col-md-2">
+                  <label>Consultancy<b style="color:red;">*</b></label>
+                </div>
+                <div class="col-md-2">
+                 <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryc"  value="Yes" onclick="con_show();" name="con">
+                        <label for="radioPrimaryc">
+                         Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryc1" value="No" onclick="con_hide();" name="con" checked="">
+                        <label for="radioPrimaryc1">
+                        No
+                        </label>
+                      </div>
+                </div>
+
+                  <div class="col-md-6" style="display: none;" id="con_div">
+
+                    <div class="row ">
+             
+                 <div class="col-md-2">
+                    <label>Amount <b style="color:red;">*</b></label>
+                   </div>
+
+                  <div class="col-md-3"><!-- /.form-group -->
+                  <div class="form-group">
+                     
+                     <input type="number" name="" id="amount" class="form-control">
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <div class="col-md-2">
+                    <label>Organisation <b style="color:red;">*</b></label>
+                   </div>
+
+                  <div class="col-md-3"><!-- /.form-group -->
+                  <div class="form-group">
+                     
+                     <input type="text" name="" id="corg" class="form-control">
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+
+
+
+                </div> 
+              </div>
+
+      </div>         
+
+<script>
+    function con_show() {
+  var x = document.getElementById("con_div");
+ 
+    x.style.display = "block";
+
+}
+           function con_hide() {
+  var x = document.getElementById("con_div");
+ 
+    x.style.display = "none";
+  }
+
+
+</script>
+
+<hr>
+
+
+
+
+
+
+
+ <div class="row">
+                 <div class="col-md-2">
+                  <label>Admission Initiative<b style="color:red;">*</b></label>
+                </div>
+                <div class="col-md-1">
+                 <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryadm"  value="Yes" onclick="adm_show();" name="adm">
+                        <label for="radioPrimaryadm">
+                         Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryadm1" value="No" onclick="adm_hide();" name="adm" checked="">
+                        <label for="radioPrimaryadm1">
+                        No
+                        </label>
+                      </div>
+                </div>
+
+                  <div class="col-md-6" style="display: none;" id="adm_div">
+
+                    <div class="row ">
+             
+                 <div class="col-md-4">
+                    <label>No of Admission<b style="color:red;">*</b></label>
+                      <input type="number" name="" id="noadm" class="form-control">
+                   </div>
+
+                   <div class="col-md-6">
+                    <label>No of Admission without consultancy<b style="color:red;">*</b></label>
+                      <input type="number" name="" id="nocadm" class="form-control" >
+                   </div>
+               
+                </div> 
+              </div>
+
+      </div>         
+
+<script>
+    function adm_show() {
+  var x = document.getElementById("adm_div");
+ 
+    x.style.display = "block";
+
+}
+           function adm_hide() {
+  var x = document.getElementById("adm_div");
+ 
+    x.style.display = "none";
+  }
+
+
+</script>
+
+<hr>
+
+
+
+
+
+ <div class="row">
+                 <div class="col-md-2">
+                  <label>Patent<b style="color:red;">*</b></label>
+                </div>
+                <div class="col-md-1">
+                 <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimarypt"  value="Yes" onclick="patent_show();" name="pt">
+                        <label for="radioPrimarypt">
+                         Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimarypt1" value="No" onclick="patent_hide();" name="pt" checked="">
+                        <label for="radioPrimarypt1">
+                        No
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimarypt3" value="NA" onclick="patent_hide();" name="pt">
+                        <label for="radioPrimarypt3">
+                        NA
+                        </label>
+                      </div>
+                </div>
+
+                  <div class="col-md-6" style="display: none;" id="patent_div">
+
+                    <div class="row ">
+             
+                 <div class="col-md-2">
+                    <label>Detail<b style="color:red;">*</b></label>
+                   </div>
+                  <div class="col-md-8"><!-- /.form-group -->
+                  <div class="form-group">
+                     
+                     <textarea  name=""   id="ptdetail" class="form-control"></textarea>
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+                </div> 
+              </div>
+
+      </div>         
+
+<script>
+    function patent_show() {
+  var x = document.getElementById("patent_div");
+ 
+    x.style.display = "block";
+
+}
+           function patent_hide() {
+  var x = document.getElementById("patent_div");
+ 
+    x.style.display = "none";
+  }
+
+
+</script>
+
+<hr>
+
+
+ <div class="row">
+                 <div class="col-md-2">
+                  <label>Ph.D Candidate Supervised<b style="color:red;">*</b></label>
+                </div>
+                <div class="col-md-1">
+                 <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryphd"  value="Yes" onclick="phd_show();" name="phd">
+                        <label for="radioPrimaryphd">
+                         Yes
+                        </label>
+                      </div>
+                </div>
+                 <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryphd1"  value="No" onclick="phd_hide();" name="phd" checked="">
+                        <label for="radioPrimaryphd1">
+                        No
+                        </label>
+                      </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimaryphd3" value="NA" onclick="phd_hide();" name="phd">
+                        <label for="radioPrimaryphd3">
+                      NA
+                        </label>
+                      </div>
+                </div>
+
+                  <div class="col-md-6" style="display: none;" id="phd_div">
+
+                    <div class="row ">
+             
+                 <div class="col-md-2">
+                    <label>No of  candidate<b style="color:red;">*</b></label>
+                   </div>
+                  <div class="col-md-8"><!-- /.form-group -->
+                  <div class="form-group">
+                     
+                       <input type="number" name="" id="phd_detail" class="form-control">
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+                </div> 
+              </div>
+
+      </div>         
+
+<script>
+    function phd_show() {
+  var x = document.getElementById("phd_div");
+ 
+    x.style.display = "block";
+
+}
+           function phd_hide() {
+  var x = document.getElementById("phd_div");
+ 
+    x.style.display = "none";
+  }
+
+
+</script>
+
+<hr>
+
 
 
 <div class="row">
-                 <div class="col-md-3">
-                 <h5>Industrial Visits Yes Date </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary23" onclick="m1_show();" name="m1">
-                        <label for="radioPrimary23">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary24" onclick="m1_hide();" name="m1" checked>
-                        <label for="radioPrimary24">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="col-lg-12" style="display:none;" id="m1_div">
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>orgnisation
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Location</label> 
-      <input type="text"  name="" class="form-control">
+<div class="col-xl-12">
+  <label>Other Duties /task performed by you<b style="color:red;">*</b></label>
+  <textarea class="form-control" id="otherduty"></textarea>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-xl-12" style="text-align: center;">
+ <button class="btn btn-success" onclick="save_report()">Submit</button>
+  
+</div>
+</div>
 
-                  </div>
-               </div>  
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>no of student</label> 
-      <input type="text"  name="" class="form-control">
+<script>
+  function save_report()
+          {
+       var code=1;
 
-                  </div>
-               </div>
-            </div>
-          </div>
+      var validation=0; 
+  var emp = document.querySelector('input[type=radio][name=empc1]:checked');
+  var  emp_ctegory=emp.value;
+  var nooflecture=document.getElementById('nooflecture').value;
+   
+    var book = document.querySelector('input[type=radio][name=book]:checked');
+  var bookpub=book.value;
+  var noofbooks=document.getElementById('noofbooks').value;
+  var nameofbooks=document.getElementById('nameofbooks').value;
+  var isbn=document.getElementById('isbn').value;
 
-            <div class="row">
-                 <div class="col-md-3">
-                 <h5>Sport Details </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary25" name="n1">
-                        <label for="radioPrimary25">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary26" name="n1" checked>
-                        <label for="radioPrimary26">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>orgnisation
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Location</label> 
-      <input type="text"  name="" class="form-control">
+   var research = document.querySelector('input[type=radio][name=research]:checked');
 
-                  </div>
-               </div>  
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>no of student</label> 
-      <input type="text"  name="" class="form-control">
+  var researchpub=research.value;
 
-                  </div>
-               </div>
-            </div>  
 
-<h5>Workshop/Seminar/Conference-Organized </h5>
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Title
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Position
-</label> 
-      <input type="text"  name="" class="form-control">
+  var noofpaper=document.getElementById('noofpaper').value;
+  var titleofpaper=document.getElementById('titleofpaper').value;
+    var nameofjour=document.getElementById('nameofjour').value;
+      var publicationindex=document.getElementById('publicationindex').value;
+  
+ var con = document.querySelector('input[type=radio][name=con]:checked');
+ var consultancy=con.value;
+  var amount=document.getElementById('amount').value;
+   var corg=document.getElementById('corg').value;
 
-                  </div>
-               </div>  
-               
-            </div> 
+var adm = document.querySelector('input[type=radio][name=adm]:checked');
+ var admission=adm.value;
+  var noadm=document.getElementById('noadm').value;
+var nocadm=document.getElementById('nocadm').value;   
 
-<h5>Workshop/Seminar /Conference-Attended </h5>
-                   <div class="row">
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Date/Time
-                     </label>
-                     <input type="date"  name="" class="form-control">
-                  </div>
-               </div> 
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Title
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Position
-</label> 
-      <input type="text"  name="" class="form-control">
 
-                  </div>
-               </div>  
-               
-            </div>
 
-  <div class="row">
-                 <div class="col-md-3">
-                 <h5>Consultancy </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary27" name="o1">
-                        <label for="radioPrimary27">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary28" name="o1" checked>
-                        <label for="radioPrimary28">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="row">
+var pt = document.querySelector('input[type=radio][name=pt]:checked');
+ var patent=pt.value;
+  var ptdetail=document.getElementById('ptdetail').value;
+ 
+ var phd = document.querySelector('input[type=radio][name=phd]:checked');
+ var phdsuperviser=phd.value;
+ var phd_detail=document.getElementById('phd_detail').value;
+ 
+var otherduty=document.getElementById('otherduty').value;
+
+
+if(emp_ctegory=='Teaching' && nooflecture!='')
+{
+
+}
+else if(emp_ctegory!='Teaching')
+{
+
+}
+else
+{
+  validation=1
+ErrorToast('Update weekly Teaching Load ','bg-danger' );
+}
+
+if(bookpub=='Yes' &&noofbooks!=''&& nameofbooks!==''&&isbn!='')
+{
+
+}
+else if(bookpub!='Yes')
+{
+
+}
+else
+{
+  validation=1;
+  ErrorToast('Update Book Detail','bg-danger' );
+
+
+}
+if(researchpub=='Yes' &&noofpaper!=''&& titleofpaper!==''&&nameofjour!=''&&publicationindex!='')
+{
+
+}
+else if(researchpub!='Yes')
+{
+
+}
+else
+{
+  validation=1;
+   ErrorToast('Update Research Paper Detail','bg-danger' );
+ 
+}
+if(admission=='Yes' && noadm!='' && nocadm!='')
+{
+
+}
+else if(admission!='Yes')
+{}
+else
+{
+  validation=1;
+   ErrorToast('Update Admission Detail','bg-danger' );
+
+}
+
+
+
+if(consultancy=='Yes' && amount!='' && corg!='')
+{
+
+}
+else if(consultancy!='Yes')
+{}
+else
+{
+  validation=1;
+ ErrorToast('Update Consultancy Detail','bg-danger' );
+  
+}
+
+if(patent=='Yes' && ptdetail!='')
+{
+
+}
+else if(patent!='Yes')
+{}
+else
+{
+  validation=1;
+ ErrorToast('Update Patent Detail','bg-danger' );
+
+}
+
+if(phdsuperviser=='Yes' && phd_detail!='')
+{
+
+}
+else if(phdsuperviser!='Yes')
+{}
+else
+{
+  validation=1;
+  ErrorToast('Update Ph.d Detail','bg-danger' );
+
+}
+
+
+ 
+var otherduty=document.getElementById('otherduty').value;
+
+if(validation>0)
+{
+  ErrorToast('please check details carefully','bg-danger')
+}
+else
+{
+ var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'slefapprisalaction.php',
+            type:'POST',
+            data:{
+               emp_ctegory:emp_ctegory,nooflecture:nooflecture,bookpub:bookpub,noofbooks:noofbooks,nameofbooks:nameofbooks,isbn:isbn,researchpub:researchpub,noofpaper:noofpaper,titleofpaper:titleofpaper,nameofjour:nameofjour,publicationindex:publicationindex,consultancy:consultancy,amount:amount,admission:admission,noadm:noadm,nocadm:noadm,patent:patent,ptdetail:ptdetail,phdsuperviser:phdsuperviser,phd_detail:phd_detail,otherduty:otherduty,corg:corg,code:code
+                  },
+            success: function(response) 
+            {
+
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Uploaded');
+                           location.reload(true);
               
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Orgnisation
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Amount</label> 
-      <input type="text"  name="" class="form-control">
+               }
+              else
+                          {
+                           ErrorToast('Unable to Upload','bg-danger' );
+                          }
 
-                  </div>
-               </div>  
-               
-            </div> 
-  <div class="row">
-                 <div class="col-md-3">
-                 <h5>Research Funding </h5>
-                </div>
-                <div class="col-md-1">
-                 <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary29" name="p1">
-                        <label for="radioPrimary29">
-                          Yes
-                        </label>
-                      </div>
-                </div>
-                 <div class="col-md-1">
-                  <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary30" name="p1" checked>
-                        <label for="radioPrimary30">
-                          No
-                        </label>
-                      </div>
-                </div>
-                </div>
-                   <div class="row">
-              
-               <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Orgnisation
-                     </label>
-                     <input type="text"  name="" class="form-control">
-                  </div>
-               </div> 
-                <div class="col-md-3">
-                  <div class="form-group">
-                     <label>Amount</label> 
-      <input type="text"  name="" class="form-control">
+            }
+         });
 
-                  </div>
-               </div>  
-               
-            </div> 
+     }
+
+}
+</script>
+
+
+
+
+
+
+
+
+
+     
+            </div>
+
+
          </div>
          <!-- /.card-body -->
          <div class="card-footer">
