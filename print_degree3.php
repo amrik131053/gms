@@ -156,7 +156,7 @@ $ms1="<strike>Mr.</strike>";    // code...
 
  ?>
 
-               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred the".$Type." of <b> ".$course."</b>  of this University in the dicipline of ".$Stream." with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
+               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred the ".$Type." of <b> ".$course."</b>  of this University in the dicipline of <b>".$Stream."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
             </div>
          <div style="height: 3px;"></div>
 
