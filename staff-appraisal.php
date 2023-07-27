@@ -119,7 +119,7 @@ $result = mysqli_query($conn,$list_sql);
         
          <div class="card-body table-responsive p-0" >
          <table class="table table-striped">
-    <tr><th>Emp ID</th><th>Name</th></tr>
+   
 
 <?php   
 $yourdata="select * from staff_aprisal where emp_id='$EmployeeID' limit 1 ";
