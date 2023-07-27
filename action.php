@@ -7592,7 +7592,7 @@ if($count>0)
                         if ($count<$question_count && $EmployeeID>0 )
                          {
                         $insQry="CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session')";
-                              $insQryRun=mysqli_query($conn,$insQry);
+                              $insQryRun=mysqli_query($conn,$insQry); 
                               echo "1"; 
                          }
                         else
