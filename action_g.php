@@ -4235,7 +4235,7 @@ if ($check_flow_row['status']<4) {
                elseif($code==78)
       {
 
-                     $degree="SELECT * FROM degree_print order by Id ASC  ";                     
+                     $degree="SELECT * FROM degree_print order by Id DESC  ";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
