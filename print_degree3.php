@@ -39,7 +39,8 @@ foreach ($id as $key => $value) {
                             $father_name=$degree_row['FatherName'];
                             $mother_name=$degree_row['MotherName'];
                             $UnirollNo=$degree_row['UniRollNo'];
-                            // $gender=$degree_row['Gender'];
+                            $Stream=$degree_row['Stream'];
+                            $Type=$degree_row['Type'];
                             $course_head=strtoupper($degree_row['Course']);
                             $CGPA=$degree_row['CGPA'];
                             $ExtraRow=$degree_row['ExtraRow'];
@@ -64,7 +65,6 @@ foreach ($id as $key => $value) {
    $gender=$row_student['Sex'];
    $course=$degree_row['Course'];
    $cgpa=$degree_row['CGPA'];
-   
    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UniRollNO."\nCGPA:".$cgpa;
    $path = 'degreeqr/';
    $file = $path.$UniRollNO.".png";
@@ -73,12 +73,6 @@ foreach ($id as $key => $value) {
    $frame_Size = 10;
    // Generates QR Code and Stores it in directory given
    QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
-   
-
-      
-
-    
-
         ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" class="notranslate" translate="no">
@@ -97,8 +91,6 @@ foreach ($id as $key => $value) {
          }
          
           // window.onload = function() { window.print(); }
-         
-           
       </script>
       <style type="text/css">
          @page {
@@ -164,7 +156,7 @@ $ms1="<strike>Mr.</strike>";    // code...
 
  ?>
 
-               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this Diploma and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
+               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred the".$Type." of <b> ".$course."</b>  of this University in the dicipline of ".$Stream." with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
             </div>
          <div style="height: 3px;"></div>
 
