@@ -70,7 +70,7 @@ $result = mysqli_query($conn,$list_sql);
  $count=0;
 
 
- $list_sql = "SELECT * FROM staff_aprisal where  (rec_auth_status='0'  AND ap_auth='$EmployeeID' AND rec_auth='$EmployeeID') OR (rec_auth_status='1'  AND ap_auth='$EmployeeID' ) ";
+ $list_sql = "SELECT * FROM staff_aprisal where  (rec_auth_status='0'  AND ap_auth='$EmployeeID' AND rec_auth='$EmployeeID') OR (rec_auth_status='1'  AND ap_auth='$EmployeeID' AND ap_auth_status='0' ) ";
  
 $result = mysqli_query($conn,$list_sql);
  while($row = mysqli_fetch_array($result))  
