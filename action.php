@@ -7604,42 +7604,86 @@ if($count>0)
    }
    elseif($code==120)
    {
-      $subCode=$_POST['subCode'];
-      $courseId=$_POST['courseId'];
-      $batch=$_POST['batch'];
-      $sem=$_POST['sem'];
-      $unit=$_POST['unit'];
-      $question=$_POST['question'];
-      $type=$_POST['type'];
-      $category=$_POST['category'];
-      $getCollegeID="SELECT CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
-      $runCollegeID=sqlsrv_query($conntest,$getCollegeID);
-      if ($row=sqlsrv_fetch_array($runCollegeID,SQLSRV_FETCH_ASSOC))
-       {
-       $CollegeID=$row['CollegeID'];    // code...
-      }
-      $number=$unit.$type.$category;
-      $count=0;
-      $showQuestionQry="SELECT * FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId'  and SubjectCode='$subCode' and CollegeID='$CollegeID' and Unit='$unit' and Semester='$sem' ORDER BY Id desc ;";
-                        $showQuestionRun=mysqli_query($conn,$showQuestionQry);
-                        while($showQuestionData=mysqli_fetch_array($showQuestionRun))
-                        { 
-                        $count++;      
-                        }
-                        $count;
-                        $sh="SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc ;";
-                        $s=mysqli_query($conn,$sh);
-                        while($sho=mysqli_fetch_array($s))
-                        { 
-                       $question_count=$sho['question_count'];      
-                        }
-                        if ($count>=$question_count) {
-                            echo "0";
-                        }
-                        else
-                        {
-                           echo "1";
-                        }
+    $subCode = $_POST['subCode'];
+$courseId = $_POST['courseId'];
+$batch = $_POST['batch'];
+$sem = $_POST['sem'];
+$unit = $_POST['unit'];
+$type = $_POST['type'];
+$category = $_POST['category'];
+
+$getCollegeID = "SELECT CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
+$runCollegeID = sqlsrv_query($conntest, $getCollegeID);
+if ($row = sqlsrv_fetch_array($runCollegeID, SQLSRV_FETCH_ASSOC)) {
+    $CollegeID = $row['CollegeID'];
+}
+
+$number = $unit . $type . $category;
+$count = 0;
+$question_count = 0;
+
+$showQuestionQry = "SELECT * FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId'  and SubjectCode='$subCode' and CollegeID='$CollegeID' and Unit='$unit' and Semester='$sem' ORDER BY Id desc ;";
+$showQuestionRun = mysqli_query($conn, $showQuestionQry);
+
+while ($showQuestionData = mysqli_fetch_array($showQuestionRun)) {
+    $count++;
+}
+
+$sh = "SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc ;";
+$s = mysqli_query($conn, $sh);
+
+if ($sho = mysqli_fetch_array($s)) {
+     $question_count = $sho['question_count'];
+     
+}
+if ($count<$question_count) {
+  ?>
+    <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
+    <?php
+    for ($i = 1; $i <= $question_count; $i++) {
+        if ($type == 1) {
+            ?>
+            <div class="row">
+                <div class="col-lg-4">
+                    <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                    <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer A</label>
+                    <textarea type="textarea" class="form-control" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer B</label>
+                    <textarea type="textarea" class="form-control" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer C</label>
+                    <textarea type="textarea" class="form-control" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer D</label>
+                    <textarea type="textarea" class="form-control" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
+                </div>
+            </div>
+            <?php
+        } else 
+        {
+            ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                    <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    echo "<p style='color:white;'>1</p>"; //  1 if count is less than or equal to question_count
+}
+ else
+  {
+    echo "0"; //  0 if count is greater than question_count
+}
    
    }
    elseif($code==121)
@@ -7649,7 +7693,7 @@ if($count>0)
       $batch=$_POST['batch'];
       $sem=$_POST['sem'];
       $unit=$_POST['unit'];
-      $question=$_POST['question'];
+      // $question=$_POST['question'];
       $type=$_POST['type'];
       $category=$_POST['category'];
       $getCollegeID="SELECT CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
@@ -7915,7 +7959,7 @@ elseif ($code==125)
              <?php 
                                          if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
                                           {
-            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id']?>);"><?=$showQuestionData['Question']?></td>
+            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id'];?>,<?=$showQuestionData['Type'];?>);"><?=$showQuestionData['Question']?></td>
 
                                    <?php }
                                    else
@@ -8153,20 +8197,84 @@ elseif ($code==130)
    elseif($code==131)
    {
        $id=$_POST['id'];
-       
-      $sql = "SELECT * from question_bank_details WHERE question_id ='$id'";
+       $type=$_POST['type_id'];
+      $sql="SELECT * from question_bank_details WHERE question_id='$id'";
        $result = mysqli_query($conn,$sql);
-       while($row = mysqli_fetch_array($result))
+       if($row = mysqli_fetch_array($result))
        {
-           echo $row["Question"]; 
+         if ($type==1) {
+         
+         ?>
+            
+          <div class="row">
+                <div class="col-lg-4">
+                    <label>Quetion&nbsp;<span style="color:red;">*</span></label>
+                    <textarea type="textarea" class="form-control" id="Question" rows="1" ><?php echo $row["Question"];?></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer A</label>
+                    <textarea type="textarea" class="form-control" id="QuestionA" rows="1" ><?php echo $row["OptionA"];?></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer B</label>
+                    <textarea type="textarea" class="form-control" id="QuestionB" rows="1" ><?php echo $row["OptionB"];?></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer C</label>
+                    <textarea type="textarea" class="form-control" id="QuestionC" rows="1" ><?php echo $row["OptionC"];?></textarea>
+                </div>
+                <div class="col-lg-2">
+                    <label>Answer D</label>
+                    <textarea type="textarea" class="form-control" id="QuestionD" rows="1" ><?php echo $row["OptionD"];?></textarea>
+                </div>
+            </div>
+       <?php }
+       else
+       {
+         ?>
+ <div class="row">
+                <div class="col-lg-12">
+                    <label>Quetion&nbsp;<span style="color:red;">*</span></label>
+                    <textarea type="textarea" class="form-control" id="Question" rows="1" ><?php echo $row["Question"];?></textarea>
+                </div>
+                
+             </div>
+         <?php 
        }
+    }
+
    }
    elseif($code==132)
    {
-       $id=$_POST['id'];
-       $question=$_POST['question_new'];
-       $edit="UPDATE question_bank_details SET Question='$question' WHERE question_id='$id'";
-       $edit_run=mysqli_query($conn,$edit);
+    $id = $_POST['id'];
+    $type_id = $_POST['type_id'];
+    if ($type_id==1) {
+       
+    $Question = $_POST['Question'];
+    $QuestionA = $_POST['QuestionA'];
+    $QuestionB = $_POST['QuestionB'];
+    $QuestionC = $_POST['QuestionC'];
+    $QuestionD = $_POST['QuestionD'];
+}
+else
+{
+   $Question = $_POST['Question'];
+    $QuestionA ="";
+    $QuestionB = "";
+    $QuestionC = "";
+    $QuestionD = "";
+
+}
+    $edit = "UPDATE question_bank_details SET Question=?, OptionA=?, OptionB=?, OptionC=?, OptionD=? WHERE question_id=?";
+    
+    $stmt = mysqli_prepare($conn, $edit);
+    mysqli_stmt_bind_param($stmt, "sssssi", $Question, $QuestionA, $QuestionB, $QuestionC, $QuestionD, $id);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Successfully Updated";
+    } else {
+        echo "Error updating record: " . mysqli_error($conn);
+    }
    
    }
    elseif($code==133)
@@ -9771,7 +9879,7 @@ elseif($code==151)
                                          <?php 
                                          if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
                                           {
-            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id']?>);"><?=$showQuestionData['Question']?></td>
+            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id'];?>,<?=$showQuestionData['Type'];?>);"><?=$showQuestionData['Question']?></td>
 
                                    <?php }
                                    else
@@ -11333,7 +11441,7 @@ WHERE subject_code='$subject_code' or UpdatedBy='$subject_code' order by Type ";
                                        ?>
                                        <tr>
                                           <td><?=$srno;?>( <?=$showQuestionData['Id']?>: <?=$showQuestionData['Unit']?>:<?=$showQuestionData['Type']?>:<?=$showQuestionData['Category']?>)</td>
-                                      <td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id']?>);"><?=$showQuestionData['sanitized_question']?></td>
+                                      <td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id'];?>,<?=$showQuestionData['Type'];?>);"><?=$showQuestionData['sanitized_question']?></td>
                                
                                     </tr>
                                     <?php 
@@ -17904,7 +18012,92 @@ if ($Eligibility>0)  {
 
 
 }
+elseif($code==316)
+{
+$subCode = $_POST['subject_code'];
+$courseId = $_POST['Course'];
+$batch = $_POST['batch'];
+$sem = $_POST['semester'];
+$unit = $_POST['unit'];
+$type = $_POST['type'];
+$category = $_POST['category'];
+$question_count = $_POST['question_count_val'];
 
+$getCollegeID = "SELECT CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
+$runCollegeID = sqlsrv_query($conntest, $getCollegeID);
+if ($row = sqlsrv_fetch_array($runCollegeID, SQLSRV_FETCH_ASSOC)) {
+    $CollegeID = $row['CollegeID'];
+}
+
+$number = $unit . $type . $category;
+
+$question_count = 0;
+$count = 0;
+
+$showQuestionQry = "SELECT count(*) as qc FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId' and SubjectCode='$subCode' and Unit='$unit' and Semester='$sem'";
+$showQuestionRun = mysqli_query($conn, $showQuestionQry);
+if ($showQuestionData = mysqli_fetch_array($showQuestionRun)) {
+    $count = $showQuestionData['qc'];
+}
+
+$sh = "SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc;";
+$s = mysqli_query($conn, $sh);
+if ($sho = mysqli_fetch_array($s)) {
+    $question_count = $sho['question_count'];
+}
+
+if ($type == 1) {
+    for ($i = 1; $i <= $question_count; $i++) {
+         $question = str_replace("'", "`",$_POST['Question' . $i]);
+        $optionA = str_replace("'", "`",$_POST['QuestionA' . $i]);
+        $optionB = str_replace("'", "`",$_POST['QuestionB' . $i]);
+        $optionC = str_replace("'", "`",$_POST['QuestionC' . $i]);
+        $optionD = str_replace("'", "`",$_POST['QuestionD' . $i]);
+        
+        if ($EmployeeID > 0) {
+             $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+            $insQryRun = mysqli_query($conn, $insQry);
+            if ($insQryRun==true) {
+               echo "1";
+            }
+            else
+            {
+               echo "0";
+            }
+        }
+         else 
+         {
+            header("Location: logout.php"); // logout if session expire
+        }
+    }
+} else {
+    for ($i = 1; $i <= $question_count; $i++) {
+        $question = str_replace("'", "`",$_POST['Question' . $i]);
+        $optionA = "";
+        $optionB = "";
+        $optionC = "";
+        $optionD = "";
+        if ($EmployeeID > 0) {
+             $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+            $insQryRun = mysqli_query($conn, $insQry);
+             if ($insQryRun==true) {
+               echo "1";
+            }
+            else
+            {
+               echo "0";
+            }
+        }
+         else 
+         {
+            header("Location: logout.php"); // logout if session expire
+        }
+    }
+}
+
+                        
+
+}
  else
 {
 echo "select code";

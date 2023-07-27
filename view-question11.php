@@ -137,7 +137,7 @@ ini_set('max_execution_time', '0');
                   </div>
                    <div class="col-lg-2 col-md-4 col-sm-3">
                      <label>Type<b style="color:red;">*</b></label>
-                     <select id='type' class="form-control" required="" >
+                     <select id='type' class="form-control" required="" onchange=" drop_category();">
                         <option value="">Select</option>
                         <?php
                            $questionTypeQry="SELECT * FROM question_type";
@@ -158,7 +158,12 @@ ini_set('max_execution_time', '0');
                   <!-- /.row -->
                </div>
                <hr>
-                  
+                      <!--   <label>Subject Code<b style="color:red;">*</b></label>
+                        <div class="input-group">
+                           <Input type="text"  class="form-control subject_code"  name="subject_code" id="subject_code"  required="" /> -->
+                           <!-- <input type="button" name="" value="Search" id="subject_code_search"> -->
+                           <!-- <button class="btn btn-success" id="subject_code_search"><i  onclick="subject_code_search_update()" class="fa fa-search"></i></button>
+                        </div> -->
                         <div id="table_load">
                            <div class="card-body table-responsive ">
                               <table class="table" id="example">
@@ -203,7 +208,7 @@ ini_set('max_execution_time', '0');
                                          <?php 
                                          if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
                                           {
-            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id'];?>,<?=$showQuestionData['Type'];?>);"><?=$showQuestionData['Question']?></td>
+            ?><td data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$showQuestionData['Id']?>);"><?=$showQuestionData['Question']?></td>
 
                                    <?php }
                                    else
@@ -267,16 +272,15 @@ ini_set('max_execution_time', '0');
          <div class="modal-body">
             <div class="row">
                <div class="col-lg-12" id="question">
-                  <!-- <label>Question</label>           -->
-                  <div class="" id="question_edit"></div>
-                  <input type="hidden"  id="question_id">
-                  <input type="hidden"  id="type_id">
+                  <label>Question</label>          
+                  <div class="click2edit" id="question_edit"></div>
+                  <input type="hidden" name="" id="question_id">
                </div>
             </div>
          </div>
          <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button  class="btn btn-primary" data-dismiss="modal" onclick="save()" type="button">Save</button>
+            <button id="save" class="btn btn-primary" data-dismiss="modal" onclick="save()" type="button">Save</button>
             <!-- <button type="submit" class="btn btn-success">Save changes</button> -->
          </div>
       </div>
@@ -671,7 +675,7 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
               },
               success: function(response) 
               {
-               // $('#modal-lg-view-question').modal('toggle');
+               $('#modal-lg-view-question').modal('toggle');
                spinner.style.display='none';
                 document.getElementById("show_upload_q").innerHTML=response;
                 
@@ -720,6 +724,28 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
      }
 
        
+     // $(function() { 
+     // $("#subject_code_search").click(function(e) {
+     //   e.preventDefault();
+     //  var code_access = '<?php echo $code_access; ?>';
+     //   var subject_code = $("#subject_code").val();
+     //   var spinner=document.getElementById("ajax-loader");
+     // spinner.style.display='block';
+     //   var code = "127";
+     //       $.ajax({
+     //       url:'action.php',
+     //       data:{subject_code:subject_code,code:code,code_access:code_access},
+     //       type:'POST',
+     //       success:function(data){
+     //           spinner.style.display='none';
+     //          document.getElementById("table_load").innerHTML=data;
+     //           $('#example').DataTable({ 
+     //                  "destroy": true, //use for reinitialize datatable
+     //               });
+     //       }
+     //     });
+     // });
+     // });
      function subject_code_search_update()
      {
        var subCode=sanitize(document.getElementById("subject_code").value);
@@ -868,7 +894,7 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
      
         }
      }
-   function update_question(id,type_id)
+   function update_question(id)
    {
     
           var spinner=document.getElementById("ajax-loader");
@@ -878,83 +904,53 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,type_id:type_id
+                 code:code,id:id
               },
               success: function(response) 
               {
                   spinner.style.display='none';
                  document.getElementById("question_edit").innerHTML=response;
                  document.getElementById("question_id").value=id;
-                 document.getElementById("type_id").value=type_id;
-                 // edit();
+                 edit();
               }
            });
         }
    
    // var edit = function() {
-   //    function edit(){
-   //  $('.click2edit').summernote({focus: true,toolbar: [
-   //    // [groupName, [list of button]]
-   //    ['style', ['bold', 'italic', 'underline', 'clear']],
-   //    ['fontsize', ['fontsize']],
-   //    ['color', ['color']],
-   //    ['para', ['ul', 'ol', 'paragraph']],
-   //    ['height', ['height']]
-   //  ]});
-   // }
+      function edit(){
+    $('.click2edit').summernote({focus: true,toolbar: [
+      // [groupName, [list of button]]
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['fontsize', ['fontsize']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['height', ['height']]
+    ]});
+   }
    // };
    
-function save() {
-    var id = document.getElementById('question_id').value;
-    var type_id = document.getElementById('type_id').value;
-    if (type_id==1) {
-
-    var Question = document.getElementById('Question').value;
-    var QuestionA = document.getElementById('QuestionA').value;
-    var QuestionB = document.getElementById('QuestionB').value;
-    var QuestionC = document.getElementById('QuestionC').value;
-    var QuestionD = document.getElementById('QuestionD').value;
-
-    }
-    else
-    {
-      var Question = document.getElementById('Question').value;
-    var QuestionA = "";
-    var QuestionB = "";
-    var QuestionC = "";
-    var QuestionD = "";
-    }
-
-    var code = 132;
-    var requestData = {
-        code: code,
-        id: id,
-        Question: Question,
-        QuestionA: QuestionA,
-        QuestionB: QuestionB,
-        QuestionC: QuestionC,
-        QuestionD: QuestionD,
-        type_id: type_id
-    };
-
-    $.ajax({
-        url: 'action.php',
-        type: 'POST',
-        data: requestData,
-        dataType: 'text', 
-        success: function(response) {
-            // console.log(response);
-         subject_code_search_update();
-            SuccessToast('Successfully Updated');
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            // console.error(textStatus, errorThrown);
-           
-        }
-    });
-}
+   var save = function() {
+    var markup = $('.click2edit').summernote('code');
+    var id=document.getElementById('question_id').value;
+        var code=132;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,question_new:markup,id:id
+              },
+              success: function(response) 
+              {
+               
+                 SuccessToast('Successfully Updated');
+                
+              }
+           });
+    $('.click2edit').summernote('destroy');
+   };
    
    $('#modal-lg').on('hidden.bs.modal', function () {
+    $('.click2edit').summernote('destroy');
       var code_access = '<?php echo $code_access; ?>';
         var subCode=sanitize(document.getElementById("subject_code").value);
       var courseId=sanitize(document.getElementById("Course").value);

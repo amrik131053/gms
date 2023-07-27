@@ -1,6 +1,6 @@
 <?php 
    include "header.php"; 
-    // $code_access;  
+    $code_access;  
    ?>
 <script>
    $(document).ready(function(){
@@ -51,10 +51,9 @@
               
              <b id="total_count"></b>
             </div>
-             <form id="image-upload" name="image-upload"  class="form-horizontal" action="action.php" method="POST" target="_blank" enctype="multipart/form-data">
-            <div class="card-body" >
+            <!--  <form class="form-horizontal" action="" method="POST"> -->
+            <div class="card-body" id="" >
                <div class="row">
-                  <input type="hidden" name="code" value="316">
                   <!-- left column -->
                   <div class="col-lg-2 col-md-4 col-sm-3">
                      <label>Subject Code<b style="color:red;">*</b></label>
@@ -86,7 +85,7 @@
                   </div>
                   <div class="col-lg-2 col-md-4 col-sm-3">
                      <label> Semester<b style="color:red;">*</b></label>
-                     <select   id='Semester'name='semester' class="form-control" required="" onchange="q_check_count(); total_count()">
+                     <select   id='Semester' class="form-control" required="" onchange="q_check_count(); total_count()">
                         <option value="">Sem</option>
                         <?php 
                            for($i=1;$i<=12;$i++)
@@ -98,7 +97,7 @@
                   </div>
                   <div class="col-lg-2 col-md-4 col-sm-3">
                      <label>Unit<b style="color:red;">*</b></label>
-                     <select  id='unit'name='unit' class="form-control" required="" onchange="q_check_count(); total_count()">
+                     <select  id='unit' class="form-control" required="" onchange="q_check_count(); total_count()">
                         <option value="">Select</option>
                         <?php 
                            for($i=1;$i<=4;$i++)
@@ -114,7 +113,7 @@
                <div class="row">
                   <div class="col-lg-2 col-md-4 col-sm-3">
                      <label>Type<b style="color:red;">*</b></label>
-                     <select id='type'name='type' class="form-control" required="" onchange=" drop_category(); q_check_count(); total_count()">
+                     <select id='type' class="form-control" required="" onchange=" drop_category(); q_check_count(); total_count()">
                         <option value="">Select</option>
                         <?php
                            $questionTypeQry="SELECT * FROM question_type";
@@ -130,7 +129,7 @@
                   </div>
                   <div class="col-lg-2 col-md-4 col-sm-3">
                      <label>Category<b style="color:red;">*</b></label>
-                     <select id='category'name='category' class="form-control" required="" onchange="q_check_count(); total_count()">
+                     <select id='category' class="form-control" required="" onchange="q_check_count(); total_count()">
 
                      </select>
                   </div>
@@ -138,25 +137,23 @@
                 <hr>
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
-                     <b style="color:red; font-family:Serif;">Note: Upload  without Apostrophe ( ' ) symbol</b>
-                    
-                          <div id="question_divs"></div>
-
-                         
+                     <label>Questions<b style="color:red;">*</b> (<b style="color:red; font-family:Serif;">Note: Upload one question at a time without serial  number and without Apostrophe ( ' ) symbol)</b></label>
+                      <!--  <textarea class="textarea_quetions"  required  id="question" placeholder="Type Questions Here.........."
+                          style=" visibility: hidden; min-width:0px;max-height: 0px;"></textarea> -->
+                          <p id="error_question" style="display:none; color: red;"><b>You Can`t Insert this Question. You have already uploaded for this selection</b></p>
                   </div>
                </div>
                
             </div>
-            <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
-                                         {
+            <?php  if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+                                          {
             ?>
             <div class="card-footer" style="text-align: right;">
-    <input type="button" value="Submit" class="btn btn-success" id="submitBtn" onclick="submitForm(this.form);" disabled>
-</div>
-
+               <input type="button" name="" value="Submit" class="btn btn-success" onclick="submitQuestion();">
+            </div>
             <?php }  ?>
             <!-- /.card-footer -->
-            </form>
+            <!-- </form> -->
          </div>
       </div>
    </div>
@@ -166,73 +163,6 @@
 <script type="text/javascript">
 
 
-  function submitForm(form) {
-    var question_count = document.getElementsByName('question_count_val')[0].value;
-    if (!validateForm(form,question_count))
-     {
-      return; 
-    }
-    var formData = new FormData(form);
-    $.ajax({
-      url: form.action,
-      type: form.method,
-      data: formData,
-      contentType: false,
-      processData: false,
-      success: function(response) {
-         console.log(response);
-         if (response>0) {
-        SuccessToast('Successfully Uploaded');
-           // Empty the textareas after success
-        
-        document.getElementById("question_divs").innerHTML=" ";  
-      for (var i = 1; i < question_count; i++) {
-        var questionName = 'Question' + i;
-        var fieldElement = form.elements[questionName];
-        if (fieldElement && fieldElement.nodeName === 'TEXTAREA') {
-          fieldElement.value = ''; 
-        }
-      }
-      var typeElement = form.elements['type'];
-      if (typeElement) {
-        typeElement.value = ''; 
-      }
-
-      var categoryElement = form.elements['category'];
-      if (categoryElement) {
-        categoryElement.value = '';
-      }
-   }
-   else
-   {
-        ErrorToast('Try after some time!','bg-danger');
-
-   }
-      },
-      error: function(xhr, status, error) {
-        // console.log(error);
-      }
-    });
- }
-
-  function validateForm(form,questionCount) {
-    for (var j = 1; j <=questionCount; j++) {
-        var questionName = 'Question' + j;
-        var fieldElement = form.elements[questionName];
-        if (!fieldElement) { 
-            console.error(questionName + ' element does not exist in the form.');
-            return false;
-        }
-        if (fieldElement.nodeName === 'TEXTAREA') {
-            var fieldValue = fieldElement.value.trim();
-            if (fieldValue === '') {
-                ErrorToast(questionName + ' is required.', 'bg-warning');
-                return false;
-            }
-        }
-    }
-    return true;
-}
    function sanitize(string) {
    const map = {
       
@@ -241,6 +171,63 @@
    };
    const reg = /[&<>"'/]/ig;
    return string.replace(reg, (match)=>(map[match]));
+   }
+   function submitQuestion()
+   {
+      var subCode=sanitize(document.getElementById("subject_code").value);
+      var courseId=sanitize(document.getElementById("Course").value);
+      var subName=sanitize(document.getElementById("subName").value);
+      var batch=sanitize(document.getElementById("Batch").value);
+      var sem=sanitize(document.getElementById("Semester").value);
+      var unit=sanitize(document.getElementById("unit").value);
+      var question=document.getElementById("question").value.replace("'", '`');
+      var type=sanitize(document.getElementById("type").value);
+      var category=sanitize(document.getElementById("category").value);
+      if (subCode!='' && courseId!='' && subName!='' && batch!='' && sem!='' && unit!='' && question!='<p><br></p>' && type!='' && category!='') 
+      {
+        // alert(subCode+' '+courseId+' '+subName+' '+batch+' '+sem+' '+unit+' '+question+' '+type+' '+category);
+        var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         var code=119;
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,subCode:subCode,courseId:courseId,batch:batch,sem:sem,unit:unit,question:question,type:type,category:category
+            },
+            success: function(response) 
+            {
+               
+                spinner.style.display='none';
+              if (response==0)
+                   {
+                     ErrorToast('You Can`t Insert this Question. You have already uploaded for this selection','bg-danger' );
+                     document.getElementById("type").value="";
+                     document.getElementById("category").value="";
+                     // $('#question').summernote('code', '');
+                     // $('#question').summernote('reset');
+                     //    $('#question').summernote('destroy');
+                     console.log(response);
+                  }
+                  else
+                  {
+               
+                   SuccessToast('Successfully Inserted');
+                   //document.getElementById("question").value="";
+                   $('#question').summernote({focus: false});
+                   $('#question').summernote('reset');
+                   console.log(response);
+
+                  }
+            }
+         });
+      }
+      else
+      {
+         // alert("Enter all details.");
+         ErrorToast('Please enter all required details!','bg-warning' );
+      }
+   
    }
 
    $(function() { 
@@ -318,56 +305,63 @@
       });
    }
    
-  // JavaScript function with the modified logic
-function q_check_count() {
-   var subCode = sanitize(document.getElementById("subject_code").value);
-   var courseId = sanitize(document.getElementById("Course").value);
-   var subName = sanitize(document.getElementById("subName").value);
-   var batch = sanitize(document.getElementById("Batch").value);
-   var sem = sanitize(document.getElementById("Semester").value);
-   var unit = sanitize(document.getElementById("unit").value);
-   var type = sanitize(document.getElementById("type").value);
-   var category = sanitize(document.getElementById("category").value);
-
-   if (subCode !== '' && courseId !== '' && subName !== '' && batch !== '' && sem !== '' && unit !== '' && type !== '' && category !== '') {
-      var errorQuestionElement = document.getElementById('error_question');
-      var spinner = document.getElementById("ajax-loader");
-      spinner.style.display = 'block';
-      var code = 120;
-      
-      $.ajax({
-         url: 'action.php',
-         type: 'POST',
-         data: {
-            code: code,
-            subCode: subCode,
-            courseId: courseId,
-            batch: batch,
-            sem: sem,
-            unit: unit,
-            type: type,
-            category: category
-         },
-         success: function(response) {
-            spinner.style.display = 'none';
-            // console.log(response);
-          if (response<1) {
-             document.getElementById("submitBtn").disabled = true;
-      document.getElementById("question_divs").innerHTML = ' <p style="color:red;" ><b>You Can`t Insert this Question. You have already uploaded for this selection</b></p>';
-   } 
-   else
-    {
-       document.getElementById("submitBtn").disabled = false;
-      document.getElementById("question_divs").innerHTML = response;
+   function q_check_count()
+   {
+      var subCode=sanitize(document.getElementById("subject_code").value);
+      var courseId=sanitize(document.getElementById("Course").value);
+      var subName=sanitize(document.getElementById("subName").value);
+      var batch=sanitize(document.getElementById("Batch").value);
+      var sem=sanitize(document.getElementById("Semester").value);
+      var unit=sanitize(document.getElementById("unit").value);
+      var question=sanitize(document.getElementById("question").value);
+      var type=sanitize(document.getElementById("type").value);
+      var category=sanitize(document.getElementById("category").value);
+                      if (subCode!='' && courseId!='' && subName!='' && batch!='' && sem!='' && unit!='' && type!='' && category!='') 
+      {
+        //alert(subCode+' '+courseId+' '+subName+' '+batch+' '+sem+' '+unit+' '+type+' '+category);
+        var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         var code=120;
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,subCode:subCode,courseId:courseId,batch:batch,sem:sem,unit:unit,question:question,type:type,category:category
+            },
+            success: function(response) 
+            {
+                spinner.style.display='none';
+             
+              if (response>0) {
+               $('#question').show();
+               $('#error_question').hide();
+                $('#question').summernote({focus: true,toolbar: [
+      // [groupName, [list of button]]
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['fontsize', ['fontsize']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['height', ['height']]
+    ]});
+              }
+              else
+              {
+               $('#question').hide();
+               $('#error_question').show();
+                $('#question').summernote('destroy');
+               
+   
+               document.getElementById("question").value="";
+              }
+            }
+         });
+      }
+      else
+      {
+       //  alert("Enter all details.");
+   
+      }
    }
-         }
-      });
-   } else {
-     
-      
-   }
-}
-
  function total_count()
    {
       var subCode=sanitize(document.getElementById("subject_code").value);
@@ -376,21 +370,23 @@ function q_check_count() {
       var batch=sanitize(document.getElementById("Batch").value);
       var sem=sanitize(document.getElementById("Semester").value);
       var unit=sanitize(document.getElementById("unit").value);
+      var question=sanitize(document.getElementById("question").value);
       var type=sanitize(document.getElementById("type").value);
       var category=sanitize(document.getElementById("category").value);
                       if (subCode!='' && courseId!='' && subName!='' && batch!='' && sem!='' && unit!='' && type!='' && category!='') 
       {
+        //alert(subCode+' '+courseId+' '+subName+' '+batch+' '+sem+' '+unit+' '+type+' '+category);
          var code=121;
          $.ajax({
             url:'action.php',
             type:'POST',
             data:{
-               code:code,subCode:subCode,courseId:courseId,batch:batch,sem:sem,unit:unit,type:type,category:category
+               code:code,subCode:subCode,courseId:courseId,batch:batch,sem:sem,unit:unit,question:question,type:type,category:category
             },
             success: function(response) 
             {
               document.getElementById("total_count").innerHTML=response;
-              
+              //console.log(response);
             }
          });
       }
