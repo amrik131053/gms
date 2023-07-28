@@ -400,6 +400,82 @@
                
             </script>
             <hr>
+
+
+ <div class="row">
+               <div class="col-md-2">
+                  <label>Eligibility Enhanced <b style="color:red;">*</b></label>
+               </div>
+               <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryeli"  value="Yes" onclick="eli_show();" name="eli">
+                     <label for="radioPrimaryeli">
+                     Yes
+                     </label>
+                  </div>
+               </div>
+               <div class="col-md-1">
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryeli1" value="No" onclick="eli_hide();" name="eli"  checked="">
+                     <label for="radioPrimaryeli1">
+                     No
+                     </label>
+                  </div>
+               </div>
+               <div class="col-md-8" style="display: none;" id="eli_div">
+                  <div class="row ">
+                     <div class="col-md-4">
+                        <label>Course<b style="color:red;">*</b></label>
+                        <input type="text" name="" id="noeli" class="form-control">
+                     </div>
+                    
+                  </div>
+               </div>
+            </div>
+            <script>
+               function eli_show() {
+               var x = document.getElementById("eli_div");
+               
+               x.style.display = "block";
+               
+               }
+                      function eli_hide() {
+               var x = document.getElementById("eli_div");
+               
+               x.style.display = "none";
+               }
+               
+               
+            </script>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="row">
                <div class="col-md-2">
                   <label>Consultancy<b style="color:red;">*</b></label>
@@ -463,7 +539,7 @@
             <hr>
             <div class="row">
                <div class="col-md-2">
-                  <label>Admission Initiative<b style="color:red;">*</b></label>
+                  <label>Admission Initiative <b style="color:red;">(Session 2023)*</b></label>
                </div>
                <div class="col-md-1">
                   <div class="icheck-primary d-inline">
@@ -654,22 +730,32 @@
                var emp = document.querySelector('input[type=radio][name=empc1]:checked');
                var  emp_ctegory=emp.value;
                var nooflecture=document.getElementById('nooflecture').value;
+
+
+               var eli = document.querySelector('input[type=radio][name=eli]:checked');
+               var  eli_en=eli.value;
+               var eli_course=document.getElementById('noeli').value;
+
                 
-                 var book = document.querySelector('input[type=radio][name=book]:checked');
+               var book = document.querySelector('input[type=radio][name=book]:checked');
                var bookpub=book.value;
                var noofbooks=document.getElementById('noofbooks').value;
                var nameofbooks=document.getElementById('nameofbooks').value;
                var isbn=document.getElementById('isbn').value;
                
-                var research = document.querySelector('input[type=radio][name=research]:checked');
-               
+               var research = document.querySelector('input[type=radio][name=research]:checked');
                var researchpub=research.value;
-               
-               
                var noofpaper=document.getElementById('noofpaper').value;
                var titleofpaper=document.getElementById('titleofpaper').value;
-                 var nameofjour=document.getElementById('nameofjour').value;
-                   var publicationindex=document.getElementById('publicationindex').value;
+               var nameofjour=document.getElementById('nameofjour').value;
+               var publicationindex=document.getElementById('publicationindex').value;
+               
+               
+               var eli = document.querySelector('input[type=radio][name=eli]:checked');
+               var  eli_en=eli.value;
+               var eli_course=document.getElementById('noeli').value;
+               
+              
                
                var con = document.querySelector('input[type=radio][name=con]:checked');
                var consultancy=con.value;
@@ -777,7 +863,20 @@
                ErrorToast('Update Patent Detail','bg-danger' );
                
                }
+               if(eli_en=='Yes' && eli_course!='')
+               {
                
+               }
+               
+                else if(eli_en!='Yes')
+               {}
+               else
+               {
+               validation=1;
+               ErrorToast('Update Eligibiliity','bg-danger' );
+               
+               }
+
                if(phdsuperviser=='Yes' && phd_detail!='')
                {
                
@@ -789,8 +888,7 @@
                validation=1;
                ErrorToast('Update Ph.d Detail','bg-danger' );
                
-               }
-               
+               }            
                
                
                var otherduty=document.getElementById('otherduty').value;
@@ -807,7 +905,12 @@
                          url:'slefapprisalaction.php',
                          type:'POST',
                          data:{
-                            emp_ctegory:emp_ctegory,nooflecture:nooflecture,bookpub:bookpub,noofbooks:noofbooks,nameofbooks:nameofbooks,isbn:isbn,researchpub:researchpub,noofpaper:noofpaper,titleofpaper:titleofpaper,nameofjour:nameofjour,publicationindex:publicationindex,consultancy:consultancy,amount:amount,admission:admission,noadm:noadm,nocadm:noadm,patent:patent,ptdetail:ptdetail,phdsuperviser:phdsuperviser,phd_detail:phd_detail,otherduty:otherduty,corg:corg,code:code
+            
+
+
+
+
+                            emp_ctegory:emp_ctegory,nooflecture:nooflecture,bookpub:bookpub,noofbooks:noofbooks,nameofbooks:nameofbooks,isbn:isbn,researchpub:researchpub,noofpaper:noofpaper,titleofpaper:titleofpaper,nameofjour:nameofjour,publicationindex:publicationindex,consultancy:consultancy,amount:amount,admission:admission,noadm:noadm,nocadm:noadm,patent:patent,ptdetail:ptdetail,phdsuperviser:phdsuperviser,phd_detail:phd_detail,otherduty:otherduty,corg:corg,eli_en:eli_en,eli_course:eli_course,code:code
                                },
                          success: function(response) 
                          {
