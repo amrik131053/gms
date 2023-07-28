@@ -4715,7 +4715,7 @@ $UniRollNo=$_POST['uni'];
    $destdir = 'Students';
    ftp_chdir($conn_id, "Students/") or die("Could not change directory");
    ftp_pasv($conn_id,true);
-   // file_put_contents($destdir.$image_name.'.PNG',$file_data);
+   file_put_contents($destdir.$image_name.'.PNG',$file_data);
    ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
    $upimage = "UPDATE Admissions SET Snap = ? WHERE UniRollNo = ?";
