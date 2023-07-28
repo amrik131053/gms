@@ -71,9 +71,9 @@ $code = $_POST['code'];
  $eli_course=$_POST['eli_course'];
 
 
-$insQry="INSERT INTO `staff_aprisal`(`emp_id`,`ecategory`,`no_of_lect`,`book_published`,`no_of_books`,`name_of_books`,`isbn`,`research_paper`, `no_of_research_paper`, `title_of_paper`, `name_of_journal`,   `publication_index` ,   `consultancy`, `amount` ,`corg`,`admission` ,`no_of_admission` ,`no_of_admission_c`,`patent`,`p_detail` ,`phd_candidate` ,`no_of_candidate` ,`extra`,`rec_auth`,`ap_auth,s_date`,`eli_en`,`eli_course`) 
+ $insQry="INSERT INTO `staff_aprisal`(`emp_id`,`ecategory`,`no_of_lect`,`book_published`,`no_of_books`,`name_of_books`,`isbn`,`research_paper`, `no_of_research_paper`, `title_of_paper`, `name_of_journal`,`publication_index` ,`consultancy`, `amount` ,`corg`,`admission`,`no_of_admission`,`no_of_admission_c`,`patent`,`p_detail`,`phd_candidate` ,`no_of_candidate` ,`extra`,`rec_auth`,`ap_auth`,`s_date`,`eli_en`,`eli_course`) 
    
-VALUES ('$EmployeeID','$emp_ctegory','$nooflecture','$bookpub','$noofbooks','$nameofbooks','$isbn','$researchpub','$noofpaper','$titleofpaper','$nameofjour','$publicationindex','$consultancy','$amount','$corg','$admission','$noadm','$nocadm','$patent','$ptdetail','$phdsuperviser','$phd_detail','$otherduty','$LeaveRecommendingAuthority',$LeaveSanctionAuthority,'$timeStamp','$eli_en','$eli_course')";
+VALUES ('$EmployeeID','$emp_ctegory','$nooflecture','$bookpub','$noofbooks','$nameofbooks','$isbn','$researchpub','$noofpaper','$titleofpaper','$nameofjour','$publicationindex','$consultancy','$amount','$corg','$admission','$noadm','$nocadm','$patent','$ptdetail','$phdsuperviser','$phd_detail','$otherduty','$LeaveRecommendingAuthority','$LeaveSanctionAuthority','$timeStamp','$eli_en','$eli_course')";
 
                               $insQryRun=mysqli_query($conn,$insQry);
 

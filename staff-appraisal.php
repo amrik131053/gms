@@ -539,7 +539,7 @@
             <hr>
             <div class="row">
                <div class="col-md-2">
-                  <label>Admission Initiative <b style="color:red;">(Session 2023)*</b></label>
+                  <label>Admission Initiative <b style="color:red;">(Session 2023 Only)*</b></label>
                </div>
                <div class="col-md-1">
                   <div class="icheck-primary d-inline">
@@ -905,16 +905,12 @@
                          url:'slefapprisalaction.php',
                          type:'POST',
                          data:{
-            
-
-
-
 
                             emp_ctegory:emp_ctegory,nooflecture:nooflecture,bookpub:bookpub,noofbooks:noofbooks,nameofbooks:nameofbooks,isbn:isbn,researchpub:researchpub,noofpaper:noofpaper,titleofpaper:titleofpaper,nameofjour:nameofjour,publicationindex:publicationindex,consultancy:consultancy,amount:amount,admission:admission,noadm:noadm,nocadm:noadm,patent:patent,ptdetail:ptdetail,phdsuperviser:phdsuperviser,phd_detail:phd_detail,otherduty:otherduty,corg:corg,eli_en:eli_en,eli_course:eli_course,code:code
                                },
                          success: function(response) 
                          {
-               
+               console.log(response);
                             spinner.style.display='none';
                                if (response=='1')
                                         {
