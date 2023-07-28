@@ -295,7 +295,8 @@ function pending()
   function save_rmarks()
             {
 var val=0;
-
+var warning_yesno = document.querySelector('input[type=radio][name=warning_yesnoc1App]:checked');
+               var  warning_yesno_ctegory=warning_yesno.value;
 var recid=document.getElementById('recid').value;    
 var appid=document.getElementById('appid').value;    
 var muid=document.getElementById('muid').value;    
@@ -303,6 +304,7 @@ var warning=document.getElementById('warning').value;
 var behaviour=document.getElementById('behaviour').value;
 var deadlines=document.getElementById('deadlines').value;
 var coordination=document.getElementById('coordination').value;
+if (warning_yesno_ctegory=='Yes') {
   if(warning > -1 && warning < 11 && warning!='')
   {
 
@@ -312,7 +314,13 @@ var coordination=document.getElementById('coordination').value;
   	 ErrorToast('Warning must be  0 or more','bg-danger');
   	 val=1;
   }
-
+warning_yesno_ctegory="Yes";
+}
+else
+{
+    var warning="";
+    warning_yesno_ctegory="No";
+}
  if(behaviour > -1 && behaviour < 11 && behaviour!='')
   {
 
@@ -362,12 +370,12 @@ var code=8;
             url:'slefapprisalaction.php',
             type:'POST',
             data:{
-               code:code,muid:muid,warning:warning,behaviour:behaviour,deadlines:deadlines,coordination:coordination,recid:recid,appid:appid
+               code:code,muid:muid,warning:warning,behaviour:behaviour,deadlines:deadlines,coordination:coordination,recid:recid,appid:appid,warning_yesno_ctegory:warning_yesno_ctegory
                  },
             success: function(response) 
               { 
 
-              	console.log(response);
+              	// console.log(response);
 
               	spinner.style.display='none';
   	 SuccessToast('Successfully Uploaded');
@@ -443,7 +451,24 @@ var code=8;
 
 
 
+<script>
+               function emc1_show() {
+               var x = document.getElementById("warning_div");
+               // alert();
+               x.style.display = "block";
+               
+               
+               }
+                      function emc1_hide() {
+               var x = document.getElementById("warning_div");
+               
+               x.style.display = "none";
+             document.getElementById("warning").value="";
 
+               }
+               
+               
+            </script>
 
 
 

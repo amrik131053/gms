@@ -2,7 +2,7 @@
    include "header.php"; 
     $code_access;  
     ?>
-
+<link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 <section class="content">
    <div class="container-fluid">
   
@@ -335,12 +335,18 @@ function pending()
   function save_rmarks()
             {
 var val=0;
+var warning_yesno = document.querySelector('input[type=radio][name=warning_yesnoc1]:checked');
+               var  warning_yesno_ctegory=warning_yesno.value;
 
-        var muid=document.getElementById('muid').value;    
-var warning=document.getElementById('warning').value;
+        var muid=document.getElementById('muid').value; 
+
+
 var behaviour=document.getElementById('behaviour').value;
 var deadlines=document.getElementById('deadlines').value;
 var coordination=document.getElementById('coordination').value;
+
+if (warning_yesno_ctegory=='Yes') {
+var warning=document.getElementById('warning').value;
   if(warning > -1 && warning < 11 && warning!='')
   {
 
@@ -350,6 +356,15 @@ var coordination=document.getElementById('coordination').value;
   	 ErrorToast('Warning must be  0 or more','bg-danger');
   	 val=1;
   }
+  warning_yesno_ctegory="Yes";
+}
+else
+{
+    var warning="";
+    warning_yesno_ctegory="No";
+}
+
+
 
  if(behaviour > -1 && behaviour < 11 && behaviour!='')
   {
@@ -401,7 +416,7 @@ var code=4;
             url:'slefapprisalaction.php',
             type:'POST',
             data:{
-               code:code,muid:muid,warning:warning,behaviour:behaviour,deadlines:deadlines,coordination:coordination
+               code:code,muid:muid,warning:warning,behaviour:behaviour,deadlines:deadlines,coordination:coordination,warning_yesno_ctegory:warning_yesno_ctegory
                  },
             success: function(response) 
               { spinner.style.display='none';
@@ -581,7 +596,24 @@ var code=4;
 <div>
 
 
+ <script>
+               function emc1_show() {
+               var x = document.getElementById("warning_div");
+               // alert();
+               x.style.display = "block";
+               
+               
+               }
+                      function emc1_hide() {
+               var x = document.getElementById("warning_div");
+               
+               x.style.display = "none";
+             document.getElementById("warning").value="";
 
+               }
+               
+               
+            </script>
 
 
 

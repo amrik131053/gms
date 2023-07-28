@@ -67,13 +67,13 @@ $code = $_POST['code'];
  $phdsuperviser=$_POST['phdsuperviser'];
  $phd_detail=$_POST['phd_detail'];
  $otherduty=$_POST['otherduty'];
+ $eli_en=$_POST['eli_en'];
+ $eli_course=$_POST['eli_course'];
 
 
-$insQry="INSERT INTO `staff_aprisal`(`emp_id`,`ecategory`,`no_of_lect`,`book_published`,`no_of_books`,`name_of_books`,`isbn`,`research_paper`,
-   `no_of_research_paper`, `title_of_paper`, `name_of_journal`,   `publication_index` ,   `consultancy`, `amount` ,`corg`,
-   `admission` ,`no_of_admission` ,`no_of_admission_c`,`patent`,`p_detail` ,`phd_candidate` ,`no_of_candidate` ,`extra`,rec_auth,ap_auth,s_date) 
+$insQry="INSERT INTO `staff_aprisal`(`emp_id`,`ecategory`,`no_of_lect`,`book_published`,`no_of_books`,`name_of_books`,`isbn`,`research_paper`, `no_of_research_paper`, `title_of_paper`, `name_of_journal`,   `publication_index` ,   `consultancy`, `amount` ,`corg`,`admission` ,`no_of_admission` ,`no_of_admission_c`,`patent`,`p_detail` ,`phd_candidate` ,`no_of_candidate` ,`extra`,`rec_auth`,`ap_auth,s_date`,`eli_en`,`eli_course`) 
    
-VALUES ('$EmployeeID','$emp_ctegory','$nooflecture','$bookpub','$noofbooks','$nameofbooks','$isbn','$researchpub','$noofpaper','$titleofpaper','$nameofjour','$publicationindex','$consultancy','$amount','$corg','$admission','$noadm','$nocadm','$patent','$ptdetail','$phdsuperviser','$phd_detail','$otherduty','$LeaveRecommendingAuthority',$LeaveSanctionAuthority,'$timeStamp')";
+VALUES ('$EmployeeID','$emp_ctegory','$nooflecture','$bookpub','$noofbooks','$nameofbooks','$isbn','$researchpub','$noofpaper','$titleofpaper','$nameofjour','$publicationindex','$consultancy','$amount','$corg','$admission','$noadm','$nocadm','$patent','$ptdetail','$phdsuperviser','$phd_detail','$otherduty','$LeaveRecommendingAuthority',$LeaveSanctionAuthority,'$timeStamp','$eli_en','$eli_course')";
 
                               $insQryRun=mysqli_query($conn,$insQry);
 
@@ -156,45 +156,124 @@ $yourdata="select * from staff_aprisal where id='$id'";
                       $Designation=$dropdown_row_staff['Designation'];
 ?>
 
-            </td>
-    <tr><th><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
-      <th><?=  $myname;?></th>
-<th><?=$Designation;?></th>
+          
+    <tr>
+        <th colspan=""><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
+      <th colspan="">Name</th>
+      <td colspan=""><?=  $myname;?></td>
+<th>Designation:</th>
+<td><?=$Designation;?></td>
 
 
     </tr>
-
-
-
-
-
 <input type="hidden" value="<?=$id;?>" id="muid" name="">
 
 
-  <tr><td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
-    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?></td></tr> 
+  <tr>
+    <?php 
+    if ($show_task_row['ecategory']=='Non-Teaching') {
+        ?>
+    <td colspan="10"><b> Employment Category :</b><?= $show_task_row['ecategory'];?></td>
+   <?php  } 
+    else
+     {?>
+    <td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
+
+    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?>  </td>
+    <?php     // code...
+    }?>
+</tr> 
 
 
-    <tr><td><b>Books Published :</b> <?= $show_task_row['book_published'];?> </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+    <tr>
+
+ <?php 
+    if ($show_task_row['book_published']=='Yes') 
+    {
+        ?>
+
+        <td><b>Books Published :</b> <?= $show_task_row['book_published'];?>
+     </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
       <td>Name of Books: <?= $show_task_row['name_of_books'];?></td><td>ISBN: <?= $show_task_row['isbn'];?></td>
+  <?php } else{
+
+    ?><td colspan="10"><b>Books Published :</b> <?= $show_task_row['book_published'];?><?php 
+  } ?>
    </tr>  
 
-   <tr><td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+   <tr>
+ <?php 
+    if ($show_task_row['research_paper']=='Yes') 
+    {
+        ?>
+    <td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
       <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td><td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td><td>Publication Index: <?= $show_task_row['publication_index'];?></td>
-   </tr>         
+   <?php }else{
+    ?>
+  <td colspan="10"> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?></td>
+    <?php 
+   }?>      
+   </tr> 
          
-<tr><td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
-      
-   </tr>         
-   <tr><td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+<tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
+    <?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td>
+    <?php 
+}
+    ?>  
+   </tr> 
+
+   <tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
       <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+<?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td>
+
+    <?php 
+}
+?>
    </tr>             
 
-<tr><td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
-      
+<tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
+      <?php }
+
+else
+{
+     ?>
+<td colspan="10"> <b>Patent : </b><?= $show_task_row['patent'];?> </td>
+     <?php 
+}
+?>
    </tr> 
-   <tr><td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
-      
+   <tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+      <?php }  else {
+        ?>
+
+<td colspan="10"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td>
+    <?php       }?>
+
+
    </tr>
      <tr><td colspan="5"> <b>Other Duty /Task:</b><?= $show_task_row['extra'];?> </td>
       
@@ -202,11 +281,34 @@ $yourdata="select * from staff_aprisal where id='$id'";
 
           <?php    } ?>
 
- </tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name="" id="warning" class="form-control"></td>
-      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
-      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
-       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" id="coordination" class="form-control"></td>
+
+     <tr>
+        <td colspan="2">
+         <b> Warning Issued :</b>   
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary15"  onclick="emc1_show();" value="Yes" name="warning_yesnoc1">
+                     <label for="radioPrimary15">
+                     Yes
+                     </label>
+                  </div>
+              
+               
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary16" onclick="emc1_hide();"  value="No" name="warning_yesnoc1" checked="">
+                     <label for="radioPrimary16">
+                     No
+                     </label>
+                 
+               </div>
+                <div style="display: none;" id="warning_div"><br><input  type="number"  id="warning" class="form-control" ></div></td>
+      <td >
+       <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" id="behaviour" class="form-control">
+   </td>
+      <td >
+       <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
+       <td > 
+        <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" id="coordination" class="form-control">
+    </td>
    </tr>
 
 
@@ -214,12 +316,15 @@ $yourdata="select * from staff_aprisal where id='$id'";
 
 
 
-       </tbody></table>
+
+       </tbody>
+   </table>
 
 
 
 
 </div>
+
 
 <?php }
 
@@ -228,14 +333,16 @@ else if($code==4)
 {
 
 $muid=$_POST['muid'];
+
  $warning=$_POST['warning'];
  $behaviour=$_POST['behaviour'];
  $deadlines=$_POST['deadlines'];
  $coordination=$_POST['coordination'];
+ $warning_yesno=$_POST['warning_yesno_ctegory'];
 
 
-echo $update_rec="Update staff_aprisal  set  rec_auth_status='1',rec_auth_warning='$warning',
-rec_auth_behavour='$behaviour',rec_auth_coordination='$coordination', rec_auth_deadline='$deadlines'
+ $update_rec="Update staff_aprisal  set  rec_auth_status='1',rec_auth_warning='$warning',
+rec_auth_behavour='$behaviour',rec_auth_coordination='$coordination', rec_auth_deadline='$deadlines',ap_auth_warning_count='$warning_yesno'
 where id='$muid'";
 
  $insQryRun=mysqli_query($conn,$update_rec);
@@ -270,44 +377,123 @@ $yourdata="select * from staff_aprisal where id='$id'";
 ?>
 
             </td>
-    <tr><th><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
-      <th><?=  $myname;?></th>
-<th><?=$Designation;?></th>
+    <tr>
+        <th colspan=""><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
+      <th colspan="">Name</th>
+      <td colspan=""><?=  $myname;?></td>
+<th>Designation:</th>
+<td><?=$Designation;?></td>
 
 
     </tr>
-
-
-
-
-
 <input type="hidden" value="<?=$id;?>" id="muid" name="">
 
 
-  <tr><td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
-    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?></td></tr> 
+  <tr>
+    <?php 
+    if ($show_task_row['ecategory']=='Non-Teaching') {
+        ?>
+    <td colspan="10"><b> Employment Category :</b><?= $show_task_row['ecategory'];?></td>
+   <?php  } 
+    else
+     {?>
+    <td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
+
+    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?>  </td>
+    <?php     // code...
+    }?>
+</tr> 
 
 
-    <tr><td><b>Books Published :</b> <?= $show_task_row['book_published'];?> </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+    <tr>
+
+ <?php 
+    if ($show_task_row['book_published']=='Yes') 
+    {
+        ?>
+
+        <td><b>Books Published :</b> <?= $show_task_row['book_published'];?>
+     </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
       <td>Name of Books: <?= $show_task_row['name_of_books'];?></td><td>ISBN: <?= $show_task_row['isbn'];?></td>
+  <?php } else{
+
+    ?><td colspan="10"><b>Books Published :</b> <?= $show_task_row['book_published'];?><?php 
+  } ?>
    </tr>  
 
-   <tr><td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+   <tr>
+ <?php 
+    if ($show_task_row['research_paper']=='Yes') 
+    {
+        ?>
+    <td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
       <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td><td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td><td>Publication Index: <?= $show_task_row['publication_index'];?></td>
-   </tr>         
+   <?php }else{
+    ?>
+  <td colspan="10"> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?></td>
+    <?php 
+   }?>      
+   </tr> 
          
-<tr><td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
-      
-   </tr>         
-   <tr><td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+<tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
+    <?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td>
+    <?php 
+}
+    ?>  
+   </tr> 
+
+   <tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
       <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+<?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td>
+
+    <?php 
+}
+?>
    </tr>             
 
-<tr><td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
-      
+<tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
+      <?php }
+
+else
+{
+     ?>
+<td colspan="10"> <b>Patent : </b><?= $show_task_row['patent'];?> </td>
+     <?php 
+}
+?>
    </tr> 
-   <tr><td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
-      
+   <tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+      <?php }  else {
+        ?>
+
+<td colspan="10"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td>
+    <?php       }?>
+
+
    </tr>
      <tr><td colspan="5"> <b>Other Duty /Task:</b><?= $show_task_row['extra'];?> </td>
       
@@ -316,7 +502,10 @@ $yourdata="select * from staff_aprisal where id='$id'";
          
 
  </tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+     <tr>
+
+        <td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+ 
       <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
       <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['rec_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
@@ -412,50 +601,138 @@ $yourdata="select * from staff_aprisal where id='$id'";
 ?>
 
             </td>
-    <tr><th><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
-      <th><?=  $myname;?></th>
-<th><?=$Designation;?></th>
-
-
-    </tr>
-
-
-
+    
 <input type="hidden" value="<?=$r_id;?>" id="recid" name="">
 <input type="hidden" value="<?=$a_id;?>" id="appid" name="">
 
 <input type="hidden" value="<?=$id;?>" id="muid" name="">
 
 
-  <tr><td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
-    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?></td></tr> 
+  <tr>
+        <th colspan=""><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
+      <th colspan="">Name</th>
+      <td colspan=""><?=  $myname;?></td>
+<th>Designation:</th>
+<td><?=$Designation;?></td>
 
 
-    <tr><td><b>Books Published :</b> <?= $show_task_row['book_published'];?> </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+    </tr>
+<input type="hidden" value="<?=$id;?>" id="muid" name="">
+
+
+  <tr>
+    <?php 
+    if ($show_task_row['ecategory']=='Non-Teaching') {
+        ?>
+    <td colspan="10"><b> Employment Category :</b><?= $show_task_row['ecategory'];?></td>
+   <?php  } 
+    else
+     {?>
+    <td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
+
+    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?>  </td>
+    <?php     // code...
+    }?>
+</tr> 
+
+
+    <tr>
+
+ <?php 
+    if ($show_task_row['book_published']=='Yes') 
+    {
+        ?>
+
+        <td><b>Books Published :</b> <?= $show_task_row['book_published'];?>
+     </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
       <td>Name of Books: <?= $show_task_row['name_of_books'];?></td><td>ISBN: <?= $show_task_row['isbn'];?></td>
+  <?php } else{
+
+    ?><td colspan="10"><b>Books Published :</b> <?= $show_task_row['book_published'];?><?php 
+  } ?>
    </tr>  
 
-   <tr><td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+   <tr>
+ <?php 
+    if ($show_task_row['research_paper']=='Yes') 
+    {
+        ?>
+    <td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
       <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td><td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td><td>Publication Index: <?= $show_task_row['publication_index'];?></td>
-   </tr>         
+   <?php }else{
+    ?>
+  <td colspan="10"> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?></td>
+    <?php 
+   }?>      
+   </tr> 
          
-<tr><td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
-      
-   </tr>         
-   <tr><td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+<tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
+    <?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td>
+    <?php 
+}
+    ?>  
+   </tr> 
+
+   <tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
       <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+<?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td>
+
+    <?php 
+}
+?>
    </tr>             
 
-<tr><td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
-      
+<tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
+      <?php }
+
+else
+{
+     ?>
+<td colspan="10"> <b>Patent : </b><?= $show_task_row['patent'];?> </td>
+     <?php 
+}
+?>
    </tr> 
-   <tr><td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
-      
+   <tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+      <?php }  else {
+        ?>
+
+<td colspan="10"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td>
+    <?php       }?>
+
+
    </tr>
      <tr><td colspan="5"> <b>Other Duty /Task:</b><?= $show_task_row['extra'];?> </td>
       
-   </tr></tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" class="form-control" readonly></td>
+   </tr>
+
+        <td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" class="form-control" readonly></td>
+
+
       <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>"  class="form-control" readonly></td>
       <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" 
          value="<?= $show_task_row['rec_auth_deadline'];?>" class="form-control" readonly></td>
@@ -465,7 +742,29 @@ $yourdata="select * from staff_aprisal where id='$id'";
           <?php    } ?>
 
  </tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name="" id="warning" class="form-control"></td>
+     <tr><td > <b> Warning Issued :</b>
+
+
+      <!-- <input  type="number" name="" id="warning" class="form-control"> -->
+
+<div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary15"  onclick="emc1_show();" value="Yes" name="warning_yesnoc1App">
+                     <label for="radioPrimary15">
+                     Yes
+                     </label>
+                  </div>
+              
+               
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary16" onclick="emc1_hide();"  value="No" name="warning_yesnoc1App" checked="">
+                     <label for="radioPrimary16">
+                     No
+                     </label>
+                 
+               </div>
+                <div style="display: none;" id="warning_div"><br><input  type="number"  id="warning" class="form-control" ></div>
+
+  </td>
       <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
       <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
        <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" id="coordination" class="form-control"></td>
@@ -495,11 +794,12 @@ $muid=$_POST['muid'];
  $behaviour=$_POST['behaviour'];
  $deadlines=$_POST['deadlines'];
  $coordination=$_POST['coordination'];
+ $warning_yesno_ctegory=$_POST['warning_yesno_ctegory'];
 
 if($recid!=$appid)
 {
    $update_rec="Update staff_aprisal  set  ap_auth_status='1',ap_auth_warning='$warning',
-ap_auth_behaviour='$behaviour',ap_auth_coordination='$coordination', ap_auth_deadline='$deadlines'
+ap_auth_behaviour='$behaviour',ap_auth_coordination='$coordination', ap_auth_deadline='$deadlines',ap_auth_warning_count='$warning_yesno'
 where id='$muid'";
  $insQryRun=mysqli_query($conn,$update_rec);
 }
@@ -507,10 +807,10 @@ else
 {
 
 $update_rec="Update staff_aprisal  set  ap_auth_status='1',ap_auth_warning='$warning',
-ap_auth_behaviour='$behaviour',ap_auth_coordination='$coordination', ap_auth_deadline='$deadlines'
+ap_auth_behaviour='$behaviour',ap_auth_coordination='$coordination', ap_auth_deadline='$deadlines',ap_auth_warning_count='$warning_yesno'
 where id='$muid'";
 $update_rec1="Update staff_aprisal  set  rec_auth_status='1',rec_auth_warning='$warning',
-rec_auth_behavour='$behaviour',rec_auth_coordination='$coordination', rec_auth_deadline='$deadlines'
+rec_auth_behavour='$behaviour',rec_auth_coordination='$coordination', rec_auth_deadline='$deadlines',ap_auth_warning_count='$warning_yesno'
 where id='$muid'";
 
  $insQryRun=mysqli_query($conn,$update_rec);
@@ -549,44 +849,123 @@ $yourdata="select * from staff_aprisal where id='$id'";
 ?>
 
             </td>
-    <tr><th><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
-      <th><?=  $myname;?></th>
-<th><?=$Designation;?></th>
+    <tr>
+        <th colspan=""><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($mysnapp).'" height="50" width="50" class="img-thumnail"  style="border-radius:50%"/></  center>';?></th>
+      <th colspan="">Name</th>
+      <td colspan=""><?=  $myname;?></td>
+<th>Designation:</th>
+<td><?=$Designation;?></td>
 
 
     </tr>
-
-
-
-
-
 <input type="hidden" value="<?=$id;?>" id="muid" name="">
 
 
-  <tr><td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
-    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?></td></tr> 
+  <tr>
+    <?php 
+    if ($show_task_row['ecategory']=='Non-Teaching') {
+        ?>
+    <td colspan="10"><b> Employment Category :</b><?= $show_task_row['ecategory'];?></td>
+   <?php  } 
+    else
+     {?>
+    <td><b> Employment Category :</b></td><td><?= $show_task_row['ecategory'];?></td>
+
+    <td> No of Lecture</td><td><?= $show_task_row['no_of_lect'];?>  </td>
+    <?php     // code...
+    }?>
+</tr> 
 
 
-    <tr><td><b>Books Published :</b> <?= $show_task_row['book_published'];?> </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+    <tr>
+
+ <?php 
+    if ($show_task_row['book_published']=='Yes') 
+    {
+        ?>
+
+        <td><b>Books Published :</b> <?= $show_task_row['book_published'];?>
+     </td><td>No of Books: <?= $show_task_row['no_of_books'];?></td>
       <td>Name of Books: <?= $show_task_row['name_of_books'];?></td><td>ISBN: <?= $show_task_row['isbn'];?></td>
+  <?php } else{
+
+    ?><td colspan="10"><b>Books Published :</b> <?= $show_task_row['book_published'];?><?php 
+  } ?>
    </tr>  
 
-   <tr><td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+   <tr>
+ <?php 
+    if ($show_task_row['research_paper']=='Yes') 
+    {
+        ?>
+    <td> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
       <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td><td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td><td>Publication Index: <?= $show_task_row['publication_index'];?></td>
-   </tr>         
+   <?php }else{
+    ?>
+  <td colspan="10"> <b>Research paper Published : </b><?= $show_task_row['research_paper'];?></td>
+    <?php 
+   }?>      
+   </tr> 
          
-<tr><td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
-      
-   </tr>         
-   <tr><td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+<tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td><td>Amount: <?= $show_task_row['amount'];?></td><td>organisation: <?= $show_task_row['corg'];?></td>
+    <?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Consultancy : </b> <?= $show_task_row['consultancy'];?> </td>
+    <?php 
+}
+    ?>  
+   </tr> 
+
+   <tr>
+ <?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td><td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
       <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+<?php }
+else
+{
+    ?>
+<td colspan="10"> <b>Admission Initative : </b> <?= $show_task_row['admission'];?> </td>
+
+    <?php 
+}
+?>
    </tr>             
 
-<tr><td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
-      
+<tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td> <b>Patent : </b><?= $show_task_row['patent'];?> </td><td>Detail: <?= $show_task_row['p_detail'];?></td>
+      <?php }
+
+else
+{
+     ?>
+<td colspan="10"> <b>Patent : </b><?= $show_task_row['patent'];?> </td>
+     <?php 
+}
+?>
    </tr> 
-   <tr><td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
-      
+   <tr>
+<?php 
+    if ($show_task_row['consultancy']=='Yes') {
+        ?>
+    <td colspan="2"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td><td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+      <?php }  else {
+        ?>
+
+<td colspan="10"> <b>PhD. Candidate : </b><?= $show_task_row['phd_candidate'];?> </td>
+    <?php       }?>
+
+
    </tr>
      <tr><td colspan="5"> <b>Other Duty /Task:</b><?= $show_task_row['extra'];?> </td>
       
@@ -595,14 +974,20 @@ $yourdata="select * from staff_aprisal where id='$id'";
          
 
  </tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+     <tr>
+
+        <td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+
       <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
       <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['rec_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
        <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
    </tr>
    </tr>
-     <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['ap_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+     <tr>
+
+        <td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['ap_auth_warning'];?>" id="warning" class="form-control" readonly></td>
+   
       <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['ap_auth_behaviour'];?>" id="behaviour" class="form-control" readonly></td>
       <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['ap_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
