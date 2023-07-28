@@ -47,7 +47,7 @@
                
                 <div class="col-lg-8"></div>
                  <div class="col-lg-2">
-                  <table>
+                  <table style="display:none;" id="approved_button">
                       <tr>
                           <td>
                             <a class="btn btn-danger" href="verify_aprisal.php">
@@ -98,8 +98,8 @@
          <div class="card-body">
             <div class="row">
           <div class="col-lg-2"></div>
-             <div class="col-lg-8">
-               <table>
+             <div class="col-lg-8 table-responsive ">
+               <table >
                <tr>
                   <td><?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></  center>';?><br>
                     <center> <?=$Emp_Name;?>(You)</center>
@@ -130,51 +130,52 @@
                <br>
                <b style="color:red;text-align: center"> if you want to add more than one records than separated by ,  for instance   (title of paper1 &nbsp;,&nbsp;title of paper2) </b>
             </div>
-            <div class="card-body table-responsive p-0" >
+            <div class="card-body table-responsive p-0" id="show_table" >
                <table class="table table-striped">
+                 <tbody>
                   <?php   
                      $yourdata="select * from staff_aprisal where emp_id='$EmployeeID' limit 1 ";
                       $insQryRun=mysqli_query($conn,$yourdata);
                       while ($show_task_row=mysqli_fetch_array($insQryRun))
                                   {?>
                   <tr>
-                     <td> Employment Category</td>
-                     <td><?= $show_task_row['ecategory'];?></td>
-                     <td> No of Lecture</td>
+                     <th> Employment Category</th>
+                     <td><?=$show_task_row['ecategory'];?></td>
+                     <th> No of Lecture</th>
                      <td><?= $show_task_row['no_of_lect'];?></td>
                   </tr>
                   <tr>
-                     <td> Books Published :<?= $show_task_row['book_published'];?> </td>
-                     <td>No of Books: <?= $show_task_row['no_of_books'];?></td>
-                     <td>Name of Books: <?= $show_task_row['name_of_books'];?></td>
-                     <td>ISBN: <?= $show_task_row['isbn'];?></td>
+                     <td> <b>Books Published :&nbsp;&nbsp;</b><?= $show_task_row['book_published'];?> </td>
+                     <td><b>No of Books:&nbsp;&nbsp;</b> <?= $show_task_row['no_of_books'];?></td>
+                     <td><b>Name of Books:&nbsp;&nbsp;</b> <?= $show_task_row['name_of_books'];?></td>
+                     <td><b>ISBN:&nbsp;&nbsp;</b> <?= $show_task_row['isbn'];?></td>
                   </tr>
                   <tr>
-                     <td> Research paper Published :<?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
-                     <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td>
-                     <td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td>
-                     <td>Publication Index: <?= $show_task_row['publication_index'];?></td>
+                     <td> <b>Research paper Published :&nbsp;&nbsp;</b><?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+                     <td><b>Title of Paper:&nbsp;&nbsp;</b> <?= $show_task_row['title_of_paper'];?></td>
+                     <td><b>Name of Journal:&nbsp;&nbsp;</b> <?= $show_task_row['name_of_journal'];?></td>
+                     <td><b>Publication Index:&nbsp;&nbsp;</b> <?= $show_task_row['publication_index'];?></td>
                   </tr>
                   <tr>
-                     <td> Consultancy :<?= $show_task_row['consultancy'];?> </td>
-                     <td>Amount: <?= $show_task_row['amount'];?></td>
-                     <td>organisation: <?= $show_task_row['corg'];?></td>
+                     <td><b> Consultancy :&nbsp;&nbsp;</b><?= $show_task_row['consultancy'];?> </td>
+                     <td><b>Amount: &nbsp;&nbsp;</b><?= $show_task_row['amount'];?></td>
+                     <td><b>organisation:&nbsp;&nbsp;</b> <?= $show_task_row['corg'];?></td>
                   </tr>
                   <tr>
-                     <td> Admission Initative:<?= $show_task_row['admission'];?> </td>
-                     <td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
-                     <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+                     <td><b> Admission Initative:&nbsp;&nbsp;</b><?= $show_task_row['admission'];?> </td>
+                     <td><b>No of Admission:&nbsp;&nbsp;</b> <?= $show_task_row['no_of_admission'];?></td>
+                     <td colspan="2"><b>No of Admission without Consultancy&nbsp;&nbsp;</b> <?= $show_task_row['no_of_admission_c'];?></td>
                   </tr>
                   <tr>
-                     <td> Patent:<?= $show_task_row['patent'];?> </td>
-                     <td>Detail: <?= $show_task_row['p_detail'];?></td>
+                     <td> <b>Patent:&nbsp;&nbsp;</b><?= $show_task_row['patent'];?> </td>
+                     <td><b>Detail: &nbsp;&nbsp;</b><?= $show_task_row['p_detail'];?></td>
                   </tr>
                   <tr>
-                     <td colspan="2"> PhD. Candidate:<?= $show_task_row['phd_candidate'];?> </td>
-                     <td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+                     <td colspan="2"><b> PhD. Candidate:&nbsp;&nbsp;</b><?= $show_task_row['phd_candidate'];?> </td>
+                     <td colspan="2" ><b>No Of Candidate: &nbsp;&nbsp;</b><?= $show_task_row['no_of_candidate'];?></td>
                   </tr>
                   <tr>
-                     <td colspan="5"> Other Duty /Task:<?= $show_task_row['extra'];?> </td>
+                     <td colspan="5"><b> Other Duty /Task:&nbsp;&nbsp;</b><?= $show_task_row['extra'];?> </td>
                   </tr>
                   <?php    } ?>
                   </tbody>
@@ -182,6 +183,7 @@
             </div>
             <hr>
             <br>
+            <div style="display: none;" id="form_show">
             <div class="row">
                <div class="col-md-2">
                   <label>Employment Category <b style="color:red;">*</b></label>
@@ -315,7 +317,7 @@
             </script>
             <hr>
             <div class="row">
-               <div class="col-md-2">
+               <div class="col-md-3">
                   <label>Research Paper Published <b style="color:red;">*</b></label>
                </div>
                <div class="col-md-1">
@@ -342,9 +344,11 @@
                      </label>
                   </div>
                </div>
-               <div class="col-lg-9" style="display: none;" id="research_div" >
+           </div>
+           <div class="row">
+               <div class="col-lg-12" style="display: none;" id="research_div" >
                   <div class="row ">
-                     <div class="col-md-2">
+                     <div class="col-md-3">
                         <!-- /.form-group -->
                         <div class="form-group">
                            <label>Number of Paper</label>
@@ -359,13 +363,13 @@
                         </div>
                         <!-- /.form-group -->
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                         <div class="form-group">
                            <label>Name of Journal</label>
                            <textarea  name="" id="nameofjour" class="form-control"></textarea>
                         </div>
                      </div>
-                     <div class="col-md-2">
+                     <div class="col-md-3">
                         <div class="form-group">
                            <label>Publication Index</label>
                            <textarea  name="" id="publicationindex" class="form-control"></textarea>
@@ -428,10 +432,10 @@
                         </div>
                         <!-- /.form-group -->
                      </div>
-                     <div class="col-md-2">
+                     <div class="col-md-3">
                         <label>Organisation <b style="color:red;">*</b></label>
                      </div>
-                     <div class="col-md-3">
+                     <div class="col-md-4">
                         <!-- /.form-group -->
                         <div class="form-group">
                            <input type="text" name="" id="corg" class="form-control">
@@ -477,13 +481,13 @@
                      </label>
                   </div>
                </div>
-               <div class="col-md-6" style="display: none;" id="adm_div">
+               <div class="col-md-8" style="display: none;" id="adm_div">
                   <div class="row ">
                      <div class="col-md-4">
                         <label>No of Admission<b style="color:red;">*</b></label>
                         <input type="number" name="" id="noadm" class="form-control">
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-5">
                         <label>No of Admission without consultancy<b style="color:red;">*</b></label>
                         <input type="number" name="" id="nocadm" class="form-control" >
                      </div>
@@ -595,7 +599,7 @@
                </div>
                <div class="col-md-6" style="display: none;" id="phd_div">
                   <div class="row ">
-                     <div class="col-md-2">
+                     <div class="col-md-4">
                         <label>No of  candidate<b style="color:red;">*</b></label>
                      </div>
                      <div class="col-md-8">
@@ -637,6 +641,7 @@
                </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 </section>
@@ -811,7 +816,9 @@
                                if (response=='1')
                                         {
                                         SuccessToast('Successfully Uploaded');
-                                        location.reload(true);
+                                        // location.reload(true);
+                                        show_table_after_submit();
+
                            
                             }
                            else
@@ -825,6 +832,81 @@
                   }
                
                }
+
+
+                 function show_table_after_submit()
+          {
+   //    var spinner=document.getElementById("ajax-loader");
+   // spinner.style.display='block';
+           var code=127;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                  // spinner.style.display='none';
+                form_div();
+                 document.getElementById("show_table").innerHTML=response;
+              }
+           });
+          }
+
+          function form_div() 
+
+          {
+    var div = document.getElementById("form_show");
+                  var code=128;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+                if (response==1) {
+                        div.style.display = "none";
+                }
+                else
+                {
+                        div.style.display = "block";
+
+                }
+              }
+           });
+}   
+
+      function approved_div() 
+
+          {
+    var div = document.getElementById("approved_button");
+                  var code=129;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+                if (response==1) {
+                        div.style.display = "block";
+                }
+                else
+                {
+                        div.style.display = "none";
+
+                }
+              }
+           });
+}
+approved_div();
+form_div();
             </script>
          </div>
       </div>

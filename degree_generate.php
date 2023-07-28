@@ -194,6 +194,7 @@ include "header.php";
                            code: code
                         },
                         success: function(response) {
+                           console.log(response);
                            document.getElementById("image_view").innerHTML = response;
                         }
                      });
@@ -257,6 +258,7 @@ include "header.php";
          contentType: false,
          processData: false,
          success: function(response) {
+            console.log(response);
             SuccessToast('Successfully Uploaded');
             view_image(id);
          },

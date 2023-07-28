@@ -6768,6 +6768,89 @@ else
 }
 }
 
+elseif($code==127) // STAFF APRESAL
+{
+?><table class="table table-striped">
+                 <tbody>
+                  <?php   
+                     $yourdata="select * from staff_aprisal where emp_id='$EmployeeID' limit 1 ";
+                      $insQryRun=mysqli_query($conn,$yourdata);
+                      while ($show_task_row=mysqli_fetch_array($insQryRun))
+                                  {?>
+                  <tr>
+                     <td> Employment Category</td>
+                     <td><?=$show_task_row['ecategory'];?></td>
+                     <td> No of Lecture</td>
+                     <td><?= $show_task_row['no_of_lect'];?></td>
+                  </tr>
+                  <tr>
+                     <td> Books Published :<?= $show_task_row['book_published'];?> </td>
+                     <td>No of Books: <?= $show_task_row['no_of_books'];?></td>
+                     <td>Name of Books: <?= $show_task_row['name_of_books'];?></td>
+                     <td>ISBN: <?= $show_task_row['isbn'];?></td>
+                  </tr>
+                  <tr>
+                     <td> Research paper Published :<?= $show_task_row['research_paper'];?> (<?= $show_task_row['no_of_research_paper'];?>)</td>
+                     <td>Title of Paper: <?= $show_task_row['title_of_paper'];?></td>
+                     <td>Name of Journal: <?= $show_task_row['name_of_journal'];?></td>
+                     <td>Publication Index: <?= $show_task_row['publication_index'];?></td>
+                  </tr>
+                  <tr>
+                     <td> Consultancy :<?= $show_task_row['consultancy'];?> </td>
+                     <td>Amount: <?= $show_task_row['amount'];?></td>
+                     <td>organisation: <?= $show_task_row['corg'];?></td>
+                  </tr>
+                  <tr>
+                     <td> Admission Initative:<?= $show_task_row['admission'];?> </td>
+                     <td>No of Admission: <?= $show_task_row['no_of_admission'];?></td>
+                     <td colspan="2">No of Admission without Consultancy <?= $show_task_row['no_of_admission_c'];?></td>
+                  </tr>
+                  <tr>
+                     <td> Patent:<?= $show_task_row['patent'];?> </td>
+                     <td>Detail: <?= $show_task_row['p_detail'];?></td>
+                  </tr>
+                  <tr>
+                     <td colspan="2"> PhD. Candidate:<?= $show_task_row['phd_candidate'];?> </td>
+                     <td colspan="2" >No Of Candidate: <?= $show_task_row['no_of_candidate'];?></td>
+                  </tr>
+                  <tr>
+                     <td colspan="5"> Other Duty /Task:<?= $show_task_row['extra'];?> </td>
+                  </tr>
+                  <?php    } ?>
+                  </tbody>
+               </table><?PHP 
+}
+
+elseif($code==128)
+{
+$yourdata="select * from staff_aprisal where emp_id='$EmployeeID'";
+                      $insQryRun=mysqli_query($conn,$yourdata);
+                      if(mysqli_num_rows($insQryRun)>0)
+                      {
+                        echo "1";
+                      }
+                      else
+                      {
+                        echo "0";
+                      }
+                     
+
+}
+elseif($code==129)
+{
+$yourdata="SELECT * from staff_aprisal where ap_auth='$EmployeeID' || rec_auth='$EmployeeID'";   
+                      $insQryRun=mysqli_query($conn,$yourdata);
+                      if(mysqli_num_rows($insQryRun)>0)
+                      {
+                        echo "1";
+                      }
+                      else
+                      {
+                        echo "0";
+                      }
+                     
+
+}
    else
    {
    
