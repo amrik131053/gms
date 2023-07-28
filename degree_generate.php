@@ -2,7 +2,38 @@
 include "header.php";
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="modal fade" id="for_excel" tabindex="-1" role="dialog" aria-labelledby="for_excelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_excelLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+              <!-- <div class="card "> -->
+               
+                        <div class="btn-group w-100 mb-2">
+                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="diploma_agri();bg(this.id);"> Diploma Agri </a>
+                    <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="diploma_other();bg(this.id);"> Diploma Other </a>
+                    <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="degree();bg(this.id);"> Degree </a>
+                   
+                  </div>
+              <!-- </div> -->
+                <div id="from_show_toggle">
+                   
+                </div>
+            <!-- </div> -->
 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 <section class="content">
    <div class="container-fluid">
       <div class="row">
@@ -11,28 +42,28 @@ include "header.php";
             <div class="card card-info">
                <div class="card-header">
                   <div class="card-tools">
-                     <form action="action_g.php" method="post" enctype="multipart/form-data">
+                     <!-- <form action="action_g.php" method="post" enctype="multipart/form-data"> -->
                         <div class="input-group input-group-sm">
-                           <input type="hidden" name="code" value="79">
+                           <!-- <input type="hidden" name="code" value="79"> -->
+                         <!--   &nbsp;
                            &nbsp;
                            &nbsp;
                            &nbsp;
                            &nbsp;
-                           &nbsp;
-                           &nbsp;
-                           <input type="file" name="file_exl" class="form-control input-group-sm" required>
-                           &nbsp;
-                           &nbsp;
+                           &nbsp; -->
+                           <!-- <input type="file" name="file_exl" class="form-control input-group-sm" required> -->
+                           <!-- &nbsp;
                            &nbsp;
                            &nbsp;
                            &nbsp;
-                           <input type="submit" class="btn btn-primary btn-xs" value="Upload">
+                           &nbsp; -->
+                           <input type="submit" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#for_excel" value="Upload">
                            &nbsp;
                            &nbsp;
                            &nbsp;
                            <input type="button" onclick="window.location.href='formats/degree.csv'" value="Format" class="btn btn-warning btn-xs">
                         </div>
-                     </form>
+                     <!-- </form> -->
                   </div>
                   <div class="card-tools">
                      <div class="input-group input-group-sm">
@@ -249,6 +280,54 @@ include "header.php";
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
+ function diploma_other() {
+   
+      var code = 130;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'post',
+         data: {
+            code: code
+         },
+         success: function(response) {
+            document.getElementById("from_show_toggle").innerHTML = response;
+            document.getElementById("Type_degree").innerHTML = response;
+         }
+      });
+    
+ } function diploma_agri()
+  {
+        var code = 131;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'post',
+         data: {
+            code: code
+         },
+         success: function(response) {
+            document.getElementById("from_show_toggle").innerHTML = response;
+         }
+      });
+ }function degree() {
+        var code = 132;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'post',
+         data: {
+            code: code
+         },
+         success: function(response) {
+            document.getElementById("from_show_toggle").innerHTML = response;
+         }
+      });
+ }
+
+      function bg(id)
+          {
+         $('.btn').removeClass("bg-success");
+         $('#'+id).toggleClass("bg-success"); 
+         }
+
    function uploadImage(form, id) {
       var formData = new FormData(form);
       $.ajax({

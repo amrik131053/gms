@@ -1898,6 +1898,155 @@ $count++;
 
 }
 
+elseif($exportCode==21)
+{  
+   $get_category1="SELECT * FROM staff_aprisal";
+            $get_category_run1=mysqli_query($conn,$get_category1);
+       $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+                <th>#</th>
+                <th>Employee ID</th>
+                <th>No. of Lectures</th>
+                <th>Employee Category</th>
+                <th>Book Published</th>
+                <th>No. of Books</th>
+                <th>Name of Books</th>
+                <th>ISBN</th>
+                <th>Research Paper</th>
+                <th>No. of Research Papers</th>
+                <th>Title of Paper</th>
+                <th>Name of Journal</th>
+                <th>Publication Index</th>
+                <th>Consultancy</th>
+                <th>Amount</th>
+                <th>Admission</th>
+                <th>No. of Admission</th>
+                <th>No. of Admission (C)</th>
+                <th>Patent</th>
+                <th>Patent Detail</th>
+                <th>PhD Candidate</th>
+                <th>No. of Candidates</th>
+                <th>Extra</th>
+                <th>Rec Auth</th>
+                <th>Rec Auth Status</th>
+                <th>Rec Auth Warning</th>
+                <th>Rec Auth Behaviour</th>
+                <th>Rec Auth Coordination</th>
+                <th>Rec Auth Deadline</th>
+                <th>Ap Auth</th>
+                <th>Ap Auth Status</th>
+                <th>Ap Auth Warning</th>
+                
+                <th>Ap Auth Coordination</th>
+                <th>Ap Auth Deadline</th>
+                <th>Final Score</th>
+                <th>Gross Amount New</th>
+                <th>Present Amount</th>
+                <th>Last Amount</th>
+                <th>Corg</th>
+                <th>Start Date</th>
+                <th>Review Date</th>
+                <th>Approval Date</th>
+            </tr>
+        </thead>";
+    $count = 1;
+    while ($row = mysqli_fetch_array($get_category_run1)) {
+        $IDNo = $row['emp_id'];
+        $no_of_lect = $row['no_of_lect'];
+        $ecategory = $row['ecategory'];
+        $book_published = $row['book_published'];
+        $no_of_books = $row['no_of_books'];
+        $name_of_books = $row['name_of_books'];
+        $isbn = $row['isbn'];
+        $research_paper = $row['research_paper'];
+        $no_of_research_paper = $row['no_of_research_paper'];
+        $title_of_paper = $row['title_of_paper'];
+        $name_of_journal = $row['name_of_journal'];
+        $publication_index = $row['publication_index'];
+        $consultancy = $row['consultancy'];
+        $amount = $row['amount'];
+        $admission = $row['admission'];
+        $no_of_admission = $row['no_of_admission'];
+        $no_of_admission_c = $row['no_of_admission_c'];
+        $patent = $row['patent'];
+        $p_detail = $row['p_detail'];
+        $phd_candidate = $row['phd_candidate'];
+        $no_of_candidate = $row['no_of_candidate'];
+        $extra = $row['extra'];
+        $rec_auth = $row['rec_auth'];
+        $rec_auth_status = $row['rec_auth_status'];
+        $rec_auth_warning = $row['rec_auth_warning'];
+        // $rec_auth_behaviour = $row['rec_auth_behaviour'];
+        $rec_auth_coordination = $row['rec_auth_coordination'];
+        $rec_auth_deadline = $row['rec_auth_deadline'];
+        $ap_auth = $row['ap_auth'];
+        $ap_auth_status = $row['ap_auth_status'];
+        $ap_auth_warning = $row['ap_auth_warning'];
+        $ap_auth_behaviour = $row['ap_auth_behaviour'];
+        $ap_auth_coordination = $row['ap_auth_coordination'];
+        $ap_auth_deadline = $row['ap_auth_deadline'];
+        $final_score = $row['final_score'];
+        $gross_amount_new = $row['gross_amount_new'];
+        $present_amount = $row['present_amount'];
+        $last_amount = $row['last_amount'];
+        $corg = $row['corg'];
+        $s_date = $row['s_date'];
+        $r_date = $row['r_date'];
+        $a_date = $row['a_date'];
+        $exportMeter .= "<tr>
+            <td>{$count}</td>
+            <td>{$IDNo}</td>
+            <td>{$no_of_lect}</td>
+            <td>{$ecategory}</td>
+            <td>{$book_published}</td>
+            <td>{$no_of_books}</td>
+            <td>{$name_of_books}</td>
+            <td>{$isbn}</td>
+            <td>{$research_paper}</td>
+            <td>{$no_of_research_paper}</td>
+            <td>{$title_of_paper}</td>
+            <td>{$name_of_journal}</td>
+            <td>{$publication_index}</td>
+            <td>{$consultancy}</td>
+            <td>{$amount}</td>
+            <td>{$admission}</td>
+            <td>{$no_of_admission}</td>
+            <td>{$no_of_admission_c}</td>
+            <td>{$patent}</td>
+            <td>{$p_detail}</td>
+            <td>{$phd_candidate}</td>
+            <td>{$no_of_candidate}</td>
+            <td>{$extra}</td>
+            <td>{$rec_auth}</td>
+            <td>{$rec_auth_status}</td>
+            <td>{$rec_auth_warning}</td>
+            <td>{$rec_auth_coordination}</td>
+            <td>{$rec_auth_deadline}</td>
+            <td>{$ap_auth}</td>
+            <td>{$ap_auth_status}</td>
+            <td>{$ap_auth_warning}</td>
+            <td>{$ap_auth_behaviour}</td>
+            <td>{$ap_auth_coordination}</td>
+            <td>{$ap_auth_deadline}</td>
+            <td>{$final_score}</td>
+            <td>{$gross_amount_new}</td>
+            <td>{$present_amount}</td>
+            <td>{$last_amount}</td>
+            <td>{$corg}</td>
+            <td>{$s_date}</td>
+            <td>{$r_date}</td>
+            <td>{$a_date}</td>
+        </tr>";
+        $count++;
+    }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="All Staff Report";
+
+}
+   
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

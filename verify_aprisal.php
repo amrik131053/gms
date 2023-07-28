@@ -112,7 +112,7 @@
  <div class="panel-body">
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
-         <div class="card-body card">
+         <!-- <div class="card-body card"> -->
         <div class="btn-group w-100 mb-2">
                     <!-- <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">Pending </a> -->
                     <!-- <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Granted</a>
@@ -130,7 +130,7 @@
         </div>
 
 
-   </div>
+   <!-- </div> -->
 
 
 </div>

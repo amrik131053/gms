@@ -2868,7 +2868,7 @@
     <h3 class="card-title" style="font-size: 14px!important"><b><?= $row['CollegeName']; ?></b></h3>
     <div class="card-tools">
       <button type="button" class="btn btn-tool">
-        <i class="fas fa-edit" onclick="AddleaveAuthority(<?= $CollegeID; ?>);"></i>
+        <i class="fas fa-edit" onclick="AddleaveAuthority(<?=$CollegeID;?>);"></i>
       </button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
         <i class="fas fa-plus" onclick="show_all_depaertment(<?= $CollegeID; ?>);"></i>
@@ -2877,7 +2877,7 @@
   </div>
   <div class="card-body p-0" style="min-height: 0px!important; overflow: hidden !important;">
     <ul class="nav nav-pills flex-column" id="department_wise_show<?= $CollegeID; ?>">
-    </ul>
+    </ul> 
   </div>
   <!-- /.card-body -->
 </div>
@@ -4251,35 +4251,43 @@ if ($check_flow_row['status']<4) {
       }
    elseif($code==79)
    {
-   $file = $_FILES['file_exl']['tmp_name'];
+      $Examination="";
+$Stream="";
+$ExtraRow="";
+   $file = $_FILES['file']['tmp_name'];
+   if(isset($_POST['examination']))
+   {
+   $Examination=$_POST['examination'];
+
+   } if(isset($_POST['stream']))
+   {
+   $Stream=$_POST['stream']; 
+   } if(isset($_POST['extra']))
+   {
+   $ExtraRow=$_POST['extra'];
+   }
+   $Type=$_POST['type'];
    $handle = fopen($file, 'r');
    $c = 0;
    while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
    {
-   $UniRollNo= $filesop[0];
-   $CGPA = $filesop[1];
-   $StudentName = $filesop[2];
-   $FatherName = $filesop[3];
+   $StudentName = $filesop[0];
+   $UniRollNo= $filesop[1];
+   $FatherName = $filesop[2];
+   $Course = $filesop[3];
    $RegistrationNo = $filesop[4];
-   $Course = $filesop[5];
-   $Examination = $filesop[6];
-   if ($filesop[7]!=0)
-    {
-   $ExtraRow = $filesop[7];
-   }
-   else
-   {
-   $ExtraRow =" ";
-   }
-   
-   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow');";
+   $CGPA = $filesop[5];
+   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream');";
    $insert_run=mysqli_query($conn,$insert);
-   
    }
    if ($insert_run==true)
    {
    ?>
-<script type="text/javascript">alert('Uploaded Success');</script>
+<script type="text/javascript">
+   alert('Uploaded Success');
+  window.location.href = 'degree_generate.php'; 
+
+</script>
 <?php 
    }
    }
@@ -6849,6 +6857,128 @@ $yourdata="SELECT * from staff_aprisal where ap_auth='$EmployeeID' || rec_auth='
                         echo "0";
                       }
                      
+
+}
+elseif($code==130)
+{
+?>
+<form action="action_g.php" method="post" enctype="multipart/form-data">
+ <input type="hidden" name="code" value="79">
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Type</label>
+  <input type="text" name="type" class="form-control" value="diploma" readonly>
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-6">
+   <label>Examination</label>
+  <input type="text" name="examination" class="form-control">
+</div>
+<div class="col-lg-6">
+   <label>Stream</label>
+  <input type="text" name="stream" class="form-control">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>File</label>
+  <input type="file" name="file" class="form-control">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Action</label><br>
+  <input type="submit"  class="btn btn-success" value="Upload">
+</div>
+</div>
+</form>
+<br>
+<?php 
+                     
+
+}
+elseif($code==131)
+{
+?>
+<form action="action_g.php" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="code" value="79">
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Type</label>
+  <input type="text" name="type" class="form-control" value="diploma" readonly>
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-6">
+   <label>Examination</label>
+  <input type="text" name="examination" class="form-control">
+</div>
+<div class="col-lg-6">
+   <label>Stream</label>
+  <input type="text" name="stream" class="form-control">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Extra Row</label>
+  <input type="text" name="extra" class="form-control" value="During this One Year course in addition to other subjects, the student has been taught subjects with course contents related to <b>Plant Protection </b>and <b>Pesticides Management.</b>">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>File</label>
+  <input type="file" name="file" class="form-control">
+</div>
+</div>
+
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Action</label><br>
+  <input type="submit"  class="btn btn-success" value="Upload">
+</div>
+</div>
+</form>
+<br>
+<?php 
+
+}
+elseif($code==132)
+{
+?>
+<form action="action_g.php" method="post" enctype="multipart/form-data">
+   <input type="hidden" name="code" value="79">
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Type</label>
+  <input type="text" name="type" class="form-control" value="degree" readonly>
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-6">
+   <label>Examination</label>
+  <input type="text" name="examination" class="form-control">
+</div>
+<div class="col-lg-6">
+   <label>Stream</label>
+  <input type="text" name="stream" class="form-control">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>File</label>
+  <input type="file" name="file" class="form-control">
+</div>
+</div>
+<div class="row container-fluid">
+<div class="col-lg-12">
+   <label>Action</label><br>
+  <input type="submit"  class="btn btn-success" value="Upload">
+</div>
+</div>
+</form>
+<br>
+<?php
 
 }
    else

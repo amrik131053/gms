@@ -92,14 +92,16 @@
 
 
 </div>
-<div class="col-sm-4"> 
+<div class="col-sm-2">
+</div> 
+<div class="col-sm-2"> 
 
                <?php if($EmployeeID=='131053' ||$EmployeeID=='121031')
              { ?>
-              <!-- a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Movements();bg(this.id);">  GKU Movements </a>
+              <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="gku_export();bg(this.id);">GKU Export </a>
 
 
-                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="adminreports();bg(this.id);"> GKU Report </a> -->
+                    <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="adminreports();bg(this.id);"> GKU Report </a> -->
          <?php } ?>
 
      </div>
@@ -112,7 +114,7 @@
  <div class="panel-body">
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
-         <div class="card-body card">
+         <!-- <div class="card-body card"> -->
         <div class="btn-group w-100 mb-2">
                     <!-- <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">Pending </a> -->
                     <!-- <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="acknowledged();bg(this.id);">Granted</a>
@@ -130,7 +132,7 @@
         </div>
 
 
-   </div>
+   <!-- </div> -->
 
 
 </div>
@@ -200,28 +202,6 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">
 
  $(window).on('load', function() 
@@ -260,26 +240,6 @@ function bg(id)
          });
 
      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
      function updte_marks(id)
@@ -336,14 +296,9 @@ function pending()
             {
 var val=0;
 
-
-
-
-
 var recid=document.getElementById('recid').value;    
 var appid=document.getElementById('appid').value;    
-
-        var muid=document.getElementById('muid').value;    
+var muid=document.getElementById('muid').value;    
 var warning=document.getElementById('warning').value;
 var behaviour=document.getElementById('behaviour').value;
 var deadlines=document.getElementById('deadlines').value;
@@ -401,7 +356,6 @@ else
 {
 var code=8;
 
-
                var spinner=document.getElementById('ajax-loader');
             spinner.style.display='block';
             $.ajax({
@@ -427,65 +381,10 @@ var code=8;
         }
 
 
-
-  function cancel(id,emp_id)
-            {
-            var code=298;
-            var spinner=document.getElementById('ajax-loader');
-            spinner.style.display='block';
-            $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-                code:code,id:id,emp_id:emp_id
-                 },
-            success: function(response) 
-              {
-              	  spinner.style.display='none';
-              	 SuccessToast('Successfully Uploaded');
-                 pending();
-             
-               
-              }
-                });
-         }
-
-
-
-
-
-
-
-
-
-
-
-
-  function refused()
-            {
-            var code=293;
-            var spinner=document.getElementById('ajax-loader');
-            spinner.style.display='block';
-            $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-                 },
-            success: function(response) 
-              {
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-              }
-                });
-         }
-
  function Reports()
           {
        var code=294;
 
-       
-    
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
@@ -502,56 +401,6 @@ var code=8;
          });
 
      }
-
-
-
-  function checkin(id)
-          {
-       var code=288;
-
-       
-    
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,id:id
-                  },
-            success: function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-
-     }
-
- function Movements()
-          {
-       var code=302;
-
-    
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-                  },
-            success: function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-
-     }
-
-
-
 
  function adminreports()
           {
@@ -573,16 +422,16 @@ var code=8;
             }
          });
 
+     } 
+
+     function gku_export()
+          {
+       var exportCode=21;
+    window.location.href="export.php?exportCode="+exportCode;
+
      }
 
-
-
-
-
-
 </script>
-
-
 </br>
 <p id="ajax-loader"></p>
 

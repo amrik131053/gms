@@ -204,9 +204,9 @@ $yourdata="select * from staff_aprisal where id='$id'";
 
  </tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name="" id="warning" class="form-control"></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" id="coordination" class="form-control"></td>
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" id="coordination" class="form-control"></td>
    </tr>
 
 
@@ -317,10 +317,10 @@ $yourdata="select * from staff_aprisal where id='$id'";
 
  </tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" name="" 
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['rec_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
    </tr>
  <?php    } ?>
 
@@ -456,19 +456,19 @@ $yourdata="select * from staff_aprisal where id='$id'";
       
    </tr></tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" class="form-control" readonly></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>"  class="form-control" readonly></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" 
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>"  class="form-control" readonly></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" 
          value="<?= $show_task_row['rec_auth_deadline'];?>" class="form-control" readonly></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>"  class="form-control" readonly></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>"  class="form-control" readonly></td>
    </tr>
 
           <?php    } ?>
 
  </tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name="" id="warning" class="form-control"></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" id="coordination" class="form-control"></td>
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" id="behaviour" class="form-control"></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" id="deadlines" class="form-control"></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" id="coordination" class="form-control"></td>
    </tr>
 
 
@@ -596,17 +596,17 @@ $yourdata="select * from staff_aprisal where id='$id'";
 
  </tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['rec_auth_warning'];?>" id="warning" class="form-control" readonly></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" name="" 
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_behavour'];?>" id="behaviour" class="form-control" readonly></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['rec_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['rec_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
    </tr>
    </tr>
      <tr><td > <b> Warning Issued :</b> <input  type="number" name=""  value="<?= $show_task_row['ap_auth_warning'];?>" id="warning" class="form-control" readonly></td>
-      <td > <b> Behaviour at workplace:</b> <input  type="number" name="" value="<?= $show_task_row['ap_auth_behaviour'];?>" id="behaviour" class="form-control" readonly></td>
-      <td > <b> Observing Deadlines:</b> <input  type="number" name="" 
+      <td > <b> Behaviour at workplace(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['ap_auth_behaviour'];?>" id="behaviour" class="form-control" readonly></td>
+      <td > <b> Observing Deadlines(Score out of 10):</b> <input  type="number" name="" 
          value="<?= $show_task_row['ap_auth_deadline'];?>"  id="deadlines" class="form-control" readonly></td>
-       <td > <b> Team Coordination:</b> <input  type="number" name="" value="<?= $show_task_row['ap_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
+       <td > <b> Team Coordination(Score out of 10):</b> <input  type="number" name="" value="<?= $show_task_row['ap_auth_coordination'];?>" id="coordination" class="form-control" readonly></td>
    </tr>
  <?php    } ?>
 
