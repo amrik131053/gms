@@ -293,10 +293,10 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                  ?>
                
                 <li class="nav-item has-treeview menu-open">
-                  <a href="http://gurukashiuniversity.co.in/spoc/index.php" class="nav-link ">
+                  <a href="/spoc/index.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        Spoc Dashboard (<?=$spoce_session;?>)
+                        Spoc Dashboard 
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>
