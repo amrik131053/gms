@@ -25,9 +25,9 @@ $sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
       {
 
 
-         $id=$row["id"];
+         $spoce_session=$row["id"];
      
-         $_SESSION['spoc_id']=$id;
+         $_SESSION['spoc_id']=$spoce_session;
         
       }
 }
@@ -296,7 +296,7 @@ $sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
                   <a href="http://gurukashiuniversity.co.in/spoc/index.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        Spoc Dashboard
+                        Spoc Dashboard 
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>
