@@ -48,13 +48,13 @@
     while ($floorData=mysqli_fetch_array($res_floor)) 
     {
        $floorValue='';
-      echo  $floorValue=$floorData['Floor'];
+        $floorValue=$floorData['Floor'];
        if ($floorValue=='0') 
           {
              $floorName='Ground';
           }  
           elseif ($floorValue=='1') 
-          {
+          { 
              $floorName='First';
           }  
           elseif ($floorValue=='2') 

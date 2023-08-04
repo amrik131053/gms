@@ -14,6 +14,24 @@ if(!(ISSET($_SESSION['usr'])))
 else
 {
  $EmployeeID=$_SESSION['usr'];
+
+$spoc_per=0;
+$sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
+   $result = $conn_spoc->query($sql);
+   if ($result->num_rows > 0) 
+   {
+      $spoc_per=1;
+      while($row = $result->fetch_assoc())   
+      {
+
+
+         $id=$row["id"];
+     
+         $_SESSION['spoc_id']=$id;
+        
+      }
+}
+
  if($EmployeeID==0 || $EmployeeID=='')
 {?>
 <script type="text/javascript">
@@ -267,11 +285,24 @@ else
                   <a href="dashboard.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        Dashboard
+                        LMS Dashboard
+                        <!-- <i class="right fas fa-angle-left"></i> -->
+                     </p>
+                  </a>
+               </li> 
+               <?php if ($spoc_per>0) {
+                 ?>
+               
+                <li class="nav-item has-treeview menu-open">
+                  <a href="http://gurukashiuniversity.co.in/spoc/index.php" class="nav-link ">
+                     <i class="nav-icon fas fa-tachometer-alt"></i>
+                     <p>
+                        Spoc Dashboard
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>
                </li>
+            <?php }?>
             </ul>
     <?php
                   $ids = join("','",$array_aa); 

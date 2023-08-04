@@ -25,10 +25,13 @@ $password1 = "Bathinda@123";
 
 $dbname1 = "lims";
  $dbname2 = "store";
+ $dbname3 = "spoc";
 
 $conn = new mysqli($servername1, $username1, $password1, $dbname1);
 
 $connection_s = new mysqli($servername1, $username1, $password1, $dbname2);
+
+$conn_spoc = new mysqli($servername1, $username1, $password1, $dbname3);
 
 
 if ($conn) {

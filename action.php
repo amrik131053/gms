@@ -5175,7 +5175,7 @@ if($count>0)
    }
    elseif($code=='81')
    {
-       echo $building=$_POST['building'];
+        $building=$_POST['building'];
         ?>
 <option value="">Select Floor</option>
 <?php
@@ -5200,6 +5200,14 @@ if($count>0)
          {
             $floorName='Third';
          } 
+           elseif ($floorValue=='4') 
+          {
+             $floorName='Fourth';
+          }
+          elseif ($floorValue=='5') 
+          {
+             $floorName='Fifth';
+          } 
          if (isset($floorName)) 
          {
              // code...
