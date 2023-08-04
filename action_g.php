@@ -2292,7 +2292,8 @@
          </tr>
       </thead>
       <tbody>
-         <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment_process.action='1'";  
+         <?php  $sr=1;
+          $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment.status<5 and vehicle_allotment.status!='2' and vehicle_allotment.status!='3' and vehicle_allotment.status!='4' ";  
             $get_pending_run=mysqli_query($conn,$get_pending);
             while($get_row=mysqli_fetch_array($get_pending_run))
             {
@@ -6981,6 +6982,46 @@ elseif($code==132)
 <?php
 
 }
+
+            elseif($code==133)
+      {
+
+$Name = $_POST['Name'];
+$FatherName = $_POST['FatherName'];
+$MotherName = $_POST['MotherName'];
+$Gender = $_POST['Gender'];
+$MobileNo = $_POST['MobileNo'];
+$CollegeName = $_POST['CollegeName'];
+$Department = $_POST['Department'];
+$Course = $_POST['Course'];
+$Batch = $_POST['Batch'];
+$Lateral = $_POST['Lateral'];
+$PinCode = $_POST['PinCode'];
+$Nationality = $_POST['Nationality'];
+$State = $_POST['State'];
+$District = $_POST['District'];
+
+echo $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `MobileNo`, `CollegeName`, `Department`, `Course`, `Batch`, `Lateral`, `PinCode`, `Nationality`, `State`, `District`) VALUES ('$Name','$FatherName','$MotherName','$Gender','$MobileNo','$CollegeName','$Department','$Course','$Batch','$Lateral','$PinCode','$Nationality','$State','$District');";
+
+$insert_record_run = mysqli_query($conn, $insert_record);
+echo"sadfgasfasd";
+
+      }  
+      elseif($code==134)
+      {
+           $degree="SELECT * FROM offer_latter order by id DESC  ";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     while ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                     $data[]=$degree_row;
+                     }
+                     // print_r($row_student);
+                     $page = $_POST['page'];
+                     $recordsPerPage = 100;
+                     $startIndex = ($page - 1) * $recordsPerPage;
+                     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+                     echo json_encode($pagedData);
+      }
    else
    {
    
