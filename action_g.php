@@ -2293,7 +2293,12 @@
       </thead>
       <tbody>
          <?php  $sr=1;
-          $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment.status<5 and vehicle_allotment.status!='2' and vehicle_allotment.status!='3' and vehicle_allotment.status!='4' ";  
+          $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name AS 
+e_name FROM vehicle_allotment_process inner join vehicle_allotment 
+ ON vehicle_allotment_process.token_no=vehicle_allotment.token_no 
+ inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id
+   where vehicle_allotment_process.emp_id='$EmployeeID' 
+and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";  
             $get_pending_run=mysqli_query($conn,$get_pending);
             while($get_row=mysqli_fetch_array($get_pending_run))
             {
