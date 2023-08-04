@@ -16,16 +16,16 @@ else
  $EmployeeID=$_SESSION['usr'];
 
  $spoc_per=0;
-$sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
-   $result = $conn_spoc->query($sql);
+$sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
+   $result = $conn_spoc->query($sqlspoc);
    if ($result->num_rows > 0) 
    {
       $spoc_per=1;
-      while($row = $result->fetch_assoc())   
+      while($rowspoc = $result->fetch_assoc())   
       {
 
 
-         $spoce_session=$row["id"];
+         $spoce_session=$rowspoc["id"];
      
          $_SESSION['spoc_id']=$spoce_session;
         
@@ -296,7 +296,7 @@ $sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
                   <a href="http://gurukashiuniversity.co.in/spoc/index.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        Spoc Dashboard 
+                        Spoc Dashboard (<?=$spoce_session;?>)
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>
