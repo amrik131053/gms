@@ -2293,7 +2293,13 @@
       </thead>
       <tbody>
          <?php  $sr=1;
-          $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id  where vehicle_allotment_process.emp_id='$EmployeeID' and vehicle_allotment.status<5 and vehicle_allotment.status!='2' and vehicle_allotment.status!='3' and vehicle_allotment.status!='4' ";  
+
+          $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name AS 
+e_name FROM vehicle_allotment_process inner join vehicle_allotment 
+ ON vehicle_allotment_process.token_no=vehicle_allotment.token_no 
+ inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id
+   where vehicle_allotment_process.emp_id='$EmployeeID' 
+and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";  
             $get_pending_run=mysqli_query($conn,$get_pending);
             while($get_row=mysqli_fetch_array($get_pending_run))
             {
@@ -7006,13 +7012,15 @@ $session = $_POST['session'];
 
  $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `MobileNo`, `CollegeName`, `Department`, `Course`, `Batch`, `Lateral`, `PinCode`, `Nationality`, `State`, `District`,`Consultant_id`,`Session`,`Duration`) VALUES ('$Name','$FatherName','$MotherName','$Gender','$MobileNo','$CollegeName','$Department','$Course','$Batch','$Lateral','$PinCode','$Nationality','$State','$District','$Consultant','$session','$duration');";
 
+
 $insert_record_run = mysqli_query($conn, $insert_record);
 echo"sadfgasfasd";
-
       }  
       elseif($code==134)
       {
            $degree="SELECT * FROM offer_latter ";                     
+
+          
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
@@ -7025,7 +7033,6 @@ echo"sadfgasfasd";
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
       }
-
           elseif($code==135)
       {
          $state=$_POST['consultant_name'];

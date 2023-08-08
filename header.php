@@ -14,24 +14,18 @@ if(!(ISSET($_SESSION['usr'])))
 else
 {
  $EmployeeID=$_SESSION['usr'];
-
-$spoc_per=0;
-$sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
-   $result = $conn_spoc->query($sql);
+ $spoc_per=0;
+$sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
+   $result = $conn_spoc->query($sqlspoc);
    if ($result->num_rows > 0) 
    {
       $spoc_per=1;
-      while($row = $result->fetch_assoc())   
+      while($rowspoc = $result->fetch_assoc())   
       {
-
-
-         $id=$row["id"];
-     
-         $_SESSION['spoc_id']=$id;
-        
+         $spoce_session=$rowspoc["id"];
+         $_SESSION['spoc_id']=$spoce_session;
       }
 }
-
  if($EmployeeID==0 || $EmployeeID=='')
 {?>
 <script type="text/javascript">
@@ -290,15 +284,18 @@ $sql="SELECT * FROM user_login_master where  username='$EmployeeID'";
                      </p>
                   </a>
                </li> 
-               <?php if ($spoc_per>0) {
+   
+
+                  <?php if ($spoc_per>0) 
+                  {
                  ?>
                
                 <li class="nav-item has-treeview menu-open">
-                  <a href="http://gurukashiuniversity.co.in/spoc/index.php" class="nav-link ">
+                  <a href="/spoc/index.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        Spoc Dashboard
-                        <!-- <i class="right fas fa-angle-left"></i> -->
+                        Spoc Dashboard 
+                       <span class="right badge badge-danger">New</span>
                      </p>
                   </a>
                </li>
