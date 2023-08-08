@@ -7000,8 +7000,11 @@ $PinCode = $_POST['PinCode'];
 $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $District = $_POST['District'];
+$Consultant = $_POST['Consultant'];
+$duration= $_POST['duration'];
+$session = $_POST['session'];
 
-echo $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `MobileNo`, `CollegeName`, `Department`, `Course`, `Batch`, `Lateral`, `PinCode`, `Nationality`, `State`, `District`) VALUES ('$Name','$FatherName','$MotherName','$Gender','$MobileNo','$CollegeName','$Department','$Course','$Batch','$Lateral','$PinCode','$Nationality','$State','$District');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`, `MotherName`, `Gender`, `MobileNo`, `CollegeName`, `Department`, `Course`, `Batch`, `Lateral`, `PinCode`, `Nationality`, `State`, `District`,`Consultant_id`,`Session`,`Duration`) VALUES ('$Name','$FatherName','$MotherName','$Gender','$MobileNo','$CollegeName','$Department','$Course','$Batch','$Lateral','$PinCode','$Nationality','$State','$District','$Consultant','$session','$duration');";
 
 $insert_record_run = mysqli_query($conn, $insert_record);
 echo"sadfgasfasd";
@@ -7009,7 +7012,7 @@ echo"sadfgasfasd";
       }  
       elseif($code==134)
       {
-           $degree="SELECT * FROM offer_latter order by id DESC  ";                     
+           $degree="SELECT * FROM offer_latter ";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
@@ -7021,6 +7024,44 @@ echo"sadfgasfasd";
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
+      }
+
+          elseif($code==135)
+      {
+         $state=$_POST['consultant_name'];
+          $insert_consultant="INSERT INTO consultant_master (state)values('$state');";
+         $insert_consultant_run=mysqli_query($conn,$insert_consultant);
+         if ($insert_consultant_run==true)
+          {
+         echo "1";   
+         }
+         else
+         {
+            echo "0";
+         }
+
+      }     
+       elseif($code==136)
+      {
+         $college=$_POST['college'];
+         $department=$_POST['department'];
+         $course=$_POST['course'];
+         $applicable=$_POST['applicable'];
+         $hostel=$_POST['hostel'];
+         $concession=$_POST['concession'];
+         $afterconcession=$_POST['afterconcession'];
+         $consultant_id=$_POST['consultant_id'];
+          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
+         $insert_consultant_run=mysqli_query($conn,$insert_consultant);
+         if ($insert_consultant_run==true)
+          {
+         echo "1";   
+         }
+         else
+         {
+            echo "0";
+         }
+
       }
    else
    {

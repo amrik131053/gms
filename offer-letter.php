@@ -2,6 +2,126 @@
 include "header.php";
 ?>
 <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<div class="modal fade" id="for_consultant" tabindex="-1" role="dialog" aria-labelledby="for_consultantLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_consultantLabel">New Consultant</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row">
+               <div class="col-lg-9">
+                  <input type="text" class="form-control" id="consultant_name">
+               </div>
+               <div class="col-lg-3">
+                  <button class="btn btn-primary"><i class="fa fa-plus" onclick="add_consultant();"></i>ADD</button>
+               </div>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="for_fee" tabindex="-1" role="dialog" aria-labelledby="for_feeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_feeLabel">Fee Strucutre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row">
+<div class="col-lg-3">
+                 <label>Consultant</label>
+                  <select  id="Consultant"  class="form-control" required>
+                     <option value=''>Select Consultant</option>
+                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
+                     $get_consultant_run=mysqli_query($conn,$get_consultant);
+                     while($row=mysqli_fetch_array($get_consultant_run))
+                     {?>
+
+                     <option value='<?=$row['id'];?>'><?=$row['state'];?></option>
+                     
+                     <?php }?>
+                 </select>
+              </div>  
+              <div class="col-lg-3">
+                <label>College Name</label>
+                 <select   id='CollegeName' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-3">
+                 <label>Department</label>
+                  <select  id="Department"  class="form-control"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
+
+
+              <div class="col-lg-3">
+                 <label>Course</label>
+                  <select   id="Course" class="form-control" required >
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+              <div class="col-lg-3">
+                 <label>Applicables Fee</label>
+                  <input type="text"id="Applicables"  class="form-control"  required >
+              </div>  
+
+
+              <div class="col-lg-2">
+                 <label>Hostel Fee</label>
+                 <input type="text" id="Hostel"  class="form-control"  required>
+              </div>
+              <div class="col-lg-3">
+                 <label>University Concession</label>
+                 
+                 <input type="text" id="UniversityConcession"  class="form-control" onchange="calculation();"  required>
+              </div>
+              <div class="col-lg-4">
+                 <label>Fee After  Concession(Anual)</label>
+                 
+                 <input type="text" id="FeeAfterConcession"  class="form-control"   readonly>
+              </div>  
+              <div class="col-lg-1">
+                 <label>Action</label><br>
+                 
+                 <button class="btn btn-success" onclick="submit_fee();">Submit</button>
+              </div>  
+            </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 <section class="content">
    <div class="container-fluid">
       <div class="row">
@@ -9,26 +129,17 @@ include "header.php";
              <div class="col-lg-12 col-md-12 col-sm-12" >
             <div class="card card-info " id="myCollapsible">
                <div class="card-header">
-                  <div class="row">
-                     <div class="col-lg-3">
-                        <h3 class="card-title">Create Offer Latter</h3>
-                     </div>
-                     <div class="col-lg-9">
-                        <div class="card-tools">
-                           <div class="row">
-                              <div class="col-lg-3">
-                                 
-                              </div>
-                              <div class="col-lg-4">
-
-                              </div>
-                              <div class="col-lg-5">
-                                
-                              </div>
-                                 
-                           </div>
+              <div class="card-tools">
+                     
+                        <div class="input-group input-group-sm">
+                          
+                           <button class="btn btn-primary" data-toggle="modal" data-target="#for_consultant"><i class="fa fa-plus" ></i>Consultant</button>
+                           &nbsp;
+                           &nbsp;
+                           &nbsp;
+                           <button class="btn btn-warning" data-toggle="modal" data-target="#for_fee"><i class="fa fa-plus" ></i>Fee</button>
                         </div>
-                     </div>
+                    
                   </div>
                </div>
                <div class="card-body "  id="">
@@ -51,16 +162,21 @@ include "header.php";
             </div>
              <div class="col-lg-3">
                <label>Gender</label>
-               <input type="text" value="" id="Gender" class="form-control" > 
+              
+               <select id="Gender" class="form-control">
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+               </select>
             </div>
             <div class="col-lg-2">
                <label>Mobile No</label>
-               <input type="text" value="" id="MobileNo"  class="form-control" > 
+               <input type="number" value="" id="MobileNo"  class="form-control" > 
             </div>
 
             <div class="col-lg-3">
                 <label>College Name</label>
-                 <select   id='CollegeName' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -77,7 +193,7 @@ include "header.php";
               </div>
                <div class="col-lg-2">
                  <label>Department</label>
-                  <select  id="Department"  class="form-control"  onchange="fetchcourse()" required>
+                  <select  id="Department1"  class="form-control"  onchange="fetchcourse1()" required>
                      <option value=''>Select Department</option>
                  </select>
               </div>  
@@ -85,7 +201,7 @@ include "header.php";
 
               <div class="col-lg-2">
                  <label>Course</label>
-                  <select   id="Course" class="form-control" required >
+                  <select   id="Course1" class="form-control" required >
                      <option value=''>Select Course</option>
                  </select>
               </div>
@@ -126,18 +242,56 @@ include "header.php";
                </div>
             </div>
             <div class="col-lg-2">
+              <label>Session</label>  
+              <select class="form-control" id="session">
+                 <option value="">Select</option>
+                 <option value="2022-23">2022-23</option>
+                 <option value="2023-24">2023-24</option>
+                 <option value="2024-25">2024-25</option>
+                 <option value="2025-26">2025-26</option>
+                 
+              </select>
+            </div> 
+
+             <div class="col-lg-2">
+              <label>Course Duration</label>  
+              <select class="form-control" id="duration">
+                 <option value="">Select</option>
+                 <option value="1">1 Year</option>
+                 <option value="2">2 Years</option>
+                 <option value="3">3 Years</option>
+                 <option value="4">4 Years</option>
+                 <option value="5">5 Years</option>
+                 <option value="6">6 Years</option>
+              </select>
+            </div>
+             <div class="col-lg-2">
               <label>Pin Code</label>  
-              <input type="text" value="" id="Pincode" class="form-control">
+              <input type="text" value="" id="Pincode" onkeyup="postcode();" class="form-control">
             </div>
             <div class="col-lg-2">
               <label>Nationality</label>  
-              <input type="text" value="" id="Nationality" class="form-control" >
+              <input type="text" value="" id="Nationality" class="form-control"  readonly>
             </div> <div class="col-lg-2">
               <label>State</label>  
-              <input type="text" value="" id="State" class="form-control" >
-            </div><div class="col-lg-2">
+              <input type="text" value="" id="State" class="form-control" readonly>
+            </div>
+            <div class="col-lg-2">
               <label>District</label>  
-              <input type="text" value="" id="District" class="form-control" >
+              <input type="text" value="" id="District" class="form-control"readonly >
+            </div> <div class="col-lg-2">
+              <label>Consultant</label>  
+              <select  id="Consultant_"  class="form-control" >
+                     <option value=''>Select Consultant</option>
+                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
+                     $get_consultant_run=mysqli_query($conn,$get_consultant);
+                     while($row=mysqli_fetch_array($get_consultant_run))
+                     {?>
+
+                     <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
+                     
+                     <?php }?>
+                 </select>
             </div>
             
 
@@ -181,7 +335,7 @@ include "header.php";
                </div>
                <script>
                   var currentPage = 1;
-                  var code = 78;
+                  var code = 134;
                   var searchQuery = '';
                     
                   $(document).ready(function() {
@@ -211,16 +365,16 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="4"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="4"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Print</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>Father Name</th><th>Mother Name</th><th>Mobile No</th><th>Course</th></tr>';
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
                            table += '<tr>';
                            table += '<td><input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '"></td>';
                            table += '<td>' + data[i][0] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
-                           table += '<td data-toggle="modal" data-target="#exampleModal" onclick="view_image(\'' + unirollno + '\');">' + unirollno + '</td>';
+                           table += '<td >'+ unirollno+'</td>';
                            table += '<td>' + data[i][3] + '</td>';
                            table += '<td>' + data[i][5] + '</td>';
                            table += '<td>' + data[i][6] + '</td>';
@@ -272,8 +426,8 @@ include "header.php";
                   });
 
               function printSelectedRows() {
+               // alert();
    var id_array = document.getElementsByName('selectedRows[]');
-   var Todate = document.getElementById('date').value;
    var len_id = id_array.length;
    var id_array_main = [];
    for (i = 0; i < len_id; i++) {
@@ -282,27 +436,11 @@ include "header.php";
       }
    }
    if (id_array_main.length > 0) {
-      window.open('print_degree2.php?id_array=' + id_array_main+'&Todate='+Todate);
+      window.open('print_offer_letter.php?id_array=' + id_array_main);
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }
 }     
-         function printSelectedRows_all_course() {
-   var id_array = document.getElementsByName('selectedRows[]');
-   var Todate = document.getElementById('date').value;
-   var len_id = id_array.length;
-   var id_array_main = [];
-   for (i = 0; i < len_id; i++) {
-      if (id_array[i].checked === true) {
-         id_array_main.push(id_array[i].value);
-      }
-   }
-   if (id_array_main.length > 0) {
-      window.open('print_degree3.php?id_array=' + id_array_main+'&Todate='+Todate);
-   } else {
-      ErrorToast('All Input Required', 'bg-warning');
-   }
-}
 
 
                   function toggleSelectAll(checkbox) {
@@ -312,21 +450,7 @@ include "header.php";
                      }
                   }
 
-                  function view_image(id) {
-                     var code = 91;
-                     $.ajax({
-                        url: 'action_g.php',
-                        type: 'post',
-                        data: {
-                           uni: id,
-                           code: code
-                        },
-                        success: function(response) {
-                           console.log(response);
-                           document.getElementById("image_view").innerHTML = response;
-                        }
-                     });
-                  }
+                
                </script>
                <div id="data-table">
                   <!-- <table class="table">
@@ -377,23 +501,131 @@ include "header.php";
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
+function calculation() {
+   var Applicables = document.getElementById("Applicables").value;
+
+    var Hostel = document.getElementById("Hostel").value;
+    var UniversityConcession = document.getElementById("UniversityConcession").value;
+FeeAfterConcession_new=parseInt(Applicables)+parseInt(Hostel);
+FeeAfterConcession=parseInt(FeeAfterConcession_new)-parseInt(UniversityConcession);
+document.getElementById("FeeAfterConcession").value=FeeAfterConcession;
+}
+
+function submit_fee() 
+{
+  
+    var CollegeName = document.getElementById("CollegeName").value;
+    var Department = document.getElementById("Department").value;
+    var Course = document.getElementById("Course").value;
+    var Applicables = document.getElementById("Applicables").value;
+    var Hostel = document.getElementById("Hostel").value;
+    var UniversityConcession = document.getElementById("UniversityConcession").value;
+    var FeeAfterConcession = document.getElementById("FeeAfterConcession").value;
+    var Consultant = document.getElementById("Consultant").value;
+var code=136;
+      $.ajax({
+    url: 'action_g.php',
+    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code},
+    type: 'POST',
+    success: function(response) {
+    
+         SuccessToast('Successfully Inserted');
+   
+  },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+   
+    }
+  });
+}function add_consultant() 
+{
+  
+    var consultant_name = document.getElementById("consultant_name").value;
+var code=135;
+      $.ajax({
+    url: 'action_g.php',
+    data: {consultant_name:consultant_name,code:code},
+    type: 'POST',
+    success: function(response) {
+    
+         SuccessToast('Successfully Inserted');
+   
+  },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+   
+    }
+  });
+}
+
+
+
+
+
+
+
+
+   function postcode() {
+  var pincode = document.getElementById("Pincode").value;
+  var countryDisplay = document.getElementById("Nationality");
+  var stateDisplay = document.getElementById("State");
+  var districtDisplay = document.getElementById("District");
+  // var dropdown = document.getElementById("village_by_post");
+
+  // Clear previous data
+  countryDisplay.value = "";
+  stateDisplay.value = "";
+  districtDisplay.value = "";
+  // dropdown.innerHTML = "";
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
+        var Country = response[0].PostOffice[0].Country;
+        var State = response[0].PostOffice[0].State;
+        var District = response[0].PostOffice[0].District;
+
+        countryDisplay.value = Country;
+        stateDisplay.value = State;
+        districtDisplay.value = District;
+
+        // for (var i = 0; i < response[0].PostOffice.length; i++) {
+        //   var option = document.createElement("option");
+        //   option.value = i;
+        //   option.text = response[0].PostOffice[i].Name;
+        //   dropdown.add(option);
+        // }
+      }
+    }
+  };
+
+  var url = "https://api.postalpincode.in/pincode/" + pincode;
+  xhr.open("GET", url, true);
+  xhr.send();
+}
+
 function submit_record() {
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
   var MotherName = document.getElementById('MotherName').value;
   var Gender = document.getElementById('Gender').value;
   var MobileNo = document.getElementById('MobileNo').value;
-  var CollegeName = document.getElementById('CollegeName').value;
-  var Department = document.getElementById('Department').value;
-  var Course = document.getElementById('Course').value;
+  var CollegeName = document.getElementById('CollegeName1').value;
+  var Department = document.getElementById('Department1').value;
+  var Course = document.getElementById('Course1').value;
   var Batch = document.getElementById('batch').value;
   var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality').value;
   var State = document.getElementById('State').value;
   var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+  var Consultant = document.getElementById('Consultant_').value;
+  var duration = document.getElementById('duration').value;
+  var session = document.getElementById('session').value;
 
-alert(Name+'-'+FatherName+'-'+MotherName+'-'+Gender+'-'+MobileNo+'-'+CollegeName+'-'+Department+'-'+Course+'-'+Batch+'-'+PinCode+'-'+Nationality+'-'+State+'-'+District+'-'+Lateral);
+// alert(Name+'-'+FatherName+'-'+MotherName+'-'+Gender+'-'+MobileNo+'-'+CollegeName+'-'+Department+'-'+Course+'-'+Batch+'-'+PinCode+'-'+Nationality+'-'+State+'-'+District+'-'+Lateral);
 
 
   var code = 133;
@@ -411,7 +643,10 @@ alert(Name+'-'+FatherName+'-'+MotherName+'-'+Gender+'-'+MobileNo+'-'+CollegeName
     Nationality: Nationality,
     State: State,
     District: District,
+    Consultant: Consultant,
     Lateral: Lateral,
+    duration: duration,
+    session: session,
     code: code
   };
 
@@ -422,14 +657,39 @@ alert(Name+'-'+FatherName+'-'+MotherName+'-'+Gender+'-'+MobileNo+'-'+CollegeName
     type: 'POST',
     success: function(response) {
       console.log(response); // Log the response for debugging
-      alert('Data submitted successfully!');
+      // alert('Data submitted successfully!');
+      SuccessToast('Data submitted successfully');
+       // loadData(currentPage);
     },
     error: function(xhr, status, error) {
       console.error(xhr.responseText);
-      alert('An error occurred while submitting data. Please try again.');
+      // alert('An error occurred while submitting data. Please try again.');
     }
   });
 }
+
+
+function collegeByDepartment1(College) 
+{  
+     
+var code='304';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+     
+$("#Department1").html("");
+$("#Department1").html(data);
+}
+}
+});
+
+}
+
+
 
     function fetchcourse()
 {   
@@ -451,6 +711,31 @@ if(data != "")
      console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
+}
+}
+});
+
+} 
+   function fetchcourse1()
+{   
+   
+  
+
+ var College=document.getElementById('CollegeName1').value;
+       var department=document.getElementById('Department1').value;
+
+var code='305';
+$.ajax({
+url:'action.php',
+data:{department:department,College:College,code:code},
+type:'POST',
+success:function(data)
+{
+if(data != "")
+{
+     console.log(data);
+$("#Course1").html("");
+$("#Course1").html(data);
 }
 }
 });
