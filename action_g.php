@@ -4241,8 +4241,8 @@ if ($check_flow_row['status']<4) {
          } 
                elseif($code==78)
       {
-
-                     $degree="SELECT * FROM degree_print order by Id DESC  ";                     
+         $up_date=$_POST['upload_date'];
+                     $degree="SELECT * FROM degree_print where upload_date='$up_date' order by Id ASC  ";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
@@ -4258,13 +4258,17 @@ if ($check_flow_row['status']<4) {
       }
    elseif($code==79)
    {
-      $Examination="";
+      $month="";
+      $year="";
+      $todate=date('Y-m-d');
 $Stream="";
 $ExtraRow="";
    $file = $_FILES['file']['tmp_name'];
-   if(isset($_POST['examination']))
+   if(isset($_POST['month']))
    {
-   $Examination=$_POST['examination'];
+   $month=$_POST['month'];
+   $year=$_POST['year'];
+   $Examination=$month.' '.$year;
 
    } if(isset($_POST['stream']))
    {
@@ -4284,7 +4288,7 @@ $ExtraRow="";
    $Course = $filesop[3];
    $RegistrationNo = $filesop[4];
    $CGPA = $filesop[5];
-   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream');";
+   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`,`upload_date`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream','$todate');";
    $insert_run=mysqli_query($conn,$insert);
    }
    if ($insert_run==true)
@@ -6878,19 +6882,45 @@ elseif($code==130)
 </div>
 </div>
 <div class="row container-fluid">
+
 <div class="col-lg-6">
-   <label>Examination</label>
-  <input type="text" name="examination" class="form-control">
+   <label>Month</label>
+ <select name="year" class="form-control" required >
+   <option  value="">Select</option>
+  <option value="Jan">January</option>
+  <option  value="Feb">February</option>
+  <option value="Mar">March</option>
+  <option  value="Apr">April</option>
+   <option  value="May">May</option>
+  <option  value="Jun">June</option>
+  <option  value="Jul">July</option>
+  <option  value="Aug">August</option>
+   <option  value="Sep">September</option>
+  <option  value="Oct">October</option>
+  <option  value="Nov">November</option>
+  <option  value="Dec">December</option>
+</select>
 </div>
 <div class="col-lg-6">
+   <label>Year</label>
+  <select class="form-control" name="month" required>
+    <option  value="">Select</option>
+   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   { ?>
+   <option value="<?=$i;?>"><?=$i;?></option>
+      
+   <?php }  ?>
+  </select>
+</div>
+<!-- <div class="col-lg-6">
    <label>Stream</label>
   <input type="text" name="stream" class="form-control">
-</div>
+</div> -->
 </div>
 <div class="row container-fluid">
 <div class="col-lg-12">
    <label>File</label>
-  <input type="file" name="file" class="form-control">
+  <input type="file" name="file" class="form-control" required>
 </div>
 </div>
 <div class="row container-fluid">
@@ -6918,12 +6948,33 @@ elseif($code==131)
 </div>
 <div class="row container-fluid">
 <div class="col-lg-6">
-   <label>Examination</label>
-  <input type="text" name="examination" class="form-control">
+   <label>Month</label>
+ <select name="year" class="form-control"  required>
+   <option  value="">Select</option>
+  <option value="Jan">January</option>
+  <option  value="Feb">February</option>
+  <option value="Mar">March</option>
+  <option  value="Apr">April</option>
+   <option  value="May">May</option>
+  <option  value="Jun">June</option>
+  <option  value="Jul">July</option>
+  <option  value="Aug">August</option>
+   <option  value="Sep">September</option>
+  <option  value="Oct">October</option>
+  <option  value="Nov">November</option>
+  <option  value="Dec">December</option>
+</select>
 </div>
 <div class="col-lg-6">
-   <label>Stream</label>
-  <input type="text" name="stream" class="form-control">
+   <label>Year</label>
+  <select class="form-control" name="month" required>
+   <option  value="">Select</option>
+   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   { ?>
+   <option value="<?=$i;?>"><?=$i;?></option>
+      
+   <?php }  ?>
+  </select>
 </div>
 </div>
 <div class="row container-fluid">
@@ -6935,7 +6986,7 @@ elseif($code==131)
 <div class="row container-fluid">
 <div class="col-lg-12">
    <label>File</label>
-  <input type="file" name="file" class="form-control">
+  <input type="file" name="file" class="form-control" required>
 </div>
 </div>
 
@@ -6963,18 +7014,43 @@ elseif($code==132)
 </div>
 <div class="row container-fluid">
 <div class="col-lg-6">
-   <label>Examination</label>
-  <input type="text" name="examination" class="form-control">
+   <label>Month</label>
+ <select name="year" class="form-control"  required>
+  <option  value="">Select</option>
+  <option value="Jan">January</option>
+  <option  value="Feb">February</option>
+  <option value="Mar">March</option>
+  <option  value="Apr">April</option>
+   <option  value="May">May</option>
+  <option  value="Jun">June</option>
+  <option  value="Jul">July</option>
+  <option  value="Aug">August</option>
+   <option  value="Sep">September</option>
+  <option  value="Oct">October</option>
+  <option  value="Nov">November</option>
+  <option  value="Dec">December</option>
+</select>
 </div>
 <div class="col-lg-6">
+   <label>Year</label>
+  <select class="form-control" name="month" required>
+    <option  value="">Select</option>
+   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   { ?>
+   <option value="<?=$i;?>"><?=$i;?></option>
+      
+   <?php }  ?>
+  </select>
+</div>
+<div class="col-lg-12">
    <label>Stream</label>
-  <input type="text" name="stream" class="form-control">
+  <input type="text" name="stream" class="form-control" required>
 </div>
 </div>
 <div class="row container-fluid">
 <div class="col-lg-12">
    <label>File</label>
-  <input type="file" name="file" class="form-control">
+  <input type="file" name="file" class="form-control" required>
 </div>
 </div>
 <div class="row container-fluid">

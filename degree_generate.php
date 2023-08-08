@@ -51,12 +51,14 @@ include "header.php";
                            &nbsp;
                            &nbsp;
                            &nbsp; -->
-                           <!-- <input type="file" name="file_exl" class="form-control input-group-sm" required> -->
-                           <!-- &nbsp;
+                         
+                          <input type="date"  class="form-control" value="2023-08-08" id="upload_date">
+                          <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search();" value="Search">
                            &nbsp;
                            &nbsp;
                            &nbsp;
-                           &nbsp; -->
+                           &nbsp;
+                           &nbsp;
                            <input type="submit" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#for_excel" value="Upload">
                            &nbsp;
                            &nbsp;
@@ -73,14 +75,46 @@ include "header.php";
                   </div>
                </div>
                <script>
+                  function date_by_search() {
+                     
+                    var currentPage = 1;
+                  var code = 78;
+                  var searchQuery = '';
+                    var upload_date=document.getElementById('upload_date').value;
+                    // alert(upload_date);
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                              upload_date: upload_date,
+                              search: searchQuery // Pass the search query to the server
+                           },
+                           success: function(data) {
+                              buildTable(data);
+                              updatePagination(currentPage);
+                           },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
                   var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
-                    
-                  $(document).ready(function() {
+                   const date = new Date();
+                  var day = date.getDate();
+                   var month = date.getMonth() + 1;
+                  var year = date.getFullYear();
+                  var upload_date = `${year}-${month}-${day}`;
+   
+                  // $(document).ready(function() {
                      loadData(currentPage);
 
                      function loadData(page) {
+                    var upload_date=document.getElementById('upload_date').value;
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -88,6 +122,7 @@ include "header.php";
                            data: {
                               page: page,
                               code: code,
+                              upload_date: upload_date,
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
@@ -104,7 +139,7 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other Print </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="1"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
                         table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th></tr>';
                         for (var i = 0; i < data.length; i++) {
@@ -172,7 +207,7 @@ include "header.php";
                            loadData(currentPage);
                         }
                      });
-                  });
+                  // });
 
               function printSelectedRows() {
    var id_array = document.getElementsByName('selectedRows[]');

@@ -310,8 +310,9 @@ include "header.php";
          <div class="col-lg-12 col-md-12 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
+                     <h5>All Records</h5>
                   <div class="card-tools">
-                        <form action="sic-document-record-print.php" method="post" target="_blank">   
+                       <!--  <form action="sic-document-record-print.php" method="post" target="_blank">   
                                      <div class="input-group input-group-sm">
                                        <div class="input-group-prepend">
                                           <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
@@ -324,7 +325,7 @@ include "header.php";
                                        <input required type="datetime-local" class="form-control" name="endDate" aria-describedby="button-addon2">
                                        <button class="btn btn-info btn-sm" type="submit" id="button-addon2" ><i class="fa fa-file-export"></i></button>
                                     </div>
-                                 </form>
+                                 </form> -->
                     
                   </div>
                   <div class="card-tools">
@@ -365,7 +366,7 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="4"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Print</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Print</button> </td><td colspan="1"></td><td> <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
                         table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>Father Name</th><th>Mother Name</th><th>Mobile No</th><th>Course</th></tr>';
                         for (var i = 0; i < data.length; i++) {
@@ -441,6 +442,21 @@ include "header.php";
       ErrorToast('All Input Required', 'bg-warning');
    }
 }     
+         function printSelectedRows_second() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter_second.php?id_array='+id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
 
 
                   function toggleSelectAll(checkbox) {
