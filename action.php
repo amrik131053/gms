@@ -18063,7 +18063,7 @@ if ($type == 1) {
         $optionD = str_replace("'", "`",$_POST['QuestionD' . $i]);
         
         if ($EmployeeID > 0) {
-             $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+             $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD','$timeStamp')";
             $insQryRun = mysqli_query($conn, $insQry);
             if ($insQryRun==true) {
                echo "1";

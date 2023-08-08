@@ -70,7 +70,7 @@
                    <select id="batch" name="batch"  class="form-control" required>
                        <option value="">Batch</option>
                           <?php 
-                              for($i=2013;$i<=2030;$i++)
+                              for($i=2011;$i<=2030;$i++)
                                  {?>
                                <option value="<?=$i?>"><?=$i?></option>
                            <?php }
