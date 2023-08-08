@@ -335,11 +335,41 @@ include "header.php";
                   </div>
                </div>
                <script>
+
+
+          function date_by_search() {
+                     
+                    var currentPage = 1;
+                  var code = 134;
+                  var searchQuery = '';
+                    // alert(upload_date);
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                              search: searchQuery // Pass the search query to the server
+                           },
+                           success: function(data) {
+                              buildTable(data);
+                              updatePagination(currentPage);
+                           },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
+
+
+
                   var currentPage = 1;
                   var code = 134;
                   var searchQuery = '';
                     
-                  $(document).ready(function() {
+
+
                      loadData(currentPage);
 
                      function loadData(page) {
@@ -366,9 +396,9 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Print</button> </td><td colspan="1"></td><td> <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>Father Name</th><th>Mother Name</th><th>Mobile No</th><th>Course</th></tr>';
+                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Name</th><th>Father Name</th><th>Mobile No</th></tr>';
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
                            table += '<tr>';
@@ -376,9 +406,9 @@ include "header.php";
                            table += '<td>' + data[i][0] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td>' + data[i][3] + '</td>';
+                           // table += '<td>' + data[i][3] + '</td>';
                            table += '<td>' + data[i][5] + '</td>';
-                           table += '<td>' + data[i][6] + '</td>';
+                           // table += '<td>' + data[i][6] + '</td>';
                            
                            table += '</tr>';
                         }
@@ -424,7 +454,7 @@ include "header.php";
                            loadData(currentPage);
                         }
                      });
-                  });
+            
 
               function printSelectedRows() {
                // alert();
@@ -563,7 +593,7 @@ var code=135;
     data: {consultant_name:consultant_name,code:code},
     type: 'POST',
     success: function(response) {
-    
+    // console.log(response);
          SuccessToast('Successfully Inserted');
    
   },
@@ -672,10 +702,10 @@ function submit_record() {
     data: data,
     type: 'POST',
     success: function(response) {
-      console.log(response); // Log the response for debugging
+      // console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       SuccessToast('Data submitted successfully');
-       // loadData(currentPage);
+      date_by_search();
     },
     error: function(xhr, status, error) {
       console.error(xhr.responseText);

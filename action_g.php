@@ -7094,7 +7094,7 @@ echo"sadfgasfasd";
       }  
       elseif($code==134)
       {
-           $degree="SELECT * FROM offer_latter ";                     
+           $degree="SELECT * FROM offer_latter order by Id DESC ";                     
 
           
                      $degree_run=mysqli_query($conn,$degree);
