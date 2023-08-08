@@ -11010,7 +11010,7 @@ $incharge_mobile=$_POST['incharge_mobile'];
                   {
                     $class_rollno = $filesop[0];
                     $status = $filesop[1];   
-                    $sql = "UPDATE  Admissions set  Eligibility='$status' where UniRollNo='$class_rollno'";
+                    $sql = "UPDATE  Admissions set  Eligibility='$status' where ClassRollNo='$class_rollno'";
                  $result = sqlsrv_query($conntest,$sql);
                 if($result=== false)
                  {
