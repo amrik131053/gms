@@ -1067,7 +1067,7 @@ xmlhttp.send();
   });
 
 
-
+ 
 
 function stock_summary_search_by_article(){
 var code=29;

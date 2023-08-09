@@ -45,6 +45,7 @@
                               <option value="3">Not Issued</option>
                               <option value="4">Faulty</option>
                               <option value="5">Discarted</option>
+                              <option value="6">Not Updated</option>
                            </select>
                           </div>
                         <div class="col-lg-2">
@@ -56,7 +57,7 @@
                            <button type="submit" class="btn btn-info"  onclick="exportAll();" >Export</button>
                          
                         </div>
-                     </form>
+                      </form>
                      </div>
                   </div>
          

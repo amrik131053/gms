@@ -2433,7 +2433,7 @@ if ($co<1) {
      if ($Status==1)
       {
          $building_num=0;
-                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where   s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.Status>'0' and   s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
      }
      elseif ($Status==2)
  {
@@ -2455,6 +2455,11 @@ elseif($Status==5)
  {
     $building_num=0;
                            $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where s.WorkingStatus='1' AND s.Status='3'  and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
+ }
+ elseif($Status==6)
+ {
+    $building_num=0;
+                           $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode Where  s.Status='0'  and s.CategoryID='$CategoryID' and s.ArticleCode='$ArticleID'";
  }
 
 
