@@ -19,9 +19,7 @@ $pdf = new CustomPDF();
 $pdf->AliasNbPages(); // Enable page numbering
 
  
-$pdf->AddPage('P', 'A4');
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->SetXY(85, 1);
+
  $sel=array();
    $sel=$_GET['id_array'];
    $course_table[]=5;
@@ -51,7 +49,9 @@ $pdf->SetXY(85, 1);
 
 
 foreach ($id as $key => $value) {
-
+$pdf->AddPage('P', 'A4');
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->SetXY(85, 1);
 $get_student_details="SELECT * FROM offer_latter where id='$value'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
@@ -74,6 +74,24 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
+   $get_country="SELECT name FROM countries  where id='$Nationality'";
+                  $get_country_run=mysqli_query($conn,$get_country);
+                  if($row=mysqli_fetch_array($get_country_run))
+                  {
+                    if ($row['name']=='India') {
+                       
+$NationalityName='Indian';
+                    }else
+                    {
+$NationalityName=$row['name'];
+
+                    }
+                   }
+
+    
+
+
+
     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
@@ -123,16 +141,16 @@ $ms="Ms.";    // code...
    // code...
 
 }
-
+$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
-$pdf->SetXY(10, 30);
+$pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 $pdf->SetFont('Times', '', 12);
-$pdf->MultiCell(190, 8, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$Nationality.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , and Punjab, India during session '.$Session.' . The Admissions will be confirmed after submission of all  eligibility documents in original (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being with the approval of worthy Vice-chancellor. Further University will provide placement of eligibility Candidate only . This Letter is valid for Two weeks only.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , and Punjab, India during session '.$Session.' . The Admissions will be confirmed after submission of all  eligibility documents in original (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being with the approval of worthy Vice-chancellor. Further University will provide placement of eligibility Candidate only . This Letter is valid for Two weeks only.',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
-$pdf->SetXY($X, $Y+3);
+$pdf->SetXY($X, $Y+1.5);
 $pdf->SetFont('Times', '', 10);
 $pdf->MultiCell(190, 8, 'Please use the following Bank Account details to transfer the Fee.',0, 'L');
 $pdf->SetFont('Times', '', 11);
@@ -205,8 +223,8 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 // $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 // Output the PDF
 
-$pdf->AddPage('P', 'A4');
-$pdf->SetXY(85, 1);
+// $pdf->AddPage('P', 'A4');
+// $pdf->SetXY(85, 1);
 }
 $pdf->Output();
 ?>

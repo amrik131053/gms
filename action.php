@@ -26,7 +26,7 @@ ini_set('max_execution_time', '0');
 <?php }
    include "connection/connection.php";
 
-
+ 
 
     $permissionCount=0;
    $permission_qry="SELECT * FROM category_permissions where employee_id='$EmployeeID' and is_admin='1'";

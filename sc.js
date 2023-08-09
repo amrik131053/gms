@@ -1444,3 +1444,24 @@ function new_page_submit()
   xmlhttp.open("GET", "get_action.php?menu_id=" + menu+"&submenu_name="+submenu+"&link="+sublink+"&code="+code, true);
   xmlhttp.send();
 }
+
+
+function country_to_state(country) 
+{  
+    // alert(country);
+var code='137';
+$.ajax({
+url:'action_g.php',
+data:{country:country,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+    // console.log(data);
+$("#State").html("");
+$("#State").html(data);
+}
+}
+});
+
+}

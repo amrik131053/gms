@@ -148,6 +148,49 @@ include "header.php";
             <div class="col-lg-12">
                
          <div class="row">
+                <div class="col-lg-2">
+              <label>Nationality</label>  
+              <select class="form-control" id="Nationality" onchange="country_to_state(this.value); ShowHideDiv_address(this.value);">
+                 <option value="">Select</option>
+                 <?php 
+                  $get_country="SELECT * FROM countries ";
+                  $get_country_run=mysqli_query($conn,$get_country);
+                  while($row=mysqli_fetch_array($get_country_run))
+                  {?>
+                        <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
+                  <?php }
+
+                 ?>
+              </select>
+             
+            </div> 
+
+
+            <div class="col-lg-2">
+              <label>State</label>  
+              
+              <select class="form-control" id="State">
+
+              </select>
+            </div>
+         
+           
+            
+
+            <div class="col-lg-2">
+              <label>Consultant</label>  
+              <select  id="Consultant_"  class="form-control" >
+                     <option value=''>Select Consultant</option>
+                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
+                     $get_consultant_run=mysqli_query($conn,$get_consultant);
+                     while($row=mysqli_fetch_array($get_consultant_run))
+                     {?>
+
+                     <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
+                     
+                     <?php }?>
+                 </select>
+            </div>
             <div class="col-lg-3">
                <label>Student Name</label>
                <input type="text" value="" id="Name" class="form-control" > 
@@ -156,23 +199,23 @@ include "header.php";
                <label>Father Name</label>
                <input type="text" value="" id="FatherName" class="form-control" > 
             </div>
-             <div class="col-lg-3">
-               <label>Mother  Name</label>
-               <input type="text" value="" id="MotherName" class="form-control" > 
-            </div>
+            
              <div class="col-lg-3">
                <label>Gender</label>
-              
                <select id="Gender" class="form-control">
                   <option value="">Select</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                </select>
+            </div> 
+            <div class="col-lg-3" style="display: none;" id="AdharCardNo_div">
+               <label>Adhar Card No</label>
+               <input type="number" class="form-control" id="AdharCardNo" >
+            </div><div class="col-lg-3" style="display: none;" id="PassportNo_div">
+               <label>Passport No</label>
+              <input type="text" class="form-control" id="PassportNo">
             </div>
-            <div class="col-lg-2">
-               <label>Mobile No</label>
-               <input type="number" value="" id="MobileNo"  class="form-control" > 
-            </div>
+           
 
             <div class="col-lg-3">
                 <label>College Name</label>
@@ -209,20 +252,7 @@ include "header.php";
 
              
 
-              <div class="col-lg-1">
-                 <label>Batch</label>
-                   <select id="batch"   class="form-control" required>
-                       <option value="">Batch</option>
-                          <?php 
-                              for($i=2013;$i<=2030;$i++)
-                                 {?>
-                               <option value="<?=$i?>"><?=$i?></option>
-                           <?php }
-                                  ?>
-                 </select>
-      
-                     
-              </div> 
+             
             <div class="col-lg-2">
               <label>Lateral Entry</label> <br>
                   <div class="icheck-primary d-inline">
@@ -265,34 +295,8 @@ include "header.php";
                  <option value="6">6 Years</option>
               </select>
             </div>
-             <div class="col-lg-2">
-              <label>Pin Code</label>  
-              <input type="text" value="" id="Pincode" onkeyup="postcode();" class="form-control">
-            </div>
-            <div class="col-lg-2">
-              <label>Nationality</label>  
-              <input type="text" value="" id="Nationality" class="form-control"  readonly>
-            </div> <div class="col-lg-2">
-              <label>State</label>  
-              <input type="text" value="" id="State" class="form-control" readonly>
-            </div>
-            <div class="col-lg-2">
-              <label>District</label>  
-              <input type="text" value="" id="District" class="form-control"readonly >
-            </div> <div class="col-lg-2">
-              <label>Consultant</label>  
-              <select  id="Consultant_"  class="form-control" >
-                     <option value=''>Select Consultant</option>
-                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
-                     $get_consultant_run=mysqli_query($conn,$get_consultant);
-                     while($row=mysqli_fetch_array($get_consultant_run))
-                     {?>
-
-                     <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
-                     
-                     <?php }?>
-                 </select>
-            </div>
+                  
+          
             
 
             <div class="col-lg-3">
@@ -655,44 +659,48 @@ var code=135;
 function submit_record() {
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
-  var MotherName = document.getElementById('MotherName').value;
+  // var MotherName = document.getElementById('MotherName').value;
   var Gender = document.getElementById('Gender').value;
-  var MobileNo = document.getElementById('MobileNo').value;
+  // var MobileNo = document.getElementById('MobileNo').value;
   var CollegeName = document.getElementById('CollegeName1').value;
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
-  var Batch = document.getElementById('batch').value;
-  var PinCode = document.getElementById('Pincode').value;
+  // var Batch = document.getElementById('batch').value;
+  // var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality').value;
   var State = document.getElementById('State').value;
-  var District = document.getElementById('District').value;
+  // var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
   var duration = document.getElementById('duration').value;
   var session = document.getElementById('session').value;
+  var AdharCardNo = document.getElementById('AdharCardNo').value;
+  var PassportNo = document.getElementById('PassportNo').value;
 
-// alert(Name+'-'+FatherName+'-'+MotherName+'-'+Gender+'-'+MobileNo+'-'+CollegeName+'-'+Department+'-'+Course+'-'+Batch+'-'+PinCode+'-'+Nationality+'-'+State+'-'+District+'-'+Lateral);
+if(Name!='' && FatherName!='' && MotherName!='' && Gender!='' && MobileNo!='' && CollegeName!='' && Department!='' && Course!='' && Batch!='' && PinCode!='' && Nationality!='' && State!='' && District!='' )
 
-
+{
   var code = 133;
   var data = {
     Name: Name,
     FatherName: FatherName,
-    MotherName: MotherName,
+    // MotherName: MotherName,
     Gender: Gender,
-    MobileNo: MobileNo,
+    // MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
-    Batch: Batch,
-    PinCode: PinCode,
+    // Batch: Batch,
+    // PinCode: PinCode,
     Nationality: Nationality,
     State: State,
-    District: District,
+    // District: District,
     Consultant: Consultant,
     Lateral: Lateral,
     duration: duration,
     session: session,
+    AdharCardNo: AdharCardNo,
+    PassportNo: PassportNo,
     code: code
   };
 
@@ -704,8 +712,19 @@ function submit_record() {
     success: function(response) {
       // console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
+      if (response==1) {
       SuccessToast('Data submitted successfully');
       date_by_search();
+   }
+   else if(response==2)
+   {
+ErrorToast('ID Proof Already Exist','bg-warning');
+   }
+   else
+   {
+ErrorToast('Try  after some time','bg-danger');
+
+   }
     },
     error: function(xhr, status, error) {
       console.error(xhr.responseText);
@@ -713,6 +732,12 @@ function submit_record() {
     }
   });
 }
+else
+{
+   ErrorToast('All Input Required','bg-warning');
+}
+}
+
 
 
 function collegeByDepartment1(College) 
@@ -785,6 +810,25 @@ $("#Course1").html(data);
 }
 }
 });
+
+}
+
+function ShowHideDiv_address(id)
+{
+   // alert(id);
+   if (id=='101')
+    {
+   $('#AdharCardNo_div').show('Slow');
+   $('#PassportNo_div').hide('Slow');
+   document.getElementById('PassportNo').value="";
+    }
+    else
+    {
+   $('#PassportNo_div').show('Slow');
+    $('#AdharCardNo_div').hide('Slow');
+    document.getElementById('AdharCardNo').value="";
+
+    }
 
 }
 
