@@ -152,15 +152,29 @@ $ms1="Mr.";
 
   if ($gender=='Male') 
 {
-$ge="<strike>daughter</strike>";
-$ms="<strike>Ms.</strike>";    // code...
+$ge="daughter";
+$ms="Ms.";    // code...
 } 
 else{
-$ge1="<strike>son</strike>"; 
-$ms1="<strike>Mr.</strike>";    // code...
+$ge1="son"; 
+$ms1="Mr.";    // code...
    // code...
 
 }
+
+
+
+// if ($gender=='Male') 
+// {
+// $ge="<strike>daughter</strike>";
+// $ms="<strike>Ms.</strike>";    // code...
+// } 
+// else{
+// $ge1="<strike>son</strike>"; 
+// $ms1="<strike>Mr.</strike>";    // code...
+//    // code...
+
+// }
 
  ?>
 

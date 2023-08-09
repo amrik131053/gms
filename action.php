@@ -7456,6 +7456,7 @@ if($count>0)
 <table class="table table-head-fixed text-nowrap table-bordered" id="example">
    <thead>
       <tr>
+         <th><input type="checkbox"></th>
          <th>ID</th>
          <th>Block</th>
          <th>Floor</th>
@@ -7473,6 +7474,8 @@ if($count>0)
          {
          $location_num=$location_num+1;?>
       <tr>
+
+          <td><input type="checkbox"></td>
          <td><?=$location_num;?></td>
          <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
          <td><?=$location_row['FloorName'];?></td>
@@ -7514,9 +7517,11 @@ if($count>0)
             </form>
          </td>
       </tr>
+
       <?php 
          }
          ?>
+         <tr><td colspan="2"></td><td colspan="2"> <input type="text" class="form-control"></td></tr>
    </tbody>
 </table>
 <?php
