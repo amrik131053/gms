@@ -3926,7 +3926,29 @@ if ($check_flow_row['status']<4) {
    <textarea class="form-control " rows="3" placeholder="Rejected Remarks" id="comment_reject" style="display:none;margin-top: 10px;"></textarea>
    <input type="button"  class="btn btn-success btn-xs" id="btn_comment_reject" onclick="reject_by_allotment_auth();"  value="Submit" style="display:none;">
    <div class="row">
+
       <div class="col-lg-12" id="comment_allotment" style="display:none;margin-top: 10px;">
+          <div class="row">
+               
+              
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary15"  onclick="bydriver();" value="ByDriver" name="empc1" checked>
+                     <label for="radioPrimary15">
+                     Driver
+                     </label>
+                  </div>
+            &nbsp;
+            &nbsp;
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary16" onclick="selfdrive();"  value="Self Drive" name="empc1" >
+                     <label for="radioPrimary16">
+                     Self
+                     </label>
+                  </div>
+            </div>
+          
+            
+           
          <label>Type of Vehicle</label>
          <select class="form-control"onchange="drop_type_vehicle(this.value);" id="type" >
             <option value="">Select</option>
@@ -3945,6 +3967,13 @@ if ($check_flow_row['status']<4) {
          <select class="form-control" id="vehicle_name" >
             <option value="">Select</option>
          </select>
+ <div id="self_div" style="display:none;">
+              <label>Employee ID</label>
+              <input type="number" id="empID_self" class="form-control" placeholder="Search ID" onkeyup="emp_detail_verify(this.value);">
+              <p id="emp_detail_status_"></p>
+           </div>
+
+          <div id="driver_div" >
          <label> Driver Name</label>
          <select class="form-control" id="driver" >
             <?php  $get_type="SELECT * FROM Staff Where Designation='Driver' and JobStatus='1'";
@@ -3957,6 +3986,7 @@ if ($check_flow_row['status']<4) {
                 ?>
          </select>
       </div>
+   </div>
    </div>
    <input type="button"  class="btn btn-success btn-xs" id="btn_comment_allotment" onclick="allotment_by_allotment_auth();"  value="Submit" style="display:none;">
    <?php
@@ -3976,6 +4006,28 @@ if ($check_flow_row['status']<4) {
    </div>
       <div class="row">
       <div class="col-lg-12" id="comment_allotment" style="display:none;margin-top: 10px;">
+
+
+<div class="row">
+               
+              
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary15"  onclick="bydriver();" value="ByDriver" name="empc1" checked>
+                     <label for="radioPrimary15">
+                     Driver
+                     </label>
+                  </div>
+            &nbsp;
+            &nbsp;
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimary16" onclick="selfdrive();"  value="Self Drive" name="empc1" >
+                     <label for="radioPrimary16">
+                     Self
+                     </label>
+                  </div>
+            </div>
+
+
          <label>Type of Vehicle</label>
          <select class="form-control"onchange="drop_type_vehicle(this.value);" id="type" >
             <option value="">Select</option>
@@ -3995,6 +4047,14 @@ if ($check_flow_row['status']<4) {
             <option value="">Select</option>
 
          </select>
+ <div id="self_div" style="display:none;">
+              <label>Employee ID</label>
+              <input type="number" id="empID_self" class="form-control" placeholder="Search ID" onkeyup="emp_detail_verify(this.value);">
+              <p id="emp_detail_status_"></p>
+           </div>
+
+         
+         <div id="driver_div" >
          <label> Driver Name</label>
          <select class="form-control" id="driver" >
             <option value="">Select</option>
@@ -4008,6 +4068,8 @@ if ($check_flow_row['status']<4) {
                }
                ?>
          </select>
+</div>
+
       </div>
    </div>
    <input type="button"  class="btn btn-success btn-xs" id="btn_comment_allotment" onclick="allotment_by_allotment_auth();"  value="Submit" style="display:none;">
@@ -7174,6 +7236,32 @@ else
          <?php }
 
       }
+        elseif ($code==138) 
+   {
+      $empID=$_POST['id'];
+       $staff="SELECT * FROM Staff Where IDNo='$empID'";
+       $stmt = sqlsrv_query($conntest,$staff);  
+       if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+       {
+           $jobStatus=$row_staff['JobStatus'];
+           if ($jobStatus=='1') 
+           {
+            ?>
+            <label>Name</label>
+            <input type="text"  class="form-control" value="<?=$row_staff['Name'];?>" readonly> 
+
+            <label>Mobile No</label>
+            <input type="text"  class="form-control" value="<?=$row_staff['MobileNo'];?>" readonly>
+              
+           <?php
+        }
+           else
+           {
+               echo "<b>Can not assign to ".$empID;
+           }
+           // $array[]=$row_staff;
+       }
+   }
    else
    {
    

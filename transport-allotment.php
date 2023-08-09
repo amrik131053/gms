@@ -2,6 +2,7 @@
 
 include "header.php";
  ?>
+ <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
  <script type="text/javascript">
 
       function pending_requests()
@@ -118,10 +119,27 @@ function show_action_button_with_status(token)
            });
 }
 
- 
+ function emp_detail_verify(id)
+ {
+     
+           var code=138;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_").innerHTML=response;
+              }
+           });
+}
 
 
-function allotment_by_allotment_auth(Token_No)
+
+function allotment_by_allotment_auth(id)
  {
   var id=document.getElementById('time_line_id').value;
   // alert(id);
@@ -130,6 +148,8 @@ function allotment_by_allotment_auth(Token_No)
   var type=document.getElementById('type').value;
   var vehicle_name=document.getElementById('vehicle_name').value;
   var driver=document.getElementById('driver').value;
+  var empID_self=document.getElementById('empID_self').value;
+  var driver=driver+empID_self;
   // alert(id+token+userId+forward_remarks);
   if (vehicle_name!='Not' && driver!='') 
   {
@@ -144,7 +164,7 @@ function allotment_by_allotment_auth(Token_No)
               },
               success: function(response) 
               {
-                console.log(response);
+                // console.log(response);
                   spinner.style.display='none';  
                  if (response==1) 
                  {
@@ -188,7 +208,7 @@ function reject_by_allotment_auth() {
               },
               success: function(response) 
               {
-                console.log(response);
+                // console.log(response);
                   spinner.style.display='none';
                   if (response==1) 
                  {
@@ -298,6 +318,23 @@ $("#vehicle_name").html(data);
 window.onload = function() {
   pending_requests();
 };
+
+
+function bydriver()
+{
+   $('#driver_div').show('Slow');
+   $('#self_div').hide('Slow');
+   document.getElementById('empID_self').value="";
+   document.getElementById('emp_detail_status_').innerHTML="";
+
+    }
+    function selfdrive()
+    {
+   $('#self_div').show('Slow');
+   $('#driver_div').hide('Slow');
+    document.getElementById('driver').value="Select";
+
+    }
 
 
  </script>
