@@ -18,7 +18,29 @@ while($permission_data=mysqli_fetch_array($permission_res))
 }
 }
 ?>
+
+<style type="text/css">
+      #whatsapp-floating-button {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: ;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99999;
+}
+</style>
+<div id="whatsapp-floating-button">
+    <a href="https://api.whatsapp.com/send/?phone=917814679220" title="Chat on whatsapp"> <img src="whatsapp.png" alt="WhatsApp" width="50" height="50">
+</a>
+  </div>
 <section class="content">
+
    <div class="container-fluid">
       <div class="row">
 
