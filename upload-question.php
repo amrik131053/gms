@@ -180,7 +180,7 @@
       contentType: false,
       processData: false,
       success: function(response) {
-         // console.log(response);
+         console.log(response);
          if (response>0) {
         SuccessToast('Successfully Uploaded');
            // Empty the textareas after success

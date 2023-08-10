@@ -375,7 +375,7 @@ else {
             a=1;
          }  
          searchRecordFaulty(a);
-
+ 
       }
       function searchRecordFaulty(id){
    var code=65;
