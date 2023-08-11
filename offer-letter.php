@@ -677,7 +677,7 @@ function submit_record() {
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-if(Name!='' && FatherName!='' && MotherName!='' && Gender!='' && MobileNo!='' && CollegeName!='' && Department!='' && Course!='' && Batch!='' && PinCode!='' && Nationality!='' && State!='' && District!='' )
+if(Name!='' && FatherName!='' && Gender!='' && MobileNo!='' && CollegeName!='' && Department!='' && Course!='' && Batch!='' && PinCode!='' && Nationality!='' && State!='' && District!='' )
 
 {
   var code = 133;
