@@ -16,7 +16,7 @@ class CustomPDF extends FPDF {
 
 
    $today = date("j");
-    $month = date("F");
+    $month = date("m");
     $year = date("Y");
     $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
@@ -153,7 +153,7 @@ $pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 49);
-$pdf->MultiCell(45, 10, $today.''.$ordinalSuffix.' '.$month.' '.$year, 0, 'C');
+$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 $pdf->SetXY(25, 49);
 $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
 // $pdf->SetXY(10, 60);
@@ -161,7 +161,7 @@ $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 $pdf->SetFont('Times', '', 12);
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , and Punjab, India during session '.$Session.' . The Admissions will be confirmed after submission of all  eligibility documents in original (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being with the approval of worthy Vice-chancellor. Further University will provide placement of eligibility Candidate only . This Letter is valid for Two weeks only.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , and Punjab, India during session '.$Session.' . The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only . This Letter is valid for Two weeks only.',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);

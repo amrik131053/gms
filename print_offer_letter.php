@@ -15,7 +15,7 @@ class CustomPDF extends FPDF {
 }
 
    $today = date("j");
-    $month = date("F");
+    $month = date("m");
     $year = date("Y");
     $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
@@ -118,7 +118,7 @@ $ms="Ms.";    // code...
 $pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 49);
-$pdf->MultiCell(45, 10, $today.''.$ordinalSuffix.' '.$month.' '.$year, 0, 'C');
+$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 $pdf->SetXY(25, 49);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
@@ -128,11 +128,11 @@ $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a Government recognized University under section 2f of UGC and empowered to confer degrees as per the section 22(1) of the UGC Act,1956. ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956. ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
-$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years) on Class Roll No. '.$Class_RollNo.'. The candidate meets the eligibility qualifications as per university norms and the candidate is selected for the course as per merit ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years) on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
