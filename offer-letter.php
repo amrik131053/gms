@@ -677,7 +677,7 @@ function submit_record() {
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-if(Name!='' && FatherName!='' && Gender!='' && MobileNo!='' && CollegeName!='' && Department!='' && Course!='' && Batch!='' && PinCode!='' && Nationality!='' && State!='' && District!='' )
+if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!='' )
 
 {
   var code = 133;
@@ -789,12 +789,8 @@ $("#Course").html(data);
 } 
    function fetchcourse1()
 {   
-   
-  
-
  var College=document.getElementById('CollegeName1').value;
        var department=document.getElementById('Department1').value;
-
 var code='305';
 $.ajax({
 url:'action.php',
@@ -804,15 +800,13 @@ success:function(data)
 {
 if(data != "")
 {
-     console.log(data);
+     // console.log(data);
 $("#Course1").html("");
 $("#Course1").html(data);
 }
 }
 });
-
 }
-
 function ShowHideDiv_address(id)
 {
    // alert(id);
