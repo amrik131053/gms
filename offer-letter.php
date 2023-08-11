@@ -88,36 +88,57 @@ include "header.php";
               </div>
               <div class="col-lg-3">
                  <label>Applicables Fee</label>
-                  <input type="text"id="Applicables"  class="form-control"  required >
+                  <input type="number" id="Applicables"  value="0" class="form-control"  onblur="calculation();" required >
               </div>  
 
 
               <div class="col-lg-2">
                  <label>Hostel Fee</label>
-                 <input type="text" id="Hostel"  class="form-control"  required>
+                 <input type="number" id="Hostel"  value="0" class="form-control"  onblur="calculation();"  required>
               </div>
               <div class="col-lg-3">
                  <label>University Concession</label>
                  
-                 <input type="text" id="UniversityConcession"  class="form-control" onchange="calculation();"  required>
+                 <input type="number" id="UniversityConcession" value="0"  class="form-control" onblur="calculation();"  required>
               </div>
               <div class="col-lg-4">
                  <label>Fee After  Concession(Anual)</label>
                  
                  <input type="text" id="FeeAfterConcession"  class="form-control"   readonly>
               </div>  
-              <div class="col-lg-1">
+                     <div class="col-lg-2">
+              <label>Lateral Entry</label> <br>
+
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb18"  value="No" name="Lateral1" checked="">
+                     <label for="radioPrimaryb18">
+                     No
+                     </label>
+                 
+               </div>
+              
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb19"  value="Yes" name="Lateral1">
+                     <label for="radioPrimaryb19">
+                     Yes
+                     </label>
+                
+               </div>
+            </div>
+
+
+            <!--   <div class="col-lg-1">
                  <label>Action</label><br>
                  
                  <button class="btn btn-success" onclick="submit_fee();">Submit</button>
-              </div>  
+              </div>   -->
             </div>
 
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+         <button class="btn btn-success" onclick="submit_fee();">Submit</button>
       </div>
     </div>
   </div>
@@ -271,17 +292,20 @@ include "header.php";
                 
                </div>
             </div>
-            <div class="col-lg-2">
-              <label>Session</label>  
-              <select class="form-control" id="session">
+
+
+         <!--    <div class="col-lg-2">
+              <label>Session</label>   -->
+              <select class="form-control" id="session" hidden>
+                <option value="2023-24">2023-24</option>
                  <option value="">Select</option>
                  <option value="2022-23">2022-23</option>
                  <option value="2023-24">2023-24</option>
                  <option value="2024-25">2024-25</option>
                  <option value="2025-26">2025-26</option>
-                 
+                  
               </select>
-            </div> 
+          <!--  </div>  -->
 
              <div class="col-lg-2">
               <label>Course Duration</label>  
@@ -556,8 +580,10 @@ function calculation() {
 
     var Hostel = document.getElementById("Hostel").value;
     var UniversityConcession = document.getElementById("UniversityConcession").value;
+
 FeeAfterConcession_new=parseInt(Applicables)+parseInt(Hostel);
 FeeAfterConcession=parseInt(FeeAfterConcession_new)-parseInt(UniversityConcession);
+
 document.getElementById("FeeAfterConcession").value=FeeAfterConcession;
 }
 
@@ -572,13 +598,18 @@ function submit_fee()
     var UniversityConcession = document.getElementById("UniversityConcession").value;
     var FeeAfterConcession = document.getElementById("FeeAfterConcession").value;
     var Consultant = document.getElementById("Consultant").value;
+     var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
+
+    var Consultant = document.getElementById("Consultant").value;
+
+
 if (CollegeName!='' && Department!='' && Course!='' && Applicables !='' && Hostel!='' && UniversityConcession!='') 
 {
 
 var code=136;
       $.ajax({
     url: 'action_g.php',
-    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code},
+    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code,Lateral:Lateral},
     type: 'POST',
     success: function(response) {
     
