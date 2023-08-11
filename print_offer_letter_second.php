@@ -14,6 +14,11 @@ class CustomPDF extends FPDF {
     }
 }
 
+
+   $today = date("j");
+    $month = date("F");
+    $year = date("Y");
+    $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
 $pdf = new CustomPDF();
 $pdf->AliasNbPages(); // Enable page numbering
@@ -143,6 +148,12 @@ $ms="Ms.";    // code...
 }
 $pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
+$pdf->SetFont('Times', 'B', 11);
+$pdf->SetXY(155, 49);
+$pdf->MultiCell(45, 10, $today.''.$ordinalSuffix.' '.$month.' '.$year, 0, 'C');
+$pdf->SetXY(25, 49);
+$pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
+// $pdf->SetXY(10, 60);
 $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
@@ -160,16 +171,16 @@ $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+30);
 
 $pdf->SetXY($X, $Y);
-$pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'C');
+$pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC Bank', 1, 1, 'C');
+$pdf->Cell(100, 7, 'Indian Bank', 1, 1, 'L');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Talwandi Sabo, Punjab -151302', 1, 1, 'L');
+$pdf->Cell(100, 7, 'Fatehgarh Nuabad ,Talwandi Sabo, Punjab -151302', 1, 1, 'L');
 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
@@ -185,23 +196,23 @@ $Y=$pdf->GETY();
 $pdf->SetFont('Times', '', 11);
 $pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, '50100033779951', 1, 1, 'L');
+$pdf->Cell(100, 7, '6058205486', 1, 1, 'L');
 
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
 $pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'SWIFT CODE', 1, 1, 'L');
+$pdf->Cell(90, 7, 'IFSC CODE', 1, 1, 'L');
 $pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFCINBB', 1, 1, 'L');
+$pdf->Cell(100, 7, 'IDIB000F009', 1, 1, 'L');
 
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'IFSC / MICR', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC0001322/151240102', 1, 1, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $pdf->Cell(90, 7, 'IFSC / MICR', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, 'HDFC0001322/151240102', 1, 1, 'L');
 
 
 $X=$pdf->GETX();

@@ -581,8 +581,18 @@ var code=136;
     data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code},
     type: 'POST',
     success: function(response) {
+      // console.log(response);
+      if (response==1) {
     
          SuccessToast('Successfully Inserted');
+      }
+      else if(response==2)
+      {
+          ErrorToast('fee already added  ','bg-warning');
+      } else
+      {
+          ErrorToast('try after some time  ','bg-danger');
+      }
    
   },
     error: function(xhr, status, error) {
@@ -611,7 +621,7 @@ var code=135;
     type: 'POST',
     success: function(response)
      {
-    console.log(response);
+    // console.log(response);
     if (response=='1') {
          SuccessToast('Successfully Inserted');
    }
@@ -727,7 +737,7 @@ if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!=''
     PassportNo: PassportNo,
     code: code
   };
-
+ 
   // Send the AJAX request
   $.ajax({
     url: 'action_g.php',

@@ -14,6 +14,10 @@ class CustomPDF extends FPDF {
     }
 }
 
+   $today = date("j");
+    $month = date("F");
+    $year = date("Y");
+    $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
 $pdf = new CustomPDF();
 $pdf->AliasNbPages(); // Enable page numbering
@@ -61,6 +65,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     // $MotherName=$row['MotherName'];
     $Course=$row['Course'];
     $Gender=$row['Gender'];
+    $Class_RollNo=$row['Class_RollNo'];
 $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
 if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
@@ -73,7 +78,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
-    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
+    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {
@@ -111,105 +116,124 @@ $ms="Ms.";    // code...
 
 }
 $pdf->Image('offer_letter.jpeg', 0, 0, 210);
-$pdf->SetFont('Times', 'B', 15);
+$pdf->SetFont('Times', 'B', 11);
+$pdf->SetXY(155, 49);
+$pdf->MultiCell(45, 10, $today.''.$ordinalSuffix.' '.$month.' '.$year, 0, 'C');
+$pdf->SetXY(25, 49);
+$pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
+$pdf->SetFont('Times', 'B', 15);
 $pdf->SetTextColor(0, 0, 0);
 
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
-$pdf->SetFont('Times', '', 12);
-$pdf->MultiCell(190, 6, 'It is certify Guru Kashi University, Talwandi Sabo was established by  the act of the legislature of the state of Punjab ,under the GURU KASHI UNIVERSITY ACT 2011 (Punjab Act no 37 of 2011),to provide education at all levels in all disciplines of higher education. Guru Kashi University is a government recognized University with the right to confer degree as per the section 2(f) and 22(l) of the UGC Act, 1956. ',0, 'J');
+
+$pdf->SetFont('Times', '', 10);
+$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a Government recognized University under section 2f of UGC and empowered to confer degrees as per the section 22(1) of the UGC Act,1956. ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
-$pdf->MultiCell(190, 6, 'It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'. ',0, 'J');
-$pdf->SetFont('Times', 'B', 10);
-$pdf->MultiCell(190, 6, 'Course Name- '.$courseName,0, 'L');
-$pdf->MultiCell(190, 6, 'Applicables Fees- '.$applicables,0, 'L');
-$pdf->MultiCell(190, 6, 'Hostel Fee- '.$hostel,0, 'L');
-$pdf->MultiCell(190, 6, 'University Concession- '.$concession,0, 'L');
-$pdf->MultiCell(190, 6, 'Fee after Concession (Annual)- '.$after_concession,0, 'L');
+$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years) on Class Roll No. '.$Class_RollNo.'. The candidate meets the eligibility qualifications as per university norms and the candidate is selected for the course as per merit ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
-$pdf->SetXY($X, $Y);
-$pdf->Cell(160, 10, 'Course/Semester', 1, 1, 'C');
-$pdf->SetXY(160+$X, $Y);
-$pdf->Cell(30, 10, 'Fees (In Rs.)', 1, 1, 'C');
+$pdf->SetXY($X, $Y+1.5);
+$pdf->SetFont('Times', '', 10);
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ('.$Duration.' Years)  as is given below: ',0, 'L');
+$pdf->SetFont('Times', '', 10);
+  // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
+// $pdf->SetFont('Times', 'B', 10);
+// $pdf->MultiCell(190, 6, 'Course Name- '.$courseName,0, 'L');
+// $pdf->MultiCell(190, 6, 'Applicables Fees- '.$applicables,0, 'L');
+// $pdf->MultiCell(190, 6, 'Hostel Fee- '.$hostel,0, 'L');
+// $pdf->MultiCell(190, 6, 'University Concession- '.$concession,0, 'L');
+// $pdf->MultiCell(190, 6, 'Fee after Concession (Annual)- '.$after_concession,0, 'L');
 $X=$pdf->GETX();
-$Y=$pdf->GETY();
+$Y=$pdf->GETY()-10;
+
 
 $sem=1;
-$numberofsem=$Duration*2;
+$numberofsem=$Duration;
 if ($Lateral=='Yes')
  {
 $Duration=$Duration-1;
-$sem=3; 
+$sem=2; 
 $numberofsem=$numberofsem;   // code...
 }
 $fee=$after_concession/2;
 for ($i=$sem; $i <=$numberofsem ; $i++)
 { 
-$ordinalSuffix = getOrdinalSuffix($i);
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(160, 7, $courseName.'  '.$i.''.$ordinalSuffix, 1, 1, 'L');
-$pdf->SetXY(160+$X, $Y);
-$pdf->Cell(30, 7, $fee.'/-', 1, 1, 'L');
-$Y=$Y+7;
+
+if ($i==1) {
+   $ss="First";
+   $session_split='2023-24';
+}elseif ($i==2) 
+{
+   $ss="Second";
+      $session_split='2024-25';
+}elseif ($i==3) 
+{
+   $ss="Third";
+      $session_split='2025-26';
+}elseif ($i==4) 
+{
+   $ss="Fourth";
+      $session_split='2026-27';
+}elseif ($i==5)
+ {
+   $ss="Fifth";
+      $session_split='2027-28';
+}elseif ($i==6)
+ {
+   $ss="Sixth";
+      $session_split='2028-29';
 }
+
+// $session_split=split ("-", $ip);
+
+    $pdf->SetFont('Times', 'B', 10);
+    $pdf->SetXY($X, $Y+12);
+$pdf->Cell(190, 4, $ss .' Year Tuition Fee '.$session_split, 1, 1, 'C');
 $pdf->SetFont('Times', 'B', 10);
-$pdf->MultiCell(190, 8, 'Please use the following Bank Account details to transfer the Fee.',0, 'L');
-$pdf->SetFont('Times', '', 10);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
+$ordinalSuffix = getOrdinalSuffix($i);
+$pdf->SetFont('Times', '', 8);
+$pdf->Cell(160, 4, '  '.$ss.''.' YEAR Tuition Fee', 1, 1, 'L');
+$pdf->Cell(160, 4, '  Hostel Charges (food and accommodation)', 1, 1, 'L');
+$pdf->Cell(160, 4, '  Scholarship', 1, 1, 'L');
+$pdf->SetFont('Times', 'B', 8);
+$pdf->Cell(160, 4, '  Total '.$ss.' Year Fee (After scholarship)', 1, 1, 'L');
+$pdf->SetFont('Times', '', 8);
+$pdf->SetXY(160+$X, $Y);
+$pdf->Cell(30, 4, $applicables.'/-', 1, 1, 'C');
+$pdf->SetXY(160+$X, $Y+4);
+$pdf->Cell(30, 4, $hostel.'/-', 1, 1, 'C');
+$pdf->SetXY(160+$X, $Y+8);
+$pdf->Cell(30, 4, $concession.'/-', 1, 1, 'C');
+$pdf->SetXY(160+$X, $Y+12);
+$pdf->SetFont('Times', 'B', 8);
+$pdf->Cell(30, 4, $after_concession.'/-', 1, 1, 'C');
+$pdf->SetFont('Times', '', 8);
+$Y=$Y+4;
 
-$pdf->SetXY($X, $Y+30);
+}
+$pdf->SetFont('Times', '', 10);
+$pdf->MultiCell(190, 8, ' Fee will be transfer RTGS/NEFT. University Account detail given below:',0, 'L');
+$pdf->SetFont('Times', 'B', 9);
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
 
 $pdf->SetXY($X, $Y);
-$pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'C');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC Bank', 1, 1, 'C');
+$pdf->MultiCell(190, 4, 'BANK NAME    :  Indian Bank', 0, 'L');
+$pdf->SetXY($X, $Y+4);
+$pdf->Cell(190, 4, 'AccountNo          : 6058205486', 0, 'L');
+
+$pdf->SetXY($X, $Y+8);
+$pdf->Cell(190, 4, 'IFSC Code          : IDIB000F009', 0, 'L');
+$pdf->SetXY($X, $Y+12);
+$pdf->Cell(190, 4, 'Branch                : Fatehgarh Naubad, Talwandi Sabo', 0, 'L');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Talwandi Sabo, Punjab -151302', 1, 1, 'L');
-
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
-
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(90, 7, 'ACCOUNT NAME', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Guru Kashi University', 1, 1, 'L');
-
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
-
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, '50100033779951', 1, 1, 'L');
-
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
-
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(90, 7, 'SWIFT CODE', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFCINBB', 1, 1, 'L');
-
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
-
-$pdf->SetFont('Times', '', 9);
-$pdf->Cell(90, 7, 'IFSC / MICR', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'HDFC0001322/151240102', 1, 1, 'L');
-
-
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
 $pdf->SetXY($X,10+$Y);
 
 $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');

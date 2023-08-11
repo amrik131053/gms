@@ -7213,6 +7213,15 @@ else
          $concession=$_POST['concession'];
          $afterconcession=$_POST['afterconcession'];
          $consultant_id=$_POST['consultant_id'];
+
+         $iffeesalready="SELECT * FROM  master_fee where consultant_id='$consultant_id' and college='$college' and department='$department' and course='$course' ";
+         $iffeesalready_run=mysqli_query($conn,$iffeesalready);
+         if (mysqli_num_rows($iffeesalready_run)>0) 
+         {
+echo "2";
+         }
+          else
+          {
           $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
@@ -7223,8 +7232,10 @@ else
          {
             echo "0";
          }
+      }
 
       }
+      
 
       elseif($code==137)
       {

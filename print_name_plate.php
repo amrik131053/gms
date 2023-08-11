@@ -37,7 +37,8 @@ $pdf=new PDF();
    $pdf->AddPage('L');
    $pdf->Rotate(180);
 
-  $pdf-> Image('dist\img\logo.png',$left-210,$down-6,57,14);
+  $pdf-> Image('dist\img\new-logo.png',$left-208,$down-37,50,8);
+  $pdf-> Image('dist\img\naac-logo.png',$left-23,$down-37,30,8);
    $pdf->Rotate(0);
 
    $pdf->SetXY($left+30,$down+0);
@@ -66,7 +67,8 @@ $pdf=new PDF();
    $pdf->SetXY($left+0.4,$down+0.6);
    $pdf->MultiCell(220.6,49,'','1','');
 
-$pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
+$pdf-> Image('dist\img\new-logo.png',$left1+2,$down1+3,50,8);
+ $pdf-> Image('dist\img\naac-logo.png',$left+188,$down+56,30,8);
    $pdf->SetXY($left1+301,$down+0);
    $pdf->SetFont('Arial','B',8);
    $pdf->SetTextColor(166,37,53);
@@ -98,12 +100,12 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
 
 
 
-   $pdf->SetXY($left+160,$down+14);
+   $pdf->SetXY($left+221,$down+14);
    $pdf->SetFont('Arial','B',20);
    $pdf->SetTextColor(166,37,53);
    $pdf->Rotate(180);
    // $pdf->RotatedText(159,12,'Web Developer',180);
-   $pdf->MultiCell(155,12,$Designation,'0','R');
+   $pdf->MultiCell(221,12,$Designation,'0','C');
 
  $pdf->SetFont('Arial','B',20);
     
@@ -119,30 +121,24 @@ $pdf-> Image('dist\img\logo.png',$left1,$down1+33,57,14);
  
 
 // $pdf->RotatedText(159,12,'Hello!',45);
-   $pdf->SetXY($left+300,$down+49);
+   $pdf->SetXY($left+221,$down+40);
    $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
-    // $pdf->StartTransform();          
-   // $pdf->Rotate(180);
-
-
    $pdf->Rotate(180);
-
-
-   $pdf->MultiCell(250,25,$Name,'0','R');
+   $pdf->MultiCell(221,25,$Name,'0','C');
    $pdf->Rotate(0);
-   $pdf->SetXY('20',$down1);
+   $pdf->SetXY('5',$down1+10);
    $pdf->SetFont('Arial','B',45);
    $pdf->SetTextColor(34,47,96);
-   $pdf->MultiCell(250,25,$Name,'0','L');
+   $pdf->MultiCell(221,25,$Name,'0','C');
    $pdf->SetFont('Arial','B',20);
-   $pdf->SetXY('50','85');
+   $pdf->SetXY(210,'85');
    //$pdf->MultiCell(250,0,'Coordinator (Accreditation)','0','L');
-   $pdf->SetXY(60,$down1+36);
+   $pdf->SetXY(5,$down1+36);
    $pdf->SetFont('Arial','B',20);
    // $pdf->SetXY(20,20);
    $pdf->SetTextColor(166,37,53);
-   $pdf->MultiCell(159,12,$Designation,'0','R');
+   $pdf->MultiCell(221,12,$Designation,'0','C');
    $pdf->Output();
 
 ?>
