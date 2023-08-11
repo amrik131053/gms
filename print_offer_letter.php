@@ -62,7 +62,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
  {
     $name=$row['Name'];
     $FatherName=$row['FatherName'];
-    // $MotherName=$row['MotherName'];
+     //$course1=$row['course'];
     $Course=$row['Course'];
     $Gender=$row['Gender'];
     $Class_RollNo=$row['Class_RollNo'];
@@ -78,7 +78,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
-    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral'";
+    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {
