@@ -7211,6 +7211,7 @@ else
          $applicable=$_POST['applicable'];
          $hostel=$_POST['hostel'];
          $concession=$_POST['concession'];
+          $Lateral=$_POST['Lateral'];
          $afterconcession=$_POST['afterconcession'];
          $consultant_id=$_POST['consultant_id'];
 
@@ -7222,7 +7223,9 @@ echo "2";
          }
           else
           {
-          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
+          // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
+
+          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
           {
