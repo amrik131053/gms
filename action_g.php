@@ -7160,7 +7160,8 @@ else
 {
  $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$Consultant','$session','$duration','$ID_Proof_No');";
 $insert_record_run = mysqli_query($conn, $insert_record);
-if ($insert_record_run==true) {
+if ($insert_record_run==true) 
+{
    echo "1";
 }
 else

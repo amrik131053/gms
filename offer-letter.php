@@ -14,10 +14,10 @@ include "header.php";
       <div class="modal-body">
             <div class="row">
                <div class="col-lg-9">
-                  <input type="text" class="form-control" id="consultant_name">
+                  <input type="text" class="form-control" id="consultant_name" value="">
                </div>
                <div class="col-lg-3">
-                  <button class="btn btn-primary"><i class="fa fa-plus" onclick="add_consultant();"></i>ADD</button>
+                  <button class="btn btn-primary" onclick="add_consultant();"><i class="fa fa-plus" ></i>ADD</button>
                </div>
             </div>
 
@@ -572,6 +572,9 @@ function submit_fee()
     var UniversityConcession = document.getElementById("UniversityConcession").value;
     var FeeAfterConcession = document.getElementById("FeeAfterConcession").value;
     var Consultant = document.getElementById("Consultant").value;
+if (CollegeName!='' && Department!='' && Course!='' && Applicables !='' && Hostel!='' && UniversityConcession!='') 
+{
+
 var code=136;
       $.ajax({
     url: 'action_g.php',
@@ -587,25 +590,46 @@ var code=136;
    
     }
   });
-}function add_consultant() 
+}
+
+else
 {
-  
+   ErrorToast('All Input Required ','bg-warning');
+}
+}
+
+function add_consultant() 
+{
+  // alert();
     var consultant_name = document.getElementById("consultant_name").value;
+    if (consultant_name!='' && consultant_name!=null) 
+    {
 var code=135;
       $.ajax({
     url: 'action_g.php',
     data: {consultant_name:consultant_name,code:code},
     type: 'POST',
-    success: function(response) {
-    // console.log(response);
+    success: function(response)
+     {
+    console.log(response);
+    if (response=='1') {
          SuccessToast('Successfully Inserted');
-   
+   }
+   else
+   {
+      ErrorToast('Try after some time ','bg-warning');
+   }
   },
     error: function(xhr, status, error) {
       console.error(xhr.responseText);
    
     }
   });
+}
+else
+{
+   ErrorToast('All Input Required ','bg-warning');
+}
 }
 
 
@@ -677,8 +701,8 @@ function submit_record() {
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!='' )
-
+if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& session!='' && duration!='' && Consultant!='')
+ 
 {
   var code = 133;
   var data = {
