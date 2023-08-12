@@ -191,50 +191,53 @@ if ($i==1) {
 
     $pdf->SetFont('Times', 'B', 10);
     $pdf->SetXY($X, $Y+12);
-$pdf->Cell(190, 4, $ss .' Year Tuition Fee '.$session_split, 1, 1, 'C');
+$pdf->Cell(190, 4, $ss .' Year Academic and Hostel Fee '.$session_split, 1, 1, 'C');
 $pdf->SetFont('Times', 'B', 10);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $ordinalSuffix = getOrdinalSuffix($i);
 $pdf->SetFont('Times', '', 8);
-$pdf->Cell(160, 4, '  '.$ss.''.' YEAR Tuition Fee', 1, 1, 'L');
-$pdf->Cell(160, 4, '  Hostel Charges (food and accommodation)', 1, 1, 'L');
+//$pdf->Cell(160, 4, '  '.$ss.''.' YEAR Tuition Fee', 1, 1, 'L');
+//$pdf->Cell(160, 4, '  Hostel Charges (food and accommodation)', 1, 1, 'L');
 
  if($concession>0)
  {
-$pdf->Cell(160, 4, '  Scholarship', 1, 1, 'L');
+//$pdf->Cell(160, 4, '  Scholarship', 1, 1, 'L');
 }
 $pdf->SetFont('Times', 'B', 8);
 
 if($concession>0)
- {$pdf->Cell(160, 4, '  Total '.$ss.' Year Fee (After scholarship)', 1, 1, 'L');
+ {
+    $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
 }
 else
 {
-    $pdf->Cell(160, 4, '  Total '.$ss.' Year Fee ', 1, 1, 'L');
+    $pdf->Cell(160, 6,$ss.' Year Fee ', 1, 1, 'L');
 }
 
 
 $pdf->SetFont('Times', '', 8);
 $pdf->SetXY(160+$X, $Y);
-$pdf->Cell(30, 4, $applicables.'/-', 1, 1, 'C');
-$pdf->SetXY(160+$X, $Y+4);
-$pdf->Cell(30, 4, $hostel.'/-', 1, 1, 'C');
-$pdf->SetXY(160+$X, $Y+8);
+//$pdf->Cell(30, 4, $applicables.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+4);
+//$pdf->Cell(30, 4, $hostel.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+8);
  if($concession>0)
  {
 
 
-$pdf->Cell(30, 4, $concession.'/-', 1, 1, 'C');
+//$pdf->Cell(30, 4, $concession.'/-', 1, 1, 'C');
 
-$pdf->SetXY(160+$X, $Y+12);
+//$pdf->SetXY(160+$X, $Y+12);
 }
 $pdf->SetFont('Times', 'B', 8);
-$pdf->Cell(30, 4, $after_concession.'/-', 1, 1, 'C');
+$pdf->Cell(30, 6, $after_concession.'/-', 1, 1, 'C');
 $pdf->SetFont('Times', '', 8);
-$Y=$Y+4;
+$Y=$Y-2;
 
 }
+
+
 $pdf->SetFont('Times', '', 10);
 $pdf->MultiCell(190, 8, ' Fee will be transfer RTGS/NEFT. University Account detail given below:',0, 'L');
 $pdf->SetFont('Times', 'B', 9);
