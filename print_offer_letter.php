@@ -257,7 +257,7 @@ $Y=$pdf->GETY();
 
 
 $pdf-> Image('dist/img/sign-offer.png',$X-12, $Y+5,24,20.5);
-$pdf-> Image('dist/img/sign.png',$X-10, $Y-12,30,26.5);
+$pdf-> Image('dist/img/sign.png',$X-20, $Y-12,30,26.5);
 
 // $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
