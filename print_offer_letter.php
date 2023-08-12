@@ -253,20 +253,15 @@ $pdf->Cell(190, 4, 'Branch                : Fatehgarh Naubad, Talwandi Sabo', 0,
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
-$pdf->SetXY($X, $Y+8);
 
-$pdf->Cell(190, 4, 'xis '.$X, 0, 'L');
 
-$pdf->SetXY($X, $Y+20);
 
-$pdf->Cell(190, 4, $Y, 0, 'L');
+$pdf-> Image('dist/img/sign-offer.png',$X-18, $Y+5,24,20.5);
+$pdf-> Image('dist/img/sign.png',$X-10, $Y-15,30,26.5);
 
-$pdf-> Image('dist/img/sign-offer.png',$X+162, $Y+5,24,20.5);
-$pdf-> Image('dist/img/sign.png',$X+157, $Y-15,30,26.5);
+// $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
-$pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
-
-$pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
+// $pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
 
 $pdf->SetXY($X,10+$Y);
 $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
