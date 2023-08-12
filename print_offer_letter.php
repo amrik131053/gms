@@ -276,7 +276,7 @@ $pdf->SetXY($X,$Y+10);
 $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 // Output the PDF
 
-// $pdf->AddPage('P', 'A4');
+$pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
 }
 $pdf->Output();
