@@ -149,8 +149,7 @@ $pdf->SetFont('Times', '', 10);
 $X=$pdf->GETX();
 $Y=$pdf->GETY()-10;
 
-$pdf-> Image('dist/img/sign-offer.png',$X+162, $Y+5,24,20.5);
-$pdf-> Image('dist/img/sign.png',$X+157, $Y-15,30,26.5);
+
 $sem=1;
 $numberofsem=$Duration;
 if ($Lateral=='Yes')
@@ -253,6 +252,17 @@ $pdf->SetXY($X, $Y+12);
 $pdf->Cell(190, 4, 'Branch                : Fatehgarh Naubad, Talwandi Sabo', 0, 'L');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
+
+$pdf->SetXY($X, $Y+8);
+
+$pdf->Cell(190, 4, 'xis '.$X, 0, 'L');
+
+$pdf->SetXY($X, $Y+20);
+
+$pdf->Cell(190, 4, $Y, 0, 'L');
+
+$pdf-> Image('dist/img/sign-offer.png',$X+162, $Y+5,24,20.5);
+$pdf-> Image('dist/img/sign.png',$X+157, $Y-15,30,26.5);
 
 $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
