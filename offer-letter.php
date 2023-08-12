@@ -385,30 +385,7 @@ include "header.php";
                <script>
 
 
-          function date_by_search() {
-                     
-                    var currentPage = 1;
-                  var code = 134;
-                  var searchQuery = '';
-                    // alert(upload_date);
-                        $.ajax({
-                           url: 'action_g.php',
-                           type: 'POST',
-                           dataType: 'json',
-                           data: {
-                              page: currentPage,
-                              code: code,
-                              search: searchQuery // Pass the search query to the server
-                           },
-                           success: function(data) {
-                              buildTable(data);
-                              updatePagination(currentPage);
-                           },
-                           error: function() {
-                              // Handle error response
-                           }
-                        });
-                  }
+    
 
 
 
@@ -536,7 +513,7 @@ include "header.php";
 }
 
 
-                  function toggleSelectAll(checkbox) {
+                    function toggleSelectAll(checkbox) {
                      var checkboxes = document.getElementsByName('selectedRows[]');
                      for (var i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = checkbox.checked;
@@ -921,7 +898,9 @@ document.getElementById('edit_show').innerHTML=data;
 }
 });
 
-}function collegeByDepartment1(College) 
+}
+
+function collegeByDepartment1(College) 
 {  
      
 var code='304';

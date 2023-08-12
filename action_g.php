@@ -7467,7 +7467,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
              
 
              
-            <div class="col-lg-2">
+          <!--   <div class="col-lg-2">
               <label>Lateral Entry</label> <br>
                   <div class="icheck-primary d-inline">
                      <input type="radio" id="radioPrimaryb16"  value="No" name="Lateral" checked="">
@@ -7484,7 +7484,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                      </label>
                 
                </div>
-            </div>
+            </div> -->
  
             
 
@@ -7539,6 +7539,7 @@ else
 }
 
 }
+  
    else
    {
    
