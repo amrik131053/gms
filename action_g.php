@@ -7132,7 +7132,7 @@ elseif($code==132)
 
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
-// $MotherName = $_POST['MotherName'];
+ $months = $_POST['months'];
 $Gender = $_POST['Gender'];
 // $MobileNo = $_POST['MobileNo'];
 $CollegeName = $_POST['CollegeName'];
@@ -7158,7 +7158,7 @@ if ($numof_exit>0) {
 }
 else
 {
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$Consultant','$session','$duration','$ID_Proof_No');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$State','$Consultant','$session','$duration','$ID_Proof_No','$months');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

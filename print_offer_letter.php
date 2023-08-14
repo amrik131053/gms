@@ -76,6 +76,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $State=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
+     $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'";
@@ -97,6 +98,15 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
 
 
     
+}
+
+if($Months>0)
+{
+    $mduration= $Months.' Months';
+}
+else
+{
+     $mduration='';
 }
 
 $ge1="son";
@@ -137,7 +147,7 @@ $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ('.$Duration.' Years)  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ('.$Duration.' Years '. $mduration.')  as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);

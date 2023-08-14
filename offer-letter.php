@@ -327,10 +327,13 @@ include "header.php";
               </select>
           <!--  </div>  -->
 
-             <div class="col-lg-2">
-              <label>Course Duration</label>  
+             <div class="col-lg-4">
+                <label>Course Duration</label>  
+               <div class="row">
+          <div class="col-lg-6">
+             
               <select class="form-control" id="duration">
-                 <option value="">Select</option>
+                 <option value="">Select Years</option>
                  <option value="1">1 Year</option>
                  <option value="2">2 Years</option>
                  <option value="3">3 Years</option>
@@ -339,8 +342,20 @@ include "header.php";
                  <option value="6">6 Years</option>
               </select>
             </div>
-                  
- 
+               <div class="col-lg-6">
+
+              <select class="form-control" id="months">
+               
+                 <option value="0">0 Month</option>
+                 <option value="6">6 Month</option>
+                
+              </select>
+           </div>
+
+
+
+           </div>
+            </div>
             
 
             <div class="col-lg-3">
@@ -818,17 +833,19 @@ function submit_record() {
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
   var duration = document.getElementById('duration').value;
+   var months = document.getElementById('months').value;
   var session = document.getElementById('session').value;
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& session!='' && duration!='' && Consultant!='')
+if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& session!='' && duration!='' && Consultant!='' &&months!='')
  
 {
   var code = 133;
   var data = {
     Name: Name,
     FatherName: FatherName,
+    months:months,
     // MotherName: MotherName,
     Gender: Gender,
     // MobileNo: MobileNo,

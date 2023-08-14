@@ -76,6 +76,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $State=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
+     $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
@@ -125,9 +126,23 @@ $Duration="Two Years";
 elseif($Duration=='5')
 {
     $Duration="Five Years";
-}elseif($Duration=='6')
+}
+elseif($Duration=='6')
 {
     $Duration="Six Years";
+}
+
+
+if($Months>0)
+{
+    if($Months==6)
+    {
+    $mduration= 'Six Months';
+   }
+}
+else
+{
+     $mduration='';
 }
 
 $ge1="son";
@@ -135,7 +150,7 @@ $ge="D/o";
 $ms="Ms.";    
 $ms1="Mr.";    
 
-  if ($Gender=='Male') 
+if ($Gender=='Male') 
 {
 $ge="S/o"; 
 $ms="Mr.";    // code...
@@ -161,7 +176,7 @@ $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 $pdf->SetFont('Times', '', 12);
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.' . The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only .',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.' . The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only .',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
