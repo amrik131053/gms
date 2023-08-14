@@ -11127,16 +11127,11 @@ $type=$_POST['option'];
  {
   $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
  }
- 
-
   $stmt1 = sqlsrv_query($conntest,$result1, array(), array( "Scrollable" => 'static' ));  
-
 $row_count = sqlsrv_num_rows($stmt1);
 
    if($row_count>0)
    {
-
-  
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
    {
    
@@ -11157,9 +11152,32 @@ $row_count = sqlsrv_num_rows($stmt1);
     $collegeId = $row['CollegeID'];
     $courseId= $row['CourseID'];
     $Status = $row['Status'];
-        $Locked=$row['Locked'];
-         $Eligibility = $row['Eligibility'];
+    $Locked=$row['Locked'];
+    $Eligibility = $row['Eligibility'];
     $validUpto=$row['ValidUpTo'];
+      $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
+      $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
+   if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
+   {
+      
+      if($row_check['status']=='Printed')
+      {
+         $printed_status="<b class='text-success'>Printed</b>";
+      }else if($row_check['status']=='Applied')
+      {
+         $printed_status="Applied";
+      }else if($row_check['status']=='Rejected')
+      {
+         $printed_status="<b class='text-danger'>Rejected</b>";
+      }
+   }
+   else{
+      $printed_status="NA";
+   }
+   // print_r($aa);
+
+
+
    }
   if($validUpto!='')
   {
@@ -11284,6 +11302,14 @@ else {
    } ?>   
                  
 </b>
+
+
+
+                  </li>
+<li class="nav-link"><b>ID Card</b> :&nbsp;&nbsp;&nbsp;
+   
+<?php echo $printed_status; ?>   
+                 
 
 
 
