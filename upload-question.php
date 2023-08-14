@@ -184,7 +184,7 @@
          if (response>0) {
         SuccessToast('Successfully Uploaded');
            // Empty the textareas after success
-        
+           $('.summer').summernote('destroy');
         document.getElementById("question_divs").innerHTML=" ";  
       for (var i = 1; i < question_count; i++) {
         var questionName = 'Question' + i;
@@ -359,6 +359,8 @@ function q_check_count() {
     {
        document.getElementById("submitBtn").disabled = false;
       document.getElementById("question_divs").innerHTML = response;
+      $('.summer').summernote({focus: false,toolbar: [
+    ]});
    }
          }
       });

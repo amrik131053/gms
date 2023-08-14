@@ -7649,54 +7649,115 @@ if ($sho = mysqli_fetch_array($s)) {
      $question_count = $sho['question_count'];
      
 }
-if ($count<$question_count) {
-  ?>
-    <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
-    <?php
-    for ($i = 1; $i <= $question_count; $i++) {
-        if ($type == 1) {
-            ?>
-            <div class="row">
-                <div class="col-lg-4">
-                    <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
-                    <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
+$ifcodeexist="SELECT * FROM question_allow where SubjectCode='$subCode'";
+$ifcodeexist_run=mysqli_query($conn,$ifcodeexist);
+if(mysqli_num_rows($ifcodeexist_run)>0)
+{
+   if ($count<$question_count) {
+      ?>
+        <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
+        <?php
+        for ($i = 1; $i <= $question_count; $i++) {
+            if ($type == 1) {
+                ?>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                        <textarea type="textarea"  class="form-control summer" name="Question<?= $i; ?>" rows="1" required></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Answer A</label>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Answer B</label>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Answer C</label>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Answer D</label>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <label>Answer A</label>
-                    <textarea type="textarea" class="form-control" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                <?php
+            } else 
+            {
+                ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                        <textarea type="textarea"  class="form-control summer" name="Question<?= $i; ?>" rows="1" required></textarea>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <label>Answer B</label>
-                    <textarea type="textarea" class="form-control" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
-                </div>
-                <div class="col-lg-2">
-                    <label>Answer C</label>
-                    <textarea type="textarea" class="form-control" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
-                </div>
-                <div class="col-lg-2">
-                    <label>Answer D</label>
-                    <textarea type="textarea" class="form-control" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
-                </div>
-            </div>
-            <?php
-        } else 
-        {
-            ?>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
-                    <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
-                </div>
-            </div>
-            <?php
+                <?php
+            }
         }
-    }
-    echo "<p style='color:white;'>1</p>"; //  1 if count is less than or equal to question_count
+        echo "<p style='color:white;'>1</p>"; //  1 if count is less than or equal to question_count
+       }
+       else
+       {
+          echo "0"; //  0 if count is greater than question_count
+       }
 }
- else
-  {
-    echo "0"; //  0 if count is greater than question_count
+else{
+   if ($count<$question_count) {
+     ?>
+       <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
+       <?php
+       for ($i = 1; $i <= $question_count; $i++) {
+           if ($type == 1) {
+               ?>
+               <div class="row">
+                   <div class="col-lg-4">
+                       <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                       <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+                   <div class="col-lg-2">
+                       <label>Answer A</label>
+                       <textarea type="textarea" class="form-control" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+                   <div class="col-lg-2">
+                       <label>Answer B</label>
+                       <textarea type="textarea" class="form-control" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+                   <div class="col-lg-2">
+                       <label>Answer C</label>
+                       <textarea type="textarea" class="form-control" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+                   <div class="col-lg-2">
+                       <label>Answer D</label>
+                       <textarea type="textarea" class="form-control" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+               </div>
+               <?php
+           } else 
+           {
+               ?>
+               <div class="row">
+                   <div class="col-lg-12">
+                       <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                       <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
+                   </div>
+               </div>
+               <?php
+           }
+       }
+       echo "<p style='color:white;'>1</p>"; //  1 if count is less than or equal to question_count
+      }
+      else
+      {
+         echo "0"; //  0 if count is greater than question_count
+      }
+
 }
+// ----------------------------------for other subject-----------------------------------------------
+   //  -----------------------------end-------------------------------------
+
+
+
    
    }
    elseif($code==121)
