@@ -11159,13 +11159,34 @@ $row_count = sqlsrv_num_rows($stmt1);
       $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
    if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
    {
-      
+      if($row_check['PrintDate']!='')
+      {
+      $PrintDate1=$row_check['PrintDate'];
+      $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
+      }
+      else{
+        $PrintDate=""; 
+      }
+      if($row_check['ApplyDate']!='')
+      {
+         $ApplyDate1=$row_check['ApplyDate'];
+         $ApplyDate=$ApplyDate1->format('d-M-Y  h:s:A');
+      }
+      else
+      {
+$ApplyDate="";
+      }
       if($row_check['status']=='Printed')
       {
-         $printed_status="<b class='text-success'>Printed</b>";
-      }else if($row_check['status']=='Applied')
+         // $printed_status="<b class='text-success'>Printed</b>";
+         $printed_status="<img src='dist/img/emoji-yes.png' width='50'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$PrintDate;
+      }
+      else if($row_check['status']=='Applied')
       {
-         $printed_status="Applied";
+         $printed_status="<img src='dist/img/emoji-no.GIF' width='60'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$ApplyDate;
+         // $printed_status="Applied";
       }else if($row_check['status']=='Rejected')
       {
          $printed_status="<b class='text-danger'>Rejected</b>";
