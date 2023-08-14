@@ -102,24 +102,26 @@ session_start();
 
 </style>
 
-<body class="hold-transition lockscreen" style="background-image: url('dist/img/slider-img01.jpg') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
+<body class="hold-transition lockscreen" style="background-image: url('dist/img/slider-img02.jpg'),url('dist/img/flag-2.png') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
 <br>
 
 
-<div class="col-sm-lg-4 d-flex justify-content-center h-100">
-      <div class="user_card" >
-        <div class="d-flex justify-content-center">
+<div class="col-sm-lg-4 d-flex justify-content-center h-100" >
+      <div class="user_card" style="background-image:url('dist/img/flag-1.png');background-size: 410px 100px;background-repeat: no-repeat;background-position-x: center;">
+        <div class="d-flex justify-content-center" >
           <div class="brand_logo_container" >
-            <img src="dist/img/logo.jpg" class="brand_logo" alt="Logo">
+            <img src="dist/img/logo.jpg" class="brand_logo" alt="Logo" >
           </div>
+
+
         </div>
-        <div class=" justify-content-center form_container" style="margin-top: 50px; " id="login_chnge">
+        <div class=" justify-content-center form_container" style="margin-top: 50px; " id="login_chnge" >
           
-            <div  style="text-align: center;">
+            <div  style="text-align: center;" >
               <h4>Login Here</h4>
            </div></br>
          
-        <form action="login.php" class="sign-in-form" method="post">
+        <form action="login.php" class="sign-in-form" method="post" >
             <div class="input-group mb-3">
                  <input type="hidden" name="code" value="7">
               <div class="input-group-append">
