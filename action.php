@@ -13851,7 +13851,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                       <select   id='semester' class="form-control">
                        <option value="">Sem</option>
                      <?php 
-                        for($i=1;$i<=14;$i++)
+                        for($i=1;$i<=20;$i++)
                            {?>
                      <option value="<?=$i?>"><?=$i?></option>
                      <?php }
@@ -13998,7 +13998,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                       <select   id='semester' class="form-control">
                        <option value="">Sem</option>
                      <?php 
-                        for($i=1;$i<=14;$i++)
+                        for($i=1;$i<=20;$i++)
                            {?>
                      <option value="<?=$i?>"><?=$i?></option>
                      <?php }
@@ -14187,7 +14187,7 @@ elseif($code==228)
                                              <option value="">Batch</option>
 
                      <?php 
-                        for($i=1;$i<=14;$i++)
+                        for($i=1;$i<=20;$i++)
                            {?>
                      <option value="<?=$i?>"><?=$i?></option>
                      <?php }
