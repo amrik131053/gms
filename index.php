@@ -102,12 +102,13 @@ session_start();
 
 </style>
 
-<body class="hold-transition lockscreen" style="background-image: url('dist/img/slider-img02.jpg'),url('dist/img/flag-2.png') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
+<body class="hold-transition lockscreen" style="background-image: url('dist/img/slider-img01.jpg') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
 <br>
 
 
 <div class="col-sm-lg-4 d-flex justify-content-center h-100" >
-      <div class="user_card" style="background-image:url('dist/img/flag-1.png');background-size: 410px 100px;background-repeat: no-repeat;background-position-x: center;">
+      <!-- <div class="user_card" style="background-image:url('dist/img/flag-1.png');background-size: 410px 100px;background-repeat: no-repeat;background-position-x: center;"> -->
+      <div class="user_card">
         <div class="d-flex justify-content-center" >
           <div class="brand_logo_container" >
             <img src="dist/img/logo.jpg" class="brand_logo" alt="Logo" >

@@ -17451,13 +17451,6 @@ else if($code=='303')
                  </select>
                   </div>
 
-
-
-
-
-
-
-         
               <div class="col-lg-2">
                  <label>Action</label><br>
                  <button onclick="search_daily_attendance();" class="btn btn-success">Search</button>
