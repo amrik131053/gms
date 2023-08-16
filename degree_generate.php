@@ -52,7 +52,7 @@ include "header.php";
                            &nbsp;
                            &nbsp; -->
                          
-                          <input type="date"  class="form-control" value="2023-08-08" id="upload_date">
+                          <input type="date"  class="form-control" value="" id="upload_date">
                           <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search();" value="Search">
                            &nbsp;
                            &nbsp;
@@ -267,6 +267,7 @@ include "header.php";
                   }
                </script>
                <div id="data-table">
+                  <div class="card" ><center><marquee><h5 class="text-danger">Please enter the date you'd like to search records</h5></marquee></center></div>
                   <!-- <table class="table">
                      <tr>
                         <div id="pagination">
@@ -421,6 +422,14 @@ include "header.php";
          }
       });
    }
+
+   const date_ = new Date();
+var day = String(date_.getDate()).padStart(2, '0');
+var month = String(date_.getMonth() + 1).padStart(2, '0');
+var year = date_.getFullYear();
+var upload_ = `${year}-${month}-${day}`;
+document.getElementById('upload_date').value = upload_;
+
 </script>
 <?php
 include "footer.php";

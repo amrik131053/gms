@@ -256,7 +256,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
       <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #223260;">
          <!-- Brand Logo -->
          <a href="dashboard.php" class="brand-link" style="background-color: white;">
-         <img src="dist/img/Logo.png" alt="AdminLTE Logo"
+         <img src="dist/img/new-logo.jpg" alt="AdminLTE Logo"
             style="width: 230px;">
          </a>
          <!-- Sidebar -->
