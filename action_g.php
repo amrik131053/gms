@@ -6967,7 +6967,7 @@ elseif($code==130)
    <label>Year</label>
   <select class="form-control" name="month" required>
     <option  value="">Select</option>
-   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
    <option value="<?=$i;?>"><?=$i;?></option>
       
@@ -7031,7 +7031,7 @@ elseif($code==131)
    <label>Year</label>
   <select class="form-control" name="month" required>
    <option  value="">Select</option>
-   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
    <option value="<?=$i;?>"><?=$i;?></option>
       
@@ -7097,7 +7097,7 @@ elseif($code==132)
    <label>Year</label>
   <select class="form-control" name="month" required>
     <option  value="">Select</option>
-   <?php  for ($i=2015; $i <date('Y') ; $i++) 
+   <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
    <option value="<?=$i;?>"><?=$i;?></option>
       

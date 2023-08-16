@@ -102,6 +102,7 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
 
 if($Months>0)
 {
+
     $mduration= $Months.' Months';
 }
 else
@@ -142,7 +143,7 @@ $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sa
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
-$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years) on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years '. $mduration.') on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
