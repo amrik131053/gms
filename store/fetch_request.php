@@ -54,7 +54,7 @@ $count = 1;
 
       <thead>
                 <tr>  
-                    <th style="width=15px">Sr no</th>
+                    <th style="width:15px">Sr no</th>
           <th>Category</th>
           <th>Article</th>
           <th>Specification</th>
@@ -103,7 +103,8 @@ $count = 1;
     $i++; 
     $count++; }  
     ?></tbody></table> 
- <?php} 
+ <?php
+ } 
  else  
  {   
 ?>

@@ -84,7 +84,7 @@ $count = 1;
       <thead>
                
                      <tr>  
-                    <th style="width=15px">Sr no</th>
+                    <th style="width:15px">Sr no</th>
           <th>Category</th>
           <th style="width: 250px">Article</th>
           <th>Specification</th> <th>Comments</th>
@@ -164,7 +164,8 @@ $count = 1;
     <?php 
     $i=$i+1;  }  
     ?><hr></tbody></table>   
- <?php} 
+ <?php
+ } 
  else  
  {   
 ?>
@@ -230,8 +231,7 @@ Approved By:<b><br>
 
 <?php
 
-
-}?><br>
+?><br>
 
 
 

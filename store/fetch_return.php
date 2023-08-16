@@ -63,7 +63,7 @@
          <table class="table table-striped" id="example" >
             <thead>
                <tr>
-                  <th style="width=15px">Sr no</th>
+                  <th style="width:15px">Sr no</th>
                   <th>Category</th>
                   <th>Article</th>
                   <th>Specification</th>
@@ -99,7 +99,8 @@
                   ?>
             </tbody>
          </table>
-         <?php} 
+         <?php
+         } 
             else  
             {   
             ?>
