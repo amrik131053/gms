@@ -268,7 +268,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                </div>
                <div class="info">
                   <a href="#" class="d-block"><?=$Emp_Name;?></a>
-               </div>
+               </div>  
             </div>
             <!-- Sidebar Menu -->
             <nav class="mt-2">

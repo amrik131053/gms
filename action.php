@@ -12320,7 +12320,10 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                 <td>
                 <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a>
              </td>
-                  <?php echo "<td>".$row['StudentName']."</a></td>";
+             <td>
+             <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
+                   </td>
+      <?php
                 echo "<td>".$row['Course']."</td>";
                 echo "<td>".$row['Semesterid']."</td>";
                 echo "<td>".$row['Batch']."</td>";
