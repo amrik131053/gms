@@ -3394,8 +3394,12 @@ if($list_result === false) {
                 ?><td>
                  <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></b>
 
+             </td><td>
+                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a></b>
+
              </td>
-                  <?php echo "<td>".$row['StudentName']."</a></td>";
+
+                  <?php 
                 echo "<td>".$row['Course']."</td>";
                 echo "<td>".$row['Semesterid']."</td>";
                   echo "<tr>";
