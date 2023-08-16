@@ -17450,7 +17450,7 @@ else if($code=='303')
                       <option value='2'>Absent</option>
                  </select>
                   </div>
-
+git 
               <div class="col-lg-2">
                  <label>Action</label><br>
                  <button onclick="search_daily_attendance();" class="btn btn-success">Search</button>
