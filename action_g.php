@@ -7508,25 +7508,15 @@ $classroll="";
 $id = $_POST['id'];
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
-// $MotherName = $_POST['MotherName'];
 $Gender = $_POST['Gender'];
-// $MobileNo = $_POST['MobileNo'];
 $CollegeName = $_POST['CollegeName'];
 $Department = $_POST['Department'];
 $Course = $_POST['Course'];
-// $Batch = $_POST['Batch'];
-// $Lateral = $_POST['Lateral'];
-// $PinCode = $_POST['PinCode'];
 $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
-// $District = $_POST['District'];
 $Consultant = $_POST['Consultant'];
-// $duration= $_POST['duration'];
-// $session = $_POST['session'];
-// $AdharCardNo = $_POST['AdharCardNo'];
-// $AdharCardNo = $_POST['AdharCardNo'];
+
 $classroll = $_POST['classroll'];
-// $ID_Proof_No=$AdharCardNo.$PassportNo;
   $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
@@ -7539,7 +7529,66 @@ else
 }
 
 }
-  
+elseif($code==141)
+{
+   $id=$_POST['id'];
+   $degree="SELECT * FROM degree_print where id='$id' ";                     
+                     $degree_run=mysqli_query($conn,$degree);
+                     if ($degree_row=mysqli_fetch_array($degree_run)) 
+                     {
+                     $StudentName=$degree_row['StudentName'];
+                     $UniRollNo=$degree_row['UniRollNo'];
+                     $FatherName=$degree_row['FatherName'];
+                     $Examination=$degree_row['Examination'];
+                     $Course=$degree_row['Course'];
+                     $Stream=$degree_row['Stream'];
+                     $RegistrationNo=$degree_row['RegistrationNo'];
+                     $CGPA=$degree_row['CGPA'];
+                     $ExtraRow=$degree_row['ExtraRow'];
+                     $Gender=$degree_row['Gender'];
+                     $Type=$degree_row['Type'];
+?>
+<div class="row">
+   <div class="col-lg-12">
+       <div class="row">
+                <div class="col-lg-6">
+              <label>Student Name</label>  
+             <input type="text" value="<?=$StudentName;?>" id="Name" class="form-control">
+            </div> 
+            <div class="col-lg-6">
+              <label>Father Name</label>  
+              <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
+            </div>
+
+            <div class="col-lg-4">
+               <label>&nbsp;</label>
+               <button class="btn btn-primary form-control" onclick="edit_student_details(<?=$id;?>)">Update</button>
+            </div>
+         </div>
+   </div>
+</div>
+<?php 
+
+
+                     }
+
+}
+  elseif($code==142)
+  {
+$id = $_POST['id'];
+$Name = $_POST['Name'];
+$FatherName = $_POST['FatherName'];
+  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName'  where id='$id'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+{
+   echo "1";
+}
+else
+{
+   echo "0";
+}
+  }
    else
    {
    

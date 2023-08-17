@@ -2,6 +2,26 @@
 include "header.php";
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="modal fade" id="for_edit" tabindex="-1" role="dialog" aria-labelledby="for_editLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_editLabel">Edit Record</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="edit_show">
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button class="btn btn-primary" onclick="edit_student_details(<?=$id;?>)">Submit</button> -->
+      </div>
+    </div>
+  </div>
+
+</div>
 <div class="modal fade" id="for_excel" tabindex="-1" role="dialog" aria-labelledby="for_excelLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -139,9 +159,9 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="1"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="2"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
                            table += '<tr>';
@@ -152,20 +172,11 @@ include "header.php";
                            table += '<td>' + data[i][3] + '</td>';
                            table += '<td>' + data[i][5] + '</td>';
                            table += '<td>' + data[i][6] + '</td>';
-                           // table += '<td>';
-                           // table += '<form action="print_degree1.php" method="post">';
-                           // table += '<input type="hidden" name="code" value="1">';
-                           // table += '<input type="hidden" name="p_id" value="' + data[i][0] + '">';
-                           // table += '<button type="submit" class="btn border-0 shadow-none" style="background-color:transparent; border: none" formtarget="_blank">';
-                           // table += '<i class="fa fa-print" aria-hidden="true"></i>';
-                           // table += '</button>';
-                           // table += '</form>';
-                           // table += '</td>';
+                           table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
+                          
                            table += '</tr>';
                         }
-                        // table += '<tr>';
-                        // table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="5"></td><td> <button onclick="printSelectedRows();" class="btn btn-success btn-lg" ><i class="fa fa-print fa-lg"></i> </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
-                        // table += '</tr>';
+                      
                         table += '</table>';
 
                         $('#data-table').html(table);
@@ -268,19 +279,7 @@ include "header.php";
                </script>
                <div id="data-table">
                   <div class="card" ><center><marquee><h5 class="text-danger">Please enter the date you'd like to search records</h5></marquee></center></div>
-                  <!-- <table class="table">
-                     <tr>
-                        <div id="pagination">
-                           <td>
-                              <button id="prev-btn" class="btn btn-primary " disabled>Previous</button>
-                           </td>
-                           <td colspan="4"></td>
-                           <td>
-                              <button id="next-btn" class="btn btn-primary " style="float:right;">Next</button>
-                           </td>
-                        </div>
-                     </tr>
-                  </table> -->
+                  
                </div>
             </div>
             <!-- /.card-body -->
@@ -422,6 +421,62 @@ include "header.php";
          }
       });
    }
+   function edit_student(id) 
+{  
+     
+var code='141';
+$.ajax({
+url:'action_g.php',
+data:{id:id,code:code},
+type:'POST',
+success:function(data){
+document.getElementById('edit_show').innerHTML=data;
+}
+});
+
+}
+
+function edit_student_details(id) {
+   alert(id);
+  var Name = document.getElementById('Name').value;
+  var FatherName = document.getElementById('FatherName').value;
+if(Name!='' && FatherName!='')
+{
+  var code = 142;
+  var data = {
+    id: id,
+    Name: Name,
+    FatherName: FatherName,
+    code: code
+  };
+ 
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      // console.log(response); // Log the response for debugging
+      if (response==1) {
+      SuccessToast('Data Updated successfully');
+      date_by_search();
+   }
+   else
+   {
+ErrorToast('Try  after some time','bg-danger');
+
+   }
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+}
+else
+{
+   ErrorToast('All Input Required','bg-warning');
+}s
+}
 
    const date_ = new Date();
 var day = String(date_.getDate()).padStart(2, '0');
