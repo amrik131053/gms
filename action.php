@@ -9778,7 +9778,7 @@ elseif($code==151)
       <td><?=$showQuestionData['Batch']?></td>
       <td>
          <?php
-               if ($showQuestionData['totalQuestions']>=130) 
+               if ($showQuestionData['totalQuestions']>=118) 
                {
                   if ($showQuestionData['lock_status']==0) 
                   {
