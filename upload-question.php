@@ -795,7 +795,7 @@ function copyquestions()
  var Course1=document.getElementById('Coursecopy1').value;
  var Batch1=document.getElementById('Batchcopy1').value;
  var Semester1=document.getElementById('Semestercopy1').value;
- var SubjectCode1=document.getElementById('Subjectcodecopy').value;
+ var SubjectCode1=document.getElementById('Subjectcodecopy1').value;
 
 
 
