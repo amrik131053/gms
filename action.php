@@ -18187,13 +18187,16 @@ if ($type == 1) {
             header("Location: logout.php"); // logout if session expire
         }
     }
-} else {
+} 
+
+else {
     for ($i = 1; $i <= $question_count; $i++) {
         $question = str_replace("'", "`",$_POST['Question' . $i]);
         $optionA = "";
         $optionB = "";
         $optionC = "";
         $optionD = "";
+
         if ($EmployeeID > 0) {
              $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
             $insQryRun = mysqli_query($conn, $insQry);
@@ -18215,6 +18218,174 @@ if ($type == 1) {
                         
 
 }
+
+
+elseif($code==317)
+{
+ $collegeid=$_POST['College'];
+echo $get_colege_course_name="SELECT distinct Course,CourseID FROM MasterCourseCodes where CollegeID='$collegeid'";
+
+$get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+    
+ while($row = sqlsrv_fetch_array($get_colege_course_name_run, SQLSRV_FETCH_ASSOC))
+       {
+           echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>"; 
+       }
+
+}
+
+elseif($code==318)
+{
+ $College=$_POST['College'];
+ $Course=$_POST['Course'];
+ $Batch=$_POST['Batch'];
+ $Semester=$_POST['Semester'];
+ $Unit=$_POST['Unit'];
+
+
+
+
+echo $showQuestionQry="SELECT Distinct SubjectCode FROM question_bank WHERE  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' ANd UpdatedBy='$EmployeeID'
+
+  and  Unit='$Unit' and Semester='$Semester' ORDER BY Id desc;"
+  ;
+                        $showQuestionRun=mysqli_query($conn,$showQuestionQry);
+                        while($showQuestionData=mysqli_fetch_array($showQuestionRun))
+                        { 
+                        echo "<option value='".$showQuestionData["SubjectCode"]."'>".$showQuestionData["SubjectCode"]."</option>";     
+                        }
+
+
+
+
+}
+
+
+elseif($code==319)
+{
+
+ $College=$_POST['College'];
+ $Course=$_POST['Course'];
+ $Batch=$_POST['Batch'];
+ $Semester=$_POST['Semester'];
+ 
+
+
+ $sql_in1="SELECT Distinct SubjectCode,SubjectName from MasterCourseStructure where  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' ANd SemesterID='$Semester' ";
+
+
+ echo "<option value=''>Subject code</option>"; 
+         $stmt2 = sqlsrv_query($conntest,$sql_in1);
+    while($rowin1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+        {
+ echo "<option value='".$rowin1["SubjectCode"]."'>".$rowin1["SubjectName"].'-'.$rowin1["SubjectCode"]."</option>"; 
+
+
+   }
+
+}
+
+elseif($code==320)
+{
+
+ $College=$_POST['College'];
+ $Course=$_POST['Course'];
+ $Batch=$_POST['Batch'];
+ $Semester=$_POST['Semester'];
+ $Unit=$_POST['Unit'];
+
+ $SubjectCode=$_POST['SubjectCode'];
+
+
+
+
+$showQuestionQry="SELECT * FROM question_bank WHERE  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' 
+  and  Unit='$Unit' and Semester='$Semester'  ANd SubjectCode='$SubjectCode'  ORDER BY Id desc";
+   $showQuestionRun=mysqli_query($conn,$showQuestionQry);
+
+   if($data = mysqli_fetch_array($showQuestionRun)) 
+                  {     
+
+                      
+echo "1";
+
+
+
+   }
+   else
+   {
+      echo "0";
+   }
+
+}
+
+elseif($code==321)
+{
+
+ $College=$_POST['College'];
+ $Course=$_POST['Course'];
+ $Batch=$_POST['Batch'];
+ $Semester=$_POST['Semester'];
+ $Unit=$_POST['Unit'];
+ $SubjectCode=$_POST['SubjectCode'];
+ $College1=$_POST['College1'];
+ $Course1=$_POST['Course1'];
+ $Batch1=$_POST['Batch1'];
+ $Semester1=$_POST['Semester1'];
+
+ $SubjectCode1=$_POST['SubjectCode1'];
+
+
+
+
+
+
+ $sql="SELECT *  FROM question_bank AS qb inner join question_bank_details AS qbd  ON qb.Id=qbd.question_id  WHERE  
+ Batch='$Batch' and CourseID='$Course'and  CollegeID='$College'   and  Unit='$Unit' and Semester='$Semester'  ANd SubjectCode='$SubjectCode'";
+
+
+
+  
+
+ $result = mysqli_query($conn,$sql);
+
+
+ while($row=mysqli_fetch_array($result))
+{
+
+
+
+                  $nunit=$row['Unit'];
+                   $type=$row['Type'];
+                   $category=$row['Category'];
+                   $current_session=$row['Exam_Session'];
+                   $question=$row['Question'];
+                   $optionA=$row['OptionA'];
+                   $optionB=$row['OptionB'];
+                   $optionC=$row['OptionC'];
+                   $optionD=$row['OptionD'];
+         
+ $insQry = "CALL insert_question_bank('$SubjectCode1','$College1','$type','$nunit','$Batch1','$Semester1','$Course1','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+            $insQryRun = mysqli_query($conn, $insQry);
+
+
+
+             if ($insQryRun==true) {
+
+               echo "1";
+            }
+            else
+            {
+               echo "0";
+            }
+
+ }
+   
+   
+}
+
+
+
  else
 {
 echo "select code";

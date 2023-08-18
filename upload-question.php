@@ -47,10 +47,20 @@
       <div class="col-lg-12 col-md-4 col-sm-3">
          <div class="card card-info">
             <div class="card-header">
+               <div class="row">
+                  <div class="col-lg-4">
                <h3 class="card-title">Upload Questions</h3>
-              
+            </div>
+              <div class="col-lg-2">
+
+                 <button class="btn btn-primary"  data-toggle="modal" data-target="#modal-lg"  style="text-align:right;">Copy</button>
+
+              </div>
              <b id="total_count"></b>
             </div>
+
+</div>
+
              <form id="image-upload" name="image-upload"  class="form-horizontal" action="action.php" method="POST" target="_blank" enctype="multipart/form-data">
             <div class="card-body" >
                <div class="row">
@@ -162,7 +172,188 @@
    </div>
    <!-- /.container-fluid -->
 </section>
+  <div class="modal fade" id="modal-lg">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Copy Question Paper</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
 
+               <div class="row">
+                  <div class="col-lg-6" >
+                     <label style="text-align:center; color: red;">Copy from </label>
+                     <br>
+
+                     <label>College Name</label>
+
+                 <select  name="College" id='Collegecopy' onchange="fetchcourse(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where IDNo='$EmployeeID'";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+
+
+                 <label>Course</label>
+                  <select  id="Coursecopy" name="Course" class="form-control" required >
+                     <option value=''>Select Course</option>
+                 </select>
+         
+
+
+             
+
+              
+                 <label>Batch</label>
+                   <select id="Batchcopy" name="batch"  class="form-control" required>
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2011;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+               
+                  
+
+   <label>Unit</label>
+
+                   <select id="unitcopy" name="unit"   class="form-control" required>
+                       <option value="">Unit</option>
+                          <?php 
+                              for($i=1;$i<=4;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+                     <label>Semester</label>
+
+                   <select id="Semestercopy" name="semester"  onchange="fetchcodes()" class="form-control" required>
+                       <option value="">Semester</option>
+                          <?php 
+                              for($i=1;$i<=12;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+ <label>Subject Codes Uploaded by you </label>
+                 
+
+
+                    <select id="Subjectcodecopy" name="semester"  class="form-control" required>
+                       
+
+                       <option value="">Subject Code</option>
+                          
+                 </select>
+            
+              </div>
+
+
+
+
+
+
+                     <div class="col-lg-6">
+                        <label style="text-align:center; color: red;">Copy To </label><br>
+
+                        <label>College Name</label>
+                 <select  name="College" id='Collegecopy1' onchange="fetchcourse1(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID'";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+
+
+                 <label>Course</label>
+                  <select  id="Coursecopy1" name="Coursecopy1" class="form-control" required >
+                     <option value=''>Select Course</option>
+                 </select>
+              
+
+             
+
+            
+                 <label>Batch</label>
+                   <select id="Batchcopy1" name="batch"  class="form-control" required>
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2011;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+
+
+                <label>Semester</label>
+
+                   <select id="Semestercopy1" name="semester" onchange="fetchcodesnew()"  class="form-control" required>
+                       <option value="">Semester</option>
+                          <?php 
+                              for($i=1;$i<=12;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+<label>Subject Codes </label>
+
+                      <select id="Subjectcodecopy1" name="semester" onchange="checkvalidation(this.value)"  class="form-control" required>
+                       
+
+                       <option value="">Subject Code</option>
+                          
+                 </select>
+
+
+                 
+                     
+            
+              </div>
+
+
+               </div>
+
+
+
+              <p></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+              <button type="button" class="btn btn-primary"  id='save' onclick="copyquestions()"  style="display:none">Save Changes</button>
+              <button type="button" class="btn btn-danger" id='alert'  style="display:none">Already Uploaded</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
 <script type="text/javascript">
 
 
@@ -427,6 +618,228 @@ function drop_category()
          });
 }
 
+    function fetchcourse()
+{   
+   
+  
+
+ var College=document.getElementById('Collegecopy').value;
+   
+  
+var code='317';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+   
+if(data != "")
+{
+    
+$("#Coursecopy").html("");
+$("#Coursecopy").html(data);
+}
+}
+});
+
+}
+
+ function fetchcourse1(data)
+{
+var code='317';
+$.ajax({
+url:'action.php',
+data:{College:data,code:code},
+type:'POST',
+success:function(data){
+
+  
+
+
+if(data != "")
+{
+    
+$("#Coursecopy1").html("");
+$("#Coursecopy1").html(data);
+}
+}
+});
+
+}
+
+ function fetchcodes()
+{
+
+ var College=document.getElementById('Collegecopy').value;
+
+ var Course=document.getElementById('Coursecopy').value;
+
+ var Batch=document.getElementById('Batchcopy').value;
+
+ var Semester=document.getElementById('Semestercopy').value;
+  var Unit=document.getElementById('unitcopy').value;
+
+
+
+
+var code='318';
+$.ajax({
+url:'action.php',
+data:{College:College,Course:Course,Batch:Batch,Semester:Semester,code:code,Unit:Unit},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+   // console.log(data);
+$("#Subjectcodecopy").html("");
+$("#Subjectcodecopy").html(data);
+}
+}
+});
+
+}
+
+ function fetchcodesnew()
+{
+
+ var College=document.getElementById('Collegecopy1').value;
+
+ var Course=document.getElementById('Coursecopy1').value;
+
+ var Batch=document.getElementById('Batchcopy1').value;
+
+ var Semester=document.getElementById('Semestercopy1').value;
+
+var code='319';
+$.ajax({
+url:'action.php',
+data:{College:College,Course:Course,Batch:Batch,Semester:Semester,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+  
+$("#Subjectcodecopy1").html("");
+$("#Subjectcodecopy1").html(data);
+}
+}
+});
+
+}
+
+
+ function checkvalidation(subject_code)
+{
+
+ var College=document.getElementById('Collegecopy1').value;
+
+ var Course=document.getElementById('Coursecopy1').value;
+
+ var Batch=document.getElementById('Batchcopy1').value;
+    var Unit=document.getElementById('unitcopy').value;
+
+ var Semester=document.getElementById('Semestercopy1').value;
+
+ if(College!=''&& Course!='' && Batch!=''&& Unit!='' && Semester!='')
+ {
+
+
+var code='320';
+$.ajax({
+url:'action.php',
+data:{College:College,Course:Course,Batch:Batch,Semester:Semester,code:code,SubjectCode:subject_code,Unit:Unit},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+  if(data=='1')
+  {
+   document.getElementById('alert').style.display='block';
+    document.getElementById('save').style.display='none';
+  }
+  else
+  {
+     document.getElementById('save').style.display= 'block';
+      document.getElementById('alert').style.display='none';
+  }
+
+    //console.log(data);
+
+}
+}
+});
+}
+else
+{
+
+ ErrorToast('Please select Required Fields!','bg-danger');
+
+}
+
+}
+
+function copyquestions()
+{
+ document.getElementById('save').style.display='none';
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+ var College=document.getElementById('Collegecopy').value;
+ var Course=document.getElementById('Coursecopy').value;
+ var Batch=document.getElementById('Batchcopy').value;
+ var Unit=document.getElementById('unitcopy').value;
+ var Semester=document.getElementById('Semestercopy').value;
+ var SubjectCode=document.getElementById('Subjectcodecopy').value;
+
+
+ var College1=document.getElementById('Collegecopy1').value;
+ var Course1=document.getElementById('Coursecopy1').value;
+ var Batch1=document.getElementById('Batchcopy1').value;
+ var Semester1=document.getElementById('Semestercopy1').value;
+ var SubjectCode1=document.getElementById('Subjectcodecopy').value;
+
+
+
+
+
+
+
+ if(College!=''&& Course!='' && Batch!=''&& Unit!='' && Semester!='' &&SubjectCode!=''&& College1!=''&& Course1!='' && Batch1!='' && Semester1!='' &&SubjectCode1!='')
+ {
+
+var code='321';
+$.ajax({
+url:'action.php',
+data:{College:College,Course:Course,Batch:Batch,Semester:Semester,SubjectCode:SubjectCode,Unit:Unit,College1:College1,Course1:Course1,Batch1:Batch1,Semester1:Semester1,SubjectCode1:SubjectCode1,code:code},
+type:'POST',
+success:function(data){
+   spinner.style.display = 'none';
+//console.log(data);
+if(data != "")
+{
+  if(data>0)
+  {
+    SuccessToast('Successfully Uploaded');
+  }
+  else
+  {
+     ErrorToast('Unable to copy !','bg-danger'); 
+  }
+
+   
+
+}
+}
+});
+
+
+
+
+}
+else
+{
+    ErrorToast('Please select Required Fields!','bg-danger');
+}
+}
 
 </script>
 </br>
