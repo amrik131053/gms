@@ -18340,6 +18340,8 @@ elseif($code==321)
  $Semester=$_POST['Semester'];
  $Unit=$_POST['Unit'];
  $SubjectCode=$_POST['SubjectCode'];
+
+ 
  $College1=$_POST['College1'];
  $Course1=$_POST['Course1'];
  $Batch1=$_POST['Batch1'];
