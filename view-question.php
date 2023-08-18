@@ -659,6 +659,8 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
    function view_question(SubjectCode,CourseID,Batch,Semester)
    {
       document.getElementById("show_upload_q").innerHTML='';
+
+      alert('dfggdf');
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);

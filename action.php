@@ -9679,7 +9679,7 @@ elseif($code==151)
       ?>
 <label>Subject Code<b style="color:red;">*</b></label>
                         <div class="input-group">
-                           <Input type="text"  class="form-control subject_code"  name="subject_code" id="subject_code1"  required="" />
+                           <Input type="text"  class="form-control subject_code"  Placeholder="Subject Code here"  name="subject_code" id="subject_code1"  required="" />
                            <!-- <input type="button" name="" value="Search" id="subject_code_search"> -->
                            <button class="btn btn-success" onclick="subject_code_search_lock()"><i class="fa fa-search"></i></button>
                         </div>
@@ -9778,7 +9778,7 @@ elseif($code==151)
       <td><?=$showQuestionData['Batch']?></td>
       <td>
          <?php
-               if ($showQuestionData['totalQuestions']>=130) 
+               if ($showQuestionData['totalQuestions']>=118) 
                {
                   if ($showQuestionData['lock_status']==0) 
                   {
@@ -9811,7 +9811,8 @@ elseif($code==151)
             else
             { 
                 ?>
-         <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" ></i>
+         <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" data-toggle="modal" 
+            data-target="#modal-lg-view-question" ></i>
          <?php 
             }
               ?>
