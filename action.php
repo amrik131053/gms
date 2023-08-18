@@ -9778,7 +9778,7 @@ elseif($code==151)
       <td><?=$showQuestionData['Batch']?></td>
       <td>
          <?php
-               if ($showQuestionData['totalQuestions']>=118) 
+               if ($showQuestionData['totalQuestions']>=130) 
                {
                   if ($showQuestionData['lock_status']==0) 
                   {
@@ -11585,7 +11585,7 @@ elseif($code==194)
    $searchingValue=$_POST['searchingValue'];
    if ($searchingValue=='SubjectCode') 
    {
-      $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,  count(*) as questionCount from question_bank where SubjectCode='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy";
+     echo  $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,Exam_Session,count(*) as questionCount from question_bank where SubjectCode='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy,Exam_Session";
       $flag=1;
    }
    elseif ($searchingValue=='EmployeeId') 
@@ -11654,7 +11654,7 @@ elseif($code==194)
       <tr>
          <td><?=$sr?></td>
          <td><span class="text-info<?=$sr;?>" id="emp<?=$sr;?>"><?=$data['UpdatedBy']?></span></td>
-         <td><?=$data['SubjectCode']?><?=$data['SubjectName']?></td>
+         <td><?=$data['SubjectCode']?></td>
          <td><?php $sqlcourse = "SELECT DISTINCT Course from MasterCourseStructure WHERE CourseID='$CourseID'";
          $result = sqlsrv_query($conntest,$sqlcourse);
          if($rowCourse= sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
