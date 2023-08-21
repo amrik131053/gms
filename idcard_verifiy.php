@@ -16,11 +16,11 @@
  }
 // print_r($data);
 ?>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style='z-index:9999;'>
+<div class="modal fade" id="imageexampleModal" tabindex="-1" role="dialog" aria-labelledby="imageexampleModalLabel" aria-hidden="true" style='z-index:9999;'>
    <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+            <h5 class="modal-title" id="imageexampleModalLabel">Image</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
@@ -226,6 +226,8 @@
         // var spinner=document.getElementById("ajax-loader");
     //  spinner.style.display='block';
     var remarks=document.getElementById('Remarks').value;
+    if(remarks!='')
+    {
      var code=146;
            $.ajax({
               url:'action_g.php',
@@ -252,6 +254,9 @@
                 
               }
            });
+         }else{
+            ErrorToast('Enter Remarks','bg-warning');
+         }
           
     }
     function pending_show_idcard(){
@@ -377,6 +382,7 @@ function uploadImage(form, id) {
             console.log(response);
             SuccessToast('Successfully Uploaded');
             view_image(id);
+            show_all();
          },
          error: function(xhr, status, error) {
             console.log(error);

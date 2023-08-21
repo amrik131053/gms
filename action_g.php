@@ -7598,25 +7598,47 @@ else
    {
       $Snap=$row_pending['Snap'];
       $s_pic=base64_encode($Snap);
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
+      $mime_type = $finfo->buffer($Snap);
+      $extension = '';
+      switch ($mime_type) {
+          case 'image/jpeg':
+              $extension = 'jpg';
+              break;
+          case 'image/png':
+              $extension = 'png';
+              break;
+          
+      }
 ?>
 <div class="container">
    <div class="container-fluid">
       <div class="card card-primary">
-         <div class="card-header">
-            <h5>Smart Card View</h5>
-         </div>
+        
+          
          <div class="card-body">
-            <div class="row">
-            <!-- <div class="col-lg-12"> -->
-               
-               <div class="col-lg-6 text-center text-bold">
-                  <img src="dist/img/new-logo.png" alt="logo" width="210">
-                  <br><br>
-                  <h5 style="background-color: #223260; color: white">
-                     <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
-                  </h5>
-                  <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
-                  <br>
+               <div class="row">
+               <!-- <div class="col-lg-12"> -->
+                  
+                  <div class="col-lg-6 text-center text-bold">
+                     <img src="dist/img/new-logo.png" alt="logo" width="210">
+                     <br><br>
+                     <h5 style="background-color: #223260; color: white">
+                        <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
+                     </h5>
+                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                     <br>
+
+
+ <br>
+ <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
+<form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
+     <input type="file" name="image" id="image" class="form-control input-group-sm">
+     <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
+     <input type="hidden" name="code" value="153">
+     <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
+     </form>
+<div id="result"></div><br>
                   Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
                   <br>
                   RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
@@ -7678,9 +7700,7 @@ else
 <div class="container">
    <div class="container-fluid">
       <div class="card card-primary">
-         <div class="card-header">
-            <h5>Smart Card View</h5>
-         </div>
+        
          <div class="card-body">
             <div class="row">
             <!-- <div class="col-lg-12"> -->
@@ -7857,8 +7877,22 @@ echo "1";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
+         $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Snap'];
          $s_pic=base64_encode($Snap);
+        
+         $finfo = new finfo(FILEINFO_MIME_TYPE);
+         $mime_type = $finfo->buffer($Snap);
+         $extension = '';
+         switch ($mime_type) {
+             case 'image/jpeg':
+                 $extension = 'jpg';
+                 break;
+             case 'image/png':
+                 $extension = 'png';
+                 break;
+             
+         }
    ?>
    <div class="container">
       <div class="container-fluid">
@@ -7876,7 +7910,18 @@ echo "1";
                      </h5>
                      <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
                      <br>
-                     <button data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row_pending['IDNo']; ?>');" class="btn btn-primary btn-xs">Image Upload</button><br>
+
+
+ <br>
+ <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
+<form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
+     <input type="file" name="image" id="image" class="form-control input-group-sm">
+     <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
+     <input type="hidden" name="code" value="153">
+     <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
+     </form>
+<div id="result"></div>
+                     
                      Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
                      <br>
                      RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
@@ -7906,7 +7951,7 @@ echo "1";
                      <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                      <br>
                      
-                     <textarea name="" rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
+                     <textarea  rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
                      <br>
                      <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                      <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
