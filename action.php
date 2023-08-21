@@ -11328,8 +11328,12 @@ else {
                   <li class="nav-item">
                      <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
                   </li>
+                  
                   <li class="nav-item">
-                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                     <li class="nav-link"><b>Email</b> :&nbsp;&nbsp;&nbsp;<?= $email; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Mobile</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
                   </li>
                    <li class="nav-item">
                      <li class="nav-link"><b>ABC ID</b> :&nbsp;&nbsp;&nbsp;<?php if($abcid!=''){echo $abcid;} else { echo 'NA';} ?></li>
@@ -11337,14 +11341,17 @@ else {
                   </li>
 
                    <li class="nav-item">
-                     <li class="nav-link"><b>Registration Number</b> :&nbsp;&nbsp;&nbsp;<?= $RegistrationNo; ?></li>
+                     <li class="nav-link"><b>Registration Number</b> :&nbsp;&nbsp;&nbsp;<?= $RegistrationNo; ?></li> </li>
                   <li class="nav-item">
                      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
                   </li>
                   <li class="nav-item">
                      <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
                   </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
                   </li>
+                 
                   <li class="nav-item">
                      <li class="nav-link"><b>Valid Upto</b> :&nbsp;&nbsp;&nbsp;<b class="text-danger"><?php echo $validUpto; ?></b>
                      </li> <li class="nav-link"><b>Status</b> :&nbsp;&nbsp;&nbsp;<?php if ($Status==0)  {
