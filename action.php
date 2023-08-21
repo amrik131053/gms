@@ -18235,7 +18235,7 @@ else {
 elseif($code==317)
 {
  $collegeid=$_POST['College'];
-echo $get_colege_course_name="SELECT distinct Course,CourseID FROM MasterCourseCodes where CollegeID='$collegeid'";
+ $get_colege_course_name="SELECT distinct Course,CourseID FROM MasterCourseCodes where CollegeID='$collegeid'";
 
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
     
