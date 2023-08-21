@@ -7589,6 +7589,417 @@ else
    echo "0";
 }
   }
+  elseif($code==143)
+  {
+   $id=$_POST['id'];
+   $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
+   $get_pending_run=sqlsrv_query($conntest,$get_pending);
+   if($row_pending=sqlsrv_fetch_array($get_pending_run))
+   {
+      $Snap=$row_pending['Snap'];
+      $s_pic=base64_encode($Snap);
+?>
+<div class="container">
+   <div class="container-fluid">
+      <div class="card card-primary">
+         <div class="card-header">
+            <h5>Smart Card View</h5>
+         </div>
+         <div class="card-body">
+            <div class="row">
+            <!-- <div class="col-lg-12"> -->
+               
+               <div class="col-lg-6 text-center text-bold">
+                  <img src="dist/img/new-logo.png" alt="logo" width="210">
+                  <br><br>
+                  <h5 style="background-color: #223260; color: white">
+                     <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
+                  </h5>
+                  <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                  <br>
+                  Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
+                  <br>
+                  RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
+                  <br>
+                  Course: <span id="Course" readonly="true"><?= $row_pending['Course']; ?></span>
+                  <br>
+                  Batch: <span id="Batch" readonly="true"><?= $row_pending['Batch']; ?></span><br>
+                  Valid upto: <span id="ValidUpto" readonly="true"></span><br>
+                  <br>
+                  <h5 style="background-color: #223260; color: white">Authourity Signature</h5>
+               </div>
+               <div class="col-lg-6 text-center" >
+                  <b>This is a property of Guru Kashi University</b>
+                  <hr>
+                  FatherName: <span id="FatherName" readonly="true"><?= $row_pending['FatherName']; ?></span>
+                  <br>
+                  Mobile: <span id="StudetMobileNo" readonly="true"><?= $row_pending['StudentMobileNo']; ?></span>
+                  <br>
+                  DOB: <span id="DOB" readonly="true"><?= $row_pending['DOB']->format('d-m-Y'); ?></span>
+                  <br>
+                  <b><span>Address</span></b><br>
+                  <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?></span>
+                  <br>
+                  <span id="State" readonly="true"><?= $row_pending['District']; ?></span>
+                  <br>
+                  <span id="State" readonly="true"><?= $row_pending['State']; ?></span> PIN-
+                  <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
+                  <br>
+                  
+                  <textarea name="" rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
+                  <br>
+                  <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
+                  <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+               </div>
+            </div>
+         </div>
+      <!-- </div> -->
+   </div>
+   </div>
+   
+</div>
+                    <?php
+                 
+                  }
+                 
+                    
+                    ?>
+  <?php }
+   elseif($code==144)
+   {
+      $id=$_POST['id'];
+      $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      if($row_pending=sqlsrv_fetch_array($get_pending_run))
+      {
+         $Snap=$row_pending['Snap'];
+         $s_pic=base64_encode($Snap);
+ ?>
+<div class="container">
+   <div class="container-fluid">
+      <div class="card card-primary">
+         <div class="card-header">
+            <h5>Smart Card View</h5>
+         </div>
+         <div class="card-body">
+            <div class="row">
+            <!-- <div class="col-lg-12"> -->
+               
+               <div class="col-lg-6 text-center text-bold">
+                  <img src="dist/img/new-logo.png" alt="logo" width="210">
+                  <br><br>
+                  <h5 style="background-color: #223260; color: white">
+                     <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
+                  </h5>
+                  <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                  <br>
+                  Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
+                  <br>
+                  RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
+                  <br>
+                  Course: <span id="Course" readonly="true"><?= $row_pending['Course']; ?></span>
+                  <br>
+                  Batch: <span id="Batch" readonly="true"><?= $row_pending['Batch']; ?></span><br>
+                  Valid upto: <span id="ValidUpto" readonly="true"></span><br>
+                  <br>
+                  <h5 style="background-color: #223260; color: white">Authourity Signature</h5>
+               </div>
+               <div class="col-lg-6 text-center" >
+                  <b>This is a property of Guru Kashi University</b>
+                  <hr>
+                  FatherName: <span id="FatherName" readonly="true"><?= $row_pending['FatherName']; ?></span>
+                  <br>
+                  Mobile: <span id="StudetMobileNo" readonly="true"><?= $row_pending['StudentMobileNo']; ?></span>
+                  <br>
+                  DOB: <span id="DOB" readonly="true"><?= $row_pending['DOB']->format('d-m-Y'); ?></span>
+                  <br>
+                  <b><span>Address</span></b><br>
+                  <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?></span>
+                  <br>
+                  <span id="State" readonly="true"><?= $row_pending['District']; ?></span>
+                  <br>
+                  <span id="State" readonly="true"><?= $row_pending['State']; ?></span> PIN-
+                  <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
+                  <hr>
+                  <textarea name="" rows="2" cols="20" id="" class="form-control" placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
+                  <br>
+                  <input type="submit" name="" value="Verify" onclick="verify_idcard(<?= $row_pending['IDNO']; ?>);" class="btn btn-success">
+               </div>
+            </div>
+         </div>
+      <!-- </div> -->
+   </div>
+   </div>
+   
+</div>
+   <?php }
+   }
+   elseif($code==145)
+   {
+      $id=$_POST['id'];
+      $date=date('Y-m-d h:s:m');
+      $get_pending="UPDATE SmartCardDetails SET status='Verified',VerifyDate='$date' Where IDNO='$id' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      if($get_pending_run==true)
+      {
+echo "1";
+      }
+      else
+      {
+         echo "0";
+      }
+   }
+   elseif($code==146)
+   {
+      $id=$_POST['id'];
+      $remarks=$_POST['remarks'];
+      $date=date('Y-m-d h:s:m');
+      $get_pending="UPDATE SmartCardDetails SET status='Rejected',RejectDate='$date',RejectReason='$remarks' Where IDNO='$id' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      if($get_pending_run==true)
+      {
+echo "1";
+      }
+      else
+      {
+         echo "0";
+      }
+   }
+   elseif($code==147)
+   {
+      ?><table class="table">
+      <thead>
+<tr>
+   <th>ClassRollNo</th>
+   <th>Applied Date</th>
+   <th>Action</th>
+   
+</tr>
+</thead>
+<tbody>
+   <?php 
+   
+                  $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' ";
+                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  while($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {?>
+                    
+                     <tr>
+                        <td><?=$row_pending['ClassRollNo'];?></td>
+                        <td><?=$row_pending['ApplyDate']->format('d-M-Y');?></td>
+                        <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" onclick="view_pending(<?=$row_pending['IDNO'];?>);"><i class="fa fa-eye"></i></button></td>
+                      
+                        
+                     </tr>
+                  <?php }?>
+                  </tbody>
+                  </table>
+                  <?php
+                  
+   }
+   elseif($code==148)
+   {
+      ?><table class="table" >
+      <thead>
+<tr>
+   <th>ClassRollNo</th>
+   <th>Applied Date</th>
+   <th>Action</th>
+   
+</tr>
+</thead>
+<tbody ><?php 
+   
+                  $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' ";
+                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  while($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {
+                     $Snap=$row_pending['Snap'];
+                     $s_pic=base64_encode($Snap);   
+                     ?>
+                    
+                     <tr>
+                        <td><?=$row_pending['ClassRollNo'];?></td>
+                        <td><?=$row_pending['ApplyDate']->format('d-M-Y');?></td>
+                        <td> <?php echo "<img width='40' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?></td>
+                        <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#rejectexampleModal" onclick="view_rejected(<?=$row_pending['IDNO'];?>);"><i class="fa fa-eye"></i></button></td>
+ 
+                     </tr>
+                  <?php }?>
+                   </tbody>
+                   </table><?php
+                  
+   }
+   elseif ($code==149) {
+      $count=0;
+      $get_pending="SELECT * FROM SmartCardDetails where status='Applied' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($row_pending=sqlsrv_fetch_array($get_pending_run))
+      {
+         $count++;
+      }
+      echo $count;
+   }
+   elseif ($code==150) {
+      $count=0;
+      $get_pending="SELECT * FROM SmartCardDetails where status='Rejected' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($row_pending=sqlsrv_fetch_array($get_pending_run))
+      {
+         $count++;
+      }
+      echo $count;
+   }
+   elseif ($code==151)
+    {
+ 
+      $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' ";
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($row_pending=sqlsrv_fetch_array($get_pending_run))
+      {
+         $Snap=$row_pending['Snap'];
+         $s_pic=base64_encode($Snap);
+   ?>
+   <div class="container">
+      <div class="container-fluid">
+         <div class="card card-primary">
+           
+            <div class="card-body">
+               <div class="row">
+               <!-- <div class="col-lg-12"> -->
+                  
+                  <div class="col-lg-6 text-center text-bold">
+                     <img src="dist/img/new-logo.png" alt="logo" width="210">
+                     <br><br>
+                     <h5 style="background-color: #223260; color: white">
+                        <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
+                     </h5>
+                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                     <br>
+                     <button data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row_pending['IDNo']; ?>');" class="btn btn-primary btn-xs">Image Upload</button><br>
+                     Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
+                     <br>
+                     RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
+                     <br>
+                     Course: <span id="Course" readonly="true"><?= $row_pending['Course']; ?></span>
+                     <br>
+                     Batch: <span id="Batch" readonly="true"><?= $row_pending['Batch']; ?></span><br>
+                     Valid upto: <span id="ValidUpto" readonly="true"></span><br>
+                     <br>
+                     <h5 style="background-color: #223260; color: white">Authourity Signature</h5>
+                  </div>
+                  <div class="col-lg-6 text-center" >
+                     <b>This is a property of Guru Kashi University</b>
+                     <hr>
+                     FatherName: <span id="FatherName" readonly="true"><?= $row_pending['FatherName']; ?></span>
+                     <br>
+                     Mobile: <span id="StudetMobileNo" readonly="true"><?= $row_pending['StudentMobileNo']; ?></span>
+                     <br>
+                     DOB: <span id="DOB" readonly="true"><?= $row_pending['DOB']->format('d-m-Y'); ?></span>
+                     <br>
+                     <b><span>Address</span></b><br>
+                     <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?></span>
+                     <br>
+                     <span id="State" readonly="true"><?= $row_pending['District']; ?></span>
+                     <br>
+                     <span id="State" readonly="true"><?= $row_pending['State']; ?></span> PIN-
+                     <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
+                     <br>
+                     
+                     <textarea name="" rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
+                     <br>
+                     <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
+                     <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+                  </div>
+               </div>
+            </div>
+         <!-- </div> -->
+      </div>
+      </div>
+      
+   </div>
+   <?php 
+      }
+   }
+   elseif($code==152)
+   {
+  $UniRollNo=$_POST['uni'];
+       $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
+                            $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                            if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                            {
+                                $snap=$row_student['Snap'];
+                                   $finfo = new finfo(FILEINFO_MIME_TYPE);
+      $mime_type = $finfo->buffer($snap);
+      $extension = '';
+      switch ($mime_type) {
+          case 'image/jpeg':
+              $extension = 'jpg';
+              break;
+          case 'image/png':
+              $extension = 'png';
+              break;
+          
+      }
+      // echo $extension;
+      $pic = base64_encode($snap);
+      // $pic = base64_encode($pic);
+      ?>
+      <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+      <br>
+      <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
+  
+  <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
+          <input type="file" name="image" id="image" class="form-control input-group-sm">
+          <input type="text" name="unirollno" value="<?php echo $UniRollNo; ?>">
+          <input type="hidden" name="code" value="153">
+          <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
+          </form>
+  <div id="result"></div>
+  
+      <?php
+                 
+                                
+                             
+  
+                            }
+   }
+
+   else if($code==153)
+   {
+     $IDNo=$_POST['unirollno'];
+       $file_name = $_FILES['image']['name'];
+      $file_tmp = $_FILES['image']['tmp_name'];
+      $type = $_FILES['image']['type'];
+       $file_data = file_get_contents($file_tmp);
+      $characters = '';
+     $result = $IDNo;
+     $image_name =$result;
+     $ftp_server1 = "10.0.10.11";
+     $ftp_user_name1 = "Gurpreet";
+     $ftp_user_pass1 = "Guri@123";
+     $remote_file1 = "";
+     $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+     $destdir = 'Students';
+     ftp_chdir($conn_id, "Students/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+     file_put_contents($destdir.$image_name.'.PNG',$file_data);
+     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+     ftp_close($conn_id);
+     $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
+  $params = array($file_data, $IDNo);
+  $upimage_run = sqlsrv_query($conntest, $upimage, $params);
+  if ($upimage_run === false) {
+      $errors = sqlsrv_errors();
+      // echo "Error: " . print_r($errors, true);
+      // echo "0";
+  } 
+  else
+   {
+      echo "1";
+  }
+   }
    else
    {
    
