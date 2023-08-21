@@ -205,6 +205,7 @@
               success: function(response) 
               {
                pending_show_idcard();
+               reject_show_idcard();
                    set_count_pending();
                    set_count_reject();
                    show_all();
