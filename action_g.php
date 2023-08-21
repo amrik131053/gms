@@ -7668,7 +7668,7 @@ else
                   <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                   <br>
                   
-                  <textarea name="" rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
+                  <textarea name="" rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"></textarea>
                   <br>
                   <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                   <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
@@ -7951,7 +7951,7 @@ echo "1";
                      <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                      <br>
                      
-                     <textarea  rows="2" cols="20" id="Remarks" class="form-control" placeholder="Rejected Reason"></textarea>
+                     <textarea  rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"></textarea>
                      <br>
                      <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                      <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">

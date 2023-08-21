@@ -204,14 +204,16 @@
               },
               success: function(response) 
               {
-            //    console.log(response);
-            //    spinner.style.display='none';
+               pending_show_idcard();
+                   set_count_pending();
+                   set_count_reject();
+                   show_all();
                if(response=='1')
                {
                    SuccessToast('Success Verifiy');
-                   pending_show_idcard();
-                   set_count_pending();
-                   set_count_reject();
+                  //  pending_show_idcard();
+                  //  set_count_pending();
+                  //  set_count_reject();
                }
                else
                {
@@ -225,7 +227,7 @@
     function reject_idcard(id){
         // var spinner=document.getElementById("ajax-loader");
     //  spinner.style.display='block';
-    var remarks=document.getElementById('Remarks').value;
+    var remarks=document.getElementById('Remarks'+id).value;
     if(remarks!='')
     {
      var code=146;
@@ -237,15 +239,15 @@
               },
               success: function(response) 
               {
-               
+               reject_show_idcard();
+                   set_count_pending();
+                   set_count_reject();
+                   show_all();
             //    spinner.style.display='none';
                if(response=='1')
                {
                    SuccessToast('Successfully Rejected');
-                   reject_show_idcard();
-                   set_count_pending();
-                   set_count_reject();
-                   show_all();
+                  
                }
                else
                {
@@ -254,7 +256,9 @@
                 
               }
            });
-         }else{
+         }
+         else
+         {
             ErrorToast('Enter Remarks','bg-warning');
          }
           
