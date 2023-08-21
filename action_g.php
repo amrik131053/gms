@@ -7626,7 +7626,7 @@ else
                      <h5 style="background-color: #223260; color: white">
                         <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                      </h5>
-                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
                      <br>
 
 
@@ -7711,7 +7711,7 @@ else
                   <h5 style="background-color: #223260; color: white">
                      <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                   </h5>
-                  <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                  <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
                   <br>
                   Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
                   <br>
@@ -7908,7 +7908,7 @@ echo "1";
                      <h5 style="background-color: #223260; color: white">
                         <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                      </h5>
-                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                     <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
                      <br>
 
 
@@ -7990,7 +7990,7 @@ echo "1";
       $pic = base64_encode($snap);
       // $pic = base64_encode($pic);
       ?>
-      <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+      <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300" style='border:groove black;'>
       <br>
       <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
   
