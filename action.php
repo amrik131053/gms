@@ -11225,7 +11225,7 @@ $row_count = sqlsrv_num_rows($stmt1);
       $PrintDate1=$row_check['PrintDate'];
       $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
       }
-      else{
+      else{ 
         $PrintDate=""; 
       }
       if($row_check['ApplyDate']!='')
