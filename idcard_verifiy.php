@@ -2,40 +2,6 @@
   ini_set('max_execution_time',0);
   include "header.php";   
 ?>
-
-  <?php
-
- $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' ";
- $get_pending_run=sqlsrv_query($conntest,$get_pending);
- if($row_pending=sqlsrv_fetch_array($get_pending_run))
- {
-    $data[]=$row_pending['IDNO'];
-   //  $data[]=array_push($data,$row_pending['StudentName'],$row_pending['FatherName'],
-   //  $row_pending['Course'],$row_pending['Batch'],$row_pending['ClassRollNo'],$row_pending['StudentMobileNo'],$row_pending['DOB']->format('Y-m-d'),
-   //  $row_pending['PermanentAddress'],$row_pending['District'],$row_pending['State'],$row_pending['PIN']);
- }
-// print_r($data);
-?>
-<div class="modal fade" id="imageexampleModal" tabindex="-1" role="dialog" aria-labelledby="imageexampleModalLabel" aria-hidden="true" style='z-index:9999;'>
-   <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="imageexampleModalLabel">Image</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <div class="row" id="image_view">
-            </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <!-- <button type="button" class="btn btn-primary"></button> -->
-         </div>
-      </div>
-   </div>
-</div>
 <section class="content">
    <div class="container-fluid">
       <div class="row">
@@ -61,7 +27,7 @@
                <div class="card card-info">
                   <div class="card-header">
                   <h3 class="card-title">Rejected&nbsp;(<span id="reject_count"></span>)</h3>
-                  <button type="button" class="btn btn-primary btn-xs" onclick="reject_show_idcard();" style="float:right;">Show All</button>
+                  <button type="button" data-toggle="modal" data-target="#all_showexampleModal"  class="btn btn-primary btn-xs" onclick="show_all_reject();" style="float:right;">Show All</button>
                  
                   </div>
                   <!-- /.card-header -->
@@ -152,7 +118,6 @@
        
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
-     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
      var code=143;
            $.ajax({
               url:'action_g.php',
@@ -174,7 +139,6 @@
     function view_rejected(id){
         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
-     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
      var code=144;
            $.ajax({
               url:'action_g.php',
@@ -193,8 +157,7 @@
           
     }
     function verify_idcard(id){
-        // var spinner=document.getElementById("ajax-loader");
-    //  spinner.style.display='block';
+       
      var code=145;
            $.ajax({
               url:'action_g.php',
@@ -204,17 +167,15 @@
               },
               success: function(response) 
               {
-               pending_show_idcard();
-               reject_show_idcard();
+                   pending_show_idcard();
+                   reject_show_idcard();
                    set_count_pending();
                    set_count_reject();
                    show_all();
                if(response=='1')
                {
                    SuccessToast('Success Verifiy');
-                  //  pending_show_idcard();
-                  //  set_count_pending();
-                  //  set_count_reject();
+                
                }
                else
                {
@@ -226,8 +187,7 @@
           
     }
     function reject_idcard(id){
-        // var spinner=document.getElementById("ajax-loader");
-    //  spinner.style.display='block';
+       
     var remarks=document.getElementById('Remarks'+id).value;
    //  alert(remarks);
     if(remarks!='')
@@ -241,7 +201,7 @@
               },
               success: function(response) 
               {
-               reject_show_idcard();
+                   reject_show_idcard();
                    set_count_pending();
                    set_count_reject();
                    show_all();
@@ -283,9 +243,7 @@
                set_count_reject();
                show_all();
                document.getElementById("pending_record").innerHTML=response;
-            //    $('#example').DataTable({ 
-                    //   "destroy": true, //use for reinitialize datatable
-                //    });
+         
               }
            });
           
@@ -308,9 +266,7 @@
                set_count_reject();
               
                document.getElementById("reject_record").innerHTML=response;
-            //    $('#example').DataTable({ 
-                    //   "destroy": true, //use for reinitialize datatable
-                //    });
+           
               }
            });
           
@@ -375,6 +331,27 @@ function show_all() {
                  
       
 }
+function show_all_reject() {
+   var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     var code=154;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+              
+               spinner.style.display='none';
+               document.getElementById("div_all").innerHTML=response;
+          
+              }
+           });
+                 
+      
+}
 
 function uploadImage(form, id) {
       var formData = new FormData(form);
@@ -385,13 +362,13 @@ function uploadImage(form, id) {
          contentType: false,
          processData: false,
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             SuccessToast('Successfully Uploaded');
             view_image(id);
             show_all();
          },
          error: function(xhr, status, error) {
-            console.log(error);
+            // console.log(error);
          }
       });
    }
