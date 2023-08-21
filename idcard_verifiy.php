@@ -228,6 +228,7 @@
         // var spinner=document.getElementById("ajax-loader");
     //  spinner.style.display='block';
     var remarks=document.getElementById('Remarks'+id).value;
+   //  alert(remarks);
     if(remarks!='')
     {
      var code=146;
