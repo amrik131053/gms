@@ -18,7 +18,7 @@
             <div class="card-body">
                <div class="form-group row ">
                 &nbsp;&nbsp;  <label style="color:#A62535;">For Eligible:&nbsp;1 &nbsp; For Not Eligible:0</label>
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="184">
                       <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -50,7 +50,7 @@
             <div class="card-body">
                <div class="form-group row ">
                 &nbsp;&nbsp;  <label style="color:#A62535;">For Active:&nbsp;1 &nbsp; For Left:0</label>
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="301">
                       <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -80,7 +80,7 @@
             </div>
              <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                
                     <input type="hidden" name="code" value="183">
@@ -114,7 +114,7 @@
             </div>
             <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="file" name="file_exl" class="form-control">
                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -144,7 +144,7 @@
             </div> 
              <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="185">
                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -217,6 +217,7 @@ input[type=radio]:checked + label {
                
                
             </div>
+            
            
           
             <!-- /.card-footer -->
@@ -240,6 +241,10 @@ input[type=radio]:checked + label {
          <div class="modal-body" id='student_record_for_update' style="text-align:center">
           
  </div>
+  <div class="card-body" id="student_search_recordold" style="font-size:12px;">
+               
+              
+            </div>
 
 </div>
 </div>
@@ -400,6 +405,80 @@ function copyToClipboard(element) {
 
 
 
+function  movefee(nid)
+{
+  var code=324;
+   
+      var oldid= document.getElementById("oldid").value;
+
+
+     
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,oldid:oldid,nid:nid
+            },
+            success:function(response) 
+            {
+               //console.log(response);
+               spinner.style.display='none';
+                SuccessToast('Successfully Uploaded');
+               
+            }
+         });
+      
+    
+
+
+}
+
+
+
+
+   function student_search1()
+   {
+     
+      var code=323;
+      var code_access = '<?php echo $code_access; ?>';
+      var rollNo= document.getElementById("student_roll_no1").value;
+         var option = 1;
+       
+      
+
+      if (rollNo!='') 
+      {
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,rollNo:rollNo,option:option,code_access:code_access
+            },
+            success:function(response) 
+            {
+              // console.log(response);
+               spinner.style.display='none';
+               document.getElementById("student_search_recordold").innerHTML =response;
+            }
+         });
+      }
+      else
+      {
+         // alert("Please Enter the Roll No.");
+         document.getElementById("student_search_record").innerHTML ='Enter Roll No';
+      }
+   } 
+
+
+
    function student_search()
    {
      
@@ -425,6 +504,7 @@ function copyToClipboard(element) {
             success:function(response) 
             {
                spinner.style.display='none';
+                document.getElementById("student_search_recordold").innerHTML ='';
                document.getElementById("student_search_record").innerHTML =response;
             }
          });
@@ -435,6 +515,39 @@ function copyToClipboard(element) {
          document.getElementById("student_search_record").innerHTML ='Enter Roll No';
       }
    } 
+
+
+
+
+
+   function changecourse(id)
+   {
+    
+      var code=322;
+          
+      var  spinner= document.getElementById("ajax-loader");
+      spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+   }
+
+
+
+
 
 
 
@@ -457,6 +570,8 @@ function copyToClipboard(element) {
             {
                
                spinner.style.display='none';
+
+document.getElementById("student_search_recordold").innerHTML ='';
                document.getElementById("student_record_for_update").innerHTML =response;
             }
          });
@@ -480,6 +595,7 @@ function copyToClipboard(element) {
             {
                
                spinner.style.display='none';
+               document.getElementById("student_search_recordold").innerHTML ='';
                document.getElementById("student_record_for_updater").innerHTML =response;
             }
          });
@@ -518,6 +634,8 @@ function copyToClipboard(element) {
    var  lock = document.getElementById('ulocked').value;
    var  classroll = document.getElementById('classroll').value;
     var uniroll = document.getElementById('uniroll').value;
+        var Collegechange = document.getElementById('Collegechange').value;
+            var coursechange = document.getElementById('coursechange').value;
    var code=220;   
  
    var  spinner= document.getElementById("ajax-loader");
@@ -528,11 +646,13 @@ function copyToClipboard(element) {
             type:"POST",
             data:
             {
-               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible,
+               coursechange:coursechange,Collegechange:Collegechange
+
             },
             success:function(response) 
             {
-             
+             //console.log(response);
                spinner.style.display='none';
                 if (response==1) {
                            SuccessToast('Successfully Updated');
@@ -617,13 +737,36 @@ function abcidreset(id)
                           }
               student_search();
             }
-         });
+         }); 
  }
 
 
 }
 
+    function fetchcourse(id)
+{   
+   
 
+
+ 
+     
+
+var code='325';
+$.ajax({
+url:'action.php',
+data:{College:id,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+     
+$("#coursechange").html("");
+$("#coursechange").html(data);
+}
+}
+});
+
+}
 
 
 </script>
