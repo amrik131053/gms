@@ -13424,7 +13424,7 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
-    $update_studentb="UPDATE Ledger  SET Batch='$batch' where IDNo='$id'";
+    $update_studentb="UPDATE Ledger  SET Batch='$batch',CollegeName='$CollegeName',Course='$Course',ClassRollNo='$classroll' where IDNo='$id'";
    $update_runb=sqlsrv_query($conntest,$update_studentb);
 
 
