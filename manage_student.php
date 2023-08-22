@@ -18,7 +18,7 @@
             <div class="card-body">
                <div class="form-group row ">
                 &nbsp;&nbsp;  <label style="color:#A62535;">For Eligible:&nbsp;1 &nbsp; For Not Eligible:0</label>
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="184">
                       <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -50,7 +50,7 @@
             <div class="card-body">
                <div class="form-group row ">
                 &nbsp;&nbsp;  <label style="color:#A62535;">For Active:&nbsp;1 &nbsp; For Left:0</label>
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="301">
                       <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -80,7 +80,7 @@
             </div>
              <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                
                     <input type="hidden" name="code" value="183">
@@ -114,7 +114,7 @@
             </div>
             <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="file" name="file_exl" class="form-control">
                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
@@ -144,7 +144,7 @@
             </div> 
              <div class="card-body">
                <div class="form-group row">
-                  <label for="inputEmail3" required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
                   <div class="col-lg-12">
                      <input type="hidden" name="code" value="185">
                      <input type="hidden" name="code_access" value="<?=$code_access;?>">
