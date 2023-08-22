@@ -11224,11 +11224,14 @@ $row_count = sqlsrv_num_rows($stmt1);
       if($row_check['PrintDate']!='')
       {
       $PrintDate1=$row_check['PrintDate'];
+
       $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
       }
+
       else{ 
         $PrintDate=""; 
       }
+
       if($row_check['ApplyDate']!='')
       {
          $ApplyDate1=$row_check['ApplyDate'];
@@ -11249,16 +11252,21 @@ $ApplyDate="";
          $printed_status="<img src='dist/img/emoji-no.GIF' width='60'>";
          $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$ApplyDate;
          // $printed_status="Applied";
-      }else if($row_check['status']=='Rejected')
+      }
+
+      else if($row_check['status']=='Rejected')
       {
          $printed_status="<b class='text-danger'>Rejected</b>";
+      }
+       else if($row_check['status']=='Verified')
+      {
+         $printed_status="<b class='text-danger'>Verified</b>";
       }
    }
    else{
       $printed_status="NA";
    }
-   // print_r($aa);
-
+   
 
 
    }
@@ -11298,6 +11306,8 @@ if($row_count>0)
   
 ?>
  <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedata(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-edit"></i></button>
+<br><br>
+  <button class="btn btn-danger btn-xs" data-toggle="modal"  onclick="changecourse(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-arrow-right"></i></button>
         <?php
      }
      else{
@@ -11308,7 +11318,8 @@ if($row_count>0)
   }
 else {
    
-   ?><button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedatar(<?= $IDNo;?>)" data-target="#Updatestudentmodalr" style="text-align:right"><i class="fa fa fa-edit"></i></button>
+   ?>
+   <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedatar(<?= $IDNo;?>)" data-target="#Updatestudentmodalr" style="text-align:right"><i class="fa fa fa-edit"></i></button>
 
 <?php
 }
@@ -11399,6 +11410,7 @@ else {
 <li class="nav-link"><b>ID Card</b> :&nbsp;&nbsp;&nbsp;
    
 <?php echo $printed_status; ?>   
+
                  
 
 
@@ -13169,23 +13181,17 @@ $IDNo= $_POST['IDNo'];
                   <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
                 <!-- /.widget-user-image -->
-                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
-                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php
-                 if($ClassRollNo!='')
-                { echo $ClassRollNo;
-                 ?> 
-                 <input type="hidden" class="form-control" value="<?=$ClassRollNo;?>"  id='classroll'>
-                  <?php } else {?> 
-                  <input type="text" class="form-control"   id='classroll'><?php } ?>
-                  <br>
-                  Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){
+                <h6 class="widget-user-username" ><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc" style="text-align: left;">Class Roll No&nbsp;:&nbsp;
 
-
-                   echo $UniRollNo;?>
-                   <input type="hidden" class="form-control"  value="<?=$UniRollNo;?>" id='uniroll'><?php }
-                   else{ ?><input type="text" class="form-control"  id='uniroll'><?php } ?>
-
-                   <br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                  
+                 <input type="text" class="btn-xs" value="<?=$ClassRollNo;?>"  id='classroll'>
+                </h6>
+                  <h6 style="text-align: left;">
+                  Uni Roll No&nbsp;:&nbsp;
+                   <input type="text" class="btn-xs"  value="<?=$UniRollNo;?>" id='uniroll'>
+</h6>
+                   IDNO&nbsp;:&nbsp;<?=$IDNo;?>
                 </div>
                 <div class="col-lg-1 col-sm-1">
 
@@ -13235,9 +13241,55 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 <button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
                       ?>  </li>
                      
-      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
+      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;
+
+ <select  name="College" id='Collegechange' onchange="fetchcourse(this.value);" class="btn-xs" required>
+                <option  value="<?= $CollegeID;?>"><?= $college; ?>(<?=$CollegeID;?>)</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $collegen = $row1['CollegeName']; 
+                        $CollegeIDn = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeIDn;?>"><?=$collegen;?>(<?=$CollegeIDn;?>)</option>
+                 <?php }
+                        ?>
+               </select>
+
+</b></li>
+
+
                  
-                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $Course; ?>&nbsp;<b>(<?= $CourseID;?>)</b></li>
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;
+
+
+<select  name="" id='coursechange'  class="btn-xs" required>
+                <option  value="<?= $CourseID;?>"><?= $Course;?>&nbsp;<b>(<?= $CourseID;?>)</option>
+
+  <?php 
+   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$CollegeID'  order by Course ASC";
+   
+   $stmt = sqlsrv_query($conntest,$sql);  
+
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+   echo "<option value='".$row["CourseID"]."'>".$row["Course"].'('.$row["CourseID"].')'."</option>";
+   }
+
+?>
+</b></select>
+
+
+
+
+
+
+
+                        </b></li>
          
                 
                     
@@ -13346,7 +13398,29 @@ elseif($code==220)
     $eligible=$_POST['eligible'];
     $classroll=$_POST['classroll'];
      $uniroll=$_POST['uniroll'];
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible' where IDNo='$id'";
+       $Collegechange=$_POST['Collegechange'];
+         $coursechange=$_POST['coursechange'];
+
+
+
+ $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$Collegechange' and CourseID='$coursechange'";
+
+         $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
+         while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
+               {
+               $CollegeName=$college_row['CollegeName'];                          
+               $Course=$college_row['Course'];
+               }
+
+
+$upuser="UPDATE UserMaster set CollegeName='$CollegeName' where  UserName='$id'";
+
+$update_uprun=sqlsrv_query($conntest,$upuser);
+
+
+
+
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -18405,6 +18479,258 @@ elseif($code==321)
    
 }
 
+
+elseif($code==322)
+{
+
+  $IDNo= $_POST['IDNo'];
+
+?>
+<input type="hidden" id="oldid" class="form-control" value="<?=$IDNo;?>">
+
+
+                     <br>
+                        <div class="btn-group input-group-sm">
+                  <input type="text" name="student_roll_no" class="form-control" id='student_roll_no1' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
+
+                             
+                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search1();" name="search"><i class="fa fa-search"></i></button>
+                      
+
+
+
+                           </div>
+
+<?php 
+
+}
+elseif($code=='323')
+   {
+        $code_access=$_POST['code_access'];
+
+  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+    {                                 
+
+ $univ_rollno=$_POST['rollNo'];
+
+$type=$_POST['option'];
+
+ if($type==1)
+ {
+ $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno'";
+ }
+ elseif ($type==3 ANd is_numeric($univ_rollno)) 
+ {
+  $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno'"; 
+ }
+ else
+ {
+  $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
+ }
+  $stmt1 = sqlsrv_query($conntest,$result1, array(), array( "Scrollable" => 'static' ));  
+$row_count = sqlsrv_num_rows($stmt1);
+
+   if($row_count>0)
+   {
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
+   {
+   
+   $IDNo= $row['IDNo'];
+    $ClassRollNo= $row['ClassRollNo'];
+    $img= $row['Snap'];
+    $UniRollNo= $row['UniRollNo'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $phone = $row['StudentMobileNo'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $RegistrationNo = $row['RegistrationNo'];
+    $abcid = $row['ABCID'];
+    $Status = $row['Status'];
+    $collegeId = $row['CollegeID'];
+    $courseId= $row['CourseID'];
+    $Status = $row['Status'];
+    $Locked=$row['Locked'];
+    $Eligibility = $row['Eligibility'];
+    $validUpto=$row['ValidUpTo'];
+      $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
+      $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
+   if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
+   {
+      if($row_check['PrintDate']!='')
+      {
+      $PrintDate1=$row_check['PrintDate'];
+
+      $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
+      }
+
+      else{ 
+        $PrintDate=""; 
+      }
+
+      if($row_check['ApplyDate']!='')
+      {
+         $ApplyDate1=$row_check['ApplyDate'];
+         $ApplyDate=$ApplyDate1->format('d-M-Y  h:s:A');
+      }
+      else
+      {
+$ApplyDate="";
+      }
+      if($row_check['status']=='Printed')
+      {
+         // $printed_status="<b class='text-success'>Printed</b>";
+         $printed_status="<img src='dist/img/emoji-yes.png' width='50'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$PrintDate;
+      }
+      else if($row_check['status']=='Applied')
+      {
+         $printed_status="<img src='dist/img/emoji-no.GIF' width='60'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$ApplyDate;
+         // $printed_status="Applied";
+      }
+
+      else if($row_check['status']=='Rejected')
+      {
+         $printed_status="<b class='text-danger'>Rejected</b>";
+      }
+       else if($row_check['status']=='Verified')
+      {
+         $printed_status="<b class='text-danger'>Verified</b>";
+      }
+   }
+   else{
+      $printed_status="NA";
+   }
+   
+
+
+   }
+  if($validUpto!='')
+  {
+$validUpto=$validUpto->format('d-M-Y');
+  }else
+  {
+   $validUpto='';
+  }
+ ?>
+
+   
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header badge-success">
+                <div class="row">
+                  <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
+                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </div>
+                <!-- /.widget-user-image -->
+                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc">Class Roll No&nbsp;:&nbsp;<?php if($ClassRollNo!=''){ echo $ClassRollNo;}else{echo "<b class='text-warning' style='font-size:16px'>Not Updated</b>";} ?><br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
+                </div>
+              
+             </div>
+               
+               
+
+
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li>
+                  
+                 
+                  
+
+                   <li class="nav-item">
+                     <li class="nav-link"><b>Registration Number</b> :&nbsp;&nbsp;&nbsp;<?= $RegistrationNo; ?></li> </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                 
+               
+                  
+                  
+                </ul>
+<p style="text-align:center;">
+<button   class="btn btn-success" onclick="movefee(<?=$IDNo;?>)">Move</button></p>
+
+              </div>
+            </div>
+         
+   <?php
+ 
+   }
+
+else
+{
+   echo "No Record Found";
+}
+}
+ else
+{
+      echo "Not Permissions";
+   }
+   }
+
+
+
+elseif($code=='324')
+{
+
+
+
+  $OLDIDNo= $_POST['oldid'];
+    $IDNo= $_POST['nid'];
+  
+   echo  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo' where IDNo='$OLDIDNo'";
+   $update_runb=sqlsrv_query($conntest,$update_studentb);
+
+
+  if ($update_runb==true)
+    {
+       echo "1";
+     
+   }
+   else
+   {
+       echo "0";
+      
+
+   }
+}
+
+
+  elseif($code=='325') 
+   {
+   $College=$_POST['College'];
+  
+   
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College'  order by Course ASC";
+   
+   $stmt = sqlsrv_query($conntest,$sql);  
+   echo "<option value=''>Course</option>";
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+   echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
+   }
+   
+   }
 
 
  else
