@@ -1,4 +1,6 @@
 <?php
+session_start();
+$EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
 // Extend the FPDF class to create a custom class with a footer
@@ -295,6 +297,8 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
+$upd="UPDATE offer_latter SET PrintBy='$EmployeeID' where id='$value'";
+mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>

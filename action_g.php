@@ -7158,7 +7158,7 @@ if ($numof_exit>0) {
 }
 else
 {
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -7173,9 +7173,25 @@ else
       }  
       elseif($code==134)
       {
-           $degree="SELECT * FROM offer_latter order by Id DESC ";                     
-
-          
+         $value=$_POST['by_search'];
+         if($value!='')
+         {
+            $degree="SELECT * FROM offer_latter where Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' order by Id DESC "; 
+            $degree_run=mysqli_query($conn,$degree);
+            while ($degree_row=mysqli_fetch_array($degree_run)) 
+            {
+            $data[]=$degree_row;
+            }
+            // print_r($row_student);
+            $page = $_POST['page'];
+            $recordsPerPage = 100;
+            $startIndex = ($page - 1) * $recordsPerPage;
+            $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+            echo json_encode($pagedData);
+         }
+         else
+         {
+           $degree="SELECT * FROM offer_latter order by Id DESC "; 
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
@@ -7187,6 +7203,7 @@ else
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
+                  }
       }
           elseif($code==135)
       {
@@ -7517,7 +7534,7 @@ $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
 
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

@@ -159,19 +159,20 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="2"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="2"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="3"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td colspan="1"> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="1"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>ID</th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Action</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>Name</th><th>UniRolNo</th><th>FatherName</th><th>Examination</th><th>Course</th><th>CGPA</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
                            table += '<tr>';
                            table += '<td><input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '"></td>';
-                           table += '<td>' + data[i][0] + '</td>';
+                           // table += '<td>' + data[i][0] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td data-toggle="modal" data-target="#exampleModal" onclick="view_image(\'' + unirollno + '\');">' + unirollno + '</td>';
                            table += '<td>' + data[i][3] + '</td>';
                            table += '<td>' + data[i][5] + '</td>';
                            table += '<td>' + data[i][6] + '</td>';
+                           table += '<td>' + data[i][9] + '</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                           
                            table += '</tr>';
@@ -437,7 +438,7 @@ document.getElementById('edit_show').innerHTML=data;
 }
 
 function edit_student_details(id) {
-   alert(id);
+   // alert(id);
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
 if(Name!='' && FatherName!='')

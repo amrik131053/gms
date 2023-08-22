@@ -421,22 +421,15 @@ include "header.php";
          <div class="col-lg-12 col-md-12 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
-                     <h5>All Records</h5>
+                     <!-- <h5>All Records</h5> -->
                   <div class="card-tools">
-                       <!--  <form action="sic-document-record-print.php" method="post" target="_blank">   
+                      
                                      <div class="input-group input-group-sm">
-                                       <div class="input-group-prepend">
-                                          <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
+                                       
+                                       <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo and ID Proof">
+                                       <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
                                        </div>
-                                       <input required type="datetime-local" class="form-control" name="startDate" aria-describedby="button-addon2">
-                                       &nbsp;
-                                       <div class="input-group-prepend">
-                                          <span class="input-group-text bg-success" id="inputGroup-sizing-sm">End</span>
-                                       </div>
-                                       <input required type="datetime-local" class="form-control" name="endDate" aria-describedby="button-addon2">
-                                       <button class="btn btn-info btn-sm" type="submit" id="button-addon2" ><i class="fa fa-file-export"></i></button>
-                                    </div>
-                                 </form> -->
+                              
                     
                   </div>
                   <div class="card-tools">
@@ -448,19 +441,45 @@ include "header.php";
                <script>
 
 
-    
+function by_search_studetn() {
+                    
+                     var currentPage = 1;
+                   var code = 134;
+                   var searchQuery = '';
+                     var by_search=document.getElementById('RollNoSearch').value;
+                     // alert(by_search);
+                         $.ajax({
+                            url: 'action_g.php',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                               page: currentPage,
+                               code: code,
+                               by_search: by_search,
+                               search: searchQuery // Pass the search query to the server
+                            },
+                            success: function(data) {
+                               buildTable(data);
+                               updatePagination(currentPage);
+                            },
+                            error: function() {
+                               // Handle error response
+                            }
+                         });
+                   }
 
 
 
                   var currentPage = 1;
                   var code = 134;
                   var searchQuery = '';
-                    
+                    var by_search="";
 
 
                      loadData(currentPage);
 
                      function loadData(page) {
+                        // var by_search=document.getElementById('by_search').value;
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -468,6 +487,7 @@ include "header.php";
                            data: {
                               page: page,
                               code: code,
+                              by_search: by_search,
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
@@ -484,9 +504,9 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
+                        table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
-                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>Name</th><th>Father Name</th><th>Action</th></tr>';
+                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
@@ -494,6 +514,7 @@ include "header.php";
                            table += '<td><input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '"></td>';
                            table += '<td>' + data[i][0] + '</td>';
                            table += '<td>' + data[i][20] + '</td>';
+                           table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
@@ -705,7 +726,7 @@ else
     var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
     var Consultant = document.getElementById("Consultant").value;
     var Consultant_old = document.getElementById("Consultant_old").value;
-    alert(CollegeName+'-'+Department+'-'+Course+'-'+Lateral+'-'+Consultant+'-'+Consultant_old);
+   //  alert(CollegeName+'-'+Department+'-'+Course+'-'+Lateral+'-'+Consultant+'-'+Consultant_old);
     if (CollegeName!='' && Department!='' && Course!='' ) 
 {
 var code=155;
@@ -772,13 +793,6 @@ else
    ErrorToast('All Input Required ','bg-warning');
 }
 }
-
-
-
-
-
-
-
 
    function postcode() {
   var pincode = document.getElementById("Pincode").value;
@@ -927,25 +941,6 @@ function submit_record() {
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-//   alert(Name+'='+FatherName
-// +'='+Gender
-// +'='+CollegeName
-// +'='+Department
-// +'='+Course
-// +'='+PinCode
-// +'='+Nationality
-// +'='+State
-// +'='+District
-// +'='+Lateral
-// +'='+Consultant
-// +'='+duration
-// +'='+months
-// +'='+session
-// +'='+AdharCardNo
-// +'='+PassportNo);
-
-
-
 
 if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && duration!='' && Consultant!='' &&months!='')
  
@@ -981,11 +976,10 @@ if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!=''
     data: data,
     type: 'POST',
     success: function(response) {
-      console.log(response); // Log the response for debugging
+      // console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
-      
    }
    else if(response==2)
    {
@@ -1114,7 +1108,7 @@ function ShowHideDiv_address(id)
 }
 function ShowHideDiv_feetype(id)
 {
-   alert(id);
+   // alert(id);
    if (id=='0')
     {
    $('.new_fee_div').show('Slow');
