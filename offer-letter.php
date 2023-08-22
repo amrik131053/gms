@@ -60,7 +60,25 @@ include "header.php";
         </button>
       </div>
       <div class="modal-body">
-            <div class="row">
+      <div class="col-lg-6">
+              <label>Fee Applicable</label> <br>
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb16"  value="New" name="FeeType" checked="" onclick="ShowHideDiv_feetype('0');">
+                     <label for="radioPrimaryb16">
+                     New
+                     </label>
+                 
+               </div>
+              
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb17"  value="Old" name="FeeType" onclick="ShowHideDiv_feetype('1');">
+                     <label for="radioPrimaryb17">
+                     Old
+                     </label>
+                
+               </div>
+            </div>
+            <div class="row" >
 <div class="col-lg-3">
                  <label>Consultant</label>
                   <select  id="Consultant"  class="form-control" required>
@@ -106,22 +124,39 @@ include "header.php";
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-3">
+             
+               
+                <div class="col-lg-3" id='old_fee_div' style="display:none;">
+                 <label>Fee Applicable</label>
+                  <select  id="Consultant_old"  class="form-control" required>
+                     <option value=''>Select Consultant</option>
+                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
+                     $get_consultant_run=mysqli_query($conn,$get_consultant);
+                     while($row=mysqli_fetch_array($get_consultant_run))
+                     {?>
+
+                     <option value='<?=$row['id'];?>'><?=$row['state'];?></option>
+                     
+                     <?php }?>
+                 </select>
+              </div> 
+             
+              <div class="col-lg-3 new_fee_div" id='new_fee_div'>
                  <label>Applicables Fee</label>
                   <input type="number" id="Applicables"  value="0" class="form-control"  onblur="calculation();" required >
               </div>  
 
 
-              <div class="col-lg-2">
+              <div class="col-lg-2 new_fee_div" id='new_fee_div'>
                  <label>Hostel Fee</label>
                  <input type="number" id="Hostel"  value="0" class="form-control"  onblur="calculation();"  required>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3 new_fee_div" id='new_fee_div'>
                  <label>University Concession</label>
                  
                  <input type="number" id="UniversityConcession" value="0"  class="form-control" onblur="calculation();"  required>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-4 new_fee_div" id='new_fee_div'>
                  <label>Fee After  Concession(Anual)</label>
                  
                  <input type="text" id="FeeAfterConcession"  class="form-control"   readonly>
@@ -153,9 +188,12 @@ include "header.php";
                  <button class="btn btn-success" onclick="submit_fee();">Submit</button>
               </div>   -->
             </div>
+           
+              
 
 
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
          <button class="btn btn-success" onclick="submit_fee();">Submit</button>
@@ -191,7 +229,7 @@ include "header.php";
          <div class="row">
                 <div class="col-lg-2">
               <label>Nationality</label>  
-              <select class="form-control" id="Nationality" onchange="country_to_state(this.value); ShowHideDiv_address(this.value);">
+              <select class="form-control" id="Nationality_" onchange="ShowHideDiv_address(this.value);">
                  <option value="">Select</option>
                  <?php 
                   $get_country="SELECT * FROM countries ";
@@ -207,14 +245,14 @@ include "header.php";
             </div> 
 
 
-            <div class="col-lg-2">
+            <!-- <div class="col-lg-2">
               <label>State</label>  
               
               <select class="form-control" id="State">
 
               </select>
             </div>
-         
+          -->
            
             
 
@@ -241,7 +279,7 @@ include "header.php";
                <input type="text" value="" id="FatherName" class="form-control" > 
             </div>
             
-             <div class="col-lg-3">
+             <div class="col-lg-2">
                <label>Gender</label>
                <select id="Gender" class="form-control">
                   <option value="">Select</option>
@@ -252,7 +290,8 @@ include "header.php";
             <div class="col-lg-3" style="display: none;" id="AdharCardNo_div">
                <label>Adhar Card No</label>
                <input type="number" class="form-control" id="AdharCardNo" >
-            </div><div class="col-lg-3" style="display: none;" id="PassportNo_div">
+            </div>
+            <div class="col-lg-3" style="display: none;" id="PassportNo_div">
                <label>Passport No</label>
               <input type="text" class="form-control" id="PassportNo">
             </div>
@@ -327,11 +366,9 @@ include "header.php";
               </select>
           <!--  </div>  -->
 
-             <div class="col-lg-4">
+             <div class="col-lg-3">
                 <label>Course Duration</label>  
-               <div class="row">
-          <div class="col-lg-6">
-             
+            
               <select class="form-control" id="duration">
                  <option value="">Select Years</option>
                  <option value="1">1 Year</option>
@@ -342,7 +379,8 @@ include "header.php";
                  <option value="6">6 Years</option>
               </select>
             </div>
-               <div class="col-lg-6">
+               <div class="col-lg-2">
+                  <label>Course Duration</label>  
 
               <select class="form-control" id="months">
                
@@ -351,11 +389,21 @@ include "header.php";
                 
               </select>
            </div>
-
-
+               <div class="col-lg-2">
+               <label>Pin Code</label>  
+             <input type="text"  class="form-control" onkeyup="postcode();" id="Pincode" >
+           </div>
+               <div class="col-lg-2">
+               <label>State</label>  
+             <input type="text" class="form-control" id="State_" readonly>
+           </div>
+               <div class="col-lg-2">
+               <label>District</label>  
+             <input type="text"  class="form-control" id="District" readonly>
+           </div>
 
            </div>
-            </div>
+           
             
 
             <div class="col-lg-3">
@@ -600,7 +648,9 @@ document.getElementById("FeeAfterConcession").value=FeeAfterConcession;
 
 function submit_fee() 
 {
-  
+   var FeeType = document.querySelector('input[name="FeeType"]:checked').value;
+   if(FeeType=='New')
+{
     var CollegeName = document.getElementById("CollegeName").value;
     var Department = document.getElementById("Department").value;
     var Course = document.getElementById("Course").value;
@@ -610,8 +660,6 @@ function submit_fee()
     var FeeAfterConcession = document.getElementById("FeeAfterConcession").value;
     var Consultant = document.getElementById("Consultant").value;
      var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
-
-    var Consultant = document.getElementById("Consultant").value;
 
 
 if (CollegeName!='' && Department!='' && Course!='' && Applicables !='' && Hostel!='' && UniversityConcession!='') 
@@ -647,6 +695,47 @@ var code=136;
 else
 {
    ErrorToast('All Input Required ','bg-warning');
+}
+}
+else
+{
+    var CollegeName = document.getElementById("CollegeName").value;
+    var Department = document.getElementById("Department").value;
+    var Course = document.getElementById("Course").value;
+    var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
+    var Consultant = document.getElementById("Consultant").value;
+    var Consultant_old = document.getElementById("Consultant_old").value;
+    alert(CollegeName+'-'+Department+'-'+Course+'-'+Lateral+'-'+Consultant+'-'+Consultant_old);
+    if (CollegeName!='' && Department!='' && Course!='' ) 
+{
+var code=155;
+      $.ajax({
+    url: 'action_g.php',
+    data: {Lateral:Lateral,college:CollegeName,department:Department,course:Course,consultant_id:Consultant,consultant_id_old:Consultant_old,code:code},
+    type: 'POST',
+    success: function(response) {
+      console.log(response);
+      if (response==1) {
+    
+         SuccessToast('Successfully Inserted');
+      }
+      else
+      {
+          ErrorToast('try after some time  ','bg-danger');
+      }
+   
+  },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+   
+    }
+  });
+}
+
+else
+{
+   ErrorToast('All Input Required ','bg-warning');
+}
 }
 }
 
@@ -693,13 +782,13 @@ else
 
    function postcode() {
   var pincode = document.getElementById("Pincode").value;
-  var countryDisplay = document.getElementById("Nationality");
-  var stateDisplay = document.getElementById("State");
+//   var countryDisplay = document.getElementById("Nationality");
+  var stateDisplay = document.getElementById("State_");
   var districtDisplay = document.getElementById("District");
   // var dropdown = document.getElementById("village_by_post");
 
   // Clear previous data
-  countryDisplay.value = "";
+//   countryDisplay.value = "";
   stateDisplay.value = "";
   districtDisplay.value = "";
   // dropdown.innerHTML = "";
@@ -709,11 +798,11 @@ else
     if (xhr.readyState === 4 && xhr.status === 200) {
       var response = JSON.parse(xhr.responseText);
       if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
-        var Country = response[0].PostOffice[0].Country;
+      //   var Country = response[0].PostOffice[0].Country;
         var State = response[0].PostOffice[0].State;
         var District = response[0].PostOffice[0].District;
 
-        countryDisplay.value = Country;
+      //   countryDisplay.value = Country;
         stateDisplay.value = State;
         districtDisplay.value = District;
 
@@ -732,7 +821,7 @@ else
   xhr.send();
 }
 function edit_student_details(id) {
-   alert(id);
+   // alert(id);
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
   // var MotherName = document.getElementById('MotherName').value;
@@ -793,7 +882,7 @@ if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!=''
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
-      date_by_search();
+      // date_by_search();
    }
    else if(response==2)
    {
@@ -826,10 +915,10 @@ function submit_record() {
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
   // var Batch = document.getElementById('batch').value;
-  // var PinCode = document.getElementById('Pincode').value;
-  var Nationality = document.getElementById('Nationality').value;
-  var State = document.getElementById('State').value;
-  // var District = document.getElementById('District').value;
+  var PinCode = document.getElementById('Pincode').value;
+  var Nationality = document.getElementById('Nationality_').value;
+  var State = document.getElementById('State_').value;
+  var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
   var duration = document.getElementById('duration').value;
@@ -838,7 +927,27 @@ function submit_record() {
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
-if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& session!='' && duration!='' && Consultant!='' &&months!='')
+//   alert(Name+'='+FatherName
+// +'='+Gender
+// +'='+CollegeName
+// +'='+Department
+// +'='+Course
+// +'='+PinCode
+// +'='+Nationality
+// +'='+State
+// +'='+District
+// +'='+Lateral
+// +'='+Consultant
+// +'='+duration
+// +'='+months
+// +'='+session
+// +'='+AdharCardNo
+// +'='+PassportNo);
+
+
+
+
+if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && duration!='' && Consultant!='' &&months!='')
  
 {
   var code = 133;
@@ -853,10 +962,10 @@ if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!=''
     Department: Department,
     Course: Course,
     // Batch: Batch,
-    // PinCode: PinCode,
+    PinCode: PinCode,
     Nationality: Nationality,
     State: State,
-    // District: District,
+    District: District,
     Consultant: Consultant,
     Lateral: Lateral,
     duration: duration,
@@ -872,11 +981,11 @@ if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!=''
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+      console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
-      date_by_search();
+      
    }
    else if(response==2)
    {
@@ -926,6 +1035,7 @@ url:'action.php',
 data:{College:College,code:code},
 type:'POST',
 success:function(data){
+   // console.log(data);
 if(data != "")
 {
      
@@ -998,6 +1108,40 @@ function ShowHideDiv_address(id)
    $('#PassportNo_div').show('Slow');
     $('#AdharCardNo_div').hide('Slow');
     document.getElementById('AdharCardNo').value="";
+
+    }
+
+}
+function ShowHideDiv_feetype(id)
+{
+   alert(id);
+   if (id=='0')
+    {
+   $('.new_fee_div').show('Slow');
+   $('#old_fee_div').hide('Slow');
+   document.getElementById("CollegeName").value="";
+   document.getElementById("Department").value="";
+   document.getElementById("Course").value="";
+   document.getElementById("Applicables").value="";
+   document.getElementById("Hostel").value="";
+   document.getElementById("UniversityConcession").value="";
+   document.getElementById("FeeAfterConcession").value="";
+   document.getElementById("Consultant").value="";
+   // document.getElementById("Consultant_old").value="";
+    }
+    else
+    {
+   $('#old_fee_div').show('Slow');
+    $('.new_fee_div').hide('Slow');
+   document.getElementById("CollegeName").value="";
+   document.getElementById("Department").value="";
+   document.getElementById("Course").value="";
+   document.getElementById("Applicables").value="";
+   document.getElementById("Hostel").value="";
+   document.getElementById("UniversityConcession").value="";
+   document.getElementById("FeeAfterConcession").value="";
+   document.getElementById("Consultant").value="";
+   // document.getElementById("Consultant_old").value="";
 
     }
 
