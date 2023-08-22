@@ -142,7 +142,10 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
       <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
       <!-- Theme style -->
       <link rel="stylesheet" href="dist/css/adminlte.min.css">
-       
+      <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+      <!-- ----------internet status ---------- -->
+      <link rel="stylesheet" href="internet_status.css">
+      <!-- ----------internet status end ---------- -->
       <link rel="stylesheet" href="style.css">
  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

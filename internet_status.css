@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
+.connection
+{
+    
+    position: fixed;
+    bottom: 80px;
+    right: 0px;
+    width: 380px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 99999;
+    background: #242526;
+    border-radius: 8px;
+    align-items: center;
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+   
+}
+.connection p
+{
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500px;
+}
+.connection .refreshBtn
+{
+    font-size: 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #469aff;
+}
+.connection .wifi-off
+{
+    margin-right: 20px;
+    margin-left: 20px;
+    font-size: 26px;
+    color: #7c7c7c;
+}
+.connection .close
+{
+    margin-left: 20px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    background: #474747;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.connection .wifi
+{
+    color: #029702;
+    font-size: 26px;
+    margin-right: 20px;
+    margin-left: 40px;
+}
+.online.active
+{
+    width: 420px;
+    transform: translateX(0%);
+    opacity: 1;
+    pointer-events: auto;
+}
+.offline.active
+{
+    transform: translateX(0%);
+    opacity: 1;
+    pointer-events: auto;
+}

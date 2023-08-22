@@ -1700,7 +1700,16 @@
       {
         $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID' ";
        $result_1 = mysqli_query($conn, $query_1);
-       echo $count = mysqli_num_rows($result_1);
+        $count = mysqli_num_rows($result_1);
+       if($count>0)
+       {
+        echo  $count;
+       }
+       else
+       {
+         $count=0;
+       }
+
       }
       elseif ($code==28)
       {
@@ -7195,15 +7204,25 @@ else
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
-                     $data[]=$degree_row;
+                        $data2=$degree_row;
+                        $CourseID=$degree_row['Course'];
+                        $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                        $get_course_run=sqlsrv_query($conntest,$get_course);
+                        if($row=sqlsrv_fetch_array($get_course_run))
+                        {
+                       $data1=$row;
+                       $data[]=array_merge($data2,$data1);
+                  
+                    }
+                    
                      }
-                     // print_r($row_student);
+                     // print_r($data);
                      $page = $_POST['page'];
                      $recordsPerPage = 100;
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
-                  }
+          }
       }
           elseif($code==135)
       {

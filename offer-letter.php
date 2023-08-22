@@ -491,6 +491,7 @@ function by_search_studetn() {
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
+                              console.log(data);
                               buildTable(data);
                               updatePagination(page);
                            },
@@ -506,7 +507,7 @@ function by_search_studetn() {
                         table += '<tr>';
                         table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
-                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Action</th></tr>';
+                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
@@ -517,6 +518,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
+                           table += '<td >'+ data[i][26]+'</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                            table += '</tr>';
                         }
@@ -858,7 +860,6 @@ function edit_student_details(id) {
   var classroll = document.getElementById('classroll').value;
 
 if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
- 
 {
   var code = 140;
   var data = {

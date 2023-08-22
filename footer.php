@@ -1,4 +1,5 @@
       </div><!--/. container-fluid -->
+      
   <aside class="control-sidebar control-sidebar-dark">
   </aside>
   <footer class="main-footer">
@@ -7,8 +8,12 @@
     <div class="float-right d-none d-sm-inline-block">
       <b>Technical Helpline</b> 91-78146-79220
     </div>
+
   </footer>
 </div>
+
+<?php include "internet_status.php";?>
+
 <script src="plugins/moment/moment.min.js"></script>
 <script src="plugins/fullcalendar/main.min.js"></script>
 <script src="plugins/fullcalendar-daygrid/main.min.js"></script>
@@ -33,6 +38,8 @@
 
 <script src="dist/js/adminlte.js"></script>
 <script src="sc.js"></script>
+<!-- internet_status -->
+<script src="internet_status.js"></script>
 <!-- Summernote -->
 <script src="plugins/summernote/summernote-bs4.min.js"></script>
 <script>
@@ -203,5 +210,6 @@ function seen_webnotification(id) {
   });
 }
 </script>
+
 </body>
 </html>
