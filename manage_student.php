@@ -652,7 +652,7 @@ document.getElementById("student_search_recordold").innerHTML ='';
             },
             success:function(response) 
             {
-             console.log(response);
+             //console.log(response);
                spinner.style.display='none';
                 if (response==1) {
                            SuccessToast('Successfully Updated');
@@ -746,7 +746,7 @@ function abcidreset(id)
     function fetchcourse(id)
 {   
    
-  alert(id);
+
 
  
      
