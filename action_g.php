@@ -7632,6 +7632,8 @@ else
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
+
+      $UniRollNo=$row_pending['IDNo'];
       $Snap=$row_pending['Snap'];
       $s_pic=base64_encode($Snap);
       $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -7730,6 +7732,7 @@ else
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       if($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
+         $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Snap'];
          $s_pic=base64_encode($Snap);
  ?>

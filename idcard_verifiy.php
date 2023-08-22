@@ -126,7 +126,7 @@
                  code:code,id:id
               },
               success: function(response) 
-              {
+              { 
                
                spinner.style.display='none';
                 document.getElementById("view_record").innerHTML=response;
