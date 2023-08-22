@@ -176,7 +176,9 @@ $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 $pdf->SetFont('Times', '', 12);
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is provisionally admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.' . The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University. The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only .',0, 'J');
+
+//The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.' .  The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only .',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
