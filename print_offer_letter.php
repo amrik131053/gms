@@ -135,13 +135,15 @@ $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 $pdf->SetXY(25, 49);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
-$pdf->SetFont('Times', 'B', 15);
+$pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);
 
-$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
+$pdf->MultiCell(190, 10, '  FEE STRUCTURE  ',0, 'C','');
+
+//$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956. ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956.The University is accredited  with Grade A++ by National Assessment & Accreditation Council (NAAC).',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
@@ -253,19 +255,21 @@ $Y=$Y-2;
 
 $pdf->SetFont('Times', '', 10);
 $pdf->MultiCell(190, 8, ' Fee will be transfer RTGS/NEFT. University Account detail given below:',0, 'L');
-$pdf->SetFont('Times', 'B', 9);
+$pdf->SetFont('Times', '', 11);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
 $pdf->SetXY($X, $Y);
-$pdf->MultiCell(190, 4, 'BANK NAME    :  Indian Bank', 0, 'L');
-$pdf->SetXY($X, $Y+4);
-$pdf->Cell(190, 4, 'AccountNo          : 6058205486', 0, 'L');
+$pdf->Cell(190, 4,'Bank Name         :   Indian Bank', 0, 'L');
+$pdf->SetXY($X, $Y+5);
+$pdf->Cell(190, 4,'AccountNo          :   6058205486', 0, 'L');
 
-$pdf->SetXY($X, $Y+8);
-$pdf->Cell(190, 4, 'IFSC Code          : IDIB000F009', 0, 'L');
-$pdf->SetXY($X, $Y+12);
-$pdf->Cell(190, 4, 'Branch                : Fatehgarh Naubad, Talwandi Sabo', 0, 'L');
+$pdf->SetXY($X, $Y+10);
+$pdf->Cell(190, 4,'IFSC Code          :   IDIB000F009', 0, 'L');
+$pdf->SetXY($X, $Y+15);
+$pdf->Cell(190, 4,'Branch                :   Fatehgarh Naubad, Talwandi Sabo', 0, 'L');
+$pdf->SetXY($X, $Y+20);
+$pdf->Cell(190, 4,'Account Name    :   Guru Kashi University', 0, 'L');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 
