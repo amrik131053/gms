@@ -694,7 +694,7 @@ var code=136;
     data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code,Lateral:Lateral},
     type: 'POST',
     success: function(response) {
-      // console.log(response);
+      console.log(response);
       if (response==1) {
     
          SuccessToast('Successfully Inserted');

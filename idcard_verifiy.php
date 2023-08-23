@@ -135,7 +135,7 @@
            });
           
          }
-    
+     
     function view_rejected(id){
         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
@@ -366,6 +366,8 @@ function uploadImage(form, id) {
             SuccessToast('Successfully Uploaded');
             view_image(id);
             show_all();
+            reject_show_idcard();
+            view_pending(id);
          },
          error: function(xhr, status, error) {
             // console.log(error);

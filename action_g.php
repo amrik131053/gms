@@ -7672,7 +7672,7 @@ else
  <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
 <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
      <input type="file" name="image" id="image" class="form-control input-group-sm">
-     <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
+     <input type="text" name="unirollno" value="<?php echo $UniRollNo; ?>">
      <input type="hidden" name="code" value="153">
      <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
      </form>
@@ -7706,7 +7706,7 @@ else
                   <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                   <br>
                   
-                  <textarea name="" rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"></textarea>
+                  <textarea name="" rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                   <br>
                   <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                   <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
@@ -7990,7 +7990,7 @@ echo "1";
                      <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                      <br>
                      
-                     <textarea  rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"></textarea>
+                     <textarea  rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                      <br>
                      <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                      <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
@@ -8168,7 +8168,7 @@ echo "1";
                      <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                      <br>
                      
-                     <textarea  rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"></textarea>
+                     <textarea  rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control" placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                      <br>
                      <input type="submit" name="" value="Verify" onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
                      <!-- <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger"> -->
@@ -8192,7 +8192,7 @@ echo "1";
       $consultant_id_old=$_POST['consultant_id_old'];
       $Lateral=$_POST['Lateral'];
 
-      $iffeesalready="SELECT * FROM  master_fee where consultant_id='$consultant_id_old' ";
+      $iffeesalready="SELECT * FROM  master_fee where consultant_id='$consultant_id_old' and course='$course' and department='$department' and college='$college' ";
       $iffeesalready_run=mysqli_query($conn,$iffeesalready);
     if($row=mysqli_fetch_array($iffeesalready_run))
     {
