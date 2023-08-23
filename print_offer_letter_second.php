@@ -177,7 +177,7 @@ $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
 //$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
-$pdf->MultiCell(190, 10, 'BONAFIED CERTIFICATE', 0, 'C');
+$pdf->MultiCell(190, 10, 'BONAFIDE CERTIFICATE', 0, 'C');
 $pdf->SetFont('Times', '', 12);
 
 //The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
