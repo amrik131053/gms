@@ -6956,7 +6956,7 @@ elseif($code==130)
 
 <div class="col-lg-6">
    <label>Month</label>
- <select name="year" class="form-control" required >
+ <select name="month" class="form-control" required >
    <option  value="">Select</option>
   <option value="Jan">January</option>
   <option  value="Feb">February</option>
@@ -6974,7 +6974,7 @@ elseif($code==130)
 </div>
 <div class="col-lg-6">
    <label>Year</label>
-  <select class="form-control" name="month" required>
+  <select class="form-control" name="year" required>
     <option  value="">Select</option>
    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
@@ -7020,7 +7020,7 @@ elseif($code==131)
 <div class="row container-fluid">
 <div class="col-lg-6">
    <label>Month</label>
- <select name="year" class="form-control"  required>
+ <select name="month" class="form-control"  required>
    <option  value="">Select</option>
   <option value="Jan">January</option>
   <option  value="Feb">February</option>
@@ -7038,7 +7038,7 @@ elseif($code==131)
 </div>
 <div class="col-lg-6">
    <label>Year</label>
-  <select class="form-control" name="month" required>
+  <select class="form-control" name="year" required>
    <option  value="">Select</option>
    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
@@ -7086,7 +7086,7 @@ elseif($code==132)
 <div class="row container-fluid">
 <div class="col-lg-6">
    <label>Month</label>
- <select name="year" class="form-control"  required>
+ <select name="month" class="form-control"  required>
   <option  value="">Select</option>
   <option value="Jan">January</option>
   <option  value="Feb">February</option>
@@ -7104,7 +7104,7 @@ elseif($code==132)
 </div>
 <div class="col-lg-6">
    <label>Year</label>
-  <select class="form-control" name="month" required>
+  <select class="form-control" name="year" required>
     <option  value="">Select</option>
    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
    { ?>
@@ -7672,7 +7672,7 @@ else
  <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>" download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download Image</button></a>
 <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
      <input type="file" name="image" id="image" class="form-control input-group-sm">
-     <input type="text" name="unirollno" value="<?php echo $UniRollNo; ?>">
+     <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
      <input type="hidden" name="code" value="153">
      <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
      </form>
@@ -8035,7 +8035,7 @@ echo "1";
   
   <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
           <input type="file" name="image" id="image" class="form-control input-group-sm">
-          <input type="text" name="unirollno" value="<?php echo $UniRollNo; ?>">
+          <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
           <input type="hidden" name="code" value="153">
           <input type="button" value="Upload" class="btn btn-success btn-xs" onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
           </form>
@@ -8214,7 +8214,218 @@ echo "1";
    }
 
    }
+   elseif($code==156)
+   {
+      $CollegeName = $_POST['CollegeName'];
+      $Department = $_POST['Department'];
+      $Course = $_POST['Course'];
+      $Batch = $_POST['Batch'];
+      $page = $_POST['page'];
+      $recordsPerPage = 100;
+
+$baseQuery = "SELECT * FROM MasterCourseCodes WHERE 1 = 1";
+if ($CollegeName !== '') {
+    $baseQuery .= " AND CollegeID='$CollegeName'";
+}
+if ($Department !== '') {
+    $baseQuery .= " AND DepartmentId='$Department'";
+}
+if ($Course !== '') {
+    $baseQuery .= " AND CourseID='$Course'";
+}
+if ($Batch !== '') {
+    $baseQuery .= " AND Batch='$Batch'";
+}
+if ($CollegeName !== '') {
+    $degree_run = sqlsrv_query($conntest, $baseQuery);
+    while ($degree_row = sqlsrv_fetch_array($degree_run)) {
+        $data[] = $degree_row;
+    }
+    $startIndex = ($page - 1) * $recordsPerPage;
+    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+    echo json_encode($pagedData);
+}
+ else 
+{
+    $degree = "SELECT * FROM MasterCourseCodes ORDER BY Id ASC"; 
+    $degree_run = sqlsrv_query($conntest, $degree);
+    while ($degree_row = sqlsrv_fetch_array($degree_run)) {                
+        $data[] = $degree_row;
+    }
+    $startIndex = ($page - 1) * $recordsPerPage;
+    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+    echo json_encode($pagedData);
+}
+   }
+
+   elseif($code==157)
+    {
+      $id=$_POST['id'];
+      $baseQuery = "SELECT * FROM MasterCourseCodes WHERE Id='$id'";
+      $baseQuery_run=sqlsrv_query($conntest,$baseQuery);
+      if($row=sqlsrv_fetch_array($baseQuery_run))
+      {
+         $ValidUpTo=$row[9];
+?>
+<div class="row">
+   <div class="col-lg-12">
+       <div class="row">
+                <div class="col-lg-4">
+              <label>Session</label>  
+              <select class="form-control" id="Session" >
+                <option value="<?=$row[1];?>"><?=$row[1];?></option>
+                 <?php 
+                  $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes ";
+                  $get_country_run=sqlsrv_query($conntest,$get_country);
+                  while($row_Session=sqlsrv_fetch_array($get_country_run))
+                  {?>
+                        <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+                  <?php }
+
+                 ?>
+              </select>
+             
+            </div> 
+
+            <div class="col-lg-4">
+                <label>College Name</label>
+                 <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
+                 <option value='<?=$row[10];?>'><?=$row[2];?></option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-4">
+                 <label>Department</label>
+                  <select  id="Department1"  class="form-control"  required>
+                 <?php 
+   $sql11 = "SELECT  Id,DepartmentFullName FROM MasterDepartment WHERE Id='".$row[17]."'";
+  $stmt11 = sqlsrv_query($conntest,$sql11); 
+         if($row11 = sqlsrv_fetch_array($stmt11) )
+  {
+?>  
+<option value='<?=$row11["Id"];?>'><?= $row11["DepartmentFullName"];?></option>
+<?php 
+  }
+   $sql111 = "SELECT  Id,DepartmentFullName FROM MasterDepartment WHERE collegeId='".$row[10]."' order by Id DESC";
+  $stmt111 = sqlsrv_query($conntest,$sql111); 
+      while($row111 = sqlsrv_fetch_array($stmt111) )
+  {
+?>  
+<option value='<?=$row111["Id"];?>'><?= $row111["DepartmentFullName"];?></option>
+<?php  }?>
+
+
+
+
+                 </select>
+              </div>  
+              <div class="col-lg-4">
+                 <label>Course Name</label>
+                  <input type="text" id="Course" class="form-control" value="<?=$row[3];?>">
+              </div>
+              <div class="col-lg-4">
+                 <label>Course Short Name</label>
+                  <input type="text" id="CourseShortName" class="form-control" value="<?=$row[4];?>">
+              </div>
+              <div class="col-lg-2">
+              <label>Batch</label>
+              <select id="Batch"   class="form-control" required>
+                      <option value="<?=$row[6];?>"><?=$row[6];?></option>
+                          <?php 
+                              for($i=2011;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+              </div>
+              <div class="col-lg-2">
+                  <label>LateralEntry</label>
+                  <select class="form-control" id="LateralEntry" style="border: 2px solid <?php if($row[5]=='Yes'){echo 'green';}else{ echo 'red';};?>">
+                     <option value="<?=$row[5];?>"><?=$row[5];?></option>
+                     <option value="Yes">Yes</option>
+                     <option value="No">No</option>
+                  </select>
+               </div>
+               
+              <div class="col-lg-4">
+              
+                 <label>Valid UpTo</label>
+                  <input type="date" id="ValidUpTo" class="form-control" value="<?php if($ValidUpTo!=''){ echo $row[9]->format('Y-m-d');}?>">
+               </div>
+               
+               <div class="col-lg-4">
+                  <label>ClassRollNo</label>
+                  <input type="text" id="ClassRollNo" class="form-control" value="<?=$row[8];?>">
+
+               </div>
+               <div class="col-lg-4">
+                  <label>EndClassRollNo</label>
+                  <input type="text" id="EndClassRollNo" class="form-control" value="<?=$row['EndClassRollNo'];?>">
+
+               </div>
+               <div class="col-lg-2">
+                  <label>Isopen</label>
+                  <select class="form-control" id="Isopen" style="border: 2px solid <?php if($row[19]=='Yes'){echo 'green';}else{ echo 'red';};?>">
+                     <option value="<?=$row[19];?>"><?=$row[19];?></option>
+                     <option value="Yes">Yes</option>
+                     <option value="No">No</option>
+                  </select>
+               </div>
+               <div class="col-lg-2">
+                  <label>Status</label>
+                  <select class="form-control" id="Status" style="border: 2px solid <?php if($row[15]=='Yes'){echo 'green';}else{ echo 'red';};?>">
+                     <option value="<?=$row[15];?>"><?=$row[15];?></option>
+                     <option value="Yes">Yes</option>
+                     <option value="No">No</option>
+                  </select>
+               </div>
     
+               
+               <input type="hidden" id="master_id" class="form-control" value="<?=$row[0];?>">
+         </div>
+   </div>
+</div>
+<?php
+      }
+   }
+   elseif($code==158)
+   {
+$id=$_POST['id'];
+$Session=$_POST['Session'];
+ $CollegeName=$_POST['CollegeName'];
+  $Course=$_POST['Course'];
+ $CourseShortName=$_POST['CourseShortName'];
+ $DepartmentId=$_POST['DepartmentId'];
+ $CollegeID=$_POST['CollegeID'];
+ $Batch=$_POST['Batch'];
+ $LateralEntry=$_POST['LateralEntry'];
+ $ClassRollNo=$_POST['ClassRollNo'];
+ $EndClassRollNo=$_POST['EndClassRollNo'];
+ $Isopen=$_POST['Isopen'];
+ $Status=$_POST['Status'];
+  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status' where Id='$id'";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+
+}
    else
    {
    

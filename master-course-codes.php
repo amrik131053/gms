@@ -1,63 +1,130 @@
-<?php 
-  include "header.php";   
-?>   
+<?php
+include "header.php";
+$degree="SELECT * FROM MasterCourseCodes  "; 
+$degree_run=sqlsrv_query($conntest,$degree);
+while ($degree_row=sqlsrv_fetch_array($degree_run)) 
+{
+$data[]=$degree_row;
+}
+// print_r($data);
+?>
+
+<link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<div class="modal fade" id="for_consultant" tabindex="-1" role="dialog" aria-labelledby="for_consultantLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_consultantLabel">New Consultant</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row">
+               <div class="col-lg-9">
+                  <input type="text" class="form-control" id="consultant_name" value="">
+               </div>
+               <div class="col-lg-3">
+                  <button class="btn btn-primary" onclick=""><i class="fa fa-plus" ></i>ADD</button>
+               </div>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="for_edit" tabindex="-1" role="dialog" aria-labelledby="for_editLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_editLabel">New Consultant</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="edit_show">
+            d
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="edit_record();">Update</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="for_fee" tabindex="-1" role="dialog" aria-labelledby="for_feeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_feeLabel">Fee Strucutre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+     
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button class="btn btn-success" onclick="submit_fee();">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
 <section class="content">
    <div class="container-fluid">
-   <div class="card card-info">
-   </div>
-   <div class="row">
-       
-      <div class="col-lg-12 col-md-4 col-sm-12">
-         <div class="card-body card">
-        <div class="btn-group w-100 mb-2">
-                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="window.location.reload();bg(this.id);"> Upload </a>
-                    <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Add </a>
-                    <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
-                    <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
-                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a>
-                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a>
+      <div class="row">
+         <!-- left column -->
+             <div class="col-lg-12 col-md-12 col-sm-12" >
+            <div class="card card-info " id="myCollapsible">
+               <div class="card-header">
+              <div class="card-tools">
+                     
+                        <div class="input-group input-group-sm">
+                          
+                           <button class="btn btn-primary" data-toggle="modal" data-target="#for_consultant"><i class="fa fa-plus" ></i>Consultant</button>
+                           &nbsp;
+                           &nbsp;
+                           &nbsp;
+                           <button class="btn btn-warning" data-toggle="modal" data-target="#for_fee"><i class="fa fa-plus" ></i>Fee</button>
+                        </div>
+                    
                   </div>
-
-         <div  id="table_load">
-
-<div class="card" >
-        <center>
-         <h5>
-         <b>Study Scheme Upload</b>
-        </h5>
-        </center>
-        </div>
-              
-           <div class="row">
-              <div class="col-lg-3" style="text-align: center;">
-             <label>Select Session</label>
-  <br>
-<select name="session1"class="btn btn-default">
-<?php 
-for($s='2015';$s<='2030';$s++)
-{
-  ?>
-  <option value='<?=$s;?>'><?=$s;?></option>
-  <?php }?>
-</select>
-<select name="session2" class="btn btn-default">
-<?php 
-for($s1='16';$s1<='31';$s1++)
-{
-  ?>
-  <option value='<?=$s1;?>'><?=$s1;?></option>
-  <?php }?>
-</select>
-<select name="session3" class="btn btn-default">
-  <option value=''></option>
-  <option value='A'>A</option>
-   <option value='J'>J</option>
-</select>
-   </div>
-   <div class="col-lg-3" style="text-align: center;">
-                  <input type="hidden" name="code" value="256" >
-                <label>College Name</label>
-                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
+               </div>
+               <div class="card-body "  id="">
+                  
+                     <div class="row">
+            <div class="col-lg-12">
+               
+       
+      
+           
+         </div>
+            </div>
+            
+         </div>
+                  
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-12 col-md-12 col-sm-3">
+            <div class="card card-info">
+               <div class="card-header">
+                     <!-- <h5>All Records</h5> -->
+                  <!-- <div class="card-tools"> -->
+                                     <!-- <div class="input-group input-group-sm"> -->
+                                     <div class="row">
+         <div class="col-lg-3">
+                
+                 <select   id='CollegeName' onchange="collegeByDepartment(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -72,175 +139,456 @@ for($s1='16';$s1<='31';$s1++)
                         ?>
                </select> 
               </div>
-               <div class="col-lg-2" style="text-align: center;">
-                 <label>Department</label>
-                  <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
+               <div class="col-lg-3">
+                
+                  <select  id="Department"  class="form-control"  onchange="fetchcourse()" required>
                      <option value=''>Select Department</option>
                  </select>
               </div>  
 
 
-              <div class="col-lg-2" style="text-align: center;">
-                 <label>Course</label>
-                  <select  id="Course" name="Course" class="form-control" required >
+              <div class="col-lg-3">
+                
+                  <select   id="Course" class="form-control" required >
                      <option value=''>Select Course</option>
                  </select>
               </div>
-
-
-             
-
-              <div class="col-lg-2" style="text-align: center;">
-                 <label>Batch</label>
-                   <select id="batch" name="batch"  class="form-control" required>
+              <div class="col-lg-2">
+              
+                   <select id="Batch" name="batch"  class="form-control" required>
                        <option value="">Batch</option>
                           <?php 
-                              for($i=2013;$i<=2030;$i++)
+                              for($i=2011;$i<=2030;$i++)
                                  {?>
                                <option value="<?=$i?>"><?=$i?></option>
                            <?php }
                                   ?>
                  </select>
-              </div>   
-                          
-          
-                         
-            </div>
-        <br>
-
-          <div class="row">
-              <div class="col-lg-3" style="text-align:center;">
-                  <input type="hidden" name="code" value="256" >
-                <label>First RollNo</label>
-                 <input type="text" name="Classroll" class="form-control"> 
               </div>
-               <div class="col-lg-3" style="text-align:center;">
-                  <input type="hidden" name="code" value="256" >
-                <label>Last RollNo </label>
-                 <input type="text" name="Classroll" class="form-control"> 
-              </div>
-
-
-              <div class="col-lg-2">
-                 <label>ValidUpto</label>
-                  <input type="date" name="Classroll" class="form-control"> 
-              </div>
-
-
-             
-
-              <div class="col-lg-2">
-                 <label>Lateral Entry</label>
-                   <select id="batch" name="batch"  class="form-control" required>
-                       <option value="No">NO</option>
-                        <option value="Yes">Yes</option>
-                          
-                                  ?>
-                 </select>
-              </div>   
-           
-              
-          
               <div class="col-lg-1">
-                 <label>Action</label><br>
-                <input type="submit" name="" class="btn btn-success" value="Upload">
-              </div>
-             
+              
+               <button type='button' class='btn btn-success' onclick='by_search_studetn();' >Search</button>
+                                 </div>
+           </div>                  
+                                       <!-- <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo and ID Proof">
+                                       <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
+-->
+                                    <!-- </div>  -->
+                              
+                    
+                  <!-- </div> -->
+                  <div class="card-tools">
+                     <div class="input-group input-group-sm">
+                      
+                     </div>
+                  </div>
+               </div>
+               <script>
+
+
+function by_search_studetn() {
+                    
+                     var currentPage = 1;
+                   var code = 156;
+                   var searchQuery = '';
+                     var CollegeName=document.getElementById('CollegeName').value;
+                     var Department=document.getElementById('Department').value;
+                     var Course=document.getElementById('Course').value;
+                     var Batch=document.getElementById('Batch').value;
+                     // alert(by_search);
+                         $.ajax({
+                            url: 'action_g.php',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                               page: currentPage,
+                               code: code,
+                               CollegeName: CollegeName,
+                               Department: Department,
+                               Course: Course,
+                               Batch: Batch,
+                               search: searchQuery // Pass the search query to the server
+                            },
+                            success: function(data) {
+                              // console.log(data);
+                              
+                               buildTable(data);
+                               updatePagination(currentPage);
+                            },
+                            error: function() {
+                               // Handle error response
+                            }
+                         });
+                   }
+
+
+
+                  var currentPage = 1;
+                  var code = 156;
+                  var searchQuery = '';
+                  var CollegeName = '';
+                  var Department = '';
+                  var Course = '';
+                  var Batch = '';
+
+
+                     loadData(currentPage);
+
+                     function loadData(page) {
+                        // var by_search=document.getElementById('by_search').value;
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: page,
+                              code: code,
+                              CollegeName: CollegeName,
+                               Department: Department,
+                               Course: Course,
+                               Batch: Batch,
+                              search: searchQuery // Pass the search query to the server
+                           },
+                           success: function(data) {
+                              // console.log(data);
+                              buildTable(data);
+                              updatePagination(page);
+                           },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                     }
+
+
+                     function buildTable(data) {
+                        var table = '<table class="table table-bordered">';
+                        table += '<tr>';
+                        table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
+                        table += '</tr>';
+                        table += '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Action</th></tr>';
+
+                        for (var i = 0; i < data.length; i++) {
+                           var unirollno = data[i][6];
+                           table += '<tr>';
+                           
+                           table += '<td>' + data[i][1] + '</td>';
+                           table += '<td>' + data[i][2] + '</td>';
+                           table += '<td>' + data[i][3] + '</td>';
+                           table += '<td>' + data[i][4] + '</td>';
+                           table += '<td >'+ unirollno+'</td>';
+                           table += '<td >'+ data[i][5]+'</td>';
+                           table += '<td >'+ data[i][8]+'</td>';
+                           table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
+                           table += '</tr>';
+                        }
+                        
+                        table += '</table>';
+
+                        $('#data-table').html(table);
+                     }
+
+                     function updatePagination(page) {
+                        var totalPages = Math.ceil(100000 / 100);
+
+                        if (page == 1) {
+                           $('#prev-btn').prop('disabled', true);
+                        } else {
+                           $('#prev-btn').prop('disabled', false);
+                        }
+
+                        if (page+1 == totalPages) {
+                           $('#next-btn').prop('disabled', true);
+                        } else {
+                           $('#next-btn').prop('disabled', false);
+                        }
+                     }
+
+                     $(document).on('click', '.pagination-button', function() {
+                        var page = $(this).data('page');
+                        currentPage = page;
+                        loadData(currentPage);
+                     });
+
+                     $(document).on('click', '#prev-btn', function() {
+                        if (currentPage > 1) {
+                           currentPage--;
+                           loadData(currentPage);
+                        }
+                     });
+
+                     $(document).on('click', '#next-btn', function() {
+                        var totalPages = Math.ceil(100000 / 100);
+                        if (currentPage < totalPages) {
+                           currentPage++;
+                           loadData(currentPage);
+                        }
+                     });
             
-            </div>
-        </div>
-   </div>
-   <!-- /.container-fluid -->
 
-</section>
-<p id="ajax-loader"></p>
-   <script type="text/javascript">
-          $(window).on('load', function() 
-          {
-         $('#btn6').toggleClass("bg-success"); 
-           })
-          function format() 
-           {
-            window.location.href = 'http://gurukashiuniversity.co.in/gkuadmin/formats/studyscheme.csv';
-           }
-         function bg(id)
-          {
-         $('.btn').removeClass("bg-success");
-         $('#'+id).toggleClass("bg-success"); 
-         }
-
-          function search_study_scheme()
-          {
-       var code=227;
-       var CollegeID=document.getElementById('College').value;
-       var Course=document.getElementById('Course').value;
-       var batch=document.getElementById('batch').value;
-       var semester=document.getElementById('semester').value;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,CollegeID:CollegeID,Course:Course,Batch:batch,Semester:semester
-                  },
-            success: function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("load_study_scheme").innerHTML=response;
-            }
-         });
-
-     }     
-        function update_study_scheme_search()
-          {
-       var code=254;
-       var CollegeID=document.getElementById('College').value;
-       var Course=document.getElementById('Course').value;
-       var batch=document.getElementById('batch').value;
-       var semester=document.getElementById('semester').value;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,CollegeID:CollegeID,Course:Course,Batch:batch,Semester:semester
-                  },
-            success: function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("load_study_scheme").innerHTML=response;
-            }
-         });
-
-     }
-
-     function Add()
-      {
-         var code=225;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-            },
-            success: function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
+              function printSelectedRows() {
+               // alert();
+   var id_array = document.getElementsByName('selectedRows[]');
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
       }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter.php?id_array=' + id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}     
+         function printSelectedRows_second() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter_second.php?id_array='+id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
+
+
+                    function toggleSelectAll(checkbox) {
+                     var checkboxes = document.getElementsByName('selectedRows[]');
+                     for (var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].checked = checkbox.checked;
+                     }
+                  }
+
+                
+               </script>
+               <div id="data-table" class='table-responsive'>
+                  <!-- <table class="table">
+                     <tr>
+                        <div id="pagination">
+                           <td>
+                              <button id="prev-btn" class="btn btn-primary " disabled>Previous</button>
+                           </td>
+                           <td colspan="4"></td>
+                           <td>
+                              <button id="next-btn" class="btn btn-primary " style="float:right;">Next</button>
+                           </td>
+                        </div>
+                     </tr>
+                  </table> -->
+               </div>
+            </div>
+            <!-- /.card-body -->
+         </div>
+         <!-- /.card -->
+      </div>
+   </div>
+   <!-- /.card-header -->
+   </div>
+   <!-- /.card -->
+</section>
+<!-- Button trigger modal -->
+<!-- Modal -->
+
+<p id="ajax-loader"></p>
+<script type="text/javascript">
+function edit_record() {
+  var id = document.getElementById('master_id').value;
+  var CollegeID = document.getElementById('CollegeName1').value;
+  var Department = document.getElementById('Department1').value;
+  var Course = document.getElementById('Course').value;
+  var CourseShortName = document.getElementById('CourseShortName').value;
+  var Batch = document.getElementById('Batch').value;
+  var session = document.getElementById('Session').value;
+  var selectBoxCollegeName1 = document.getElementById("CollegeName1");
+  var selectedIndex = selectBoxCollegeName1.selectedIndex;
+  var CollegeName = selectBoxCollegeName1.options[selectedIndex].text; // Fix: Removed ()
+  var LateralEntry = document.getElementById('LateralEntry').value;
+  var ClassRollNo = document.getElementById('ClassRollNo').value;
+  var EndClassRollNo = document.getElementById('EndClassRollNo').value;
+  var Isopen = document.getElementById('Isopen').value;
+  var Status = document.getElementById('Status').value;
+  if(CollegeID!='' && Department!=''  )
+  {
+  var code = 158;
+  var data = {
+    id: id,
+    code: code,
+    Session: session,
+    CollegeName: CollegeName,
+    Course: Course,
+    CourseShortName: CourseShortName,
+    DepartmentId: Department,
+    CollegeID: CollegeID,
+    Batch: Batch,
+    LateralEntry: LateralEntry,
+    ClassRollNo: ClassRollNo,
+    Isopen: Isopen,
+    EndClassRollNo: EndClassRollNo,
+    Status: Status
+  };
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      // console.log(response); // Log the response for debugging
+      if (response == 1) {
+        SuccessToast('Data submitted successfully');
+      } else {
+        ErrorToast('Try after some time', 'bg-danger');
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
+}
+else
+{
+   ErrorToast('All input required', 'bg-warning');
+}
+}
+
+function submit_record() {
+  var Name = document.getElementById('Name').value;
+  var FatherName = document.getElementById('FatherName').value;
+  // var MotherName = document.getElementById('MotherName').value;
+  var Gender = document.getElementById('Gender').value;
+  // var MobileNo = document.getElementById('MobileNo').value;
+  var CollegeName = document.getElementById('CollegeName1').value;
+  var Department = document.getElementById('Department1').value;
+  var Course = document.getElementById('Course1').value;
+  // var Batch = document.getElementById('batch').value;
+  var PinCode = document.getElementById('Pincode').value;
+  var Nationality = document.getElementById('Nationality_').value;
+  var State = document.getElementById('State_').value;
+  var District = document.getElementById('District').value;
+  var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+  var Consultant = document.getElementById('Consultant_').value;
+  var duration = document.getElementById('duration').value;
+   var months = document.getElementById('months').value;
+  var session = document.getElementById('session').value;
+  var AdharCardNo = document.getElementById('AdharCardNo').value;
+  var PassportNo = document.getElementById('PassportNo').value;
+
+
+if(Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && duration!='' && Consultant!='' &&months!='')
+ 
+{
+  var code = 133;
+  var data = {
+    Name: Name,
+    FatherName: FatherName,
+    months:months,
+    // MotherName: MotherName,
+    Gender: Gender,
+    // MobileNo: MobileNo,
+    CollegeName: CollegeName,
+    Department: Department,
+    Course: Course,
+    // Batch: Batch,
+    PinCode: PinCode,
+    Nationality: Nationality,
+    State: State,
+    District: District,
+    Consultant: Consultant,
+    Lateral: Lateral,
+    duration: duration,
+    session: session,
+    AdharCardNo: AdharCardNo,
+    PassportNo: PassportNo,
+    code: code
+  };
+ 
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      // console.log(response); // Log the response for debugging
+      // alert('Data submitted successfully!');
+      if (response==1) {
+      SuccessToast('Data submitted successfully');
+   }
+   else if(response==2)
+   {
+ErrorToast('ID Proof Already Exist','bg-warning');
+   }
+   else
+   {
+ErrorToast('Try  after some time','bg-danger');
+
+   }
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+      // alert('An error occurred while submitting data. Please try again.');
+    }
+  });
+}
+else
+{
+   ErrorToast('All Input Required','bg-warning');
+}
+}
+
+
+
+function edit_student(id) 
+{  
+   // alert(id);  
+var code='157';
+$.ajax({
+url:'action_g.php',
+data:{id:id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+
+document.getElementById('edit_show').innerHTML=data;
+}
+});
+
+}
+
+function collegeByDepartment1(College) 
+{  
+     
+var code='304';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#Department1").html("");
+$("#Department1").html(data);
+}
+}
+});
+
+}
+
+
 
     function fetchcourse()
 {   
    
   
 
- var College=document.getElementById('College').value;
+ var College=document.getElementById('CollegeName').value;
        var department=document.getElementById('Department').value;
 
 var code='305';
@@ -248,646 +596,41 @@ $.ajax({
 url:'action.php',
 data:{department:department,College:College,code:code},
 type:'POST',
-success:function(data){
+success:function(data)
+{
 if(data != "")
 {
-     console.log(data);
+   //   console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
 }
 }
 });
 
-}
-       function Search()
-          {
-         // $('#'+id).toggleClass("bg-green");
-
-         var code=226;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-        }
-function Move(){
- //228
-         var code=228;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-        }
-function Copy(){ //229
-var code=229;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-}
-function Update(){ 
-
-//230
-   var code=230;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-}
-function Upload()
-{ //241
-  var code=241;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("table_load").innerHTML=response;
-            }
-         });
-}
-
-
-   $(document).ready(function (e) {    // image upload form submit
-           $("#upload_study_scheme").on('submit',(function(e) {
-              e.preventDefault();
-
-              var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-              $.ajax({
-                    url: "action.php",
-                 type: "POST",
-                 data:  new FormData(this),
-                 // dataType:'json',
-                 contentType: false,
-                  cache: false,
-                 processData: false,
-                 success: function(data)
-                  {
-                      console.log(data);
-                          spinner.style.display='none';
-                          if (data=='1')
-                           {
-                           SuccessToast('Successfully Uploaded');
-                          }
-                          else
-                          {
-                           ErrorToast('something went wrong','bg-danger' );
-                          }
-                  }, 
-              });
-           }));
-         });
-
-
-
-
-function add_submit()
-{
-   var CollegeID=document.getElementById('College').value;
-   var CourseID=document.getElementById('Course').value;
-   var batch=document.getElementById('batch').value;
-   var semester=document.getElementById('semester').value;
-   var subject_name=document.getElementById('subject_name').value;
-   var subject_code=document.getElementById('subject_code').value;
-   var subject_type=document.getElementById('subject_type').value;
-   var subject_group=document.getElementById('subject_group').value;
-   var int_marks=document.getElementById('int_marks').value;
-   var ext_marks=document.getElementById('ext_marks').value;
-   var elective=document.getElementById('elective').value;
-   var lecture=document.getElementById('lecture').value;
-   var practical=document.getElementById('practical').value;
-   var tutorials=document.getElementById('tutorials').value;
-   var credits=document.getElementById('credits').value;
-   if ( CollegeID!='' && CourseID!='' && batch!='' && semester!='' && subject_name!='' && subject_code!='' && subject_type!='' && subject_group!='' && int_marks!='' && ext_marks!='' && elective!='' && lecture!='' && practical!='' && tutorials!='' && credits!='') 
-   {
-   var code=242;
-
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,
-               CollegeID:CollegeID,
-               CourseID:CourseID,
-               batch:batch,
-               semester:semester,
-               subject_name:subject_name,
-               subject_code:subject_code,
-               subject_type:subject_type,
-               subject_group:subject_group,
-               int_marks:int_marks,
-               ext_marks:ext_marks,
-               elective:elective,
-               lecture:lecture,
-               practical:practical,
-               tutorials:tutorials,
-               credits:credits
-               },
-            success: function(response) 
-            { 
-              
-               spinner.style.display='none';
-               if (response==1) {
-                  SuccessToast('Successfully Submit');
-               }
-               else
-               {
-                  ErrorToast('Try Again','bg-danger');
-               }
-            }
-         });
-      }
-      else
-      {
-         ErrorToast('Please Input All Required Filed','bg-warning');
-      }
-
-
-
-}
-
-
-function delete_study_scheme(id)
-{
- 
-       
-var a=confirm('Are you sure to Delete');
-
-   var code=291;
-   if (a==true) {
-
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({ url:'action.php',
-            type:'POST',
-            data:{id:id,code:code}, success: function(response) 
-            { 
-              
-               spinner.style.display='none';
-               
-               if (response==1) {
-                update_study_scheme_search();
-                  SuccessToast('Successfully Deleted');
-               }
-               else
-               {
-                  ErrorToast('Try Again','bg-danger');
-               }
-            }
-
-
-
-
-         });
-
-   }
-}
-function update_study_scheme(srno)
-{
-  
-   var subject_name=document.getElementById('subject_name'+srno).value;
-    // alert(subject_name);
-   var subject_code=document.getElementById('subject_code'+srno).value;
-   var subject_type=document.getElementById('subject_type'+srno).value;
-   var int_marks=document.getElementById('int_marks'+srno).value;
-   var ext_marks=document.getElementById('ext_marks'+srno).value;
-   var elective=document.getElementById('elective'+srno).value;
-   var lecture=document.getElementById('lecture'+srno).value;
-   var practical=document.getElementById('practical'+srno).value;
-   var tutorials=document.getElementById('tutorials'+srno).value;
-   var credits=document.getElementById('credits'+srno).value;
-   if (subject_name!='' && subject_code!='' && subject_type!='' &&  int_marks!='' && ext_marks!='' && elective!='' && lecture!='' && practical!='' && tutorials!='' && credits!='') 
-   {
-    var a=confirm('Are you sure to Update');
-   var code=255;
-   if (a==true) {
-
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,
-               subject_name:subject_name,
-               subject_code:subject_code,
-               subject_type:subject_type,
-               int_marks:int_marks,
-               ext_marks:ext_marks,
-               elective:elective,
-               lecture:lecture,
-               practical:practical,
-               tutorials:tutorials,
-               credits:credits,
-               srno:srno
-               },
-            success: function(response) 
-            { 
-              
-               spinner.style.display='none';
-               // console.log(response);
-               if (response==1) {
-                update_study_scheme_search()
-                  SuccessToast('Successfully Submit');
-               }
-               else
-               {
-                  ErrorToast('Try Again','bg-danger');
-               }
-            }
-         });
-      }
-      else
-      {
-
-      }
-  }
-  else
-  {
-         ErrorToast('Please Input All Required Filed','bg-warning');
-
-  }
-
-
-
-}
-
-function move_study_scheme()
-{
-   var CollegeID=document.getElementById('College').value;
-   var CourseID=document.getElementById('Course').value;
-   var from_batch=document.getElementById('from_batch').value;
-   var from_semester=document.getElementById('from_semester').value;
-   var to_batch=document.getElementById('to_batch').value;
-   var to_semester=document.getElementById('to_semester').value;
-   var code=250;
-  
-   if ( CollegeID!='' && CourseID!='' && from_batch!='' && from_semester!='' && to_batch!='' && to_semester!='') 
-   {
-    var a=confirm('Are you sure to Move \n Batch '+from_batch+' To '+to_batch+'\n Semester '+from_semester+' To '+to_semester);
-if (a==true) {
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,
-               CollegeID:CollegeID,
-               CourseID:CourseID,
-               from_batch:from_batch,
-               from_semester:from_semester,
-               to_batch:to_batch,
-               to_semester:to_semester,
-               
-               },
-            success: function(response) 
-            { 
-              // console.log(response);
-               spinner.style.display='none';
-               if (response==1) 
-               {
-                  SuccessToast('Successfully Move');
-               }
-               else
-               {
-                  ErrorToast('Try Again','bg-danger');
-               }
-            }
-         });
-      }
-      else
-      {
-        
-      }
-}
-else
-{
- ErrorToast('Please Input All Required Filed','bg-warning');
-}
-
-
-}
-function copy_study_scheme()
-{
-   var CollegeID=document.getElementById('College').value;
-   var CourseID=document.getElementById('Course').value;
-   var from_batch=document.getElementById('from_batch').value;
-   var from_semester=document.getElementById('from_semester').value;
-   var to_batch=document.getElementById('to_batch').value;
-   var to_semester=document.getElementById('to_semester').value;
-   var code=253;
-  
-   if ( CollegeID!='' && CourseID!='' && from_batch!='' && from_semester!='' ) 
-   {
-    var a=confirm('Are you sure to Copy \n Batch '+from_batch+' \n Semester '+from_semester+'To \n Batch '+to_batch+' \n Semester '+to_semester);
-if (a==true) {
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action.php',
-            type:'POST',
-            data:{
-               code:code,
-               CollegeID:CollegeID,
-               CourseID:CourseID,
-               from_batch:from_batch,
-               from_semester:from_semester,
-               to_batch:to_batch,
-               to_semester:to_semester
-             
-               
-               },
-            success: function(response) 
-            { 
-              // console.log(response);
-               spinner.style.display='none';
-               if (response==1) 
-               {
-                  SuccessToast('Successfully Copy');
-               }
-               else
-               {
-                  ErrorToast('Try Again','bg-danger');
-               }
-            }
-         });
-      }
-      else
-      {
-        
-      }
-}
-else
-{
- ErrorToast('Please Input All Required Filed','bg-warning');
-}
-
-
-}
-
-
-function verifiy()
-{
-  var verifiy=document.getElementsByClassName('un_check');
-var len_student= verifiy.length; 
-  var code=243;
-  var subjectIDs=[];  
-       
-     for(i=0;i<len_student;i++)
-     {
-          if(verifiy[i].checked===true)
-          {
-            subjectIDs.push(verifiy[i].value);
-          }
-       }
-     
-
-
-  if((typeof  subjectIDs[0]== 'undefined'))
-  {
-    alert('Select atleast one Subject');
-  }
-  else
-  {
-         var spinner=document.getElementById("ajax-loader");
-         spinner.style.display='block';
-  $.ajax({
-         url:'action.php',
-         data:{subjectIDs:subjectIDs,code:code},
-         type:'POST',
-         success:function(data) {
-            spinner.style.display='none';
-            // console.log(data);
-            if (data==1) 
-            {
-                SuccessToast('Successfully Verified');
-               search_study_scheme();
-            }
-            else
-            {
-                ErrorToast(' try Again' ,'bg-danger');
-
-            }
-            }      
-});
-}
-}
-function un_verifiy()
-{
-  var un_verifiy=document.getElementsByClassName('v_check');
-var len_student= un_verifiy.length; 
-  var code=244;
-  var subjectIDs=[];  
-       
-     for(i=0;i<len_student;i++)
-     {
-          if(un_verifiy[i].checked===true)
-          {
-            subjectIDs.push(un_verifiy[i].value);
-          }
-       }
-     
-
-
-  if((typeof  subjectIDs[0]== 'undefined'))
-  {
-    alert('Select atleast one Subject');
-  }
-  else
-  {
-         var spinner=document.getElementById("ajax-loader");
-         spinner.style.display='block';
-  $.ajax({
-         url:'action.php',
-         data:{subjectIDs:subjectIDs,code:code},
-         type:'POST',
-         success:function(data) {
-            spinner.style.display='none';
-            // console.log(data);
-            if (data==1) 
-            {
-                SuccessToast('Successfully UnVerified');
-               search_study_scheme();
-            }
-            else
-            {
-                ErrorToast(' try Again' ,'bg-danger');
-
-            }
-            }      
-});
-}
-}
-
-
-function un_verifiy_select()
-{
-        if(document.getElementById("select_all").checked)
-        {
-            $('.un_check').each(function()
-            {
-                this.checked = true;
-            });
-        }
-        else 
-        {
-             $('.un_check').each(function()
-             {
-                this.checked = false;
-            });
-        }
- 
-    $('.un_check').on('click',function()
-    {
-        var a=document.getElementsByClassName("un_check:checked").length;
-        var b=document.getElementsByClassName("un_check").length;
-        
-        if(a == b)
-        {
-
-            $('#select_all').prop('checked',true);
-        }
-        else
-        {
-            $('#select_all').prop('checked',false);
-        }
-    });
- 
-}
-function verifiy_select()
-{
-        if(document.getElementById("select_all1").checked)
-        {
-            $('.v_check').each(function()
-            {
-                this.checked = true;
-            });
-        }
-        else 
-        {
-             $('.v_check').each(function()
-             {
-                this.checked = false;
-            });
-        }
- 
-    $('.v_check').on('click',function()
-    {
-        var a=document.getElementsByClassName("v_check:checked").length;
-        var b=document.getElementsByClassName("v_check").length;
-        
-        if(a == b)
-        {
-
-            $('#select_all1').prop('checked',true);
-        }
-        else
-        {
-            $('#select_all1').prop('checked',false);
-        }
-    });
- 
-}
-
-function onchange_sem()
-{
-var code='251';
-var CourseID = $("#Course").val();
-var CollegeID = $("#College").val();
-// alert('g');
+} 
+   function fetchcourse1()
+{   
+ var College=document.getElementById('CollegeName1').value;
+       var department=document.getElementById('Department1').value;
+var code='305';
 $.ajax({
 url:'action.php',
-data:{CourseID:CourseID,CollegeID:CollegeID,code:code},
+data:{department:department,College:College,code:code},
 type:'POST',
-success:function(data){
-    // console.log(data);
+success:function(data)
+{
 if(data != "")
 {
-$("#from_semester").html("");
-$("#from_semester").html(data);
-}
-}
-});
-}
-function onchange_batch()
-{
-var code='252';
-var CourseID = $("#Course").val();
-var CollegeID = $("#College").val();
-var from_semester = $("#from_semester").val();
-// alert('g');
-$.ajax({
-url:'action.php',
-data:{CourseID:CourseID,CollegeID:CollegeID,from_semester:from_semester,code:code},
-type:'POST',
-success:function(data){
-    // console.log(data);
-if(data != "")
-{
-$("#from_batch").html("");
-$("#from_batch").html(data);
+     // console.log(data);
+$("#Course1").html("");
+$("#Course1").html(data);
 }
 }
 });
 }
 
-   </script>
-  </br>
-<div>
 
-
-
-
-    <?php 
-
-
-    include "footer.php";  ?>
+</script>
+<?php
+include "footer.php";
+?>
