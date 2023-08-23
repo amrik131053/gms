@@ -176,58 +176,60 @@ $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
 // $pdf->SetXY(10, 60);
 $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
+//$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
+$pdf->MultiCell(190, 10, 'BONAFIDE CERTIFICATE', 0, 'C');
 $pdf->SetFont('Times', '', 12);
 
 //The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.' .  The student will abide by  university rules and regulations . This letter is valid for Admission and is being Issued with the approval of Worthy Vice-Chancellor. Further University will provide placement of eligibility Candidate only .',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956.The University is accredited  with Grade A++ by National Assessment & Accreditation Council (NAAC).',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
-$pdf->SetXY($X, $Y+1.5);
-$pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 8, 'Please use the following Bank Account details to transfer the Fee.',0, 'L');
-$pdf->SetFont('Times', '', 11);
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $pdf->SetXY($X, $Y+1.5);
+// $pdf->SetFont('Times', '', 10);
+// $pdf->MultiCell(190, 8, 'Please use the following Bank Account details to transfer the Fee.',0, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetXY($X, $Y+30);
+// $pdf->SetXY($X, $Y+30);
 
-$pdf->SetXY($X, $Y);
-$pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Indian Bank', 1, 1, 'L');
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $pdf->SetXY($X, $Y);
+// $pdf->Cell(90, 7, 'BANK NAME', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, 'Indian Bank', 1, 1, 'L');
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Fatehgarh Nuabad ,Talwandi Sabo, Punjab -151302', 1, 1, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $pdf->Cell(90, 7, 'BANK ADDRESS', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, 'Fatehgarh Nuabad ,Talwandi Sabo, Punjab -151302', 1, 1, 'L');
 
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'ACCOUNT NAME', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'Guru Kashi University', 1, 1, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $pdf->Cell(90, 7, 'ACCOUNT NAME', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, 'Guru Kashi University', 1, 1, 'L');
 
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, '6058205486', 1, 1, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $pdf->Cell(90, 7, 'ACCOUNT NUMBER', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, '6058205486', 1, 1, 'L');
 
-$X=$pdf->GETX();
-$Y=$pdf->GETY();
+// $X=$pdf->GETX();
+// $Y=$pdf->GETY();
 
-$pdf->SetFont('Times', '', 11);
-$pdf->Cell(90, 7, 'IFSC CODE', 1, 1, 'L');
-$pdf->SetXY(90+$X, $Y);
-$pdf->Cell(100, 7, 'IDIB000F009', 1, 1, 'L');
+// $pdf->SetFont('Times', '', 11);
+// $pdf->Cell(90, 7, 'IFSC CODE', 1, 1, 'L');
+// $pdf->SetXY(90+$X, $Y);
+// $pdf->Cell(100, 7, 'IDIB000F009', 1, 1, 'L');
 
 // $X=$pdf->GETX();
 // $Y=$pdf->GETY();

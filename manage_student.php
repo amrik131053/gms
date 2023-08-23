@@ -578,7 +578,7 @@ document.getElementById("student_search_recordold").innerHTML ='';
       }
        function StudentUpdatedatar(id)
    {
-    
+     
       var code=315;
         
    var  spinner= document.getElementById("ajax-loader");
@@ -628,14 +628,18 @@ document.getElementById("student_search_recordold").innerHTML ='';
  function updateStudentdata(id)
  {
 
+
    var  batch = document.getElementById('ubatch').value;
     var  eligible = document.getElementById('eligible').value;
    var  status = document.getElementById('ustatus').value;
    var  lock = document.getElementById('ulocked').value;
    var  classroll = document.getElementById('classroll').value;
     var uniroll = document.getElementById('uniroll').value;
+
         var Collegechange = document.getElementById('Collegechange').value;
             var coursechange = document.getElementById('coursechange').value;
+  
+
    var code=220;   
  
    var  spinner= document.getElementById("ajax-loader");

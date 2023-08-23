@@ -18092,15 +18092,18 @@ $IDNo= $_POST['IDNo'];
                 { echo $ClassRollNo;
                  ?> 
                  <input type="hidden" class="form-control" value="<?=$ClassRollNo;?>"  id='classroll'>
-                  <?php } else {?> 
-                  <input type="text" class="form-control"   id='classroll'><?php } ?>
+                  <?php }
+                   else {?> 
+                  <input type="hidden" class="form-control"   id='classroll'>
+               <?php } ?>
                   <br>
-                  Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!=''){
+                  Uni Roll No&nbsp;:&nbsp;<?php if($UniRollNo!='')
+                  {
 
 
                    echo $UniRollNo;?>
                    <input type="hidden" class="form-control"  value="<?=$UniRollNo;?>" id='uniroll'><?php }
-                   else{ ?><input type="text" class="form-control"  id='uniroll'><?php } ?>
+                   else{ ?><input type="hidden" class="form-control"  id='uniroll'><?php } ?>
 
                    <br>IDNO&nbsp;:&nbsp;<?=$IDNo;?></h6>
                 </div>
@@ -18146,7 +18149,9 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                       } ?>  </li>
 
                       
-                     
+                     <input type="hidden" name="College" id='Collegechange'  value="<?= $CollegeID;?>">
+
+                      <input type="hidden" name="College" id='coursechange'  value="<?= $CourseID;?>">
       <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?>&nbsp;<b>(<?= $CollegeID;?>)</b></li>
                  
                      <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $Course; ?>&nbsp;<b>(<?= $CourseID;?>)</b></li>
