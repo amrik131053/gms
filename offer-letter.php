@@ -884,7 +884,7 @@ function edit_student_details(id) {
   // var District = document.getElementById('District').value;
   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
-  // var duration = document.getElementById('duration').value;
+   var duration = document.getElementById('Duration').value;
   // var session = document.getElementById('session').value;
   // var AdharCardNo = document.getElementById('AdharCardNo').value;
   // var PassportNo = document.getElementById('PassportNo').value;
@@ -911,7 +911,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     // District: District,
     Consultant: Consultant,
     // Lateral: Lateral,
-    // duration: duration,
+    duration: duration,
     // session: session,
     // AdharCardNo: AdharCardNo,
     // PassportNo: PassportNo,

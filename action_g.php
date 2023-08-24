@@ -7500,6 +7500,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];
     $Gender=$row['Gender'];
     $classroll=$row['Class_RollNo'];
+    //$Duration=$row['Duration'];
 
 $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department'";
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
@@ -7680,9 +7681,18 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                         <option value='<?=$Course;?>'><?=$courseName;?></option>
                     </select>
                 </div>
-
-
-
+    <div class="col-lg-2">
+<select class="form-control" id="Duration">
+                        <option value="<?= $Duration?>"><?= $Duration;?></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+</div>
 
 
                 <!--   <div class="col-lg-2">
@@ -7724,6 +7734,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                elseif($code==140)
       {
 $classroll="";
+$duration = $_POST['duration'];
 $id = $_POST['id'];
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
@@ -7737,7 +7748,7 @@ $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
