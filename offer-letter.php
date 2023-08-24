@@ -2,6 +2,33 @@
 include "header.php";
 ?>
 <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
+<div class="modal fade" id="for_report" tabindex="-1" role="dialog" aria-labelledby="for_reportLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_reportLabel">New Consultant</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row" id='all_record_report'>
+               
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <div class="modal fade" id="for_consultant" tabindex="-1" role="dialog" aria-labelledby="for_consultantLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -79,7 +106,7 @@ include "header.php";
                </div>
             </div>
             <div class="row" >
-<div class="col-lg-3">
+               <div class="col-lg-3">
                  <label>Consultant</label>
                   <select  id="Consultant"  class="form-control" required>
                      <option value=''>Select Consultant</option>
@@ -211,8 +238,11 @@ include "header.php";
               <div class="card-tools">
                      
                         <div class="input-group input-group-sm">
-                          
-                           <button class="btn btn-primary" data-toggle="modal" data-target="#for_consultant"><i class="fa fa-plus" ></i>Consultant</button>
+                        <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success " >Report</button >
+                        &nbsp;
+                           &nbsp;
+                           &nbsp;
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#for_consultant"><i class="fa fa-plus" ></i>Consultant</button>
                            &nbsp;
                            &nbsp;
                            &nbsp;
@@ -491,7 +521,7 @@ function by_search_studetn() {
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-                              console.log(data);
+                              // console.log(data);
                               buildTable(data);
                               updatePagination(page);
                            },
@@ -1012,6 +1042,20 @@ else
 
 
 
+function all_report() 
+{  
+     
+var code='326';
+$.ajax({
+url:'action.php',
+data:{code:code},
+type:'POST',
+success:function(data){
+document.getElementById('all_record_report').innerHTML=data;
+}
+});
+
+}
 function edit_student(id) 
 {  
      
