@@ -7662,7 +7662,7 @@ if(mysqli_num_rows($ifcodeexist_run)>0)
                 ?>
                 <div class="row">
                     <div class="col-lg-4">
-                        <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                        <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                         <textarea type="textarea"  class="form-control summer" name="Question<?= $i; ?>" rows="1" required></textarea>
                     </div>
                     <div class="col-lg-2">
@@ -7688,7 +7688,7 @@ if(mysqli_num_rows($ifcodeexist_run)>0)
                 ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                        <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                         <textarea type="textarea"  class="form-control summer" name="Question<?= $i; ?>" rows="1" required></textarea>
                     </div>
                 </div>
@@ -7712,7 +7712,7 @@ else{
                ?>
                <div class="row">
                    <div class="col-lg-4">
-                       <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                       <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                        <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
                    </div>
                    <div class="col-lg-2">
@@ -7738,7 +7738,7 @@ else{
                ?>
                <div class="row">
                    <div class="col-lg-12">
-                       <label>Quetion <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
+                       <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                        <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
                    </div>
                </div>
