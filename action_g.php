@@ -7682,6 +7682,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                     </select>
                 </div>
     <div class="col-lg-2">
+       <label>Duration</label>
 <select class="form-control" id="Duration">
                         <option value="<?= $Duration?>"><?= $Duration;?></option>
                         <option value="1">1</option>
