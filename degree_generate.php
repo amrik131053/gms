@@ -177,7 +177,10 @@ include "header.php";
                           
                            table += '</tr>';
                         }
-                      
+                        
+                        table += '</tr>';
+                        table += '<td><button onclick="deleteSelectedRows();" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i> </button></td>';
+                        table += '</tr>';
                         table += '</table>';
 
                         $('#data-table').html(table);
@@ -221,7 +224,8 @@ include "header.php";
                      });
                   // });
 
-              function printSelectedRows() {
+              function printSelectedRows()
+               {
    var id_array = document.getElementsByName('selectedRows[]');
    var Todate = document.getElementById('date').value;
    var len_id = id_array.length;
@@ -252,6 +256,58 @@ include "header.php";
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }
+}
+
+
+function deleteSelectedRows()
+{
+
+  var students=document.getElementsByName('selectedRows[]');
+var len_student= students.length; 
+var a=confirm("Are you sure you want to delete");
+if (a==true) 
+{
+  var code=159;
+  var student_str=[];
+   
+     for(i=0;i<len_student;i++)
+     {
+          if(students[i].checked===true)
+          {
+            student_str.push(students[i].value);
+          }
+       }
+  if((typeof  student_str[0]== 'undefined') )
+  {
+    ErrorToast('Select atleast one record ', 'bg-warning');
+  }
+  else
+  {
+    var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{students:student_str,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            if(data>0)
+            {
+               SuccessToast('Successfully Delete');
+
+            }
+            else
+            {
+
+            }
+            // console.log(data);
+                                }      
+});
+}
+}
+else{
+
+}
 }
 
 

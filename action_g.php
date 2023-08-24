@@ -8681,6 +8681,23 @@ else
 echo "0";
 }
 }
+elseif($code==159)
+
+{
+    $count=0;
+    foreach($_POST['students'] as $key => $value) { 
+        $delete="DELETE FROM degree_print WHERE  id=$value";
+        $degree_run=mysqli_query($conn,$delete);
+        if($degree_run==true)
+        {
+         echo "1";
+        }
+        else{
+            echo "0";
+        }
+        
+    }
+}
    else
    {
    

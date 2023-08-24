@@ -1193,8 +1193,6 @@ function ShowHideDiv_feetype(id)
     }
 
 }
-
-
 function export_all() 
       {
          var exportCode='22';
