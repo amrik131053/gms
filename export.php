@@ -2113,6 +2113,7 @@ elseif($exportCode==23)
               
              <th>Name</th>
              <th>Father Name</th>
+             <th>RollNo</th>
              <th>Gender</th>
              <th>State</th>
              <th>District</th>
@@ -2161,6 +2162,7 @@ $consultantName=$row_consultant['state'];
           <td>{$courseName}</td>
           <td>{$name}</td>
           <td>{$FatherName}</td>
+          <td>{$classroll}</td>
           <td>{$Gender}</td>
           <td>{$State}</td>
           <td>{$District}</td>
