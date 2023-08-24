@@ -2040,11 +2040,62 @@ elseif($exportCode==21)
         </tr>";
         $count++;
     }
+
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
     echo $exportMeter;
     $fileName="All Staff Report";
 
+}
+
+elseif($exportCode==22)
+{
+
+
+$sql=" SELECT
+  State,District,
+  COUNT(*) AS `dist`
+FROM offer_latter WHERE State='Bihar'
+
+GROUP BY
+District";
+
+$exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+                <th>#</th>
+                <th>State</th> <th>District</th><th>Count</th></tr>
+
+    </tr>
+        </thead>";
+  
+
+ $result = mysqli_query($conn,$sql);
+$count = 1;
+
+
+ while($row=mysqli_fetch_array($result))
+{
+    $State=$row['State'];
+    $District=$row['District'];
+    $Total=$row['dist'];
+
+ $exportMeter .= "<tr>
+            <td>{$count}</td>
+            <td>{$IDNo}</td>
+            <td>{$no_of_lect}</td>
+            <td>{$no_of_lect}</td></td>
+        </tr>";
+              
+                   
+   $count++;
+   
+   }
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+
+   $fileName="CC Report";
 }
    
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
