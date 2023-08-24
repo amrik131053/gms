@@ -2047,11 +2047,8 @@ elseif($exportCode==21)
     $fileName="All Staff Report";
 
 }
-
 elseif($exportCode==22)
 {
-
-
 $sql=" SELECT
   State,District,
   COUNT(*) AS `dist`
@@ -2068,8 +2065,6 @@ $exportMeter="<table class='table' border='1'>
 
     </tr>
         </thead>";
-  
-
  $result = mysqli_query($conn,$sql);
 $count = 1;
 

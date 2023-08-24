@@ -1195,7 +1195,7 @@ function ShowHideDiv_feetype(id)
 
 function export_all() 
       {
-         var exportCode=22;
+         var exportCode='22';
          // var CollegeId=document.getElementById('CollegeID_Set').value;
          
       //   if (CollegeId!='') 
