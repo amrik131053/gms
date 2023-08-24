@@ -19,7 +19,7 @@ $data[]=$degree_row;
                 </button>
             </div>
             <div class="modal-body" id="edit_show">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -43,7 +43,105 @@ $data[]=$degree_row;
                         </div>
                     </div>
                     <div class="card-body collapse">
+                        <div class="row">
+                            <div class="col-lg-3" style="text-align: center;">
+                                <label>Select Session</label>
+                                <br>
+                                <select name="session1" class="btn btn-default">
+                                    <?php 
+for($s='2015';$s<='2030';$s++)
+{
+  ?>
+                                    <option value='<?=$s;?>'><?=$s;?></option>
+                                    <?php }?>
+                                </select>
+                                <select name="session2" class="btn btn-default">
+                                    <?php 
+for($s1='16';$s1<='31';$s1++)
+{
+  ?>
+                                    <option value='<?=$s1;?>'><?=$s1;?></option>
+                                    <?php }?>
+                                </select>
+                                <select name="session3" class="btn btn-default">
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='J'>J</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3" style="text-align: center;">
+                                <label>College Name</label>
+                                <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control"
+                                    required>
+                                    <option value=''>Select Faculty</option>
+                                    <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                                    <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                    <?php }
+                        ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2" style="text-align: center;">
+                                <label>Department</label>
+                                <select id="Department3" class="form-control" onchange="fetchcourse3()" required>
+                                    <option value=''>Select Department</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2" style="text-align: center;">
+                                <label>Course</label>
+                                <select id="Course3" class="form-control" required>
+                                    <option value=''>Select Course</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2" style="text-align: center;">
+                                <label>Batch</label>
+                                <select id="Batch3" class="form-control" required>
+                                    <option value="">Batch</option>
+                                    <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
+                               ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3" style="text-align:center;">
 
+                                <label>First RollNo</label>
+                                <input type="text" id="FirstRollNo" class="form-control">
+                            </div>
+                            <div class="col-lg-3" style="text-align:center;">
+                                <label>Last RollNo </label>
+                                <input type="text" id="LastRollNo" class="form-control">
+                            </div>
+                            <div class="col-lg-2">
+                                <label>ValidUpto</label>
+                                <input type="date" id="ValidUpTo" class="form-control">
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Lateral Entry</label>
+                                <select id="LateralEntry" name="LateralEntry" class="form-control" required>
+                                    <option value="No">NO</option>
+                                    <option value="Yes">Yes</option>
+
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>Action</label><br>
+                                <input type="button" name="" class="btn btn-success" value="Upload">
+                            </div>
+
+
+                        </div>
                     </div>
 
                 </div>
@@ -99,16 +197,11 @@ $data[]=$degree_row;
                             </div>
                             <div class="col-lg-1">
 
-                                <button type='button' class='btn btn-success' onclick='by_search_studetn();'>Search</button>
+                                <button type='button' class='btn btn-success'
+                                    onclick='by_search_studetn();'>Search</button>
                             </div>
                         </div>
-                        <!-- <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo and ID Proof">
-                                       <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
--->
-                        <!-- </div>  -->
 
-
-                        <!-- </div> -->
                         <div class="card-tools">
                             <div class="input-group input-group-sm">
 
@@ -125,7 +218,7 @@ $data[]=$degree_row;
                         var Department = document.getElementById('Department').value;
                         var Course = document.getElementById('Course').value;
                         var Batch = document.getElementById('Batch').value;
-                        // alert(CollegeName);
+
                         $.ajax({
                             url: 'action_g.php',
                             type: 'POST',
@@ -140,7 +233,6 @@ $data[]=$degree_row;
                                 search: searchQuery // Pass the search query to the server
                             },
                             success: function(data) {
-                                console.log(currentPage+'='+code+'='+searchQuery+'='+CollegeName+'='+Department+'='+Course+'='+Batch);
 
                                 buildTable(data);
                                 updatePagination(currentPage);
@@ -150,9 +242,6 @@ $data[]=$degree_row;
                             }
                         });
                     }
-
-
-
                     var currentPage = 1;
                     var code = 156;
                     var searchQuery = '';
@@ -160,8 +249,6 @@ $data[]=$degree_row;
                     var Department = '';
                     var Course = '';
                     var Batch = '';
-
-
                     loadData(currentPage);
 
                     function loadData(page) {
@@ -180,7 +267,6 @@ $data[]=$degree_row;
                                 search: searchQuery // Pass the search query to the server
                             },
                             success: function(data) {
-                              // console.log(currentPage+'='+code+'='+searchQuery+'='+CollegeName+'='+Department+'='+Course+'='+Batch);
 
                                 buildTable(data);
                                 updatePagination(page);
@@ -258,63 +344,9 @@ $data[]=$degree_row;
                             loadData(currentPage);
                         }
                     });
-
-
-                    function printSelectedRows() {
-                        // alert();
-                        var id_array = document.getElementsByName('selectedRows[]');
-                        var len_id = id_array.length;
-                        var id_array_main = [];
-                        for (i = 0; i < len_id; i++) {
-                            if (id_array[i].checked === true) {
-                                id_array_main.push(id_array[i].value);
-                            }
-                        }
-                        if (id_array_main.length > 0) {
-                            window.open('print_offer_letter.php?id_array=' + id_array_main);
-                        } else {
-                            ErrorToast('All Input Required', 'bg-warning');
-                        }
-                    }
-
-                    function printSelectedRows_second() {
-                        var id_array = document.getElementsByName('selectedRows[]');
-                        var len_id = id_array.length;
-                        var id_array_main = [];
-                        for (i = 0; i < len_id; i++) {
-                            if (id_array[i].checked === true) {
-                                id_array_main.push(id_array[i].value);
-                            }
-                        }
-                        if (id_array_main.length > 0) {
-                            window.open('print_offer_letter_second.php?id_array=' + id_array_main);
-                        } else {
-                            ErrorToast('All Input Required', 'bg-warning');
-                        }
-                    }
-
-
-                    function toggleSelectAll(checkbox) {
-                        var checkboxes = document.getElementsByName('selectedRows[]');
-                        for (var i = 0; i < checkboxes.length; i++) {
-                            checkboxes[i].checked = checkbox.checked;
-                        }
-                    }
                     </script>
                     <div id="data-table" class='table-responsive'>
-                        <!-- <table class="table">
-                     <tr>
-                        <div id="pagination">
-                           <td>
-                              <button id="prev-btn" class="btn btn-primary " disabled>Previous</button>
-                           </td>
-                           <td colspan="4"></td>
-                           <td>
-                              <button id="next-btn" class="btn btn-primary " style="float:right;">Next</button>
-                           </td>
-                        </div>
-                     </tr>
-                  </table> -->
+
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -335,9 +367,9 @@ function edit_record() {
     var id = document.getElementById('master_id').value;
     var CollegeID = document.getElementById('CollegeName1').value;
     var Department = document.getElementById('Department1').value;
-    var Course = document.getElementById('Course').value;
+    var Course = document.getElementById('Course1').value;
     var CourseShortName = document.getElementById('CourseShortName').value;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Batch1').value;
     var session = document.getElementById('Session').value;
     var selectBoxCollegeName1 = document.getElementById("CollegeName1");
     var selectedIndex = selectBoxCollegeName1.selectedIndex;
@@ -347,6 +379,8 @@ function edit_record() {
     var EndClassRollNo = document.getElementById('EndClassRollNo').value;
     var Isopen = document.getElementById('Isopen').value;
     var Status = document.getElementById('Status').value;
+    var CourseType = document.getElementById('CourseType').value;
+    var Duration = document.getElementById('Duration').value;
     if (CollegeID != '' && Department != '') {
         var code = 158;
         var data = {
@@ -363,6 +397,8 @@ function edit_record() {
             ClassRollNo: ClassRollNo,
             Isopen: Isopen,
             EndClassRollNo: EndClassRollNo,
+            CourseType: CourseType,
+            Duration: Duration,
             Status: Status
         };
         // Send the AJAX request
@@ -371,8 +407,9 @@ function edit_record() {
             data: data,
             type: 'POST',
             success: function(response) {
-                // console.log(response); // Log the response for debugging
+                //  console.log(response); // Log the response for debugging
                 if (response == 1) {
+                    by_search_studetn();
                     SuccessToast('Data submitted successfully');
                 } else {
                     ErrorToast('Try after some time', 'bg-danger');
@@ -509,6 +546,71 @@ function collegeByDepartment1(College) {
 
 }
 
+function fetchcourse1() {
+    var College = document.getElementById('CollegeName1').value;
+    var department = document.getElementById('Department1').value;
+    var code = '305';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            department: department,
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+                // console.log(data);
+                $("#Course1").html("");
+                $("#Course1").html(data);
+            }
+        }
+    });
+}
+
+function collegeByDepartment3(College) {
+
+    var code = '304';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            if (data != "") {
+
+                $("#Department3").html("");
+                $("#Department3").html(data);
+            }
+        }
+    });
+
+}
+
+function fetchcourse3() {
+    var College = document.getElementById('College3').value;
+    var department = document.getElementById('Department3').value;
+    var code = '305';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            department: department,
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+                // console.log(data);
+                $("#Course3").html("");
+                $("#Course3").html(data);
+            }
+        }
+    });
+}
 
 
 function fetchcourse() {
@@ -536,28 +638,6 @@ function fetchcourse() {
         }
     });
 
-}
-
-function fetchcourse1() {
-    var College = document.getElementById('CollegeName1').value;
-    var department = document.getElementById('Department1').value;
-    var code = '305';
-    $.ajax({
-        url: 'action.php',
-        data: {
-            department: department,
-            College: College,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            if (data != "") {
-                // console.log(data);
-                $("#Course1").html("");
-                $("#Course1").html(data);
-            }
-        }
-    });
 }
 </script>
 <?php

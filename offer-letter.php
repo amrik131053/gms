@@ -165,16 +165,16 @@ include "header.php";
               <label>Lateral Entry</label> <br>
 
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb18"  value="No" name="Lateral1" checked="">
-                     <label for="radioPrimaryb18">
+                     <input type="radio" id="radioPrimaryb20"  value="No" name="Lateral1" checked="">
+                     <label for="radioPrimaryb20">
                      No
                      </label>
                  
                </div>
               
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb19"  value="Yes" name="Lateral1">
-                     <label for="radioPrimaryb19">
+                     <input type="radio" id="radioPrimaryb21"  value="Yes" name="Lateral1">
+                     <label for="radioPrimaryb21">
                      Yes
                      </label>
                 
@@ -336,16 +336,16 @@ include "header.php";
             <div class="col-lg-2">
               <label>Lateral Entry</label> <br>
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb16"  value="No" name="Lateral" checked="">
-                     <label for="radioPrimaryb16">
+                     <input type="radio" id="radioPrimaryb18"  value="No" name="Lateral" checked="">
+                     <label for="radioPrimaryb18">
                      No
                      </label>
                  
                </div>
               
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb17"  value="Yes" name="Lateral">
-                     <label for="radioPrimaryb17">
+                     <input type="radio" id="radioPrimaryb19"  value="Yes" name="Lateral">
+                     <label for="radioPrimaryb19">
                      Yes
                      </label>
                 
