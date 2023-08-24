@@ -20,7 +20,7 @@ include "header.php";
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+        <button type="button" class="btn btn-primary" onclick="export_all();">Export All</button>
       </div>
     </div>
   </div>
@@ -1192,6 +1192,23 @@ function ShowHideDiv_feetype(id)
 
 }
 
+
+function export_all() 
+      {
+         var exportCode=22;
+         // var CollegeId=document.getElementById('CollegeID_Set').value;
+         
+      //   if (CollegeId!='') 
+      //    {
+          window.location.href="export.php?exportCode="+exportCode;
+         // }
+         // else
+         // {
+         //    alert("Select ");
+         // }
+       
+        
+      }
 </script>
 <?php
 include "footer.php";

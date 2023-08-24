@@ -18740,24 +18740,10 @@ elseif($code=='324')
   elseif($code=='326') 
    {
    
- 
-
-$sql=" SELECT
-  State,District,
-  COUNT(*) AS `dist`
-FROM offer_latter WHERE State='Bihar'
-
-GROUP BY
-District";
-
-
-
-  
-
+$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='Bihar' GROUP BY District";
  $result = mysqli_query($conn,$sql);
 ?>
-<table><tr><th>State</th> ><th>District</th><th>COunt</th></tr>  <?php
-
+<table class='table table-bordered'><tr><th>State</th><th>District</th><th>Count</th></tr>  <?php
  while($row=mysqli_fetch_array($result))
 {?>
 <tr><td><?=$row['State'];?></td><td><?=$row['District'];?></td><td><?=$row['dist'];?></td>
