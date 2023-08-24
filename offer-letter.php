@@ -7,7 +7,7 @@ include "header.php";
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="for_reportLabel">New Consultant</h5>
+        <h5 class="modal-title" id="for_reportLabel">Reports</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,7 +20,7 @@ include "header.php";
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="export_all();">Export All</button>
+        <button type="button" class="btn btn-success" onclick="export_all();">Export All</button>
       </div>
     </div>
   </div>
@@ -1044,13 +1044,15 @@ else
 
 function all_report() 
 {  
-     
+   var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
 var code='326';
 $.ajax({
 url:'action.php',
 data:{code:code},
 type:'POST',
 success:function(data){
+   spinner.style.display='none';
 document.getElementById('all_record_report').innerHTML=data;
 }
 });
@@ -1196,18 +1198,15 @@ function ShowHideDiv_feetype(id)
 function export_all() 
       {
          var exportCode='22';
-         // var CollegeId=document.getElementById('CollegeID_Set').value;
-         
-      //   if (CollegeId!='') 
-      //    {
+
           window.location.href="export.php?exportCode="+exportCode;
-         // }
-         // else
-         // {
-         //    alert("Select ");
-         // }
-       
-        
+      
+      }
+function export_one(district) 
+      {
+         // alert(district);
+         var exportCode='23';
+          window.location.href="export.php?exportCode="+exportCode+"&District="+district;
       }
 </script>
 <?php

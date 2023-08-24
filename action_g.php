@@ -7735,7 +7735,7 @@ $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
-
+ 
 $classroll = $_POST['classroll'];
   $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
