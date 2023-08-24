@@ -7533,6 +7533,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
+    $District=$row['District'];
     
    $get_country="SELECT name FROM countries  where id='$Nationality'";
                   $get_country_run=mysqli_query($conn,$get_country);
@@ -7597,6 +7598,14 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                     <select class="form-control" id="State">
                         <option value="<?=$State;?>"><?=$State;?></option>
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <label>District</label>
+
+                    <select class="form-control" id="District1">
+                        <option value="<?=$District;?>"><?=$District;?></option>
+                        <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option>
                     </select>
                 </div>
 
@@ -7725,9 +7734,10 @@ $Course = $_POST['Course'];
 $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
+$District = $_POST['District1'];
 
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
