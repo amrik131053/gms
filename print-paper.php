@@ -69,23 +69,13 @@ while ($data=mysqli_fetch_array($res))
                 <!-- <div style="page-break-after:always;margin:0px 0px 0px 0px;padding: 0px 0px 0px 0px;"> </div> -->
 
                 <table border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%;  " width="100%">
-                  <!-- <tr>
-                    <td rowspan="3" align="center" valign="top" nowrap><img src="images/admit_card_border11.png" width="16" height="100%" style="margin-top:1px "></td>
-                    <td height="1" align="center" valign="top"><img src="images/admit_card_border.png" width="966" height="16"></td>
-                    <td rowspan="3" align="center" valign="top" nowrap><img src="images/admit_card_border11.png" width="16" height="100%" style="margin-top:1px "></td>
-                  </tr> -->
+                  
                   <tr>
-                    <th align="left" width="31%" >
-                      <img src="logo2.png" width="80px" height="100%">
+                    <th align="left" width="25%" >
+                      <img src="logo2.png" width="50px" height="100%">
                     </th>
-                    
-                    <th  colspan='2' valign="bottom" align="right">
-                      University Registration No...........................
-                    </th>
-                  </tr>
-                  <tr>
-                    <th colspan='3' valign="bottom" align="center">
-                      <span style="font-size: 30px;">GURU KASHI UNIVERSITY</span>
+                      <th   align="center">
+                      <span style="font-size: 20px;">GURU KASHI UNIVERSITY</span>
                       <br>
 <?php if($examid==4) 
 {
@@ -98,7 +88,11 @@ echo  $examName;
 ?>
                       <!-- <?=$examName?> -->
                     </th>
+                    <th  valign="bottom" align="left" width="25%">
+                      Roll No...........................
+                    </th>
                   </tr>
+                 
                   <tr>
                     <th valign="bottom" colspan="2" align="left">
                       Course/Discipline: <?=$courseName?> 
@@ -152,18 +146,9 @@ echo  $examName;
                   </tr>
                   <tr>
                     <th  colspan='3' valign="bottom" align="left">
-                      Instructions:
-                      <table border="0" width="100%">
-                        <tr>
-                          <th width="12%" align="right">
-                            
-                          </th>
-                          <th align="left">
+                      Instructions:                      
                             <?=$instruction?>
-                          </th>
-                        </tr>
-                      </table>
-                    </th>
+                      </th>
                   </tr>
                   <tr>
                     <td colspan="3">
@@ -236,25 +221,57 @@ echo  $examName;
                           }
                           
                             ?>
-                            <tr valign="top">
-                              <th width="10%" align="right"><p><?=$questionCount?>. 
+                            <tr>
+                              <th width="10%" align="right" >
+                                <p><?=$questionCount?>. 
                                 <?php
                                  if ($row['Type']==1) 
                                   {
                                     echo "({$mcqCount})";
+
                                   }
                                   ?>
-                                &nbsp;</p></th>
-                              <th align="left"><?=$row['sanitized_question']?>
+                                &nbsp;</p><br></th>
+
+                              <th align="left"  ><?=$row['sanitized_question']?>
                                 <?= $img?>
-                              </th>
+
+                        <br>
+                                <?php 
+                                if($row['OptionA']!='')
+                                {?>
+                                   (A) &nbsp; <?=$row['OptionA']?> 
+                                <?php }?> &nbsp;&nbsp;&nbsp;
+                                <?php 
+                                if($row['OptionB']!='')
+                                {?>
+                                   (B) &nbsp; <?=$row['OptionB']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+ <?php 
+                                if($row['OptionC']!='')
+                                {?>
+                                   (C) &nbsp; <?=$row['OptionC']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+                                 <?php 
+                                if($row['OptionD']!='')
+                                {?>
+                                   (D) &nbsp; <?=$row['OptionD']?> 
+                                <?php }?>
+
+
+                              </th> 
+
                               <th align="right">
-                                <p><table>
-                                <tr>
+                          
+
+
+                                 
                                   <!-- <td><?=$row['Unit']?></td> -->
-                                  <td><?=$row['category_name']?>(<?=$row['Unit']?>)</td>
-                                </tr>
-                              </table></p></th>
+                                <?=$row['category_name']?>(<?=$row['Unit']?>)
+                            
+                             </th>
                             </tr>
                             
                           <?php
