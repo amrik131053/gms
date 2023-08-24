@@ -395,11 +395,11 @@ include "header.php";
            </div>
                <div class="col-lg-2">
                <label>State</label>  
-             <input type="text" class="form-control" id="State_" readonly>
+             <input type="text" class="form-control" id="State_" >
            </div>
                <div class="col-lg-2">
                <label>District</label>  
-             <input type="text"  class="form-control" id="District" readonly>
+             <input type="text"  class="form-control" id="District" >
            </div>
 
            </div>
