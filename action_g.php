@@ -4501,8 +4501,14 @@ $ExtraRow="";
    $Type=$_POST['type'];
    $handle = fopen($file, 'r');
    $c = 0;
+   $firstLine=true;
    while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
    {
+    if ($firstLine) {
+        $firstLine = false;
+        continue; // Skip processing the first line
+    }
+    
    $StudentName = $filesop[0];
    $UniRollNo= $filesop[1];
    $FatherName = $filesop[2];
@@ -8698,18 +8704,16 @@ elseif($code==159)
 
 {
     $count=0;
-    foreach($_POST['students'] as $key => $value) { 
+    foreach($_POST['students'] as $key => $value)
+     { 
         $delete="DELETE FROM degree_print WHERE  id=$value";
-        $degree_run=mysqli_query($conn,$delete);
-        if($degree_run==true)
-        {
-         echo "1";
-        }
-        else{
-            echo "0";
-        }
-        
+        $degree_run=mysqli_query($conn,$delete);   
+    if($degree_run==true)
+    {
+        $count++;
     }
+}
+echo $count;
 }
    else
    {

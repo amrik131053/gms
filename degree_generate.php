@@ -1,18 +1,6 @@
 <?php
 include "header.php";
 ?>
-<?php
-$number1 = 9.0;
-$formattedNumber1 = number_format($number1, 2);
-
-$number2 = 8.0;
-$formattedNumber2 = number_format($number2, 2);
-
- $formattedNumber1 . "<br>";
- $formattedNumber2;
-?>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="modal fade" id="for_edit" tabindex="-1" role="dialog" aria-labelledby="for_editLabel" aria-hidden="true">
   <div class="modal-dialog " role="document">
     <div class="modal-content">
@@ -37,13 +25,13 @@ $formattedNumber2 = number_format($number2, 2);
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="for_excelLabel">New message</h5>
+        <h5 class="modal-title" id="for_excelLabel">Upload Records</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-              <!-- <div class="card "> -->
+             
                
                         <div class="btn-group w-100 mb-2">
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="diploma_agri();bg(this.id);"> Diploma Agri </a>
@@ -51,11 +39,11 @@ $formattedNumber2 = number_format($number2, 2);
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="degree();bg(this.id);"> Degree </a>
                    
                   </div>
-              <!-- </div> -->
+             
                 <div id="from_show_toggle">
                    
                 </div>
-            <!-- </div> -->
+          
 
       </div>
       <div class="modal-footer">
@@ -106,13 +94,14 @@ $formattedNumber2 = number_format($number2, 2);
                   </div>
                </div>
                <script>
+                  
                   function date_by_search() {
                      
                     var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
                     var upload_date=document.getElementById('upload_date').value;
-                    // alert(upload_date);
+                  //   alert(upload_date);
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -236,7 +225,7 @@ $formattedNumber2 = number_format($number2, 2);
                         }
                      });
                   // });
-
+                  document.addEventListener("DOMContentLoaded", function() {
               function printSelectedRows()
                {
    var id_array = document.getElementsByName('selectedRows[]');
@@ -271,66 +260,13 @@ $formattedNumber2 = number_format($number2, 2);
    }
 }
 
-
-function deleteSelectedRows()
-{
-
-  var students=document.getElementsByName('selectedRows[]');
-var len_student= students.length; 
-var a=confirm("Are you sure you want to delete");
-if (a==true) 
-{
-  var code=159;
-  var student_str=[];
-   
-     for(i=0;i<len_student;i++)
-     {
-          if(students[i].checked===true)
-          {
-            student_str.push(students[i].value);
-          }
-       }
-  if((typeof  student_str[0]== 'undefined') )
-  {
-    ErrorToast('Select atleast one record ', 'bg-warning');
-  }
-  else
-  {
-    var spinner=document.getElementById("ajax-loader");
-                                  spinner.style.display='block';
-  $.ajax({
-         url:'action_g.php',
-         data:{students:student_str,code:code},
-         type:'POST',
-         success:function(data) {
-            spinner.style.display='none';
-            if(data>0)
-            {
-               SuccessToast('Successfully Delete');
-
-            }
-            else
-            {
-
-            }
-            // console.log(data);
-                                }      
-});
-}
-}
-else{
-
-}
-}
-
-
                   function toggleSelectAll(checkbox) {
                      var checkboxes = document.getElementsByName('selectedRows[]');
                      for (var i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = checkbox.checked;
                      }
                   }
-
+ });
                   function view_image(id) {
                      var code = 91;
                      $.ajax({
@@ -385,6 +321,62 @@ else{
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
+   function deleteSelectedRows()
+{
+
+  var students=document.getElementsByName('selectedRows[]');
+var len_student= students.length; 
+var a=confirm("Are you sure you want to delete");
+if (a==true) 
+{
+  var code=159;
+  var student_str=[];
+   
+     for(i=0;i<len_student;i++)
+     {
+          if(students[i].checked===true)
+          {
+            student_str.push(students[i].value);
+          }
+       }
+  if((typeof  student_str[0]== 'undefined') )
+  {
+    ErrorToast('Select atleast one record ', 'bg-warning');
+  }
+  else
+  {
+    var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{students:student_str,code:code},
+         type:'POST',
+         success:function(data) {
+            // console.log(data);
+            spinner.style.display='none';
+            if(data<len_student)
+            {
+               SuccessToast('Successfully Delete');
+               date_by_search();
+            }
+            else if(len_student==data)
+            {
+               SuccessToast('Successfully Delete');
+               location.reload(true);
+            }
+            else
+            {
+               // date_by_search();
+            }
+            // console.log(data);
+                                }      
+});
+}
+}
+else{
+
+}
+}
  function diploma_other() {
    
       var code = 130;
