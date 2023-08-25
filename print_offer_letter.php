@@ -82,7 +82,14 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Session=$row['Session'];
     $Duration=$row['Duration'];
       $PrintDatew=$row['PrintDate'];
-      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+      if($PrintDatew!='')
+      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  else
+  {
+    $PrintDate='';
+  }
+
+      
      $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];

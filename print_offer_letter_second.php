@@ -80,8 +80,18 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
+  
   $PrintDatew=$row['PrintDate1'];
-      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+
+ if($PrintDatew!='')
+
+      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  else
+  {
+    $PrintDate='';
+  }
+
+     
     $State=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
