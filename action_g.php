@@ -7495,7 +7495,7 @@ echo "2";
 elseif($code==139)
     {
       $id=$_POST['id'];
-      $get_student_details="SELECT * FROM offer_latter where id='$id'";
+      $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -7534,15 +7534,30 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
-    $State=$row['State'];
+    $State_id=$row['State'];
     $Session=$row['Session'];
     $Duration=$row['Duration'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
-    $District=$row['District'];
+    $District_id=$row['District'];
     
+
+    $get_state="SELECT name FROM states  where id='$State_id'";
+    $get_state_run=mysqli_query($conn,$get_state);
+    if($row_state=mysqli_fetch_array($get_state_run))
+    {
+    $State=$row_state['name'];
+    }
+    $get_district="SELECT name FROM cities  where id='$District_id'";
+    $get_district_run=mysqli_query($conn,$get_district);
+    if($row_dist=mysqli_fetch_array($get_district_run))
+    {
+    $District=$row_dist['name'];
+
+    }
+     
    $get_country="SELECT name FROM countries  where id='$Nationality'";
                   $get_country_run=mysqli_query($conn,$get_country);
                   if($row=mysqli_fetch_array($get_country_run))
@@ -7584,7 +7599,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 <div class="col-lg-2">
                     <label>Nationality</label>
                     <select class="form-control" id="Nationality"
-                        onchange="country_to_state(this.value); ShowHideDiv_address(this.value);">
+                        onchange="fetch_state2(this.value);">
                         <option value="<?=$Nationality;?>"><?=$NationalityName;?></option>
                         <option value="">Select</option>
                         <?php 
@@ -7604,7 +7619,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 <div class="col-lg-2">
                     <label>State</label>
 
-                    <select class="form-control" id="State">
+                    <select class="form-control" id="State" onchange="fetch_district2(this.value);">
                         <option value="<?=$State;?>"><?=$State;?></option>
                     </select>
                 </div>
@@ -7613,7 +7628,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                     <select class="form-control" id="District1">
                         <option value="<?=$District;?>"><?=$District;?></option>
-                        <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option>
+                        <!-- <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option> -->
                     </select>
                 </div>
 
@@ -7703,24 +7718,6 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 </div>
 
 
-                <!--   <div class="col-lg-2">
-              <label>Lateral Entry</label> <br>
-                  <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb16"  value="No" name="Lateral" checked="">
-                     <label for="radioPrimaryb16">
-                     No
-                     </label>
-                 
-               </div>
-              
-                  <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb17"  value="Yes" name="Lateral">
-                     <label for="radioPrimaryb17">
-                     Yes
-                     </label>
-                
-               </div>
-            </div> -->
 
 
 
@@ -8701,7 +8698,6 @@ echo "0";
 }
 }
 elseif($code==159)
-
 {
     $count=0;
     foreach($_POST['students'] as $key => $value)
@@ -8714,6 +8710,106 @@ elseif($code==159)
     }
 }
 echo $count;
+}
+elseif($code=='160') 
+{
+$country_id=$_POST['country_id'];
+ $sql = "SELECT  Id,name FROM states WHERE country_id='$country_id' order by name ASC";
+$stmt = mysqli_query($conn,$sql); 
+?> 
+<option value=''>State</option>
+<?php 
+       while($row = mysqli_fetch_array($stmt) )
+
+{
+?>  
+<option value='<?=$row["Id"];?>'><?= $row["name"];?></option>
+<?php   }
+
+}
+elseif($code=='161') 
+{
+$state_id=$_POST['state_id'];
+ $sql = "SELECT  id,name FROM cities WHERE state_id='$state_id' order by name ASC";
+$stmt = mysqli_query($conn,$sql); 
+?> 
+<option value=''>State</option>
+<?php 
+       while($row = mysqli_fetch_array($stmt) )
+
+{
+?>  
+<option value='<?=$row["id"];?>'><?= $row["name"];?></option>
+<?php   }
+
+}
+elseif($code=='162') 
+{
+    $dist_count=0;
+    $count=0;
+$District=$_POST['District'];
+$State=$_POST['State'];
+ $sql1 = "SELECT  count FROM offer_admission_count WHERE District='$District'";
+$stmt1 = mysqli_query($conn,$sql1); 
+ if($row1 = mysqli_fetch_array($stmt1) )
+{
+$count=$row1['count'];
+$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District'";
+ $result = mysqli_query($conn,$sql);
+ while($row=mysqli_fetch_array($result))
+{
+    $dist_count=$row['dist']; 
+}
+ }
+ if( $count==$dist_count)
+ {
+echo "1";
+ }
+ else{
+    echo "0";
+ }
+
+
+}
+elseif($code==163)
+{
+    $District=$_POST['District'];
+    $previous_count=$_POST['previous_count'];
+    $adm_count=$_POST['adm_count'];
+    $sql1 = "SELECT  * FROM offer_admission_count WHERE District='$District'";
+    $stmt1 = mysqli_query($conn,$sql1); 
+     if($row1 = mysqli_num_rows($stmt1)>0 )
+    {
+        $insert_record = "UPDATE offer_admission_count SET District='$District',count='$adm_count' where District='$District' ";
+    }
+    else
+    {
+    $insert_record = "INSERT INTO offer_admission_count (`District`, `count`) VALUES ('$District','$adm_count');";
+    }
+    $insert_record_run = mysqli_query($conn, $insert_record);
+    if ($insert_record_run==true) 
+    {
+       echo "1";
+    }
+    else
+    {
+       echo "0";
+    }
+
+}
+elseif($code=='164') 
+{
+    $count=0;
+$District=$_POST['District'];
+$State=$_POST['State'];
+ $sql1 = "SELECT  count FROM offer_admission_count WHERE District='$District'";
+$stmt1 = mysqli_query($conn,$sql1); 
+ if($row1 = mysqli_fetch_array($stmt1) )
+{
+echo $count=$row1['count'];
+ }
+
+
 }
    else
    {

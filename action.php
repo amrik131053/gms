@@ -18739,15 +18739,23 @@ elseif($code=='324')
 
   elseif($code=='326') 
    {
-   
-$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='Bihar' GROUP BY District";
+   $count=0;
+$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter  GROUP BY District";
  $result = mysqli_query($conn,$sql);
 ?>
-<table class='table table-bordered'><tr><th>State</th><th>District</th><th>Count</th><th>Export</th></tr>  <?php
+<table class='table table-bordered'><tr><th>State</th><th>District</th><th>Count</th><th>Total Adm Count</th><th>Export</th></tr>  <?php
  while($row=mysqli_fetch_array($result))
-{?>
+{
+   $sql1 = "SELECT  count FROM offer_admission_count WHERE District='".$row['District']."'";
+   $stmt1 = mysqli_query($conn,$sql1); 
+    if($row1 = mysqli_fetch_array($stmt1) )
+   {
+   $count=$row1['count'];
+   }
+   ?>
 <tr><td><?=$row['State'];?></td>
 <td><?=$row['District'];?></td>
+<td><?=$count;?></td>
 <td><?=$row['dist'];?></td>
 <td><i class="fa fa-file-excel fa-2x text-success" onclick="export_one('<?=$row['District'];?>');"></i></td>
 

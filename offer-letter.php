@@ -3,6 +3,63 @@ include "header.php";
 ?>
 <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
+<div class="modal fade" id="for_add_adm_count" tabindex="-1" role="dialog" aria-labelledby="for_add_adm_countLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_add_adm_countLabel">Add Admission Count</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row" id=''>
+            <div class="col-lg-3">
+              <label>Nationality</label>  
+              <select class="form-control" id="Nationality_1" onchange="fetch_state1(this.value);">
+                 <option value="">Country</option>
+                 <?php 
+                  $get_country="SELECT * FROM countries ";
+                  $get_country_run=mysqli_query($conn,$get_country);
+                  while($row=mysqli_fetch_array($get_country_run))
+                  {?>
+                        <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
+                  <?php }
+
+                 ?>
+              </select>
+             
+            </div> 
+            <div class="col-lg-3">
+               <label>State</label>  
+             <select class="form-control" id="State_1" onchange="fetch_district1(this.value);">
+                 <option value="">State</option> 
+              </select>
+           </div>
+           <div class="col-lg-2">
+               <label>District</label>  
+             <select class="form-control" id="District_1" onchange="admisssion_complete1(this.value);">
+                 <option value="">District</option>
+              </select>
+           </div>
+           <div class="col-lg-2">
+               <label>Previous Count</label>  
+             <input type="number" class="form-control" id="previous_count" readonly>
+           </div>
+           <div class="col-lg-2">
+               <label>Count</label>  
+             <input type="number" class="form-control" id="adm_count">
+           </div>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="submit_count();">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="for_report" tabindex="-1" role="dialog" aria-labelledby="for_reportLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -61,7 +118,7 @@ include "header.php";
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="for_editLabel">New Consultant</h5>
+        <h5 class="modal-title" id="for_editLabel">Record Edit</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -238,6 +295,10 @@ include "header.php";
               <div class="card-tools">
                      
                         <div class="input-group input-group-sm">
+                        <button  data-toggle="modal" data-target="#for_add_adm_count" class="btn btn-success " >Add Count</button >
+                        &nbsp;
+                           &nbsp;
+                           &nbsp;
                         <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success " >Report</button >
                         &nbsp;
                            &nbsp;
@@ -259,8 +320,8 @@ include "header.php";
          <div class="row">
                 <div class="col-lg-2">
               <label>Nationality</label>  
-              <select class="form-control" id="Nationality_" onchange="ShowHideDiv_address(this.value);">
-                 <option value="">Select</option>
+              <select class="form-control" id="Nationality_" onchange="fetch_state(this.value);ShowHideDiv_address(this.value);">
+                 <option value="">Country</option>
                  <?php 
                   $get_country="SELECT * FROM countries ";
                   $get_country_run=mysqli_query($conn,$get_country);
@@ -273,18 +334,18 @@ include "header.php";
               </select>
              
             </div> 
-
-
-            <!-- <div class="col-lg-2">
-              <label>State</label>  
-              
-              <select class="form-control" id="State">
-
+            <div class="col-lg-2">
+               <label>State</label>  
+             <select class="form-control" id="State_" onchange="fetch_district(this.value);">
+                 <option value="">State</option> 
               </select>
-            </div>
-          -->
-           
-            
+           </div>
+           <div class="col-lg-2">
+               <label>District</label>  
+             <select class="form-control" id="District" onchange="admisssion_complete(this.value);">
+                 <option value="">District</option>
+              </select>
+           </div>
 
             <div class="col-lg-2">
               <label>Consultant</label>  
@@ -300,11 +361,11 @@ include "header.php";
                      <?php }?>
                  </select>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                <label>Student Name</label>
                <input type="text" value="" id="Name" class="form-control" > 
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                <label>Father Name</label>
                <input type="text" value="" id="FatherName" class="form-control" > 
             </div>
@@ -327,7 +388,7 @@ include "header.php";
             </div>
            
 
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <label>College Name</label>
                  <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
@@ -419,26 +480,18 @@ include "header.php";
                 
               </select>
            </div>
-               <div class="col-lg-2">
-               <label>Pin Code</label>  
-             <input type="text"  class="form-control" onkeyup="postcode();" id="Pincode" >
-           </div>
-               <div class="col-lg-2">
-               <label>State</label>  
-             <input type="text" class="form-control" id="State_" >
-           </div>
-               <div class="col-lg-2">
-               <label>District</label>  
-             <input type="text"  class="form-control" id="District" >
-           </div>
-
+               
+             <input type="hidden"  class="form-control"  id="Pincode" >
+          
+             
            </div>
            
             
 
-            <div class="col-lg-3">
-               <label>&nbsp;</label>
-               <button class="btn btn-primary form-control" onclick="submit_record()">Submit</button>
+            <div class="col-lg-12"> <label>&nbsp;</label>
+               <p id="submit_record_button_message" style='float:left; color:red;font-size:18px;'></p>
+              
+               <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()" disabled style='float:right;'>Submit</button>
             </div>
          </div>
             </div>
@@ -535,7 +588,7 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
+                        table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button ></td><td> <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>District</th><th>Action</th></tr>';
 
@@ -548,7 +601,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][26]+'</td>';
+                           table += '<td >'+ data[i][29]+'</td>';
                            table += '<td >'+ data[i][17]+'</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                            table += '</tr>';
@@ -640,19 +693,7 @@ function by_search_studetn() {
                 
                </script>
                <div id="data-table">
-                  <!-- <table class="table">
-                     <tr>
-                        <div id="pagination">
-                           <td>
-                              <button id="prev-btn" class="btn btn-primary " disabled>Previous</button>
-                           </td>
-                           <td colspan="4"></td>
-                           <td>
-                              <button id="next-btn" class="btn btn-primary " style="float:right;">Next</button>
-                           </td>
-                        </div>
-                     </tr>
-                  </table> -->
+                 
                </div>
             </div>
             <!-- /.card-body -->
@@ -827,46 +868,46 @@ else
 }
 }
 
-   function postcode() {
-  var pincode = document.getElementById("Pincode").value;
-//   var countryDisplay = document.getElementById("Nationality");
-  var stateDisplay = document.getElementById("State_");
-  var districtDisplay = document.getElementById("District");
-  // var dropdown = document.getElementById("village_by_post");
+//    function postcode() {
+//   var pincode = document.getElementById("Pincode").value;
+// //   var countryDisplay = document.getElementById("Nationality");
+//   var stateDisplay = document.getElementById("State_");
+//   var districtDisplay = document.getElementById("District");
+//   // var dropdown = document.getElementById("village_by_post");
 
-  // Clear previous data
-//   countryDisplay.value = "";
-  stateDisplay.value = "";
-  districtDisplay.value = "";
-  // dropdown.innerHTML = "";
+//   // Clear previous data
+// //   countryDisplay.value = "";
+//   stateDisplay.value = "";
+//   districtDisplay.value = "";
+//   // dropdown.innerHTML = "";
 
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var response = JSON.parse(xhr.responseText);
-      if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
-      //   var Country = response[0].PostOffice[0].Country;
-        var State = response[0].PostOffice[0].State;
-        var District = response[0].PostOffice[0].District;
+//   var xhr = new XMLHttpRequest();
+//   xhr.onreadystatechange = function() {
+//     if (xhr.readyState === 4 && xhr.status === 200) {
+//       var response = JSON.parse(xhr.responseText);
+//       if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
+//       //   var Country = response[0].PostOffice[0].Country;
+//         var State = response[0].PostOffice[0].State;
+//         var District = response[0].PostOffice[0].District;
 
-      //   countryDisplay.value = Country;
-        stateDisplay.value = State;
-        districtDisplay.value = District;
+//       //   countryDisplay.value = Country;
+//         stateDisplay.value = State;
+//         districtDisplay.value = District;
 
-        // for (var i = 0; i < response[0].PostOffice.length; i++) {
-        //   var option = document.createElement("option");
-        //   option.value = i;
-        //   option.text = response[0].PostOffice[i].Name;
-        //   dropdown.add(option);
-        // }
-      }
-    }
-  };
+//         // for (var i = 0; i < response[0].PostOffice.length; i++) {
+//         //   var option = document.createElement("option");
+//         //   option.value = i;
+//         //   option.text = response[0].PostOffice[i].Name;
+//         //   dropdown.add(option);
+//         // }
+//       }
+//     }
+//   };
 
-  var url = "https://api.postalpincode.in/pincode/" + pincode;
-  xhr.open("GET", url, true);
-  xhr.send();
-}
+//   var url = "https://api.postalpincode.in/pincode/" + pincode;
+//   xhr.open("GET", url, true);
+//   xhr.send();
+// }
 function edit_student_details(id) {
    // alert(id);
   var Name = document.getElementById('Name').value;
@@ -881,7 +922,7 @@ function edit_student_details(id) {
   // var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality').value;
   var State = document.getElementById('State').value;
-  // var District = document.getElementById('District').value;
+//   var District = document.getElementById('District1').value;
   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
    var duration = document.getElementById('Duration').value;
@@ -926,7 +967,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-      console.log(response); // Log the response for debugging
+      // console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
@@ -1040,7 +1081,46 @@ else
 }
 }
 
+function submit_count() {
+ 
+  var Nationality = document.getElementById('Nationality_1').value;
+  var State = document.getElementById('State_1').value;
+  var District = document.getElementById('District_1').value;
+  var previous_count = document.getElementById('previous_count').value;
+  var adm_count = document.getElementById('adm_count').value;
+if(State!='' && District!='' && adm_count!='')
+{
+  var code = 163;
+  var data = {
+    Nationality: Nationality,
+    State: State,
+    District: District,
+    previous_count: previous_count,
+    adm_count: adm_count,
+    code: code
+  };
+ 
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      if (response==1) {
+         admisssion_complete1(District);
+      SuccessToast('Data submitted successfully');
+   }
+    },
+    error: function(xhr, status, error) {
+      // console.error(xhr.responseText);
+      // alert('An error occurred while submitting data. Please try again.');
+    }
+  });
+}
+else{
 
+}
+}
 
 function all_report() 
 {  
@@ -1056,11 +1136,9 @@ success:function(data){
 document.getElementById('all_record_report').innerHTML=data;
 }
 });
-
 }
 function edit_student(id) 
 {  
-     
 var code='139';
 $.ajax({
 url:'action_g.php',
@@ -1093,6 +1171,7 @@ $("#Department1").html(data);
 });
 
 }
+
 
 
 
@@ -1206,6 +1285,173 @@ function export_one(district)
          var exportCode='23';
           window.location.href="export.php?exportCode="+exportCode+"&District="+district;
       }
+
+
+      function fetch_state(country_id) 
+{  
+     
+var code='160';
+$.ajax({
+url:'action_g.php',
+data:{country_id:country_id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#State_").html("");
+$("#State_").html(data);
+}
+}
+});
+
+}
+function fetch_district(state_id) 
+{       
+var code='161';
+$.ajax({
+url:'action_g.php',
+data:{state_id:state_id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#District").html("");
+$("#District").html(data);
+}
+}
+});
+
+}
+
+function fetch_state2(country_id) 
+{  
+     
+var code='160';
+$.ajax({
+url:'action_g.php',
+data:{country_id:country_id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#State").html("");
+$("#State").html(data);
+}
+}
+});
+
+}
+function fetch_district2(state_id) 
+{       
+var code='161';
+$.ajax({
+url:'action_g.php',
+data:{state_id:state_id,code:code},
+type:'POST',
+success:function(data){
+   console.log(data);
+if(data != "")
+{
+     
+$("#District1").html("");
+$("#District1").html(data);
+}
+}
+});
+
+}
+function admisssion_complete(district)
+{
+   var code='162';
+   var State = document.getElementById('State_').value;
+$.ajax({
+url:'action_g.php',
+data:{District:district,State:State,code:code},
+type:'POST',
+success:function(data){
+   if(data==1)
+   {
+      document.getElementById("submit_record_button").disabled = false;
+// console.log(data);
+   }
+
+   else if(data=='0')
+   {
+      document.getElementById("submit_record_button").disabled = true;
+      document.getElementById("submit_record_button_message").innerHTML ="admissions already  completed for this district";
+
+      console.log(data);
+   }
+   else{
+
+   }
+}
+});
+
+}
+
+
+function fetch_state1(country_id) 
+{  
+     
+var code='160';
+$.ajax({
+url:'action_g.php',
+data:{country_id:country_id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#State_1").html("");
+$("#State_1").html(data);
+}
+}
+});
+
+}
+function fetch_district1(state_id) 
+{       
+var code='161';
+$.ajax({
+url:'action_g.php',
+data:{state_id:state_id,code:code},
+type:'POST',
+success:function(data){
+   // console.log(data);
+if(data != "")
+{
+     
+$("#District_1").html("");
+$("#District_1").html(data);
+}
+}
+});
+
+}
+function admisssion_complete1(district)
+{
+   var code='164';
+   var State = document.getElementById('State_').value;
+   $.ajax({
+      url:'action_g.php',
+      data:{District:district,State:State,code:code},
+      type:'POST',
+      success:function(data){
+
+    document.getElementById('previous_count').value=data;
+  
+}
+});
+
+}
 </script>
 <?php
 include "footer.php";
