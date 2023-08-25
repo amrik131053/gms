@@ -1,6 +1,5 @@
 <?php
 session_start();
-date_default_timezone_set("Asia/Calcutta");
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
@@ -22,7 +21,7 @@ class CustomPDF extends FPDF {
     $month = date("m");
     $year = date("Y");
 
-    $today1=date('Y-m-d h:i:sa');
+
 
     $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
@@ -69,8 +68,6 @@ if ($row=mysqli_fetch_array($get_student_details_run))
  {
     $name=$row['Name'];
     $FatherName=$row['FatherName'];
-
-
     $MotherName=$row['MotherName'];
     $Course=$row['Course'];
     $Gender=$row['Gender'];
@@ -80,22 +77,15 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
-  
-  $PrintDatew=$row['PrintDate1'];
 
- if($PrintDatew!='')
-
-      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
-  else
-  {
-    $PrintDate='';
-  }
-
-     
     $State=$row['State'];
     $Session=$row['Session'];
+
+        $PrintDatew=$row['PrintDate1'];
+      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+      
     $Duration=$row['Duration'];
-     $Months=$row['months'];
+    $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
     $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
@@ -183,26 +173,13 @@ $ms="Ms.";    // code...
 // $pdf->SetXY(155, 100);
 
 
-$pdf->Image('offer_letter.jpeg', 0, 0, 210);
+//$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
 $pdf->SetFont('Times', 'B', 11);
-$pdf->SetXY(155, 49);
-
-
-if($PrintDate!='')
-{
+$pdf->SetXY(155, 51);
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
-}
-else
-{
-$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
-}
 
-
-
-
-
-$pdf->SetXY(25, 49);
+$pdf->SetXY(25, 51);
 $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
 // $pdf->SetXY(10, 60);
 $pdf->SetXY(10, 60);
@@ -281,8 +258,8 @@ $pdf->SetXY($X,10+$Y);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X,$Y+30);
-$pdf-> Image('dist/img/sign-offer.png',$X+159, $Y+20,24,20.5);
-$pdf-> Image('dist/img/sign.png',$X+155, $Y+5,30,26.5);
+//$pdf-> Image('dist/img/sign-offer.png',$X+159, $Y+20,24,20.5);
+//$pdf-> Image('dist/img/sign.png',$X+155, $Y+5,30,26.5);
 // $pdf->Image('dist/img/sign.png', $X+155, $Y+1, 30);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
@@ -294,8 +271,7 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-$upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID',PrintDate1='$today1' where id='$value' AND PrintDate1!='' ";
-mysqli_query($conn,$upd);
+
 }
 $pdf->Output();
 ?>
