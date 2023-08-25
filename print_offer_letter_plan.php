@@ -73,7 +73,14 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
-      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+       
+       if($PrintDatew!='')
+
+      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  else
+  {
+    $PrintDate='';
+  }
     $Duration=$row['Duration'];
      $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
