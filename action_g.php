@@ -7720,16 +7720,16 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
 
 
-
+<div class="col-lg-3">
+                    <label>Class RollNo</label>
+                    <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
+                </div>
                 <div class="col-lg-3">
                     <label>&nbsp;</label>
                     <button class="btn btn-primary form-control"
                         onclick="edit_student_details(<?=$id;?>)">Submit</button>
                 </div>
-                <div class="col-lg-3">
-                    <label>Class RollNo</label>
-                    <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
-                </div>
+              
             </div>
         </div>
     </div>
@@ -8739,7 +8739,7 @@ $stmt = mysqli_query($conn,$sql);
 
 {
 ?>  
-<option value='<?=$row["id"];?>'><?= $row["name"];?></option>
+<option value='<?=$row["id"];?>'><?= $row["name"];?>(<?=$row["id"];?>)</option>
 <?php   }
 
 }
@@ -8754,14 +8754,14 @@ $stmt1 = mysqli_query($conn,$sql1);
  if($row1 = mysqli_fetch_array($stmt1) )
 {
 $count=$row1['count'];
+}
 $sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District'";
  $result = mysqli_query($conn,$sql);
  while($row=mysqli_fetch_array($result))
 {
     $dist_count=$row['dist']; 
 }
- }
- if( $count==$dist_count)
+ if($count>=$dist_count)
  {
 echo "1";
  }
@@ -8802,7 +8802,7 @@ elseif($code=='164')
     $count=0;
 $District=$_POST['District'];
 $State=$_POST['State'];
- $sql1 = "SELECT  count FROM offer_admission_count WHERE District='$District'";
+$sql1 = "SELECT count FROM offer_admission_count WHERE District='$District'";
 $stmt1 = mysqli_query($conn,$sql1); 
  if($row1 = mysqli_fetch_array($stmt1) )
 {

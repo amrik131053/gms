@@ -225,7 +225,7 @@ include "header.php";
                         }
                      });
                   // });
-                  document.addEventListener("DOMContentLoaded", function() {
+                  // document.addEventListener("DOMContentLoaded", function() {
               function printSelectedRows()
                {
    var id_array = document.getElementsByName('selectedRows[]');
@@ -266,7 +266,7 @@ include "header.php";
                         checkboxes[i].checked = checkbox.checked;
                      }
                   }
- });
+//  });
                   function view_image(id) {
                      var code = 91;
                      $.ajax({

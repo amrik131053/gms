@@ -18740,7 +18740,9 @@ elseif($code=='324')
   elseif($code=='326') 
    {
    $count=0;
-$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter  GROUP BY District";
+$sql=" SELECT State,District, COUNT(*) AS `dist` ,states.name as StateName,cities.name as DistrictName FROM offer_latter
+
+ inner join states ON states.id=offer_latter.State  inner join cities ON cities.id=offer_latter.District GROUP BY offer_latter.District order by StateName ASC ";
  $result = mysqli_query($conn,$sql);
 ?>
 <table class='table table-bordered'><tr><th>State</th><th>District</th><th>Count</th><th>Total Adm Count</th><th>Export</th></tr>  <?php
@@ -18752,9 +18754,12 @@ $sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter  GROUP BY Dis
    {
    $count=$row1['count'];
    }
+   else{
+     $count=""; 
+   }
    ?>
-<tr><td><?=$row['State'];?></td>
-<td><?=$row['District'];?></td>
+<tr><td><?=$row['StateName'];?></td>
+<td><?=$row['DistrictName'];?></td>
 <td><?=$count;?></td>
 <td><?=$row['dist'];?></td>
 <td><i class="fa fa-file-excel fa-2x text-success" onclick="export_one('<?=$row['District'];?>');"></i></td>
