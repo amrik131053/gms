@@ -82,7 +82,13 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $Session=$row['Session'];
 
         $PrintDatew=$row['PrintDate1'];
-      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+    if($PrintDatew!='')
+
+      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  else
+  {
+    $PrintDate='';
+  }
       
     $Duration=$row['Duration'];
     $Months=$row['months'];
@@ -177,7 +183,14 @@ $ms="Ms.";    // code...
 $pdf->SetFont('Times', 'B', 15);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 51);
+if($PrintDate!='')
+{
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
+}
+else
+{
+$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
+}
 
 $pdf->SetXY(25, 51);
 $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
