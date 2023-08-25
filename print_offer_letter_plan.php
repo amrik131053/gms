@@ -188,24 +188,75 @@ if ($i==1) {
 }elseif ($i==2) 
 {
    $ss="Second";
-      $session_split='2024-25';
+   if ($Lateral=='Yes')
+ {
+      $session_split='2023-24';
+  }else
+  {
+    $session_split='2024-25';
+
+  }
 }elseif ($i==3) 
 {
    $ss="Third";
-      $session_split='2025-26';
-}elseif ($i==4) 
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2024-25';
+  }else
+  {
+     $session_split='2025-26';
+
+  }
+}
+elseif ($i==4) 
 {
    $ss="Fourth";
-      $session_split='2026-27';
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2025-26';
+  }else
+  {
+   $session_split='2026-27';
+
+  }
+
+
+
+
+
+
 }elseif ($i==5)
  {
    $ss="Fifth";
-      $session_split='2027-28';
-}elseif ($i==6)
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2026-27';
+  }else
+  {
+  $session_split='2027-28';
+
+  }
+     
+}
+elseif ($i==6)
  {
    $ss="Sixth";
-      $session_split='2028-29';
+      if ($Lateral=='Yes')
+ {
+      $session_split='2027-28';
+  }else
+  {
+ $session_split='2028-29';
+
+  }
+      
 }
+
 
 // $session_split=split ("-", $ip);
 
