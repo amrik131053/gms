@@ -2049,13 +2049,10 @@ elseif($exportCode==21)
 }
 elseif($exportCode==22)
 {
-$sql=" SELECT
-  State,District,
-  COUNT(*) AS `dist`
-FROM offer_latter WHERE State='Bihar'
-
-GROUP BY
-District";
+$sql="SELECT Distinct offer_latter.District , 
+  COUNT(*) AS `dist`,states.name as StateName, cities.Name as DistrictName
+FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
+cities on cities.id=offer_latter.District  GROUP BY offer_latter.District";
 
 $exportMeter="<table class='table' border='1'>
         <thead>
@@ -2071,8 +2068,8 @@ $count = 1;
 
  while($row=mysqli_fetch_array($result))
 {
-    $State=$row['State'];
-    $District=$row['District'];
+    $State=$row['StateName'];
+    $District=$row['DistrictName'];
     $Total=$row['dist'];
 
  $exportMeter .= "<tr>
@@ -2095,7 +2092,10 @@ $count = 1;
 elseif($exportCode==23)
 {    
     $District=$_GET['District'];      
-     $get_student_details="SELECT * FROM offer_latter where District='$District'";
+     $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
+FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
+cities on cities.id=offer_latter.District  where offer_latter.District='$District' ";
+
     $get_student_details_run=mysqli_query($conn,$get_student_details);
     $count = 1;
     $exportMeter="
@@ -2138,12 +2138,12 @@ while($row=mysqli_fetch_array($get_student_details_run))
     {   
          $courseName=$row_collegecourse_name['Course'];   
           $CollegeName=$row_collegecourse_name['CollegeName']; 
-        }    
-        $State=$row['State'];   
-        $Session=$row['Session'];    
-         $Duration=$row['Duration'];    
-         $Consultant_id=$row['Consultant_id']; 
-         $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
+    }    
+    $State=$row['StateName'];   
+    $Session=$row['Session'];    
+     $Duration=$row['Duration'];    
+     $Consultant_id=$row['Consultant_id']; 
+     $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
     $consultant_details_run=mysqli_query($conn,$consultant_details); 
     if($row_consultant=mysqli_fetch_array($consultant_details_run))
     {
@@ -2152,7 +2152,7 @@ $consultantName=$row_consultant['state'];
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
          $ID_Proof_No=$row['ID_Proof_No'];    
-    $District=$row['District'];     
+    $District=$row['DistrictName'];     
      $exportMeter .= "
        <tr color='red'>           
           
