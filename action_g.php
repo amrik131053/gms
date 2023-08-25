@@ -4466,6 +4466,7 @@ if ($check_flow_row['status']<4) {
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
+                       
                      $data[]=$degree_row;
                      }
                      // print_r($row_student);

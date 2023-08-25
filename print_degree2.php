@@ -64,7 +64,7 @@ foreach ($id as $key => $value) {
    $gender=$row_student['Sex'];
    $course=$degree_row['Course'];
    $cgpa=$degree_row['CGPA'];
-   
+   $cgpa = number_format($cgpa, 2);
    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UniRollNO."\nCGPA:".$cgpa;
    $path = 'degreeqr/';
    $file = $path.$UniRollNO.".png";
@@ -175,7 +175,7 @@ $ms1="Mr.";    // code...
 //    // code...
 
 // }
-
+$CGPA = number_format($CGPA, 2);
  ?>
 
                <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this Diploma and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b>  with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>

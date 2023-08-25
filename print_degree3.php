@@ -65,6 +65,7 @@ foreach ($id as $key => $value) {
    $gender=$row_student['Sex'];
    $course=$degree_row['Course'];
    $cgpa=$degree_row['CGPA'];
+   $cgpa = number_format($cgpa, 2);
    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UniRollNO."\nCGPA:".$cgpa;
    $path = 'degreeqr/';
    $file = $path.$UniRollNO.".png";
@@ -153,6 +154,9 @@ $ms1="<strike>Mr.</strike>";    // code...
    // code...
 
 }
+
+$CGPA = number_format($CGPA, 2);
+
 
  ?>
 
