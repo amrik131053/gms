@@ -1,8 +1,5 @@
 <?php
 session_start();
-date_default_timezone_set("Asia/Calcutta");
- $today1=date('Y-m-d h:i:sa');
-
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
@@ -71,21 +68,24 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Course=$row['Course'];
     $Gender=$row['Gender'];
     $Class_RollNo=$row['Class_RollNo'];
-$get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
+
+    $State=$row['State'];
+    $Session=$row['Session'];
+     $PrintDate=$row['PrintDate'];
+     $PrintDatew=$row['PrintDate'];
+      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
+    $Duration=$row['Duration'];
+     $Months=$row['months'];
+    $Consultant_id=$row['Consultant_id'];
+    $Lateral=$row['Lateral'];
+
+    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
 if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
 
-    $State=$row['State'];
-    $Session=$row['Session'];
-    $Duration=$row['Duration'];
-      $PrintDatew=$row['PrintDate'];
-      $PrintDate = date("d-m-Y", strtotime($PrintDatew));  
-     $Months=$row['months'];
-    $Consultant_id=$row['Consultant_id'];
-    $Lateral=$row['Lateral'];
     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
@@ -133,19 +133,11 @@ $ms="Ms.";    // code...
    // code...
 
 }
-$pdf->Image('offer_letter.jpeg', 0, 0, 210);
+//$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 11);
-$pdf->SetXY(155, 49);
-if($PrintDate!='')
-{
-$pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
-}
-else
-{
-$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
-}
-
-$pdf->SetXY(25, 49);
+$pdf->SetXY(155, 51);
+$pdf->MultiCell(45, 10, $PrintDate, 0, 'C');
+$pdf->SetXY(25, 51);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
@@ -289,8 +281,8 @@ $Y=$pdf->GETY();
 
 
 
-$pdf-> Image('dist/img/sign-offer.png',$X-30, $Y+5,24,20.5);
-$pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
+//$pdf-> Image('dist/img/sign-offer.png',$X-30, $Y+5,24,20.5);
+//$pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
 
 // $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
@@ -315,11 +307,6 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
 
-
-$upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value'AND PrintDate1!=''";
-
-
-mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>
