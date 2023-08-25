@@ -588,7 +588,7 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button ></td><td> <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
+                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
 
@@ -613,7 +613,7 @@ function by_search_studetn() {
                      }
 
                      function updatePagination(page) {
-                        var totalPages = Math.ceil(100000 / 100);
+                        var totalPages = Math.ceil(100000 / 50);
 
                         if (page == 1) {
                            $('#prev-btn').prop('disabled', true);
@@ -642,7 +642,7 @@ function by_search_studetn() {
                      });
 
                      $(document).on('click', '#next-btn', function() {
-                        var totalPages = Math.ceil(100000 / 100);
+                        var totalPages = Math.ceil(100000 / 50);
                         if (currentPage < totalPages) {
                            currentPage++;
                            loadData(currentPage);
@@ -677,6 +677,36 @@ function by_search_studetn() {
    }
    if (id_array_main.length > 0) {
       window.open('print_offer_letter_second.php?id_array='+id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
+         function printletterhead1SelectedRows() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter_plan.php?id_array='+id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
+         function printletterhead2SelectedRows() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter_second_plan.php?id_array='+id_array_main);
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }

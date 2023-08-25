@@ -7345,7 +7345,7 @@ if ($numof_exit>0) {
 }
 else
 {
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -7367,11 +7367,20 @@ else
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
-            $data[]=$degree_row;
+                $data2=$degree_row;
+                $CourseID=$degree_row['Course'];
+                $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                $get_course_run=sqlsrv_query($conntest,$get_course);
+                if($row=sqlsrv_fetch_array($get_course_run))
+                {
+               $data1=$row;
+               $data[]=array_merge($data2,$data1);
+          
+            }
             }
             // print_r($row_student);
             $page = $_POST['page'];
-            $recordsPerPage = 100;
+            $recordsPerPage = 50;
             $startIndex = ($page - 1) * $recordsPerPage;
             $pagedData = array_slice($data, $startIndex, $recordsPerPage);
             echo json_encode($pagedData);
@@ -7396,7 +7405,7 @@ else
                      }
                      // print_r($data);
                      $page = $_POST['page'];
-                     $recordsPerPage = 100;
+                     $recordsPerPage = 50;
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
@@ -7530,7 +7539,8 @@ if ($row_departcourse_name=sqlsrv_fetch_array($get_department_name_run)) {
 
 $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
-if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
+if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+{
 
     $courseName=$row_course_name['Course'];
 }
@@ -7620,14 +7630,14 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                     <label>State</label>
 
                     <select class="form-control" id="State" onchange="fetch_district2(this.value);">
-                        <option value="<?=$State;?>"><?=$State;?></option>
+                        <option value="<?=$State_id;?>"><?=$State;?></option>
                     </select>
                 </div>
                 <div class="col-lg-2">
                     <label>District</label>
 
                     <select class="form-control" id="District1">
-                        <option value="<?=$District;?>"><?=$District;?></option>
+                        <option value="<?=$District_id;?>"><?=$District;?></option>
                         <!-- <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option> -->
                     </select>
                 </div>
