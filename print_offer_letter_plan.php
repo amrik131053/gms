@@ -298,7 +298,7 @@ if($concession>0)
 }
 else
 {
-    $pdf->Cell(160, 6,$ss.' Year Fee ', 1, 1, 'L');
+   $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
 }
 
 
