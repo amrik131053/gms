@@ -142,7 +142,7 @@ $ms="Ms.";    // code...
 }
 //$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 11);
-$pdf->SetXY(155, 49);
+$pdf->SetXY(155, 51);
 if($PrintDate!='')
 {
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
@@ -152,7 +152,7 @@ else
 $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 }
 
-$pdf->SetXY(25, 49);
+$pdf->SetXY(25, 51);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
@@ -326,7 +326,7 @@ $Y=$Y-2;
 
 
 if($Months>0)
-
+{
 if ($i==1) {
    $ss="First";
    $session_split='2023-24';
@@ -448,7 +448,7 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 
-
+}
 
 
 

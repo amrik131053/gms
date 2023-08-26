@@ -326,7 +326,7 @@ $Y=$Y-2;
 
 
 if($Months>0)
-
+{
 if ($i==1) {
    $ss="First";
    $session_split='2023-24';
@@ -448,7 +448,7 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 
-
+}
 
 
 
