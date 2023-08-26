@@ -7644,10 +7644,13 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
 
 
-
+  <?php if($EmployeeID=='121031' ||$EmployeeID=='1431053')
+                    {?>
                 <div class="col-lg-2">
                     <label>Consultant</label>
-                    <select id="Consultant_" class="form-control">
+
+                  
+                    <select id="Consultant_" class="form-control" >
                         <option value="<?=$Consultant_id;?>"><?=$consultant;?></option>
                         <?php  $get_consultant="SELECT * FROM consultant_master "; 
                      $get_consultant_run=mysqli_query($conn,$get_consultant);
@@ -7659,6 +7662,19 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                         <?php }?>
                     </select>
                 </div>
+<?php }
+else
+{
+  ?>
+
+  <input type="hidden" value="<?=$Consultant_id;?>"  id="Consultant_" readonly=""  >
+
+
+  <?php 
+}
+?>
+
+
                 <div class="col-lg-3">
                     <label>Student Name</label>
                     <input type="text" value="<?=$name;?>" id="Name" class="form-control">
@@ -7732,7 +7748,25 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
 <div class="col-lg-3">
                     <label>Class RollNo</label>
+<?php if($EmployeeID=='121031' ||$EmployeeID=='1310563') 
+                    {?>
                     <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
+                  <?php }else
+                  {  if($classroll>0)
+                    {
+                      echo "<br>";
+                      echo $classroll;
+
+                    }else
+                    {?>
+<input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
+<?php
+                    }
+
+
+                  }
+
+                  ?>
                 </div>
                 <div class="col-lg-3">
                     <label>&nbsp;</label>
