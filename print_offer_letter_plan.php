@@ -142,7 +142,7 @@ $ms="Ms.";    // code...
 }
 //$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 11);
-$pdf->SetXY(155, 51);
+$pdf->SetXY(155, 49);
 if($PrintDate!='')
 {
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
@@ -152,7 +152,7 @@ else
 $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 }
 
-$pdf->SetXY(25, 51);
+$pdf->SetXY(25, 49);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
@@ -194,6 +194,7 @@ $sem=2;
 $numberofsem=$numberofsem;   // code...
 }
 $fee=$after_concession/2;
+
 for ($i=$sem; $i <=$numberofsem ; $i++)
 { 
 
@@ -322,6 +323,141 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 }
+
+
+if($Months>0)
+
+if ($i==1) {
+   $ss="First";
+   $session_split='2023-24';
+}elseif ($i==2) 
+{
+   $ss="Second";
+   if ($Lateral=='Yes')
+ {
+      $session_split='2023-24';
+  }else
+  {
+    $session_split='2024-25';
+
+  }
+}elseif ($i==3) 
+{
+   $ss="Third";
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2024-25';
+  }else
+  {
+     $session_split='2025-26';
+
+  }
+}
+elseif ($i==4) 
+{
+   $ss="Fourth";
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2025-26';
+  }else
+  {
+   $session_split='2026-27';
+
+  }
+
+
+
+
+
+
+}elseif ($i==5)
+ {
+   $ss="Fifth";
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2026-27';
+  }else
+  {
+  $session_split='2027-28';
+
+  }
+     
+}
+elseif ($i==6)
+ {
+   $ss="Sixth";
+      if ($Lateral=='Yes')
+ {
+      $session_split='2027-28';
+  }else
+  {
+ $session_split='2028-29';
+
+  }
+      
+}
+    $pdf->SetFont('Times', 'B', 10);
+    $pdf->SetXY($X, $Y+12);
+$pdf->Cell(190, 4, $ss.' Year Academic  and Hostel Fee '.$session_split, 1, 1, 'C');
+$pdf->SetFont('Times', 'B', 10);
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+$ordinalSuffix = getOrdinalSuffix($i);
+$pdf->SetFont('Times', '', 8);
+//$pdf->Cell(160, 4, '  '.$ss.''.' YEAR Tuition Fee', 1, 1, 'L');
+//$pdf->Cell(160, 4, '  Hostel Charges (food and accommodation)', 1, 1, 'L');
+
+ if($concession>0)
+ {
+//$pdf->Cell(160, 4, '  Scholarship', 1, 1, 'L');
+}
+$pdf->SetFont('Times', 'B', 8);
+
+if($concession>0)
+ {
+    $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
+}
+else
+{
+   $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
+}
+
+
+$pdf->SetFont('Times', '', 8);
+$pdf->SetXY(160+$X, $Y);
+//$pdf->Cell(30, 4, $applicables.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+4);
+//$pdf->Cell(30, 4, $hostel.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+8);
+ if($concession>0)
+ {
+
+
+//$pdf->Cell(30, 4, $concession.'/-', 1, 1, 'C');
+
+//$pdf->SetXY(160+$X, $Y+12);
+}
+$pdf->SetFont('Times', 'B', 8);
+$pdf->Cell(30, 6, $fee.'/-', 1, 1, 'C');
+$pdf->SetFont('Times', '', 8);
+$Y=$Y-2;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 $pdf->SetFont('Times', '', 10);

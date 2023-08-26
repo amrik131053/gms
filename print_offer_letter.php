@@ -1,8 +1,5 @@
 <?php
 session_start();
-date_default_timezone_set("Asia/Calcutta");
- $today1=date('Y-m-d h:i:sa');
-
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
@@ -71,28 +68,31 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Course=$row['Course'];
     $Gender=$row['Gender'];
     $Class_RollNo=$row['Class_RollNo'];
-$get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
+
+    $State=$row['State'];
+    $Session=$row['Session'];
+     $PrintDate=$row['PrintDate'];
+     $PrintDatew=$row['PrintDate'];
+       
+       if($PrintDatew!='')
+
+      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  else
+  {
+    $PrintDate='';
+  }
+    $Duration=$row['Duration'];
+     $Months=$row['months'];
+    $Consultant_id=$row['Consultant_id'];
+    $Lateral=$row['Lateral'];
+
+    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
 if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
 
-    $State=$row['State'];
-    $Session=$row['Session'];
-    $Duration=$row['Duration'];
-      $PrintDatew=$row['PrintDate'];
-      if($PrintDatew!='')
-      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
-  else
-  {
-    $PrintDate='';
-  }
-
-      
-     $Months=$row['months'];
-    $Consultant_id=$row['Consultant_id'];
-    $Lateral=$row['Lateral'];
     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
@@ -194,6 +194,7 @@ $sem=2;
 $numberofsem=$numberofsem;   // code...
 }
 $fee=$after_concession/2;
+
 for ($i=$sem; $i <=$numberofsem ; $i++)
 { 
 
@@ -272,6 +273,7 @@ elseif ($i==6)
       
 }
 
+
 // $session_split=split ("-", $ip);
 
     $pdf->SetFont('Times', 'B', 10);
@@ -292,13 +294,12 @@ $pdf->SetFont('Times', '', 8);
 $pdf->SetFont('Times', 'B', 8);
 
 if($concession>0)
-{
+ {
     $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
 }
 else
 {
    $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
-    //$pdf->Cell(160, 6,$ss.' Year Fee ', 1, 1, 'L');
 }
 
 
@@ -322,6 +323,141 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 }
+
+
+if($Months>0)
+
+if ($i==1) {
+   $ss="First";
+   $session_split='2023-24';
+}elseif ($i==2) 
+{
+   $ss="Second";
+   if ($Lateral=='Yes')
+ {
+      $session_split='2023-24';
+  }else
+  {
+    $session_split='2024-25';
+
+  }
+}elseif ($i==3) 
+{
+   $ss="Third";
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2024-25';
+  }else
+  {
+     $session_split='2025-26';
+
+  }
+}
+elseif ($i==4) 
+{
+   $ss="Fourth";
+     
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2025-26';
+  }else
+  {
+   $session_split='2026-27';
+
+  }
+
+
+
+
+
+
+}elseif ($i==5)
+ {
+   $ss="Fifth";
+
+      if ($Lateral=='Yes')
+ {
+      $session_split='2026-27';
+  }else
+  {
+  $session_split='2027-28';
+
+  }
+     
+}
+elseif ($i==6)
+ {
+   $ss="Sixth";
+      if ($Lateral=='Yes')
+ {
+      $session_split='2027-28';
+  }else
+  {
+ $session_split='2028-29';
+
+  }
+      
+}
+    $pdf->SetFont('Times', 'B', 10);
+    $pdf->SetXY($X, $Y+12);
+$pdf->Cell(190, 4, $ss.' Year Academic and Hostel Fee '.$session_split, 1, 1, 'C');
+$pdf->SetFont('Times', 'B', 10);
+$X=$pdf->GETX();
+$Y=$pdf->GETY();
+$ordinalSuffix = getOrdinalSuffix($i);
+$pdf->SetFont('Times', '', 8);
+//$pdf->Cell(160, 4, '  '.$ss.''.' YEAR Tuition Fee', 1, 1, 'L');
+//$pdf->Cell(160, 4, '  Hostel Charges (food and accommodation)', 1, 1, 'L');
+
+ if($concession>0)
+ {
+//$pdf->Cell(160, 4, '  Scholarship', 1, 1, 'L');
+}
+$pdf->SetFont('Times', 'B', 8);
+
+if($concession>0)
+ {
+    $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
+}
+else
+{
+   $pdf->Cell(160, 6,$ss.' Year Academic and Hostel Fee (including Mess charges)', 1, 1, 'L');
+}
+
+
+$pdf->SetFont('Times', '', 8);
+$pdf->SetXY(160+$X, $Y);
+//$pdf->Cell(30, 4, $applicables.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+4);
+//$pdf->Cell(30, 4, $hostel.'/-', 1, 1, 'C');
+//$pdf->SetXY(160+$X, $Y+8);
+ if($concession>0)
+ {
+
+
+//$pdf->Cell(30, 4, $concession.'/-', 1, 1, 'C');
+
+//$pdf->SetXY(160+$X, $Y+12);
+}
+$pdf->SetFont('Times', 'B', 8);
+$pdf->Cell(30, 6, $fee.'/-', 1, 1, 'C');
+$pdf->SetFont('Times', '', 8);
+$Y=$Y-2;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 $pdf->SetFont('Times', '', 10);
@@ -352,7 +488,7 @@ $pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
 
 // $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
-// $pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
+ //$pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
 
 $pdf->SetXY($X,10+$Y);
 $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
@@ -373,11 +509,6 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
 
-
-$upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value'AND PrintDate1!=''";
-
-
-mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>
