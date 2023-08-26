@@ -7642,12 +7642,12 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                     </select>
                 </div>
 
-
-
-  <?php if($EmployeeID=='121031' ||$EmployeeID=='1431053')
-                    {?>
-                <div class="col-lg-2">
+<div class="col-lg-2">
                     <label>Consultant</label>
+
+  <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    {?>
+                
 
                   
                     <select id="Consultant_" class="form-control" >
@@ -7661,18 +7661,21 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                         <?php }?>
                     </select>
-                </div>
+               
 <?php }
 else
 {
+   echo "<br><b>";
+  echo $consultant;
+   echo "</b>";
   ?>
 
-  <input type="hidden" value="<?=$Consultant_id;?>"  id="Consultant_" readonly=""  >
+  <input type="hidden" value="<?=$Consultant_id;?>"  id="Consultant_" readonly="" >
 
 
   <?php 
 }
-?>
+?> </div>
 
 
                 <div class="col-lg-3">
@@ -7748,7 +7751,7 @@ else
 
 <div class="col-lg-3">
                     <label>Class RollNo</label>
-<?php if($EmployeeID=='121031' ||$EmployeeID=='1310563') 
+<?php if($EmployeeID=='121031' ||$EmployeeID=='131053') 
                     {?>
                     <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
                   <?php }else
@@ -7759,7 +7762,7 @@ else
 
                     }else
                     {?>
-<input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
+<input type="number" id="classroll" class="form-control" value="<?=$classroll;?>" >
 <?php
                     }
 
