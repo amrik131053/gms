@@ -193,7 +193,7 @@ $ms="Ms.";    // code...
 //$pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
 $pdf->SetFont('Times', 'B', 11);
-$pdf->SetXY(155, 51);
+$pdf->SetXY(155, 50);
 if($PrintDate!='')
 {
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
@@ -203,7 +203,7 @@ else
 $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 }
 
-$pdf->SetXY(25, 51);
+$pdf->SetXY(25, 50);
 $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
 // $pdf->SetXY(10, 60);
 $pdf->SetXY(10, 60);
