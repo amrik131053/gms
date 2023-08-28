@@ -18,10 +18,9 @@ class CustomPDF extends FPDF {
     }
 }
 
-
-  
-
-
+   $today = date("j");
+    $month = date("m");
+    $year = date("Y");
 
     $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
