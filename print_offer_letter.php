@@ -3,6 +3,8 @@ session_start();
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
+date_default_timezone_set("Asia/Calcutta");
+$today1=date('Y-m-d h:i:sa');
 // Extend the FPDF class to create a custom class with a footer
 class CustomPDF extends FPDF {
     function Footer() {
@@ -519,7 +521,8 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-
+$upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value' AND PrintDate!='' ";
+mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>

@@ -3,6 +3,8 @@ session_start();
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
+date_default_timezone_set("Asia/Calcutta");
+$today1=date('Y-m-d h:i:sa');
 // Extend the FPDF class to create a custom class with a footer
 class CustomPDF extends FPDF {
     function Footer() {
@@ -17,9 +19,7 @@ class CustomPDF extends FPDF {
 }
 
 
-   $today = date("j");
-    $month = date("m");
-    $year = date("Y");
+  
 
 
 
@@ -295,7 +295,8 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-
+$upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID',PrintDate1='$today1' where id='$value' AND PrintDate1!='' ";
+mysqli_query($conn,$upd);
 }
 $pdf->Output();
 ?>
