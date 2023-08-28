@@ -7355,7 +7355,7 @@ else
 {
    echo "0";
 }
-}
+} 
 // echo"sadfgasfasd";
       }  
       elseif($code==134)
@@ -7363,7 +7363,14 @@ else
          $value=$_POST['by_search'];
          if($value!='')
          {
-            $degree="SELECT * FROM offer_latter where Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' order by Id DESC "; 
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            {
+
+                $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
+            }
+            else{
+            $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' and AddedBy='$EmployeeID' order by Id DESC "; 
+            }
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
@@ -7387,7 +7394,16 @@ else
          }
          else
          {
-           $degree="SELECT * FROM offer_latter order by Id DESC "; 
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            {
+
+                
+                $degree="SELECT * FROM offer_latter order by Id DESC "; 
+            }
+            else{
+            // $degree="SELECT * FROM offer_latter where Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' and AddedBy='$EmployeeID' order by Id DESC "; 
+            $degree="SELECT * FROM offer_latter where AddedBy='$EmployeeID' order by Id DESC "; 
+            }
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {

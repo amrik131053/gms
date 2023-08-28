@@ -514,7 +514,7 @@ include "header.php";
                       
                                      <div class="input-group input-group-sm">
                                        
-                                       <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo and ID Proof">
+                                       <input required type="text" id="RollNoSearch" class="form-control" placeholder="Ref.No and RollNo and ID Proof">
                                        <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
                                        </div>
                               

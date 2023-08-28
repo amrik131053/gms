@@ -90,10 +90,21 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $PrintDate='';
   }
       
-    $Duration=$row['Duration'];
+  $Lateral=$row['Lateral'];
+  $Duration=$row['Duration'];
+  if($Lateral=='Yes')
+  {
+    $Leet_Duration="Lateral Entry";
+    $Duration=$Duration-1;
+  }
+  else
+  {
+    $Leet_Duration="";
+  }
+
+  
     $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
-    $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
    $get_country="SELECT name FROM countries  where id='$Nationality'";
                   $get_country_run=mysqli_query($conn,$get_country);
@@ -202,7 +213,7 @@ $pdf->MultiCell(190, 10, 'BONAFIDE CERTIFICATE', 0, 'C');
 $pdf->SetFont('Times', '', 12);
 
 //The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.''.$Leet_Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
 $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956.The University is accredited  with Grade A++ by National Assessment & Accreditation Council (NAAC).',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();
@@ -264,7 +275,7 @@ $Y=$pdf->GETY();
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X,10+$Y);
-
+ 
 // $pdf->SetFont('Times', 'B', 9);
 // $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
 

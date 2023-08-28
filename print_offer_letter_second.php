@@ -1,6 +1,5 @@
 <?php
 session_start();
-date_default_timezone_set("Asia/Calcutta");
 $EmployeeID=$_SESSION['usr'];
 require('fpdf/fpdf.php');
 include "connection/connection.php";
@@ -22,7 +21,7 @@ class CustomPDF extends FPDF {
     $month = date("m");
     $year = date("Y");
 
-    $today1=date('Y-m-d h:i:sa');
+
 
     $ordinalSuffix = getOrdinalSuffix($today);
 // Create a new CustomPDF instance
@@ -69,8 +68,6 @@ if ($row=mysqli_fetch_array($get_student_details_run))
  {
     $name=$row['Name'];
     $FatherName=$row['FatherName'];
-
-
     $MotherName=$row['MotherName'];
     $Course=$row['Course'];
     $Gender=$row['Gender'];
@@ -80,24 +77,34 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
-  
-  $PrintDatew=$row['PrintDate1'];
 
- if($PrintDatew!='')
+    $State=$row['State'];
+    $Session=$row['Session'];
+
+        $PrintDatew=$row['PrintDate1'];
+    if($PrintDatew!='')
 
       {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
   else
   {
     $PrintDate='';
   }
+      
+  $Lateral=$row['Lateral'];
+  $Duration=$row['Duration'];
+  if($Lateral=='Yes')
+  {
+    $Leet_Duration="Lateral Entry";
+    $Duration=$Duration-1;
+  }
+  else
+  {
+    $Leet_Duration="";
+  }
 
-     
-    $State=$row['State'];
-    $Session=$row['Session'];
-    $Duration=$row['Duration'];
-     $Months=$row['months'];
+  
+    $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
-    $Lateral=$row['Lateral'];
     $Nationality=$row['Nationality'];
    $get_country="SELECT name FROM countries  where id='$Nationality'";
                   $get_country_run=mysqli_query($conn,$get_country);
@@ -187,8 +194,6 @@ $pdf->Image('offer_letter.jpeg', 0, 0, 210);
 $pdf->SetFont('Times', 'B', 15);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 49);
-
-
 if($PrintDate!='')
 {
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
@@ -197,10 +202,6 @@ else
 {
 $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 }
-
-
-
-
 
 $pdf->SetXY(25, 49);
 $pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
@@ -212,7 +213,7 @@ $pdf->MultiCell(190, 10, 'BONAFIDE CERTIFICATE', 0, 'C');
 $pdf->SetFont('Times', '', 12);
 
 //The Admissions will be confirmed after submission of all original eligibility documents (for verification purpose only) and Ist installment of fee at University.
-$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
+$pdf->MultiCell(190, 6, 'It is certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' an '.$NationalityName.' Citizen is admitted in '.$courseName.' '.$Duration.' '.$mduration.''.$Leet_Duration.' programme at Guru Kashi University, Talwandi Sabo, Bathinda , Punjab,India during session '.$Session.'. The student will abide by  university rules and regulations . This letter is valid for admission and is being issued with the approval of Worthy Vice-Chancellor. Further University will assist in placement to eligible Candidate.',0, 'J');
 $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sabo established by the Act of the legislature of the state of Punjab, under the "GURU KASHI UNIVERSITY ACT 2011" (Punjab Act no 37 of 2011), to provide education at all levels in all disciplines of higher education. Guru Kashi University is a approved by UGC, New Delhi University under section 2f and empowered to confer degrees as per the section 22(1) of the UGC Act,1956.The University is accredited  with Grade A++ by National Assessment & Accreditation Council (NAAC).',0, 'J');
  //This Letter is valid for Two weeks only.
 $X=$pdf->GETX();
@@ -274,7 +275,7 @@ $Y=$pdf->GETY();
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X,10+$Y);
-
+ 
 // $pdf->SetFont('Times', 'B', 9);
 // $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
 
@@ -294,8 +295,7 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-$upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID',PrintDate1='$today1' where id='$value' AND PrintDate1!='' ";
-mysqli_query($conn,$upd);
+
 }
 $pdf->Output();
 ?>

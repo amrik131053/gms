@@ -81,10 +81,21 @@ if ($row=mysqli_fetch_array($get_student_details_run))
   {
     $PrintDate='';
   }
-    $Duration=$row['Duration'];
+  $Duration=$row['Duration'];
+  $Duration_leet=$row['Duration'];
+
+  $Lateral=$row['Lateral'];
+  if($Lateral=='Yes')
+  {
+    $Duration_leet=$Duration_leet-1;
+    $Leet_Duration="".$Duration_leet." Years Lateral Entry)";
+  }
+  else{
+    $Leet_Duration=$Duration." Years)";
+  }
+
      $Months=$row['months'];
     $Consultant_id=$row['Consultant_id'];
-    $Lateral=$row['Lateral'];
 
     $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
@@ -159,7 +170,7 @@ $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);
 
 $pdf->MultiCell(190, 10, '  FEE STRUCTURE  ',0, 'C','');
-
+ 
 //$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 
 $pdf->SetFont('Times', '', 10);
@@ -167,12 +178,12 @@ $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sa
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
-$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ('.$Duration.' Years '. $mduration.') on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ( '.$Leet_Duration.''. $mduration.' on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
 $pdf->SetFont('Times', '', 10);
-$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ('.$Duration.' Years '. $mduration.')  as is given below: ',0, 'L');
+$pdf->MultiCell(190, 6, 'The Fee Structure for '.$courseName.' ( '.$Leet_Duration.''. $mduration.'  as is given below: ',0, 'L');
 $pdf->SetFont('Times', '', 10);
   // It is also certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' R/O '.$State.'  has been admitted in our University for pursuing his/her '.$courseName.' course in session '.$Session.'.
 // $pdf->SetFont('Times', 'B', 10);
@@ -403,7 +414,7 @@ elseif ($i==6)
 }
     $pdf->SetFont('Times', 'B', 10);
     $pdf->SetXY($X, $Y+12);
-$pdf->Cell(190, 4, $ss.' Year Academic and Hostel Fee '.$session_split, 1, 1, 'C');
+$pdf->Cell(190, 4, $ss.' Year Academic  and Hostel Fee '.$session_split, 1, 1, 'C');
 $pdf->SetFont('Times', 'B', 10);
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
@@ -488,7 +499,7 @@ $pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
 
 // $pdf-> Image('dist/img/sign-offer.png',150,230,24,20.5);
 
- //$pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
+// $pdf-> Image('dist/img/sign.png',150, 200,30,26.5);
 
 $pdf->SetXY($X,10+$Y);
 $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
