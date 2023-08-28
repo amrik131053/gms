@@ -160,8 +160,28 @@ $CGPA = number_format($CGPA, 2);
 
  ?>
 
-               <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed examination held in <b>".$Examination."</b>   has been conferred the ".$Type." of <b> ".$course."</b>  of this University in the dicipline of <b>".$Stream."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
-            </div>
+
+               <?php 
+               
+               if($Stream=='')
+               {
+                  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+                  having completed the requirments for the award of this ".$Type." and having passed 
+                  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
+                  ".$Type." of <b> ".$course."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";
+
+               }
+               else
+               {
+               echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>,
+                having completed the requirments for the award of this ".$Type." and having passed the
+                 prescribed examination held in <b>".$Examination."</b>   has been conferred the
+                  ".$Type." of <b> ".$course."</b>  of this University in the dicipline of <b>".$Stream."</b>
+                   with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";
+               }
+               ?></i>
+            
+         </div>
          <div style="height: 3px;"></div>
 
             <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>

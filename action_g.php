@@ -7293,7 +7293,7 @@ elseif($code==132)
             </div>
             <div class="col-lg-12">
                 <label>Stream</label>
-                <input type="text" name="stream" class="form-control" required>
+                <input type="text" name="stream" class="form-control" >
             </div>
         </div>
         <div class="row container-fluid">
