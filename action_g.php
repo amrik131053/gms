@@ -4484,6 +4484,7 @@ if ($check_flow_row['status']<4) {
       $todate=date('Y-m-d');
 $Stream="";
 $ExtraRow="";
+$Outof="";
    $file = $_FILES['file']['tmp_name'];
    if(isset($_POST['month']))
    {
@@ -4515,7 +4516,9 @@ $ExtraRow="";
    $Course = $filesop[3];
    $RegistrationNo = $filesop[4];
    $CGPA = $filesop[5];
-   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`,`upload_date`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream','$todate');";
+   $Outof = $filesop[6];
+
+   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`,`upload_date`,`Outof`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream','$todate','$Outof');";
    $insert_run=mysqli_query($conn,$insert);
    }
    if ($insert_run==true)
@@ -7228,8 +7231,7 @@ elseif($code==131)
         <div class="row container-fluid">
             <div class="col-lg-12">
                 <label>Extra Row</label>
-                <input type="text" name="extra" class="form-control"
-                    value="During this One Year course in addition to other subjects, the student has been taught subjects with course contents related to <b>Plant Protection </b>and <b>Pesticides Management.</b>">
+                <textarea class="form-control" name="extra" rowspan="3">During this One Year course in addition to other subjects, the student has been taught subjects with course contents related to <b>Plant Protection </b>and <b>Pesticides Management.</b></textarea>
             </div>
         </div>
         <div class="row container-fluid">
@@ -7292,8 +7294,9 @@ elseif($code==132)
                 </select>
             </div>
             <div class="col-lg-12">
-                <label>Stream</label>
-                <input type="text" name="stream" class="form-control" >
+                <label>Stream/Specialization/Topic/Thesis/Subjects (Optional)</label>
+                <!-- <input type="text" name="stream" class="form-control" > -->
+                <textarea class="form-control" name="stream" rowspan="3"></textarea>
             </div>
         </div>
         <div class="row container-fluid">
@@ -7858,6 +7861,11 @@ elseif($code==141)
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
                 </div>
+                <div class="col-lg-6">
+                    <label>Stream</label>
+                    <textarea class="form-control"  id="Stream_" ><?=$Stream;?></textarea>
+                    <!-- <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control"> -->
+                </div>
 
                 <div class="col-lg-4">
                     <label>&nbsp;</label>
@@ -7878,7 +7886,8 @@ elseif($code==141)
 $id = $_POST['id'];
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
-  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName'  where id='$id'";
+$Stream = $_POST['Stream'];
+  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream'  where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
