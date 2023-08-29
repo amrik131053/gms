@@ -1306,9 +1306,13 @@ function emp_role_all(id)
   {
  var submenu = $('.page_submenu'+id).text();
 
+
  var link = $('.page_sublink'+id).text();
+
  var submenu = $('<input id="page_submenu'+id+'" class="form-control" type="text" value="' + submenu + '" />')
+
  var link = $('<input id="page_sublink'+id+'" class="form-control" type="text" value="' + link + '" />')
+
  $('#page_crose'+id).show();
   $('#page_check'+id).show();   
   $('#page_edit'+id).hide(); 
@@ -1317,6 +1321,9 @@ function emp_role_all(id)
  $('.page_submenu'+id).text('').append(submenu);
   $('.page_sublink'+id).text('').append(link);
   }
+
+ 
+
  function show_text_box_menu(id)
  {
  var text = $('.text-info'+id).text();
@@ -1382,10 +1389,13 @@ function cencel_text_box_page(id)
 function page_data_submit(id)
 {  
    var submenu = $('#page_submenu'+id).val(); 
+  var menuid= $('#main_menu_h'+id).val(); 
       var link = $('#page_sublink'+id).val(); 
+
        var menu = $('#main_menu'+id).val();
        // alert(id);
- // alert(menu);
+ 
+
            var code=38; 
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() 
@@ -1393,6 +1403,7 @@ function page_data_submit(id)
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
       document.getElementById("error").innerHTML=xmlhttp.responseText;
+
        $('#page_submenu'+id).parent().text(submenu);
        $('#page_sublink'+id).parent().text(link);
    // $('#attribute').remove();
@@ -1408,6 +1419,10 @@ function page_data_submit(id)
       else
       {
         SuccessToast('Successfully Update');
+
+       show_menu_pages(menuid);
+
+
       }
     }
   }

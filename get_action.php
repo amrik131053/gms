@@ -3200,9 +3200,9 @@ elseif($code==36)
   <?php 
  $menu_id = $_GET['menu_id'];
  $srno=0;
-  $show_menu_all_pages = mysqli_query($conn,"SELECT * from permissions inner join  master_menu on  master_menu.id=permissions.master_id  WHERE  master_id='$menu_id'");
+  $show_menu_all_pages = mysqli_query($conn,"SELECT * from permissions   WHERE  master_id='$menu_id'");
      
-      while($row=mysqli_fetch_array($show_menu_all_pages))
+ while($row=mysqli_fetch_array($show_menu_all_pages))
       {
          $id=$row['id'];
          $srno++;
@@ -3212,8 +3212,13 @@ elseif($code==36)
             <td>
               
      
-<label id="menu_label<?=$id;?>"><?=$row['menu_name'];?>
-     <!-- <input type="hidden" id="main_menu<?=$row['id'];?>" value="<?=$row_menu['id'];?>"> -->
+<label id="menu_label<?=$id;?>"><?=$row['mainmenu'];?>
+
+
+  <input type="hidden" id="main_menu_h<?=$row['id'];?>" value="<?=$row['master_id'];?>">  
+
+
+
   </label>
 
 
@@ -3314,10 +3319,19 @@ elseif($code==37)
 elseif($code==38)
 {
     $id=$_GET['submenu_id'];
+
     $submenu_name=$_GET['submenu_name'];
     $sublink=$_GET['sublink'];
       $menu=$_GET['menu'];
-    $submenu_update="UPDATE permissions SET submenu='$submenu_name',master_id='$menu',page_link='$sublink' WHERE id='$id'";
+
+  $get_name="SELECT menu_name FROM master_menu where id='$menu'";
+     $get_name_run=mysqli_query($conn,$get_name);
+     while($get_name_row=mysqli_fetch_array($get_name_run))
+     {
+      $menu_name=$get_name_row['menu_name'];
+     }
+
+  $submenu_update="UPDATE permissions SET submenu='$submenu_name',master_id='$menu',page_link='$sublink',mainmenu='$menu_name' WHERE id='$id'";
    $submenu_run=mysqli_query($conn,$submenu_update);
    if ($submenu_run)
     {
@@ -3373,7 +3387,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 
 if($list_result === false) {
 
-    die( print_r( sqlsrv_errors(), true) );
+    // die( print_r( sqlsrv_errors(), true) );
 }
 ?>
 <table class="table"><tr>
@@ -3441,7 +3455,7 @@ $Course = $_GET['Course'];
 
 if($list_result === false) {
 
-    die( print_r( sqlsrv_errors(), true) );
+    // die( print_r( sqlsrv_errors(), true) );
 }
 ?>
 <table class="table"><tr>
