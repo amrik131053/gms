@@ -2160,7 +2160,15 @@ $consultantName=$row_consultant['state'];
     }  
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
-         $ID_Proof_No=$row['ID_Proof_No'];    
+         $ID_Proof_No=$row['ID_Proof_No'];   
+if($classroll>0)
+{
+    $color='';
+}
+else
+{
+$color="red";
+}
     $District=$row['DistrictName'];     
      $exportMeter .= "
        <tr color='red'>           
@@ -2171,7 +2179,8 @@ $consultantName=$row_consultant['state'];
           <td>{$courseName}</td>
           <td>{$name}</td>
           <td>{$FatherName}</td>
-          <td>{$classroll}</td>
+
+          <td bgcolor=$color>{$classroll}</td>
           <td>{$Gender}</td>
           <td>{$State}</td>
           <td>{$District}</td>
