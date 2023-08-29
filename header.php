@@ -270,7 +270,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                    <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
                </div>
                <div class="info">
-                  <a href="#" class="d-block"><?=$Emp_Name;?></a>
+                  <a href="#" class="d-block"><?=$Emp_Name;?>(<?=$EmployeeID;?>)</a>
                </div>  
             </div>
             <!-- Sidebar Menu -->
@@ -282,14 +282,15 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                   <a href="dashboard.php" class="nav-link ">
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
-                        LMS Dashboard
+                        <!--LMS--> 
+                        Dashboard
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>
                </li> 
    
 
-                  <?php if ($spoc_per>0) 
+                 <!--  <?php if ($spoc_per>0) 
                   {
                  ?>
                
@@ -302,7 +303,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                      </p>
                   </a>
                </li>
-            <?php }?>
+            <?php }?> -->
             </ul>
     <?php
                   $ids = join("','",$array_aa); 

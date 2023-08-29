@@ -157,6 +157,7 @@ function deleteAllQuestion(SubjectCode,CourseID,Batch,Semester,EmpID)
               },
               success: function(response) 
               {
+               console.log(response);
                spinner.style.display='none';
                 searchTextBox();
                 

@@ -11605,7 +11605,7 @@ elseif($code==194)
    $searchingValue=$_POST['searchingValue'];
    if ($searchingValue=='SubjectCode') 
    {
-     echo  $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,Exam_Session,count(*) as questionCount from question_bank where SubjectCode='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy,Exam_Session";
+ $sql="SELECT distinct  SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy, lock_status,Exam_Session,count(*) as questionCount from question_bank where SubjectCode='$textBoxValue' and Exam_Session='$examSession' GROUP BY SubjectCode, CollegeID, Batch, CourseID, Semester, UpdatedBy,Exam_Session";
       $flag=1;
    }
    elseif ($searchingValue=='EmployeeId') 
@@ -11681,7 +11681,7 @@ elseif($code==194)
          {
             $Course=$rowCourse["Course"]; 
          }
-         echo $Course;?>
+         echo $Course;?> 
            </td>
          <td> <span class="text-info<?=$sr;?>" id="batch<?=$sr;?>"> <?=$data['Batch']?></span></td>
          <td><span class="text-info<?=$sr;?>" id="sem<?=$sr;?>"><?=$data['Semester']?></span></td>
@@ -11940,7 +11940,7 @@ elseif($code==195)
       $Semester=$_POST['sem'];
       $EmpID=$_POST['EmpID'];
 
-      $get_image="DELETE  FROM question_bank WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' and Semester='$Semester' and UpdatedBy='$EmpID'";
+       $get_image="DELETE  FROM question_bank WHERE SubjectCode='$SubjectCode' and CourseID='$CourseID' and Batch='$Batch' and Semester='$Semester' and UpdatedBy='$EmpID'";
       $get_run=mysqli_query($conn,$get_image);
                                
    }

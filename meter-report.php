@@ -84,6 +84,13 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations('0')" >Export All</button>
                                  </div>
                               </div>
+   <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportDataall()" >Export Aldsfdsfl</button>
+                                 </div>
+                              </div>
+
+
 
                                <div class="col-lg-1">
                                  <div class="input-group-sm">
@@ -215,12 +222,21 @@ while($permission_data=mysqli_fetch_array($permission_res))
           window.location.href="export.php?meterNo="+meterNo+"&exportCode="+exportCode;
       }
 
+
+   function exportDataall() 
+      {
+            var exportCode='24';
+          window.location.href="export.php?&exportCode="+exportCode;
+      }
+
+
+
       function exportMeterLocations(building)
       {
             var exportCode='15';
             var floor=document.getElementById("hostelFloorID").value;
             var room=document.getElementById("hostelRoomID").value;
-          window.location.href="export.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room;
+            window.location.href="export.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room;
       }
 
 

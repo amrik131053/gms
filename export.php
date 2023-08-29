@@ -940,7 +940,7 @@ elseif($exportCode=='15')
     $room=$_GET['room'];
     if ($building!='' && $floor=='' && $room=='') 
     {
-       $sql="SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building' order by location_master.RoomNo asc";
+$sql="SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where Block='$building' order by location_master.RoomNo asc";
     }
     elseif ($building!='' && $floor=='' && $room!='') 
     {
@@ -2175,6 +2175,82 @@ $consultantName=$row_consultant['state'];
        echo $exportMeter;  
         $fileName="Detailed Report";
 }
+
+
+elseif($exportCode=='24')
+{
+    $count=0;
+    $totalBill=0;
+   
+   $sql = mysqli_query($conn,"SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block  order by building_master.Name desc, location_master.RoomNo asc");
+
+$users=0;
+
+while($data=mysqli_fetch_assoc($sql))
+
+ {
+ $ed[]=$data['article_no'];
+$users++;
+}
+
+
+
+//SELECT DISTINCT YEAR(date_added) AS "Year", MONTH(date_added) AS "Month" FROM payments
+
+ 
+$result2 = mysqli_query($conn,"SELECT Distinct  MONTH(reading_date) AS ProducedMonth  FROM  meter_reading WHERE reading_date BETWEEN '2022-10-31' AND '2023-08-29' ");
+ 
+ $d=0;
+ while($row2 = mysqli_fetch_assoc($result2)) {
+
+
+
+   $datee[]=$row2['ProducedMonth'];
+$d++;
+}
+$meterLocationsData='';
+ 
+    $meterLocationsData.="<table class='table' border='1' >
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>QR No.</th>
+                <th>Building</th>
+                <th>Room Name</th>
+                <th>Room No.</th>";
+                
+
+
+
+for($dd=0;$dd<$d;$dd++)
+{
+$meterLocationsData.="<th>$datee[$dd]</th>";
+   
+  } 
+
+$meterLocationsData.="<thead>
+            <tr></table>";
+     
+
+
+
+
+
+    // $meterLocationsData.=" <tr>
+    //             <th colspan='9'>Total Amount</th>                                
+    //             <th>{$totalBill}</th>                                
+    //         </tr></table>";
+    // echo $exportMeterHeader;
+
+
+    echo $meterLocationsData;
+   
+     $fileName="Meter Report";
+
+}
+
+
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
