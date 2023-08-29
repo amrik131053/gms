@@ -77,7 +77,8 @@ include "header.php";
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" onclick="export_all();">Export All</button>
+         <button type="button" class="btn btn-success" onclick="export_detail();">Export Detail</button>
+        <button type="button" class="btn btn-success" onclick="export_all();">Export Count</button>
       </div>
     </div>
   </div>
@@ -1321,6 +1322,13 @@ function export_one(district)
           window.location.href="export.php?exportCode="+exportCode+"&District="+district;
       }
 
+function export_detail() 
+      {
+         var exportCode='23';
+
+      window.location.href="export.php?exportCode="+exportCode+"&District="+0;
+      
+      }
 
       function fetch_state(country_id) 
 {  
