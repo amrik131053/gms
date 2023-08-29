@@ -307,7 +307,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
             </ul>
     <?php
                   $ids = join("','",$array_aa); 
-                  $q = mysqli_query($conn," SELECT permissions.id as pid, submenu, mainmenu, page_link FROM permissions INNER 
+                  $q = mysqli_query($conn," SELECT permissions.id as pid, submenu, mainmenu,menu_name, page_link FROM permissions INNER 
 join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' ORDER BY master_menu.priorityorder ASC");
 
 
@@ -317,9 +317,9 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
                   $groups = Array();
                   while($w = mysqli_fetch_assoc($q)) 
                   {
-                    if(!isset($groups[$w['mainmenu']])) 
-                       $groups[$w['mainmenu']] = Array();
-                    $groups[$w['mainmenu']][] = $w;
+                    if(!isset($groups[$w['menu_name']])) 
+                       $groups[$w['menu_name']] = Array();
+                    $groups[$w['menu_name']][] = $w;
                   }
                   // display data
                   echo ' <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">';

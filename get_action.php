@@ -3200,7 +3200,7 @@ elseif($code==36)
   <?php 
  $menu_id = $_GET['menu_id'];
  $srno=0;
-  $show_menu_all_pages = mysqli_query($conn,"SELECT * from permissions WHERE  master_id='$menu_id'");
+  $show_menu_all_pages = mysqli_query($conn,"SELECT * from permissions inner join  master_menu on  master_menu.id=permissions.master_id  WHERE  master_id='$menu_id'");
      
       while($row=mysqli_fetch_array($show_menu_all_pages))
       {
@@ -3211,24 +3211,15 @@ elseif($code==36)
             <td><?=$srno;?></td>
             <td>
               
-               
-                  
-                  <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu where id='$menu_id'");
-      while($row_menu=mysqli_fetch_array($show_menu_all))
-      {?>
-  <label id="menu_label<?=$id;?>"><?=$row_menu['menu_name'];?>
+     
+<label id="menu_label<?=$id;?>"><?=$row['menu_name'];?>
      <!-- <input type="hidden" id="main_menu<?=$row['id'];?>" value="<?=$row_menu['id'];?>"> -->
   </label>
-      <?php }?>
-        <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;' >
-           <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu where id='$menu_id'");
-      while($row_menu=mysqli_fetch_array($show_menu_all))
-      {?>
- <option value="<?=$row_menu['id'];?>"><?=$row_menu['menu_name'];?></option>
-      <?php
-       }?>
-               </select>
-      <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;' >
+
+
+      <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;'  >
+          <option value="<?=$row['id'];?>"><?=$row['mainmenu'];?></option>
+
            <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu");
       while($row_menu=mysqli_fetch_array($show_menu_all))
       {?>
@@ -3236,10 +3227,21 @@ elseif($code==36)
       <?php
        }?>
                </select>
+
+
+
             </td>
-             <td><label for="name" class="control-label">
+
+
+
+
+             <td>
+
+               <label for="name" class="control-label">
                                        <p class="page_submenu<?=$id;?>"><?=$row['submenu'];?></p>
                                     </label></td>
+
+
              <td><label for="name" class="control-label">
                                        <p class="page_sublink<?=$id;?>"><?=$row['page_link'];?></p>
                                     </label></td>
