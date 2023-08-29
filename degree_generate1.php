@@ -101,7 +101,6 @@ include "header.php";
                   var code = 78;
                   var searchQuery = '';
                     var upload_date=document.getElementById('upload_date').value;
-                    
                   //   alert(upload_date);
                         $.ajax({
                            url: 'action_g.php',
@@ -160,7 +159,7 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="1"></td><td colspan=""><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Diploma</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="3"></td><td colspan=""><input type="date" id="date" class="form-control" value="2023-07-14"></td><td colspan="1"> <button onclick="printSelectedRows();" class="btn btn-success " >Diploma Print </button> </td><td colspan="1"> <button onclick="printSelectedRows_all_course();" class="btn btn-success " >Other </button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
                         table += '</tr>';
                         table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>CGPA</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
@@ -229,26 +228,37 @@ include "header.php";
                   // document.addEventListener("DOMContentLoaded", function() {
               function printSelectedRows()
                {
-                var id_array = document.getElementsByName('selectedRows[]');
-                var Todate = document.getElementById('upload_date1').value;
-                var code = document.getElementById('code').value;
-                var len_id = id_array.length;
-                var id_array_main = [];
-                for (i = 0; i < len_id; i++) {
-                    if (id_array[i].checked === true) {
-                        id_array_main.push(id_array[i].value);
-                    }
-                }
-                    if (id_array_main.length > 0 && Todate!='' && code!='')
-                        {
-                        window.open('print_degree_all.php?id_array=' + id_array_main+'&Todate='+Todate+'&code='+code);
-                    }
-                        else 
-                    {
-                        ErrorToast('All Input Required', 'bg-warning');
-                    }
-            }     
-
+   var id_array = document.getElementsByName('selectedRows[]');
+   var Todate = document.getElementById('date').value;
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_degree2.php?id_array=' + id_array_main+'&Todate='+Todate);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}     
+         function printSelectedRows_all_course() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var Todate = document.getElementById('date').value;
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_degree3.php?id_array=' + id_array_main+'&Todate='+Todate);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
 
                   function toggleSelectAll(checkbox) {
                      var checkboxes = document.getElementsByName('selectedRows[]');
@@ -256,6 +266,7 @@ include "header.php";
                         checkboxes[i].checked = checkbox.checked;
                      }
                   }
+//  });
                   function view_image(id) {
                      var code = 91;
                      $.ajax({
@@ -491,7 +502,6 @@ function edit_student_details(id) {
    // alert(id);
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
-  var Stream_ = document.getElementById('Stream_').value;
 if(Name!='' && FatherName!='')
 {
   var code = 142;
@@ -499,7 +509,6 @@ if(Name!='' && FatherName!='')
     id: id,
     Name: Name,
     FatherName: FatherName,
-    Stream: Stream_,
     code: code
   };
  
