@@ -64,6 +64,8 @@
             ?>
                <button type="submit" class="btn btn-info">Submit</button>
             <?php }?>
+
+
             </div>
          </form>
             <p id="error" style="display: none;"></p>
@@ -203,7 +205,7 @@ input[type=radio]:checked + label {
                         <div class="btn-group input-group-sm">
                   <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
 
-                                  <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                  <?php  if ($code_access=='000' || $code_access=='100' || $code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110'||  $code_access=='111') 
                                           {
             ?>
                               <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>

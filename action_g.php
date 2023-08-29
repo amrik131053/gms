@@ -7644,7 +7644,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 else
                 {
                     echo $NationalityName;?>
-                     <input type="hidden" value="<?=$NationalityName;?>"  id="Nationality" readonly="" >
+                     <input type="hidden" value="<?=$Nationality;?>"  id="Nationality" readonly="" >
                     <?php 
                 }?>
 
@@ -7666,7 +7666,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                     echo $State;
 
 ?>
-                     <input type="hidden" value="<?=$State;?>"  id="State" readonly="" >
+                     <input type="hidden" value="<?=$State_id;?>"  id="State" readonly="" >
                      <?php 
                 }?>
 
@@ -7689,7 +7689,7 @@ else
                   echo $District;
                   ?>
 
-                    <input type="hidden" value="<?=$District;?>"  id="District1" readonly="" >
+                    <input type="hidden" value="<?=$District_id;?>"  id="District1" readonly="" >
                   
                <?php  }
                  ?> 

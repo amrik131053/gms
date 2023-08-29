@@ -11170,7 +11170,7 @@ elseif($code=='187')
    {
         $code_access=$_POST['code_access'];
 
-  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+  if ($code_access=='000' || $code_access=='100' || $code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110'||  $code_access=='111') 
     {                                 
 
  $univ_rollno=$_POST['rollNo'];
@@ -11317,11 +11317,13 @@ if($row_count>0)
      }
   }
 else {
-   
+   if ( $code_access=='100' || $code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110'||  $code_access=='111') 
+    {  
    ?>
    <button class="btn btn-warning btn-xs" data-toggle="modal"  onclick="StudentUpdatedatar(<?= $IDNo;?>)" data-target="#Updatestudentmodalr" style="text-align:right"><i class="fa fa fa-edit"></i></button>
 
 <?php
+}
 }
 ?>
       </div>
