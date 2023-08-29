@@ -7627,8 +7627,10 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
             <div class="row">
                 <div class="col-lg-2">
                     <label>Nationality</label>
-                    <select class="form-control" id="Nationality"
-                        onchange="fetch_state2(this.value);">
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    {?>
+                    <select  class="form-control" id="Nationality"
+                        onchange="fetch_state2(this.value);" >
                         <option value="<?=$Nationality;?>"><?=$NationalityName;?></option>
                         <option value="">Select</option>
                         <?php 
@@ -7641,24 +7643,59 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                  ?>
                     </select>
+                <?php }
+                else
+                {
+                    echo $NationalityName;?>
+                     <input type="hidden" value="<?=$NationalityName;?>"  id="Nationality" readonly="" >
+                    <?php 
+                }?>
 
                 </div>
 
 
                 <div class="col-lg-2">
                     <label>State</label>
-
-                    <select class="form-control" id="State" onchange="fetch_district2(this.value);">
+ <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    {?>
+                    <select class="form-control" id="State" onchange="fetch_district2(this.value);" >
                         <option value="<?=$State_id;?>"><?=$State;?></option>
                     </select>
+                    <br>
+                <?php }
+                else
+                    {
+               echo "<br>";
+                    echo $State;
+
+?>
+                     <input type="hidden" value="<?=$State;?>"  id="State" readonly="" >
+                     <?php 
+                }?>
+
                 </div>
                 <div class="col-lg-2">
                     <label>District</label>
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    {?>
+                
 
-                    <select class="form-control" id="District1">
+
+                    <select class="form-control" id="District1" >
                         <option value="<?=$District_id;?>"><?=$District;?></option>
                         <!-- <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option> -->
                     </select>
+                    <?php }
+else
+{
+                echo "<br>";
+                  echo $District;
+                  ?>
+
+                    <input type="hidden" value="<?=$District;?>"  id="District1" readonly="" >
+                  
+               <?php  }
+                 ?> 
                 </div>
 
 <div class="col-lg-2">
@@ -7688,6 +7725,7 @@ else
   echo $consultant;
    echo "</b>";
   ?>
+
 
   <input type="hidden" value="<?=$Consultant_id;?>"  id="Consultant_" readonly="" >
 
