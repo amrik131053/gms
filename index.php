@@ -20,6 +20,7 @@ session_start();
             background: ;
         }
         .user_card {
+            padding-left:50px;
             height: 450px;
             width: 380px;
             margin-top: auto;
@@ -37,6 +38,7 @@ session_start();
 
         }
         .brand_logo_container {
+          
             position: absolute;
             height: 170px;
             width: 170px;
@@ -50,10 +52,11 @@ session_start();
             
         }
         .brand_logo {
-            height: 150px;
-            width: 150px;
-            border-radius: 50%;
-            border: 2px solid white;
+            height: 250px;
+            width: 452px;
+            margin-top: -23px;
+            margin-left: -164;
+            
             
         }
         .form_container {
@@ -92,13 +95,7 @@ session_start();
 
 
         }
-  
 
-
-
-
-
-}
 
 </style>
 
@@ -106,12 +103,12 @@ session_start();
 <br>
 
 
-<div class="col-sm-lg-4 d-flex justify-content-center h-100" >
-      <!-- <div class="user_card" style="background-image:url('dist/img/flag-1.png');background-size: 410px 100px;background-repeat: no-repeat;background-position-x: center;"> -->
-      <div class="user_card">
+<div class="col-sm-lg-4 d-flex justify-content-center h-100" style="margin-left:0px; width:auto;" >
+      <div class="user_card"  >
+      <!-- <div class="user_card"> -->
         <div class="d-flex justify-content-center" >
           <div class="brand_logo_container" >
-            <img src="dist/img/logo.jpg" class="brand_logo" alt="Logo" >
+            <img src="dist/img/rakhi-design-png.png" class="brand_logo" alt="Logo" >
           </div>
 
 
