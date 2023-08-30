@@ -523,7 +523,7 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
- $upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value' AND (PrintDate='' OR  PrintDate IS NOT NULL) ";
+ $upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value' AND PrintDate=''";
 mysqli_query($conn,$upd);
 }
 $pdf->Output();
