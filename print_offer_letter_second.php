@@ -298,7 +298,7 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-$upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID',PrintDate1='$today1' where id='$value' AND (PrintDate1!='' OR  PrintDate1 Is NULL) ";
+$upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID',PrintDate1='$today1' where id='$value' AND (PrintDate='' OR  PrintDate IS NOT NULL) ";
 mysqli_query($conn,$upd);
 }
 $pdf->Output();
