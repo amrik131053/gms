@@ -536,7 +536,8 @@ function by_search_studetn() {
                    var code = 134;
                    var searchQuery = '';
                      var by_search=document.getElementById('RollNoSearch').value;
-                     // alert(by_search);
+                     var spinner=document.getElementById("ajax-loader");
+   //   spinner.style.display='block';
                          $.ajax({
                             url: 'action_g.php',
                             type: 'POST',
@@ -545,12 +546,15 @@ function by_search_studetn() {
                                page: currentPage,
                                code: code,
                                by_search: by_search,
-                               search: searchQuery // Pass the search query to the server
+                               search: searchQuery 
                             },
                             success: function(data) {
-                               buildTable(data);
-                               updatePagination(currentPage);
-                            },
+                                
+                                    // console.log(data);
+                                    buildTable(data);
+                                    updatePagination(currentPage);
+                                 
+                              },
                             error: function() {
                                // Handle error response
                             }
@@ -568,6 +572,8 @@ function by_search_studetn() {
                      loadData(currentPage);
 
                      function loadData(page) {
+                        var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
                         // var by_search=document.getElementById('by_search').value;
                         $.ajax({
                            url: 'action_g.php',
@@ -581,6 +587,7 @@ function by_search_studetn() {
                            },
                            success: function(data) {
                               // console.log(data);
+                              spinner.style.display='none';
                               buildTable(data);
                               updatePagination(page);
                            },

@@ -7371,7 +7371,8 @@ else
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
             }
-            else{
+            else
+            {
             $degree="SELECT * FROM offer_latter where (id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%') and AddedBy='$EmployeeID' order by Id DESC "; 
             }
             $degree_run=mysqli_query($conn,$degree);
@@ -7393,7 +7394,10 @@ else
             $recordsPerPage = 50;
             $startIndex = ($page - 1) * $recordsPerPage;
             $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-            echo json_encode($pagedData);
+            // echo json_encode($pagedData);
+         
+                echo json_encode($pagedData);
+           
          }
          else
          {
