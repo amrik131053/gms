@@ -8948,6 +8948,137 @@ echo $count=$row1['count'];
 
 
 }
+elseif($code==165)
+{
+
+
+  $list_sqlw5 ="SELECT * from fastival_images ";
+  $list_result5 = mysqli_query($conn,$list_sqlw5);
+        $i = 1;
+        while( $row5 = mysqli_fetch_array($list_result5) )
+        {  
+            $todaydate=date('Y-m-d');
+            $endDate=$row5['end_date'];
+         ?> 
+           <tr>
+               <td><img src="dist/img/<?=$row5['image'];?>" width="100"></td>
+            
+              <th><?=$row5['name'];?></th>
+              <th><?=$row5['start_date_'];?></th>
+              <th><?=$row5['end_date'];?></th>
+              <td><?php 
+             if ($row5['start_date_']<= $todaydate &&  $row5['end_date'] >= $todaydate && $row5['logo']=='1' ) 
+              {
+                 echo "<b style='color:green;'>Show</b>";
+              }
+              else
+              {
+               echo "<b style='color:red;'>hide<b>";
+              }
+              ?></td>
+              <td><?php 
+             if ($row5['logo']=='1') 
+              {
+                 echo "<b style='color:green;'>Active</b>";
+              }
+              else
+              {
+               echo "<b style='color:red;'>DeActive<b>";
+              }
+              ?></td>
+              <td><i class="fa fa-edit " data-toggle="modal" onclick="edit_start_end_date(<?=$row5['id'];?>);" data-target="#exampleModal_edit_permission_exam"></i></td>
+           </tr>
+      <?php        }
+      ?>   
+<?php 
+}
+elseif($code==166)
+{
+      
+
+    $id=$_POST['id'];
+  
+    $update_permission="select * from fastival_images  where id='$id'";
+   $update_run=mysqli_query($conn,$update_permission);
+ if($row=mysqli_fetch_array($update_run))
+ {
+   ?>
+<div class="col-lg-12">
+   <label>Start Date</label>
+   <input type="date" name="" id="start_date_edit" class="form-control" value="<?=$row['start_date_'];?>">
+</div>
+
+<div class="col-lg-12">
+    <label>End Date</label>
+   <input type="date" name="" id="end_date_edit" class="form-control" value="<?=$row['end_date'];?>">
+</div>
+<div class="col-lg-12">
+    <label>Status</label>
+   <select class="form-control" id="status_edit">
+
+    <option value="0">Select</option>
+    <option value="1">Show</option>
+    <option value="0">Hide</option>
+   </select>
+</div>
+<div class="col-lg-12">
+    <label>Action</label><br>
+   <input type="button" onclick="update_date_end_date(<?=$id;?>);"  class="btn btn-success" value="Update">
+</div>
+<?php 
+
+ }
+
+   }  
+   elseif($code==167)
+   {
+   $id=$_POST['id'];
+   $status=$_POST['status'];
+   $start_date_edit=$_POST['start_date_edit'];
+   $end_date_edit=$_POST['end_date_edit'];
+   $update_permission="UPDATE fastival_images SET start_date_='$start_date_edit',end_date='$end_date_edit',logo='$status' where id='$id'";
+   $update_run=mysqli_query($conn,$update_permission);
+
+  if ($update_run==true)
+    {
+       echo "1";   
+    }
+   else
+    {
+       echo "0";
+    }
+
+   }
+   else if($code==168)
+   {
+        $title=$_POST['title'];
+        $start=$_POST['start'];
+        $end=$_POST['end'];
+       $file_name = $_FILES['image']['name'];
+      $file_tmp = $_FILES['image']['tmp_name'];
+      $type = $_FILES['image']['type'];
+       $file_data = file_get_contents($file_tmp);
+      $characters = '';
+     $result = $IDNo;
+     $image_name =$result;
+     $ftp_server1 = "10.0.8.10";
+     $ftp_user_name1 = "gurukashi";
+     $ftp_user_pass1 = "Amrik@123";
+     $remote_file1 = "";
+     $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+     $destdir = 'fastival';
+     ftp_chdir($conn_id, "fastival/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+     file_put_contents($destdir.$image_name.'.PNG',$file_data);
+     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+     ftp_close($conn_id);
+
+     $insert="INSERT into fastival_images(name,start_date_,end_date,logo)values('$title','$start','$end','1') ";
+     $insert_run=mysqli_query($conn,$insert);
+
+
+   }
    else
    {
    
