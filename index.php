@@ -1,120 +1,30 @@
 <?php 
 session_start();
+
 ?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Guru Kashi University</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
        <link rel="stylesheet" href="dist/css/adminlte.min.css">
+       <link rel="stylesheet" href="dist/css/index-page.css">
 </head>
-<style type="text/css">
-        /* Coded with love by Mutiullah Samim */
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            height: ;
-            background: ;
-        }
-        .user_card {
-            height: 450px;
-            width: 380px;
-            margin-top: auto;
-            margin-bottom: auto;
-            background: white;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            border-radius:;
-
-        }
-        .brand_logo_container {
-            position: absolute;
-            height: 170px;
-            width: 170px;
-            top: -100px;
-            border-radius: 50%;
-            background:#223260 ;
-            padding: 10px;
-            text-align: center;
-             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            
-            
-        }
-        .brand_logo {
-            height: 150px;
-            width: 150px;
-            border-radius: 50%;
-            border: 2px solid white;
-            
-        }
-        .form_container {
-            margin-top: 100px;
-            padding: 20px;
-        }
-        .login_btn {
-            width: 100%;
-            background: #223260 !important;
-            color: white !important;
-        }
-        .login_btn:focus {
-            box-shadow: none !important;
-            outline: 0px !important;
-        }
-
-      
-
-        .login_container {
-            padding: 0 2rem;
-        }
-        .input-group-text {
-            background: #223260 !important;
-            color: white !important;
-            border: 0 !important;
-            border-radius: 0.25rem 0 0 0.25rem !important;
-
-        }
-        .input_user,
-        .input_pass:focus {
-            box-shadow: none !important;
-            outline: 0px !important;
-        }
-        .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-            background-color: #223260 !important;
-
-
-        }
-  
-
-
-
-
-
-}
-
-</style>
-
 <body class="hold-transition lockscreen" style="background-image: url('dist/img/slider-img01.jpg') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
 <br>
-
-
 <div class="col-sm-lg-4 d-flex justify-content-center h-100" >
       <!-- <div class="user_card" style="background-image:url('dist/img/flag-1.png');background-size: 410px 100px;background-repeat: no-repeat;background-position-x: center;"> -->
       <div class="user_card">
         <div class="d-flex justify-content-center" >
           <div class="brand_logo_container" >
-            <img src="dist/img/logo.jpg" class="brand_logo" alt="Logo" >
+<?php 
+include "fastival.php";
+?>
+           
+           
+
           </div>
-
-
         </div>
         <div class=" justify-content-center form_container" style="margin-top: 50px; " id="login_chnge" >
           
@@ -161,19 +71,12 @@ session_start();
           
           </form>
         </div>
-        
-
 
     </div>
 </div>
 </body>
-<!-- /.center -->
-
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!--Model Popup ends-->
  
 
 
