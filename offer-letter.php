@@ -952,7 +952,7 @@ else
 //   xhr.send();
 // }
 function edit_student_details(id) {
-   // alert(id);
+
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
   // var MotherName = document.getElementById('MotherName').value;
@@ -965,6 +965,7 @@ function edit_student_details(id) {
   // var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality').value;
   var State = document.getElementById('State').value;
+    var months = document.getElementById('months').value;
 //   var District = document.getElementById('District1').value;
   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
@@ -999,6 +1000,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     // session: session,
     // AdharCardNo: AdharCardNo,
     // PassportNo: PassportNo,
+    months:months,
     classroll: classroll,
     District1: District,
     code: code
@@ -1010,7 +1012,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+      console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');

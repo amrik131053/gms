@@ -7575,6 +7575,8 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     $Nationality=$row['Nationality'];
     $ID_Proof_No=$row['ID_Proof_No'];
     $District_id=$row['District'];
+     $months=$row['months'];
+    
     
 
     $get_state="SELECT name FROM states  where id='$State_id'";
@@ -7765,7 +7767,10 @@ else
                     <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control"
                         required>
                         <option value='<?=$Collegeid;?>'><?=$CollegeName;?></option>
-                        <?php
+
+
+                      <?php
+                     
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
@@ -7774,8 +7779,10 @@ else
                         $CollegeID = $row1['CollegeID'];
                         ?>
                         <option value="<?=$CollegeID;?>"><?=$college;?></option>
-                        <?php }
+                        <?php 
+                    }
                         ?>
+
                     </select>
                 </div>
                 <div class="col-lg-2">
@@ -7806,7 +7813,18 @@ else
                         <option value="7">7</option>
                     </select>
 </div>
+  <div class="col-lg-2">
+                  <label>Course Duration</label>  
 
+              <select class="form-control" id="months">
+                <option value="<?= $months?>"><?= $months;?></option>
+
+                 <option value="0">0 Month</option>
+                 <option value="6">6 Month</option>
+                
+              </select>
+           </div>
+               
 
 
 
@@ -7815,12 +7833,16 @@ else
 <?php if($EmployeeID=='121031' ||$EmployeeID=='131053') 
                     {?>
                     <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
-                  <?php }else
-                  {  if($classroll>0)
+                  <?php }
+                  else
+                  {
+                    if($classroll>0)
                     {
                       echo "<br>";
                       echo $classroll;
-
+                      ?>
+                      <input type="hidden" id="classroll" class="form-control" value="<?=$classroll;?>" >
+<?php 
                     }else
                     {?>
 <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>" >
@@ -7850,6 +7872,7 @@ $classroll="";
 $duration = $_POST['duration'];
 $id = $_POST['id'];
 $Name = $_POST['Name'];
+$months = $_POST['months'];
 $FatherName = $_POST['FatherName'];
 $Gender = $_POST['Gender'];
 $CollegeName = $_POST['CollegeName'];
@@ -7861,7 +7884,7 @@ $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
