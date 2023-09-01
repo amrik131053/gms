@@ -4461,6 +4461,8 @@ if ($check_flow_row['status']<4) {
          } 
                elseif($code==78)
       {
+
+        
          $up_date=$_POST['upload_date'];
                      $degree="SELECT * FROM degree_print where upload_date='$up_date' order by Id ASC  ";                     
                      $degree_run=mysqli_query($conn,$degree);
@@ -4492,10 +4494,8 @@ if ($check_flow_row['status']<4) {
    $year=$_POST['year'];
    $Examination=$month.' '.$year;
 
-   } if(isset($_POST['stream']))
-   {
-   $Stream=$_POST['stream']; 
-   } if(isset($_POST['extra']))
+   } 
+    if(isset($_POST['extra']))
    {
    $ExtraRow=$_POST['extra'];
    }
@@ -9094,6 +9094,48 @@ elseif($code==166)
      $insert_run=mysqli_query($conn,$insert);
 
 
+   }
+   elseif($code==169)
+   {
+    $value=$_POST['by_search'];
+    if($value!='')
+    {
+      
+       $degree="SELECT * FROM degree_print where StudentName like '%$value%' or UniRollNo like '%$value%' order by Id DESC "; 
+       $degree_run=mysqli_query($conn,$degree);
+       while ($degree_row=mysqli_fetch_array($degree_run)) 
+       {
+        $data[]=$degree_row;
+       }
+       
+       // print_r($row_student);
+       $page = $_POST['page'];
+       $recordsPerPage = 100;
+       $startIndex = ($page - 1) * $recordsPerPage;
+       $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+       // echo json_encode($pagedData);
+    
+           echo json_encode($pagedData);
+      
+    }
+    else
+    {
+        $degree="SELECT * FROM degree_print  order by Id DESC "; 
+        $degree_run=mysqli_query($conn,$degree);
+        while ($degree_row=mysqli_fetch_array($degree_run)) 
+        {
+         $data[]=$degree_row;
+        }
+        
+        // print_r($row_student);
+        $page = $_POST['page'];
+        $recordsPerPage = 100;
+        $startIndex = ($page - 1) * $recordsPerPage;
+        $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+        // echo json_encode($pagedData);
+     
+            echo json_encode($pagedData);
+    }
    }
    else
    {

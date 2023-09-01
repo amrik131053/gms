@@ -63,13 +63,9 @@ include "header.php";
                   <div class="card-tools">
                      <!-- <form action="action_g.php" method="post" enctype="multipart/form-data"> -->
                         <div class="input-group input-group-sm">
-                           <!-- <input type="hidden" name="code" value="79"> -->
-                         <!--   &nbsp;
-                           &nbsp;
-                           &nbsp;
-                           &nbsp;
-                           &nbsp;
-                           &nbsp; -->
+                            
+                       
+            
                          
                           <input type="date"  class="form-control" value="" id="upload_date">
                           <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search();" value="Search">
@@ -87,12 +83,17 @@ include "header.php";
                      <!-- </form> -->
                   </div>
                   <div class="card-tools">
-                     <div class="input-group input-group-sm">
-                        <!-- <input type="text" id="searchBox" placeholder="Search">
-                        <button class="btn btn-primary" onclick="performSearch();">Search</button> -->
                      </div>
-                  </div>
+                     <div class="input-group input-group-sm col-lg-3">
+              
+              <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo/Name">
+                                   
+<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
+</div>
+                 
                </div>
+               
+
                <script>
                   
                   function date_by_search() {
@@ -122,6 +123,39 @@ include "header.php";
                            }
                         });
                   }
+
+
+                  function by_search_studetn() {
+                    
+                    var currentPage = 1;
+                  var code = 169;
+                  var searchQuery = '';
+                    var by_search=document.getElementById('RollNoSearch').value;
+                    var spinner=document.getElementById("ajax-loader");
+  //   spinner.style.display='block';
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                              by_search: by_search,
+                              search: searchQuery 
+                           },
+                           success: function(data) {
+                               
+                                   // console.log(data);
+                                   buildTable(data);
+                                   updatePagination(currentPage);
+                                
+                             },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
+
                   var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
@@ -160,9 +194,9 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="1"></td><td colspan=""><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>CGPA</th><th>Action</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
     var unirollno = data[i][2];
     var cgpa = parseFloat(data[i][9] || 0);  // Convert to number and handle null/undefined
@@ -175,7 +209,10 @@ include "header.php";
     table += '<td>' + data[i][3] + '</td>';
     table += '<td>' + data[i][5] + '</td>';
     table += '<td>' + data[i][6] + '</td>';
+    table += '<td>' + data[i][7] + '</td>';
     table += '<td>' + formattedCGPA + '</td>';
+    table += '<td>' + data[i][13]  + '</td>';
+    table += '<td>' + data[i][14]  + '</td>';
     table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
     table += '</tr>';
 }
@@ -266,13 +303,13 @@ include "header.php";
                            code: code
                         },
                         success: function(response) {
-                           console.log(response);
+                           // console.log(response);
                            document.getElementById("image_view").innerHTML = response;
                         }
                      });
                   }
                </script>
-               <div id="data-table">
+               <div id="data-table" class="table-responsive">
                   <div class="card" ><center><marquee><h5 class="text-danger">Please enter the date you'd like to search records</h5></marquee></center></div>
                   
                </div>
