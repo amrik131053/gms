@@ -1753,7 +1753,7 @@ elseif($exportCode=='19')
     $start_date=$_GET['start_date'];
   $end_date=$_GET['end_date'];
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where purpose='New Admission' AND status='success' AND batch='2023' ANd Created_date Between '$start_date' AND  '$end_date' ");
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND batch='2023' ANd Created_date Between '$start_date' AND  '$end_date' ");
     $counter = 1; 
      
     
@@ -1768,6 +1768,7 @@ elseif($exportCode=='19')
           <th>Father Name</th>
            <th>Course/Batch</th>
           <th>Email</th> 
+          <th>Purpose</th>
           <th>Phone</th>
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
@@ -1814,6 +1815,7 @@ $adstatus="Pending";
                 <td>{$father_name}</td>
                 <td>{$course}</td>
                 <td>{$email}</td>
+                <td>{$purpose}</td>
                 <td>{$phone}</td>
                 <td>{$amount}</td>
                 <td>{$Created_date}&nbsp;{$Created_time}</td>

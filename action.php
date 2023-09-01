@@ -17727,7 +17727,7 @@ else
 
  elseif($code=='311') 
    {
- $result = mysqli_query($conn_online,"SELECT * FROM online_payment where purpose='New Admission' AND status='success' AND batch='2023' ");
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND batch='2023' ");
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {
@@ -17782,6 +17782,7 @@ if($payment_id!=''){?>
  <td><?php echo $father_name; ;?></td>
  <td><?php echo $course; ?>(<?php echo $batch; ?>)</td>    
  <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
   <td style="text-align: left;">  <?php if($row['receipt']!="")
 {?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
    <?php 
@@ -17804,7 +17805,7 @@ if($payment_id!=''){?>
   $start_date=$_POST['start_date'];
   $end_date=$_POST['end_date'];
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where purpose='New Admission' AND status='success' AND batch='2023' ANd Created_date Between '$start_date' AND  '$end_date' ");
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where status='success' AND batch='2023' ANd Created_date Between '$start_date' AND  '$end_date' ");
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {
@@ -17861,6 +17862,7 @@ if($payment_id!=''){?>
  <td><?php echo $father_name; ;?></td>
  <td><?php echo $course; ?>(<?php echo $batch; ?>)</td>    
  <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
   <td style="text-align: left;">  <?php if($row['receipt']!="")
 {?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
    <?php 
@@ -17939,6 +17941,7 @@ if($payment_id!=''){?>
  <td><?php echo $father_name; ;?></td>
  <td><?php echo $course; ?>(<?php echo $batch; ?>)</td>    
  <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
   <td style="text-align: left;">  <?php if($row['receipt']!="")
 {?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
    <?php 

@@ -42,7 +42,7 @@
           <th>Name</th>
           <th>Father Name</th>
            <th>Course/Batch</th>
-          <th>Email</th> <th><i class="fa fa-download" style="color: green"></i></th>
+          <th>Email</th> <th>Purpose</th>  <th><i class="fa fa-download" style="color: green"></i></th>
           <th>Phone</th>
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
@@ -89,7 +89,9 @@
           <th>Name</th>
           <th>Father Name</th>
            <th>Course/Batch</th>
-          <th>Email</th> <th><i class="fa fa-download" style="color: green"></i></th>
+          <th>Email</th> 
+          <th>Purpose</th> 
+          <th><i class="fa fa-download" style="color: green"></i></th>
           <th>Phone</th>
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
@@ -231,7 +233,7 @@ function load_admission_data()
             success: function(response) 
             {
 
-
+ 
                spinner.style.display='none';
                document.getElementById("table_load").innerHTML=response;
             }
