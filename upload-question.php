@@ -371,10 +371,11 @@
       contentType: false,
       processData: false,
       success: function(response) {
-         console.log(response);
+         // console.log(response);
          if (response>0) {
         SuccessToast('Successfully Uploaded');
            // Empty the textareas after success
+           document.getElementById("submitBtn").disabled = true;
            $('.summer').summernote('destroy');
         document.getElementById("question_divs").innerHTML=" ";  
       for (var i = 1; i < question_count; i++) {

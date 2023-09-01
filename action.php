@@ -9805,17 +9805,10 @@ elseif($code==151)
          </td>
       <!-- <td><?=$lockStatusData?></td> -->
       <td>
-         <?php if ($showQuestionData['lock_status']!=0) {
-            ?> <i class="fa fa-eye-slash" aria-hidden="true"></i><?php
-            }
-            else
-            { 
-                ?>
+       
          <i class="fa fa-eye text-success fa-lg" onclick="view_question('<?=$SubjectCode;?>','<?=$CourseID;?>','<?=$Batch;?>','<?=$Semester;?>')" data-toggle="modal" 
             data-target="#modal-lg-view-question" ></i>
-         <?php 
-            }
-              ?>
+        
       </td>
    </tr>
    <?php 
@@ -11702,7 +11695,7 @@ elseif($code==194)
          
 
             <?php
-            if ($data['questionCount']>=130) 
+            if ($data['questionCount']>=118) 
                {
                   if ($data['lock_status']==0) 
                   {
@@ -18250,26 +18243,26 @@ $number = $unit . $type . $category;
 
 $question_count = 0;
 $count = 0;
-
 $showQuestionQry = "SELECT count(*) as qc FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId' and SubjectCode='$subCode' and Unit='$unit' and Semester='$sem'";
 $showQuestionRun = mysqli_query($conn, $showQuestionQry);
 if ($showQuestionData = mysqli_fetch_array($showQuestionRun)) {
-    $count = $showQuestionData['qc'];
+   $count = $showQuestionData['qc'];
 }
 
 $sh = "SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc;";
 $s = mysqli_query($conn, $sh);
 if ($sho = mysqli_fetch_array($s)) {
-    $question_count = $sho['question_count'];
+   $question_count = $sho['question_count'];
 }
-
+if ($count<$question_count) 
+{
 if ($type == 1) {
     for ($i = 1; $i <= $question_count; $i++) {
-         $question = str_replace("'", "`",$_POST['Question' . $i]);
-        $optionA = str_replace("'", "`",$_POST['QuestionA' . $i]);
-        $optionB = str_replace("'", "`",$_POST['QuestionB' . $i]);
-        $optionC = str_replace("'", "`",$_POST['QuestionC' . $i]);
-        $optionD = str_replace("'", "`",$_POST['QuestionD' . $i]);
+         $question = str_replace("'", " ",$_POST['Question' . $i]);
+        $optionA = str_replace("'", " ",$_POST['QuestionA' . $i]);
+        $optionB = str_replace("'", " ",$_POST['QuestionB' . $i]);
+        $optionC = str_replace("'", " ",$_POST['QuestionC' . $i]);
+        $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
         if ($EmployeeID > 0) {
   $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
@@ -18291,7 +18284,7 @@ if ($type == 1) {
 
 else {
     for ($i = 1; $i <= $question_count; $i++) {
-        $question = str_replace("'", "`",$_POST['Question' . $i]);
+        $question = str_replace("'", " ",$_POST['Question' . $i]);
         $optionA = "";
         $optionB = "";
         $optionC = "";
@@ -18314,7 +18307,7 @@ else {
         }
     }
 }
-
+}
                         
 
 }
