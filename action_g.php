@@ -4482,9 +4482,9 @@ if ($check_flow_row['status']<4) {
       $month="";
       $year="";
       $todate=date('Y-m-d');
-$Stream="";
-$ExtraRow="";
-$Outof="";
+      $Stream="";
+      $ExtraRow="";
+      $Outof="";
    $file = $_FILES['file']['tmp_name'];
    if(isset($_POST['month']))
    {
@@ -4510,28 +4510,44 @@ $Outof="";
         continue; // Skip processing the first line
     }
     
-   $StudentName = $filesop[0];
-   $UniRollNo= $filesop[1];
-   $FatherName = $filesop[2];
-   $Course = $filesop[3];
-   $RegistrationNo = $filesop[4];
-   $CGPA = $filesop[5];
-   $Outof = $filesop[6];
-
-   $insert="INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`,`Type`,`Stream`,`upload_date`,`Outof`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow','$Type','$Stream','$todate','$Outof');";
-   $insert_run=mysqli_query($conn,$insert);
+    $StudentName = $filesop[0];
+    $UniRollNo = $filesop[1];
+    $FatherName = $filesop[2];
+    $Course = $filesop[3];
+    $RegistrationNo = $filesop[4];
+    $CGPA = $filesop[5];
+    $Outof = $filesop[6];
+    $Stream = $filesop[7];
+    
+   
+    $checkQuery = "SELECT * FROM `degree_print` WHERE `UniRollNo` = '$UniRollNo'";
+    $checkResult = mysqli_query($conn, $checkQuery);
+    
+    if (mysqli_num_rows($checkResult) > 0) {
+        ?>
+        <script type="text/javascript">
+            alert(' UniRollNo <?php echo $UniRollNo; ?> already exists in the database');
+            window.location.href = 'degree_generate.php';
+        </script>
+        <?php
+    } else {
+        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof');";
+        $insert_run = mysqli_query($conn, $insert);
+    
+        if ($insert_run == true) {
+            ?>
+            <script type="text/javascript">
+                alert('Uploaded Success');
+                window.location.href = 'degree_generate.php';
+            </script>
+            <?php
+        } else {
+            
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
    }
-   if ($insert_run==true)
-   {
-   ?>
-    <script type="text/javascript">
-    alert('Uploaded Success');
-    window.location.href = 'degree_generate.php';
-    </script>
-    <?php 
    }
-   }
-
    elseif($code==80)
    {
    $emp_id=$_POST['emp_id'];         
@@ -7293,11 +7309,11 @@ elseif($code==132)
                     <?php }  ?>
                 </select>
             </div>
-            <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
                 <label>Stream/Specialization/Topic/Thesis/Subjects (Optional)</label>
-                <!-- <input type="text" name="stream" class="form-control" > -->
-                <textarea class="form-control" name="stream" rowspan="3"></textarea>
-            </div>
+                 <input type="text" name="stream" class="form-control" > -->
+                <!-- <textarea class="form-control" name="stream" rowspan="3"></textarea> -->
+            <!-- </div> --> 
         </div>
         <div class="row container-fluid">
             <div class="col-lg-12">
@@ -7926,7 +7942,7 @@ elseif($code==141)
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <label>Stream</label>
                     <textarea class="form-control"  id="Stream_" ><?=$Stream;?></textarea>
                     <!-- <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control"> -->
