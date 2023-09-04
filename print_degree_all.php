@@ -253,19 +253,19 @@
          <div style="height: 74px;"></div>
          <div class="row">
             <!-- // space -->
-           <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php 
-                        
-                        if($RegistrationNo!='')
+   <?php   if($RegistrationNo!='')
                         {
-                        echo "Registration No. ".$RegistrationNo;
+                         ?>
+                         <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration No. ".$RegistrationNo;?></b></div>
+                        <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
+                        <?php 
                         }
                         else
                         {
-
+                          ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
+                        <?php
                         }
-                        ?></b></div>
-            <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
-         </div>
+                        ?> </div>
          <div class="row">
             <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
