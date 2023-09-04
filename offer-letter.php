@@ -497,7 +497,14 @@ include "header.php";
             <div class="col-lg-12"> <label>&nbsp;</label>
                <p id="submit_record_button_message" style='float:left; color:red;font-size:18px;'></p>
               
+ <?php if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                            { ?>
+
+
+
                <button class="btn btn-primary " id="submit_record_button" onclick="submit_record()" disabled style='float:right;'>Submit</button>
+           <?php }
+           ?>
             </div>
          </div>
             </div>
@@ -616,7 +623,7 @@ function by_search_studetn() {
                            table += '<td >'+ unirollno+'</td>';
                            table += '<td >'+ data[i][33]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
-                           table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
+                           table += '<td>   <button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >    </td>';
                            table += '</tr>';
                         }
                         
