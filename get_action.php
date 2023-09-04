@@ -3490,7 +3490,8 @@ if($list_result === false) {
 
 <tr> <td colspan="4"><h2> Open Elective</h2></td></tr>
 <?php 
-$list_sql = "Select * from MasterCourseStructure where CollegeID!='$College' AND Batch='$Batch'ANd SemesterID='$Semester'  AND Elective='O'";
+//CollegeID!='$College' AND
+$list_sql = "Select * from MasterCourseStructure where  Batch='$Batch'ANd SemesterID='$Semester'  AND Elective='O'";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
 
