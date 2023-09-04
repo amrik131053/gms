@@ -83,7 +83,14 @@
                                     $father_name=$degree_row['FatherName'];
                                     $mother_name=$degree_row['MotherName'];
                                     $UnirollNo=$degree_row['UniRollNo'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -221,8 +228,16 @@
                                 $UnirollNo=$degree_row['UniRollNo'];
                                 $Stream=$degree_row['Stream'];
                                 $Type=$degree_row['Type'];
-                                $course_head=strtoupper($degree_row['Course']);
                                 $course=$degree_row['Course'];
+                                   if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
+                               
                                 $CGPA=$degree_row['CGPA'];
                                 $ExtraRow=$degree_row['ExtraRow'];
                                 $Examination=$degree_row['Examination'];
@@ -367,7 +382,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -522,7 +544,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -683,6 +712,7 @@ $CGPA = number_format($CGPA, 2);
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
+                                   
                                       $get_student_details="SELECT Snap,Batch,Sex,CollegeName FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
@@ -690,7 +720,15 @@ $CGPA = number_format($CGPA, 2);
                                           $snap=$row_student['Snap'];
                                           $yoa=$row_student['Batch'];
                                           $gender=$row_student['Sex'];
-                                          $CollegeName=$row_student['CollegeName'];
+                                          if($degree_row['CollegeCsv']!='')
+                                          {
+                                             $CollegeName=$degree_row['CollegeCsv'];
+                                          }
+                                          else
+                                          {
+                                             $CollegeName=$row_student['CollegeName'];
+
+                                          }
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
@@ -835,7 +873,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -991,7 +1036,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $Outof=$degree_row['Outof'];
@@ -1146,7 +1198,14 @@ $CGPA = number_format($CGPA, 2);
                                         $father_name=$degree_row['FatherName'];
                                         $mother_name=$degree_row['MotherName'];
                                         $UnirollNo=$degree_row['UniRollNo'];
-                                        $course_head=strtoupper($degree_row['Course']);
+                                        if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                         $course=$degree_row['Course'];
                                         $CGPA=$degree_row['CGPA'];
                                         $ExtraRow=$degree_row['ExtraRow'];
@@ -1294,7 +1353,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -1307,7 +1373,15 @@ $CGPA = number_format($CGPA, 2);
                                           $snap=$row_student['Snap'];
                                           $yoa=$row_student['Batch'];
                                           $gender=$row_student['Sex'];
-                                          $CollegeName=$row_student['CollegeName'];
+                                          if($degree_row['CollegeCsv']!='')
+                                          {
+                                             $CollegeName=$degree_row['CollegeCsv'];
+                                          }
+                                          else
+                                          {
+                                             $CollegeName=$row_student['CollegeName'];
+
+                                          }
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
@@ -1443,7 +1517,14 @@ $CGPA = number_format($CGPA, 2);
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
-                                    $course_head=strtoupper($degree_row['Course']);
+                                    if($degree_row['Course1']!='')
+                                {
+                                   $course_head=strtoupper($degree_row['Course1']);
+                                }
+                                else
+                                {
+                                 $course_head=strtoupper($degree_row['Course']);
+                                }
                                     $course=$degree_row['Course'];
                                     $CGPA=$degree_row['CGPA'];
                                     $ExtraRow=$degree_row['ExtraRow'];
@@ -1456,7 +1537,15 @@ $CGPA = number_format($CGPA, 2);
                                           $snap=$row_student['Snap'];
                                           $yoa=$row_student['Batch'];
                                           $gender=$row_student['Sex'];
-                                          $CollegeName=$row_student['CollegeName'];
+                                          if($degree_row['CollegeCsv']!='')
+                                          {
+                                             $CollegeName=$degree_row['CollegeCsv'];
+                                          }
+                                          else
+                                          {
+                                             $CollegeName=$row_student['CollegeName'];
+
+                                          }
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
