@@ -601,7 +601,7 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
+                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
                         table += '</tr>';
                         table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
 
@@ -614,7 +614,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][29]+'</td>';
+                           table += '<td >'+ data[i][33]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                            table += '</tr>';
