@@ -7557,7 +7557,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     //$Duration=$row['Duration'];
 
-$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department'";
+$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)";
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
 if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 

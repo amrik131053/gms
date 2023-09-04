@@ -17466,7 +17466,7 @@ else if($code=='303')
    $Department=$_POST['department'];
    
    
-     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' order by Course ASC";
+     $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd DepartmentId='$Department' ANd (Status='1'  OR Status is NULL)order by Course ASC";
    
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
