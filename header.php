@@ -58,7 +58,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
            {
             $r[]=$row_role_get['page_id'];
            }
-            $permisson_get="SELECT * FROM special_permission WHERE  emp_id='$EmployeeID'";
+             $permisson_get="SELECT * FROM special_permission WHERE  emp_id='$EmployeeID' and (( start_date<= '$todaydate' and end_date >= '$todaydate') OR( start_date<= '0000-00-00' and end_date >= '0000-00-00')) ";
            $permisson_run=mysqli_query($conn,$permisson_get);
            while($row_permisson_get=mysqli_fetch_array($permisson_run))
            {
@@ -283,7 +283,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                      <i class="nav-icon fas fa-tachometer-alt"></i>
                      <p>
                         <!--LMS--> 
-                        Dashboard
+                        Dashboard 
                         <!-- <i class="right fas fa-angle-left"></i> -->
                      </p>
                   </a>

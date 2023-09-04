@@ -85,7 +85,7 @@
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -231,7 +231,7 @@
                                 $course=$degree_row['Course'];
                                    if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -384,7 +384,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -546,7 +546,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -875,7 +875,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -1038,7 +1038,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -1200,7 +1200,7 @@ $CGPA = number_format($CGPA, 2);
                                         $UnirollNo=$degree_row['UniRollNo'];
                                         if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -1355,7 +1355,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
@@ -1519,7 +1519,7 @@ $CGPA = number_format($CGPA, 2);
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
-                                   $course_head=strtoupper($degree_row['Course1']);
+                                   $course_head=$degree_row['Course1'];
                                 }
                                 else
                                 {
