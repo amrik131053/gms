@@ -7382,7 +7382,7 @@ else
          $value=$_POST['by_search'];
          if($value!='')
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
             {
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
@@ -7882,7 +7882,11 @@ else
     <?php
    
    }
-               elseif($code==140)
+           
+   
+   
+   
+   elseif($code==140)
       {
 $classroll="";
 $duration = $_POST['duration'];
@@ -9137,6 +9141,356 @@ elseif($code==166)
             echo json_encode($pagedData);
     }
    }
+   elseif($code==170)
+   {
+      $value=$_POST['by_search'];
+      if($value!='')
+      {
+         
+             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
+        
+        
+         $degree_run=mysqli_query($conn,$degree);
+         while ($degree_row=mysqli_fetch_array($degree_run)) 
+         {
+             $data2=$degree_row;
+             $CourseID=$degree_row['Course'];
+             $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+             $get_course_run=sqlsrv_query($conntest,$get_course);
+             if($row=sqlsrv_fetch_array($get_course_run))
+             {
+            $data1=$row;
+            $data[]=array_merge($data2,$data1);
+       
+         }
+         }
+         // print_r($row_student);
+         $page = $_POST['page'];
+         $recordsPerPage = 50;
+         $startIndex = ($page - 1) * $recordsPerPage;
+         $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+         // echo json_encode($pagedData);
+      
+             echo json_encode($pagedData);
+        
+      }
+      else
+      {
+          
+             $degree="SELECT * FROM offer_latter order by Id DESC "; 
+       
+                  $degree_run=mysqli_query($conn,$degree);
+                  while ($degree_row=mysqli_fetch_array($degree_run)) 
+                  {
+                     $data2=$degree_row;
+                     $CourseID=$degree_row['Course'];
+                     $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                     $get_course_run=sqlsrv_query($conntest,$get_course);
+                     if($row=sqlsrv_fetch_array($get_course_run))
+                     {
+                    $data1=$row;
+                    $data[]=array_merge($data2,$data1);
+               
+                 }
+                 
+                  }
+                  // print_r($data);139
+
+                  $page = $_POST['page'];
+                  $recordsPerPage = 50;
+                  $startIndex = ($page - 1) * $recordsPerPage;
+                  $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+                  echo json_encode($pagedData);
+       }
+   }
+
+   elseif($code==171)
+    {
+      $id=$_POST['id'];
+      $get_student_details="SELECT * FROM offer_latter  where id='$id'";
+$get_student_details_run=mysqli_query($conn,$get_student_details);
+if ($row=mysqli_fetch_array($get_student_details_run))
+ {
+    $name=$row['Name'];
+    $FatherName=$row['FatherName'];
+    $MotherName=$row['MotherName'];
+    $Collegeid=$row['CollegeName'];
+    $Course=$row['Course'];
+    $Department=$row['Department'];
+    $Gender=$row['Gender'];
+    $classroll=$row['Class_RollNo'];
+    $loanNumber=$row['loanNumber'];
+    $applicationNo=$row['applicationNo'];
+    $dateVerification=$row['dateVerification'];
+    $statusVerification=$row['statusVerification'];
+    
+
+
+
+
+$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department'";
+$get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+
+    $courseName=$row_collegecourse_name['Course'];
+    $CollegeName=$row_collegecourse_name['CollegeName'];
+    $Department=$row_collegecourse_name['DepartmentId'];
+$get_department_name="SELECT * FROM MasterDepartment where Id='$Department'";
+$get_department_name_run=sqlsrv_query($conntest,$get_department_name);
+if ($row_departcourse_name=sqlsrv_fetch_array($get_department_name_run)) {
+
+    $DepartmentName=$row_departcourse_name['Department'];
+}
+
+}
+
+
+
+
+$get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
+$get_course_name_run=sqlsrv_query($conntest,$get_course_name);
+if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+{
+
+    $courseName=$row_course_name['Course'];
+}
+    $State_id=$row['State'];
+    $Session=$row['Session'];
+    $Duration=$row['Duration'];
+    $Consultant_id=$row['Consultant_id'];
+    $Lateral=$row['Lateral'];
+    $Nationality=$row['Nationality'];
+    $ID_Proof_No=$row['ID_Proof_No'];
+    $District_id=$row['District'];
+     $months=$row['months'];
+    
+    
+
+    $get_state="SELECT name FROM states  where id='$State_id'";
+    $get_state_run=mysqli_query($conn,$get_state);
+    if($row_state=mysqli_fetch_array($get_state_run))
+    {
+    $State=$row_state['name'];
+    }
+    $get_district="SELECT name FROM cities  where id='$District_id'";
+    $get_district_run=mysqli_query($conn,$get_district);
+    if($row_dist=mysqli_fetch_array($get_district_run))
+    {
+    $District=$row_dist['name'];
+
+    }
+     
+   $get_country="SELECT name FROM countries  where id='$Nationality'";
+                  $get_country_run=mysqli_query($conn,$get_country);
+                  if($row=mysqli_fetch_array($get_country_run))
+                  {
+                    if ($row['name']=='India') {             
+$NationalityName='Indian';
+                    }else
+                    {
+$NationalityName=$row['name'];
+
+                    }
+                   }
+    $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id'";
+$fee_details_run=mysqli_query($conn,$fee_details);
+if ($row_fee=mysqli_fetch_array($fee_details_run))
+ {
+    $applicables=$row_fee['applicables'];
+    $hostel=$row_fee['hostel'];
+    $concession=$row_fee['concession'];
+    $after_concession=$row_fee['after_concession'];
+ }    
+
+ $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
+$consultant_details_run=mysqli_query($conn,$consultant_details);
+if ($row_consultant=mysqli_fetch_array($consultant_details_run))
+ {
+    $consultant=$row_consultant['state'];
+   
+ }
+
+
+    
+}
+
+?>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-2">
+                    <label>Nationality</label>
+                    <input type="text" value="<?=$NationalityName;?>" id="Name" class="form-control" disabled>
+                   
+          
+                </div>
+
+
+                <div class="col-lg-2">
+                    <label>State</label>
+                    <input type="text" value="<?=$State;?>" id="Name" class="form-control" disabled>
+
+
+                </div>
+                <div class="col-lg-2">
+                    <label>District</label>
+                    <input type="text" value="<?=$District;?>" id="Name" class="form-control" disabled>
+
+                </div>
+
+
+
+
+                <div class="col-lg-3">
+                    <label>Student Name</label>
+                    <input type="text" value="<?=$name;?>" id="Name" class="form-control" disabled>
+                </div>
+                <div class="col-lg-3">
+                    <label>Father Name</label>
+                    <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control" disabled>
+                </div>
+
+                <div class="col-lg-3">
+                    <label>Gender</label>
+                    <select id="Gender" class="form-control" disabled>
+                        <option value="<?=$Gender;?>"><?=$Gender;?></option>
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+
+
+                <div class="col-lg-3">
+                    <label>College Name</label>
+                    <select id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control"
+                        required disabled>
+                        <option value='<?=$Collegeid;?>'><?=$CollegeName;?></option>
+
+
+                      <?php
+                     
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                        <?php 
+                    }
+                        ?>
+
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <label>Department</label>
+                    <select id="Department1" class="form-control" onchange="fetchcourse1()" disabled>
+                        <option value='<?=$Department;?>'><?=$DepartmentName;?></option>
+                    </select>
+                </div>
+
+
+                <div class="col-lg-2">
+                    <label>Course</label>
+                    <select id="Course1" class="form-control" disabled>
+
+                        <option value='<?=$Course;?>'><?=$courseName;?></option>
+                    </select>
+                </div>
+    <div class="col-lg-2">
+       <label>Duration</label>
+<select class="form-control" id="Duration" disabled>
+                        <option value="<?= $Duration?>"><?= $Duration;?></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+</div>
+  <div class="col-lg-2">
+                  <label>Course Duration</label>  
+
+              <select class="form-control" id="months" disabled>
+                <option value="<?= $months?>"><?= $months;?></option>
+
+                 <option value="0">0 Month</option>
+                 <option value="6">6 Month</option>
+                
+              </select>
+           </div>
+               
+
+
+
+<div class="col-lg-3">
+                    <label>Class RollNo</label>
+                      <input type="text" id="classroll" class="form-control" value="<?=$classroll;?>"  disabled>
+
+              
+                </div>
+                <div class="col-lg-3">
+                    <label>Loan Account No</label>
+                      <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>"  >
+
+              
+                </div>
+                <div class="col-lg-3">
+                    <label>ApplicationNo</label>
+                      <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>"  >
+
+              
+                </div>
+                <div class="col-lg-3">
+                    <label>Date</label>
+                      <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>"  >
+
+              
+                </div>
+                <div class="col-lg-3">
+                    <label>Status</label>
+                     <Select class="form-control" id="statusVerification">
+                        <option value="">Select</option>
+                        <option value="1">Verified</option>
+                    </Select>
+
+              
+                </div>
+                <div class="col-lg-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-primary form-control"
+                        onclick="edit_student_details(<?=$id;?>)">Submit</button>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    <?php
+   }
+   elseif($code==172)
+   {
+$id = $_POST['id'];
+$loanNumber = $_POST['loanNumber'];
+$applicationNo = $_POST['applicationNo'];
+$statusVerification = $_POST['statusVerification'];
+$dateVerification = $_POST['dateVerification'];
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification' where id='$id'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+
+}
    else
    {
    
