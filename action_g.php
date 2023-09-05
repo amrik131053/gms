@@ -9493,103 +9493,159 @@ else
 {
 echo "0";
 }
-
 }
-elseif($code==173)  
-{
-// $idn=array();
-// $mainu_name=array();
- ?>
-<table class="table">
-<tr>
-   <th>Main Menu</th>
-   <th>Insert</th>
-   <th>Update</th>
-   <th>Delete</th>
-</tr>
-<?php 
-   $result1 = mysqli_query($conn,"SELECT * from permissions  ");
-   
-   while($row=mysqli_fetch_array($result1))
-           {
+if ($code == 173) {
+    // Get the current date
+    $todaydate = date('Y-m-d');
+  
+
+?>
+
+    <table class="table table-bordered table-hover table-head-fixed" id="example">
+        <thead>
+            <tr>
+                <th>Emp ID</th>
+                <th>Main Menu</th>
+                <th>Insert</th>
+                <th>Update</th>
+                <th>Delete</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
             
-             $idn[]=$row['id'];
-             $mainu_name[]=$row['submenu'];
-           }
-        //    print_r($idn);
-           foreach ($idn as $key => $value) {
-        $checked_m="";
-        $checked_I="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
-        $checked_U="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
-        $checked_D="<i class='fa fa-times text-danger' aria-hidden='true'></i>";  
-        $flag=0;     
-        
-     $sel_per="SELECT * FROM special_permission WHERE page_id='$value' ";
-    $sel_run=mysqli_query($conn,$sel_per);
-    if ($r=mysqli_fetch_array($sel_run))
-     {
-   
-      if ($r['page_id']!='') 
-      {
-         $flag=1;
-         $checked_m="checked";
-         if ($r['I']=='1') 
-         {
-            $checked_I="<i class='fa fa-check text-success' aria-hidden='true'></i>";
-         }
-         if ($r['U']=='1') 
-         {
-             $checked_U="<i class='fa fa-check text-success' aria-hidden='true'></i>";
-         }
-         if($r['D']=='1') 
-         {
-             $checked_D="<i class='fa fa-check text-success' aria-hidden='true'></i>";
-         }
-        
-      echo "<div class='checkbox'>";
-               ?>
-<tr>
-   <td>
-      <div class="pretty p-default">
-         <label ><b style="color: #a62535"><?=$mainu_name[$value];?><b></label>
-      </div>
-   </td>
-   <td>
-      <div class="pretty p-default">
-        
-         <label>&nbsp;<?=$checked_I;?></label>
-      </div>
-   </td>
-   <td>
-      <div class="pretty p-default">
-        
-         <label>&nbsp;<?=$checked_U;?></label>
-      </div>
-   </td>
-   <td>
-      <div class="pretty p-default">
-        
-         <label>&nbsp;<?=$checked_D;?></label>
-      </div>
-   </td>
-   <td>
-      <div class="pretty p-default">
-        
-         <label>&nbsp;<?=$r['emp_id'];?></label>
-      </div>
-   </td>
-</tr>
-<?php 
-   echo "</div>";
-   }
-}
+            $count = 1;
 
-           }
-   ?>
-</table>
-<?php    
+            if($_POST['empid']!='')
+            {
+                 $sel_per1 = "SELECT  emp_id FROM special_permission where emp_id='".$_POST['empid']."'";
+               
+            }else
+            {
+                $sel_per1 = "SELECT DISTINCT emp_id FROM special_permission";
+            }
+            $sel_run1 = mysqli_query($conn, $sel_per1);
+
+            while ($r1 = mysqli_fetch_array($sel_run1)) {
+                
+                $sel_per = "SELECT *, special_permission.id as s_id FROM special_permission INNER JOIN permissions ON permissions.id=special_permission.page_id WHERE special_permission.emp_id='" . $r1['emp_id'] . "' ORDER BY emp_id ASC";
+                $sel_run = mysqli_query($conn, $sel_per);
+
+                
+                $count = mysqli_num_rows($sel_run) + 1;
+            ?>
+                <tr style="border: 1px solid red !important">
+                    <td rowspan='<?= $count; ?>' class="employee-info">
+                        <?php
+                        
+                        $staff = "SELECT Name, IDNo, Snap FROM Staff WHERE IDNo='" . $r1['emp_id'] . "'";
+                        $stmt = sqlsrv_query($conntest, $staff);
+
+                        if ($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                            $Emp_Image = $row_staff['Snap'];
+                            $emp_pic = base64_encode($Emp_Image);
+                            echo "<label><b><img class='direct-chat-img' src='data:image/jpeg;base64," . $emp_pic . "' alt='message user image'></b></label>";
+                            echo "<br><label><b>" . $Emp_Name = $row_staff['Name'] . '(' . $Emp_Name = $row_staff['IDNo'] . "</b></label>";
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <?php
+                while ($r = mysqli_fetch_array($sel_run)) {
+                    
+                    $checked_m = "";
+                    $checked_I = "<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+                    $checked_U = "<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+                    $checked_D = "<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+                    $checked_O = "<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+                    $checked_m = "checked";
+
+                    
+                    if ($r['I'] == '1') {
+                        $checked_I = "<i class='fa fa-check text-success' aria-hidden='true'></i>";
+                    }
+                    if ($r['U'] == '1') {
+                        $checked_U = "<i class='fa fa-check text-success' aria-hidden='true'></i>";
+                    }
+                    if ($r['D'] == '1') {
+                        $checked_D = "<i class='fa fa-check text-success' aria-hidden='true'></i>";
+                    }
+                    if (($r['start_date'] <= $todaydate && $r['end_date'] >= $todaydate) || ($r['start_date'] == '0000-00-00' && $r['end_date'] == '0000-00-00')) {
+                        $checked_O = "<i class='fa fa-eye text-success' aria-hidden='true'></i>";
+                    } else {
+                        $checked_O = "<i class='fa fa-eye-slash text-danger' aria-hidden='true'></i>";
+                    }
+                ?>
+                    <tr>
+                        <td>
+                            <label><b style="color: #a62535"><?= $r['submenu']; ?><b></label>
+                        </td>
+                        <td>
+                            <label><?= $checked_I; ?></label>
+                        </td>
+                        <td>
+                            <label><?= $checked_U; ?></label>
+                        </td>
+                        <td>
+                            <label><?= $checked_D; ?></label>
+                        </td>
+                        <td>
+                            <input type="date" value="<?= $r['start_date']; ?>" id="sid_<?= $r['s_id']; ?>" class="form-control" onchange="date_change(<?= $r['s_id']; ?>);">
+                        </td>
+                        <td>
+                            <input type="date" value="<?= $r['end_date']; ?>" id="eid_<?= $r['s_id']; ?>" class="form-control" onchange="date_change(<?= $r['s_id']; ?>);">
+                        </td>
+                        <td>
+                            <label><?= $checked_O; ?></label>
+                        </td>
+                        <td>
+                            <label><i class="fa fa-trash-alt text-danger" onclick="delete_special_permission(<?= $r['s_id']; ?>);"></i></label>
+                        </td>
+                    </tr>
+            <?php
+                    
+                    $count = 1;
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+<?php
 }
-   
+elseif($code==174)
+{
+$id = $_POST['id'];
+$start_date = $_POST['start_date'];
+$end_date = $_POST['end_date'];
+$insert_record = "UPDATE  special_permission SET start_date='$start_date', end_date='$end_date' where id='$id'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
+elseif($code==175)
+{
+$id = $_POST['id'];
+$insert_record = "DELETE FROM  special_permission  where id='$id'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
    else
    {
    

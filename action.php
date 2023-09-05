@@ -466,10 +466,12 @@ option value = "" > Select < /option> <?php
     mysqli_query($conn,$in_per);
    foreach($per as $key => $val)
    {
+      // $start="0000-00-00";
+      // $end="0000-00-00";
        $I=0;
          $U=0;
          $D=0;
-         echo $val;
+          $val;
          $per1=array();
          if (isset($_POST[$val])) 
          {
@@ -493,12 +495,21 @@ option value = "" > Select < /option> <?php
         {
           echo  "D=".$val.'='.$D=1;
         }
-        else
-        {
-        }
+      //   echo $i;
+      // if($i==3)
+      //   {
+      //      $start=$per1[$i];
+      //   }
+      //  if($i==4)
+      //   {
+      //      $end=$per1[$i];
+      //   }
+        
+
     }       
     }
-   $in_per="INSERT into special_permission(emp_id,page_id,I,U,D)values('$user_id','$val','$I','$U','$D')";
+   //  print_r($per1);
+    $in_per="INSERT into special_permission(emp_id,page_id,I,U,D)values('$user_id','$val','$I','$U','$D')";
    mysqli_query($conn,$in_per);
    }
    

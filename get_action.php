@@ -2856,10 +2856,15 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
    <th>Insert</th>
    <th>Update</th>
    <th>Delete</th>
+   <!-- <th>Start</th>
+   <th>End</th> -->
 </tr>
 <?php
-   $result1 = mysqli_query($conn,"SELECT * from permissions where mainmenu='$main[$i]'");
-   
+//  $rr="SELECT *
+// FROM special_permission 
+// RIGHT JOIN permissions
+// ON permissions.id = special_permission.page_id where  mainmenu='$main[$i]' ";
+   $result1 = mysqli_query($conn,"SELECT *FROM permissions where mainmenu='$main[$i]'");
    while($row=mysqli_fetch_array($result1))
            { 
             $idn=$row['id'];
@@ -2947,6 +2952,18 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
          </div>
       </div>
    </td>
+   <!-- <td>
+      <div class="pretty p-default">
+        
+        <input type="date" value="<?=$row['start_date'];?>" name="<?=$idn?>[]" >
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+        
+     <input type="date" value="<?=$row['end_date'];?>" name="<?=$idn?>[]" >
+      </div>
+   </td> -->
 </tr>
 <?php 
    echo "</div>";

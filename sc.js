@@ -1130,6 +1130,28 @@ var d= document.getElementById("role").value;
 //   xmlhttp.send();
 // }
 
+function emp_role()
+{
+   $('#div_diivde').show();
+   var code=32; //70
+   var user_id= document.getElementById("user_id").value;
+   // alert(user_id);
+   var xmlhttp = new XMLHttpRequest();
+   xmlhttp.onreadystatechange = function() {
+     if (xmlhttp.readyState==4 && xmlhttp.status==200)
+     {
+       //document.getElementById("role_assign").innerHTML='dfgdfg';
+       $('#all_permissions').hide();
+      document.getElementById("role_assign").innerHTML=xmlhttp.responseText;
+      emp_permission();
+      emp_role_all(user_id);
+      
+
+    }
+  }
+  xmlhttp.open("GET", "get_action.php?user_id=" + user_id+"&code="+code, true);
+  xmlhttp.send();
+}
 function emp_permission()
 {
         var code=33; //71
