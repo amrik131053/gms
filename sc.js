@@ -1108,27 +1108,27 @@ var d= document.getElementById("role").value;
   xmlhttp.open("GET", "get_action.php?role_id=" + d+"&code="+code, true);
   xmlhttp.send();
 }
-
-function emp_role()
-{
-        var code=32; //70
-var user_id= document.getElementById("user_id").value;
-// alert(user_id);
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-      //document.getElementById("role_assign").innerHTML='dfgdfg';
-      document.getElementById("role_assign").innerHTML=xmlhttp.responseText;
-      emp_permission();
-      emp_role_all(user_id);
+ 
+// function emp_role()
+// {
+//         var code=32; //70
+// var user_id= document.getElementById("user_id").value;
+// // alert(user_id);
+//   var xmlhttp = new XMLHttpRequest();
+//   xmlhttp.onreadystatechange = function() {
+//     if (xmlhttp.readyState==4 && xmlhttp.status==200)
+//     {
+//       //document.getElementById("role_assign").innerHTML='dfgdfg';
+//       document.getElementById("role_assign").innerHTML=xmlhttp.responseText;
+//       emp_permission();
+//       emp_role_all(user_id);
       
 
-    }
-  }
-  xmlhttp.open("GET", "get_action.php?user_id=" + user_id+"&code="+code, true);
-  xmlhttp.send();
-}
+//     }
+//   }
+//   xmlhttp.open("GET", "get_action.php?user_id=" + user_id+"&code="+code, true);
+//   xmlhttp.send();
+// }
 
 function emp_permission()
 {

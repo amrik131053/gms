@@ -9495,6 +9495,101 @@ echo "0";
 }
 
 }
+elseif($code==173)  
+{
+// $idn=array();
+// $mainu_name=array();
+ ?>
+<table class="table">
+<tr>
+   <th>Main Menu</th>
+   <th>Insert</th>
+   <th>Update</th>
+   <th>Delete</th>
+</tr>
+<?php 
+   $result1 = mysqli_query($conn,"SELECT * from permissions  ");
+   
+   while($row=mysqli_fetch_array($result1))
+           {
+            
+             $idn[]=$row['id'];
+             $mainu_name[]=$row['submenu'];
+           }
+        //    print_r($idn);
+           foreach ($idn as $key => $value) {
+        $checked_m="";
+        $checked_I="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+        $checked_U="<i class='fa fa-times text-danger' aria-hidden='true'></i>";
+        $checked_D="<i class='fa fa-times text-danger' aria-hidden='true'></i>";  
+        $flag=0;     
+        
+     $sel_per="SELECT * FROM special_permission WHERE page_id='$value' ";
+    $sel_run=mysqli_query($conn,$sel_per);
+    if ($r=mysqli_fetch_array($sel_run))
+     {
+   
+      if ($r['page_id']!='') 
+      {
+         $flag=1;
+         $checked_m="checked";
+         if ($r['I']=='1') 
+         {
+            $checked_I="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+         }
+         if ($r['U']=='1') 
+         {
+             $checked_U="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+         }
+         if($r['D']=='1') 
+         {
+             $checked_D="<i class='fa fa-check text-success' aria-hidden='true'></i>";
+         }
+        
+      echo "<div class='checkbox'>";
+               ?>
+<tr>
+   <td>
+      <div class="pretty p-default">
+         <label ><b style="color: #a62535"><?=$mainu_name[$value];?><b></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+        
+         <label>&nbsp;<?=$checked_I;?></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+        
+         <label>&nbsp;<?=$checked_U;?></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+        
+         <label>&nbsp;<?=$checked_D;?></label>
+      </div>
+   </td>
+   <td>
+      <div class="pretty p-default">
+        
+         <label>&nbsp;<?=$r['emp_id'];?></label>
+      </div>
+   </td>
+</tr>
+<?php 
+   echo "</div>";
+   }
+}
+
+           }
+   ?>
+</table>
+<?php    
+}
+   
    else
    {
    

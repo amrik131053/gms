@@ -43,7 +43,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
 
    <div class="container-fluid">
       <div class="row">
-      <?=$permisson_get;?>
+  
            <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
                <span class="info-box-icon bg-success"><i class="far fa-calendar"></i></span>
