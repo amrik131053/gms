@@ -956,7 +956,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
     }
    if($building=='0')
     {   
-         $sql="SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block  order by building_master.Name desc, location_master.RoomNo asc";
+         $sql="SELECT distinct article_no,Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block  inner join stock_summary  ss on ss.IDNO=meter_reading.article_no where ss.WorkingStatus='0'   order by building_master.Name desc, location_master.RoomNo asc";
     }
 
 
