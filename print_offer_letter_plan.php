@@ -71,6 +71,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Gender=$row['Gender'];
     $Class_RollNo=$row['Class_RollNo'];
 
+    $District=$row['District'];
     $State=$row['State'];
     $Session=$row['Session'];
      $PrintDate=$row['PrintDate'];
@@ -336,7 +337,8 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 }
-
+if($District!='593')
+{
 
 if($Months>0)
 {
@@ -463,7 +465,7 @@ $Y=$Y-2;
 
 }
 
-
+}
 
 
 
