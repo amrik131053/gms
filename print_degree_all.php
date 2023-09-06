@@ -1133,7 +1133,7 @@ $CGPA = number_format($CGPA, 2);
                               
                               }
                            
-                              $CGPA = number_format($CGPA, 2);
+                              // $CGPA = number_format($CGPA, 2);
                                ?>
                            <?php 
                            
