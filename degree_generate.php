@@ -219,7 +219,9 @@ include "header.php";
 
                         
                         table += '</tr>';
+                     <?php echo "if ($code_access=='001' || $code_access=='101' || $code_access=='011' ||  $code_access=='111') {" ?>
                         table += '<td><button onclick="deleteSelectedRows();" class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i> </button></td>';
+                        <?php echo" }" ?>
                         table += '</tr>';
                         table += '</table>';
 
@@ -349,7 +351,7 @@ include "header.php";
 <script type="text/javascript">
    function deleteSelectedRows()
 {
-
+  
   var students=document.getElementsByName('selectedRows[]');
 var len_student= students.length; 
 var a=confirm("Are you sure you want to delete");
@@ -392,7 +394,8 @@ if (a==true)
             }
             else
             {
-               // date_by_search();
+               date_by_search();
+               // ErrorToast('You have can`t permissons for delete','bg-danger');
             }
             // console.log(data);
                                 }      

@@ -8861,6 +8861,7 @@ echo "0";
 elseif($code==159)
 {
     $count=0;
+    
     foreach($_POST['students'] as $key => $value)
      { 
         $delete="DELETE FROM degree_print WHERE  id=$value";
@@ -8869,8 +8870,8 @@ elseif($code==159)
     {
         $count++;
     }
-}
-echo $count;
+      }
+ echo $count;
 }
 elseif($code=='160') 
 {
