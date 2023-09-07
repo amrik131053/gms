@@ -7337,6 +7337,7 @@ elseif($code==132)
 
 }
 
+
             elseif($code==133)
       {
 
@@ -9647,6 +9648,98 @@ else
 echo "0";
 }
 }
+ 
+elseif($code==176)
+{
+?>
+    <form action="action_g.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="code" value="79">
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>Type</label>
+                <input type="text" name="type" class="form-control" value="certificate" readonly>
+            </div>
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-6">
+                <label>Month</label>
+                <select name="month" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="Jan">January</option>
+                    <option value="Feb">February</option>
+                    <option value="Mar">March</option>
+                    <option value="Apr">April</option>
+                    <option value="May">May</option>
+                    <option value="Jun">June</option>
+                    <option value="Jul">July</option>
+                    <option value="Aug">August</option>
+                    <option value="Sep">September</option>
+                    <option value="Oct">October</option>
+                    <option value="Nov">November</option>
+                    <option value="Dec">December</option>
+                </select>
+            </div>
+            <div class="col-lg-6">
+                <label>Year</label>
+                <select class="form-control" name="year" required>
+                    <option value="">Select</option>
+                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
+                </select>
+            </div>
+            <!-- <div class="col-lg-12">
+                <label>Stream/Specialization/Topic/Thesis/Subjects (Optional)</label>
+                 <input type="text" name="stream" class="form-control" > -->
+                <!-- <textarea class="form-control" name="stream" rowspan="3"></textarea> -->
+            <!-- </div> --> 
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>File</label>
+                <input type="file" name="file" class="form-control" required>
+            </div>
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>Action</label><br>
+                <input type="submit" class="btn btn-success" value="Upload">
+            </div>
+        </div>
+    </form>
+    <br>
+    <?php
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    else
    {
    

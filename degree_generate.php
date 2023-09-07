@@ -37,6 +37,8 @@ include "header.php";
                     <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="diploma_agri();bg(this.id);"> Diploma Agri </a>
                     <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="diploma_other();bg(this.id);"> Diploma Other </a>
                     <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="degree();bg(this.id);"> Degree </a>
+
+                        <a class="btn" id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="certificate();bg(this.id);">Cetrificate </a>
                    
                   </div>
              
@@ -447,6 +449,34 @@ else{
          }
       });
  }
+
+function certificate() {
+        var code = 176;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'post',
+         data: {
+            code: code
+         },
+         success: function(response) {
+            document.getElementById("from_show_toggle").innerHTML = response;
+         }
+      });
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       function bg(id)
           {
