@@ -18682,7 +18682,7 @@ $validUpto=$validUpto->format('d-M-Y');
 <p style="text-align:center;">
 <button   class="btn btn-success" onclick="movefee(<?=$IDNo;?>)">Move</button></p>
 
-              </div>
+              </div> 
             </div>
          
    <?php
@@ -18708,9 +18708,27 @@ elseif($code=='324')
 
 
   $OLDIDNo= $_POST['oldid'];
+
+
     $IDNo= $_POST['nid'];
+
+  $coursename="SELECT  Course,CollegeName,ClassRollNo FROM Admissions WHERE IDNo='$IDNo'";
+   
+   $stmt = sqlsrv_query($conntest,$coursename);  
+   
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+  $course=$row["Course"];
+    $college=$row["CollegeName"];
+      $classroll=$row["ClassRollNo"];
+   }
+   
+
   
-   echo  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo' where IDNo='$OLDIDNo'";
+  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo',CollegeName='$college',Course='$course',ClassRollNo='$classroll' where IDNo='$OLDIDNo'";
+
    $update_runb=sqlsrv_query($conntest,$update_studentb);
 
 

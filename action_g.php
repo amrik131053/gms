@@ -7387,7 +7387,7 @@ else
          $value=$_POST['by_search'];
          if($value!='')
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
             {
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
@@ -7401,6 +7401,7 @@ else
             {
                 $data2=$degree_row;
                 $CourseID=$degree_row['Course'];
+
                 $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
                 $get_course_run=sqlsrv_query($conntest,$get_course);
                 if($row=sqlsrv_fetch_array($get_course_run))
@@ -7409,7 +7410,13 @@ else
                $data[]=array_merge($data2,$data1);
           
             }
+            
+                       
+                    
             }
+
+      
+
             // print_r($row_student);
             $page = $_POST['page'];
             $recordsPerPage = 50;
@@ -7422,7 +7429,7 @@ else
          }
          else
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
             {
 
                 
@@ -7445,6 +7452,8 @@ else
                        $data[]=array_merge($data2,$data1);
                   
                     }
+
+
                     
                      }
                      // print_r($data);
@@ -9714,7 +9723,18 @@ elseif($code==176)
 
 }
 
+elseif($code==177)
+{
+$id = $_POST['id'];
 
+
+$upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1'  where id='$id '";
+
+mysqli_query($conn,$upd);
+
+
+
+}
 
 
 
