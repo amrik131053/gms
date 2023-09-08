@@ -1,17 +1,9 @@
 <?php
 require('fpdf/fpdf.php');
 date_default_timezone_set("Asia/Kolkata");  
-$servername1 = "localhost";
-$username1 = "root";
-$password1 = "";
-$dbname1 = "lims";
-
-$conn = new mysqli($servername1, $username1, $password1, $dbname1);   
+   include "connection/connection.php";
 
 
-$serverName = "10.0.10.11"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashiTest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
-$conntest = sqlsrv_connect( $serverName,$connectionInfo);
 
  $id=$_POST['meterReadingId'];
 
@@ -60,6 +52,16 @@ while ($data=mysqli_fetch_array($res) )
   elseif ($floor==3) 
   {
     $floorName='Third';
+  }
+
+  elseif ($floor==4) 
+  {
+    $floorName='Fourth';
+  }
+
+  elseif ($floor==5) 
+  {
+    $floorName='Fifth';
   }
 
 

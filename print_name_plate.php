@@ -37,8 +37,8 @@ $pdf=new PDF();
    $pdf->AddPage('L');
    $pdf->Rotate(180);
 
-  $pdf-> Image('dist\img\new-logo.png',$left-208,$down-41,50,8);
-  $pdf-> Image('dist\img\naac-logo.png',$left-23,$down-41.5,30,8);
+  $pdf-> Image('dist\img\new-logo.png',$left-208,$down-41,50,10);
+  $pdf-> Image('dist\img\naac-logo.png',$left-23,$down-41.5,30,12);
    $pdf->Rotate(0);
 
    $pdf->SetXY($left+30,$down+0);
@@ -67,8 +67,8 @@ $pdf=new PDF();
    $pdf->SetXY($left+0.4,$down+0.6);
    $pdf->MultiCell(220.6,46,'','1','');
 
-$pdf-> Image('dist\img\new-logo.png',$left1+2,$down1+3,50,8);
- $pdf-> Image('dist\img\naac-logo.png',$left+188,$down+52.5,30,8);
+$pdf-> Image('dist\img\new-logo.png',$left1+2,$down1+3,45,10);
+ $pdf-> Image('dist\img\naac-logo.png',$left+188,$down+52.5,30,12);
    $pdf->SetXY($left1+301,$down+0);
    $pdf->SetFont('Arial','B',8);
    $pdf->SetTextColor(166,37,53);
@@ -121,14 +121,14 @@ $pdf-> Image('dist\img\new-logo.png',$left1+2,$down1+3,50,8);
  
 
 // $pdf->RotatedText(159,12,'Hello!',45);
-   $pdf->SetXY($left+221,$down+38);
-   $pdf->SetFont('Arial','B',45);
+   $pdf->SetXY($left+221,$down+37);
+   $pdf->SetFont('Arial','B',42);
    $pdf->SetTextColor(34,47,96);
    $pdf->Rotate(180);
    $pdf->MultiCell(221,25,$Name,'0','C');
    $pdf->Rotate(0);
-   $pdf->SetXY('5',$down1+8);
-   $pdf->SetFont('Arial','B',45);
+   $pdf->SetXY('5',$down1+9);
+   $pdf->SetFont('Arial','B',42);
    $pdf->SetTextColor(34,47,96);
    $pdf->MultiCell(221,25,$Name,'0','C');
    $pdf->SetFont('Arial','B',20);

@@ -96,6 +96,7 @@
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
+
                                   $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
@@ -239,6 +240,7 @@
                                 }
                                
                                 $CGPA=$degree_row['CGPA'];
+
                                 $ExtraRow=$degree_row['ExtraRow'];
                                 $Examination=$degree_row['Examination'];
                                 $RegistrationNo=$degree_row['RegistrationNo'];
@@ -253,7 +255,9 @@
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
-                                            $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                  $CGPA = number_format($CGPA, 2);
+
+                                            $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
                                             $ecc = 'L';
@@ -312,7 +316,7 @@ $ms1="<strike>Mr.</strike>";    // code...
 
 }
 
-$CGPA = number_format($CGPA, 2);
+
  
            
                echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>,
@@ -378,6 +382,7 @@ $CGPA = number_format($CGPA, 2);
                                 {
                                  $name=$degree_row['StudentName'];
                                  $father_name=$degree_row['FatherName'];
+                                 $Stream=$degree_row['Stream'];
                                  $mother_name=$degree_row['MotherName'];
                                  $UnirollNo=$degree_row['UniRollNo'];
                                  $Stream=$degree_row['Stream'];
@@ -407,7 +412,8 @@ $CGPA = number_format($CGPA, 2);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
-                                             $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                   $CGPA = number_format($CGPA, 2);
+                                             $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                              $path = 'degreeqr/';
                                              $file = $path.$UnirollNo.".png";
                                              $ecc = 'L';
@@ -466,7 +472,7 @@ $CGPA = number_format($CGPA, 2);
  
  }
  
- $CGPA = number_format($CGPA, 2);
+ $CGPA = number_format($CGPA,2);
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
@@ -559,7 +565,8 @@ $CGPA = number_format($CGPA, 2);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
-                                             $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                    $CGPA = number_format($CGPA, 2);
+                                             $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                              $path = 'degreeqr/';
                                              $file = $path.$UnirollNo.".png";
                                              $ecc = 'L';
@@ -618,7 +625,7 @@ $CGPA = number_format($CGPA, 2);
  
  }
  
- $CGPA = number_format($CGPA, 2);
+
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
@@ -713,8 +720,8 @@ $CGPA = number_format($CGPA, 2);
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
-                                      }
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                      } $CGPA = number_format($CGPA, 2);
+                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -773,7 +780,7 @@ $CGPA = number_format($CGPA, 2);
  
  }
  
- $CGPA = number_format($CGPA, 2);
+
   
             
 
@@ -870,7 +877,8 @@ $CGPA = number_format($CGPA, 2);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                       $CGPA = number_format($CGPA, 2);
+                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -928,7 +936,7 @@ $CGPA = number_format($CGPA, 2);
  
  }
  
- $CGPA = number_format($CGPA, 2);
+
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
@@ -1022,6 +1030,7 @@ $CGPA = number_format($CGPA, 2);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
+                                       $CGPA = number_format($CGPA, 2);
                                                 $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
@@ -1170,6 +1179,7 @@ $CGPA = number_format($CGPA, 2);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
+                                        $CGPA = number_format($CGPA, 2);
                                                 $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
@@ -1239,7 +1249,7 @@ $CGPA = number_format($CGPA, 2);
                                  // code...
                               
                               }
-                              $CGPA = number_format($CGPA, 2);
+                            
                                ?>
                            <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                            having completed the requirments for the award of this Diploma and having passed the prescribed
@@ -1334,7 +1344,8 @@ $CGPA = number_format($CGPA, 2);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                        $CGPA = number_format($CGPA, 2);
+                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1403,7 +1414,7 @@ $CGPA = number_format($CGPA, 2);
                                  // code...
                               
                               }
-                              $CGPA = number_format($CGPA, 2);
+                            
                                ?>
                           <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                           student of <b>".$CollegeName."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed
@@ -1498,7 +1509,8 @@ $CGPA = number_format($CGPA, 2);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                       $CGPA = number_format($CGPA, 2);
+                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1568,7 +1580,7 @@ $CGPA = number_format($CGPA, 2);
                                  // code...
                               
                               }
-                              $CGPA = number_format($CGPA, 2);
+                             
                                ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                           student of <b>".$CollegeName."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed

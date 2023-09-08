@@ -1012,7 +1012,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
             $meterReadingId=$data1['meter_reading_id'];
             $previousReading='N/A';
             $previousReadingDate='N/A';
-            $oldRes=mysqli_query($conn,"SELECT * from meter_reading where article_no='$article_num' and ID<'$meterReadingId' ORDER BY ID desc ");
+            $oldRes=mysqli_query($conn,"SELECT * from meter_reading where article_no='$article_num' and ID<'$  ORDER BY ID desc ");
             if ($data=mysqli_fetch_array($oldRes)) 
             {
                 $previousReading=$data['current_reading'];
