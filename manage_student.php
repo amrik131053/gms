@@ -427,9 +427,9 @@ function  movefee(nid)
             },
             success:function(response) 
             {
-               //console.log(response);
+               console.log(response);
                spinner.style.display='none';
-                SuccessToast('Successfully Uploaded');
+               SuccessToast('Successfully Moved');
                
             }
          });

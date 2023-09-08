@@ -7342,6 +7342,7 @@ elseif($code==132)
 
 }
 
+
             elseif($code==133)
       {
 
@@ -7391,7 +7392,7 @@ else
          $value=$_POST['by_search'];
          if($value!='')
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
             {
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
@@ -7405,6 +7406,7 @@ else
             {
                 $data2=$degree_row;
                 $CourseID=$degree_row['Course'];
+
                 $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
                 $get_course_run=sqlsrv_query($conntest,$get_course);
                 if($row=sqlsrv_fetch_array($get_course_run))
@@ -7413,7 +7415,13 @@ else
                $data[]=array_merge($data2,$data1);
           
             }
+            
+                       
+                    
             }
+
+      
+
             // print_r($row_student);
             $page = $_POST['page'];
             $recordsPerPage = 50;
@@ -7426,7 +7434,7 @@ else
          }
          else
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
             {
 
                 
@@ -7449,6 +7457,8 @@ else
                        $data[]=array_merge($data2,$data1);
                   
                     }
+
+
                     
                      }
                      // print_r($data);
@@ -9652,6 +9662,7 @@ else
 echo "0";
 }
 }
+<<<<<<< HEAD
 elseif($code==176)
 {
  $value=$_POST['by_search'];
@@ -9694,6 +9705,111 @@ elseif($code==176)
          echo json_encode($pagedData);
  }
 }
+=======
+ 
+elseif($code==176)
+{
+?>
+    <form action="action_g.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="code" value="79">
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>Type</label>
+                <input type="text" name="type" class="form-control" value="certificate" readonly>
+            </div>
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-6">
+                <label>Month</label>
+                <select name="month" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="Jan">January</option>
+                    <option value="Feb">February</option>
+                    <option value="Mar">March</option>
+                    <option value="Apr">April</option>
+                    <option value="May">May</option>
+                    <option value="Jun">June</option>
+                    <option value="Jul">July</option>
+                    <option value="Aug">August</option>
+                    <option value="Sep">September</option>
+                    <option value="Oct">October</option>
+                    <option value="Nov">November</option>
+                    <option value="Dec">December</option>
+                </select>
+            </div>
+            <div class="col-lg-6">
+                <label>Year</label>
+                <select class="form-control" name="year" required>
+                    <option value="">Select</option>
+                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
+                </select>
+            </div>
+            <!-- <div class="col-lg-12">
+                <label>Stream/Specialization/Topic/Thesis/Subjects (Optional)</label>
+                 <input type="text" name="stream" class="form-control" > -->
+                <!-- <textarea class="form-control" name="stream" rowspan="3"></textarea> -->
+            <!-- </div> --> 
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>File</label>
+                <input type="file" name="file" class="form-control" required>
+            </div>
+        </div>
+        <div class="row container-fluid">
+            <div class="col-lg-12">
+                <label>Action</label><br>
+                <input type="submit" class="btn btn-success" value="Upload">
+            </div>
+        </div>
+    </form>
+    <br>
+    <?php
+
+}
+
+elseif($code==177)
+{
+$id = $_POST['id'];
+
+
+$upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1'  where id='$id '";
+
+mysqli_query($conn,$upd);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> a7d2b6022744e49d5ad4040c97be19519120fcfa
    else
    {
    

@@ -60,7 +60,7 @@ foreach ($id as $key => $value) {
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetXY(85, 1);
-$get_student_details="SELECT * FROM offer_latter where id='$value'";
+$get_student_details="SELECT * FROM offer_latter where id='$value' AND generate=1";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
 if ($row=mysqli_fetch_array($get_student_details_run))
  {
@@ -161,10 +161,10 @@ if($PrintDate!='')
 {
 $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 }
-else
-{
-$pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
-}
+// else
+// {
+// $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
+// }
 
 $pdf->SetXY(25, 50);
 $pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
@@ -523,7 +523,7 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-  $upd="UPDATE offer_latter SET PrintBy='$EmployeeID',PrintDate='$today1' where id='$value' AND PrintDate=''";
+  $upd="UPDATE offer_latter SET PrintBy='$EmployeeID' where id='$value' ";
   $suce=mysqli_query($conn,$upd);
 //   if($suce==true)
 //   {
