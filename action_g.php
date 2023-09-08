@@ -7280,11 +7280,8 @@ elseif($code==132)
         <div class="row container-fluid">
             <div class="col-lg-12">
                 <label>Type</label>
-                <!-- <input type="text" name="type" class="form-control" value="degree" readonly> -->
-                <select name="type" class="form-control" required>
-                    <option value="degree">degree</option>
-                    <option value="certificate">certificate</option>
-</select>
+                <input type="text" name="type" class="form-control" value="degree" readonly>
+                
 
             </div>
         </div>
@@ -9125,7 +9122,7 @@ elseif($code==166)
     if($value!='')
     {
       
-       $degree="SELECT * FROM degree_print where StudentName like '%$value%' or UniRollNo like '%$value%' order by Id DESC "; 
+       $degree="SELECT * FROM degree_print where StudentName like '%$value%' or UniRollNo like '%$value%' order by Id ASC "; 
        $degree_run=mysqli_query($conn,$degree);
        while ($degree_row=mysqli_fetch_array($degree_run)) 
        {
@@ -9144,7 +9141,7 @@ elseif($code==166)
     }
     else
     {
-        $degree="SELECT * FROM degree_print  order by Id DESC "; 
+        $degree="SELECT * FROM degree_print  order by Id ASC "; 
         $degree_run=mysqli_query($conn,$degree);
         while ($degree_row=mysqli_fetch_array($degree_run)) 
         {
@@ -9741,28 +9738,48 @@ mysqli_query($conn,$upd);
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+elseif($code==178)
+{
+ $value=$_POST['by_search'];
+ if($value!='')
+ {
+   
+    $degree="SELECT * FROM degree_print where Course like '%$value%' order by Id ASC "; 
+    $degree_run=mysqli_query($conn,$degree);
+    while ($degree_row=mysqli_fetch_array($degree_run)) 
+    {
+     $data[]=$degree_row;
+    }
+    
+    // print_r($row_student);
+    $page = $_POST['page'];
+    $recordsPerPage = 100;
+    $startIndex = ($page - 1) * $recordsPerPage;
+    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+    // echo json_encode($pagedData);
+ 
+        echo json_encode($pagedData);
+   
+ }
+ else
+ {
+     $degree="SELECT * FROM degree_print  order by Id ASC "; 
+     $degree_run=mysqli_query($conn,$degree);
+     while ($degree_row=mysqli_fetch_array($degree_run)) 
+     {
+      $data[]=$degree_row;
+     }
+     
+     // print_r($row_student);
+     $page = $_POST['page'];
+     $recordsPerPage = 100;
+     $startIndex = ($page - 1) * $recordsPerPage;
+     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+     // echo json_encode($pagedData);
+  
+         echo json_encode($pagedData);
+ }
+}
 
 
    else
