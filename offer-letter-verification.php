@@ -6,7 +6,7 @@ include "header.php";
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="for_editLabel">Record Edit</h5>
+        <h5 class="modal-title" id="for_editLabel">Record verified</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -34,6 +34,10 @@ include "header.php";
                       
                                      <div class="input-group input-group-sm">
                                        
+                                      
+                                       <input  type="button" class="btn btn-success btn-xs" value="Pending" onclick="pending();">&nbsp;&nbsp;
+                                       <input  type="button" class="btn btn-success btn-xs" value="Verified" onclick="verified();">&nbsp;&nbsp;
+                                    
                                        <input required type="text" id="RollNoSearch" class="form-control" placeholder="Ref.No and RollNo and ID Proof">
                                        <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
                                        </div>
@@ -48,6 +52,67 @@ include "header.php";
                </div>
                <script>
 
+
+function pending() {
+                    
+                    var currentPage = 1;
+                  var code = 179;
+                  var searchQuery = '';
+                    
+                    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                             
+                              search: searchQuery 
+                           },
+                           success: function(data) {
+                              spinner.style.display='none';
+                                   // console.log(data);
+                                   buildTable(data);
+                                   updatePagination(currentPage);
+                                
+                             },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
+function verified() {
+                    
+                    var currentPage = 1;
+                  var code = 180;
+                  var searchQuery = '';
+                    
+                    var spinner=document.getElementById("ajax-loader");
+    spinner.style.display='block';
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                             
+                              search: searchQuery 
+                           },
+                           success: function(data) {
+                              spinner.style.display='none';
+                                   // console.log(data);
+                                   buildTable(data);
+                                   updatePagination(currentPage);
+                                
+                             },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
 
 function by_search_studetn() {
                     
@@ -138,7 +203,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][33]+'</td>';
+                           table += '<td >'+ data[i][34]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
                            table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button ></td>';
                            table += '</tr>';

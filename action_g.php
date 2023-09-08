@@ -9194,7 +9194,7 @@ elseif($code==166)
       else
       {
           
-             $degree="SELECT * FROM offer_latter order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter  where statusVerification='0' order by Id DESC "; 
        
                   $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
@@ -9223,6 +9223,7 @@ elseif($code==166)
 
    elseif($code==171)
     {
+        
       $id=$_POST['id'];
       $get_student_details="SELECT * FROM offer_latter  where id='$id'";
 $get_student_details_run=mysqli_query($conn,$get_student_details);
@@ -9238,7 +9239,15 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     $loanNumber=$row['loanNumber'];
     $applicationNo=$row['applicationNo'];
-    $dateVerification=$row['dateVerification'];
+    if($row['dateVerification']!='')
+    {
+
+        $dateVerification=$row['dateVerification'];
+    }
+    else
+    {
+        $dateVerification=date('Y-m-d');
+    }
     $statusVerification=$row['statusVerification'];
     
 
@@ -9472,8 +9481,19 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 <div class="col-lg-3">
                     <label>Status</label>
                      <Select class="form-control" id="statusVerification">
-                        <option value="">Select</option>
-                        <option value="1">Verified</option>
+                        <?php 
+                        if($statusVerification=="0"){
+                            ?><option value="<?=$statusVerification;?>">Pending</option>
+                            <option value="1">Verified</option>
+                            <?php 
+
+                        }else
+                        {
+?> <option value="<?=$statusVerification;?>">Verified</option>
+<option value="0">Pending</option>
+<?php 
+                        }
+                       ?>
                     </Select>
 
               
@@ -9781,7 +9801,66 @@ elseif($code==178)
  }
 }
 
+elseif($code==179)
+{
 
+       
+          $degree="SELECT * FROM offer_latter where statusVerification='0' order by Id DESC "; 
+    
+               $degree_run=mysqli_query($conn,$degree);
+               while ($degree_row=mysqli_fetch_array($degree_run)) 
+               {
+                  $data2=$degree_row;
+                  $CourseID=$degree_row['Course'];
+                  $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                  $get_course_run=sqlsrv_query($conntest,$get_course);
+                  if($row=sqlsrv_fetch_array($get_course_run))
+                  {
+                 $data1=$row;
+                 $data[]=array_merge($data2,$data1);
+            
+              }
+              
+               }
+               // print_r($data);139
+
+               $page = $_POST['page'];
+               $recordsPerPage = 50;
+               $startIndex = ($page - 1) * $recordsPerPage;
+               $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+               echo json_encode($pagedData);
+    
+}
+elseif($code==180)
+{
+
+       
+          $degree="SELECT * FROM offer_latter where statusVerification='1' order by Id DESC "; 
+    
+               $degree_run=mysqli_query($conn,$degree);
+               while ($degree_row=mysqli_fetch_array($degree_run)) 
+               {
+                  $data2=$degree_row;
+                  $CourseID=$degree_row['Course'];
+                  $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                  $get_course_run=sqlsrv_query($conntest,$get_course);
+                  if($row=sqlsrv_fetch_array($get_course_run))
+                  {
+                 $data1=$row;
+                 $data[]=array_merge($data2,$data1);
+            
+              }
+              
+               }
+               // print_r($data);139
+
+               $page = $_POST['page'];
+               $recordsPerPage = 50;
+               $startIndex = ($page - 1) * $recordsPerPage;
+               $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+               echo json_encode($pagedData);
+    
+}
    else
    {
    
