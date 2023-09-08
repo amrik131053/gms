@@ -9662,50 +9662,6 @@ else
 echo "0";
 }
 }
-<<<<<<< HEAD
-elseif($code==176)
-{
- $value=$_POST['by_search'];
- if($value!='')
- {
-   
-    $degree="SELECT * FROM degree_print where Course like '%$value%' order by Id DESC "; 
-    $degree_run=mysqli_query($conn,$degree);
-    while ($degree_row=mysqli_fetch_array($degree_run)) 
-    {
-     $data[]=$degree_row;
-    }
-    
-    // print_r($row_student);
-    $page = $_POST['page'];
-    $recordsPerPage = 100;
-    $startIndex = ($page - 1) * $recordsPerPage;
-    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-    // echo json_encode($pagedData);
- 
-        echo json_encode($pagedData);
-   
- }
- else
- {
-     $degree="SELECT * FROM degree_print  order by Id ASC "; 
-     $degree_run=mysqli_query($conn,$degree);
-     while ($degree_row=mysqli_fetch_array($degree_run)) 
-     {
-      $data[]=$degree_row;
-     }
-     
-     // print_r($row_student);
-     $page = $_POST['page'];
-     $recordsPerPage = 100;
-     $startIndex = ($page - 1) * $recordsPerPage;
-     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-     // echo json_encode($pagedData);
-  
-         echo json_encode($pagedData);
- }
-}
-=======
  
 elseif($code==176)
 {
@@ -9809,7 +9765,6 @@ mysqli_query($conn,$upd);
 
 
 
->>>>>>> a7d2b6022744e49d5ad4040c97be19519120fcfa
    else
    {
    
