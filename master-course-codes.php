@@ -26,7 +26,7 @@ $data[]=$degree_row;
                 <button type="button" class="btn btn-primary" onclick="edit_record();">Update</button>
             </div>
         </div>
-    </div>
+    </div>   
 
 </div>
 <section class="content">
@@ -35,7 +35,7 @@ $data[]=$degree_row;
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title"></h5>
+                        <h5 class="card-title">Mater Course Codes</h5>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
@@ -44,7 +44,7 @@ $data[]=$degree_row;
                     </div>
                     <div class="card-body collapse">
                         <div class="row">
-                            <div class="col-lg-3" style="text-align: center;">
+                            <div class="col-lg-3" style="text-align: ;">
                                 <label>Select Session</label>
                                 <br>
                                 <select name="session1" class="btn btn-default">
@@ -69,7 +69,7 @@ for($s1='16';$s1<='31';$s1++)
                                     <option value='J'>J</option>
                                 </select>
                             </div>
-                            <div class="col-lg-3" style="text-align: center;">
+                            <div class="col-lg-3" style="text-align: left;">
                                 <label>College Name</label>
                                 <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control"
                                     required>
@@ -85,21 +85,29 @@ for($s1='16';$s1<='31';$s1++)
                                     <option value="<?=$CollegeID;?>"><?=$college;?></option>
                                     <?php }
                         ?>
+                        <!-- <option value="other">Other</option> -->
                                 </select>
                             </div>
-                            <div class="col-lg-2" style="text-align: center;">
+                            <div class="col-lg-2" style="text-align: left;">
                                 <label>Department</label>
                                 <select id="Department3" class="form-control" onchange="fetchcourse3()" required>
                                     <option value=''>Select Department</option>
+                                   
                                 </select>
                             </div>
-                            <div class="col-lg-2" style="text-align: center;">
+                            <div class="col-lg-2" style="text-align: left;">
                                 <label>Course</label>
-                                <select id="Course3" class="form-control" required>
+                                <select id="Course3" onchange="courseOnChnageOther(this.value);" class="form-control" required>
                                     <option value=''>Select Course</option>
                                 </select>
                             </div>
-                            <div class="col-lg-2" style="text-align: center;">
+                            
+                            <div class="col-lg-2" id="typeCourseDiv" style=" display:none;">
+                                <label> Course Name</label>
+                               <input type="text"  id="Course3" class="form-control">
+                            </div>
+                           
+                            <div class="col-lg-2" style="text-align: left;">
                                 <label>Batch</label>
                                 <select id="Batch3" class="form-control" required>
                                     <option value="">Batch</option>
@@ -111,14 +119,14 @@ for($s1='16';$s1<='31';$s1++)
                                ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-3" style="text-align:center;">
+                       
+                       
+                            <div class="col-lg-3" >
 
                                 <label>First RollNo</label>
                                 <input type="text" id="FirstRollNo" class="form-control">
                             </div>
-                            <div class="col-lg-3" style="text-align:center;">
+                            <div class="col-lg-3" style="text-align:;">
                                 <label>Last RollNo </label>
                                 <input type="text" id="LastRollNo" class="form-control">
                             </div>
@@ -135,15 +143,50 @@ for($s1='16';$s1<='31';$s1++)
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-1">
-                                <label>Action</label><br>
-                                <input type="button" name="" class="btn btn-success" value="Upload">
+                            <div class="col-lg-2" id="DurationDiv" style=" display:none;">
+                                <label>Duration</label>
+                               
+                                <br>
+                                <select name="session1" class="btn btn-default">
+                                    <option value=''>Y</option>
+                                    <?php 
+for($s='1';$s<='10';$s++)
+{
+  ?>
+                                    <option value='<?=$s;?>'><?=$s;?></option>
+                                    <?php }?>
+                                </select>
+                                <select name="session2" class="btn btn-default">
+                                <option value=''>M</option>
+                                    <?php 
+for($s1='0';$s1<='6';$s1++)
+{
+  ?>
+                                    <option value='<?=$s1;?>'><?=$s1;?></option>
+                                    <?php }?>
+                                </select>
+                               
                             </div>
-
-
+                        
+                <div class="col-lg-2" id="TypeDiv" style="display:none;">
+                    <label>Course Type</label>
+                    <select class="form-control" id="CourseType"
+                       >
+                        <option value="">Select</option>
+                        <option value="UG">UG</option>
+                        <option value="PG">PG</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Ph.D">Ph.D</option>
+                    </select>
+                </div>
+                            
+                            
                         </div>
+                        <div class="card-footer">
+                            
+                            <input type="button" name="" class="btn btn-success" value="Add" style="float:right;">
                     </div>
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -589,7 +632,7 @@ function collegeByDepartment3(College) {
     });
 
 }
-
+ 
 function fetchcourse3() {
     var College = document.getElementById('College3').value;
     var department = document.getElementById('Department3').value;
@@ -604,13 +647,30 @@ function fetchcourse3() {
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                // console.log(data);
+                console.log(data);
                 $("#Course3").html("");
                 $("#Course3").html(data);
             }
         }
     });
 }
+function courseOnChnageOther(value) {
+    // alert(value);
+   if(value=='other')
+   {
+$('#typeCourseDiv').show();
+$('#DurationDiv').show();
+$('#TypeDiv').show();
+}
+else
+{
+       $('#typeCourseDiv').hide();
+       $('#DurationDiv').hide();
+$('#TypeDiv').hide();
+
+   }
+}
+
 
 
 function fetchcourse() {

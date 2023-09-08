@@ -7280,7 +7280,12 @@ elseif($code==132)
         <div class="row container-fluid">
             <div class="col-lg-12">
                 <label>Type</label>
-                <input type="text" name="type" class="form-control" value="degree" readonly>
+                <!-- <input type="text" name="type" class="form-control" value="degree" readonly> -->
+                <select name="type" class="form-control" required>
+                    <option value="degree">degree</option>
+                    <option value="certificate">certificate</option>
+</select>
+
             </div>
         </div>
         <div class="row container-fluid">
@@ -9646,6 +9651,48 @@ else
 {
 echo "0";
 }
+}
+elseif($code==176)
+{
+ $value=$_POST['by_search'];
+ if($value!='')
+ {
+   
+    $degree="SELECT * FROM degree_print where Course like '%$value%' order by Id DESC "; 
+    $degree_run=mysqli_query($conn,$degree);
+    while ($degree_row=mysqli_fetch_array($degree_run)) 
+    {
+     $data[]=$degree_row;
+    }
+    
+    // print_r($row_student);
+    $page = $_POST['page'];
+    $recordsPerPage = 100;
+    $startIndex = ($page - 1) * $recordsPerPage;
+    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+    // echo json_encode($pagedData);
+ 
+        echo json_encode($pagedData);
+   
+ }
+ else
+ {
+     $degree="SELECT * FROM degree_print  order by Id ASC "; 
+     $degree_run=mysqli_query($conn,$degree);
+     while ($degree_row=mysqli_fetch_array($degree_run)) 
+     {
+      $data[]=$degree_row;
+     }
+     
+     // print_r($row_student);
+     $page = $_POST['page'];
+     $recordsPerPage = 100;
+     $startIndex = ($page - 1) * $recordsPerPage;
+     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+     // echo json_encode($pagedData);
+  
+         echo json_encode($pagedData);
+ }
 }
    else
    {

@@ -17487,6 +17487,7 @@ else if($code=='303')
    
    echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
    }
+   echo " <option value='other'>Other</option>";
    
    }
 

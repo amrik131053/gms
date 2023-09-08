@@ -84,17 +84,64 @@ include "header.php";
                   </div>
                   <div class="card-tools">
                      </div>
-                     <div class="input-group input-group-sm col-lg-3">
+                     <div class="input-group input-group-sm col-lg-6">
               
               <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo/Name">
                                    
 <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
+&nbsp;
+&nbsp;
+&nbsp;
+             <select class="form-control" id="CourseName">
+             <option value="">Course Name</option>
+               <?php 
+               $get_course="SELECT distinct Course FROM degree_print";
+               $get_course_run=mysqli_query($conn,$get_course);
+               while($get_row=mysqli_fetch_array($get_course_run))
+               {?>
+                  <option value="<?=$get_row['Course'];?>"><?=$get_row['Course'];?></option>
+<?php 
+               }?>
+             </select>
+                                   
+<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_course_studetn();">
 </div>
                  
                </div>
                
 
                <script>
+                           function by_course_studetn() {
+                    
+                    var currentPage = 1;
+                  var code = 176;
+                  var searchQuery = '';
+                    var by_search=document.getElementById('CourseName').value;
+                    var spinner=document.getElementById("ajax-loader");
+  //   spinner.style.display='block';
+                        $.ajax({
+                           url: 'action_g.php',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                              page: currentPage,
+                              code: code,
+                              by_search: by_search,
+                              search: searchQuery 
+                           },
+                           success: function(data) {
+                               
+                                   // console.log(data);
+                                   buildTable(data);
+                                   updatePagination(currentPage);
+                                
+                             },
+                           error: function() {
+                              // Handle error response
+                           }
+                        });
+                  }
+
                   
                   function date_by_search() {
                      
