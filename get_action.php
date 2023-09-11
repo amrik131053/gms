@@ -3232,7 +3232,7 @@ elseif($code==36)
 <label id="menu_label<?=$id;?>"><?=$row['mainmenu'];?>
 
 
-  <input type="text" id="main_menu_h<?=$row['id'];?>" value="<?=$row['master_id'];?>">  
+  <input type="hidden" id="main_menu_h<?=$row['id'];?>" value="<?=$row['master_id'];?>">  
 
 
 
