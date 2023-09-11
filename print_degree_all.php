@@ -83,6 +83,7 @@
                                     $father_name=$degree_row['FatherName'];
                                     $mother_name=$degree_row['MotherName'];
                                     $UnirollNo=$degree_row['UniRollNo'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -96,13 +97,21 @@
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
+                                    
 
-                                  $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
                                       $snap=$row_student['Snap'];
+                                      if($row_student['LateralEntry']=='No')
+                                      {
                                       $yoa=$row_student['Batch'];
+                                   }else
+                                   {
+                                         $yoa=$row_student['Batch']+1;
+
+                                      }
                                       $gender=$row_student['Sex'];
                                       $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
@@ -230,6 +239,7 @@
                                 $Stream=$degree_row['Stream'];
                                 $Type=$degree_row['Type'];
                                 $course=$degree_row['Course'];
+                                $QrCourse=$degree_row['QrCourse'];
                                    if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -244,12 +254,19 @@
                                 $ExtraRow=$degree_row['ExtraRow'];
                                 $Examination=$degree_row['Examination'];
                                 $RegistrationNo=$degree_row['RegistrationNo'];
-                                  $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
                                       $snap=$row_student['Snap'];
+                                      if($row_student['LateralEntry']=='No')
+                                      {
                                       $yoa=$row_student['Batch'];
+                                   }else
+                                   {
+                                         $yoa=$row_student['Batch']+1;
+
+                                      }
                                       $gender=$row_student['Sex'];
                                       $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
@@ -257,7 +274,15 @@
                                   }
                                   $CGPA = number_format($CGPA, 2);
 
-                                            $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                   if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
                                             $ecc = 'L';
@@ -388,6 +413,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $Stream=$degree_row['Stream'];
                                  $Type=$degree_row['Type'];
                                  $course=$degree_row['Course'];
+                                 $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                  {
                                     $course_head=$degree_row['Course1'];
@@ -401,19 +427,34 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                   $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                    $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                    if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                    {
                                        $snap=$row_student['Snap'];
+                                       if($row_student['LateralEntry']=='No')
+                                       {
                                        $yoa=$row_student['Batch'];
+                                    }else
+                                    {
+                                          $yoa=$row_student['Batch']+1;
+
+                                       }
                                        $gender=$row_student['Sex'];
                                        $pic=base64_encode($snap);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
                                    $CGPA = number_format($CGPA, 2);
-                                             $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                    if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                              $path = 'degreeqr/';
                                              $file = $path.$UnirollNo.".png";
                                              $ecc = 'L';
@@ -541,6 +582,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $Stream=$degree_row['Stream'];
                                  $Type=$degree_row['Type'];
                                  $course=$degree_row['Course'];
+                                 $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                  {
                                     $course_head=$degree_row['Course1'];
@@ -554,19 +596,34 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                   $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                    $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                    if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                    {
                                        $snap=$row_student['Snap'];
+                                       if($row_student['LateralEntry']=='No')
+                                       {
                                        $yoa=$row_student['Batch'];
+                                    }else
+                                    {
+                                          $yoa=$row_student['Batch']+1;
+
+                                       }
                                        $gender=$row_student['Sex'];
                                        $pic=base64_encode($snap);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
                                     $CGPA = number_format($CGPA, 2);
-                                             $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                    if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                              $path = 'degreeqr/';
                                              $file = $path.$UnirollNo.".png";
                                              $ecc = 'L';
@@ -700,13 +757,21 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                    
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
@@ -721,7 +786,15 @@ $ms1="<strike>Mr.</strike>";    // code...
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       } $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                    if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -853,6 +926,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -866,19 +940,42 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
                                        $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                       if($RegistrationNo!='')
+                                       {
+                                                       if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1004,6 +1101,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $mother_name=$degree_row['MotherName'];
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                     $Type=$degree_row['Type'];
                                     if($degree_row['Course1']!='')
                                 {
@@ -1019,12 +1117,19 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
@@ -1089,9 +1194,7 @@ $ms1="<strike>Mr.</strike>";    // code...
     // code...
  
  }
- 
- $CGPA = number_format($CGPA, 2);
-  
+
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirments for the award of this Diploma and having passed 
  the prescribed examination held in <b>".$Examination."</b> has been conferred the 
@@ -1155,6 +1258,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                         $father_name=$degree_row['FatherName'];
                                         $mother_name=$degree_row['MotherName'];
                                         $UnirollNo=$degree_row['UniRollNo'];
+                                        $QrCourse=$degree_row['QrCourse'];
                                         if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -1168,12 +1272,19 @@ $ms1="<strike>Mr.</strike>";    // code...
                                         $ExtraRow=$degree_row['ExtraRow'];
                                         $Examination=$degree_row['Examination'];
                                         $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
@@ -1311,6 +1422,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -1324,12 +1436,19 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
@@ -1345,7 +1464,15 @@ $ms1="<strike>Mr.</strike>";    // code...
                                       }
                                       }
                                         $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                       if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1476,6 +1603,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $UnirollNo=$degree_row['UniRollNo'];
                                     $Stream=$degree_row['Stream'];
                                     $Type=$degree_row['Type'];
+                                    $QrCourse=$degree_row['QrCourse'];
                                     if($degree_row['Course1']!='')
                                 {
                                    $course_head=$degree_row['Course1'];
@@ -1489,12 +1617,19 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Snap'];
+                                          if($row_student['LateralEntry']=='No')
+                                          {
                                           $yoa=$row_student['Batch'];
+                                       }else
+                                       {
+                                             $yoa=$row_student['Batch']+1;
+
+                                          }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
@@ -1508,9 +1643,18 @@ $ms1="<strike>Mr.</strike>";    // code...
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
+                                    //   print_r($row_student);
                                       }
                                        $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                       if($RegistrationNo!='')
+                                       {
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                             }
+                                             else
+                                             {
+                                          $text = "Course:".$course.''.$Stream."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No..".$UnirollNo."\nCGPA:".$CGPA;
+
+                                       }
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
