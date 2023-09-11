@@ -3333,15 +3333,16 @@ elseif($code==37)
 }
 
 
-elseif($code==38)
+elseif($code==38) 
 {
     $id=$_GET['submenu_id'];
 
     $submenu_name=$_GET['submenu_name'];
     $sublink=$_GET['sublink'];
+
       $menu=$_GET['menu'];
 
-  $get_name="SELECT menu_name FROM master_menu where id='$menu'";
+ $get_name="SELECT menu_name FROM master_menu where id='$menu'";
      $get_name_run=mysqli_query($conn,$get_name);
      while($get_name_row=mysqli_fetch_array($get_name_run))
      {
