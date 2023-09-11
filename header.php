@@ -290,7 +290,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                </li> 
    
 
-                 <!--  <?php if ($spoc_per>0) 
+                 <?php if ($spoc_per>0) 
                   {
                  ?>
                
@@ -303,7 +303,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                      </p>
                   </a>
                </li>
-            <?php }?> -->
+            <?php }?> 
             </ul>
     <?php
                   $ids = join("','",$array_aa); 
