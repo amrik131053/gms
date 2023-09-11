@@ -4489,6 +4489,7 @@ if ($check_flow_row['status']<4) {
       $Outof="";
       $CollegeName="";
 $CourseHead="";
+$QrCourse="";
    $file = $_FILES['file']['tmp_name'];
    if(isset($_POST['month']))
    {
@@ -4522,6 +4523,15 @@ $CourseHead="";
     $CGPA = $filesop[7];
     $Outof = $filesop[8];
     $Stream = $filesop[9];
+   
+    if($filesop[10]=='')
+    {
+$QrCourse=$Course.'('.$Stream.')';
+    }
+    else
+    {
+        $QrCourse = $filesop[10];
+    }
     
    
     $checkQuery = "SELECT * FROM `degree_print` WHERE `UniRollNo` = '$UniRollNo'";
@@ -4535,7 +4545,7 @@ $CourseHead="";
         </script>
         <?php
     } else {
-        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,Course1) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead');";
+        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,`Course1`,`QrCourse`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead','$QrCourse');";
         $insert_run = mysqli_query($conn, $insert);
     
         if ($insert_run == true) {
