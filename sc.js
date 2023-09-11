@@ -1415,7 +1415,7 @@ function page_data_submit(id)
       var link = $('#page_sublink'+id).val(); 
 
        var menu = $('#main_menu'+id).val();
-       // alert(id);
+       //alert(menu);
  
 
            var code=38; 
@@ -1448,7 +1448,7 @@ function page_data_submit(id)
       }
     }
   }
-  xmlhttp.open("GET", "get_action.php?submenu_id=" + id+"&submenu_name="+submenu+"&sublink="+link+"&menu="+menu+"&code="+code, true);
+  xmlhttp.open("GET", "get_action.php?submenu_id=" + id+"&submenu_name="+submenu+"&sublink="+link+"&menu="+menuid+"&code="+code, true);
   xmlhttp.send();
 }
 
