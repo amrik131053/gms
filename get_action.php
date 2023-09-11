@@ -3240,7 +3240,7 @@ elseif($code==36)
 
 
       <select class="form-control" id="main_menu<?=$row['id'];?>" style='display: none;'  >
-          <option value="<?=$row['id'];?>"><?=$row['mainmenu'];?></option>
+          <option value="<?=$row['master_id'];?>"><?=$row['mainmenu'];?></option>
 
            <?php  $show_menu_all = mysqli_query($conn,"SELECT * from master_menu");
       while($row_menu=mysqli_fetch_array($show_menu_all))
@@ -3349,7 +3349,7 @@ elseif($code==38)
       $menu_name=$get_name_row['menu_name'];
      }
 
-  $submenu_update="UPDATE permissions SET submenu='$submenu_name',master_id='$menu',page_link='$sublink',mainmenu='$menu_name' WHERE id='$id'";
+   $submenu_update="UPDATE permissions SET submenu='$submenu_name',master_id='$menu',page_link='$sublink',mainmenu='$menu_name' WHERE id='$id'";
    $submenu_run=mysqli_query($conn,$submenu_update);
    if ($submenu_run)
     {

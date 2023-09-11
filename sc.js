@@ -1448,7 +1448,7 @@ function page_data_submit(id)
       }
     }
   }
-  xmlhttp.open("GET", "get_action.php?submenu_id=" + id+"&submenu_name="+submenu+"&sublink="+link+"&menu="+menuid+"&code="+code, true);
+  xmlhttp.open("GET", "get_action.php?submenu_id=" + id+"&submenu_name="+submenu+"&sublink="+link+"&menu="+menu+"&code="+code, true);
   xmlhttp.send();
 }
 
