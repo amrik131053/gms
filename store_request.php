@@ -23,14 +23,14 @@
                      <?php 
                         //$rresult = mysqli_query($connection_s,"SELECT DISTINCT category FROM item_category");
                         
-                        $rresult = mysqli_query($conn,"SELECT *  FROM user where emp_id='$a'");
-                        while($row=mysqli_fetch_array($rresult)) 
-                        {
+                        // $rresult = mysqli_query($conn,"SELECT *  FROM user where emp_id='$a'");
+                        // while($row=mysqli_fetch_array($rresult)) 
+                        // {
                         
-                           $name=$row['name'];
-                           $dep=$row['department'];
+                           $name=$Emp_Name;
+                           $dep=$Emp_Department;
                         
-                        }
+                        // }
                         ?>    
                      <div class="row">
                         <div class="col-sm-12" style="text-align:left;" id="data">
