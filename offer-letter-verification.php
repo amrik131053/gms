@@ -426,7 +426,7 @@ table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-d
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
-function edit_student_details(id) {
+function edit_student_details_a(id) {
     var loanNumber = document.getElementById('loanNumber').value;
     var applicationNo = document.getElementById('applicationNo').value;
     var statusVerification = document.getElementById('statusVerification').value;
@@ -472,6 +472,107 @@ else
    ErrorToast('All Input Required','bg-warning');
 }
 }
+
+function edit_student_details(id) {
+
+  var Name = document.getElementById('Name').value;
+  var FatherName = document.getElementById('FatherName').value;
+  // var MotherName = document.getElementById('MotherName').value;
+  var Gender = document.getElementById('Gender').value;
+  // var MobileNo = document.getElementById('MobileNo').value;
+  var CollegeName = document.getElementById('CollegeName1').value;
+  var Department = document.getElementById('Department1').value;
+  var Course = document.getElementById('Course1').value;
+  // var Batch = document.getElementById('batch').value;
+  // var PinCode = document.getElementById('Pincode').value;
+  var Nationality = document.getElementById('Nationality').value;
+  var State = document.getElementById('State').value;
+    var months = document.getElementById('months').value;
+//   var District = document.getElementById('District1').value;
+  // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+  var Consultant = document.getElementById('Consultant_').value;
+   var duration = document.getElementById('Duration').value;
+  // var session = document.getElementById('session').value;
+  // var AdharCardNo = document.getElementById('AdharCardNo').value;
+  // var PassportNo = document.getElementById('PassportNo').value;
+  var classroll = document.getElementById('classroll').value;
+  var District = document.getElementById('District1').value;
+
+if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
+{
+  var code = 140;
+  var data = {
+    id: id,
+    Name: Name,
+    FatherName: FatherName,
+    // MotherName: MotherName,
+    Gender: Gender,
+    // MobileNo: MobileNo,
+    CollegeName: CollegeName,
+    Department: Department,
+    Course: Course,
+    // Batch: Batch,
+    // PinCode: PinCode,
+    Nationality: Nationality,
+    State: State,
+    // District: District,
+    Consultant: Consultant,
+    // Lateral: Lateral,
+    duration: duration,
+    // session: session,
+    // AdharCardNo: AdharCardNo,
+    // PassportNo: PassportNo,
+    months:months,
+    classroll: classroll,
+    District1: District,
+    code: code
+  };
+ 
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      console.log(response); // Log the response for debugging
+      // alert('Data submitted successfully!');
+      if (response==1) {
+      SuccessToast('Data submitted successfully');
+      // date_by_search();
+
+
+   }
+   else if(response==2)
+   {
+ErrorToast('ID Proof Already Exist','bg-warning');
+   }
+   else
+   {
+ErrorToast('Try  after some time','bg-danger');
+
+   }
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+      // alert('An error occurred while submitting data. Please try again.');
+    }
+  });
+}
+else
+{
+   ErrorToast('All Input Required','bg-warning');
+}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 function all_report() 
