@@ -9871,6 +9871,206 @@ elseif($code==180)
                echo json_encode($pagedData);
     
 }
+
+elseif($code==181)
+{?>
+
+<div class="col-lg-12">
+<?php
+
+     $emp_id=$_POST['id'];
+       $getUserDetails="SELECT * FROM Staff Where IDNo='$emp_id'";
+       $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+       if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+       {
+$Name=$getUserDetailsRow['Name'];
+$getUserDetailsRow['Snap'];
+$Designation=$getUserDetailsRow['Designation'];
+$CollegeName=$getUserDetailsRow['CollegeName'];
+
+?>
+<br>
+<div class="row">
+<div class="col-lg-4">
+    <label for="">Name</label>
+<?=$Name;?>
+
+       </div>
+<div class="col-lg-4">
+<label for="">Designation</label>
+<?=$Designation;?>
+
+       </div>
+<div class="col-lg-4">
+<label for="">CollegeName</label>
+<?=$CollegeName;?>
+
+       </div>
+       </div>
+       <br>
+<table class="table  table-bordered">
+    <tr>
+        <th> ID</th>
+        <th>Emp ID</th>
+        <th>Password</th>
+        <th>LoginType</th>
+        <th>RightsLevel</th>
+        <th>Delete</th>
+        <th>Update</th>
+       </tr>
+<?php 
+$getUserMaster="SELECT * FROM UserMaster Where UserName='$emp_id' ";
+$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+$countPerms=0;
+while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+<tr>
+<td><?=$getUserMasterRunRow['UserMasterID'];?></td>
+<td><?=$getUserMasterRunRow['UserName'];?></td>
+<td><?=$getUserMasterRunRow['Password'];?></td>
+<td>
+<select class="form-control" id="LoginType">
+    <option value="<?=$getUserMasterRunRow['LoginType'];?>"><?=$getUserMasterRunRow['LoginType'];?></option>
+    
+    <?php 
+$getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+
+    <option value="<?=$getDefalutMenuRunRow['LoginType'];?>"><?=$getDefalutMenuRunRow['LoginType'];?></option>
+
+
+<?php 
+}?>
+
+</td>
+<td>
+<select class="form-control" id="RightsLevel">
+    <option value="<?=$getUserMasterRunRow['RightsLevel'];?>"><?=$getUserMasterRunRow['RightsLevel'];?></option>
+    
+    <?php 
+$getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+
+    <option value="<?=$getDefalutMenuRunRow['Category'];?>"><?=$getDefalutMenuRunRow['Category'];?></option>
+
+
+<?php 
+}?>
+
+</td>
+<td><button class="btn btn-danger" onclick="deleteRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i class="fa fa-trash text-white"></i></button></td>
+<td><button class="btn btn-success" onclick="updateRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i class="fa fa-check text-white fa-1x"></i></button></td>
+</tr>
+<?php
+
+$countPerms++;
+}
+if($countPerms<1)
+{
+   ?> <tr>
+<td></td>
+<td><?=$getUserDetailsRow['IDNo'];?></td>
+<td>
+<select class="form-control" id="LoginType">
+    <option value="">Select</option>
+    
+    <?php 
+$getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+
+    <option value="<?=$getDefalutMenuRunRow['LoginType'];?>"><?=$getDefalutMenuRunRow['LoginType'];?></option>
+
+
+<?php 
+}?>
+
+</td>
+<td>
+<select class="form-control" id="RightsLevel">
+    <option value="">Select</option>
+    <?php 
+$getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+    <option value="<?=$getDefalutMenuRunRow['Category'];?>"><?=$getDefalutMenuRunRow['Category'];?></option>
+<?php 
+}?>
+</td>
+<td></td>
+<td><button class="btn btn-success" onclick="addRole('<?=$getUserDetailsRow['IDNo'];?>','<?=$getUserDetailsRow['CollegeName'];?>');"><i class="fa fa-plus text-white fa-1x"></i></button></td>
+</tr>
+<?php 
+}
+?>
+</table>
+<?php 
+ }
+    ?>
+    </div>
+    <?php      
+}
+
+elseif($code==182)
+{
+$empid = $_POST['empid'];
+$userMasterId = $_POST['userMasterId'];
+$insert_record = "DELETE FROM  UserMaster  where UserMasterID='$userMasterId' and UserName='$empid'";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
+elseif($code==183)
+{
+$empid = $_POST['empid'];
+$userMasterId = $_POST['userMasterId'];
+$LoginType = $_POST['LoginType'];
+$RightsLevel = $_POST['RightsLevel'];
+$insert_record = "UPDATE  UserMaster SET LoginType='$LoginType' ,RightsLevel='$RightsLevel' ,ApplicationType='Web' ,ApplicationName='Campus'   where UserMasterID='$userMasterId' and UserName='$empid'";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
+elseif($code==184)
+{
+$empid = $_POST['empid'];
+$LoginType = $_POST['LoginType'];
+$RightsLevel = $_POST['RightsLevel'];
+$CollegeName = $_POST['college'];
+ $insert_record="INSERT into UserMaster(UserName,Password,LoginType,RightsLevel,ApplicationType,ApplicationName,CollegeName)values('$empid','$empid','$LoginType','$RightsLevel','Web','Campus','$CollegeName');";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
    else
    {
    

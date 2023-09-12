@@ -28,7 +28,10 @@
             <input type="text" class="form-control" required="" id="user_id" placeholder="EmpID">
             <button type="button" class="btn btn-primary btn-xs" onclick="emp_role()">Search</button>
             &nbsp;
-            <button type="button" class="btn btn-primary btn-xs" onclick="role_drop()" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Assign Role</button>
+            <button type="button" class="btn btn-primary btn-xs" onclick="role_drop()" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Assign LMS Role</button>
+            &nbsp;
+            &nbsp;
+            <button type="button" class="btn btn-primary btn-xs" onclick="erp_role_drop()" data-toggle="modal" data-target="#erp_exampleModal" data-whatever="@mdo">Assign ERP Role</button>
             &nbsp;
             <button type="button" class="btn btn-success btn-xs" onclick="view_all_permission()"> Special Permissions</button>
 </div>
@@ -69,6 +72,23 @@
             </button>
          </div>
          <div id="role_drop_dwon">
+         <form action="action.php" method="post">
+         
+      </form>
+      </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="erp_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Assign ERP Role</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div id="erp_role_drop_dwon">
          <form action="action.php" method="post">
          
       </form>
@@ -121,13 +141,13 @@
  
 }
 
-    function date_change(id) 
-    {
-      // alert(id);
-      var start_date= document.getElementById("sid_"+id).value;
-      var end_date= document.getElementById("eid_"+id).value;
-      var spinner = document.getElementById("ajax-loader");
-      spinner.style.display = 'block';
+function date_change(id) 
+{
+   // alert(id);
+   var start_date= document.getElementById("sid_"+id).value;
+   var end_date= document.getElementById("eid_"+id).value;
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
    var code = 174;
    $.ajax({
       url: 'action_g.php',
@@ -141,24 +161,164 @@
          if(response==1)
          {
             view_all_permission();
-SuccessToast('Updated');
+            SuccessToast('Updated');
          }else{
-
+            
          }
       }
    });
- 
+   
 }
-    function delete_special_permission(id) 
-    {
-      var a=confirm('Are you sure you want to delete special permissions '+id);
-// alert(id);
-if (a==true) {
-   var spinner = document.getElementById("ajax-loader");
-
+function delete_special_permission(id) 
+{
+   var a=confirm('Are you sure you want to delete special permissions '+id);
+   // alert(id);
+   if (a==true) {
+      var spinner = document.getElementById("ajax-loader");
+      
       // alert(id);
       spinner.style.display = 'block';
-   var code = 175;
+      var code = 175;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,id:id
+         },
+         success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               view_all_permission();
+               SuccessToast('Successfully  Delete');
+               
+            }else
+            {
+               
+            }
+         }
+      });
+   }
+ 
+}
+function deleteRole(empid,userMasterId) 
+{
+   var a=confirm('Are you sure you want to delete  '+empid);
+   // alert(id);
+   if (a==true) {
+      var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 182;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,empid:empid,userMasterId:userMasterId
+         },
+         success: function(response) {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               erp_role_drop();
+               SuccessToast('Successfully  Deleted');
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+ 
+}
+function updateRole(empid,userMasterId) 
+{
+
+   var RightsLevel = document.getElementById("RightsLevel").value;
+   var LoginType = document.getElementById("LoginType").value;
+      // alert(LoginType+RightsLevel);
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 183;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,userMasterId:userMasterId,RightsLevel:RightsLevel,LoginType:LoginType
+         },
+         success: function(response) 
+         {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               // erp_role_drop();
+               SuccessToast('Successfully  Updated');
+               erp_role_drop();
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+
+function addRole(empid,college) 
+{
+
+   var RightsLevel = document.getElementById("RightsLevel").value;
+   var LoginType = document.getElementById("LoginType").value;
+  
+   // alert(LoginType+RightsLevel);
+   if(RightsLevel!='' && LoginType!='' )
+   {
+   var spinner = document.getElementById("ajax-loader");
+   // spinner.style.display = 'block';
+      var code = 184;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,RightsLevel:RightsLevel,LoginType:LoginType,college:college
+         },
+         success: function(response) 
+         {
+            console.log(response);
+            // spinner.style.display = 'none';
+            if(response=='1')
+            {
+               erp_role_drop();
+               SuccessToast('Successfully  Inserted');
+               
+            }
+            else
+            {
+               ErrorToast('try','bg-danger' );
+            }
+         }
+      });
+   }
+   else
+   {
+      ErrorToast('all inputs required','bg-danger' );
+   }
+}
+
+
+
+function erp_role_drop()
+{
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
+   var id= document.getElementById("user_id").value;
+   var code=181; 
    $.ajax({
       url: 'action_g.php',
       type: 'POST',
@@ -166,21 +326,11 @@ if (a==true) {
          code: code,id:id
       },
       success: function(response) {
-         console.log(response);
+         // console.log(response);
          spinner.style.display = 'none';
-         if(response==1)
-         {
-            view_all_permission();
-SuccessToast('Successfully  Delete');
-         
-}else
-{
-
-         }
+         document.getElementById("erp_role_drop_dwon").innerHTML = response;
       }
    });
-}
- 
 }
 </script>
 <?php include "footer.php";  ?>
