@@ -238,7 +238,9 @@ function by_search_studetn() {
                            {
 table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button >&nbsp;';
 }
-table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';
+ if(userid!='131027' )
+                           {
+table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
                            
                            if(generate<=0){
 
