@@ -117,7 +117,7 @@
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
-                                            $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                            $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
                                             $ecc = 'L';
@@ -276,7 +276,7 @@
 
                                                    if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -448,7 +448,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                    $CGPA = number_format($CGPA, 2);
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -617,7 +617,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                     $CGPA = number_format($CGPA, 2);
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -788,7 +788,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                       } $CGPA = number_format($CGPA, 2);
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -963,7 +963,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                        {
                                                        if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -1136,7 +1136,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                       }
                                       }
                                        $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1291,7 +1291,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                       }
                                       }
                                         $CGPA = number_format($CGPA, 2);
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1466,7 +1466,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                         $CGPA = number_format($CGPA, 2);
                                                        if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
@@ -1648,7 +1648,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                        $CGPA = number_format($CGPA, 2);
                                                        if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity RollNo.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
