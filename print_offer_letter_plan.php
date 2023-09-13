@@ -337,7 +337,11 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 }
-if($District!='593' ||$District!='581' )
+
+
+if($District!='593' AND $District!='581')
+
+
 {
 
 if($Months>0)
