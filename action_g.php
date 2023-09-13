@@ -10071,6 +10071,818 @@ else
 echo "0";
 }
 }
+elseif($code==185)
+{
+    $subject_code=$_POST['subject_code'];
+    ?>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>   <h4>Books Published</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>category</th>
+             <th>authors</th>
+             <th>publisher</th>
+             <th>status_of_paper</th>
+             <th>title</th>
+             <th>isbn_no</th>
+             <th>vol_no</th>
+             <th>issue</th>
+             <th>page_no</th>
+             <th>doi</th>
+             <th>publishing_house</th>
+             <th>indexing</th>
+             <th>database_name</th>
+             <th>link</th>
+             <th>upload_front_page</th>
+             <th>comments</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>status_code</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestionQry="SELECT * FROM books_published WHERE emp_id='$subject_code' ";
+             $showQuestionRun=mysqli_query($conn_spoc,$showQuestionQry);
+             while($showQuestionData=mysqli_fetch_array($showQuestionRun))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF; :white;'>
+             <td><?=$showQuestionData['category'];?></td>
+             <td><?=$showQuestionData['authors'];?></td>
+             <td><?=$showQuestionData['publisher'];?></td>
+             <td><?=$showQuestionData['status_of_paper'];?></td>
+             <td><?=$showQuestionData['title'];?></td>
+             <td><?=$showQuestionData['isbn_no'];?></td>
+             <td><?=$showQuestionData['vol_no'];?></td>
+             <td><?=$showQuestionData['issue'];?></td>
+             <td><?=$showQuestionData['page_no'];?></td>
+             <td><?=$showQuestionData['doi'];?></td>
+             <td><?=$showQuestionData['publishing_house'];?></td>
+             <td><?=$showQuestionData['indexing'];?></td>
+             <td><?=$showQuestionData['database_name'];?></td>
+             <td><?=$showQuestionData['link'];?></td>
+             <td><?=$showQuestionData['upload_front_page'];?></td>
+             <td><?=$showQuestionData['comments'];?></td>
+             <td><?=$showQuestionData['month_name'];?></td>
+             <td><?=$showQuestionData['year_name'];?></td>
+             <td><?=$showQuestionData['status_code'];?></td>
+             <td><?=$showQuestionData['creation_date'];?></td>
+             <td><?=$showQuestionData['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center> <h4>Research Publications</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>category</th>
+             <th>authors</th>
+             <th>type_of_author</th>
+             <th>status_of_paper</th>
+             <th>type_paper</th>
+             <th>title</th>
+             <th>date_of_comm</th>
+             <th>date_of_accept</th>
+             <th>date_of_publication</th>
+             <th>name</th>
+             <th>level</th>
+             <th>volume</th>
+             <th>issue</th>
+             <th>page_no</th>
+             <th>doi</th>
+             <th>index_database</th>
+             <th>naas_index</th>
+             <th>naas_rating</th>
+             <th>issn</th>
+             <th>impact_factor</th>
+             <th>paper_link</th>
+             <th>upload_paper</th>
+             <th>comments</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>status_code</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion1Qry="SELECT * FROM research_publications WHERE emp_id='$subject_code' ";
+             $showQuestion1Run=mysqli_query($conn_spoc,$showQuestion1Qry);
+             while($showQuestion1Data=mysqli_fetch_array($showQuestion1Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion1Data['category'];?></td>
+             <td><?=$showQuestion1Data['authors'];?></td>
+             <td><?=$showQuestion1Data['type_of_author'];?></td>
+             <td><?=$showQuestion1Data['status_of_paper'];?></td>
+             <td><?=$showQuestion1Data['type_paper'];?></td>
+             <td><?=$showQuestion1Data['title'];?></td>
+             <td><?=$showQuestion1Data['date_of_comm'];?></td>
+             <td><?=$showQuestion1Data['date_of_accept'];?></td>
+             <td><?=$showQuestion1Data['date_of_publication'];?></td>
+             <td><?=$showQuestion1Data['name'];?></td>
+             <td><?=$showQuestion1Data['level'];?></td>
+             <td><?=$showQuestion1Data['volume'];?></td>
+             <td><?=$showQuestion1Data['issue'];?></td>
+             <td><?=$showQuestion1Data['page_no'];?></td>
+             <td><?=$showQuestion1Data['doi'];?></td>
+             <td><?=$showQuestion1Data['index_database'];?></td>
+             <td><?=$showQuestion1Data['naas_index'];?></td>
+             <td><?=$showQuestion1Data['naas_rating'];?></td>
+             <td><?=$showQuestion1Data['issn'];?></td>
+             <td><?=$showQuestion1Data['impact_factor'];?></td>
+             <td><?=$showQuestion1Data['paper_link'];?></td>
+             <td><?=$showQuestion1Data['upload_paper'];?></td>
+             <td><?=$showQuestion1Data['comments'];?></td>
+             <td><?=$showQuestion1Data['month_name'];?></td>
+             <td><?=$showQuestion1Data['year_name'];?></td>
+             <td><?=$showQuestion1Data['status_code'];?></td>
+             <td><?=$showQuestion1Data['creation_date'];?></td>
+             <td><?=$showQuestion1Data['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center> <h4>Admission Initiatives</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>orgDate</th>
+             <th>number_of_form_filled</th>
+             <th>admission_taken</th>
+             <th>program</th>
+             <th>branch_id</th>
+             <th>intiatives_undertaken</th>
+             <th>remarks</th>
+             <th>comments</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>status_code</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion2Qry="SELECT * FROM admission_initiatives WHERE emp_id='$subject_code' ";
+             $showQuestion2Run=mysqli_query($conn_spoc,$showQuestion2Qry);
+             while($showQuestion2Data=mysqli_fetch_array($showQuestion2Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion2Data['emp_id'];?></td>
+             <td><?=$showQuestion2Data['orgDate'];?></td>
+             <td><?=$showQuestion2Data['number_of_form_filled'];?></td>
+             <td><?=$showQuestion2Data['admission_taken'];?></td>
+             <td><?=$showQuestion2Data['program'];?></td>
+             <td><?=$showQuestion2Data['branch_id'];?></td>
+             <td><?=$showQuestion2Data['intiatives_undertaken'];?></td>
+             <td><?=$showQuestion2Data['remarks'];?></td>
+             <td><?=$showQuestion2Data['comments'];?></td>
+             <td><?=$showQuestion2Data['month_name'];?></td>
+             <td><?=$showQuestion2Data['year_name'];?></td>
+             <td><?=$showQuestion2Data['status_code'];?></td>
+             <td><?=$showQuestion2Data['creation_date'];?></td>
+             <td><?=$showQuestion2Data['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>   <h4>Assign Responsibility</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>emp_id</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>responsibility_assigned</th>
+             <th>work_done</th>
+             <th>status_code</th>
+             <th>comments</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion4Qry="SELECT * FROM assign_responsibility WHERE emp_id='$subject_code' ";
+             $showQuestion4Run=mysqli_query($conn_spoc,$showQuestion4Qry);
+             while($showQuestion4Data=mysqli_fetch_array($showQuestion4Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion4Data['emp_id'];?></td>
+             <td><?=$showQuestion4Data['month_name'];?></td>
+             <td><?=$showQuestion4Data['year_name'];?></td>
+             <td><?=$showQuestion4Data['responsibility_assigned'];?></td>
+             <td><?=$showQuestion4Data['work_done'];?></td>
+             <td><?=$showQuestion4Data['status_code'];?></td>
+             <td><?=$showQuestion4Data['comments'];?></td>
+             <td><?=$showQuestion4Data['creation_date'];?></td>
+             <td><?=$showQuestion4Data['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center> <h4>Award</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>category</th>
+             <th>faculty_student_name</th>
+             <th>emp_roll</th>
+             <th>program</th>
+             <th>event_name</th>
+             <th>level</th>
+             <th>organized_by</th>
+             <th>venue</th>
+             <th>award_name</th>
+             <th>awarding_agency</th>
+             <th>agency_type</th>
+             <th>upload_proof</th>
+             <th>comments</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>status_code</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion5Qry="SELECT * FROM award WHERE emp_id='$subject_code' ";
+             $showQuestion5Run=mysqli_query($conn_spoc,$showQuestion5Qry);
+             while($showQuestion5Data=mysqli_fetch_array($showQuestion5Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion5Data['category'];?></td>
+             <td><?=$showQuestion5Data['faculty_student_name'];?></td>
+             <td><?=$showQuestion5Data['emp_roll'];?></td>
+             <td><?=$showQuestion5Data['program'];?></td>
+             <td><?=$showQuestion5Data['event_name'];?></td>
+             <td><?=$showQuestion5Data['level'];?></td>
+             <td><?=$showQuestion5Data['organized_by'];?></td>
+             <td><?=$showQuestion5Data['venue'];?></td>
+             <td><?=$showQuestion5Data['award_name'];?></td>
+             <td><?=$showQuestion5Data['awarding_agency'];?></td>
+             <td><?=$showQuestion5Data['agency_type'];?></td>
+             <td><?=$showQuestion5Data['upload_proof'];?></td>
+             <td><?=$showQuestion5Data['comments'];?></td>
+             <td><?=$showQuestion5Data['month_name'];?></td>
+             <td><?=$showQuestion5Data['year_name'];?></td>
+             <td><?=$showQuestion5Data['status_code'];?></td>
+             <td><?=$showQuestion5Data['creation_date'];?></td>
+             <td><?=$showQuestion5Data['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>  <h4>Classes Delivered</h4> </center>
+             </td>
+          </tr>
+          <tr>
+             <th>no_of_classes_assigned</th>
+             <th>no_of_classes_delivered</th>
+             <th>emerging_subject</th>
+             <th>subject_code</th>
+             <th>subject_name</th>
+             <th>month_name</th>
+             <th>year_name</th>
+             <th>comments</th>
+             <th>status_code</th>
+             <th>creation_date</th>
+             <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion6Qry="SELECT * FROM classes_delivered WHERE emp_id='$subject_code' ";
+             $showQuestion6Run=mysqli_query($conn_spoc,$showQuestion6Qry);
+             while($showQuestion6Data=mysqli_fetch_array($showQuestion6Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion6Data['no_of_classes_assigned'];?></td>
+             <td><?=$showQuestion6Data['no_of_classes_delivered'];?></td>
+             <td><?=$showQuestion6Data['emerging_subject'];?></td>
+             <td><?=$showQuestion6Data['subject_code'];?></td>
+             <td><?=$showQuestion6Data['subject_name'];?></td>
+             <td><?=$showQuestion6Data['month_name'];?></td>
+             <td><?=$showQuestion6Data['year_name'];?></td>
+             <td><?=$showQuestion6Data['comments'];?></td>
+             <td><?=$showQuestion6Data['status_code'];?></td>
+             <td><?=$showQuestion6Data['creation_date'];?></td>
+             <td><?=$showQuestion6Data['updation_date'];?></td>
+          </tr>
+          <?php 
+             //    $srno++;
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>  <h4>Collaborative</h4> </center>
+             </td>
+          </tr>
+          <tr>
+              <th>collab_agency</th>
+              <th>collab_type</th>
+              <th>activity_name</th>
+              <th>start_date</th>
+              <th>end_date</th>
+              <th>upload_proof</th>
+              <th>comments</th>
+              <th>month_name</th>
+              <th>year_name</th>
+              <th>status_code</th>
+              <th>creation_date</th>
+              <th>updation_date</th>
+              <th>					
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion8Qry="SELECT * FROM collaborative WHERE emp_id='$subject_code' ";
+             $showQuestion8Run=mysqli_query($conn_spoc,$showQuestion8Qry);
+             while($showQuestion8Data=mysqli_fetch_array($showQuestion8Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+             <td><?=$showQuestion8Data['collab_agency'];?></td>
+             <td><?=$showQuestion8Data['collab_type'];?></td>
+             <td><?=$showQuestion8Data['activity_name'];?></td>
+             <td><?=$showQuestion8Data['start_date'];?></td>
+             <td><?=$showQuestion8Data['end_date'];?></td>
+             <td><?=$showQuestion8Data['upload_proof'];?></td>
+             <td><?=$showQuestion8Data['comments'];?></td>
+             <td><?=$showQuestion8Data['month_name'];?></td>
+             <td><?=$showQuestion8Data['year_name'];?></td>
+             <td><?=$showQuestion8Data['status_code'];?></td>
+             <td><?=$showQuestion8Data['creation_date'];?></td>
+             <td><?=$showQuestion8Data['updation_date'];?></td>
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>  <h4>Consultancy</h4> </center>
+             </td>
+          </tr>
+          <tr>
+            <th>principal_investigator</th><th>co_principal_investigator</th><th>title_of_the_consultancy_project</th><th>company_name</th><th>company_type</th><th>name_of_the_contact_person</th><th>email_id</th><th>phone_no</th><th>amount_sanctioned</th><th>amount_received</th><th>approval_letter_copy</th><th>comments</th><th>month_name</th><th>year_name</th><th>status_code</th><th>creation_date</th><th>updation_date</th>
+
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion9Qry="SELECT * FROM consultancy WHERE emp_id='$subject_code' ";
+             $showQuestion9Run=mysqli_query($conn_spoc,$showQuestion9Qry);
+             while($showQuestion9Data=mysqli_fetch_array($showQuestion9Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+         
+         <td><?=$showQuestion9Data['principal_investigator'];?></td>
+         <td><?=$showQuestion9Data['co_principal_investigator'];?></td>
+         <td><?=$showQuestion9Data['title_of_the_consultancy_project'];?></td>
+         <td><?=$showQuestion9Data['company_name'];?></td>
+         <td><?=$showQuestion9Data['company_type'];?></td>
+         <td><?=$showQuestion9Data['name_of_the_contact_person'];?></td>
+         <td><?=$showQuestion9Data['email_id'];?></td>
+         <td><?=$showQuestion9Data['phone_no'];?></td>
+         <td><?=$showQuestion9Data['amount_sanctioned'];?></td>
+         <td><?=$showQuestion9Data['amount_received'];?></td>
+         <td><?=$showQuestion9Data['approval_letter_copy'];?></td>
+         <td><?=$showQuestion9Data['comments'];?></td>
+         <td><?=$showQuestion9Data['month_name'];?></td>
+         <td><?=$showQuestion9Data['year_name'];?></td>
+         <td><?=$showQuestion9Data['status_code'];?></td>
+         <td><?=$showQuestion9Data['creation_date'];?></td>
+         <td><?=$showQuestion9Data['updation_date'];?></td>
+
+
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>  <h4>Funding Agencies</h4> </center>
+             </td>
+          </tr>
+          <tr >
+         <th>principal_investigator</th>
+         <th>co_principal_investigator</th>
+         <th>status</th>
+         <th>title_of_the_project</th>
+         <th>date_of_applying</th>
+         <th>date_of_sanction</th>
+         <th>agency</th>
+         <th>type_agency</th>
+         <th>tenure</th>
+         <th>amount_sanctioned</th>
+         <th>amount_received</th>
+         <th>level</th>
+         <th>approval_letter</th>
+         <th>comments</th>
+         <th>month_name</th>
+         <th>year_name</th>
+         <th>status_code</th>
+         <th>creation_date</th>
+         <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion11Qry="SELECT * FROM funding_agencies WHERE emp_id='$subject_code' ";
+             $showQuestion11Run=mysqli_query($conn_spoc,$showQuestion11Qry);
+             while($showQuestion11Data=mysqli_fetch_array($showQuestion11Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+         <td><?=$showQuestion11Data['principal_investigator'];?></td>
+         <td><?=$showQuestion11Data['co_principal_investigator'];?></td>
+         <td><?=$showQuestion11Data['status'];?></td>
+         <td><?=$showQuestion11Data['title_of_the_project'];?></td>
+         <td><?=$showQuestion11Data['date_of_applying'];?></td>
+         <td><?=$showQuestion11Data['date_of_sanction'];?></td>
+         <td><?=$showQuestion11Data['agency'];?></td>
+         <td><?=$showQuestion11Data['type_agency'];?></td>
+         <td><?=$showQuestion11Data['tenure'];?></td>
+         <td><?=$showQuestion11Data['amount_sanctioned'];?></td>
+         <td><?=$showQuestion11Data['amount_received'];?></td>
+         <td><?=$showQuestion11Data['level'];?></td>
+         <td><?=$showQuestion11Data['approval_letter'];?></td>
+         <td><?=$showQuestion11Data['comments'];?></td>
+         <td><?=$showQuestion11Data['month_name'];?></td>
+         <td><?=$showQuestion11Data['year_name'];?></td>
+         <td><?=$showQuestion11Data['status_code'];?></td>
+         <td><?=$showQuestion11Data['creation_date'];?></td>
+         <td><?=$showQuestion11Data['updation_date'];?></td>
+
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center> <h4>Industrial Visits</h4> </center>
+             </td>
+          </tr>
+          <tr>
+      
+         <th>institute_id</th>
+         <th>faculty_role</th>
+         <th>name_company</th>
+         <th>location</th>
+         <th>name_contact_person</th>
+         <th>contact_number</th>
+         <th>email_id</th>
+         <th>date_of_visit</th>
+         <th>number_student_participated</th>
+         <th>programme_report</th>
+         <th>media_coverage</th>
+         <th>sanction_letter</th>
+         <th>comments</th>
+         <th>month_name</th>
+         <th>year_name</th>
+         <th>status_code</th>
+         <th>creation_date</th>
+         <th>updation_date</th>
+
+
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion12Qry="SELECT * FROM industrial_visits WHERE emp_id='$subject_code' ";
+             $showQuestion12Run=mysqli_query($conn_spoc,$showQuestion12Qry);
+             while($showQuestion12Data=mysqli_fetch_array($showQuestion12Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+       
+
+
+        <td><?=$showQuestion12Data['institute_id'];?></td>
+        <td><?=$showQuestion12Data['faculty_role'];?></td>
+        <td><?=$showQuestion12Data['name_company'];?></td>
+        <td><?=$showQuestion12Data['location'];?></td>
+        <td><?=$showQuestion12Data['name_contact_person'];?></td>
+        <td><?=$showQuestion12Data['contact_number'];?></td>
+        <td><?=$showQuestion12Data['email_id'];?></td>
+        <td><?=$showQuestion12Data['date_of_visit'];?></td>
+        <td><?=$showQuestion12Data['number_student_participated'];?></td>
+        <td><?=$showQuestion12Data['programme_report'];?></td>
+        <td><?=$showQuestion12Data['media_coverage'];?></td>
+        <td><?=$showQuestion12Data['sanction_letter'];?></td>
+        <td><?=$showQuestion12Data['comments'];?></td>
+        <td><?=$showQuestion12Data['month_name'];?></td>
+        <td><?=$showQuestion12Data['year_name'];?></td>
+        <td><?=$showQuestion12Data['status_code'];?></td>
+        <td><?=$showQuestion12Data['creation_date'];?></td>
+        <td><?=$showQuestion12Data['updation_date'];?></td>
+
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center><h4>Isr Extension</h4> </center>
+             </td>
+          </tr>
+          <tr>
+      
+   
+
+       <th>faculty_role</th>
+       <th>name_of_the_activity</th>
+       <th>location</th>
+       <th>name_of_the_partening_ngo</th>
+       <th>sector</th>
+       <th>type_of_activity</th>
+       <th>number_of_faculty_involved</th>
+       <th>number_of_students_covered</th>
+       <th>date_of_activity</th>
+       <th>funded_by</th>
+       <th>programme_report_link</th>
+       <th>media_coverge_link</th>
+       <th>status_code</th>
+       <th>comments</th>
+       <th>month_name</th>
+       <th>year_name</th>
+       <th>creation_date</th>
+       <th>updation_date</th>
+
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion13Qry="SELECT * FROM isr_extension WHERE emp_id='$subject_code' ";
+             $showQuestion13Run=mysqli_query($conn_spoc,$showQuestion13Qry);
+             while($showQuestion13Data=mysqli_fetch_array($showQuestion13Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+       
+
+
+        
+        <td><?=$showQuestion13Data['faculty_role'];?></td>
+       <td><?=$showQuestion13Data['name_of_the_activity'];?></td>
+       <td><?=$showQuestion13Data['location'];?></td>
+       <td><?=$showQuestion13Data['name_of_the_partening_ngo'];?></td>
+       <td><?=$showQuestion13Data['sector'];?></td>
+       <td><?=$showQuestion13Data['type_of_activity'];?></td>
+       <td><?=$showQuestion13Data['number_of_faculty_involved'];?></td>
+       <td><?=$showQuestion13Data['number_of_students_covered'];?></td>
+       <td><?=$showQuestion13Data['date_of_activity'];?></td>
+       <td><?=$showQuestion13Data['funded_by'];?></td>
+       <td><?=$showQuestion13Data['programme_report_link'];?></td>
+       <td><?=$showQuestion13Data['media_coverge_link'];?></td>
+       <td><?=$showQuestion13Data['status_code'];?></td>
+       <td><?=$showQuestion13Data['comments'];?></td>
+       <td><?=$showQuestion13Data['month_name'];?></td>
+       <td><?=$showQuestion13Data['year_name'];?></td>
+       <td><?=$showQuestion13Data['creation_date'];?></td>
+       <td><?=$showQuestion13Data['updation_date'];?></td>
+
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+             <center>  <h4>Paper Presented Conference</h4> </center>
+             </td>
+          </tr>
+          <tr>
+    <th>category</th>
+    <th>authors</th>
+    <th>type_of_authors</th>
+    <th>status_of_paper</th>
+    <th>title_of_conference</th>
+    <th>level_of_conference</th>
+    <th>title_of_paper</th>
+    <th>dates_from</th>
+    <th>dates_to</th>
+    <th>organised_by</th>
+    <th>page_nos</th>
+    <th>proceeding_link</th>
+    <th>isbn_no</th>
+    <th>expenditure_occured</th>
+    <th>funded_by</th>
+    <th>upload_certificate</th>
+    <th>comments</th>
+    <th>month_name</th>
+    <th>year_name</th>
+    <th>status_code</th>
+    <th>creation_date</th>
+    <th>updation_date</th>
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion14Qry="SELECT * FROM paper_presented_conference WHERE emp_id='$subject_code' ";
+             $showQuestion14Run=mysqli_query($conn_spoc,$showQuestion14Qry);
+             while($showQuestion14Data=mysqli_fetch_array($showQuestion14Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+       <td><?=$showQuestion14Data['category'];?></td>
+    <td><?=$showQuestion14Data['authors'];?></td>
+    <td><?=$showQuestion14Data['type_of_authors'];?></td>
+    <td><?=$showQuestion14Data['status_of_paper'];?></td>
+    <td><?=$showQuestion14Data['title_of_conference'];?></td>
+    <td><?=$showQuestion14Data['level_of_conference'];?></td>
+    <td><?=$showQuestion14Data['title_of_paper'];?></td>
+    <td><?=$showQuestion14Data['dates_from'];?></td>
+    <td><?=$showQuestion14Data['dates_to'];?></td>
+    <td><?=$showQuestion14Data['organised_by'];?></td>
+    <td><?=$showQuestion14Data['page_nos'];?></td>
+    <td><?=$showQuestion14Data['proceeding_link'];?></td>
+    <td><?=$showQuestion14Data['isbn_no'];?></td>
+    <td><?=$showQuestion14Data['expenditure_occured'];?></td>
+    <td><?=$showQuestion14Data['funded_by'];?></td>
+    <td><?=$showQuestion14Data['upload_certificate'];?></td>
+    <td><?=$showQuestion14Data['comments'];?></td>
+    <td><?=$showQuestion14Data['month_name'];?></td>
+    <td><?=$showQuestion14Data['year_name'];?></td>
+    <td><?=$showQuestion14Data['status_code'];?></td>
+    <td><?=$showQuestion14Data['creation_date'];?></td>
+    <td><?=$showQuestion14Data['updation_date'];?></td>
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <table class="table table-bordered" id="example">
+       <thead>
+          <tr>
+             <td colspan="20">
+               <center> <h4>Seminar Workshop Organised</h4></center>
+             </td>
+          </tr>
+          <tr>
+
+    <th>faculty_role</th>
+    <th>category</th>
+    <th>participant_types</th>
+    <th>title_of_the_programme</th>
+    <th>from_date</th>
+    <th>to_date</th>
+    <th>level</th>
+    <th>collaborative_agenecy</th>
+    <th>resource_person</th>
+    <th>designation_contact_details</th>
+    <th>organisation</th>
+    <th>faculty_organiser</th>
+    <th>program_details_wesite_link</th>
+    <th>media_coverage</th>
+    <th>funding_agency</th>
+    <th>expeniture_incurred</th>
+    <th>no_of_student_participated</th>
+    <th>no_of_student_participated_external</th>
+    <th>no_of_faculty_participated</th>
+    <th>no_of_faculty_participated_external</th>
+    <th>no_of_non_faculty_participated_internal</th>
+    <th>no_of_non_faculty_participated_external</th>
+    <th>upload_paper</th>
+    <th>comments</th>
+    <th>month_name</th>
+    <th>year_name</th>
+    <th>status_code</th>
+    <th>creation_date</th>
+    <th>updation_date</th>
+
+
+          </tr>
+       </thead>
+       <tboday>
+          <?php
+             $showQuestion14Qry="SELECT * FROM seminar_workshop_organised WHERE emp_id='$subject_code' ";
+             $showQuestion14Run=mysqli_query($conn_spoc,$showQuestion14Qry);
+             while($showQuestion14Data=mysqli_fetch_array($showQuestion14Run))
+             {
+             ?>
+          <tr style='background-color:#9FE2BF;color:;'>
+     
+  <td><?=$showQuestion14Data['faculty_role'];?></td>
+  <td><?=$showQuestion14Data['participant_types'];?></td>
+  <td><?=$showQuestion14Data['title_of_the_programme'];?></td>
+  <td><?=$showQuestion14Data['from_date'];?></td>
+  <td><?=$showQuestion14Data['to_date'];?></td>
+  <td><?=$showQuestion14Data['level'];?></td>
+  <td><?=$showQuestion14Data['collaborative_agenecy'];?></td>
+  <td><?=$showQuestion14Data['resource_person'];?></td>
+  <td><?=$showQuestion14Data['designation_contact_details'];?></td>
+  <td><?=$showQuestion14Data['organisation'];?></td>
+  <td><?=$showQuestion14Data['faculty_organiser'];?></td>
+  <td><?=$showQuestion14Data['program_details_wesite_link'];?></td>
+  <td><?=$showQuestion14Data['media_coverage'];?></td>
+  <td><?=$showQuestion14Data['funding_agency'];?></td>
+  <td><?=$showQuestion14Data['expeniture_incurred'];?></td>
+  <td><?=$showQuestion14Data['no_of_student_participated'];?></td>
+  <td><?=$showQuestion14Data['no_of_student_participated_external'];?></td>
+  <td><?=$showQuestion14Data['no_of_faculty_participated'];?></td>
+  <td><?=$showQuestion14Data['no_of_faculty_participated_external'];?></td>
+  <td><?=$showQuestion14Data['no_of_non_faculty_participated_internal'];?></td>
+  <td><?=$showQuestion14Data['no_of_non_faculty_participated_external'];?></td>
+  <td><?=$showQuestion14Data['upload_paper'];?></td>
+  <td><?=$showQuestion14Data['comments'];?></td>
+  <td><?=$showQuestion14Data['month_name'];?></td>
+  <td><?=$showQuestion14Data['year_name'];?></td>
+  <td><?=$showQuestion14Data['status_code'];?></td>
+  <td><?=$showQuestion14Data['creation_date'];?></td>
+  <td><?=$showQuestion14Data['updation_date'];?></td>
+
+          </tr>
+          <?php 
+           
+                }
+                ?>
+       </tboday>
+    </table>
+    <?php
+}
    else
    {
    
