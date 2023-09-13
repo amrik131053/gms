@@ -181,7 +181,7 @@ $pdf->MultiCell(190, 6, 'It is certified that Guru Kashi University, Talwandi Sa
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
-$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ( '.$Leet_Duration.''. $mduration.' on Class Roll No. '.$Class_RollNo.'. The candidate must fullfill the eligibility qualifications as per university norms and the candidate will be selected for the on the basis of as per merit ',0, 'J');
+$pdf->MultiCell(190, 6, 'It is further certified that '.$ms.' '.$name.' '.$ge.' '.$FatherName.' has been admitted in our university for  his/her '.$courseName.' ( '.$Leet_Duration.''. $mduration.' on Class Roll No. '.$Class_RollNo.'.The candidate had fullfilled the eligibility qualifications as per university norms and the candidate is admitted  on the basis of merit',0, 'J');
 $X=$pdf->GETX();
 $Y=$pdf->GETY();
 $pdf->SetXY($X, $Y+1.5);
@@ -337,7 +337,7 @@ $pdf->SetFont('Times', '', 8);
 $Y=$Y-2;
 
 }
-if($District!='593')
+if($District!='593' ||$District!='581' )
 {
 
 if($Months>0)

@@ -35,6 +35,7 @@ include "header.php";
                                      <div class="input-group input-group-sm">
                                        
                                       
+
                                        <input  type="button" class="btn btn-success btn-xs" value="Pending" onclick="pending();">&nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Verified" onclick="verified();">&nbsp;&nbsp;
                                     
@@ -185,19 +186,44 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"></td><td colspan=""></td><td> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
+                          table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
+
+
+
+                        // table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"></td><td colspan=""></td><td> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
                         table += '</tr>';
                         table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
 
+                       var userid="<?php echo $EmployeeID; ?>";
+
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
-                           if(data[i][31]==1){
+
+                           var unirollno = data[i][2];
+                           var generate=data[i][33];
+                             if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
 
-                           }else{
+                           }
+                           else{
                            table += '<tr>';
                            }
-                           table += '<td><input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '"></td>';
+                           table += '<td>';
+                           if(generate>0){
+
+                            table +='<input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '">';
+                        }
+
+                            table += '</td>';
+
+
+
+
+
+
+
+                        
+                           
                            table += '<td>' + data[i][0] + '</td>';
                            table += '<td>' + data[i][20] + '</td>';
                            table += '<td>' + data[i][6] + '</td>';
@@ -205,7 +231,24 @@ function by_search_studetn() {
                            table += '<td >'+ unirollno+'</td>';
                            table += '<td >'+ data[i][34]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
-                           table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button ></td>';
+
+
+                           table += '<td>';
+                           if(userid=='131027' ||userid=='131053' ||userid=='121031')
+                           {
+table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button >&nbsp;';
+}
+ if(userid!='131027' )
+                           {
+table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
+                           
+                           if(generate<=0){
+
+table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
+                      }
+
+
+           table += '</td>';
                            table += '</tr>';
                         }
                         
@@ -336,6 +379,29 @@ function by_search_studetn() {
    </div>
    <!-- /.card -->
 </section>
+
+<div class="modal fade" id="for_edit_a" tabindex="-1" role="dialog" aria-labelledby="for_editLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_editLabel">Record Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="edit_show_a">
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -360,7 +426,7 @@ function by_search_studetn() {
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
-function edit_student_details(id) {
+function edit_student_details_a(id) {
     var loanNumber = document.getElementById('loanNumber').value;
     var applicationNo = document.getElementById('applicationNo').value;
     var statusVerification = document.getElementById('statusVerification').value;
@@ -406,6 +472,107 @@ else
    ErrorToast('All Input Required','bg-warning');
 }
 }
+
+function edit_student_details(id) {
+
+  var Name = document.getElementById('Name').value;
+  var FatherName = document.getElementById('FatherName').value;
+  // var MotherName = document.getElementById('MotherName').value;
+  var Gender = document.getElementById('Gender').value;
+  // var MobileNo = document.getElementById('MobileNo').value;
+  var CollegeName = document.getElementById('CollegeName1').value;
+  var Department = document.getElementById('Department1').value;
+  var Course = document.getElementById('Course1').value;
+  // var Batch = document.getElementById('batch').value;
+  // var PinCode = document.getElementById('Pincode').value;
+  var Nationality = document.getElementById('Nationality').value;
+  var State = document.getElementById('State').value;
+    var months = document.getElementById('months').value;
+//   var District = document.getElementById('District1').value;
+  // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+  var Consultant = document.getElementById('Consultant_').value;
+   var duration = document.getElementById('Duration').value;
+  // var session = document.getElementById('session').value;
+  // var AdharCardNo = document.getElementById('AdharCardNo').value;
+  // var PassportNo = document.getElementById('PassportNo').value;
+  var classroll = document.getElementById('classroll').value;
+  var District = document.getElementById('District1').value;
+
+if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
+{
+  var code = 140;
+  var data = {
+    id: id,
+    Name: Name,
+    FatherName: FatherName,
+    // MotherName: MotherName,
+    Gender: Gender,
+    // MobileNo: MobileNo,
+    CollegeName: CollegeName,
+    Department: Department,
+    Course: Course,
+    // Batch: Batch,
+    // PinCode: PinCode,
+    Nationality: Nationality,
+    State: State,
+    // District: District,
+    Consultant: Consultant,
+    // Lateral: Lateral,
+    duration: duration,
+    // session: session,
+    // AdharCardNo: AdharCardNo,
+    // PassportNo: PassportNo,
+    months:months,
+    classroll: classroll,
+    District1: District,
+    code: code
+  };
+ 
+  // Send the AJAX request
+  $.ajax({
+    url: 'action_g.php',
+    data: data,
+    type: 'POST',
+    success: function(response) {
+      console.log(response); // Log the response for debugging
+      // alert('Data submitted successfully!');
+      if (response==1) {
+      SuccessToast('Data submitted successfully');
+      // date_by_search();
+
+
+   }
+   else if(response==2)
+   {
+ErrorToast('ID Proof Already Exist','bg-warning');
+   }
+   else
+   {
+ErrorToast('Try  after some time','bg-danger');
+
+   }
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+      // alert('An error occurred while submitting data. Please try again.');
+    }
+  });
+}
+else
+{
+   ErrorToast('All Input Required','bg-warning');
+}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 function all_report() 
@@ -745,6 +912,37 @@ function admisssion_complete1(district)
 
     document.getElementById('previous_count').value=data;
   
+}
+});
+
+}
+
+
+function generate_student(id) 
+{  
+var code='177';
+$.ajax({
+url:'action_g.php',
+data:{id:id,code:code},
+type:'POST',
+success:function(data){
+
+SuccessToast('Generated successfully');
+loadData(currentPage);
+
+}
+});
+
+}
+function edit_student_a(id) 
+{  
+var code='139';
+$.ajax({
+url:'action_g.php',
+data:{id:id,code:code},
+type:'POST',
+success:function(data){
+document.getElementById('edit_show_a').innerHTML=data;
 }
 });
 

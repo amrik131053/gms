@@ -9511,7 +9511,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 <div class="col-lg-3">
                     <label>&nbsp;</label>
                     <button class="btn btn-primary form-control"
-                        onclick="edit_student_details(<?=$id;?>)">Submit</button>
+                        onclick="edit_student_details_a(<?=$id;?>)">Submit</button>
                 </div>
               
             </div>
