@@ -10126,6 +10126,43 @@ elseif($code==185)
 {
     $subject_code=$_POST['subject_code'];
     ?>
+     <table class="table table-bordered" id="example">
+       <thead>
+        <?php 
+    $getUserDetails="SELECT * FROM Staff Where IDNo='$subject_code'";
+    $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+    if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+    {
+$Name=$getUserDetailsRow['Name'];
+$getUserDetailsRow['Snap'];
+$Designation=$getUserDetailsRow['Designation'];
+$CollegeName=$getUserDetailsRow['CollegeName'];
+$Emp_Image=$getUserDetailsRow['Snap'];
+$emp_pic=base64_encode($Emp_Image);
+
+
+              
+    ?>
+   
+          <tr style="background-color:#223260; color:white;">
+             <td colspan="20">
+            <?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' width='100'>";?>
+             </td>
+             <td colspan="20">
+               <h5><?=$Name;?></h5> 
+             </td>
+             <td colspan="20">
+            <h5><?=$Designation;?></h5>
+             </td>
+             <td colspan="20">
+             <h5><?=$CollegeName;?></h5>
+             </td>
+          </tr>
+        
+            <?php }?>
+</tr>
+</thead>
+</table>
     <table class="table table-bordered" id="example">
        <thead>
           <tr>
