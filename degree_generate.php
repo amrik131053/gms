@@ -133,7 +133,7 @@ include "header.php";
                            },
                            success: function(data) {
                                
-                                   // console.log(data);
+                                    console.log(data);
                                    buildTable(data);
                                    updatePagination(currentPage);
                                 
@@ -146,13 +146,16 @@ include "header.php";
 
                   
                   function date_by_search() {
+
+ var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
                      
                     var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
                     var upload_date=document.getElementById('upload_date').value;
                     
-                  //   alert(upload_date);
+                     // alert(upload_date);
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -164,7 +167,9 @@ include "header.php";
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-                              buildTable(data);
+ spinner.style.display='none';
+                            // console.log(data);
+                             buildTable(data);
                               updatePagination(currentPage);
                            },
                            error: function() {
@@ -181,7 +186,7 @@ include "header.php";
                   var searchQuery = '';
                     var by_search=document.getElementById('RollNoSearch').value;
                     var spinner=document.getElementById("ajax-loader");
-  //   spinner.style.display='block';
+     spinner.style.display='block';
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -193,7 +198,7 @@ include "header.php";
                               search: searchQuery 
                            },
                            success: function(data) {
-                               
+                               spinner.style.display='none';
                                    // console.log(data);
                                    buildTable(data);
                                    updatePagination(currentPage);
@@ -230,6 +235,7 @@ include "header.php";
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
+                              console.log(data);
                               buildTable(data);
                               updatePagination(page);
                            },
@@ -243,9 +249,9 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>QR Course</th><th>Gender</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
     var unirollno = data[i][2];
     var cgpa = parseFloat(data[i][9] || 0);  // Convert to number and handle null/undefined
@@ -260,8 +266,14 @@ include "header.php";
     table += '<td>' + data[i][6] + '</td>';
     table += '<td>' + data[i][7] + '</td>';
     table += '<td>' + formattedCGPA + '</td>';
+      table += '<td>' + data[i][18]  + '</td>';
+       table += '<td>' + data[i][19]  + '</td>';
+
+    
+
     table += '<td>' + data[i][13]  + '</td>';
     table += '<td>' + data[i][14]  + '</td>';
+
     table += '<td><button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
     table += '</tr>';
 }
@@ -607,7 +619,10 @@ document.getElementById('edit_show').innerHTML=data;
 function edit_student_details(id) {
    // alert(id);
   var Name = document.getElementById('Name').value;
+  var UniRollNo = document.getElementById('unirollno').value;
+
   var FatherName = document.getElementById('FatherName').value;
+  var Gender = document.getElementById('Gender').value;
   var Stream_ = document.getElementById('Stream_').value;
 if(Name!='' && FatherName!='')
 {
@@ -616,7 +631,7 @@ if(Name!='' && FatherName!='')
     id: id,
     Name: Name,
     FatherName: FatherName,
-    Stream: Stream_,
+    Stream: Stream_,Gender:Gender,UniRollNo:UniRollNo,
     code: code
   };
  
@@ -626,7 +641,7 @@ if(Name!='' && FatherName!='')
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+      console.log(response); // Log the response for debugging
       if (response==1) {
       SuccessToast('Data Updated successfully');
       date_by_search();
@@ -645,7 +660,7 @@ ErrorToast('Try  after some time','bg-danger');
 else
 {
    ErrorToast('All Input Required','bg-warning');
-}s
+}
 }
 
    const date_ = new Date();

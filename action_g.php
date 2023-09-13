@@ -4464,14 +4464,33 @@ if ($check_flow_row['status']<4) {
 
         
          $up_date=$_POST['upload_date'];
-                     $degree="SELECT * FROM degree_print where upload_date='$up_date' order by Id ASC  ";                     
+
+                   $degree="SELECT * FROM degree_print where upload_date='$up_date' order by Id ASC  ";                     
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
                        
-                     $data[]=$degree_row;
-                     }
-                     // print_r($row_student);
+                      $data1=$degree_row;
+                    $uni=$degree_row['UniRollNo'];
+
+                     
+                   
+
+  $get_pending="SELECT Sex FROM Admissions where UniRollNo='$uni'";
+
+                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  if($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {
+            $data2=$row_pending;
+
+                  } 
+
+
+                   $data[]=array_merge($data1,$data2);
+
+}
+
+                      //print_r($data);
                      $page = $_POST['page'];
                      $recordsPerPage = 100;
                      $startIndex = ($page - 1) * $recordsPerPage;
@@ -7955,11 +7974,22 @@ elseif($code==141)
                      $Examination=$degree_row['Examination'];
                      $Course=$degree_row['Course'];
                      $Stream=$degree_row['Stream'];
+                     $QrCourse=$degree_row['QrCourse'];
                      $RegistrationNo=$degree_row['RegistrationNo'];
                      $CGPA=$degree_row['CGPA'];
                      $ExtraRow=$degree_row['ExtraRow'];
-                     $Gender=$degree_row['Gender'];
+                    
                      $Type=$degree_row['Type'];
+
+   } 
+
+ $get_pending="SELECT Sex FROM Admissions where UniRollNo='$UniRollNo'";
+
+                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                  if($row_pending=sqlsrv_fetch_array($get_pending_run))
+                  {
+                  echo  $Gender= $row_pending['Sex'];
+                  }                 
 ?>
     <div class="row">
         <div class="col-lg-12">
@@ -7967,10 +7997,23 @@ elseif($code==141)
                 <div class="col-lg-6">
                     <label>Student Name</label>
                     <input type="text" value="<?=$StudentName;?>" id="Name" class="form-control">
+                    <input type="text" value="<?=$UniRollNo;?>" id="unirollno" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
+                </div>
+                 <div class="col-lg-6">
+                    <label>Gender</label>
+                    <select id="Gender" class="form-control">
+                        <option value="<?=$Gender;?>"><?=$Gender;?></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <label>QR Course</label>
+                    <input type="text" value="<?=$QrCourse;?>" id="qrcourse" class="form-control">
                 </div>
                 <div class="col-lg-12">
                     <label>Stream</label>
@@ -7989,7 +8032,7 @@ elseif($code==141)
     <?php 
 
 
-                     }
+                     
 
 }
   elseif($code==142)
@@ -7998,8 +8041,16 @@ $id = $_POST['id'];
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
 $Stream = $_POST['Stream'];
-  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream'  where id='$id'";
+$Gender = $_POST['Gender'];
+$UniRollNo = $_POST['UniRollNo'];
+  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender'  where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
+
+ $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
+
+$upimage_run = sqlsrv_query($conntest,$upimage);
+
+
 if ($insert_record_run==true) 
 {
    echo "1";
