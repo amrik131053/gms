@@ -197,7 +197,7 @@ function by_search_studetn() {
 
                         // table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"></td><td colspan=""></td><td> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
                         table += '</tr>';
-                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
+                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)" style="width:50px;"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
 
                        var userid="<?php echo $EmployeeID; ?>";
 

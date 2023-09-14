@@ -2143,6 +2143,7 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];    
     $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
+    $statusVerification=$row['statusVerification'];
     $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
     $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
     if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
@@ -2171,9 +2172,17 @@ else
 {
 $color="red";
 }
+if($statusVerification>0)
+{
+    $color1='green';
+}
+else
+{
+$color1="";
+}
     $District=$row['DistrictName'];     
      $exportMeter .= "
-       <tr color='red'>           
+       <tr bgcolor=$color1>           
           
           <td>{$count}</td>
           <td>{$Session}</td>
@@ -2271,12 +2280,12 @@ $meterLocationsData.="<thead>
 
 elseif($exportCode==25)
 {    
-    $District=$_GET['Consultant'];   
+    $Consultant=$_GET['Consultant'];   
     // if($District>0)
     // {   
       $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
 FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  where offer_latter.Consultant_id='$District' ";
+cities on cities.id=offer_latter.District  where offer_latter.Consultant_id='$Consultant'  ";
 // }
 // else
 // {
@@ -2321,6 +2330,7 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];    
     $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
+    $statusVerification=$row['statusVerification'];
     $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
     $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
     if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
@@ -2349,9 +2359,17 @@ else
 {
 $color="red";
 }
+if($statusVerification>0)
+{
+    $color1='green';
+}
+else
+{
+$color1="";
+}
     $District=$row['DistrictName'];     
      $exportMeter .= "
-       <tr color='red'>           
+       <tr bgcolor=$color1>           
           
           <td>{$count}</td>
           <td>{$Session}</td>

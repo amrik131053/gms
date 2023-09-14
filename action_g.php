@@ -9277,7 +9277,7 @@ elseif($code==166)
       else
       {
           
-             $degree="SELECT * FROM offer_latter  where statusVerification='0' order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter  order by Id DESC "; 
        
                   $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
@@ -9908,7 +9908,7 @@ elseif($code==179)
                // print_r($data);139
 
                $page = $_POST['page'];
-               $recordsPerPage = 50;
+               $recordsPerPage = 10000;
                $startIndex = ($page - 1) * $recordsPerPage;
                $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                echo json_encode($pagedData);
@@ -9938,7 +9938,7 @@ elseif($code==180)
                // print_r($data);139
 
                $page = $_POST['page'];
-               $recordsPerPage = 50;
+               $recordsPerPage = 10000;
                $startIndex = ($page - 1) * $recordsPerPage;
                $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                echo json_encode($pagedData);
@@ -11021,28 +11021,23 @@ elseif ($code==186)
 elseif($code=='187') 
 {
 $count=0;
-$sql=" SELECT  offer_latter.State as o_state,Consultant_id, COUNT(*) AS `dist` ,states.name as StateName,consultant_master.state as ConsultantName FROM offer_latter
-
-inner join states ON states.id=offer_latter.State  inner join consultant_master ON consultant_master.id=offer_latter.Consultant_id 
-GROUP BY offer_latter.Consultant_id order by StateName ASC ";
+$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '0' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
+FROM
+offer_latter INNER JOIN states ON states.id = offer_latter.State
+INNER JOIN consultant_master ON consultant_master.id = offer_latter.Consultant_id
+GROUP BY offer_latter.State, offer_latter.Consultant_id, states.name, consultant_master.state
+ORDER BY ConsultantName ASC;";
 $result = mysqli_query($conn,$sql);
 ?>
-<table class='table table-bordered'><tr><th>Consultant Name</th><th>District</th><th> Adm Count</th><th>Export</th></tr>  <?php
+<table class='table table-bordered'><tr><th>Consultant Name</th><th>District</th><th> Adm Count</th><th>Verified Count</th><th>Export</th></tr>  <?php
 while($row=mysqli_fetch_array($result))
 {
-// $sql1 = "SELECT  count FROM offer_admission_count WHERE District='".$row['District']."'";
-// $stmt1 = mysqli_query($conn,$sql1); 
-//  if($row1 = mysqli_fetch_array($stmt1) )
-// {
-// $count=$row1['count'];
-// }
-// else{
-//   $count=""; 
-// }
+
 ?>
 <tr><td><?=$row['ConsultantName'];?></td>
 <td><?=$row['StateName'];?></td>
-<td><?=$row['dist'];?></td>
+<td><?=$row['total_count'];?></td>
+<td><?=$row['verified_count'];?></td>
 <td><i class="fa fa-file-excel fa-2x text-success" onclick="export_one('<?=$row['Consultant_id'];?>');"></i></td>
 
 
