@@ -132,12 +132,17 @@ include "header.php";
                               search: searchQuery 
                            },
                            success: function(data) {
-                               
-                                    console.log(data);
-                                   buildTable(data);
-                                   updatePagination(currentPage);
-                                
-                             },
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
                               // Handle error response
                            }
@@ -146,37 +151,46 @@ include "header.php";
 
                   
                   function date_by_search() {
+ 
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
 
- var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                     
-                    var currentPage = 1;
-                  var code = 78;
-                  var searchQuery = '';
-                    var upload_date=document.getElementById('upload_date').value;
-                    
-                     // alert(upload_date);
-                        $.ajax({
-                           url: 'action_g.php',
-                           type: 'POST',
-                           dataType: 'json',
-                           data: {
-                              page: currentPage,
-                              code: code,
-                              upload_date: upload_date,
-                              search: searchQuery // Pass the search query to the server
-                           },
-                           success: function(data) {
- spinner.style.display='none';
-                            // console.log(data);
-                             buildTable(data);
-                              updatePagination(currentPage);
-                           },
-                           error: function() {
-                              // Handle error response
-                           }
-                        });
-                  }
+    var currentPage = 1;
+    var code = 78;
+    var searchQuery = '';
+    var upload_date = document.getElementById('upload_date').value;
+
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            page: currentPage,
+            code: code,
+            upload_date: upload_date,
+            search: searchQuery // Pass the search query to the server
+        },
+        success: function(data) {
+            if (Object.keys(data).length === 0) 
+            {
+               ErrorToast('No Record Found', 'bg-warning');
+               SuccessToast('Generated successfully');
+                spinner.style.display = 'none';
+               } 
+               else 
+               {
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
+        error: function() {
+            
+            spinner.style.display = 'none';
+        }
+    });
+}
 
 
                   function by_search_studetn() {
@@ -198,14 +212,18 @@ include "header.php";
                               search: searchQuery 
                            },
                            success: function(data) {
-                               spinner.style.display='none';
-                                   // console.log(data);
-                                   buildTable(data);
-                                   updatePagination(currentPage);
-                                
-                             },
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
-                              // Handle error response
+                            
                            }
                         });
                   }
@@ -235,10 +253,16 @@ include "header.php";
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-                              console.log(data);
-                              buildTable(data);
-                              updatePagination(page);
-                           },
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
                               // Handle error response
                            }

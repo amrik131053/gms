@@ -556,12 +556,17 @@ function by_search_studetn() {
                                search: searchQuery 
                             },
                             success: function(data) {
-                                
-                                     console.log(data);
-                                    buildTable(data);
-                                    updatePagination(currentPage);
-                                 
-                              },
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                             error: function() {
                                // Handle error response
                             }
@@ -592,13 +597,18 @@ function by_search_studetn() {
                               by_search: by_search,
                               search: searchQuery // Pass the search query to the server
                            },
-                           success: function(data)
-                            {
-                              // console.log(data);
-                              spinner.style.display='none';
-                              buildTable(data);
-                              updatePagination(page);
-                           },
+                           success: function(data) {
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
                               // Handle error response
                            }

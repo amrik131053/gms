@@ -77,13 +77,18 @@ function pending() {
                              
                               search: searchQuery 
                            },
-                           success: function(data) {
-                              spinner.style.display='none';
-                                   // console.log(data);
-                                   buildTable(data);
-                                   updatePagination(currentPage);
-                                
-                             },
+                                         success: function(data) {
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
                               // Handle error response
                            }
@@ -107,13 +112,18 @@ function verified() {
                              
                               search: searchQuery 
                            },
-                           success: function(data) {
-                              spinner.style.display='none';
-                                   // console.log(data);
-                                   buildTable(data);
-                                   updatePagination(currentPage);
-                                
-                             },
+                                         success: function(data) {
+            if (Object.keys(data).length === 0) {
+               ErrorToast('No Record Found', 'bg-warning');
+                spinner.style.display = 'none';
+               } else {
+                
+                 
+                  buildTable(data);
+                  updatePagination(currentPage);
+                  spinner.style.display = 'none';
+            }
+        },
                            error: function() {
                               // Handle error response
                            }

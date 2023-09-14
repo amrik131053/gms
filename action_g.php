@@ -4494,11 +4494,7 @@ if ($check_flow_row['status']<4) {
                        
                       $data1=$degree_row;
                     $uni=$degree_row['UniRollNo'];
-
-                     
-                   
-
-  $get_pending="SELECT Sex FROM Admissions where UniRollNo='$uni'";
+                    $get_pending="SELECT Sex FROM Admissions where UniRollNo='$uni'";
 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   if($row_pending=sqlsrv_fetch_array($get_pending_run))
@@ -4517,7 +4513,14 @@ if ($check_flow_row['status']<4) {
                      $recordsPerPage = 100;
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-                     echo json_encode($pagedData);
+                     
+                     $jsonString = json_encode($pagedData);
+                    if (empty($jsonString)) {
+                        echo "JSON is empty";
+                    } else {
+                        echo json_encode($pagedData);
+                    }
+                     
 
       }
    elseif($code==79)
