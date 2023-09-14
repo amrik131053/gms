@@ -34,8 +34,13 @@ include "header.php";
                       
                                      <div class="input-group input-group-sm">
                                        
-                                      
-
+                                     <?php 
+                                     if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976' )
+                                     {
+                                     ?>
+                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button >
+                                     <?php }?>
+                                     &nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Pending" onclick="pending();">&nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Verified" onclick="verified();">&nbsp;&nbsp;
                                     
@@ -425,7 +430,45 @@ table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-d
    </div>
 </div>
 <p id="ajax-loader"></p>
+<div class="modal fade" id="for_report" tabindex="-1" role="dialog" aria-labelledby="for_reportLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_reportLabel">Reports</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row" id='all_record_report'>
+               
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-success" onclick="export_detail();">Export Details</button>
+        <button type="button" class="btn btn-success" onclick="export_all();">Export Count</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
+   function all_report() 
+{  
+   var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+var code='187';
+$.ajax({
+url:'action_g.php',
+data:{code:code},
+type:'POST',
+success:function(data){
+   spinner.style.display='none';
+document.getElementById('all_record_report').innerHTML=data;
+}
+});
+}
 function edit_student_details_a(id) {
     var loanNumber = document.getElementById('loanNumber').value;
     var applicationNo = document.getElementById('applicationNo').value;
@@ -449,7 +492,7 @@ if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerifica
     data: data,
     type: 'POST',
     success: function(response) {
-      console.log(response); // Log the response for debugging
+      // console.log(response); // Log the response for debugging
       if (response==1) {
       SuccessToast('Verification successfully');
       // date_by_search();
@@ -534,7 +577,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-      console.log(response); // Log the response for debugging
+      // console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
@@ -553,7 +596,7 @@ ErrorToast('Try  after some time','bg-danger');
    }
     },
     error: function(xhr, status, error) {
-      console.error(xhr.responseText);
+      // console.error(xhr.responseText);
       // alert('An error occurred while submitting data. Please try again.');
     }
   });
@@ -575,21 +618,21 @@ else
 
 
 
-function all_report() 
-{  
-   var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-var code='326';
-$.ajax({
-url:'action.php',
-data:{code:code},
-type:'POST',
-success:function(data){
-   spinner.style.display='none';
-document.getElementById('all_record_report').innerHTML=data;
-}
-});
-}
+// function all_report() 
+// {  
+//    var spinner=document.getElementById("ajax-loader");
+//      spinner.style.display='block';
+// var code='326';
+// $.ajax({
+// url:'action.php',
+// data:{code:code},
+// type:'POST',
+// success:function(data){
+//    spinner.style.display='none';
+// document.getElementById('all_record_report').innerHTML=data;
+// }
+// });
+// }
 function edit_student(id) 
 {  
     var spinner=document.getElementById("ajax-loader");
@@ -648,7 +691,7 @@ success:function(data)
 {
 if(data != "")
 {
-     console.log(data);
+   //   console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
 }
@@ -735,16 +778,16 @@ function export_all()
           window.location.href="export.php?exportCode="+exportCode;
       
       }
-function export_one(district) 
+function export_one(Consultant) 
       {
-         // alert(district);
-         var exportCode='23';
-          window.location.href="export.php?exportCode="+exportCode+"&District="+district;
+         // alert(Consultant);
+         var exportCode='25';
+          window.location.href="export.php?exportCode="+exportCode+"&Consultant="+Consultant;
       }
 
 function export_detail() 
       {
-         var exportCode='23';
+         var exportCode='26';
 
       window.location.href="export.php?exportCode="+exportCode+"&District="+0;
       

@@ -1195,7 +1195,7 @@ else{
 
 }
 }
-
+ 
 function all_report() 
 {  
    var spinner=document.getElementById("ajax-loader");

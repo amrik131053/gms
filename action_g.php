@@ -5166,8 +5166,8 @@ elseif($code==94)
    $query .= "SalaryAtPresent = '$salary', ";
 
    $query .= "JobStatus = '$employmentStatus', ";
-   $query .= "LeaveRecommendingAuthority = '$leaveSanctionAuthority', ";
-   $query .= "LeaveSanctionAuthority = '$leaveRecommendingAuthority', ";
+   $query .= "LeaveRecommendingAuthority = '$leaveRecommendingAuthority', ";
+   $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority', ";
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
    $query .= "BankIFSC = '$bankIFSC' ";
@@ -11017,6 +11017,41 @@ elseif ($code==186)
         // $array[]=$row_staff;
     }
 }  
+
+elseif($code=='187') 
+{
+$count=0;
+$sql=" SELECT  offer_latter.State as o_state,Consultant_id, COUNT(*) AS `dist` ,states.name as StateName,consultant_master.state as ConsultantName FROM offer_latter
+
+inner join states ON states.id=offer_latter.State  inner join consultant_master ON consultant_master.id=offer_latter.Consultant_id 
+GROUP BY offer_latter.Consultant_id order by StateName ASC ";
+$result = mysqli_query($conn,$sql);
+?>
+<table class='table table-bordered'><tr><th>Consultant Name</th><th>District</th><th> Adm Count</th><th>Export</th></tr>  <?php
+while($row=mysqli_fetch_array($result))
+{
+// $sql1 = "SELECT  count FROM offer_admission_count WHERE District='".$row['District']."'";
+// $stmt1 = mysqli_query($conn,$sql1); 
+//  if($row1 = mysqli_fetch_array($stmt1) )
+// {
+// $count=$row1['count'];
+// }
+// else{
+//   $count=""; 
+// }
+?>
+<tr><td><?=$row['ConsultantName'];?></td>
+<td><?=$row['StateName'];?></td>
+<td><?=$row['dist'];?></td>
+<td><i class="fa fa-file-excel fa-2x text-success" onclick="export_one('<?=$row['Consultant_id'];?>');"></i></td>
+
+
+<?php               
+                
+
+
+}
+}
    else
    {
    

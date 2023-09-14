@@ -2269,6 +2269,111 @@ $meterLocationsData.="<thead>
 
 }
 
+elseif($exportCode==25)
+{    
+    $District=$_GET['Consultant'];   
+    // if($District>0)
+    // {   
+      $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
+FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
+cities on cities.id=offer_latter.District  where offer_latter.Consultant_id='$District' ";
+// }
+// else
+// {
+//  $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
+// FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
+// cities on cities.id=offer_latter.District  ";   
+// }
+
+    $get_student_details_run=mysqli_query($conn,$get_student_details);
+    $count = 1;
+    $exportMeter="
+    <table class='table' border='1'>
+               
+       <thead>
+                          
+          <tr color='red'>
+                             
+             <th>#</th>
+                            
+             <th>Session</th>
+             <th>College Name</th>
+             <th>Course</th>
+              
+             <th>Name</th>
+             <th>Father Name</th>
+             <th>RollNo</th>
+             <th>Gender</th>
+             <th>State</th>
+             <th>District</th>
+             <th>Consultant</th>
+          </tr>
+              </tr>        
+       </thead>
+       ";
+while($row=mysqli_fetch_array($get_student_details_run)) 
+{   
+     $name=$row['Name'];    
+    $FatherName=$row['FatherName'];    
+    $MotherName=$row['MotherName'];    
+    $Collegeid=$row['CollegeName'];    
+    $Course=$row['Course'];    
+    $Department=$row['Department'];    
+    $Gender=$row['Gender'];    
+    $classroll=$row['Class_RollNo'];
+    $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
+    $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+    if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
+    {   
+         $courseName=$row_collegecourse_name['Course'];   
+          $CollegeName=$row_collegecourse_name['CollegeName']; 
+    }    
+    $State=$row['StateName'];   
+    $Session=$row['Session'];    
+     $Duration=$row['Duration'];    
+     $Consultant_id=$row['Consultant_id']; 
+     $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
+    $consultant_details_run=mysqli_query($conn,$consultant_details); 
+    if($row_consultant=mysqli_fetch_array($consultant_details_run))
+    {
+$consultantName=$row_consultant['state'];
+    }  
+         $Lateral=$row['Lateral'];    
+         $Nationality=$row['Nationality'];    
+         $ID_Proof_No=$row['ID_Proof_No'];   
+if($classroll>0)
+{
+    $color='';
+}
+else
+{
+$color="red";
+}
+    $District=$row['DistrictName'];     
+     $exportMeter .= "
+       <tr color='red'>           
+          
+          <td>{$count}</td>
+          <td>{$Session}</td>
+          <td>{$CollegeName}</td>
+          <td>{$courseName}</td>
+          <td>{$name}</td>
+          <td>{$FatherName}</td>
+
+          <td bgcolor=$color>{$classroll}</td>
+          <td>{$Gender}</td>
+          <td>{$State}</td>
+          <td>{$District}</td>
+          <td>{$consultantName}<td>
+       </tr>";                                    
+       $count++;    
+    }
+    $exportMeter.="</table>"; 
+       //echo $exportMeterHeader;    
+       echo $exportMeter;  
+        $fileName="Detailed Report";
+}
+
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
