@@ -249,6 +249,7 @@
                 // console.log(response);
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
+                 $('#update_button').show();
          
 
               }
@@ -344,6 +345,42 @@
               }
            });
         } 
+        function emp_detail_verify1(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_1").innerHTML=response;
+              }
+           });
+}
+
+function emp_detail_verify2(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_2").innerHTML=response;
+              }
+           });
+}
+
 
   function uploadPhoto(form) {
    var formData = new FormData(form);
@@ -598,14 +635,16 @@ $("#departmentName").html(data);
     <!-- /.card-header -->
     <div class="card-body p-0">
       <form action="action_g.php" method="post" enctype="multipart/form-data">
-        <div class="table-responsive" id="show_record" style="height: 450px;">
+        <div class="table-responsive" id="show_record" style="height:auto;">
           <!-- Your table to display employee records goes here -->
         </div>
       </form>
       <!-- /.mail-box-messages -->
     </div>
     <!-- /.card-body -->
-    <div class="card-footer p-0">
+    
+   
+                       
       <!-- Additional footer content if needed -->
     </div>
   </div>

@@ -2970,7 +2970,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       elseif($code==58)
       {
       ?>
-    <table class="table table-head-fixed" id="example">
+    <table class="table" id="example">
         <thead>
             <tr>
                 <th>SrNo</th>
@@ -3014,7 +3014,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       {
           $search = $_POST['empID'];
       ?>
-    <table class="table table-head-fixed" id="example">
+    <table class="table " id="example">
         <thead>
             <tr>
                 <th>SrNo</th>
@@ -3062,7 +3062,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             elseif($code==60)
       {
       ?>
-    <table class="table table-head-fixed" id="example">
+    <table class="table" id="example">
         <thead>
             <tr>
                 <th>SrNo</th>
@@ -3093,7 +3093,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);">	131053	Web Developer	Guru Kashi University	IT	</i></td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3105,9 +3105,9 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       {
       ?>
     <section class="content">
-        <div class="container-fluid">
+        
             <div class="row" style="margin-top: 10px!important;">
-                <div class="col-md-12">
+                <div class="col-md-12 table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
@@ -3570,22 +3570,42 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                                 </select>
                                             </div>
                                         </div>
+                                      
                                         <div class="col-lg-4 col-12">
                                             <div class="form-group">
-                                                <label for="leaveRecommendingAuthority">Leave Recommending Authority
+                                            <label >Leave Recommending Authority
                                                 </label>
-                                                <input type="text" class="form-control"
-                                                    name="leaveRecommendingAuthority"
-                                                    placeholder="Enter leave recommending authority"
-                                                    value="<?=$row1['LeaveSanctionAuthority'];?>">
+                                               
+                                                <input type="text" class="form-control" name="leaveSanctionAuthority"
+                                                    placeholder="Enter leave sanction authority"
+                                                    value="<?=$row1['LeaveRecommendingAuthority'];?>" onkeyup="emp_detail_verify2(this.value);">
+                                                    <?php  
+                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+    {
+       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
+    }?>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-12">
                                             <div class="form-group">
-                                                <label for="leaveSanctionAuthority">Leave Sanction Authority</label>
-                                                <input type="text" class="form-control" name="leaveSanctionAuthority"
-                                                    placeholder="Enter leave sanction authority"
-                                                    value="<?=$row1['LeaveRecommendingAuthority'];?>">
+                                            <label>Leave Sanction Authority</label>
+                                                <input type="text" class="form-control"
+                                                    name="leaveRecommendingAuthority"
+                                                    placeholder="Enter leave recommending authority"
+                                                    value="<?=$row1['LeaveSanctionAuthority'];?>"  onkeyup="emp_detail_verify1(this.value);">
+              
+                                                  <?php  
+                                                   $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
+    $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+    if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+    {
+        ?>
+          <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
+          <?php 
+       
+    }?>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-12">
@@ -3632,20 +3652,22 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             ?>
 
                                 <!-- /.col -->
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-4"></div>
-                                        <div class="col-lg-4">
-                                            <button type="button" onclick="uploadPhoto(this.form)"
-                                                class="btn btn-primary">Update</button>
-
-                                        </div>
-                                        <div class="col-lg-4"></div>
-                                    </div>
-                                </div>
+                             
                             </div>
                             <!-- /.row -->
-                        </div>
+                            <div class="card-footer">
+                            <div class="row">
+                                  
+                                      
+                                        
+                                            <button type="button" onclick="uploadPhoto(this.form)"
+                                                class="btn btn-primary" id="update_button" style="display:none;">Update</button>
+
+                                    
+                                       
+                                   
+                                </div>
+                      
                         <!-- /.container-fluid -->
     </section>
     <?php 
@@ -5144,8 +5166,8 @@ elseif($code==94)
    $query .= "SalaryAtPresent = '$salary', ";
 
    $query .= "JobStatus = '$employmentStatus', ";
-   $query .= "LeaveRecommendingAuthority = '$leaveRecommendingAuthority', ";
-   $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority', ";
+   $query .= "LeaveRecommendingAuthority = '$leaveSanctionAuthority', ";
+   $query .= "LeaveSanctionAuthority = '$leaveRecommendingAuthority', ";
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
    $query .= "BankIFSC = '$bankIFSC' ";
@@ -5195,7 +5217,7 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    ftp_put($conn_id, "Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
    }
 
-   $query .= "WHERE IDNo = '$loginId'";
+    $query .= "WHERE IDNo = '$loginId'";
    // echo  $query;
    if(sqlsrv_query($conntest,$query))
    {
@@ -10971,6 +10993,30 @@ $emp_pic=base64_encode($Emp_Image);
     </table>
     <?php
 }
+
+elseif ($code==186) 
+{
+   $empID=$_POST['id'];
+    $staff="SELECT * FROM Staff Where IDNo='$empID'";
+    $stmt = sqlsrv_query($conntest,$staff);  
+    if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+    {
+        $jobStatus=$row_staff['JobStatus'];
+        if ($jobStatus=='1') 
+        {
+         ?>
+
+ <b><?=$row_staff['Name'];?></b>
+
+ <?php
+     }
+        else
+        {
+            echo "<b>Can not assign to ".$empID;
+        }
+        // $array[]=$row_staff;
+    }
+}  
    else
    {
    
