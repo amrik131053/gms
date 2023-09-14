@@ -339,7 +339,7 @@ $Y=$Y-2;
 
 }
 
-if($District!='593' ||$District!='581' )
+if($District!='581' && $District!='593' )
 {
 if($Months>0)
 {
