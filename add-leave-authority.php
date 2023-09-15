@@ -18,7 +18,7 @@
               {
                   spinner.style.display='none';
                  document.getElementById("category_wise_show").innerHTML=response;
-              }
+               }
            });
           } 
            function show_emp_all(categoryID)
@@ -250,7 +250,7 @@
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
                  $('#update_button').show();
-         
+                 tab();
 
               }
            });
@@ -391,7 +391,7 @@ function emp_detail_verify2(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             if (response==1) {
             SuccessToast('Successfully Uploaded');
         }
@@ -501,13 +501,335 @@ type:'POST',
 success:function(data){
 if(data != "")
 {
-     console.log(data);
+   //   console.log(data);
 $("#departmentName").html("");
 $("#departmentName").html(data);
 }
 }
 });
 
+}
+
+
+
+
+function deleteRole(empid,userMasterId) 
+{
+   var a=confirm('Are you sure you want to delete  '+empid);
+   // alert(id);
+   if (a==true) {
+      var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 182;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,empid:empid,userMasterId:userMasterId
+         },
+         success: function(response) {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               erp_role_drop();
+               SuccessToast('Successfully  Deleted');
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+ 
+}
+
+function DeleteCollegeCoursePermissions(id)
+{
+   var a=confirm('Are you sure you want to delete');
+   if (a==true) {
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+
+  var code=188;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+       }
+     
+
+
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    alert('Select atleast one ');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+               searchForDelete(id);
+                SuccessToast('Successfully Deleted');
+               
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+   }
+   else
+   {
+
+   }
+}
+function selectForDelete()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+}
+
+function searchForDelete(id) {
+var College = document.getElementById('CollegeForsearch').value;
+var code = '190';
+$.ajax({
+    url: 'action_g.php',
+    data: {
+        College: College,empid:id,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+      // console.log(data);
+      document.getElementById('TableAssignedPermissions').innerHTML=data;
+    }
+});
+
+}
+function fetchcourse() {
+
+
+
+var College = document.getElementById('CollegeID').value;
+var department = document.getElementById('Department').value;
+
+var code = '305';
+$.ajax({
+    url: 'action.php',
+    data: {
+        department: department,
+        College: College,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+        if (data != "") {
+            //   console.log(data);
+            $("#Course").html("");
+            $("#Course").html(data);
+        }
+    }
+});
+
+}
+function updateRole(empid,userMasterId) 
+{
+
+   var RightsLevel = document.getElementById("RightsLevel").value;
+   var LoginType = document.getElementById("LoginType").value;
+      // alert(LoginType+RightsLevel);
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 183;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,userMasterId:userMasterId,RightsLevel:RightsLevel,LoginType:LoginType
+         },
+         success: function(response) 
+         {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               // erp_role_drop();
+               SuccessToast('Successfully  Updated');
+               erp_role_drop();
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+function addCollegePermissions(empid) 
+{
+
+   // alert(empid);
+   var CollegeID = document.getElementById("CollegeID").value;
+   var Department = document.getElementById("Department").value;
+   var Course = document.getElementById("Course").value;
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 191;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,CollegeID:CollegeID,Department:Department,Course:Course
+         },
+         success: function(response) 
+         {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               // erp_role_drop();
+               SuccessToast('Successfully  Added');
+               update_emp_record(empid);
+               
+            
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+
+
+function deleteCollegeCourse(ID,empid) 
+{
+   var a=confirm('Are you sure you want to delete');
+  
+   if (a==true) {
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
+      var code = 189;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,ID:ID,empid:empid
+         },
+         success: function(response) 
+         {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response=='1')
+            {
+             
+               SuccessToast('Successfully Deleted');
+               searchForDelete(empid);
+            }
+            else
+            {
+               ErrorToast('try','bg-danger' );
+            }
+         }
+      });
+   }
+   else
+   {
+
+   }
+}
+
+
+function addRole(empid,college) 
+{
+
+   var RightsLevel = document.getElementById("RightsLevel").value;
+   var LoginType = document.getElementById("LoginType").value;
+  
+   // alert(LoginType+RightsLevel);
+   if(RightsLevel!='' && LoginType!='' )
+   {
+   var spinner = document.getElementById("ajax-loader");
+   // spinner.style.display = 'block';
+      var code = 184;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,RightsLevel:RightsLevel,LoginType:LoginType,college:college
+         },
+         success: function(response) 
+         {
+            // console.log(response);
+            // spinner.style.display = 'none';
+            if(response=='1')
+            {
+               erp_role_drop();
+               SuccessToast('Successfully  Inserted');
+               
+            }
+            else
+            {
+               ErrorToast('try','bg-danger' );
+            }
+         }
+      });
+   }
+   else
+   {
+      ErrorToast('all inputs required','bg-danger' );
+   }
 }
    </script>
  <!-- Content Wrapper. Contains page content -->
