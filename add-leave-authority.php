@@ -1242,7 +1242,7 @@ var code=197;
    </div>
 </div>
 <div class="modal fade" id="NewDesignationModal" tabindex="-1" role="dialog" aria-labelledby="NewDesignationModal" aria-hidden="true" >
-   <div class="modal-dialog " role="document" >
+   <div class="modal-dialog  " role="document" >
       <div class="modal-content"  >
          <div class="modal-header">
            <h5 class="modal-title" id="NewDesignationModal">New Designation</h5> 
@@ -1342,7 +1342,8 @@ var code=197;
     </ul>
   </div>
 </div>
-
+<?php if($role_id==2)
+{?>
         <div class="card collapsed-card">
   <div class="card-header">
     <h3 class="card-title">ROLE</h3>
@@ -1359,6 +1360,7 @@ var code=197;
   </div>
   <!-- /.card-body -->
 </div>
+<?php }?>
 
 <div class="card collapsed-card">
   <div class="card-header">

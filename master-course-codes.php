@@ -207,7 +207,7 @@ for($s1='0';$s1<='6';$s1++)
                         $college = $row1['CollegeName']; 
                         $CollegeID = $row1['CollegeID'];
                         ?>
-                                    <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                    <option value="<?=$CollegeID;?>"><?=$college;?> (<?=$CollegeID;?>)</option>
                                     <?php }
                         ?>
                                 </select>
@@ -279,6 +279,7 @@ for($s1='0';$s1<='6';$s1++)
 
                                 buildTable(data);
                                 updatePagination(currentPage);
+                                console.log(data);
                             },
                             error: function() {
                                 // Handle error response
@@ -335,8 +336,8 @@ for($s1='0';$s1<='6';$s1++)
                             table += '<tr>';
 
                             table += '<td>' + data[i][1] + '</td>';
-                            table += '<td>' + data[i][2] + '</td>';
-                            table += '<td>' + data[i][3] + '</td>';
+                            table += '<td>' + data[i][2] +' ('+ data[i][10] + ')</td>';
+                            table += '<td>' + data[i][3] +' ('+ data[i][11] + ')</td>';
                             table += '<td>' + data[i][4] + '</td>';
                             table += '<td >' + unirollno + '</td>';
                             table += '<td >' + data[i][5] + '</td>';
