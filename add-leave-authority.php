@@ -1105,6 +1105,70 @@ var code=197;
          });
 
      }
+   function addNewStaff()
+          {
+       var code=198;
+
+      
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+               }
+         });
+
+     }
+
+     
+function collegeByDepartment3(College) {
+
+var code = '304';
+$.ajax({
+    url: 'action.php',
+    data: {
+        College: College,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+        // console.log(data);
+        if (data != "") {
+
+            $("#Department3").html("");
+            $("#Department3").html(data);
+        }
+    }
+});
+
+}
+
+function fetchcourse3() {
+var College = document.getElementById('College3').value;
+var department = document.getElementById('Department3').value;
+var code = '305';
+$.ajax({
+    url: 'action.php',
+    data: {
+        department: department,
+        College: College,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+        if (data != "") {
+            console.log(data);
+            $("#Course3").html("");
+            $("#Course3").html(data);
+        }
+    }
+});
+}
    </script>
  <!-- Content Wrapper. Contains page content -->
   
@@ -1280,30 +1344,6 @@ var code=197;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -1397,6 +1437,9 @@ var code=197;
       Manage Designation
       </button>
       <?php }?>
+      <button type="button" onclick="addNewStaff();" class="btn btn-success btn-xs ">
+     Add New Staff
+      </button>
       <input type="hidden" id="CollegeID_Set">
 
       <div class="card-tools">
