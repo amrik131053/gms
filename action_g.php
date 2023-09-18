@@ -11511,10 +11511,10 @@ elseif($code==192)
     <div class="col-lg-8">
     <div class="card-tools">
         <div class="input-group">
-                <button type="button"  data-toggle="modal"  data-target="#NewDepartmentModal"  value="New Designation" class="btn btn-primary">New Department </button>
+                <button type="button"  data-toggle="modal"  data-target="#NewDepartmentModal"  value="New Designation" class="btn btn-primary btn-xs"><i class="fa fa-plus">  New Department</i> </button>
                 &nbsp;
                 &nbsp;
-      	  <select  name="College" id='CollegeID_For_Department'  class="form-control" required="" >
+      	  <select  name="College" id='CollegeID_For_Department'  class="form-control form-control-sm" required="" >
                 <option value=''>Select College</option>
                   <?php
    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -11529,7 +11529,7 @@ elseif($code==192)
 
 ?>
               </select> 
-    <input type="button"  onclick="search();"  value="Search" class="btn btn-success">  
+    <input type="button"  onclick="search();"  value="Search" class="btn btn-success btn-xs">  
             </div> 
             </div>
             </div>
@@ -11551,7 +11551,7 @@ elseif($code==193)
     <div class="col-lg-8">
     <div class="card-tools">
         <div class="input-group">
-                <button type="button"  data-toggle="modal"  data-target="#NewDesignationModal"  value="New Designation" class="btn btn-primary">New Designation </button>
+                <button type="button"  data-toggle="modal"  data-target="#NewDesignationModal"  value="New Designation" class="btn btn-primary btn-xs"><i class="fa fa-plus">  New Designation</i> </button>
             </div> 
             </div>
             </div>

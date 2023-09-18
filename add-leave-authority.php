@@ -1384,24 +1384,24 @@ var code=197;
   <div class="card card-outline">
     <div class="card-header">
       <!-- <h3 class="card-title">Employee</h3> -->
-      <button type="button" onclick="exportEmployee();" class="btn btn-success ">
+      <button type="button" onclick="exportEmployee();" class="btn btn-success btn-xs ">
         <i class="fa fa-file-excel"></i>
       </button>
       <?php if($role_id==2){?>
-      <button type="button" onclick="manageDepartment();" class="btn btn-success ">
+      <button type="button" onclick="manageDepartment();" class="btn btn-success btn-xs ">
       Manage Department
       </button>
-      <button type="button" onclick="manageDesignation();" class="btn btn-success ">
+      <button type="button" onclick="manageDesignation();" class="btn btn-success btn-xs ">
       Manage Designation
       </button>
       <?php }?>
       <input type="hidden" id="CollegeID_Set">
 
       <div class="card-tools">
-        <div class="input-group">
-          <input type="search" onblur="search_all_employee_emp_name(this.value);" class="form-control" name="emp_name" id="emp_name" placeholder="Search here">
+        <div class="input-group ">
+          <input type="search" onblur="search_all_employee_emp_name(this.value);" class="form-control form-control-sm" name="emp_name" id="emp_name" placeholder="Search here">
           <div class="input-group-append">
-            <button type="button" onclick="search_all_employee();" class="btn btn-default">
+            <button type="button" onclick="search_all_employee();" class="btn btn-success btn-xs">
               <i class="fa fa-search"></i>
             </button>
           </div>
