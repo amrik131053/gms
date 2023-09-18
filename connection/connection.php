@@ -16,6 +16,8 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 $servername1 = "10.0.8.10";
 $username1 = "as";
 $password1 = "Bathinda@123";
+
+
 $dbname1 = "lims";
  $dbname2 = "store";
  $dbname3 = "spoc";
