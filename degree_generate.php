@@ -90,7 +90,7 @@ include "header.php";
               
               <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo/Name">
                                    
-<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
+<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
 &nbsp;
 &nbsp;
 &nbsp;
@@ -106,48 +106,13 @@ include "header.php";
                }?>
              </select>
                                    
-<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_course_studetn();">
+<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
 </div>
                  
                </div>
                
 
                <script>
-                           function by_course_studetn() {
-                    
-                    var currentPage = 1;
-                  var code = 178;
-                  var searchQuery = '';
-                    var by_search=document.getElementById('CourseName').value;
-                    var spinner=document.getElementById("ajax-loader");
-  //   spinner.style.display='block';
-                        $.ajax({
-                           url: 'action_g.php',
-                           type: 'POST',
-                           dataType: 'json',
-                           data: {
-                              page: currentPage,
-                              code: code,
-                              by_search: by_search,
-                              search: searchQuery 
-                           },
-                           success: function(data) {
-            if (Object.keys(data).length === 0) {
-               ErrorToast('No Record Found', 'bg-warning');
-                spinner.style.display = 'none';
-               } else {
-                
-                 
-                  buildTable(data);
-                  updatePagination(currentPage);
-                  spinner.style.display = 'none';
-            }
-        },
-                           error: function() {
-                              // Handle error response
-                           }
-                        });
-                  }
 
                   
                   function date_by_search() {
@@ -159,7 +124,8 @@ include "header.php";
     var code = 78;
     var searchQuery = '';
     var upload_date = document.getElementById('upload_date').value;
-
+    var by_search=document.getElementById('RollNoSearch').value;
+    var by_search_college=document.getElementById('CourseName').value;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -168,69 +134,30 @@ include "header.php";
             page: currentPage,
             code: code,
             upload_date: upload_date,
+            by_search: by_search,
+            by_search_college: by_search_college,
             search: searchQuery // Pass the search query to the server
         },
         success: function(data) {
-            if (Object.keys(data).length === 0) 
-            {
-               ErrorToast('No Record Found', 'bg-warning');
-               SuccessToast('Generated successfully');
-                spinner.style.display = 'none';
-               } 
-               else 
-               {
-                 
-                  buildTable(data);
-                  updatePagination(currentPage);
-                  spinner.style.display = 'none';
-            }
-        },
-        error: function() {
+      
+            buildTable(data);
+            updatePagination(currentPage);
             
             spinner.style.display = 'none';
+
+},
+        error: function() {     
+            // spinner.style.display = 'none';
         }
     });
 }
 
 
-                  function by_search_studetn() {
-                    
-                    var currentPage = 1;
-                  var code = 169;
-                  var searchQuery = '';
-                    var by_search=document.getElementById('RollNoSearch').value;
-                    var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-                        $.ajax({
-                           url: 'action_g.php',
-                           type: 'POST',
-                           dataType: 'json',
-                           data: {
-                              page: currentPage,
-                              code: code,
-                              by_search: by_search,
-                              search: searchQuery 
-                           },
-                           success: function(data) {
-            if (Object.keys(data).length === 0) {
-               ErrorToast('No Record Found', 'bg-warning');
-                spinner.style.display = 'none';
-               } else {
-                
-                  buildTable(data);
-                  updatePagination(currentPage);
-                  spinner.style.display = 'none';
-            }
-        },
-                           error: function() {
-                            
-                           }
-                        });
-                  }
-
                   var currentPage = 1;
                   var code = 78;
                   var searchQuery = '';
+                  var by_search="";
+                  var by_search_college="";
                    const date = new Date();
                   var day = date.getDate();
                    var month = date.getMonth() + 1;
@@ -241,7 +168,11 @@ include "header.php";
                      loadData(currentPage);
 
                      function loadData(page) {
-                    var upload_date=document.getElementById('upload_date').value;
+                    
+                        var upload_date=document.getElementById('upload_date').value;
+                        
+                    var by_search=document.getElementById('RollNoSearch').value;
+    var by_search_college=document.getElementById('CourseName').value;
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -250,21 +181,16 @@ include "header.php";
                               page: page,
                               code: code,
                               upload_date: upload_date,
+                              by_search: by_search,
+                              by_search_college: by_search_college,
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-            if (Object.keys(data).length === 0) {
-               ErrorToast('No Record Found', 'bg-warning');
-                spinner.style.display = 'none';
-               } else {
-                 
-                  buildTable(data);
-                  updatePagination(currentPage);
-                  spinner.style.display = 'none';
-            }
-        },
+                            buildTable(data);
+                              updatePagination(currentPage);
+                                 },
                            error: function() {
-                              // Handle error response
+                             // Handle error response
                            }
                         });
                      }

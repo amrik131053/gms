@@ -3093,7 +3093,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);">	131053	Web Developer	Guru Kashi University	IT	</i></td>
+                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);">	</i></td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3160,10 +3160,12 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#employment"
                                         data-toggle="tab">Employment</a></li>
+                                        <?php if($role_id==2){?>
                                 <li class="nav-item"><a class="nav-link" href="#permissions"
                                         data-toggle="tab">Permissions</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
                                         data-toggle="tab">Assign College Course</a></li>
+                                        <?php }?>
                             </ul>
                         </div>
                         <!-- /.card-header -->
@@ -4760,9 +4762,23 @@ if ($check_flow_row['status']<4) {
       {
 
         
-         $up_date=$_POST['upload_date'];
 
-                   $degree="SELECT * FROM degree_print where upload_date='$up_date' order by Id ASC  ";                     
+         $up_date=$_POST['upload_date'];
+         $by_search=$_POST['by_search'];
+         $by_search_college=$_POST['by_search_college'];
+                   if($by_search!='')
+                   {
+                    $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
+                   }
+                   elseif ($by_search_college!='')
+                    {
+                    # code...
+                    $degree="SELECT * FROM degree_print where Course='$by_search_college'  order by Id ASC  ";                     
+                   }
+                   else
+                   {
+                       $degree="SELECT * FROM degree_print where upload_date='$up_date'  order by Id ASC  ";                     
+                   }
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
@@ -4783,18 +4799,21 @@ if ($check_flow_row['status']<4) {
 
 }
 
-                      //print_r($data);
+                    //   print_r($data);
                      $page = $_POST['page'];
                      $recordsPerPage = 100;
                      $startIndex = ($page - 1) * $recordsPerPage;
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      
-                     $jsonString = json_encode($pagedData);
-                    if (empty($jsonString)) {
-                        echo "JSON is empty";
-                    } else {
-                        echo json_encode($pagedData);
-                    }
+                 
+ 
+ 
+                         echo json_encode($pagedData);
+ 
+ 
+        
+ 
+                
                      
 
       }
@@ -10121,45 +10140,10 @@ mysqli_query($conn,$upd);
 
 elseif($code==178)
 {
- $value=$_POST['by_search'];
- if($value!='')
- {
-   
-    $degree="SELECT * FROM degree_print where Course like '%$value%' order by Id ASC "; 
-    $degree_run=mysqli_query($conn,$degree);
-    while ($degree_row=mysqli_fetch_array($degree_run)) 
-    {
-     $data[]=$degree_row;
-    }
-    
-    // print_r($row_student);
-    $page = $_POST['page'];
-    $recordsPerPage = 100;
-    $startIndex = ($page - 1) * $recordsPerPage;
-    $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-    // echo json_encode($pagedData);
- 
-        echo json_encode($pagedData);
-   
- }
- else
- {
-     $degree="SELECT * FROM degree_print  order by Id ASC "; 
-     $degree_run=mysqli_query($conn,$degree);
-     while ($degree_row=mysqli_fetch_array($degree_run)) 
-     {
-      $data[]=$degree_row;
-     }
-     
-     // print_r($row_student);
-     $page = $_POST['page'];
-     $recordsPerPage = 100;
-     $startIndex = ($page - 1) * $recordsPerPage;
-     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-     // echo json_encode($pagedData);
-  
-         echo json_encode($pagedData);
- }
+
+          echo "JSON is empty";
+
+
 }
 
 elseif($code==179)
@@ -11507,6 +11491,194 @@ echo "1";
 
 
 }
+
+elseif($code==192)
+{
+    ?>
+<section class="content">
+    <br>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-lg-8">
+    <div class="card-tools">
+        <div class="input-group">
+                <button type="button"  data-toggle="modal"  data-target="#NewDepartmentModal"  value="New Designation" class="btn btn-primary">New Department </button>
+                &nbsp;
+                &nbsp;
+      	  <select  name="College" id='CollegeID_For_Department'  class="form-control" required="" >
+                <option value=''>Select College</option>
+                  <?php
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+     $college = $row1['CollegeName']; 
+     $CollegeID = $row1['CollegeID'];
+    ?>
+<option  value="<?=$CollegeID;?>"><?= $college;?></option>
+<?php    }
+
+?>
+              </select> 
+    <input type="button"  onclick="search();"  value="Search" class="btn btn-success">  
+            </div> 
+            </div>
+            </div>
+            </div>
+            </div>
+        <div class="card-body table-responsive "  id="tab_data">      
+               </div>
+         </section>  
+<?php
+
+}
+elseif($code==193)
+{
+    ?>
+<section class="content">
+    <br>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-lg-8">
+    <div class="card-tools">
+        <div class="input-group">
+                <button type="button"  data-toggle="modal"  data-target="#NewDesignationModal"  value="New Designation" class="btn btn-primary">New Designation </button>
+            </div> 
+            </div>
+            </div>
+            </div>
+            </div>
+        <div class="card-body table-responsive  "  id="tab_data" style="height:600px;">  
+            
+     
+         <table class="table"  id="example">
+            <thead>
+               <tr>
+                  <th>Sr No.</th>
+                  <th>Designation</th>
+                  <th>Action</th>
+               </tr>
+            </thead>
+            <tbody>
+<?php
+$count=1;
+$sql="SELECT *  from MasterDesignation where Status='1' ";
+
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+      $Designation = $row1['Designation']; 
+            $id = $row1['Id'];
+    ?>
+               <tr><td><?=$count;?></td>
+                  <td><?=$Designation;?>(<?= $id;?>)</td>
+                    <td>
+                  <i class="fa fa-edit fa-lg" onclick="update_designation(<?=$id;?>);" data-toggle="modal" data-target="#UpdateDesignationModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <i class="fa fa-trash fa-lg" onclick="delete_designation(<?=$id;?>);"  style="color:red;"></i></td>
+                
+               </tr>
+<?php 
+$count++;
+}
+// print_r($aaa);
+?>
+
+
+
+            </tbody>
+           
+         </table>
+      
+
+
+               </div>
+         </section>  
+<?php
+
+}
+elseif($code=='194') 
+{
+
+$CollegeID = $_POST['college']; 
+      $shortname = $_POST['department']; 
+     
+ $updatedep="INSERT  into MasterDesignation (Designation,Status) Values('$shortname','1')";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
+
+elseif($code=='195') 
+{
+$Id=$_POST['id'];
+
+$count=1;
+
+
+   $sql="SELECT  * from MasterDesignation  where Id='$Id' ";
+
+
+ 
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+            $Designation = $row1['Designation']; 
+            $id = $row1['Id'];
+    ?>
+
+<div class="row">
+   <div class="col-lg-1"><label>ID</label><br><?=$id;?></div>
+   <div class="col-lg-4">
+<label>Designation</label>
+   <input type="text" value="<?=$Designation ;?>" id="fullname" class="form-control" required="">
+   </div>
+
+   <div class="col-lg-1">
+<label>Action</label>
+<button onclick="UpdatedepDesignation(<?=$id;?>)" class="btn btn-primary">Update</button>
+   </div>
+</div>
+
+             
+<?php 
+$count++;
+}
+
+}
+elseif($code=='196') 
+{
+
+$id = $_POST['id'];
+      $fullname=$_POST['fullname']; 
+
+
+
+$updatedep="UPDATE MasterDesignation set Designation='$fullname',Status='1' where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+  echo "1";
+}
+
+elseif($code=='197') 
+{
+
+$id = $_POST['id']; 
+ 
+echo  $updatedep="DELETE from  MasterDesignation where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
+
    else
    {
    

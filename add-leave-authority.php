@@ -393,7 +393,7 @@ function emp_detail_verify2(id)
          success: function(response) {
             // console.log(response);
             if (response==1) {
-            SuccessToast('Successfully Uploaded');
+            SuccessToast('Successfully Updated');
         }
          },
          error: function(xhr, status, error) {
@@ -654,9 +654,6 @@ $.ajax({
 
 }
 function fetchcourse() {
-
-
-
 var College = document.getElementById('CollegeID').value;
 var department = document.getElementById('Department').value;
 
@@ -831,6 +828,283 @@ function addRole(empid,college)
       ErrorToast('all inputs required','bg-danger' );
    }
 }
+
+
+
+function manageDepartment()
+          {
+       var code=192;
+
+      
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+               }
+         });
+
+     }
+function search()
+          {
+       var code=327;
+
+       var college=document.getElementById('CollegeID_For_Department').value;
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action.php',
+                type:'POST',
+                data:{code:code,college:college},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("tab_data").innerHTML=response;
+               }
+         });
+
+     }
+
+     function update_dep(id)
+          {
+       var code=328;
+
+       
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action.php',
+                type:'POST',
+                data:{code:code,id:id},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("update_data").innerHTML=response;
+               }
+         });
+
+     }
+     function update_designation(id)
+          {
+       var code=195;
+
+       
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code,id:id},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("update_data_designation").innerHTML=response;
+               manageDesignation();
+               }
+         });
+
+     }
+
+
+
+
+
+
+
+    function UpdatedepDesignation(id)
+
+   {
+       var code=196;
+  var fullname=document.getElementById('fullname').value;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code,id:id,fullname:fullname},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               manageDesignation();
+                SuccessToast('Successfully Updated');
+
+              // document.getElementById("update_data").innerHTML=response;
+               }
+         });
+
+     }
+
+    function Updatedepdata(id)
+
+   {
+       var code=329;
+ var shortname=document.getElementById('shortname').value;
+  var fullname=document.getElementById('fullname').value;
+   var college=document.getElementById('CollegeID').value;
+      
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action.php',
+                type:'POST',
+                data:{code:code,id:id,shortname:shortname,fullname:fullname,college:college},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+                 search();
+                SuccessToast('Successfully Updated');
+
+              // document.getElementById("update_data").innerHTML=response;
+               }
+         });
+
+     }
+
+
+function delete_dep(id)
+{
+   var a=confirm('Are you sure you want to delete');
+   // alert(id);
+   if (a==true) {
+var code=331;
+ var spinner=document.getElementById('ajax-loader');
+
+         spinner.style.display='block';
+   $.ajax({
+                url:'action.php',
+                type:'POST',
+                data:{code:code,id:id},
+                success: function(response) 
+               { 
+               	console.log(response);
+               spinner.style.display='none';
+               search();
+                SuccessToast('Successfully Deleted');
+              // document.getElementById("tab_data").innerHTML=response;
+               }
+         });
+      }
+      else
+      {
+
+      }
+}
+function delete_designation(id)
+{
+   var a=confirm('Are you sure you want to delete');
+   // alert(id);
+   if (a==true) {
+var code=197;
+ var spinner=document.getElementById('ajax-loader');
+
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code,id:id},
+                success: function(response) 
+               { 
+               	// console.log(response);
+               spinner.style.display='none';
+               manageDesignation();
+                SuccessToast('Successfully Deleted');
+              // document.getElementById("tab_data").innerHTML=response;
+               }
+         });
+      }
+      else
+      {
+
+      }
+}
+
+
+
+
+
+
+
+     	function save()
+	{
+		var code=330;
+
+       var college=document.getElementById('CollegeIDN').value;
+       var department=document.getElementById('department').value;
+    
+         var spinner=document.getElementById('ajax-loader');
+
+         spinner.style.display='block';
+   $.ajax({
+                url:'action.php',
+                type:'POST',
+                data:{code:code,college:college,department:department},
+                success: function(response) 
+               { 
+               	console.log(response);
+               spinner.style.display='none';
+               search();
+                SuccessToast('Successfully Updated');
+              // document.getElementById("tab_data").innerHTML=response;
+               }
+         });
+
+
+
+	}
+     	function save_designation()
+	{
+		var code=194;
+       var department=document.getElementById('Designation').value;
+    
+         var spinner=document.getElementById('ajax-loader');
+
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code,department:department},
+                success: function(response) 
+               { 
+               	// console.log(response);
+               spinner.style.display='none';
+               manageDesignation();
+                SuccessToast('Successfully Added');
+              // document.getElementById("tab_data").innerHTML=response;
+               }
+         });
+
+
+
+	}
+
+   function manageDesignation()
+          {
+       var code=193;
+
+      
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+               }
+         });
+
+     }
    </script>
  <!-- Content Wrapper. Contains page content -->
   
@@ -857,6 +1131,179 @@ function addRole(empid,college)
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Department</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">View  Record</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"  id='update_data'>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="UpdateDesignationModalCenter2" tabindex="-1" role="dialog" aria-labelledby="UpdateDesignationModalCenter2" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">edit Designaion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"  id='update_data_designation'>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="NewDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="NewDepartmentModal" aria-hidden="true" >
+   <div class="modal-dialog " role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+           <h5 class="modal-title" id="NewDepartmentModal">New Department</h5> 
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+  
+     <div class="row">
+        <div class="col-lg-1"></div>
+      <div class="col-lg-10"> 
+      	    <label>College</label>
+      	  <select  name="College" id='CollegeIDN'  class="form-control" required="">
+                <option value=''>Select Course</option>
+                  <?php
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         { 
+     $college = $row1['CollegeName']; 
+     $CollegeID = $row1['CollegeID'];
+    ?>
+<option  value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
+<?php    }
+
+?>
+              </select> 
+    <label>Designation</label>
+    <input type="text" name="table_search" id="department" class="form-control" required>
+    <br>
+    <input type="submit"  onclick="save_designation();"  value="save" class="btn btn-secondary"> 
+
+    </div>
+    <div class="col-lg-1"></div>
+
+    </div>
+<br>
+   
+     
+     
+                
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="NewDesignationModal" tabindex="-1" role="dialog" aria-labelledby="NewDesignationModal" aria-hidden="true" >
+   <div class="modal-dialog " role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+           <h5 class="modal-title" id="NewDesignationModal">New Designation</h5> 
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         
+            
+
+              
+    
+    
+     <div class="row">
+        <div class="col-lg-1"></div>
+      <div class="col-lg-10"> 
+  
+    <label>Designation</label>
+    <input type="text" name="table_search" id="Designation" class="form-control" required>
+    <br>
+    <input type="submit"  onclick="save_designation();"  value="save" class="btn btn-secondary"> 
+
+    </div>
+    <div class="col-lg-1"></div>
+
+    </div>
+<br>
+   
+     
+     
+                
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -937,9 +1384,17 @@ function addRole(empid,college)
   <div class="card card-outline">
     <div class="card-header">
       <!-- <h3 class="card-title">Employee</h3> -->
-      <button type="button" onclick="exportEmployee();" class="btn btn-success btn-xs">
+      <button type="button" onclick="exportEmployee();" class="btn btn-success ">
         <i class="fa fa-file-excel"></i>
       </button>
+      <?php if($role_id==2){?>
+      <button type="button" onclick="manageDepartment();" class="btn btn-success ">
+      Manage Department
+      </button>
+      <button type="button" onclick="manageDesignation();" class="btn btn-success ">
+      Manage Designation
+      </button>
+      <?php }?>
       <input type="hidden" id="CollegeID_Set">
 
       <div class="card-tools">
