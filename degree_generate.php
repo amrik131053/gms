@@ -186,6 +186,7 @@ include "header.php";
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
+                             
                             buildTable(data);
                               updatePagination(currentPage);
                                  },
