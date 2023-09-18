@@ -347,7 +347,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>,
                 having completed the requirments for the award of ".$Type." and having passed the
                  prescribed examination held in <b>".$Examination."</b>   has been conferred the
-                  ".$Type." of <b> ".$course."</b>  of this University in the dicipline of <b>".$Stream."</b>
+                  ".$Type." of <b> ".$course."</b>  of this University in the discipline of <b>".$Stream."</b>
                    with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
                ?></i>
             
