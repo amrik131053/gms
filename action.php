@@ -18799,7 +18799,187 @@ $sql=" SELECT State,District, COUNT(*) AS `dist` ,states.name as StateName,citie
    
    }
 }
+elseif($code=='327') 
+{
+   $CollegeID=$_POST['college'];
+  ?>   <div class="card-body table-responsive p-0" >
+         <table class="table table-head-fixed text-nowrap" >
+            <?php 
+               ?>
+            <thead>
+               <tr>
+                  <th>Sr No.</th>
+                  <th>College</th>
+                  <th>Department(ID CARD)</th>
+                  <th>Department Full Name</th>
+                  <th>Action</th>
+               </tr>
+            </thead>
+            <tbody>
+<?php
+$count=1;
 
+if($CollegeID!='')
+{
+$sql="SELECT  Distinct md.CollegeID,mcs.CollegeName,md.Department ,md.DepartmentFullName,md.Id from MasterCourseCodes mcs Right JOIN MasterDepartment md on mcs.CollegeID=md.CollegeID where md.CollegeID='$CollegeID'";
+}else
+{
+   $sql="SELECT  Distinct md.CollegeID,mcs.CollegeName,md.Department ,md.DepartmentFullName,md.Id from MasterCourseCodes mcs Right JOIN MasterDepartment md on mcs.CollegeID=md.CollegeID ";
+
+}
+ 
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+      $college = $row1['CollegeName']; 
+      $Department = $row1['Department']; 
+      $DepartmentF=$row1['DepartmentFullName']; 
+      $CollegeID = $row1['CollegeID'];
+            $id = $row1['Id'];
+    ?>
+
+
+
+               <tr><th><?=$count;?></th>
+                  <td><?=$college;?>(<?= $CollegeID;?>)</td>
+                  <td><?=$Department ;?>(<?=$id;?>)
+                     </td>
+                  
+                  <td><?=$DepartmentF;?></td><td>
+                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:red;"></i></td>
+                
+               </tr>
+<?php 
+$count++;
+}?>
+
+
+
+            </tbody>
+           
+         </table>
+      </div> <?php 
+
+}
+
+elseif($code=='328') 
+{
+$Id=$_POST['id'];
+
+$count=1;
+
+
+   $sql="SELECT  Distinct md.CollegeID,mcs.CollegeName,md.Department ,md.DepartmentFullName,md.Id from MasterCourseCodes mcs Right JOIN MasterDepartment md on mcs.CollegeID=md.CollegeID where md.Id='$Id' ";
+
+
+ 
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+      $college = $row1['CollegeName']; 
+      $Department = $row1['Department']; 
+      $DepartmentF=$row1['DepartmentFullName']; 
+      $CollegeID = $row1['CollegeID'];
+            $id = $row1['Id'];
+    ?>
+
+<div class="row">
+   <div class="col-lg-1"><label>ID</label><br><?=$id;?></div>
+<div class="col-lg-4"><label>College</label>
+           <select  name="College" id='CollegeID'  class="form-control" required="">
+                <option value='<?=$CollegeID;?>'><?=$college;?>(<?= $CollegeID;?>)</option>
+
+
+                  <?php
+
+
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $college = $row1['CollegeName']; 
+     $CollegeID = $row1['CollegeID'];
+    ?>
+<option  value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
+<?php    }
+
+?>
+              </select> 
+</div>
+<div class="col-lg-2">
+   <label>Short Name</label>
+<input type="text" value="<?=$Department ;?>" id="shortname"   class="form-control" required=""  name="">
+
+   </div>
+   <div class="col-lg-4">
+<label>Full Name</label>
+   <input type="text" value="<?=$DepartmentF ;?>" id="fullname" class="form-control" required="">
+   </div>
+
+   <div class="col-lg-1">
+<label>Action</label>
+<button onclick="Updatedepdata(<?=$id;?>)" class="btn btn-primary">Update</button>
+   </div>
+</div>
+
+             
+<?php 
+$count++;
+}
+
+}
+
+elseif($code=='329') 
+{
+
+$id = $_POST['id'];
+$CollegeID = $_POST['college']; 
+      $shortname = $_POST['shortname']; 
+      $fullname=$_POST['fullname']; 
+
+
+
+$updatedep="UPDATE MasterDepartment set CollegeID='$CollegeID',Department='$shortname',DepartmentFullName='$fullname' where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+  echo "1";
+}
+elseif($code=='330') 
+{
+
+$CollegeID = $_POST['college']; 
+      $shortname = $_POST['department']; 
+     
+
+
+
+ $updatedep="INSERT  into MasterDepartment (CollegeName,Department,DepartmentID,CollegeID) Values('$CollegeID','$shortname','0','$CollegeID')";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
+elseif($code=='331') 
+{
+
+$id = $_POST['id']; 
+ 
+ $updatedep="DELETE from  MasterDepartment where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
  else
 {
 echo "select code";
