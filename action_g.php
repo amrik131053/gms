@@ -11676,16 +11676,220 @@ $updatedep="UPDATE MasterDesignation set Designation='$fullname',Status='1' wher
 
 elseif($code=='197') 
 {
-
 $id = $_POST['id']; 
- 
-echo  $updatedep="DELETE from  MasterDesignation where Id='$id'";
+  $updatedep="DELETE from  MasterDesignation where Id='$id'";
 
   $stmt2 = sqlsrv_query($conntest,$updatedep);
  if($stmt2)
  {
    echo '1';
  } 
+}
+
+elseif($code=='198') 
+{
+?>   <div class="container-fluid">
+    <br>
+    <center><h3>Add New Staff</h3></center>
+    <br>
+<div class="row">
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Emp. ID</label>
+                    <input type="text" class="form-control" id="loginId"
+                        value="" >
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="Name"
+                        placeholder="Enter name" value="">
+                </div>
+            </div>
+            <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label for="designation">Designation</label>
+
+                                                <select class="form-control" name="designation">
+                                                    <option value="">
+                                                       Select</option>
+                                                    <?php  $get_Designation="SELECT DISTINCT Designation FROM MasterDesignation ";
+                                                $get_DesignationRun=sqlsrv_query($conntest,$get_Designation);
+                                                while($get_DesignationRow=sqlsrv_fetch_array($get_DesignationRun,SQLSRV_FETCH_ASSOC))
+                                                {?>
+                                                    <option value="<?=$get_DesignationRow['Designation'];?>">
+                                                        <?=$get_DesignationRow['Designation'];?></option>
+                                                    <?php }
+                                          ?>
+                                                </select>
+                                            </div>
+                                        </div>
+            <div class="col-lg-3" style="text-align: left;">
+                                <label>College Name</label>
+                                <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control"
+                                    required>
+                                    <option value=''>Select Faculty</option>
+                                    <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                                    <option value="<?=$CollegeID;?>"><?=$college;?> (<?=$CollegeID;?>)</option>
+                                    <?php }
+                        ?>
+                        <!-- <option value="other">Other</option> -->
+                                </select>
+                            </div>
+                            <div class="col-lg-3" style="text-align: left;">
+                                <label>Department</label>
+                                <select id="Department3" class="form-control" onchange="fetchcourse3()" required>
+                                    <option value=''>Select Department</option>
+                                   
+                                </select>
+                            </div>
+            <div class="col-12 col-lg-2">
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select class="form-control" id="Group">
+                    <option selected="selected" value="Select">Select</option>
+	<option value="A +ve">A +ve</option>
+	<option value="A -ve">A -ve</option>
+	<option value="AB +ve">AB +ve</option>
+	<option value="AB -ve">AB -ve</option>
+	<option value="B +ve">B +ve</option>
+	<option value="B -ve">B -ve</option>
+	<option value="NA">NA</option>
+	<option value="None">None</option>
+	<option value="O +ve">O +ve</option>
+	<option value="O -ve">O -ve</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" class="form-control" id="Dob"
+                        value="">
+
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-2">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control" id="Type">
+                    <option value="Select">Select</option>
+	<option value="Admin">Admin</option>
+	<option value="Administration">Administration</option>
+	<option value="Administrator">Administrator</option>
+	<option value="Finance">Finance</option>
+	<option value="HR">HR</option>
+	<option value="IT">IT</option>
+	<option value="Marketing">Marketing</option>
+	<option value="Non-Teaching">Non-Teaching</option>
+	<option value="Regular">Regular</option>
+	<option value="staff">staff</option>
+	<option value="Teaching">Teaching</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-lg-2">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select class="form-control" id="Gender">
+                        <option value="">Select
+                        </option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label for="fatherName">Father's Name</label>
+                    <input type="text" class="form-control" id="FatherName"
+                        placeholder="Enter father's name"
+                        value="">
+                </div>
+            </div>
+           
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Conatct Number</label>
+                    <input type="text" class="form-control" id="Conatct"
+                        placeholder="Contact Number"
+                        value="">
+                </div>
+            </div>
+           
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" class="form-control" id="Mobile"
+                        placeholder="Mobile Number"
+                        value="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Email ID</label>
+                    <input type="email" class="form-control" id="Email"
+                        placeholder="Enter Email id "
+                        value="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Date of Joining</label>
+                    <input type="date" class="form-control" id="Doj"
+                      
+                        value="">
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label for="category">Emp. Categories</label>
+                    <select class="form-control" name="category">
+                    <option selected="selected" value="Select">Select</option>
+	<option value="1">Default</option>
+	<option value="6">Teaching</option>
+	<option value="7">Non-Teaching</option>
+	<option value="8">Class Four</option>
+	<option value="9">Administration</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Permanent Address</label>
+                   <textarea class="form-control" id="" cols="30" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="form-group">
+                    <label>Correspondance Address</label>
+                   <textarea class="form-control" id="" cols="30" rows="3"></textarea>
+                </div>
+            </div>
+            
+            
+           
+    
+        </div>
+        <div class="card-footer">
+            
+        <button type="button" class="btn btn-success">Add</button>
+        </div>
+      
+    </div>
+        
+        <?php 
 }
 
    else
