@@ -33,6 +33,12 @@ window.location.href = "index.php";
       {
          // echo "inter net off";
       }
+
+      $getRole = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
+      if($row=mysqli_fetch_array($getRole)) 
+      {
+          $role_id = $row['role_id'];
+      }
    
    $code = $_POST['code'];
    
@@ -3160,12 +3166,15 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#employment"
                                         data-toggle="tab">Employment</a></li>
-                                        <?php if($role_id==2){?>
+                                        <?php   if($role_id==2){
+                                            
+                                            ?>
                                 <li class="nav-item"><a class="nav-link" href="#permissions"
                                         data-toggle="tab">Permissions</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
                                         data-toggle="tab">Assign College Course</a></li>
-                                        <?php }?>
+                                        <?php 
+                                    }?>
                             </ul>
                         </div>
                         <!-- /.card-header -->
