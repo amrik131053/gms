@@ -82,7 +82,7 @@ for($s1='16';$s1<='31';$s1++)
                         $college = $row1['CollegeName']; 
                         $CollegeID = $row1['CollegeID'];
                         ?>
-                                    <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                    <option value="<?=$CollegeID;?>"><?=$college;?> (<?=$CollegeID;?>)</option>
                                     <?php }
                         ?>
                         <!-- <option value="other">Other</option> -->
@@ -334,7 +334,6 @@ for($s1='0';$s1<='6';$s1++)
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
                             table += '<tr>';
-
                             table += '<td>' + data[i][1] + '</td>';
                             table += '<td>' + data[i][2] +' ('+ data[i][10] + ')</td>';
                             table += '<td>' + data[i][3] +' ('+ data[i][11] + ')</td>';
