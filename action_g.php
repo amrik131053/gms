@@ -2744,7 +2744,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -2758,7 +2759,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 $emp_pic=base64_encode($row['Snap']);
                         
             
-            
+            $aa[]=$row;
                ?>
             <tr>
                 <td><?=$sr;?></td>
@@ -2769,8 +2770,12 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
-            <?php $sr++; }?>
+            <?php $sr++; }
+            
+            // print_r($aa);
+            ?>
         </tbody>
     </table>
     <?php 
@@ -2812,7 +2817,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -2835,6 +2841,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
             <?php $sr++; }?>
         </tbody>
@@ -2877,7 +2884,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -2904,6 +2912,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
             </tr>
             <?php $sr++;
             } }?>
@@ -2985,7 +2994,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -3009,6 +3019,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3029,7 +3040,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -3057,6 +3069,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
             <?php $sr++;
             }
@@ -3077,7 +3090,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>ID Card</th>
             </tr>
         </thead>
         <tbody>
@@ -3100,6 +3114,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);">	</i></td>
+                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3123,7 +3138,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                 <th>Designation</th>
                                 <th>College</th>
                                 <th>Department</th>
-                                <th>Action</th>
+                                <th>Edit</th>
+                                <th>ID Card</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -3150,6 +3166,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                 <td><?=$row1['Department'];?></td>
                                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i>
                                 </td>
+                                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -11696,7 +11713,7 @@ elseif($code=='198')
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Emp. ID</label>
-                    <input type="text" class="form-control" id="loginId"
+                    <input type="number" class="form-control" id="loginId"
                         value="" >
                 </div>
             </div>
@@ -11711,7 +11728,7 @@ elseif($code=='198')
                                             <div class="form-group">
                                                 <label for="designation">Designation</label>
 
-                                                <select class="form-control" name="designation">
+                                                <select class="form-control" id="designation">
                                                     <option value="">
                                                        Select</option>
                                                     <?php  $get_Designation="SELECT DISTINCT Designation FROM MasterDesignation ";
@@ -11751,7 +11768,7 @@ elseif($code=='198')
                                    
                                 </select>
                             </div>
-            <div class="col-12 col-lg-2">
+            <!-- <div class="col-12 col-lg-2">
                 <div class="form-group">
                     <label>Blood Group</label>
                     <select class="form-control" id="Group">
@@ -11768,7 +11785,7 @@ elseif($code=='198')
 	<option value="O -ve">O -ve</option>
                     </select>
                 </div>
-            </div>
+            </div> -->
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Date of Birth</label>
@@ -11778,7 +11795,7 @@ elseif($code=='198')
 
                 </div>
             </div>
-            <div class="col-12 col-lg-2">
+            <!-- <div class="col-12 col-lg-2">
                 <div class="form-group">
                     <label>Type</label>
                     <select class="form-control" id="Type">
@@ -11796,8 +11813,8 @@ elseif($code=='198')
 	<option value="Teaching">Teaching</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-12 col-lg-2">
+            </div> -->
+            <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Gender</label>
                     <select class="form-control" id="Gender">
@@ -11821,8 +11838,8 @@ elseif($code=='198')
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Conatct Number</label>
-                    <input type="text" class="form-control" id="Conatct"
-                        placeholder="Contact Number"
+                    <input type="number" class="form-control" id="Conatct"
+                        placeholder="Contact Number" pattern="[7-9]{1}[0-9]{9}"
                         value="">
                 </div>
             </div>
@@ -11830,8 +11847,8 @@ elseif($code=='198')
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Mobile Number</label>
-                    <input type="text" class="form-control" id="Mobile"
-                        placeholder="Mobile Number"
+                    <input type="number" class="form-control" id="Mobile"
+                        placeholder="Mobile Number" pattern="[7-9]{1}[0-9]{9}"
                         value="">
                 </div>
             </div>
@@ -11839,7 +11856,7 @@ elseif($code=='198')
                 <div class="form-group">
                     <label>Email ID</label>
                     <input type="email" class="form-control" id="Email"
-                        placeholder="Enter Email id "
+                        placeholder="Enter Email id "  pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                         value="">
                 </div>
             </div>
@@ -11855,7 +11872,7 @@ elseif($code=='198')
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label for="category">Emp. Categories</label>
-                    <select class="form-control" name="category">
+                    <select class="form-control" id="category">
                     <option selected="selected" value="Select">Select</option>
 	<option value="1">Default</option>
 	<option value="6">Teaching</option>
@@ -11868,13 +11885,13 @@ elseif($code=='198')
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Permanent Address</label>
-                   <textarea class="form-control" id="" cols="30" rows="3"></textarea>
+                   <textarea class="form-control" id="Permanent" cols="30" rows="3"></textarea>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
                 <div class="form-group">
                     <label>Correspondance Address</label>
-                   <textarea class="form-control" id="" cols="30" rows="3"></textarea>
+                   <textarea class="form-control" id="Correspondance" cols="30" rows="3"></textarea>
                 </div>
             </div>
             
@@ -11884,13 +11901,59 @@ elseif($code=='198')
         </div>
         <div class="card-footer">
             
-        <button type="button" class="btn btn-success">Add</button>
+        <button type="button" class="btn btn-success" onclick="addEmployee();">Add</button>
         </div>
       
     </div>
         
         <?php 
 }
+elseif($code==199)
+{
+
+$loginId=$_POST['loginId'];
+$Name=$_POST['Name'];
+$designation=$_POST['designation'];
+$CollegeId=$_POST['College3'];
+$Department3=$_POST['Department3'];
+ $getCollegeName="SELECT CollegeName FROM MasterCourseCodes Where CollegeID='$CollegeId'";
+$getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
+if($row=sqlsrv_fetch_array($getCollegeNameRun))
+{
+     $college=$row['CollegeName'];
+}
+$getDepartment="SELECT DepartmentFullName FROM  MasterDepartment Where Id='$Department3'";
+$getDepartmentRun=sqlsrv_query($conntest,$getDepartment);
+if($row1=sqlsrv_fetch_array($getDepartmentRun))
+{
+    $Department=$row1['DepartmentFullName'];
+}
+$Group="";
+$Dob=$_POST['Dob'];
+$Type="";
+$Gender=$_POST['Gender'];
+$FatherName=$_POST['FatherName'];
+$Conatct=$_POST['Conatct'];
+$Mobile=$_POST['Mobile'];
+$Email=$_POST['Email'];
+$Doj=$_POST['Doj'];
+$category=$_POST['category'];
+$Permanent=$_POST['Permanent'];
+$Correspondance=$_POST['Correspondance'];
+$insertEmployee="INSERT into (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college');";
+$insertEmployeeRun=sqlsrv_query($conntest,$insertEmployeeRun);
+if($insertEmployeeRun==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+
+}
+
 
    else
    {

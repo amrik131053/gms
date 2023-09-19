@@ -1169,6 +1169,86 @@ $.ajax({
     }
 });
 }
+
+
+
+function addEmployee()
+	{
+		var code=199;
+       var loginId=document.getElementById('loginId').value;
+       var Name=document.getElementById('Name').value;
+       var designation=document.getElementById('designation').value;
+       var College3=document.getElementById('College3').value;
+       var Department3=document.getElementById('Department3').value;
+      //  var Group=document.getElementById('Group').value;
+       var Dob=document.getElementById('Dob').value;
+      //  var Type=document.getElementById('Type').value;
+       var Gender=document.getElementById('Gender').value;
+       var FatherName=document.getElementById('FatherName').value;
+       var Conatct=document.getElementById('Conatct').value;
+       var Mobile=document.getElementById('Mobile').value;
+       var Email=document.getElementById('Email').value;
+       var Doj=document.getElementById('Doj').value;
+       var category=document.getElementById('category').value;
+       var Doj=document.getElementById('Doj').value;
+       var Permanent=document.getElementById('Permanent').value;
+       var Correspondance=document.getElementById('Correspondance').value;
+       if (loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
+       {
+       var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{code:code,loginId:loginId,Name:Name,designation:designation,College3:College3,Department3:Department3,
+                  Dob:Dob,Gender:Gender,FatherName:FatherName,Conatct:Conatct,Mobile:Mobile,Email:Email,Doj:Doj,
+                  category:category,Permanent:Permanent,Correspondance:Correspondance},
+                success: function(response) 
+               { 
+               	 
+               spinner.style.display='none';
+                SuccessToast('Successfully Added');
+      document.getElementById('loginId').value="";
+       document.getElementById('Name').value="";
+       document.getElementById('designation').value="";
+       document.getElementById('College3').value="";
+       document.getElementById('Department3').value="";
+      
+       document.getElementById('Dob').value="";
+      
+       document.getElementById('Gender').value="";
+       document.getElementById('FatherName').value="";
+       document.getElementById('Conatct').value="";
+       document.getElementById('Mobile').value="";
+       document.getElementById('Email').value="";
+       document.getElementById('Doj').value="";
+       document.getElementById('category').value="";
+       document.getElementById('Doj').value="";
+       document.getElementById('Permanent').value="";
+       document.getElementById('Correspondance').value="";
+             
+               }
+         });
+	}
+   else
+   {
+      ErrorToast('All Inputs Required','bg-warning');
+   }
+}
+
+
+
+function printEmpIDCard(id) {
+   var code=1;
+        if (id!='') 
+         {  
+          window.location.href="printSmartCardEmp.php?code="+code+"&id="+id;
+         }
+         else
+         {
+            alert("Select ");
+         }
+}
    </script>
  <!-- Content Wrapper. Contains page content -->
   
@@ -1440,6 +1520,7 @@ $.ajax({
       <button type="button" onclick="addNewStaff();" class="btn btn-success btn-xs ">
      Add New Staff
       </button>
+      
       <input type="hidden" id="CollegeID_Set">
 
       <div class="card-tools">
