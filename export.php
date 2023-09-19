@@ -2392,6 +2392,141 @@ $color1="";
         $fileName="Detailed Report";
 }
 
+elseif($exportCode==26)
+{    
+   
+
+$start_date=$_GET['start_date'];
+          $end_date=$_GET['end_date'];
+
+          $College=$_GET['College'];
+          $Department=$_GET['Department'];
+
+
+
+  if($College!=''&& $Department!='')
+  {       
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
+
+}
+else if($College!='')
+{
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
+
+}
+else
+{
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
+
+}
+
+
+
+$emp_codes=array();
+$stmt = sqlsrv_query($conntest,$sql_a);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+          {
+         $emp_codes[]=$row_staff['IDNo'];
+          }
+
+ $no_of_emp=count($emp_codes);
+ $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
+ from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
+'$end_date 23:59:00.000'";
+
+$stmt = sqlsrv_query($conntest,$sql_dates);  
+            while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+    $datee[]=$row_dates['mydate'];
+
+}
+ $no_of_dates=count($datee);
+
+
+$exportdaily="<table class='table' border='1'>
+               
+       <thead>
+                          
+          <tr >
+       <th style='color:red;'>Sr No</th><th  style='color:red;'>Name </th><th style='color:red;'>Emp ID</th><th style='color:red;'>College</th>";
+ 
+for($dc=0;$dc<$no_of_dates;$dc++)
+{
+$exportdaily.="<th colspan='2' style='text-align:center' style='color:red;'> {$datee[$dc]->format("d-m-Y")}   </th>";
+ }
+
+$exportdaily.="</tr></thead>";
+    
+$srno=1;
+for ($i=0;$i<$no_of_emp;$i++)
+{
+
+$sql_staff="select * from Staff where IDNo='$emp_codes[$i]'";
+$stmt = sqlsrv_query($conntest,$sql_staff);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+           $Name=$row_staff['Name'];
+             $IDNo=$row_staff['IDNo'];
+                  $College=$row_staff['CollegeName'];
+
+
+
+$exportdaily.="<tr><td>{$srno}</td><td>{$IDNo}</td><td>{$Name}</td><td>{$College}</td>";
+ 
+$srno++;
+for ($at=0;$at<$no_of_dates;$at++)
+{
+   $start=$datee[$at]->format('Y-m-d');
+  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+ from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND 
+'$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+
+$stmt = sqlsrv_query($conntest,$sql_att);  
+            while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            $intime=$row_staff_att['mytime'];
+            $outtime=$row_staff_att['mytime1'];
+
+         
+
+$exportdaily.="<td style='text-align:center'>";
+ if($intime!="")
+{ 
+$myin= $intime->format('h:i');
+} 
+else
+{ 
+ $myin="--";
+}
+
+
+$exportdaily.="{$myin}</td style='text-align:center'><td>";
+ if($outtime!="")
+    { 
+        $myout=$outtime->format('h:i');} 
+else
+ { $myout= "--";}
+   
+   
+
+$exportdaily.="{$myout}</td>";
+
+ }
+
+}
+
+
+}
+
+}
+
+
+   
+    $exportdaily.="</table>"; 
+       //echo $exportMeterHeader;    
+       echo $exportdaily;  
+        $fileName="Daily Report";
+}
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
