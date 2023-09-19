@@ -178,7 +178,7 @@
                           $CGPA = number_format($CGPA, 2);
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                       having completed the requirments for the award of this Diploma and having passed the prescribed
+                       having completed the requirements for the award of this Diploma and having passed the prescribed
                         examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b> 
                          with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                     </div>
@@ -345,7 +345,7 @@ $ms1="<strike>Mr.</strike>";    // code...
  
            
                echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>,
-                having completed the requirments for the award of ".$Type." and having passed the
+                having completed the requirements for the award of ".$Type." and having passed the
                  prescribed examination held in <b>".$Examination."</b>   has been conferred the
                   ".$Type." of <b> ".$course."</b>  of this University in the discipline of <b>".$Stream."</b>
                    with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
@@ -517,7 +517,7 @@ $ms1="<strike>Mr.</strike>";    // code...
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- having completed the requirments for the award of ".$Type." and having passed 
+ having completed the requirements for the award of ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course."</b> with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
                 ?></i>
@@ -686,7 +686,7 @@ $ms1="<strike>Mr.</strike>";    // code...
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- having completed the requirments for the award of ".$Type." and having passed 
+ having completed the requirements for the award of ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course."</b> in the specialization of <b>".$Stream."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b> in regular mode..";
 
@@ -1031,7 +1031,7 @@ $ms1="<strike>Mr.</strike>";    // code...
   
             
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- having completed the requirments for the award of  ".$Type." and having passed 
+ having completed the requirements for the award of  ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course." (".$Stream.") "."</b> with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
                 ?></i>
@@ -1190,7 +1190,7 @@ $ms1="<strike>Mr.</strike>";    // code...
  }
 
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- having completed the requirments for the award of this Diploma and having passed 
+ having completed the requirements for the award of this Diploma and having passed 
  the prescribed examination held in <b>".$Examination."</b> has been conferred the 
 <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks, with distinction in the subjects(s) ".$Stream."</b> and has satisfactorily completed the pratical training for ".$course."<b> (Part-III)</b>.";
 
@@ -1357,7 +1357,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                             
                                ?>
                            <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                           having completed the requirments for the award of this Diploma and having passed the prescribed
+                           having completed the requirements for the award of this Diploma and having passed the prescribed
                             examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b> 
                              with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                         </div>
@@ -1538,7 +1538,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                             
                                ?>
                           <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                          student of <b>".$CollegeName."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed
+                          student of <b>".$CollegeName."</b>, having completed the requirements for the award of this ".$Type." and having passed the prescribed
                             examination held in <b>".$Examination."</b>   has been conferred  the ".$Type." of<b> ".$course."</b> 
                              with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                         </div>
@@ -1721,7 +1721,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                              
                                ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                          student of <b>".$CollegeName."</b>, having completed the requirments for the award of this ".$Type." and having passed the prescribed
+                          student of <b>".$CollegeName."</b>, having completed the requirements for the award of this ".$Type." and having passed the prescribed
                             examination held in <b>".$Examination."</b>   has been conferred  the ".$Type." of<b> ".$course."</b> 
                             of this University in the discipline of <b>".$Stream."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                         </div>
