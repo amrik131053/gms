@@ -22,11 +22,11 @@
            </div>
 <br><br>
 
-         <div  id="table_load">
+         <div  id="table_load" class="table-responsive">
 
               
         
-        <br>
+        
 
          
         </div>

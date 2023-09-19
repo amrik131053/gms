@@ -17602,12 +17602,13 @@ $stmt = sqlsrv_query($conntest,$sql_dates);
  $no_of_dates=count($datee);
 //print_r($datee);?>
 
+
 <table class="table">
-   <tr><th>Sr NO</th><th>Name </th><th>Emp ID</th><th>COllege</th>
+   <tr><th>Sr No</th><th>Emp ID</th><th>Name</th><th>College</th>
 <?php 
 for($dc=0;$dc<$no_of_dates;$dc++)
 {?>
-<th colspan="2" style="text-align:center;"><?= $datee[$dc]->format('d-m-Y');?></th>
+<th  style="text-align:center;min-width:100px"><?= $datee[$dc]->format('d-m-Y');?></th>
 <?php }
 ?>
 </tr>
@@ -17625,22 +17626,16 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
                   $College=$row_staff['CollegeName'];
 
 
-if($i%2)
-  {
-$colorrow='Green';
-  }       
-else
-{
- $colorrow='red';  
-}
+
 ?>
 
-<tr ><td><?=$srno;?></td><td><?= $IDNo;?></td><td><?= $Name;?></td><td><?= $College;?></td>
+<tr ><td><?=$srno;?></td><td><?= $IDNo;?></td><td style="min-width:150px"><?= $Name;?></td><td style="min-width:300px"><?= $College;?></td>
 <?php 
 $srno++;
 for ($at=0;$at<$no_of_dates;$at++)
 {
    $start=$datee[$at]->format('Y-m-d');
+
   $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND 
 '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
@@ -17659,21 +17654,46 @@ else
 {
  $color='';  
 }
+$HolidayName='';
 
-   ?>
+$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
+$stmt = sqlsrv_query($conntest,$sql_holiday);  
+            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+         $HolidayName=$row_staff['HolidayName'];
+             }
 
-<td style="text-align:center;background-color:<?=$color;?>"> <?php if($intime!="")
 
-{ echo $intime->format('h:i');}   else
+ 
+ if($HolidayName!='')
+ {?>
 
- { echo "--";}?>
-   
-</td ><td style="text-align:center;background-color:<?=$color;?>">
-<?php if($outtime!=""){ echo $outtime->format('h:i');} else
- { echo "--";}?>
+<td style="text-align:center;background-color:#10c3dfc4;?>">
+ <button  class="btn btn-primary btn-xs"><?=$HolidayName;?></button>
+
+    <?php if($intime!=""){ echo "in: ". $intime->format('h:i');} else
+ 
+ if($outtime!=""){ echo "out: ". $outtime->format('h:i');} ?>
+
+</td>
+
+ <?php }
+ else
+   {
+      ?>
+<td style="text-align:center;background-color:<?=$color;?>">
+ <?php if($intime!="")
+{ 
+ echo $intime->format('h:i');} echo"<br>";
+if($outtime!=""){ echo $outtime->format('h:i');}
+ 
+?>
    
 </td>
-<?php }
+
+
+
+<?php } }
 
 }
 
