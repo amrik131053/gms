@@ -17495,13 +17495,7 @@ else if($code=='303')
    {
    ?>
    
-<div class="card">
-        <center>
-         <h5>
-         <b>Attedance Report</b>
-        </h5>
-        </center>
-        </div>
+
            <div class="row">
                 <div class="col-lg-3">
              
@@ -17523,7 +17517,7 @@ else if($code=='303')
               </div>
                <div class="col-lg-2">
                  <label>Department</label>
-                  <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
+                  <select  id="Department" name="Department" class="form-control"   required>
                      <option value=''>Select Department</option>
                  </select>
               </div>  
@@ -17545,21 +17539,15 @@ else if($code=='303')
              
               </div>
 
-                <div class="col-lg-1">
-                 <label>Attendance</label>
-                 <select  id="Attendance" name="Attedance" class="form-control"   required>
-                     <option value='0'>All</option>
-                     <option value='1'>Present</option>
-                      <option value='2'>Absent</option>
-                 </select>
-                  </div>
-git 
+     
               <div class="col-lg-2">
                  <label>Action</label><br>
-                 <button onclick="search_daily_attendance();" class="btn btn-success">Search</button>
+                 <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Export</button>
               </div>
+               
             
-            </div>   
+            </div>  
+            <br> 
 <?php 
 
    }
@@ -17570,37 +17558,37 @@ git
 $start_date=$_POST['start_date'];
           $end_date=$_POST['end_date'];
 
-            $attendance=$_POST['attendance'];
-             
-if($attendance==0)
-{
+          $College=$_POST['College'];
+          $Department=$_POST['Department'];
 
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' ";
 
-}
-else if($attendance==1)
-{
- $sql_a="select Distinct EmpCode from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
-'$end_date 23:59:00.000' ANd Len(EmpCode)<=6";
+
+  if($College!=''&& $Department!='')
+  {       
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
 
 }
-else if($attendance==2)
+else if($College!='')
 {
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
 
+}
+else
+{
 $sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
+
 }
+
+
 
 $emp_codes=array();
 $stmt = sqlsrv_query($conntest,$sql_a);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-            {
-            $emp_codes[]=$row_staff['EmpCode'];
-            }
+          {
+         $emp_codes[]=$row_staff['IDNo'];
+          }
 
-
-echo $no_of_emp=count($emp_codes);
-//print_r($emp_codes);
-
+ $no_of_emp=count($emp_codes);
  $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
  from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
 '$end_date 23:59:00.000'";
@@ -17611,7 +17599,7 @@ $stmt = sqlsrv_query($conntest,$sql_dates);
     $datee[]=$row_dates['mydate'];
 
 }
-echo $no_of_dates=count($datee);
+ $no_of_dates=count($datee);
 //print_r($datee);?>
 
 <table class="table">
@@ -17636,9 +17624,18 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
              $IDNo=$row_staff['IDNo'];
                   $College=$row_staff['CollegeName'];
 
+
+if($i%2)
+  {
+$colorrow='Green';
+  }       
+else
+{
+ $colorrow='red';  
+}
 ?>
 
-<tr><td><?=$srno;?></td><td><?= $IDNo;?></td><td><?= $Name;?></td><td><?= $College;?></td>
+<tr ><td><?=$srno;?></td><td><?= $IDNo;?></td><td><?= $Name;?></td><td><?= $College;?></td>
 <?php 
 $srno++;
 for ($at=0;$at<$no_of_dates;$at++)
@@ -17652,14 +17649,28 @@ $stmt = sqlsrv_query($conntest,$sql_att);
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             $intime=$row_staff_att['mytime'];
-            $outtime=$row_staff_att['mytime1']
+            $outtime=$row_staff_att['mytime1'];
 
-            ?>
+  if($at%2)
+  {
+$color='#bfcfbc';
+  }       
+else
+{
+ $color='';  
+}
 
-<td style="text-align:center;"> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?>
+   ?>
+
+<td style="text-align:center;background-color:<?=$color;?>"> <?php if($intime!="")
+
+{ echo $intime->format('h:i');}   else
+
+ { echo "--";}?>
    
-</td style="text-align:center;"><td>
-<?php if($outtime!=""){ echo $outtime->format('h:i');} else { echo "--";}?>
+</td ><td style="text-align:center;background-color:<?=$color;?>">
+<?php if($outtime!=""){ echo $outtime->format('h:i');} else
+ { echo "--";}?>
    
 </td>
 <?php }
