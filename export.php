@@ -18,7 +18,7 @@ elseif (isset($_GET['exportCode']))
     $exportCode = $_GET['exportCode'];
 }
 
-if($exportCode==19)
+if($exportCode==19 ||$exportCode==27)
    {
        include "connection/connection_web.php"; 
 
@@ -2528,6 +2528,113 @@ $exportdaily.="{$myout}</td>";
         $fileName="Daily Report";
 }
 
+
+elseif($exportCode=='27')
+{
+    
+
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon'");
+    $counter = 1; 
+     
+    
+        
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Name</th>
+          <th>Member Type</th>
+           <th>IDNo</th>
+             <th>Organisation</th>
+            <th>College</th>
+             <th>Course</th>
+         
+          <th>Email</th> 
+          <th>Purpose</th>
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+          <th>Country</th>
+           <th>Accomodation</th>
+           <th>Accomodation Type </th>
+              <th>Check in Date </th>
+                <th>Check out Date </th>
+            
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $Designation = $row['roll_no'];
+      $Organisation = $row['course'];
+      $IdNo = $row['Class_rollno'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+       $quali=$row['quali'];
+     
+      $amount=$row['amount'];
+      $email = $row['email'];
+
+      $accomodation=$row['accomodation'];
+       $country=$row['country'];
+     
+      $acctype=$row['acctype'];
+      $start=$row['start'];
+      $endd=$row['endd'];
+
+
+      $phone = $row['phone'];
+
+     
+       
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>
+                <td>{$name}</td>
+                <td>{$father_name}</td>
+                 <td>{$IdNo}</td>
+                 <td>{$Organisation}</td>
+                <td>{$Designation}</td>
+              
+                 <td>{$quali}</td>
+                 
+                
+                <td>{$email}</td>
+                <td>{$purpose}</td>
+                <td>{$phone}</td>
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+                <td>{$country}</td>
+                 <td>{$accomodation}</td>
+                  <td>{$acctype}</td>
+                   <td>{$start}</td>
+
+                <td>{$endd}</td>
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
