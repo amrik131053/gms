@@ -246,7 +246,7 @@
               },
               success: function(response) 
               {
-                // console.log(response);
+               //  console.log(response);
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
                  $('#update_button').show();
@@ -391,10 +391,19 @@ function emp_detail_verify2(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            // console.log(response);
-            if (response==1) {
+            console.log(response);
+            if (response==1) 
+            {
             SuccessToast('Successfully Updated');
-        }
+                }
+             else if(response=='Could not connect to 10.0.10.11')
+                {
+                 ErrorToast('FTP Server Off' ,'bg-warning');
+                }
+               else
+                {
+
+                 }
          },
          error: function(xhr, status, error) {
             console.log(error);
@@ -1242,12 +1251,14 @@ function printEmpIDCard(id) {
    var code=1;
         if (id!='') 
          {  
-          window.location.href="printSmartCardEmp.php?code="+code+"&id="+id;
+         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
+          window.open("printSmartCardEmp.php?code="+code+"&id="+id,'_blank');
          }
          else
          {
             alert("Select ");
          }
+      
 }
    </script>
  <!-- Content Wrapper. Contains page content -->
