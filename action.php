@@ -7202,12 +7202,13 @@ if($count>0)
    $del="UPDATE user SET role_id='0' WHERE emp_id='$emp_id'";
    mysqli_query($conn,"DELETE from special_permission where emp_id='$emp_id'");
    $del_run=mysqli_query($conn,$del);
-   if ($del_run) {?>
-<div  class="alert alert-success alert-xs" id="alert">Successfully Delete</div>
-<?php }
+   if ($del_run) {
+
+      echo "1";
+    }
    else
    {
-       echo "error";
+       echo "0";
    }
    }
    elseif($code==112) 
@@ -7222,22 +7223,16 @@ if($count>0)
    $insert_run=mysqli_query($conn,$insert);
    if ($insert_run)
     {
-   ?>    
-<div  class="alert alert-success alert-xs" id="alert">Successfully Assigned</div>
-<?php 
+   echo "1";
    }
    else
    {
-     ?>    
-<div  class="alert alert-danger" id="alert">Error</div>
-<?php 
+     echo "0";
    }
    }
    else
    {
-    ?>    
-<div  class="alert alert-danger" id="alert">Already Assigned</div>
-<?php 
+   echo "2";
    }
    
    }

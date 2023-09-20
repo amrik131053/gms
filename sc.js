@@ -1205,16 +1205,18 @@ data:{
 emp_id:id,code:code,
 },
 success:function(response) {
-document.getElementById("error").innerHTML =response;
-  setTimeout(function() 
-        { 
-            emp_role(); 
-             $('.alert').fadeOut(3000);
-
-        }, 500);
-},
+  if(response==1)
+  {
+    emp_role(); 
+    SuccessToast('Successfully Delete');
+  }
+  else
+  {
+    ErrorToast('Try Again','bg-danger');
+  }
+      },
 error:function(){
-alert("error");
+// alert("error");
 }
 });
 }
@@ -1239,18 +1241,26 @@ data:{
 role_new:role_id,emp_id:id,code:code,
 },
 success:function(response) {
-document.getElementById("error").innerHTML =response;
 $('#exampleModal').trigger({
     type:"click"
 });
- setTimeout(function() 
-        { 
-            emp_role(); 
-             $('.alert').fadeOut(3000);
-        }, 500);
+if(response==1)
+{
+  emp_role(); 
+  SuccessToast('Successfully Asssined');
+}
+else if(response==2)
+{
+  emp_role(); 
+  ErrorToast('already Assigned','bg-waning');
+}
+else
+{
+  ErrorToast('Try Again','bg-danger');
+}
+
 },
 error:function(){
-alert("error");
 }
 });
 }   

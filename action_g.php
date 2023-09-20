@@ -3679,6 +3679,9 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                     <div class="col-lg-12">
 
                                         <table class="table  table-bordered">
+                                        <tr>
+                                                <th colspan="7"><center> ERP PERMISSIONS</center></th>
+</tr>
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
@@ -3746,15 +3749,24 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                         onclick="updateRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
                                                             class="fa fa-check text-white fa-1x"></i></button></td>
                                             </tr>
+
                                             <?php
 
 $countPerms++;
-}
+} ?></table><?php 
 if($countPerms<1)
 {
-   ?> <tr>
-                                                <td></td>
-                                                <td><?=$getUserDetailsRow['IDNo'];?></td>
+                                                    ?> <table class="table  table-bordered">
+                                                          <tr>
+                                                <th colspan="7"><center> ERP PERMISSIONS</center></th>
+</tr>
+                                                    <tr>
+                                                    
+                                              <th>LoginType</th>
+                                                <th>RightsLevel</th>
+                                                <th>Action</th>
+                                                <tr>
+                                               
                                                 <td>
                                                     <select class="form-control" id="LoginType">
                                                         <option value="">Select</option>
@@ -3788,9 +3800,9 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                         <?php 
 }?>
                                                 </td>
-                                                <td></td>
+                                              
                                                 <td><button type="button" class="btn btn-success"
-                                                        onclick="addRole('<?=$getUserDetailsRow['IDNo'];?>','<?=$getUserDetailsRow['CollegeName'];?>');"><i
+                                                        onclick="addRole('<?=$emp_id;?>','<?=$row1['CollegeName'];?>');"><i
                                                             class="fa fa-plus text-white fa-1x"></i></button></td>
                                             </tr>
                                             <?php 
@@ -3803,6 +3815,131 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                     </div>
 
                                 </div>
+
+
+<!-- lms permissionsa -->
+<div class="row">
+                                    <div class="col-lg-12">
+
+                                        <table class="table  table-bordered">
+                                        <tr>
+                                                <th colspan="7"><center> LMS PERMISSIONS</center></th>
+</tr>
+                                            <tr>
+                                              
+                                                <th>Emp ID</th>
+                                               
+                                                <th>Role Name</th>
+                                                <th>Delete</th>
+                                                <th>Update</th>
+                                            </tr>
+                                            <?php 
+$getUser="SELECT * FROM user inner join role_name on user.role_id=role_name.id  Where emp_id='$emp_id' ";
+$getUserRun=mysqli_query($conn,$getUser);
+$countPerms=0;
+while($getUserRunRow=mysqli_fetch_array($getUserRun))
+{
+?>
+                                            <tr>
+                                                <td><?=$getUserRunRow['emp_id'];?></td>
+                                               
+                                                <td>
+                                                    <select class="form-control" id="LoginType_lms">
+                                                        <option value="<?=$getUserRunRow['role_id'];?>">
+                                                            <?=$getUserRunRow['role_name'];?></option>
+
+                                                        <?php 
+$getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
+$getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
+while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
+{
+?>
+
+                                                        <option value="<?=$getDefalutMenuRunRow['id'];?>">
+                                                            <?=$getDefalutMenuRunRow['role_name'];?></option>
+
+
+                                                        <?php 
+}?>
+
+                                                </td>
+                                               
+                                                <td><button type="button" class="btn btn-danger"
+                                                        onclick="lmsDeleteRole('<?=$emp_id;?>');"><i
+                                                            class="fa fa-trash text-white"></i></button></td>
+                                                <td><button type="button" class="btn btn-success"
+                                                        onclick="lmsUpdateRole('<?=$emp_id;?>');"><i
+                                                            class="fa fa-check text-white fa-1x"></i></button></td>
+                                            </tr>
+
+                                            <?php
+
+$countPerms++;
+} ?></table><?php 
+if($countPerms<1)
+{
+                                                    ?> <table class="table  table-bordered">
+                                                          <tr>
+                                                <th colspan="7"><center> LMS PERMISSIONS</center></th>
+</tr>
+                                                    <tr>
+                                                    
+                                                  
+                                               
+                                                <th>Role Name</th>
+                                               <th>Action</th>
+                                                <tr>
+                                               
+                                                <td>
+                                                    <select class="form-control" id="LoginType_lms">
+                                                        <option value="">Select</option>
+
+                                                        <?php 
+$getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
+$getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
+while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
+{
+?>
+
+                                                        <option value="<?=$getDefalutMenuRunRow['id'];?>">
+                                                            <?=$getDefalutMenuRunRow['role_name'];?></option>
+
+
+                                                        <?php 
+}?>
+
+                                                </td>
+                                                
+                                              
+                                                <td><button type="button" class="btn btn-success"
+                                                        onclick="lmsAddRole('<?=$emp_id;?>');"><i
+                                                            class="fa fa-plus text-white fa-1x"></i></button></td>
+                                            </tr>
+                                            <?php 
+}
+?>
+                                        </table>
+                                        <?php 
+
+    ?>
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- ------------------------------ -->
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3915,28 +4052,28 @@ $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
 $countPerms=0;
 if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSOC))
 {
-?>
-                                                <tr>
+    ?>
+    <tr>
 
-                                                    <td><input type="checkbox" class="checkbox v_check"
-                                                            value="<?=$getUserMasterRunRow['AccessLevelID'];?>"></td>
-                                                    </td>
+        <td><input type="checkbox" class="checkbox v_check" value="<?=$getUserMasterRunRow['AccessLevelID'];?>">
+        </td>
+        </td>
 
-                                                    <td>
-                                                        <?=$getUserMasterRunRow['AccessLevelID'];?>
-                                                    </td>
-                                                    <td>
+        <td>
+            <?=$getUserMasterRunRow['AccessLevelID'];?>
+        </td>
+        <td>
 
-                                                        <?=$getCollegeNameRunRow['CollegeName'];?>
-                                                    </td>
-                                                    <td>
-                                                        <?=$getCollegeNameRunRow['Course'];?>
-                                                    </td>
-                                                    <td><button type="button" class="btn btn-danger btn-xs"
-                                                            onclick="deleteCollegeCourse('<?=$getUserMasterRunRow['AccessLevelID'];?>','<?=$getUserMasterRunRow['IDNo'];?>');"><i
-                                                                class="fa fa-trash text-white"></i></button></td>
-                                                </tr>
-                                                <?php
+            <?=$getCollegeNameRunRow['CollegeName'];?>
+        </td>
+        <td>
+            <?=$getCollegeNameRunRow['Course'];?>
+        </td>
+        <td><button type="button" class="btn btn-danger btn-xs"
+                onclick="deleteCollegeCourse('<?=$getUserMasterRunRow['AccessLevelID'];?>','<?=$getUserMasterRunRow['IDNo'];?>');"><i
+                    class="fa fa-trash text-white"></i></button></td>
+    </tr>
+    <?php
 }
 }
 ?>
@@ -11430,7 +11567,7 @@ elseif($code==188)
 {
   $ids=$_POST['subjectIDs'];
 
- // print_r($ids);
+ print_r($ids);
   foreach($ids as $key => $id)
   {
      
@@ -11482,7 +11619,8 @@ $id=$_POST['empid'];
        if($CollegeID!='')
        {
 $getUserMaster="SELECT * FROM UserAccessLevel where CollegeID='$CollegeID' and IDNo='$id'  ";
-} else
+} 
+else
 {
            $getUserMaster="SELECT * FROM UserAccessLevel where  IDNo='$id'  ";
 
@@ -11524,7 +11662,7 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
             <tr>
                 <td>
                     <button type="button" class="btn btn-danger btn-xs"
-                        onclick="DeleteCollegeCoursePermissions(<?=$id;?>);"><i class="fa fa-trash "></i></button>
+                        onclick="deleteCollegeCoursePermissions(<?=$id;?>);"><i class="fa fa-trash "></i></button>
                 </td>
             </tr>
         </table>
@@ -12050,8 +12188,108 @@ else
 }
 
 }
+elseif($code==200)
+{
 
 
+    $empid = $_POST['empid'];
+    $LoginType = $_POST['LoginType'];
+$check_role="SELECT * FROM user WHERE emp_id='$empid'";
+$count_run=mysqli_query($conn,$check_role);
+$count=mysqli_num_rows($count_run);
+if($count>0)
+{
+$check_role="SELECT * FROM user WHERE emp_id='$empid'";
+$role_check_run=mysqli_query($conn,$check_role);
+if (mysqli_num_rows($role_check_run)>0)
+ {
+$insert="UPDATE user SET role_id='$LoginType' WHERE emp_id='$empid'";
+$insert_run=mysqli_query($conn,$insert);
+if ($insert_run)
+ {
+echo "1"; 
+
+}
+else
+{
+ echo "0";
+}
+}
+else
+{
+echo "2";
+}
+}
+else
+{
+    $sql1 = "SELECT Name,CollegeName,Department,Designation FROM Staff Where IDNo='$empid'";
+    $q1 = sqlsrv_query($conntest, $sql1);
+    if ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC))
+     {
+    $name = $row['Name'];
+    $CollegeName = $row['CollegeName'];
+    $Department = $row['Department'];
+    $Designation = $row['Designation'];
+    $insert="INSERT INTO `user` ( `emp_id`, `name`, `role_id`, `status`, `pass`, `u_permissions`, `college`, `department`, `designation`, `mobile`, `email`, `last_login_date`, `last_login_time`, `image`, `superwiser`, `superwiser_id`, `doj`, `dor`, `spass`, `on_off`)
+    VALUES ( '$empid', '$name', $LoginType, 'Authorised', '12345678', '0', '$CollegeName', '$Department', '$Designation', '', '', '', '', '', '','', '', '', NULL, NULL);";
+    mysqli_query($conn,$insert);
+    $LoginType = $_POST['LoginType'];
+    $check_role="SELECT * FROM user WHERE emp_id='$empid'";
+    $role_check_run=mysqli_query($conn,$check_role);
+    if (mysqli_num_rows($role_check_run)>0)
+     {
+    $insert="UPDATE user SET role_id='$LoginType' WHERE emp_id='$empid'";
+    $insert_run=mysqli_query($conn,$insert);
+    if ($insert_run)
+     {
+    echo "1"; 
+    
+    }
+    else
+    {
+     echo "0";
+    }
+    }
+    else
+    {
+    echo "2";
+    }
+     }
+
+}
+}
+
+elseif($code==201)
+{
+$empid = $_POST['empid'];
+$LoginType = $_POST['LoginType'];
+ $insert_record = "UPDATE  user SET role_id='$LoginType'  where  emp_id='$empid'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
+
+elseif($code==202)
+{
+$empid = $_POST['empid'];
+$insert_record = "UPDATE   user SET role_id='0'  where  emp_id='$empid'";
+$insert_record_run = mysqli_query($conn, $insert_record);
+mysqli_query($conn,"DELETE from special_permission where emp_id='$empid'");
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+}
+}
    else
    {
    
