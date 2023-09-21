@@ -8276,19 +8276,18 @@ elseif ($code==130)
 }
    elseif($code==131)
    {
-       $id=$_POST['id'];
-       $type=$_POST['type_id'];
-      $sql="SELECT * from question_bank_details WHERE question_id='$id'";
+       echo $id=$_POST['id'];
+       //$type=$_POST['type_id'];
+
+   echo    $sql="SELECT * from question_bank_details WHERE question_id='$id'";
        $result = mysqli_query($conn,$sql);
        if($row = mysqli_fetch_array($result))
        {
-         if ($type==1) {
-         
          ?>
             
           <div class="row">
                 <div class="col-lg-4">
-                    <label>Quetion&nbsp;<span style="color:red;">*</span></label>
+                    <label>Question&nbsp;<span style="color:red;">*</span></label>
                     <textarea type="textarea" class="form-control" id="Question" rows="1" ><?php echo $row["Question"];?></textarea>
                 </div>
                 <div class="col-lg-2">
@@ -8308,51 +8307,40 @@ elseif ($code==130)
                     <textarea type="textarea" class="form-control" id="QuestionD" rows="1" ><?php echo $row["OptionD"];?></textarea>
                 </div>
             </div>
-       <?php }
-       else
-       {
-         ?>
- <div class="row">
+      
+<!--  <div class="row">
                 <div class="col-lg-12">
                     <label>Quetion&nbsp;<span style="color:red;">*</span></label>
                     <textarea type="textarea" class="form-control" id="Question" rows="1" ><?php echo $row["Question"];?></textarea>
                 </div>
                 
-             </div>
+             </div> -->
          <?php 
        }
     }
 
-   }
+   
    elseif($code==132)
    {
     $id = $_POST['id'];
-    $type_id = $_POST['type_id'];
-    if ($type_id==1) {
+  
        
     $Question = $_POST['Question'];
     $QuestionA = $_POST['QuestionA'];
     $QuestionB = $_POST['QuestionB'];
     $QuestionC = $_POST['QuestionC'];
     $QuestionD = $_POST['QuestionD'];
-}
-else
-{
-   $Question = $_POST['Question'];
-    $QuestionA ="";
-    $QuestionB = "";
-    $QuestionC = "";
-    $QuestionD = "";
 
-}
-    $edit = "UPDATE question_bank_details SET Question=?, OptionA=?, OptionB=?, OptionC=?, OptionD=? WHERE question_id=?";
+  $edit = "UPDATE question_bank_details SET Question='$Question', OptionA='$QuestionA', OptionB='$QuestionB', OptionC='$QuestionC', OptionD='$QuestionD' WHERE question_id='$id'";
     
-    $stmt = mysqli_prepare($conn, $edit);
-    mysqli_stmt_bind_param($stmt, "sssssi", $Question, $QuestionA, $QuestionB, $QuestionC, $QuestionD, $id);
+    $edit_run=mysqli_query($conn,$edit);
+
+
     
-    if (mysqli_stmt_execute($stmt)) {
-        echo "Successfully Updated";
-    } else {
+    if ($edit_run) {
+        echo "1";
+    } else 
+    {
         echo "Error updating record: " . mysqli_error($conn);
     }
    
@@ -11635,6 +11623,7 @@ elseif($code==194)
          $time =$data['exam_time'];
          $instruction =$data['instructions'];
          $subjectCode=$data['subject_code'];
+
          $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
          $resultSubject = sqlsrv_query($conntest,$sqlSubject);
          if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
@@ -11901,8 +11890,32 @@ elseif($code==194)
                                   }
                                   ?>
                                 &nbsp;</p></th>
-                              <th data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$row['questionId1']?>);" align="left"><?=$row['sanitized_question']?>
+                              <th data-toggle="modal" data-target="#modal-lg" onclick="update_question(<?=$row['questionId1']?>);" align="left">
+                                    <?=$row['sanitized_question']?> <b style="color: red;">( <?=$row['questionId1']?>)</b>
                                 <?= $img?>
+                                <?php 
+                                if($row['OptionA']!='')
+                                {?>
+                                   (A) &nbsp; <?=$row['OptionA']?> 
+                                <?php }?> &nbsp;&nbsp;&nbsp;
+                                <?php 
+                                if($row['OptionB']!='')
+                                {?>
+                                   (B) &nbsp; <?=$row['OptionB']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+ <?php 
+                                if($row['OptionC']!='')
+                                {?>
+                                   (C) &nbsp; <?=$row['OptionC']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+                                 <?php 
+                                if($row['OptionD']!='')
+                                {?>
+                                   (D) &nbsp; <?=$row['OptionD']?> 
+                                <?php }?>
+
                               </th>
                               <th align="right">
                                 <p><table>
@@ -18770,7 +18783,7 @@ elseif($code=='324')
    
 
   
-  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo',CollegeName='$college',Course='$course',ClassRollNo='$classroll' where IDNo='$OLDIDNo'";
+   $update_studentb="UPDATE Ledger  SET IDNo='$IDNo',CollegeName='$college',Course='$course',ClassRollNo='$classroll' where IDNo='$OLDIDNo'";
 
    $update_runb=sqlsrv_query($conntest,$update_studentb);
 

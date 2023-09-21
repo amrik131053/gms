@@ -128,6 +128,29 @@ $batch=$_POST['Batch'];
                                 &nbsp;</p></th>
                               <th align="left"><?=$row['Question']?>
                                 <?= $img?>
+
+                                <?php 
+                                if($row['OptionA']!='')
+                                {?>
+                                   (A) &nbsp; <?=$row['OptionA']?> 
+                                <?php }?> &nbsp;&nbsp;&nbsp;
+                                <?php 
+                                if($row['OptionB']!='')
+                                {?>
+                                   (B) &nbsp; <?=$row['OptionB']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+ <?php 
+                                if($row['OptionC']!='')
+                                {?>
+                                   (C) &nbsp; <?=$row['OptionC']?> 
+                                <?php }?>&nbsp;&nbsp;&nbsp;
+
+                                 <?php 
+                                if($row['OptionD']!='')
+                                {?>
+                                   (D) &nbsp; <?=$row['OptionD']?> 
+                                <?php }?>
                               </th>
                               <th align="right">
                                 <p><table>
