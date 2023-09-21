@@ -409,7 +409,7 @@ function copyToClipboard(element) {
 
 function  movefee(nid)
 {
-  var code=324;
+  var code=324; 
    
       var oldid= document.getElementById("oldid").value;
 
@@ -427,7 +427,7 @@ function  movefee(nid)
             },
             success:function(response) 
             {
-               console.log(response);
+               //console.log(response);
                spinner.style.display='none';
                SuccessToast('Successfully Moved');
                

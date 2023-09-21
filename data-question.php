@@ -98,14 +98,15 @@
             <div class="row">
                <div class="col-lg-12" id="question">
                   <label>Question</label>          
-                  <div class="click2edit" id="question_edit"></div>
-                  <input type="hidden" name="" id="question_id">
+                  <div class="click2edit" id="question_edit">
+                  </div>
+                  <input type="text" name="" id="question_id">
                </div>
             </div>
          </div>
          <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button id="save" class="btn btn-primary" data-dismiss="modal" onclick="save()"  type="button">Save</button>
+            <button  class="btn btn-primary" data-dismiss="modal" onclick="save()"  type="button">Save</button>
             <!-- <button type="submit" class="btn btn-success">Save changes</button> -->
          </div>
       </div>
@@ -383,6 +384,7 @@ function lockQuestions(SubjectCode,CourseID,Batch,Semester,EmpID)
    }
    function update_question(id)
    {
+  
     
           var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
@@ -398,91 +400,59 @@ function lockQuestions(SubjectCode,CourseID,Batch,Semester,EmpID)
                   spinner.style.display='none';
                  document.getElementById("question_edit").innerHTML=response;
                  document.getElementById("question_id").value=id;
-                 edit();
+                
               }
            });
         }
 
-        // var edit = function() {
-      function edit(){
-    $('.click2edit').summernote({focus: true,toolbar: [
-      // [groupName, [list of button]]
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['fontsize', ['fontsize']],
-      ['color', ['color']],
-      ['para', ['ul', 'ol', 'paragraph']],
-      ['height', ['height']]
-    ]});
-   }
-   // };
    
-   var save = function() {
-    var markup = $('.click2edit').summernote('code');
+   function save()
+   {
+
     var id=document.getElementById('question_id').value;
+        var Question=document.getElementById('Question').value;
+    var QuestionA=document.getElementById('QuestionA').value;
+    var QuestionB=document.getElementById('QuestionB').value;
+        var QuestionC=document.getElementById('QuestionC').value;
+            var QuestionD=document.getElementById('QuestionD').value;
+
+          
+
+ var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
         var code=132;
            $.ajax({
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,question_new:markup,id:id
+                 code:code,Question:Question,QuestionA:QuestionA,QuestionB:QuestionB,QuestionC:QuestionC,QuestionD:QuestionD,id:id
               },
               success: function(response) 
               {
-               
+                spinner.style.display='none';
+                console.log(response);
                  SuccessToast('Successfully Updated');
+
                  searchTextBox();
               }
            });
-    $('.click2edit').summernote('destroy');
-   };
-   
-   $('#modal-lg').on('hidden.bs.modal', function () {
-    $('.click2edit').summernote('destroy');
-      var code_access = '<?php echo $code_access; ?>';
-        var subCode=sanitize(document.getElementById("subject_code").value);
-      var courseId=sanitize(document.getElementById("Course").value);
-      var batch=sanitize(document.getElementById("Batch").value);
-      var sem=sanitize(document.getElementById("Semester").value);
-      var unit=sanitize(document.getElementById("unit").value);
-      var type=sanitize(document.getElementById("type").value);
+               
 
-    if(subject_code!='')
-    {
-       var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
-       var code = "127";
-           $.ajax({
-           url:'action.php',
-           data:{code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,sem:sem,unit:unit,type:type},
-           type:'POST',
-           success:function(data){
-               spinner.style.display='none';
-               // SuccessToast('Successfully Updated');
-              document.getElementById("table_load").innerHTML=data;
-               $('#example').DataTable({ 
-                      "destroy": true, //use for reinitialize datatable
-                   });
-           }
-         });
-    }
-    else
-    {
-      location.reload(true);
-       $('#example').DataTable({ 
-                      "destroy": true, //use for reinitialize datatable
-                   });
 
-    }
-   });
+ 
+}
+
+
+
 
 
       function view_question(SubjectCode,CourseID,Batch,Semester)
    {
       document.getElementById("show_upload_q").innerHTML='';
       var spinner=document.getElementById("ajax-loader");
-     spinner.style.display='block';
+      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-     var code=134;
+      var code=134;
            $.ajax({
               url:'action.php',
               type:'POST',
