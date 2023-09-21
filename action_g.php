@@ -12290,6 +12290,184 @@ else
 echo "0";
 }
 }
+
+elseif($code==203)
+{
+    $Sr=1;
+    
+    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP) "; 
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+        if($row['LeaveDurationsTime']!=0)
+        {
+            $LeaveDurationsTime=$row['LeaveDurationsTime'];
+        }
+        else
+        {
+            $LeaveDurationsTime=$row['LeaveDuration'];
+        }
+
+        if($row['Status']=='Approved')
+        {
+            $statusColor="success";
+        }
+        elseif($row['Status']=='Reject')
+        {
+            $statusColor="danger";
+        }
+        else
+        {
+            $statusColor="warning";
+        }
+?>
+<tr>
+<td><?=$Sr;?></td>
+<td><b>(<?=$row['StaffName'];?>) <?=$row['IDNo'];?></b></td>
+<td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
+<td><?=$row['EndDate']->format('d-m-Y');?></td>
+<td><?=$row['LeaveTypeName'];?></td>
+<td><?=$LeaveDurationsTime;?></td>
+<td><?php echo substr($row['LeaveReason'], 0,50);?></td>
+<td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
+<td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i></td>
+    </tr>
+<?php
+
+       
+        $Sr++;
+    }
+    // print_r($aa);
+    ?>
+<?php
+
+}
+
+elseif($code==204)
+{
+    $emp_id=$_POST['empid'];
+     $from=$_POST['from'];
+      $month = date('m',strtotime($from));
+      $year  = date('Y',strtotime($from));
+    $Sr=1;
+    
+    if($from!='' && $emp_id!='' )
+    {
+        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId where Month(StartDate)='$month' AND YEAR(StartDate)='$year'  and   Staff.IDNo='$emp_id' ";
+    }
+    elseif($emp_id!='' && $from=='')
+    {
+        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Staff.IDNo='$emp_id' "; 
+    }
+    elseif($from!='' && $emp_id=='' )
+{
+    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year'  ";
+}
+else
+{
+    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP) "; 
+   
+}
+
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    {
+        if($row['LeaveDurationsTime']!=0)
+        {
+            $LeaveDurationsTime=$row['LeaveDurationsTime'];
+        }
+        else
+        {
+            $LeaveDurationsTime=$row['LeaveDuration'];
+        }
+        if($row['Status']=='Approved')
+        {
+            $statusColor="success";
+        }
+        elseif($row['Status']=='Reject')
+        {
+            $statusColor="danger";
+        }
+        else
+        {
+            $statusColor="warning";
+        }
+?>
+<tr>
+<td><?=$Sr;?></td>
+<td><b>(<?=$row['StaffName'];?>)<?=$row['IDNo'];?></b></td>
+<td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
+<td><?=$row['EndDate']->format('d-m-Y');?></td>
+<td><?=$row['LeaveTypeName'];?></td>
+<td><?=$LeaveDurationsTime;?></td>
+<td><?php echo substr($row['LeaveReason'], 0,50);?></td>
+<td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
+<td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i></td>
+    </tr>
+<?php
+
+
+
+
+       
+        $Sr++;
+    }
+    // print_r($aa);
+    ?>
+<?php
+
+}
+elseif($code==205)
+{
+    
+  
+    $id=$_POST['id'];
+   
+   
+  
+       $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
+
+
+   $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+   if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+   {
+       if($row['LeaveDurationsTime']!=0)
+       {
+           $LeaveDurationsTime=$row['LeaveDurationsTime'];
+       }
+       else
+       {
+           $LeaveDurationsTime=$row['LeaveDuration'];
+       }
+       if($row['Status']=='Approved')
+       {
+           $statusColor="success";
+       }
+       elseif($row['Status']=='Reject')
+       {
+           $statusColor="danger";
+       }
+       else
+       {
+           $statusColor="warning";
+       }
+?>
+<div class="row">
+
+<div class="col-lg-12"><label>Employee</label><input type="text" class="form-control" value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
+<div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" class="form-control" value="<?=$row['StartDate']->format('d-m-Y');?>"></div>
+<div class="col-lg-12"><label>End Date</label><input type="date" class="form-control" value="<?=$row['EndDate']->format('d-m-Y');?>"></div>
+<div class="col-lg-12"><label>Leave</label><input type="text" class="form-control" value="<?=$row['LeaveTypeName'];?>"></div>
+<div class="col-lg-12"><label>Type</label><input type="text" class="form-control" value="<?=$LeaveDurationsTime;?>"></div>
+<div class="col-lg-12"><label>Reason</label><textarea  class="form-control" ><?=$row['LeaveReason'];?></textarea></div>
+<div class="col-lg-12"><label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></div>
+    </div>
+<?php
+      
+     
+   }
+
+}
    else
    {
    
