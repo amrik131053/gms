@@ -549,6 +549,7 @@ for($i=1;$i<=12;$i++)
        var type=document.getElementById('type_').value;
        var examination=document.getElementById('examination_').value;
         var sgroup=document.getElementById('sgroup_').value;
+        
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(type+' '+examination);
@@ -610,7 +611,7 @@ for($i=1;$i<=12;$i++)
            }));
          });
 
-         function edit_stu(id)
+         function edit_stu(id) 
           {
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';

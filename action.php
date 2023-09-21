@@ -12364,7 +12364,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                      {
                        $rdate=$row['ReceiptDate']->format('Y-m-d');
                      }
-                     else
+                     else 
                      {
                      $rdate='';
                      }
@@ -12575,6 +12575,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
              $IDNo=$row5['IDNo'];
              $type=$row5['Type'];
              $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
              $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
@@ -12611,7 +12612,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <table class="table table-bordered"  border="1">
  <tr style="border: 1px black solid" height="30" >
  <td style="padding-left: 10px"><b>Rollno: </b></td>
- <td> <?php echo $UniRollNo;?></td>
+ <td> <?php echo $UniRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
  <td colspan="1"><b>Name:</b> </td>
  <td colspan="4"><?=$name;?></td>
  <td rowspan="3" colspan="2" style="border:0">
@@ -12724,8 +12725,13 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
          <tr>
             <td width="10"><?=$sr;?></td>
-  <td colspan="1">
-   <input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>"></td>
+            <?php if($examinationss<>$row7['Examination'])
+            {               $color="#ed040491";      }else $color='';
+  ?>
+  <td colspan="1" style="background-color: <?=$color;?>">
+   <input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>">
+
+</td>
    <td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>">
    </td>
   <td>
@@ -12864,7 +12870,12 @@ else
        $examination=$_POST['examination'];
        $type=$_POST["type"];
         $sgroup=$_POST["sgroup"];
-       $sq="Update ExamForm set Type='$type',Examination='$examination',SGroup='$sgroup' Where ID='$id'"; 
+       $sq="Update ExamForm set Type='$type',Examination='$examination',SGroup='$sgroup' Where ID='$id'";
+
+        $sq1="Update ExamFormSubject set Type='$type',Examination='$examination' Where examid='$id'"; 
+
+ $list = sqlsrv_query($conntest,$sq1);
+
        $list = sqlsrv_query($conntest,$sq);
        if ($list==true) 
        {
