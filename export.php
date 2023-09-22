@@ -2709,8 +2709,7 @@ elseif($exportCode=='28')
                 <td>{$father_name}</td>
                  <td>{$Designation}</td>
                  <td>{$Organisation}</td>
-                <td>{$Designation}</td>
-              
+               
             
                  
                 
