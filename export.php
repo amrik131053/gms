@@ -18,7 +18,7 @@ elseif (isset($_GET['exportCode']))
     $exportCode = $_GET['exportCode'];
 }
 
-if($exportCode==19 ||$exportCode==27)
+if($exportCode==19 ||$exportCode==27||$exportCode==28)
    {
        include "connection/connection_web.php"; 
 

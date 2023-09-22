@@ -19318,7 +19318,7 @@ if($payment_id!=''){?>
         <?= $payment_id.'('.$id.')';?><?php 
       } ?></b>
  </td>
- td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $roll_no ;?> </td>
  <td> <?php echo $name ;?> </td>
  <td><?php echo $father_name; ;?></td>
  <td><?php echo $course; ?></td>    
@@ -19331,6 +19331,7 @@ if($payment_id!=''){?>
 ?> </td>
       <td><?php echo $phone; ?></td>
       <td><?php echo $amount; ?></td>
+
       <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
   
       </tr>
