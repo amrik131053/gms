@@ -37,7 +37,7 @@ ini_set('max_execution_time', '0');
    }
    $code = $_POST['code'];
 
-   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332')
+   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333')
    {
        include "connection/connection_web.php"; 
 
