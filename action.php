@@ -19265,6 +19265,81 @@ if($payment_id!=''){?>
 <?php 
    }
 
+ elseif($code=='333') 
+   {
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Convocation 2023' ");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+       $admissionstatus=$row['merge'];
+       if($admissionstatus>0)
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+      
+if($row['confirmation']==2  AND $admissionstatus> 0  )
+{?>
+            <tr style="background-color:#dff0d8" >
+   <?php   }
+   else if($row['send_mail']==2)
+    {?>
+ <tr style="background-color:#e692a9">
+   <?php }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+     <td onclick="confirnation(<?= $user_id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+      } ?></b>
+ </td>
+ td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
+  <td style="text-align: left;">  <?php if($row['receipt']!="")
+{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+   <?php 
+}
+?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+  
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+   }
 
 
 

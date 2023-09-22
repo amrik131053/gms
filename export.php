@@ -2636,6 +2636,104 @@ $count++;
 
 }
 
+elseif($exportCode=='28')
+{
+    
+
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Convocation 2023'");
+    $counter = 1; 
+     
+    
+        
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+          <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Name</th>
+          <th>Father Name</th>
+           <th>Uni Roll No</th>
+          
+             <th>Course</th>
+         
+          <th>Email</th> 
+          <th>Purpose</th>
+          <th>Phone</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+         
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $Designation = $row['roll_no'];
+      $Organisation = $row['course'];
+      $IdNo = $row['Class_rollno'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+       $quali=$row['quali'];
+     
+      $amount=$row['amount'];
+      $email = $row['email'];
+
+      $accomodation=$row['accomodation'];
+       $country=$row['country'];
+     
+      $acctype=$row['acctype'];
+      $start=$row['start'];
+      $endd=$row['endd'];
+
+
+      $phone = $row['phone'];
+
+     
+       
+            $exportMeter.="<tr>
+                <td>{$count}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>
+                <td>{$name}</td>
+                <td>{$father_name}</td>
+                 <td>{$Designation}</td>
+                 <td>{$Organisation}</td>
+                <td>{$Designation}</td>
+              
+            
+                 
+                
+                <td>{$email}</td>
+                <td>{$purpose}</td>
+                <td>{$phone}</td>
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+                
+
+               
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
