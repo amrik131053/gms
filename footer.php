@@ -30,7 +30,7 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-<!-- Toastr -->
+<!-- Toastr --> 
 <script src="plugins/toastr/toastr.min.js"></script>
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
@@ -38,7 +38,18 @@
 
 <script src="dist/js/adminlte.js"></script>
 <script src="sc.js"></script>
+
+
+<!--   tool tip -->
+
+<script src="plugins/popper/popper-utils.min.js"></script>
+<script src="plugins/popper/popper.min.js"></script>
+
+
 <!-- internet_status -->
+
+
+
 <script src="internet_status.js"></script>
 <!-- Summernote -->
 <script src="plugins/summernote/summernote-bs4.min.js"></script>

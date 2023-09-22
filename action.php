@@ -17554,7 +17554,7 @@ else if($code=='303')
               <div class="col-lg-2">
                  <label>End Date</label>
                  <input type="date" name="end_date" id="end_date"   class="form-control" required >
-                   
+                    
              
               </div>
 
@@ -17598,8 +17598,6 @@ $sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
 
 }
 
-
-
 $emp_codes=array();
 $stmt = sqlsrv_query($conntest,$sql_a);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -17627,7 +17625,7 @@ $stmt = sqlsrv_query($conntest,$sql_dates);
 <?php 
 for($dc=0;$dc<$no_of_dates;$dc++)
 {?>
-<th  style="text-align:center;min-width:100px"><?= $datee[$dc]->format('d-m-Y');?></th>
+<th  style="text-align:center;min-width:100px"><?= $datee[$dc]->format('d-M');?></th>
 <?php }
 ?>
 </tr>
@@ -17655,15 +17653,18 @@ for ($at=0;$at<$no_of_dates;$at++)
 {
    $start=$datee[$at]->format('Y-m-d');
 
-  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+
+ $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND 
-'$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+'$start 23:59:00.000' AND EMpCOde='$IDNo'  ";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
+
+
 
   if($at%2)
   {
@@ -17674,6 +17675,7 @@ else
  $color='';  
 }
 $HolidayName='';
+$leaveName='';
 
 $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
@@ -17683,40 +17685,192 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
              }
 
 
- 
  if($HolidayName!='')
  {?>
+ <td style="text-align:center;background-color:#10c3dfc4;?>">
 
-<td style="text-align:center;background-color:#10c3dfc4;?>">
- <button  class="btn btn-primary btn-xs"><?=$HolidayName;?></button>
-
-    <?php if($intime!=""){ echo "in: ". $intime->format('h:i');} else
+ <a title="<?=$HolidayName;?>"  class="btn btn-default" style="border-radius:50%;">H</a>
+ <?php if(($intime<>$outtime) AND($intime!="" && $outtime!=''))
+{?>
+<a title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
  
- if($outtime!=""){ echo "out: ". $outtime->format('h:i');} ?>
+?>"  class="btn btn-success" style="border-radius:50%;color: white;">P</button>
+<?php }
+else if ($intime!="" && $outtime!='')
+ { ?>
+   
+<a  title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
+ 
+?>"  class="btn btn-warning" style="border-radius:50%;color: white;">P</a>
+<?php
+ }
 
+?>
 </td>
-
- <?php }
- // elseif()
- // {
-
- // }
- else
+<?php }
+ 
+ else if ($intime!="" && $outtime!='')
    {
       ?>
 <td style="text-align:center;background-color:<?=$color;?>">
- <?php if($intime!="")
+
+<?php if(($intime<>$outtime) AND($intime!="" && $outtime!=''))
+{?>
+   <a title="<?php
+  if($intime!="")
 { 
- echo $intime->format('h:i');} echo"<br>";
-if($outtime!=""){ echo $outtime->format('h:i');}
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
  
+?>"  class="btn btn-success" style="border-radius:50%;color: white;">P</a>
+<?php }
+else if ($intime!="" && $outtime!='')
+ { ?>
+   
+<a   title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
+ 
+?>" class="btn btn-warning" style="border-radius:50%;color: white;">P</a>
+<?php
+ }
+
+
+
+ $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Leave_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Leave_End_Date       
+FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
+WHERE       StartDate <= '$start' AND
+            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+$leaveName='';
+$stmt = sqlsrv_query($conntest,$sql_att23);  
+            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            
+           $leaveName=$row['Name'];
+               $leaveduration=$row['LeaveDuration'];
+                   $leavedurationtime=$row['LeaveDurationsTime'];
+
+           }
+
+ if($leaveName!='')
+ {?>
+
+<a  title="<?php
+  if($leavedurationtime>0)
+{ 
+ echo  $leavedurationtime.'days'.$leaveName;} 
+ else
+ {
+echo  $leaveduration.'days'.$leaveName;
+ }
+
+
+ 
+?>" class="btn btn-info" style="border-radius:50%;color: white;" data-toggle="tooltip">L</a>
+ <?php
+}
+    
+
+
+
+
+
+
+
+
+
+
 ?>
+
+
+
+
    
 </td>
 
 
 
 <?php }
+
+else
+{?>
+
+<td style="text-align:center;background-color:<?=$color;?>">
+<?php 
+ $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Leave_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Leave_End_Date       
+FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
+WHERE       StartDate <= '$start' AND
+            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+$leaveName='';
+$stmt = sqlsrv_query($conntest,$sql_att23);  
+            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            
+           $leaveName=$row['Name'];
+               $leaveduration=$row['LeaveDuration'];
+                   $leavedurationtime=$row['LeaveDurationsTime'];
+
+           }
+
+ if($leaveName!='')
+ {?>
+
+<a  title="<?php
+  if($leavedurationtime>0)
+{ 
+ echo  $leavedurationtime.'days'.$leaveName;} 
+ else
+ {
+echo  $leaveduration.'days'.$leaveName;
+ }
+
+
+ 
+?>" class="btn btn-info" style="border-radius:50%;color: white;" data-toggle="tooltip">L</a>
+ <?php
+}
+ else
+   {
+      ?>
+<a  title="Absent" class="btn btn-danger" style="border-radius:50%;color: white;" data-toggle="tooltip">A</a>
+ <?php } ?>         
+   
+
+
+   
+</td>
+<?php
+}
+
+
+
+
  }
 
 }
