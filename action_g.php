@@ -12373,9 +12373,9 @@ elseif($code==203)
          <?php 
     $Sr=1;
     
-    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP) "; 
+    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP) order by  ApplyLeaveGKU.Id DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
-    if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
         if($row['LeaveDurationsTime']!=0)
         {
@@ -12548,9 +12548,11 @@ elseif($code==205)
        {
            $statusColor="warning";
        }
+
+       if($role_id==2)
+       {
 ?>
 <div class="row">
-
 <div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>" readonly></div>
 <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control" value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
 <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>"></div>
@@ -12594,6 +12596,56 @@ else
 <div class="col-lg-12"><label>Reason</label><textarea  id="LeaveReason" class="form-control" ><?=$row['LeaveReason'];?></textarea></div>
 <div class="col-lg-12"><label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></div>
     </div>
+<?php }
+else
+{
+    ?>
+    <div class="row">
+    <div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>" readonly></div>
+    <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control" value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
+    <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>" readonly></div>
+    <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>" readonly></div>
+    <div class="col-lg-12"><label>End Date</label><input type="date" id="ApplyDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($ApplyDate->format("Y-m-d")));?>" readonly></div>
+    <div class="col-lg-12">
+    <label>Leave Type</label>
+    <select class="form-control" id="LeaveType" readonly>
+    <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
+    <?php 
+    $getLeaveTypes="SELECT * from LeaveTypes";
+    $getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
+    while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
+    {?>
+    <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
+    <?php
+     }
+    ?>    
+    </select>
+    </div>
+    <div class="col-lg-12"><label>Duration</label>
+    <?php 
+    if($row['Status']=='Approved')
+    {?>
+    <input type="text" class="form-control" id="LeaveDuration" value="<?=$LeaveDurationsTime;?>"  readonly >
+    <?php 
+    }
+    else
+    {?>
+    <select class="form-control" id="LeaveDuration"  readonly> 
+    <option value="<?=$LeaveDurationsTime;?>"><?=$LeaveDurationsTime;?></option>
+    <option value="0.25">0.25</option>
+    <option value="0.50">0.5</option>
+    <option value="0.75">0.75</option>
+    <option value="0">1</option>
+    </select>
+    <?php
+     }
+     ?>
+    </div>
+    <div class="col-lg-12"><label>Reason</label><textarea  id="LeaveReason" class="form-control" readonly ><?=$row['LeaveReason'];?></textarea></div>
+    <div class="col-lg-12"><label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></div>
+        </div>
+    <?php }?>
+
 <?php
       
      
@@ -12622,7 +12674,7 @@ elseif($code==206)
     }
  elseif ($code==207) {
     ?>
-    <table class="table" style="font-size:;" >
+    <table class="table" >
   <thead>
              <tr>
            <th>Sr. No</th>
@@ -12632,49 +12684,48 @@ elseif($code==206)
            <th>Action</th>
          </tr>
          </thead>
-         <tbody style="height:1px"  >
+         <tbody  >
          <?php 
         $Sr=1;
 
-            $getAllleaves="SELECT * FROM Staff   inner join LeaveBalances ON LeaveBalances.Employee_Id=Staff.IDNo "; 
-     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
-     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
-     {    
- ?>
- <tr>
- <td><?=$Sr;?></td>
- <td><b>(<?=$row['Name'];?>)<?=$row['IDNo'];?></b></td>
- <td widht="100">
-    <?php 
-    if($row['LeaveType_Id']=='1')
-    {
-   echo  $row['Balance'];
-    }
-    else
-    {
-        echo "0";
-    }
-    ?>
-</td>
- <td widht="100">   
-     <?php 
-    if($row['LeaveType_Id']=='2')
-    {
-   echo  $row['Balance'];
-    }
-    else
-    {
-        echo "0";
-    }
-    ?>
-</td>
- <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['IDNo'];?>);"></i></td>
-     </tr>
- <?php
- 
-         $Sr++;
-     }
-     // print_r($aa);
+        $getAllLeaves = "SELECT top 50 * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo ";
+        $getAllLeavesRun = sqlsrv_query($conntest, $getAllLeaves);
+        $employeeData = [];
+        while ($row = sqlsrv_fetch_array($getAllLeavesRun, SQLSRV_FETCH_ASSOC)) {
+            $employeeId = $row['IDNo'];
+            if (!isset($employeeData[$employeeId])) {
+                $employeeData[$employeeId] = [
+                    'Name' => $row['Name'],
+                    'Leave1' => 0,
+                    'Leave2' => 0,
+                    'IDNo' => $row['IDNo'],
+                ];
+            }
+            if ($row['LeaveType_Id'] == '1') {
+                $employeeData[$employeeId]['Leave1'] = $row['Balance'];
+            } elseif ($row['LeaveType_Id'] == '2') {
+                $employeeData[$employeeId]['Leave2'] = $row['Balance'];
+            }
+        }
+        
+        foreach ($employeeData as $employeeId => $data) {
+            ?>
+            <tr>
+               <td><?= $Sr; ?></td>
+               <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
+               <td class="editable"   data-field="Leave1"><?= $data['Leave1']; ?></td>
+               <td class="editable"  data-field="Leave2"><?= $data['Leave2']; ?></td>
+               <td>
+               <div class="controls">
+                       <button type="button" class="edit-btn btn btn-primary btn-sm" onclick="editRow(this)"><i class="fa fa-edit"></i></button>
+                       <button type="button" class="save-btn btn btn-success  btn-sm" onclick="saveRow(this,<?= $data['IDNo']; ?>)" style="display: none;"><i class="fa fa-check" ></i></button>
+                       <button type="button" class="cancel-btn btn btn-danger  btn-sm" onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times"  >     </i> </button>
+                   </div>
+               </td>
+           </tr>
+            <?php
+            $Sr++;
+        }
      ?>
      </tbody>
     </table>
@@ -12695,61 +12746,99 @@ elseif($code==206)
            <th>Action</th>
          </tr>
          </thead>
-         <tbody style="height:1px" id="" >
+         <tbody >
          <?php 
-        $emp_id=$_POST['empid'];
-        $Sr=1;
-        if( $emp_id!='')
-        {
-            $getAllleaves="SELECT *  FROM Staff   inner join LeaveBalances ON LeaveBalances.Employee_Id=Staff.IDNo  where  Staff.IDNo='$emp_id' ";
-        }
-        else
-        {
-            $getAllleaves="SELECT * FROM Staff   inner join LeaveBalances ON LeaveBalances.Employee_Id=Staff.IDNo "; 
-        }
-     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
-     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
-     {    
- ?>
- <tr>
- <td><?=$Sr;?></td>
- <td><b>(<?=$row['Name'];?>)<?=$row['IDNo'];?></b></td>
- <td widht="100">
-    <?php 
-    if($row['LeaveType_Id']=='1')
-    {
-   echo  $row['Balance'];
-    }
-    else
-    {
-        echo "0";
-    }
-    ?>
-</td>
- <td widht="100">   
-     <?php 
-    if($row['LeaveType_Id']=='2')
-    {
-   echo  $row['Balance'];
-    }
-    else
-    {
-        echo "0";
-    }
-    ?>
-</td>
- <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['IDNo'];?>);"></i></td>
-     </tr>
- <?php
- 
-         $Sr++;
-     }
-     // print_r($aa);
+       $emp_id = $_POST['empid'];
+       $Sr = 1;
+       if (!empty($emp_id)) {
+           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo WHERE Staff.IDNo = '$emp_id'";
+       } else {
+           $getAllLeaves = "SELECT * FROM Staff INNER JOIN LeaveBalances ON LeaveBalances.Employee_Id = Staff.IDNo";
+       }
+       $getAllLeavesRun = sqlsrv_query($conntest, $getAllLeaves);
+       $employeeData = [];
+       while ($row = sqlsrv_fetch_array($getAllLeavesRun, SQLSRV_FETCH_ASSOC)) {
+           $employeeId = $row['IDNo'];
+       
+           if (!isset($employeeData[$employeeId])) {
+               $employeeData[$employeeId] = [
+                   'Name' => $row['Name'],
+                   'Leave1' => 0,
+                   'Leave2' => 0,
+                   'IDNo' => $row['IDNo'],
+               ];
+           }
+           if ($row['LeaveType_Id'] == '1') {
+               $employeeData[$employeeId]['Leave1'] = $row['Balance'];
+           } elseif ($row['LeaveType_Id'] == '2') {
+               $employeeData[$employeeId]['Leave2'] = $row['Balance'];
+           }
+           else
+{
+    $employeeData[$employeeId]['Leave2'] = '0';
+    $employeeData[$employeeId]['Leave1'] = "0";
+}
+       }
+       
+       foreach ($employeeData as $employeeId => $data) {
+           ?>
+           <tr>
+               <td><?= $Sr; ?></td>
+               <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
+               <td class="editable"   data-field="Leave1"><?= $data['Leave1']; ?></td>
+               <td class="editable"  data-field="Leave2"><?= $data['Leave2']; ?></td>
+               <td>
+                   <div class="controls">
+                       <button type="button" class="edit-btn btn btn-primary  btn-sm" onclick="editRow(this)"><i class="fa fa-edit"></i></button>
+                       <button type="button" class="save-btn btn btn-success  btn-sm" onclick="saveRow(this,<?= $data['IDNo']; ?>)" style="display: none;"><i class="fa fa-check" ></i></button>
+                       <button type="button" class="cancel-btn btn btn-danger  btn-sm" onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times"  >     </i> </button>
+                   </div>
+               </td>
+           </tr>
+           <?php
+           $Sr++;
+       }
      ?>
      </tbody>
     </table>
  <?php
  
+ }
+ elseif($code==209)
+ {
+
+$employeeId=$_POST['employeeId'];
+$leave1=$_POST['leave1'];
+$leave2=$_POST['leave2'];
+$checkLeaveBlacne="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
+ $existrow=sqlsrv_query($conntest,$checkLeaveBlacne,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne=sqlsrv_num_rows($existrow);
+if($countblacne>0)
+{
+$updateLeaveBalance="UPDATE LeaveBalances SET  Balance='$leave2'WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
+sqlsrv_query($conntest,$updateLeaveBalance);
+}
+else
+{
+    $updateLeaveBalance="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave2','2') ";
+sqlsrv_query($conntest,$updateLeaveBalance);
+}
+
+$checkLeaveBlacne1="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='1' ";
+$existrow1=sqlsrv_query($conntest,$checkLeaveBlacne1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne1=sqlsrv_num_rows($existrow1);
+if($countblacne1>0)
+{
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave1'WHERE Employee_Id='$employeeId' and LeaveType_Id='1' ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+else
+{
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave1','1') ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+
+
+}
  }
 
    else
