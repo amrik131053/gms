@@ -131,6 +131,8 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
    <head>
       <script src="plugins/jquery/jquery.min.js"></script>
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script> 
+
+
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="x-ua-compatible" content="ie=edge">

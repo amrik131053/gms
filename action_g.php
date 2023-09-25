@@ -4557,7 +4557,7 @@ if ($check_flow_row['status']<4) {
 
 
                 <div class="icheck-primary d-inline">
-                    <input type="radio" id="radioPrimary15" onclick="bydriver();" value="ByDriver" name="empc1" checked>
+                    <input type="radio" id="radioPrimary15" onclick="bydriver();" value="ByDriver" name="empc12"  checked>
                     <label>
                         Driver
                     </label>
@@ -4565,7 +4565,7 @@ if ($check_flow_row['status']<4) {
                 &nbsp;
                 &nbsp;
                 <div class="icheck-primary d-inline">
-                    <input type="radio" id="radioPrimary16" onclick="selfdrive();" value="Self Drive" name="empc1">
+                    <input type="radio" id="radioPrimary20" onclick="selfdrive();" value="Self Drive" name="empc12">
                     <label>
                         Self
                     </label>
@@ -4648,7 +4648,7 @@ if ($check_flow_row['status']<4) {
                 &nbsp;
                 &nbsp;
                 <div class="icheck-primary d-inline">
-                    <input type="radio" id="radioPrimary16" onclick="selfdrive();" value="Self Drive" name="empc1">
+                    <input type="radio" id="radioPrimary20" onclick="selfdrive();" value="Self Drive" name="empc1">
                     <label>
                         Self
                     </label>

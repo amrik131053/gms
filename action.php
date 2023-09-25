@@ -37,7 +37,7 @@ ini_set('max_execution_time', '0');
    }
    $code = $_POST['code'];
 
-   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332')
+   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333')
    {
        include "connection/connection_web.php"; 
 
@@ -17554,7 +17554,7 @@ else if($code=='303')
               <div class="col-lg-2">
                  <label>End Date</label>
                  <input type="date" name="end_date" id="end_date"   class="form-control" required >
-                   
+                    
              
               </div>
 
@@ -17598,8 +17598,6 @@ $sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
 
 }
 
-
-
 $emp_codes=array();
 $stmt = sqlsrv_query($conntest,$sql_a);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -17627,7 +17625,7 @@ $stmt = sqlsrv_query($conntest,$sql_dates);
 <?php 
 for($dc=0;$dc<$no_of_dates;$dc++)
 {?>
-<th  style="text-align:center;min-width:100px"><?= $datee[$dc]->format('d-m-Y');?></th>
+<th  style="text-align:center;min-width:100px"><?= $datee[$dc]->format('d-M');?></th>
 <?php }
 ?>
 </tr>
@@ -17655,15 +17653,18 @@ for ($at=0;$at<$no_of_dates;$at++)
 {
    $start=$datee[$at]->format('Y-m-d');
 
-  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+
+ $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND 
-'$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+'$start 23:59:00.000' AND EMpCOde='$IDNo'  ";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
+
+
 
   if($at%2)
   {
@@ -17674,6 +17675,7 @@ else
  $color='';  
 }
 $HolidayName='';
+$leaveName='';
 
 $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
@@ -17683,40 +17685,192 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
              }
 
 
- 
  if($HolidayName!='')
  {?>
+ <td style="text-align:center;background-color:#10c3dfc4;?>">
 
-<td style="text-align:center;background-color:#10c3dfc4;?>">
- <button  class="btn btn-primary btn-xs"><?=$HolidayName;?></button>
-
-    <?php if($intime!=""){ echo "in: ". $intime->format('h:i');} else
+ <a title="<?=$HolidayName;?>"  class="btn btn-default" style="border-radius:50%;">H</a>
+ <?php if(($intime<>$outtime) AND($intime!="" && $outtime!=''))
+{?>
+<a title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
  
- if($outtime!=""){ echo "out: ". $outtime->format('h:i');} ?>
+?>"  class="btn btn-success" style="border-radius:50%;color: white;">P</button>
+<?php }
+else if ($intime!="" && $outtime!='')
+ { ?>
+   
+<a  title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
+ 
+?>"  class="btn btn-warning" style="border-radius:50%;color: white;">P</a>
+<?php
+ }
 
+?>
 </td>
-
- <?php }
- // elseif()
- // {
-
- // }
- else
+<?php }
+ 
+ else if ($intime!="" && $outtime!='')
    {
       ?>
 <td style="text-align:center;background-color:<?=$color;?>">
- <?php if($intime!="")
+
+<?php if(($intime<>$outtime) AND($intime!="" && $outtime!=''))
+{?>
+   <a title="<?php
+  if($intime!="")
 { 
- echo $intime->format('h:i');} echo"<br>";
-if($outtime!=""){ echo $outtime->format('h:i');}
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
  
+?>"  class="btn btn-success" style="border-radius:50%;color: white;">P</a>
+<?php }
+else if ($intime!="" && $outtime!='')
+ { ?>
+   
+<a   title="<?php
+  if($intime!="")
+{ 
+ echo  'In : '.$intime->format('h:i');} echo "\n";
+if($outtime!=""){ echo ' Out : '.$outtime->format('h:i');}
+ 
+?>" class="btn btn-warning" style="border-radius:50%;color: white;">P</a>
+<?php
+ }
+
+
+
+ $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Leave_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Leave_End_Date       
+FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
+WHERE       StartDate <= '$start' AND
+            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+$leaveName='';
+$stmt = sqlsrv_query($conntest,$sql_att23);  
+            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            
+           $leaveName=$row['Name'];
+               $leaveduration=$row['LeaveDuration'];
+                   $leavedurationtime=$row['LeaveDurationsTime'];
+
+           }
+
+ if($leaveName!='')
+ {?>
+
+<a  title="<?php
+  if($leavedurationtime>0)
+{ 
+ echo  $leavedurationtime.'days'.$leaveName;} 
+ else
+ {
+echo  $leaveduration.'days'.$leaveName;
+ }
+
+
+ 
+?>" class="btn btn-info" style="border-radius:50%;color: white;" data-toggle="tooltip">L</a>
+ <?php
+}
+    
+
+
+
+
+
+
+
+
+
+
 ?>
+
+
+
+
    
 </td>
 
 
 
 <?php }
+
+else
+{?>
+
+<td style="text-align:center;background-color:<?=$color;?>">
+<?php 
+ $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Leave_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Leave_End_Date       
+FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
+WHERE       StartDate <= '$start' AND
+            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+$leaveName='';
+$stmt = sqlsrv_query($conntest,$sql_att23);  
+            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+            
+           $leaveName=$row['Name'];
+               $leaveduration=$row['LeaveDuration'];
+                   $leavedurationtime=$row['LeaveDurationsTime'];
+
+           }
+
+ if($leaveName!='')
+ {?>
+
+<a  title="<?php
+  if($leavedurationtime>0)
+{ 
+ echo  $leavedurationtime.'days'.$leaveName;} 
+ else
+ {
+echo  $leaveduration.'days'.$leaveName;
+ }
+
+
+ 
+?>" class="btn btn-info" style="border-radius:50%;color: white;" data-toggle="tooltip">L</a>
+ <?php
+}
+ else
+   {
+      ?>
+<a  title="Absent" class="btn btn-danger" style="border-radius:50%;color: white;" data-toggle="tooltip">A</a>
+ <?php } ?>         
+   
+
+
+   
+</td>
+<?php
+}
+
+
+
+
  }
 
 }
@@ -19111,6 +19265,82 @@ if($payment_id!=''){?>
 <?php 
    }
 
+ elseif($code=='333') 
+   {
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Convocation 2023' ");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['purpose'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+       $admissionstatus=$row['merge'];
+       if($admissionstatus>0)
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+      
+if($row['confirmation']==2  AND $admissionstatus> 0  )
+{?>
+            <tr style="background-color:#dff0d8" >
+   <?php   }
+   else if($row['send_mail']==2)
+    {?>
+ <tr style="background-color:#e692a9">
+   <?php }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+     <td onclick="confirnation(<?= $user_id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+      } ?></b>
+ </td>
+ <td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
+  <td style="text-align: left;">  <?php if($row['receipt']!="")
+{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+   <?php 
+}
+?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+  
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+   }
 
 
 
