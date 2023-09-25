@@ -40,12 +40,12 @@
             <button type="button" onclick="search_leave_employee();" class="btn btn-success btn-sm">
               <i class="fa fa-search"></i>
             </button>
+            <!-- &nbsp;
             &nbsp;
             &nbsp;
-            &nbsp;
-            &nbsp;
-            <button type="button" onclick="exportEmployeeLeave();" class="btn btn-success btn-sm ">
-        <i class="fa fa-file-excel"></i>
+            &nbsp; -->
+            <!-- <button type="button" onclick="exportEmployeeLeave();" class="btn btn-success btn-sm "> -->
+        <!-- <i class="fa fa-file-excel"></i> -->
       </button>
           </div>
         </div>
@@ -75,6 +75,72 @@
 
 
 <script>
+
+function editRow(button) {
+        const row = button.closest('tr');
+        const editableFields = row.querySelectorAll('.editable');
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        editableFields.forEach(field => {
+            field.contentEditable = true;
+            field.classList.add('editing');
+        });
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'inline-block';
+    }
+
+    function saveRow(button,id) {
+        var code=209;
+        const row = button.closest('tr');
+        const employeeId = id;
+        const leave1 = row.querySelector('[data-field="Leave1"]').textContent;
+        const leave2 = row.querySelector('[data-field="Leave2"]').textContent;
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        row.querySelectorAll('.editable').forEach(field => {
+            field.contentEditable = false;
+            field.classList.remove('editing');
+        });
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+        $.ajax({
+            type: 'POST',
+            url: 'action_g.php', 
+            data: {
+                code: code,
+                employeeId: employeeId,
+                leave1: leave1,
+                leave2: leave2,
+            },
+            success: function(response) {
+            //    console.log(response);
+            SuccessToast('SuccessFully');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+    function cancelEdit(button) {
+        const row = button.closest('tr');
+        const editableFields = row.querySelectorAll('.editable');
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        editableFields.forEach(field => {
+            field.contentEditable = false;
+            field.classList.remove('editing');
+        });
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    }
+
+
     load_leave_data();
 function load_leave_data()
           {
@@ -270,7 +336,9 @@ function UpdateLeave()
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
+        <?php   if($role_id==2)
+{?>        <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
+<?php }?>
       </div>
     </div>
   </div>
