@@ -16,7 +16,7 @@
         
       <div class="col-lg-2 col-md-2 col-sm-2">
 
-                  <h3 class="card-title">Conference Educon</h3>  </div>   
+                  <h3 class="card-title">Convocation </h3>  </div>   
                   <!--
                      <div class="col-lg-2 col-md-2 col-sm-2">  <input type="date"  id='start_date' placeholder="mm/dd/yyyy" required class="form-control"></div>
 
@@ -39,8 +39,9 @@
                   <tr>
           <th>Sr. No</th>
           <th>P ID/ Ref no</th>
+          <th>Uni Roll NO</th>
           <th>Name</th>
-          <th>Member Type</th>
+          <th>Course</th>
            <th>Organisation</th>
           <th>Email</th> <th>Purpose</th>  <th><i class="fa fa-download" style="color: green"></i></th>
           <th>Phone</th>
@@ -132,7 +133,7 @@
 
 function load_comnference_data()
           {
-       var code=332;
+       var code=333;
 
        
          var spinner=document.getElementById('ajax-loader');
@@ -158,7 +159,7 @@ function load_comnference_data()
 
   function exportadmission() 
       {
-         var exportCode=27;
+         var exportCode=28;
 
         
           window.location.href="export.php?exportCode="+exportCode;
