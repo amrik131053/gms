@@ -1375,6 +1375,7 @@ function ShowHideDiv_feetype(id)
     }
 
 }
+// count 
 function export_all() 
       {
          var exportCode='22';
@@ -1382,6 +1383,8 @@ function export_all()
           window.location.href="export.php?exportCode="+exportCode;
       
       }
+
+
 function export_one(district) 
       {
          // alert(district);
@@ -1389,6 +1392,7 @@ function export_one(district)
           window.location.href="export.php?exportCode="+exportCode+"&District="+district;
       }
 
+      //report 
 function export_detail() 
       {
          var exportCode='23';

@@ -38,8 +38,10 @@ include "header.php";
                                      if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976' )
                                      {
                                      ?>
-                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button >
+                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button > &nbsp;
+                                       <button onclick="export_detail();"  class="btn btn-success btn-xs " >Export Report</button >
                                      <?php }?>
+
                                      &nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Pending" onclick="pending();">&nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Verified" onclick="verified();">&nbsp;&nbsp;
@@ -214,6 +216,8 @@ function by_search_studetn() {
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
 
+                            var status = data[i][18];
+
                            var unirollno = data[i][2];
                            var generate=data[i][33];
                              if(data[i][31]==1){
@@ -255,12 +259,22 @@ table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" d
 }
  if(userid!='131027' )
                            {
+
 table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
                            
-                           if(generate<=0){
+                           if(generate<=0)
+                           {
 
 table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
                       }
+
+ if(status>0)
+                           {
+
+
+table +='<button   class="btn btn-danger btn-xs " >LEFT</button >';
+                      }
+
 
 
            table += '</td>';
@@ -550,6 +564,7 @@ function edit_student_details(id) {
   // var PassportNo = document.getElementById('PassportNo').value;
   var classroll = document.getElementById('classroll').value;
   var District = document.getElementById('District1').value;
+  var Status1 = document.getElementById('Status1').value;
 
 if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
 {
@@ -577,7 +592,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     // PassportNo: PassportNo,
     months:months,
     classroll: classroll,
-    District1: District,
+    District1: District,status:Status1,
     code: code
   };
  
@@ -587,7 +602,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+       console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
@@ -784,10 +799,13 @@ function ShowHideDiv_feetype(id)
 function export_all() 
       {
          var exportCode='22';
-
+ 
           window.location.href="export.php?exportCode="+exportCode;
       
       }
+
+
+
 function export_one(Consultant) 
       {
          // alert(Consultant);
@@ -795,9 +813,10 @@ function export_one(Consultant)
           window.location.href="export.php?exportCode="+exportCode+"&Consultant="+Consultant;
       }
 
+
 function export_detail() 
       {
-         var exportCode='26';
+         var exportCode='23';
 
       window.location.href="export.php?exportCode="+exportCode+"&District="+0;
       

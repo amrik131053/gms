@@ -2129,8 +2129,10 @@ cities on cities.id=offer_latter.District  ";
              <th>State</th>
              <th>District</th>
              <th>Consultant</th>
+              <th>Status</th>
+              <th>Verification</th>
           </tr>
-              </tr>        
+            
        </thead>
        ";
 while($row=mysqli_fetch_array($get_student_details_run)) 
@@ -2150,8 +2152,10 @@ while($row=mysqli_fetch_array($get_student_details_run))
     {   
          $courseName=$row_collegecourse_name['Course'];   
           $CollegeName=$row_collegecourse_name['CollegeName']; 
-    }    
+    }   
+
     $State=$row['StateName'];   
+    $status=$row['Status'];   
     $Session=$row['Session'];    
      $Duration=$row['Duration'];    
      $Consultant_id=$row['Consultant_id']; 
@@ -2164,6 +2168,10 @@ $consultantName=$row_consultant['state'];
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
          $ID_Proof_No=$row['ID_Proof_No'];   
+
+
+
+
 if($classroll>0)
 {
     $color='';
@@ -2172,17 +2180,37 @@ else
 {
 $color="red";
 }
+
 if($statusVerification>0)
 {
     $color1='green';
+
+$verification='Verified';
 }
 else
 {
 $color1="";
+$verification='';
 }
+
+
+
+if ($status>0)
+{
+        $colorl='red';
+        $mnStatus='LEFT';
+}
+else
+{
+     $colorl='';
+        $mnStatus='';
+}
+
+
+
     $District=$row['DistrictName'];     
      $exportMeter .= "
-       <tr bgcolor=$color1>           
+       <tr>           
           
           <td>{$count}</td>
           <td>{$Session}</td>
@@ -2195,7 +2223,9 @@ $color1="";
           <td>{$Gender}</td>
           <td>{$State}</td>
           <td>{$District}</td>
-          <td>{$consultantName}<td>
+          <td>{$consultantName}</td>
+           <td bgcolor=$colorl>{$mnStatus}</td>
+             <td bgcolor=$color1>{$verification}</td>
        </tr>";                                    
        $count++;    
     }
