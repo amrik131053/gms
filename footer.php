@@ -42,8 +42,8 @@
 
 <!--   tool tip -->
 
-<script src="plugins/popper/popper-utils.min.js"></script>
-<script src="plugins/popper/popper.min.js"></script>
+<!-- <script src="plugins/popper/popper-utils.min.js"></script>
+<script src="plugins/popper/popper.min.js"></script> -->
 
 
 <!-- internet_status -->
