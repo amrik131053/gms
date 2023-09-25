@@ -2,7 +2,7 @@
 
 include "header.php";
  ?>
- <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+ <!-- <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
  <script type="text/javascript">
 
       function pending_requests()
@@ -49,7 +49,7 @@ function rejected_requests()
            var code=46;
            $.ajax({
               url:'action_g.php',
-              type:'POST',
+              type:'POST', 
               data:{
                  code:code
               },
@@ -330,6 +330,7 @@ function bydriver()
     }
     function selfdrive()
     {
+     
    $('#self_div').show('Slow');
    $('#driver_div').hide('Slow');
     document.getElementById('driver').value="Select";
