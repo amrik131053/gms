@@ -11582,7 +11582,7 @@ elseif ($code==186)
 elseif($code=='187') 
 {
 $count=0;
-$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '0' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
+$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '1' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
 FROM
 offer_latter INNER JOIN states ON states.id = offer_latter.State
 INNER JOIN consultant_master ON consultant_master.id = offer_latter.Consultant_id
