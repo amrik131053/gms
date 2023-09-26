@@ -3048,7 +3048,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
         <tbody>
             <?php 
             $sr=1;
-             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
+             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
              {
@@ -3147,7 +3147,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                     <tbody>
                         <?php 
                         $emp_id=$_POST['empID'];
-                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' and JobStatus='1'";
+                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' and JobStatus='1'";
                         $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
@@ -3596,28 +3596,14 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             </select>
                                         </div>
                                     </div>
-
+                               
+                                   
                                     <div class="col-lg-4 col-12">
                                         <div class="form-group">
-                                            <label>Leave Recommending Authority
+                                        <label>Leave Recommending Authority
                                             </label>
 
-                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"  
-                                                placeholder="Enter leave sanction authority"
-                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
-                                                onkeyup="emp_detail_verify2(this.value);">
-                                            <?php  
-                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
-    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
-    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
-    {
-       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
-    }?>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-12">
-                                        <div class="form-group">
-                                            <label>Leave Sanction Authority</label>
+                                         
                                             <input type="text" class="form-control" name="leaveSanctionAuthority"
                                                 placeholder="Enter leave recommending authority"
                                                 value="<?=$row1['LeaveSanctionAuthority'];?>"
@@ -3632,6 +3618,23 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
                                             <?php 
        
+    }?>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group">
+                                        <label>Leave Sanction Authority</label>
+
+                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"  
+                                                placeholder="Enter leave sanction authority"
+                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
+                                                onkeyup="emp_detail_verify2(this.value);">
+                                            <?php  
+                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+    {
+       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
     }?>
                                         </div>
                                     </div>
@@ -5750,17 +5753,9 @@ elseif($Label=='Adhar')
 }
 elseif($Label=='Image')
 {
-    // $staff="SELECT Imagepath FROM Staff Where IDNo='$IDNo'";
-    //         $stmt = sqlsrv_query($conntest,$staff);  
-    //         if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-    //         {
-    //            if ($row_staff['Imagepath']!='') 
-    //            {   echo '<iframe src="http://erp.gku.ac.in:86/'.str_replace('~/','',$row_staff['Imagepath']).'" width="100%" height="500px"></iframe>';
-    //      }else
-    //           {
-    //            echo "No Document Fund";
-    //           }
-    //         }
+    
+                echo '<iframe src="http://10.0.10.11/getImage.aspx?ImageID='.$IDNo.'" width="100%" height="500px"></iframe>';
+          
 
 }
 elseif($Label=='Sign')
