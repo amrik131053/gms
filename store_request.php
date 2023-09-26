@@ -27,8 +27,8 @@
                         // while($row=mysqli_fetch_array($rresult)) 
                         // {
                         
-                           $name=$Emp_Name;
-                           $dep=$Emp_Department;
+                          echo  $name=$Emp_Name;
+                          echo  $dep=$Emp_Department;
                         
                         // }
                         ?>    
