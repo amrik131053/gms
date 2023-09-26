@@ -3048,7 +3048,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
         <tbody>
             <?php 
             $sr=1;
-             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
+             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
              {
@@ -3147,7 +3147,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                     <tbody>
                         <?php 
                         $emp_id=$_POST['empID'];
-                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' and JobStatus='1'";
+                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' and JobStatus='1'";
                         $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
@@ -3596,28 +3596,14 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             </select>
                                         </div>
                                     </div>
-
+                               
+                                   
                                     <div class="col-lg-4 col-12">
                                         <div class="form-group">
-                                            <label>Leave Recommending Authority
+                                        <label>Leave Recommending Authority
                                             </label>
 
-                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"  
-                                                placeholder="Enter leave sanction authority"
-                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
-                                                onkeyup="emp_detail_verify2(this.value);">
-                                            <?php  
-                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
-    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
-    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
-    {
-       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
-    }?>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-12">
-                                        <div class="form-group">
-                                            <label>Leave Sanction Authority</label>
+                                         
                                             <input type="text" class="form-control" name="leaveSanctionAuthority"
                                                 placeholder="Enter leave recommending authority"
                                                 value="<?=$row1['LeaveSanctionAuthority'];?>"
@@ -3632,6 +3618,23 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
                                             <?php 
        
+    }?>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group">
+                                        <label>Leave Sanction Authority</label>
+
+                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"  
+                                                placeholder="Enter leave sanction authority"
+                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
+                                                onkeyup="emp_detail_verify2(this.value);">
+                                            <?php  
+                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+    {
+       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
     }?>
                                         </div>
                                     </div>
@@ -4948,13 +4951,19 @@ if ($check_flow_row['status']<4) {
          $up_date=$_POST['upload_date'];
          $by_search=$_POST['by_search'];
          $by_search_college=$_POST['by_search_college'];
+         $by_search_StreamName=$_POST['by_search_StreamName'];
                    if($by_search!='')
                    {
                     $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
                    }
-                   elseif ($by_search_college!='')
+                   elseif ($by_search_college!='' && $by_search_StreamName!='')
                     {
                     # code...
+                    $degree="SELECT * FROM degree_print where Course='$by_search_college' and Stream='$by_search_StreamName'  order by Id ASC  ";                     
+                   }
+                   elseif ($by_search_college!='')
+                    {
+                    
                     $degree="SELECT * FROM degree_print where Course='$by_search_college'  order by Id ASC  ";                     
                    }
                    else
@@ -4964,7 +4973,6 @@ if ($check_flow_row['status']<4) {
                      $degree_run=mysqli_query($conn,$degree);
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
-                       
                       $data1=$degree_row;
                     $uni=$degree_row['UniRollNo'];
                     $get_pending="SELECT Sex FROM Admissions where UniRollNo='$uni'";
@@ -5750,17 +5758,9 @@ elseif($Label=='Adhar')
 }
 elseif($Label=='Image')
 {
-    // $staff="SELECT Imagepath FROM Staff Where IDNo='$IDNo'";
-    //         $stmt = sqlsrv_query($conntest,$staff);  
-    //         if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-    //         {
-    //            if ($row_staff['Imagepath']!='') 
-    //            {   echo '<iframe src="http://erp.gku.ac.in:86/'.str_replace('~/','',$row_staff['Imagepath']).'" width="100%" height="500px"></iframe>';
-    //      }else
-    //           {
-    //            echo "No Document Fund";
-    //           }
-    //         }
+    
+                echo '<iframe src="http://10.0.10.11/getImage.aspx?ImageID='.$IDNo.'" width="100%" height="500px"></iframe>';
+          
 
 }
 elseif($Label=='Sign')
@@ -11587,7 +11587,7 @@ elseif ($code==186)
 elseif($code=='187') 
 {
 $count=0;
-$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '0' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
+$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '1' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
 FROM
 offer_latter INNER JOIN states ON states.id = offer_latter.State
 INNER JOIN consultant_master ON consultant_master.id = offer_latter.Consultant_id

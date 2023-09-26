@@ -105,6 +105,17 @@ include "header.php";
 <?php 
                }?>
              </select>
+             <select class="form-control" id="StreamName">
+             <option value="">Course Name</option>
+               <?php 
+               $get_course="SELECT distinct Stream FROM degree_print where Course!='Diploma in pharmacy'";
+               $get_course_run=mysqli_query($conn,$get_course);
+               while($get_row=mysqli_fetch_array($get_course_run))
+               {?>
+                  <option value="<?=$get_row['Stream'];?>"><?=$get_row['Stream'];?></option>
+<?php 
+               }?>
+             </select>
                                    
 <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
 </div>
@@ -126,6 +137,7 @@ include "header.php";
     var upload_date = document.getElementById('upload_date').value;
     var by_search=document.getElementById('RollNoSearch').value;
     var by_search_college=document.getElementById('CourseName').value;
+    var by_search_StreamName=document.getElementById('StreamName').value;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -136,6 +148,7 @@ include "header.php";
             upload_date: upload_date,
             by_search: by_search,
             by_search_college: by_search_college,
+            by_search_StreamName: by_search_StreamName,
             search: searchQuery // Pass the search query to the server
         },
         success: function(data) {
@@ -158,6 +171,7 @@ include "header.php";
                   var searchQuery = '';
                   var by_search="";
                   var by_search_college="";
+                  var by_search_StreamName="";
                    const date = new Date();
                   var day = date.getDate();
                    var month = date.getMonth() + 1;
@@ -173,6 +187,7 @@ include "header.php";
                         
                     var by_search=document.getElementById('RollNoSearch').value;
     var by_search_college=document.getElementById('CourseName').value;
+    var by_search_StreamName=document.getElementById('StreamName').value;
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -183,6 +198,7 @@ include "header.php";
                               upload_date: upload_date,
                               by_search: by_search,
                               by_search_college: by_search_college,
+                              by_search_StreamName: by_search_StreamName,
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
@@ -200,7 +216,7 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option><option value="11">Plan Agri</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
                         table += '</tr>';
                         table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>QR Course</th><th>Gender</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
