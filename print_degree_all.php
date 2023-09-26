@@ -452,7 +452,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                              }
                                              else
                                              {
-                                          $text = "Course:".$course.' '.$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
                                              $path = 'degreeqr/';
@@ -1822,7 +1822,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                              }
                                              else
                                              {
-                                          $text = "Course:".$course.' '.$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
                                              
