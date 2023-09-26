@@ -8145,7 +8145,10 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
     $ID_Proof_No=$row['ID_Proof_No'];
     $District_id=$row['District'];
      $months=$row['months'];
+
+       $lStatus=$row['Status'];
     
+
     
 
     $get_state="SELECT name FROM states  where id='$State_id'";
@@ -8217,6 +8220,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                  ?>
                     </select>
+
                     <?php }
                 else
                 {
@@ -8257,7 +8261,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                     <select class="form-control" id="District1">
                         <option value="<?=$District_id;?>"><?=$District;?></option>
-                        <!-- <option value="Kaimur">Kaimur</option><option value="Katihar">Katihar</option><option value="Lakhisarai">Lakhisarai</option><option value="Madhubani">Madhubani</option><option value="Munger">Munger</option><option value="Madhepura">Madhepura</option><option value="Muzaffarpur">Muzaffarpur</option><option value="Nalanda">Nalanda</option><option value="Nawada">Nawada</option><option value="Patna">Patna</option><option value="Purnia">Purnia</option><option value="Rohtas">Rohtas</option><option value="Saharsa">Saharsa</option><option value="Samastipur">Samastipur</option><option value="Sheohar">Sheohar</option><option value="Sheikhpura">Sheikhpura</option><option value="Saran">Saran</option><option value="Sitamarhi">Sitamarhi</option><option value="Supaul">Supaul</option><option value="Siwan">Siwan</option><option value="Vaishali">Vaishali</option><option value="West Champaran">West Champaran</option> -->
+                     
                     </select>
                     <?php }
 else
@@ -8423,10 +8427,62 @@ else
 
                   ?>
                 </div>
-                <div class="col-lg-3">
+                   <div class="col-lg-2">
+                    <label>District</label>
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID='170573')
+                    {?>
+
+<?php if($lStatus>0) {
+                           $lcolor='Red';
+                        }
+                        else
+                        {
+                          $lcolor='Green';
+
+                        }?>
+
+                    <select class="form-control" id="Status1" style="border-color:<?=$lcolor;?>"  >
+                        <option value="<?=$lStatus;?>">
+                            <?php if($lStatus>0) {
+                            echo "Left";
+                        }
+                        else
+                        {
+                            echo "Active";
+
+                        }?>
+
+
+                        </option>
+                        <option value="0">Active </option>
+                        <option value="1">Left</option>
+
+
+                     
+                    </select>
+                    <?php }
+else
+{
+                echo "<br>";
+        if($lStatus>0) {
+                            echo "Left";
+                        }
+                        else
+                        {
+                            echo "Active";
+
+                        }?>
+                  
+
+                    <input type="hidden" value="<?=$lStatus;?>" id="Status1" readonly="">
+
+                    <?php  }
+                 ?>
+                </div>
+                <div class="col-lg-1">
                     <label>&nbsp;</label>
-                    <button class="btn btn-primary form-control"
-                        onclick="edit_student_details(<?=$id;?>)">Submit</button>
+                    <button class="btn btn-primary"
+                        onclick="edit_student_details(<?=$id;?>)">Save</button>
                 </div>
 
             </div>
@@ -8455,9 +8511,10 @@ $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
+$status= $_POST['status'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -10357,8 +10414,10 @@ elseif($code==179)
             
               }
               
+
                }
-               // print_r($data);139
+
+                print_r($data);
 
                $page = $_POST['page'];
                $recordsPerPage = 10000;
