@@ -1035,7 +1035,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     // PassportNo: PassportNo,
     months:months,
     classroll: classroll,
-    District1: District,  State: State,
+    District1: District,  status:Status1,
     code: code
   };
  
