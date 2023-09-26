@@ -35,7 +35,7 @@ include "header.php";
                                      <div class="input-group input-group-sm">
                                        
                                      <?php 
-                                     if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976' )
+                                     if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027' )
                                      {
                                      ?>
                                      <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button > &nbsp;
