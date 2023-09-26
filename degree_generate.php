@@ -105,6 +105,17 @@ include "header.php";
 <?php 
                }?>
              </select>
+             <select class="form-control" id="StreamName">
+             <option value="">Course Name</option>
+               <?php 
+               $get_course="SELECT distinct Stream FROM degree_print where Course!='Diploma in pharmacy'";
+               $get_course_run=mysqli_query($conn,$get_course);
+               while($get_row=mysqli_fetch_array($get_course_run))
+               {?>
+                  <option value="<?=$get_row['Stream'];?>"><?=$get_row['Stream'];?></option>
+<?php 
+               }?>
+             </select>
                                    
 <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
 </div>
@@ -126,6 +137,7 @@ include "header.php";
     var upload_date = document.getElementById('upload_date').value;
     var by_search=document.getElementById('RollNoSearch').value;
     var by_search_college=document.getElementById('CourseName').value;
+    var by_search_StreamName=document.getElementById('StreamName').value;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -136,6 +148,7 @@ include "header.php";
             upload_date: upload_date,
             by_search: by_search,
             by_search_college: by_search_college,
+            by_search_StreamName: by_search_StreamName,
             search: searchQuery // Pass the search query to the server
         },
         success: function(data) {
@@ -158,6 +171,7 @@ include "header.php";
                   var searchQuery = '';
                   var by_search="";
                   var by_search_college="";
+                  var by_search_StreamName="";
                    const date = new Date();
                   var day = date.getDate();
                    var month = date.getMonth() + 1;
@@ -173,6 +187,7 @@ include "header.php";
                         
                     var by_search=document.getElementById('RollNoSearch').value;
     var by_search_college=document.getElementById('CourseName').value;
+    var by_search_StreamName=document.getElementById('StreamName').value;
                         $.ajax({
                            url: 'action_g.php',
                            type: 'POST',
@@ -183,6 +198,7 @@ include "header.php";
                               upload_date: upload_date,
                               by_search: by_search,
                               by_search_college: by_search_college,
+                              by_search_StreamName: by_search_StreamName,
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
