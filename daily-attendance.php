@@ -12,24 +12,18 @@
       <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
-                   <a class="btn" id="btn1"style="background-color:#223260; color: white; border: 1px solid;" onclick="Add();bg(this.id);"> Monthly Attendance </a>
-                    <a class="btn" id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
-                   <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a>
-                    <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> -->
+           <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
+                    <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
+                   <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 1px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a>
+                   <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
+                   <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a> -->
                     <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a> -->
                   </div>
-
-           <div class="row" id="card">
+</div>
+<div class="card-body card" id="card">
            </div>
-<br><br>
 
          <div  id="table_load" class="table-responsive">
-
-              
-        
-        
-
          
         </div>
    </div>
@@ -40,7 +34,7 @@
    <script type="text/javascript">
           $(window).on('load', function() 
           {
-         $('#btn6').toggleClass("bg-success"); 
+         $('#btn1').toggleClass("bg-success"); 
            })
           function format() 
            {
@@ -51,10 +45,25 @@
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
-
+         Search();
+ function Search(){ 
+   var code=210;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+            }
+         });
+}
  function Daily(){ 
-
-//230
    var code=306;
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -71,7 +80,166 @@
             }
          });
 }
+ function Monthly(){ 
+   var code=211;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+            }
+         });
+}
+ function holiday(){ 
+   var code=212;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
+            }
+         });
+}
+ function addHolidayMark(){ 
+   var code=213;
+   var holidayDate=document.getElementById('holidayDate').value;
+  var holidayName=document.getElementById('holidayName').value;
+  var holidayDiscription=document.getElementById('holidayDiscription').value;
+  if(holidayDate!='' && holidayName!='' )
+  {
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,holidayDate:holidayDate,holidayName:holidayName,holidayDiscription:holidayDiscription
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('Add Successfully');
+                  holiday();
+               }
+            }
+         });
+      }
+      else
+      {
+         ErrorToast('All inputs Required','bg-warning');
+      }
+}
+ function deleteHoliday(id){ 
+   var code=215;
+   var a=confirm('Are you sure you want to delete  ');
+   if (a==true) {
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('Delete Successfully');
+                  holiday();
+               }
+            }
+         });
+      }
+      else
+      {
 
+      }
+}
+
+
+
+
+function editRow(button) {
+        const row = button.closest('tr');
+        const editableFields = row.querySelectorAll('.editable');
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        editableFields.forEach(field => {
+            field.contentEditable = true;
+            field.classList.add('editing');
+        });
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'inline-block';
+    }
+
+    function saveRow(button,id) {
+        var code=214;
+        const row = button.closest('tr');
+        const employeeId = id;
+        const holidayDate = row.querySelector('[data-field="HolidayDate"]').textContent;
+        const holidayName = row.querySelector('[data-field="HolidayName"]').textContent;
+        const description = row.querySelector('[data-field="Description"]').textContent;
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+      //   alert(HolidayName);
+        row.querySelectorAll('.editable').forEach(field => {
+            field.contentEditable = false;
+            field.classList.remove('editing');
+        });
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+        $.ajax({
+            type: 'POST',
+            url: 'action_g.php', 
+            data: {
+                code:code,id:employeeId,holidayDate:holidayDate,holidayName:holidayName,description:description
+            },
+            success: function(response) {
+               console.log(response);
+            SuccessToast('SuccessFully');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+    function cancelEdit(button) {
+        const row = button.closest('tr');
+        const editableFields = row.querySelectorAll('.editable');
+        const editBtn = row.querySelector('.edit-btn');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        editableFields.forEach(field => {
+            field.contentEditable = false;
+            field.classList.remove('editing');
+        });
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    }
 
  function export_daily_attendance() 
       {

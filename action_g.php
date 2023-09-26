@@ -12781,7 +12781,158 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 }
  }
+elseif($code==210)
+{
+    ?>
+          
+      <div class="row">
+                <div class="col-lg-12">
+                <div class="input-group ">
+    <input type="search" class="form-control" name="emp_name" id="empid" placeholder="Emp ID Here">
+    <div class="input-group-append">
+      <button type="button" onclick="" class="btn btn-success btn-sm">
+        <i class="fa fa-search"></i>
+      </button>
+</button>
+    </div>
+    </div>
 
+</div>
+</div>
+                    <?php 
+}
+
+elseif($code==211)
+{
+    ?>
+          
+      <div class="row">
+                <div class="col-lg-12">
+                <div class="input-group ">
+    <input type="search" class="form-control" name="emp_name" id="empid" placeholder="Emp ID Here">
+    <div class="input-group-append">
+      <button type="button" onclick="" class="btn btn-success btn-sm">
+        <i class="fa fa-search"></i>
+      </button>
+
+</button>
+    </div>
+    </div>
+
+</div>
+</div>
+                    <?php 
+}
+elseif($code==212)
+{
+    ?>
+          
+      <div class="row">
+               
+                <div class="col-lg-3">
+                    <label>Date</label>
+    <input type="date" class="form-control" id="holidayDate" >
+</div>
+<div class="col-lg-3">
+    <label>Holiday Name </label>
+    <input type="text" class="form-control" id="holidayName" >
+</div> <div class="col-lg-3">
+    <label> Discription</label>
+    <input type="text" class="form-control" id="holidayDiscription" >
+</div>
+<div class="col-lg-3">
+    <label>Action</label><br>
+      <button type="button" onclick="addHolidayMark();" class="btn btn-success ">
+        <i class="fa fa-plus"></i>
+      </button>
+</div>
+ 
+    
+
+</div>
+</div>
+<br>
+<div class="row">
+<div class="col-lg-12">
+    <table class="table table-bordered table-hover table-condensed" >
+  <thead>
+             <tr>
+           <th>Sr. No</th>
+           <th>Date</th>
+           <th>Name</th>
+           <th>Discription</th>
+           <th>Action</th>
+         </tr>
+         </thead>
+         <tbody >
+         <?php 
+        $Sr=1;
+    $insertHoliday="SELECT * FROM Holidays order by  Id DESC    ";
+    $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+   while($row=sqlsrv_fetch_array($insertHolidayRun))
+   {?>
+<tr>
+               <td><?= $Sr; ?></td>
+               <td class="editable "   data-field="HolidayDate"><?= $row['HolidayDate']->format('Y-m-d'); ?></td>
+               <td class="editable"   data-field="HolidayName"><?= $row['HolidayName']; ?></td>
+               <td class="editable"   data-field="Description"><?= $row['Description']; ?></td>
+               <td>
+               <div class="controls">
+                       <button type="button" class="edit-btn btn btn-primary  btn-sm" onclick="editRow(this)"><i class="fa fa-edit"></i></button>
+                       <button type="button" class="save-btn btn btn-success  btn-sm" onclick="saveRow(this,<?= $row['Id']; ?>)" style="display: none;"><i class="fa fa-check" ></i></button>
+                       <button type="button" class="cancel-btn btn btn-danger  btn-sm" onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times"  >     </i> </button>
+                       <button class="btn btn-danger btn-sm" onclick="deleteHoliday(<?=$row['Id'];?>);"><i class="fa fa-trash"></i></button>
+                   </div>
+               </td>
+   </tr>
+   <?php
+   $Sr++;
+}
+?>
+<tbody>
+</table>
+</div>
+</div>
+                    <?php 
+}
+elseif($code==213)
+{
+    $holidayDate=$_POST['holidayDate'];
+    $holidayName=$_POST['holidayName'];
+    $holidayDiscription=$_POST['holidayDiscription'];
+    $insertHoliday="INSERT into  Holidays (HolidayName,HolidayDate,Description,UpdatedBy)values('$holidayName','$holidayDate','$holidayDiscription','$EmployeeID')";
+    $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+    if($insertHolidayRun==true)
+      {
+        echo "1";
+      }
+}
+elseif($code==214)
+{
+    $id=$_POST['id'];
+    $holidayDate=$_POST['holidayDate'];
+    $holidayName=$_POST['holidayName'];
+    $description=$_POST['description'];
+    $insertHoliday="UPDATE  Holidays SET  HolidayName='$holidayName',HolidayDate='$holidayDate',Description='$description' WHERE Id='$id'";
+    $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+    if($insertHolidayRun==true)
+      {
+        echo "1";
+      }
+
+}
+elseif($code==215)
+{
+    $id=$_POST['id'];
+   
+    $insertHoliday="DELETE FROM Holidays  WHERE Id='$id'";
+    $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+    if($insertHolidayRun==true)
+      {
+        echo "1";
+      }
+
+}
    else
    {
    

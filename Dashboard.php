@@ -45,7 +45,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
       <div class="row">
   
            <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-success"><i class="far fa-calendar"></i></span>
                <div class="info-box-content">
                  <span class="info-box-text"><b>
@@ -63,7 +63,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- /.info-box -->
          </div>
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-info"><i class="fa  fa-clock"></i></span>
                <div class="info-box-content">
               <!--     <span class="info-box-text"><b> <?php  echo $timeStamp =date("d-m-Y",strtotime($todaydate));?>
@@ -93,7 +93,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
          </div>
          <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-danger"> <?= $day = date('M', strtotime($todaydate));?></i></span>
                <div class="info-box-content">
                 <!--   <span class="info-box-text">Total Stock</span>
@@ -114,7 +114,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
          </div>
          <!-- /.col -->
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Book Issued</span>
@@ -146,7 +146,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
 <div class="row">
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Category</span>
@@ -169,7 +169,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
          </div>
          <!-- /.col -->
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Locations</span>
@@ -192,7 +192,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
          </div>
          <!-- /.col -->
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Articles</span>
@@ -213,7 +213,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
          </div>
          <!-- /.col -->
          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box shadow-lg">
                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Total Stock</span>
