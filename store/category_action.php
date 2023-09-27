@@ -186,17 +186,23 @@ $rowCount = count($_POST["id"]);
 $id=$_POST["id"];
 $approved_date='';
 $request_app='';
-$sql = "SELECT * FROM user WHERE emp_id ='$emp_id'";
-$result = mysqli_query($conn, $sql);
 
-while($row=mysqli_fetch_array($result))
-{
-	$name=$row["name"];
+
+
+ $staff="SELECT Name,Designation,Department,CollegeName FROM Staff Where IDNo='$emp_id'";
+    $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+
+
+
+  $name=$row_staff['Name'];
 	$college=$row["college"];
-	$dept=$row["department"];
-	$designation=$row["designation"];
-	$superviser_id=$row["superwiser_id"]; 
-}
+	$dept=$row_staff['Department'];
+	$designation=$row_staff['Designation'];
+	$superviser_id='';
+
+        }
 // if($superviser_id!='0')
 // {
 // if($superviser_id=='121009')

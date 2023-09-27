@@ -261,6 +261,33 @@ function editRow(button) {
       }
 }
 
+ function export_count_attendance()
+
+
+   {
+         var exportCode=29;
+
+  var College=document.getElementById('College').value;
+  var Department=document.getElementById('Department').value;
+  var start_date=document.getElementById('start_date').value;
+  var end_date=document.getElementById('end_date').value;
+
+  if(start_date!='' && end_date!='')
+   {
+   window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&start_date="+start_date+"&end_date="+end_date;
+    }
+      else
+      {
+        ErrorToast('Select Start and End Date','bg-danger');
+ 
+      }
+}
+
+
+
+
+
+
 function search_daily_attendance()
 {
   

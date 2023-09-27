@@ -27,7 +27,7 @@ include "header.php";
                   <?php }
 
                  ?>
-              </select>
+              </select> 
              
             </div> 
             <div class="col-lg-3">
@@ -1008,7 +1008,7 @@ function edit_student_details(id) {
   // var PassportNo = document.getElementById('PassportNo').value;
   var classroll = document.getElementById('classroll').value;
   var District = document.getElementById('District1').value;
-
+ var Status1 = document.getElementById('Status1').value;
 if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
 {
   var code = 140;
@@ -1035,7 +1035,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     // PassportNo: PassportNo,
     months:months,
     classroll: classroll,
-    District1: District,
+    District1: District,  status:Status1,
     code: code
   };
  
