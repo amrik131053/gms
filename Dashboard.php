@@ -2,7 +2,6 @@
 
  include "header.php"; 
  include "dashboard-alert.php"; 
-
 if(!(ISSET($_SESSION['usr']))) 
 {
   header('Location:index.php');  
@@ -18,7 +17,6 @@ while($permission_data=mysqli_fetch_array($permission_res))
 }
 }
 ?>
-
 <style type="text/css">
       #whatsapp-floating-button {
   position: fixed;
@@ -42,36 +40,55 @@ while($permission_data=mysqli_fetch_array($permission_res))
 <section class="content">
 
    <div class="container-fluid">
+   
       <div class="row">
-  
-           <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-success"><i class="far fa-calendar"></i></span>
-               <div class="info-box-content">
-                 <span class="info-box-text"><b>
-                <?= $day = date('l', strtotime($todaydate));?>
-
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info shadow-lg">
+              <div class="inner">
+              <h3><b>
+              
+              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?>
                  
-      </b></span>
-                  <span class="info-box-number">
-                  <?php  echo $timeStamp =date("d-m-Y",strtotime($todaydate));?>
+</b></h3>
+            <p>
+            <?= $day = date('l', strtotime($todaydate));?>  
 
-                  </span>
-               </div>
-               <!-- /.info-box-content -->
+</p>
+              </div>
+              <div class="icon">
+                <i class="far fa-calendar"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
-            <!-- /.info-box -->
-         </div>
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-info"><i class="fa  fa-clock"></i></span>
-               <div class="info-box-content">
-              <!--     <span class="info-box-text"><b> <?php  echo $timeStamp =date("d-m-Y",strtotime($todaydate));?>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success shadow-lg">
+              <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-      </b></span> -->
-                  <span class="info-box-number">
-
-                    <?php  
+                <p>Bounce Rate</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-warning shadow-lg">
+              <div class="inner">
+               <h6><b>
+              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></b></h6>
+                <p>  <?php  
                     $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
 '$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
@@ -82,67 +99,48 @@ $stmt = sqlsrv_query($conntest,$sql_att);
        $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }
-            ?><b style='color:red'> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i');} else { echo "--";}?><br>
-            <b style='color:red'> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i');} else { echo "<b style='color:red'>Nopunch</b>";}?>
-                
-                  </span>
-               </div>
-               <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-danger"> <?= $day = date('M', strtotime($todaydate));?></i></span>
-               <div class="info-box-content">
-                <!--   <span class="info-box-text">Total Stock</span>
-                  <span class="info-box-number">   <?php
-                     $count_s=0;
-                       $Stock="SELECT * FROM stock_summary";
-                     $reslut_Stock=mysqli_query($conn,$Stock);
-                     while ($row_Stock=mysqli_fetch_array($reslut_Stock))
-                      {
-                         $count_s++;
-                       }  
-                       echo $count_s;
-                       ?></span> -->
-               </div>
-               <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-         <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box shadow-lg">
-               <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Book Issued</span>
-                  <span class="info-box-number">   
+            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "--";}?><br>
+            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b style='color:red'>Nopunch</b>";}?>
+</p>
 
-  <?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
+                <!-- <p>User Registrations</p> -->
+              </div>
+              <div class="icon">
+                <i class="fa fa-clock"></i>
+              </div>
+              <a href="attendence-calendar.php" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-danger ">
+              <div class="inner">
+                <h3><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
-           $bcount=$row_staff_att['cc'];
-             
-}
-
-
-                     
+           $bcount=$row_staff_att['cc'];      
+}     
                        echo "&nbsp;&nbsp;&nbsp;" .$bcount;
-                       ?> </span>
-               </div>
-               <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-         </div>
-         <!-- /.col -->
-    
-         <!-- /.col -->
-      </div>
+                       ?></h3>
 
+                <p>Book Issued</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
 
 <div class="row">
          <div class="col-md-3 col-sm-6 col-12">

@@ -1,0 +1,229 @@
+<?php
+session_start();
+$EmployeeID=$_SESSION['usr'];
+include "connection/connection.php";
+  // $orderdate = explode('-', $_POST['start']);
+//  $month = $orderdate[0];
+// $day   = $orderdate[1];
+// $year  = $orderdate[2];
+  $IDNo=$EmployeeID;
+$day = date('d');
+$month = date('m');
+$year = date('Y');
+ 
+ 
+$data = array();
+$start=date('Y-m-d');
+$list=array();
+function getBetweenDates($startDate, $endDate) {
+  $array = array();
+  $interval = new DateInterval('P1D');
+
+  $realEnd = new DateTime($endDate);
+  $realEnd->add($interval);
+
+  $period = new DatePeriod(new DateTime($startDate), $interval, $realEnd);
+
+  foreach($period as $date) {
+      $array[] = $date->format('Y-m-d');
+  }
+
+  return $array;
+}
+$list = getBetweenDates($year.'-01-01', $start);
+// print_r($list);
+// echo gettype($list);
+ $aa=count($list);
+for ($i=0; $i <$aa ; $i++)
+ { 
+  $start_date=$list[$i];
+  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
+from DeviceLogsAll  where LogDateTime Between  '$start_date 00:00:00.000'  AND 
+'$start_date 23:59:00.000' AND EMpCOde='$IDNo'  ";
+$stmt = sqlsrv_query($conntest,$sql_att);  
+           if($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+          {
+            if($row_staff_att['mytime'] === null) //when funch not available
+            {
+
+              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+  $leaveName='';
+  $stmt = sqlsrv_query($conntest,$sql_att23);  
+              if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+             {
+              $leaveName=$row['Name'];
+              if($row['LeaveDurationsTime']!='0')
+              {
+                $leavedurationtime=$row['LeaveDurationsTime'];
+
+              }
+              else
+              {
+                $leavedurationtime=$row['LeaveDuration'];
+
+              }
+                     if($leaveName=='LWS')
+                     {
+                      $data[] = array(
+                        'title'         => $leaveName,
+                          'start'         => $start_date,
+                          'allDay'        => true,
+                          'backgroundColor'=> 'yellow', 
+                          'borderColor'   => 'yellow', 
+                          'textColor'   => 'black' 
+                                        );
+                     }
+                     else
+                     {
+                     $data[] = array(
+                       'title'         => $leaveName.':'.$leavedurationtime,
+                         'start'         => $start_date,
+                         'allDay'        => true,
+                         'backgroundColor'=> 'yellow', 
+                         'borderColor'   => 'yellow', 
+                         'textColor'   => 'black' 
+                                       );
+                                      }
+                                   
+                                        
+
+                                      }
+
+                                      // check holiday------------------------------------------------------
+       $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start_date 00:00:00.000' ANd  '$start_date 23:59:00.000'";
+$stmt = sqlsrv_query($conntest,$sql_holiday);  
+            if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+         $HolidayName=$row_staff['HolidayName'];
+         $data[] = array(
+          'title'         => $HolidayName,
+            'start'         => $start_date,
+            'allDay'        => true,
+            'backgroundColor'=> 'white', 
+            'borderColor'   => 'white', 
+            'textColor'   => 'black' 
+                          );
+             } 
+             else
+             {
+              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+              $leaveName='';
+              $stmt = sqlsrv_query($conntest,$sql_att23);  
+                          if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                         {
+                         
+                          }
+                               else
+                               {
+
+              $Other="Absent";
+              $data[] = array(
+                'title'         => $Other,
+                  'start'         => $start_date,
+                  'allDay'        => true,
+                  'backgroundColor'=> 'red', 
+                  'borderColor'   => 'red', 
+                  'textColor'   => 'white' 
+                                );
+                 } //---------------------------------------------------------------------------------------
+          }
+        }
+            else
+            {
+              //when funch available
+              $InTime=$row_staff_att['mytime']->format('H:i A');
+              
+              $data[] = array(
+                'title'   => $InTime,
+                 'start'   => $start_date,
+                    'backgroundColor'   => "#00a65a",
+                        'borderColor'   => "#00a65a",
+                             'allDay'   => true
+                                );
+              //--------------------------
+            }
+
+            if($row_staff_att['mytime1'] === null) //when funch not available
+            {
+              $OutTime="Holiday";
+            }
+            else
+            {
+              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
+              CASE  WHEN StartDate < '$start_date' THEN '$start_date' ELSE StartDate  END AS Leave_Start_Date, CASE WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date  FROM   ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
+  WHERE StartDate <= '$start_date' AND EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+  $leaveName='';
+  $stmt = sqlsrv_query($conntest,$sql_att23);  
+              if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+             {
+              $leaveName=$row['Name'];
+              if($row['LeaveDurationsTime']!='0')
+              {
+                $leavedurationtime=$row['LeaveDurationsTime'];
+
+              }
+              else
+              {
+                $leavedurationtime=$row['LeaveDuration'];
+
+              }
+                    //  $Other="Holiday";
+                     $data[] = array(
+                      'title'         => $leaveName.':'.$leavedurationtime,
+                         'start'         => $start_date,
+                         'allDay'        => true,
+                         'backgroundColor'=> 'yellow', 
+                         'borderColor'   => 'yellow', 
+                         'textColor'   => 'black' 
+                                       );
+              }
+              $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start_date 00:00:00.000' ANd  '$start_date 23:59:00.000'";
+              $stmt = sqlsrv_query($conntest,$sql_holiday);  
+                          if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                          {
+                       $HolidayName=$row_staff['HolidayName'];
+                       $data[] = array(
+                        'title'         => $HolidayName,
+                          'start'         => $start_date,
+                          'allDay'        => true,
+                          'backgroundColor'=> 'white', 
+                          'borderColor'   => 'white', 
+                          'textColor'   => 'black' 
+                                        );
+                           } 
+                           else
+                           {
+                          
+
+                           }
+                           
+                           
+              //when funch available
+              
+              $OutTime=$row_staff_att['mytime1']->format('H:i A');
+
+
+              if($InTime<>$OutTime)
+              {
+              $data[] = array(
+                'title'   => $OutTime,
+                 'start'   => $start_date,
+                    'backgroundColor'   => "#00a65a",
+                        'borderColor'   => "#00a65a",
+                             'allDay'   => true
+                               );
+                              }
+                              else
+                              {
+                                
+
+                              }
+                               //-------------------------------------
+            
+          }
+        
+        }
+}
+echo json_encode($data);
+
+?>
