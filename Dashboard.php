@@ -69,9 +69,9 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-success shadow-lg">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3>0<sup style="font-size: 20px"></sup></h3>
 
-                <p>Bounce Rate</p>
+                <p>Numer of Days</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -99,8 +99,8 @@ $stmt = sqlsrv_query($conntest,$sql_att);
        $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }
-            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "--";}?><br>
-            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b style='color:red'>Nopunch</b>";}?>
+            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?><br>
+            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?>
 </p>
 
                 <!-- <p>User Registrations</p> -->
