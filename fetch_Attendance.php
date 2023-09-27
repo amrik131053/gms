@@ -76,7 +76,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                      else
                      {
                      $data[] = array(
-                       'title'         => $leaveName.':'.$leavedurationtime,
+                       'title'         => $leavedurationtime.':'.$leaveName,
                          'start'         => $start_date,
                          'allDay'        => true,
                          'backgroundColor'=> 'yellow', 
@@ -169,7 +169,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
               }
                     //  $Other="Holiday";
                      $data[] = array(
-                      'title'         => $leaveName.':'.$leavedurationtime,
+                      'title'         => $leavedurationtime.':'.$leaveName,
                          'start'         => $start_date,
                          'allDay'        => true,
                          'backgroundColor'=> 'yellow', 
