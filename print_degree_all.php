@@ -1761,7 +1761,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                   <?php 
                      }
         }
-
+// plan agri
         elseif($code==11)
         {
             $dateColumn=$_GET['Todate'];
@@ -1820,11 +1820,11 @@ $ms1="<strike>Mr.</strike>";    // code...
                                      
                                                        if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.:".$RegNo."\nUniversity Roll No.:".$UnirollNo."\nCGPA:".$CGPA;
                                              }
                                              else
                                              {
-                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.:".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
                                              
@@ -1850,7 +1850,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                          }
                          else
                          {
-                           ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
+                           ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration No.".$UnirollNo;?></b></div>
                          <?php
                          }
                          ?> </div>
