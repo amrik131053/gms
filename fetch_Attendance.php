@@ -131,7 +131,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
             else
             {
               //when funch available
-              $InTime=$row_staff_att['mytime']->format('H:i A');
+              $InTime=$row_staff_att['mytime']->format('H:i');
               
               $data[] = array(
                 'title'   => $InTime,
@@ -200,7 +200,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
                            
               //when funch available
               
-              $OutTime=$row_staff_att['mytime1']->format('H:i A');
+              $OutTime=$row_staff_att['mytime1']->format('H:i');
 
 
               if($InTime<>$OutTime)

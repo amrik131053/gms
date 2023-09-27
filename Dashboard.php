@@ -46,11 +46,11 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-info shadow-lg">
               <div class="inner">
-              <h3><b>
+              <h5><b>
               
               <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?>
                  
-</b></h3>
+</b></h5>
             <p>
             <?= $day = date('l', strtotime($todaydate));?>  
 
