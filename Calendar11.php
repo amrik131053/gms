@@ -6,8 +6,9 @@ class Calendar {
 
     public function __construct($date = null) {
         $this->active_year = $date != null ? date('Y', strtotime($date)) : date('Y');
-        $this->active_month = $date != null ? date('m', strtotime($date)) : date('m');
+        $this->active_month = $date != null ? date('m', strtotime($date)) : date('M');
         $this->active_day = $date != null ? date('d', strtotime($date)) : date('d');
+   
     }
 
     public function add_event($txt, $date, $days = 1, $color = '') {
@@ -16,7 +17,7 @@ class Calendar {
     }
 
     public function __toString() {
-        $num_days = date('t', strtotime($this->active_day . '-' . $this->active_month . '-' . $this->active_year));
+         $num_days = date('t', strtotime($this->active_day . '-' . $this->active_month . '-' . $this->active_year));
         $num_days_last_month = date('j', strtotime('last day of previous month', strtotime($this->active_day . '-' . $this->active_month . '-' . $this->active_year)));
         $days = [0 => 'Sun', 1 => 'Mon', 2 => 'Tue', 3 => 'Wed', 4 => 'Thu', 5 => 'Fri', 6 => 'Sat'];
         $first_day_of_week = array_search(date('D', strtotime($this->active_year . '-' . $this->active_month . '-1')), $days);
@@ -43,11 +44,6 @@ class Calendar {
             ';
         }
 
-
-
-
-
-
         for ($i = 1; $i <= $num_days; $i++) {
             $selected = '';
             if ($i == $this->active_day) {
@@ -66,6 +62,7 @@ class Calendar {
             foreach ($this->events as $event) 
 
             {
+                
                 for ($d = 0; $d <= ($event[2]-1); $d++) {
                     if (date('y-m-d', strtotime($this->active_year . '-' . $this->active_month . '-' . $i . ' -' . $d . ' day')) == date('y-m-d', strtotime($event[1]))) {
 
@@ -99,8 +96,9 @@ class Calendar {
         }
         $html .= '</div>';
         $html .= '</div>';
-        return $html;
+        // return $html;
     }
 
 }
+
 ?>
