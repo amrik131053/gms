@@ -17516,7 +17516,7 @@ else if($code=='303')
    
 
            <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
              
                 <label>College Name</label>
                  <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
@@ -17559,10 +17559,11 @@ else if($code=='303')
               </div>
 
      
-              <div class="col-lg-2">
+              <div class="col-lg-4">
                  <label>Action</label><br>
                  <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Export</button>
                  <button onclick="export_count_attendance();" class="btn btn-danger">Export Count</button>
+                  <button onclick="export_count_summary();" class="btn btn-danger">Export Summary</button>
               </div>
                
             
