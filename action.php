@@ -17562,6 +17562,7 @@ else if($code=='303')
               <div class="col-lg-2">
                  <label>Action</label><br>
                  <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Export</button>
+                 <button onclick="export_count_attendance();" class="btn btn-danger">Export Count</button>
               </div>
                
             

@@ -107,11 +107,13 @@
                                       if($row_student['LateralEntry']=='No')
                                       {
                                       $yoa=$row_student['Batch'];
-                                   }else
+                                   }
+                                   else
                                    {
                                          $yoa=$row_student['Batch']+1;
 
                                       }
+
                                       $gender=$row_student['Sex'];
                                       $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
@@ -452,7 +454,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                              }
                                              else
                                              {
-                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No. :".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
                                              $path = 'degreeqr/';
