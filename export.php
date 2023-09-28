@@ -2802,6 +2802,8 @@ elseif($exportCode==29)
 {    
    
 
+
+
 $start_date=$_GET['start_date'];
           $end_date=$_GET['end_date'];
 
@@ -2882,11 +2884,14 @@ $datee = getBetweenDates($start_date,$end_date);
  $no_of_dates=count($datee);
 
 
-$exportdaily="<table class='table' border='1'>";
+$exportdaily="<table class='table' border='1'><tr>";
     
 $srno=1;
 for ($i=0;$i<$no_of_emp;$i++)
 {
+
+  $exportdaily.="<th><table class='table' border='1'>";
+
 
 $paiddays=0;
 $h=0;
@@ -3186,7 +3191,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-    $exportdaily.="<tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
+    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
 }
 else
 {
@@ -3194,13 +3199,15 @@ else
 }
 
 
-$exportdaily.="<tr><td colspan=5></td></tr>";
+$exportdaily.="</table>";
 
 }
 
+
+$exportdaily.="</th><th></th>";
 }
    
-    $exportdaily.="</table>"; 
+    $exportdaily.="<tr></table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
         $fileName="Daily Report";
@@ -3590,6 +3597,7 @@ else
 
 
 }
+
 
 
    
