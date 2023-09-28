@@ -3191,7 +3191,9 @@ $paiddays=$paiddays+$countday;
 
 }
 if($paiddays<>$h)
-{
+{ 
+
+
     $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
 }
 else
@@ -3954,7 +3956,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
+    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays} out of {$myenddate}</b></td></tr>";
 }
 else
 {
