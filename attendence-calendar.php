@@ -8,12 +8,18 @@
           <!-- /.col -->
           <div class="col-md-8">
             <div class="card card-primary">
-              <div class="card-body p-0">
+              <!-- <div > -->
                 <!-- THE CALENDAR -->
-                <div id="calendar">
+                <div class="btn-group w-100 mb-2">
+                    <a class="btn btn-primary"  id="btn11" style="background-color:; color: white; border: 5px solid;" onclick="showCalendar(),bg(this.id);"> Calendar </a>
+                     <a class="btn btn-primary" id="btn22"style="background-color:; color: white; border: 5px solid;" onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
+                    <a class="btn btn-primary" id="btn33" style="background-color:; color: white; border: 5px solid;" onclick="showReport(),bg(this.id);"> Report </a>
+                
+                  </div>
+                <div class="card-body table-responsive-lg" id="calendar" style=" padding:0px!important;">
               
                 </div>
-              </div>
+              <!-- </div> -->
          
             </div>
     
@@ -29,7 +35,7 @@
                 
                   </div>
 
-         <div  id="table_load" class="table-responsive" style="height:700px;">
+         <div  id="table_load" class="table-responsive" style="height:700px; ">
 </div>
 
    
@@ -44,8 +50,7 @@
       </div>
     </section>
  
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
+ 
 </div>
 
 
@@ -73,7 +78,9 @@
     $(window).on('load', function() 
           {
          $('#btn1').toggleClass("bg-success"); 
+         $('#btn11').toggleClass("bg-success"); 
          pendingLeaves();
+         showCalendar();
            })
   function bg(id)
           {
@@ -195,26 +202,9 @@
         }
      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  $(function () {
+     function  showCalendar()
+     {
+      document.getElementById("calendar").innerHTML="";
     function ini_events(ele) {
       
       ele.each(function () {
@@ -238,23 +228,79 @@
     var Calendar = FullCalendar.Calendar;
     var containerEl = document.getElementById('external-events');
     var calendarEl = document.getElementById('calendar');
-
-    
     var calendar = new Calendar(calendarEl, {
       plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid' ],
       header    : {
-     left : 'prev,next today',
+     left : '',
         center: 'title',
-        right : 'dayGridMonth,timeGridDay'
+        right : ''
       },
       'themeSystem': 'bootstrap',
       events    : "fetch_Attendance.php", 
-      selectable:true,
-      selectHelper:true,
     }
     );
     calendar.render();
-  });
+        }
+    
+     function showApplyLeave()
+     {
+      var code=222;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("calendar").innerHTML=response;
+            }
+         });
+     }
+     function showReport()
+     {
+      var code=223;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("calendar").innerHTML=response;
+            }
+         });
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
 </script>
 </body>

@@ -817,11 +817,11 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 }
 
 .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 1.5em;
+  /* margin-bottom: 1.5em; */
 }
 
 .fc-toolbar.fc-footer-toolbar {
-  margin-top: 1.5em;
+  /* margin-top: 1.5em; */
 }
 
 /* inner content */
@@ -901,7 +901,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 
   /* don't force a min-height on rows (for DayGrid) */
   .fc tbody .fc-row {
-    height: auto !important;
+    height: 400px !important;
     /* undo height that JS set in distributeHeight */
     min-height: 0 !important;
     /* undo the min-height from each view's specific stylesheet */
@@ -1033,7 +1033,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 .fc-time-grid-container {
     /* */
     overflow: visible !important;
-    height: auto !important;
+    height: 400px !important;
   }
 
   /* kill the horizontal border/padding used to compensate for scrollbars */
