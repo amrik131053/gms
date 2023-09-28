@@ -4,7 +4,7 @@
 include 'connection/connection.php';
 $curmnth ="08";
 $curyear = 2023;
- $emp_code='131053';
+ $EmployeeID='131053';
 
 function get_days_in_month($month, $year)
 {
