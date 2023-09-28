@@ -69,6 +69,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-success shadow-lg">
               <div class="inner">
+              
                 <h5 id='paiddays'></h5>
 
 
@@ -93,6 +94,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
               </Button>
               </form>
             </div>
+            
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
@@ -146,7 +148,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
               <div class="icon">
                 <i class="fas fa-book"></i>
               </div>
-              <a href="#" class="small-box-footer">
+              <a href="books-issued.php" class="small-box-footer">
                 More info <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
