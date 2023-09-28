@@ -2,14 +2,21 @@
 session_start();
 $EmployeeID=$_SESSION['usr'];
 include "connection/connection.php";
-  // $orderdate = explode('-', $_POST['start']);
-//  $month = $orderdate[0];
-// $day   = $orderdate[1];
-// $year  = $orderdate[2];
+
+if(isset($_POST['monthYears']))
+{
+  $orderdate = explode('-', $_POST['monthYears']);
+  $year  = $orderdate[0];
+  $month = $orderdate[1];
+  $day   = '01';
+}
+else
+{
+  $month = date('m');
+  $day = date('d');
+  $year = date('Y');
+}
   $IDNo=$EmployeeID;
-$day = date('d');
-$month = date('m');
-$year = date('Y');
  
  
 $data = array();
@@ -30,9 +37,7 @@ function getBetweenDates($startDate, $endDate) {
 
   return $array;
 }
-$list = getBetweenDates($year.'-01-01', $start);
-// print_r($list);
-// echo gettype($list);
+$list = getBetweenDates($year.'-'.$month.'-01', $start);
  $aa=count($list);
 for ($i=0; $i <$aa ; $i++)
  { 
