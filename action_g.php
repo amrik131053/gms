@@ -13299,7 +13299,7 @@ elseif($code==223)
 {
     ?><div class="card-body">
         <div class="card-header">
-            <h5>Attendence Reports</h5>
+            <h5>Attendance Reports</h5>
 </div>
 <br>
 <div class="container-fluid">
