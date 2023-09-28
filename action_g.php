@@ -13283,6 +13283,73 @@ elseif($code==221)
       }
 
 }
+elseif($code==222)
+{
+    ?>
+     <div class="card-body ">
+    <div class="card-header ">
+<center><h5>Coming Soon</h5></center>
+
+</div>
+</div>
+<?php 
+
+}
+elseif($code==223)
+{
+    ?><div class="card-body">
+        <div class="card-header">
+            <h5>Attendence Reports</h5>
+</div>
+<br>
+<div class="container-fluid">
+    <form action="export.php" method="post">
+    <div class="btn-group w-100 mb-2">
+        <input type="hidden" name="exportCode" value='31'>
+        <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
+    <div class="col-lg-1">
+    <select placeholder="MM" name="month" class="form-control form-control-sm"> 
+  <option  value="" style="display:none;">MM</option>
+  <option  value="1">January</option>
+  <option  value="2">February</option>
+  <option  value="3">March</option>
+  <option  value="4">April</option>
+	<option  value="5">May</option>
+  <option  value="6">June</option>
+  <option  value="7">July</option>
+  <option  value="8">August</option>
+	<option  value="9">September</option>
+  <option  value="10">October</option>
+  <option  value="11">November</option>
+  <option  value="12">December</option>
+</select>
+
+</div>
+<div class="col-lg-1">
+    <select placeholder="MM" name="year" class="form-control form-control-sm"> 
+  <option  value="2023">2023</option>
+  <option  value="2022">2022</option>
+  <option  value="2021">2021</option>
+  <option  value="2020">2020</option>
+  <option  value="2019">2019</option>
+  <option  value="2018">2018</option>
+  <option  value="2017">2017</option>
+  <option  value="2016">2016</option>
+  
+</select>
+
+</div>
+<div class="col-lg-1">
+<input type="submit" class="btn btn-success btn-sm" value="Download">
+</div>
+</div>
+</form>
+
+</div>
+</div>
+<?php 
+
+}
    else
    {
    
