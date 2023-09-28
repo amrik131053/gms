@@ -19672,7 +19672,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-    echo $paiddays;
+    echo $paiddays ." out of ".$myenddate;
 }
 else
 {
@@ -20046,7 +20046,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?></b></td></tr><?php
+  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?>/<?=$myenddate?></b></td></tr><?php
 }
 else
 {
