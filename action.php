@@ -19686,9 +19686,14 @@ else
 
 else if($code='335')
 {
+?>
+<div class='row'>
+<div class="col-lg-2">
 
+</div>
 
-
+<div class="col-lg-8">
+   <?php 
 $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
 $emp_code=$_POST['EmployeeId'];
@@ -19737,20 +19742,20 @@ function getBetweenDates($startDate,$endDate) {
 $datee = getBetweenDates($start_date,$end_date);
  $no_of_dates=count($datee);
 ?>
-<table class='table' border='1'><tr>
+<table class='table table-striped table-hover' border='1'>
 
     <?php 
 $srno=1;
 
 
-?><th><table class='table' border='1'>
+?>
 
 <?php
 $paiddays=0;
 $h=0;
 
 
-$sql_staff="select * from Staff where IDNo='$EmployeeID'";
+$sql_staff="select * from Staff where IDNo='$emp_code'";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
@@ -19763,12 +19768,12 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
 ?><tr><th style='color:red;' colspan=5>Summary Report</th></tr>
 
 <tr><td colspan=2>Employee ID</td><td colspan=3 style='text-align:left'><?=$IDNo;?></td></tr>
-<tr><td colspan=2>Name</td><td colspan=3><?= $Name;?></td></tr>";
+<tr><td colspan=2>Name</td><td colspan=3><?= $Name;?></td></tr>
 <tr><td colspan=2>Department</td ><td colspan=3><?= $Department;?></td></tr>
 
 <tr><td colspan=2>College Name</td><td colspan=3><?= $CollegeName;?></td></tr>
 
-<tr><td>Date</td><td>In time</td><td>Out Time</td><td>Leave</td><td>Count</td></tr>
+<tr class="bg-primary"><th>Date</th><th>In time</th><th>Out Time</th><th>Leave</th><th>Count</th></tr>
  <?php
 $srno++;
 for ($at=0;$at<$no_of_dates;$at++)
@@ -20065,18 +20070,13 @@ else
    
 ?><tr></table> 
       
-
+      </div>
+<div class="col-lg-2">
+</div>
+</DIV>
 <?php
 
-
-
-
 }
-
-
-
-
-
  else
 {
 echo "select code";

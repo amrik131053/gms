@@ -3594,7 +3594,7 @@ else
  $exportdaily.="</table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
-        $fileName="Daily Report";
+        $fileName="Attendance Report";
 }
 
 
@@ -3973,7 +3973,7 @@ else
     $exportdaily.="<tr></table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
-        $fileName="Daily Report";
+        $fileName=" Attendance Report";
 
 
 
