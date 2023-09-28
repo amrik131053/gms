@@ -261,6 +261,7 @@ function editRow(button) {
       }
 }
 
+
  function export_count_attendance()
 
 
@@ -282,6 +283,8 @@ function editRow(button) {
  
       }
 }
+
+
 
  function export_count_summary()
 

@@ -1,48 +1,36 @@
 
 <?php 
 
-session_start();
-ini_set('max_execution_time', '0');
-
-ob_start();
-
-header("Expires: 0");
 include 'connection/connection.php';
-$start_date='2023-09-01';
-          $end_date='2023-09-28';
+$curmnth ="08";
+$curyear = 2023;
+ $emp_code='131053';
 
-          $College='64';
-          $Department="";
-
-
-
-  if($College!=''&& $Department!='')
-  {       
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
-
-}
-else if($College!='')
+function get_days_in_month($month, $year)
 {
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
+    if ($month == "02")
+    {
+        if ($year % 4 == 0) return 29;
+        else return 28;
+    }
+    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
+    else return 30;
+}
+$totDays = get_days_in_month($curmnth, $curyear);
 
+$start_date="$curyear-$curmnth-01";
+$currentmonth=date('m');
+
+if($curmnth<>$currentmonth)
+{
+    $myenddate=$totDays;
 }
 else
 {
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
-
+$myenddate=$currentdate=date('d');
 }
 
-
-
-$emp_codes=array();
-$stmt = sqlsrv_query($conntest,$sql_a);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-          {
-         $emp_codes[]=$row_staff['IDNo'];
-          }
-
- $no_of_emp=count($emp_codes);
-
+ $end_date="$curyear-$curmnth-$myenddate";
 
 function getBetweenDates($startDate,$endDate) {
  $array = array();
@@ -60,40 +48,13 @@ function getBetweenDates($startDate,$endDate) {
  return $array;
 }
 $datee = getBetweenDates($start_date,$end_date);
-
-
-
-
-
-
-//  $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
-//  from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
-// '$end_date 23:59:00.000'";
-
-// $stmt = sqlsrv_query($conntest,$sql_dates);  
-//             while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-//             {
-//     $datee[]=$row_dates['mydate'];
-
-// }
-
-
-
-
-
-
-
-
-
  $no_of_dates=count($datee);
-
 ?>
 <table class='table' border='1'><tr>
 
     <?php 
 $srno=1;
-for ($i=0;$i<$no_of_emp;$i++)
-{
+
 
 ?><th><table class='table' border='1'>
 
@@ -102,7 +63,7 @@ $paiddays=0;
 $h=0;
 
 
-$sql_staff="select * from Staff where IDNo='$emp_codes[$i]'";
+$sql_staff="select * from Staff where IDNo='$EmployeeID'";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
@@ -410,11 +371,11 @@ else
 <?php
 
 }
-?> </table></th><?php 
+?> <?php 
 
 
-}
+
    
 ?><tr></table> 
       
-}
+

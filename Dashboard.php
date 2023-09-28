@@ -46,11 +46,11 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-info shadow-lg">
               <div class="inner">
-              <h5><b>
+              <h5>
               
               <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?>
                  
-</b></h5>
+</h5>
             <p>
             <?= $day = date('l', strtotime($todaydate));?>  
 
@@ -69,16 +69,29 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-success shadow-lg">
               <div class="inner">
-                <h3>0<sup style="font-size: 20px"></sup></h3>
+                <h5 id='paiddays'></h5>
 
-                <p>Numer of Days</p>
+
+                <p>Numer of  paid Days</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">
+
+<form action="export.php" method="POST">
+
+  <input type="hidden" name="exportCode" value="31">
+
+  <input type="hidden" name="month" value="<?= date('m');?>">
+
+    <input type="hidden" name="EmployeeId" value="<?=$EmployeeID;?>">
+    <input type="hidden" name="year" value="<?= date('Y');?>">
+
+              <button type="submit"  class="small-box-footer form-control form-control-sm"  style="text-align:center;border-color:transparent;background-color:#55b355;color: white;font-size: 16px;">
+
                 More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+              </Button>
+              </form>
             </div>
           </div>
           <!-- ./col -->
@@ -86,8 +99,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
             <!-- small card -->
             <div class="small-box bg-warning shadow-lg">
               <div class="inner">
-               <h6><b>
-              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></b></h6>
+               <h5><b>
+              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></b></h5>
                 <p>  <?php  
                     $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
@@ -99,7 +112,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
        $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }
-            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?><br>
+            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?>  &nbsp;&nbsp;
             <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?>
 </p>
 
@@ -118,15 +131,15 @@ $stmt = sqlsrv_query($conntest,$sql_att);
             <!-- small card -->
             <div class="small-box bg-danger ">
               <div class="inner">
-                <h3><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
+                <h5><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
            $bcount=$row_staff_att['cc'];      
 }     
-                       echo "&nbsp;&nbsp;&nbsp;" .$bcount;
-                       ?></h3>
+                       echo $bcount;
+                       ?></h5>
 
                 <p>Book Issued</p>
               </div>
@@ -194,7 +207,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Articles</span>
-                  <span class="info-box-number">     <?php
+                  <span class="info-box-number"><?php
                      $count_a=0;
                        $Articles="SELECT DISTINCT ArticleCode FROM stock_summary WHERE Corrent_owner='$EmployeeID'";
                      $reslut_Articles=mysqli_query($conn,$Articles);
@@ -535,9 +548,43 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                                  });
                            }
 
+
+                            function paiddays()
+                               {
+                                  var spinner=document.getElementById("ajax-loader");
+                                  var EmployeeId=<?php echo $EmployeeID;?>
+
+const dateToday = new Date();
+
+   
+    const currentMonth = dateToday.getMonth()+1;
+
+   // alert(currentMonth);
+
+     spinner.style.display='block';
+                                // alert(id);
+                              var code=334;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code,month:currentMonth,year:2023,EmployeeId:EmployeeId},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("paiddays").innerHTML=response;
+                                    }
+                                 });
+                           }
+
+
+
+
                  $(window).on('load', function() {
                   
         $('#modal-lg-notification').modal('show');
+
+paiddays();
     });          
                         </script>
 <?php include "footer.php"; ?> 
