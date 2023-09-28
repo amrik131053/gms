@@ -12,20 +12,21 @@
       <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
-           <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 1px solid;" onclick="Search();bg(this.id);"> Search </a>
-                    <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 1px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
-                   <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 1px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a>
-                   <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
+           <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
+                    <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
+                   <!-- <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> -->
+                   <a class="btn"  id="btn3" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
                    <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a> -->
                     <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a> -->
                   </div>
 </div>
 <div class="card-body card" id="card">
            </div>
-
-         <div  id="table_load" class="table-responsive">
+         
+         <div  id="table_load" class="card-body card table-responsive">
          
         </div>
+
    </div>
    <!-- /.container-fluid -->
 
@@ -77,26 +78,11 @@
             { 
                spinner.style.display='none';
                document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
             }
          });
 }
- function Monthly(){ 
-   var code=211;
-         var spinner=document.getElementById('ajax-loader');
-         spinner.style.display='block';
-         $.ajax({
-            url:'action_g.php',
-            type:'POST',
-            data:{
-               code:code
-               },
-            success: function(response) 
-            { 
-               spinner.style.display='none';
-               document.getElementById("card").innerHTML=response;
-            }
-         });
-}
+
  function holiday(){ 
    var code=212;
          var spinner=document.getElementById('ajax-loader');
@@ -361,6 +347,31 @@ var spinner=document.getElementById('ajax-loader');
          ErrorToast('Select Start and End Date','bg-danger');
       }
       }
+
+
+      function showEmpReport()
+                               {
+                                  var employeeId=document.getElementById("employeeId_").value;
+                                  var month=document.getElementById("month").value;
+                                  var year=document.getElementById("year").value;
+                                  
+                                  var spinner=document.getElementById("ajax-loader");
+                             spinner.style.display='block';
+                                
+                              var code=335;
+                                 $.ajax(
+                                 {
+                                    url: 'action.php',
+                                    type: 'post',
+                                    data:{code:code,month:month,year:year,EmployeeId:employeeId},
+                                    success:function(response)
+                                    {
+                                       spinner.style.display='none';
+                                       document.getElementById("table_load").innerHTML=response;
+                                    }
+                                 });
+                           }
+
 </script>
       
        

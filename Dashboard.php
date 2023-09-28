@@ -558,8 +558,9 @@ const dateToday = new Date();
 
    
     const currentMonth = dateToday.getMonth()+1;
+    const years = dateToday.getFullYear();
 
-   // alert(currentMonth);
+  //  alert(currentMonth);
 
      spinner.style.display='block';
                                 // alert(id);
@@ -568,7 +569,7 @@ const dateToday = new Date();
                                  {
                                     url: 'action.php',
                                     type: 'post',
-                                    data:{code:code,month:currentMonth,year:2023,EmployeeId:EmployeeId},
+                                    data:{code:code,month:currentMonth,year:years,EmployeeId:EmployeeId},
                                     success:function(response)
                                     {
                                        spinner.style.display='none';

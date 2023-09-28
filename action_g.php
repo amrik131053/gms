@@ -12838,20 +12838,56 @@ elseif($code==210)
 {
     ?>
           
+          <form action="export.php" method="post" >
+          <input type="hidden" name="exportCode"   value='31' class="form-control " >
       <div class="row">
-                <div class="col-lg-12">
-                <div class="input-group ">
-    <input type="search" class="form-control" name="emp_name" id="empid" placeholder="Emp ID Here">
-    <div class="input-group-append">
-      <button type="button" onclick="" class="btn btn-success btn-sm">
-        <i class="fa fa-search"></i>
-      </button>
-</button>
-    </div>
-    </div>
+               
+      <div class="btn-group w-100 mb-2">
+      
+        <div class="col-lg-2">
+        <input type="text" name="EmployeeId"  id="employeeId_" class="form-control " placeholder="Emp ID">
+</div>
+    <div class="col-lg-1">
+    <select name="month"  id="month" class="form-control "> 
+  <option  value="" style="display:none;">MM</option>
+  <option  value="1">January</option>
+  <option  value="2">February</option>
+  <option  value="3">March</option>
+  <option  value="4">April</option>
+	<option  value="5">May</option>
+  <option  value="6">June</option>
+  <option  value="7">July</option>
+  <option  value="8">August</option>
+	<option  value="9">September</option>
+  <option  value="10">October</option>
+  <option  value="11">November</option>
+  <option  value="12">December</option>
+</select>
 
 </div>
+<div class="col-lg-1">
+    <select  name="year" id="year" class="form-control "> 
+  <option  value="2023">2023</option>
+  <option  value="2022">2022</option>
+  <option  value="2021">2021</option>
+  <option  value="2020">2020</option>
+  <option  value="2019">2019</option>
+  <option  value="2018">2018</option>
+  <option  value="2017">2017</option>
+  <option  value="2016">2016</option>
+  
+</select>
 </div>
+<div class="col-lg-2">
+<input type="button" onclick="showEmpReport();" class="btn btn-primary " value="Show">
+
+<input type="submit" class="btn btn-success " value="Download">
+</div>
+    </div>
+</form>
+
+</div>
+
                     <?php 
 }
 
