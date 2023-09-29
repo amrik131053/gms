@@ -5908,6 +5908,7 @@ if($count>0)
                 }   
                 $att="select Top (1)* from  DeviceLogs_".$month."_".$year." where (UserId='$uniRollNo' or UserId='$classRollNo' )ANd LogDate between '$datedummy 00:00:00' and '$datedummy 23:59:59' order by DeviceLogId desc ";    
                 $list_result = sqlsrv_query($conn91,$att, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
                 $row_count = sqlsrv_num_rows($list_result);  
                 if($row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
@@ -19344,7 +19345,7 @@ if($payment_id!=''){?>
 <?php 
    }
 
-
+// employee summary dashboard count 
    else if($code=='334')
    {
 
@@ -19468,10 +19469,28 @@ $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:0
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
-         $HolidayName=$row_staff['HolidayName'];
- $h++;
+         $h++;
+ $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
 
+
+ $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+                $row_count_join = sqlsrv_num_rows($list_result_join);  
+
+if($row_count_join>0)
+            {
          $holidaycount=1;
+          $HolidayName=$row_staff['HolidayName'];
+             }
+             else
+             {
+                $holidaycount=0;
+
+                $HolidayName1=$row_staff['HolidayName'];
+                $HolidayName="Late Joining"."(" .$HolidayName1.")";
+             }
+
+
              }
 
 
@@ -19683,7 +19702,7 @@ else
 }
 
  }
-
+// employee summary show table
 else if($code=='335')
 {
 ?>
@@ -19825,10 +19844,30 @@ $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:0
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
-         $HolidayName=$row_staff['HolidayName'];
- $h++;
+ 
+$h++;
+ $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
 
+
+ $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+                $row_count_join = sqlsrv_num_rows($list_result_join);  
+
+if($row_count_join>0)
+            {
          $holidaycount=1;
+          $HolidayName=$row_staff['HolidayName'];
+             }
+             else
+             {
+                $holidaycount=0;
+
+                $HolidayName1=$row_staff['HolidayName'];
+                $HolidayName="Late Joining"."(" .$HolidayName1.")";
+             }
+
+
+
              }
 
 
@@ -19933,7 +19972,31 @@ else if($HolidayName=='' && $printleave!='')
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='')
 {
-   ?><td bgcolor='red' color='white'>Absent</td><td><?php
+
+
+$joiningdateab="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
+
+
+ $list_result_joinab = sqlsrv_query($conntest,$joiningdateab, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+                $row_count_joinab = sqlsrv_num_rows($list_result_joinab);  
+
+if($row_count_joinab>0)
+            { ?>
+           <td bgcolor='red' color='white'>Absent</td><td>
+            <?php 
+         
+             }
+             else
+             { ?>
+               <td bgcolor='green' color='white'>Late Joining</td><td>
+              
+               
+               <?php 
+             }
+
+
+
 }
 else
 {
