@@ -20378,15 +20378,15 @@ elseif($code=='336')
                
                <div class="col-lg-12" id="SingleDate">
                <label>Date<span class="text-danger">&nbsp;*</span></label>
-                   <input type="date" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                   <input type="date" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d');?>"  >
                 </div>
                <div class="col-lg-12" id="StartDate" style="display:none;">
                <label>Start Date<span class="text-danger">&nbsp;*</span></label>
-                   <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                   <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate" value="<?=date('Y-m-d');?>"  >
                 </div>
                 <div class="col-lg-12 " id="EndDate" style="display:none;">
                <label>End Date<span class="text-danger">&nbsp;*</span></label>
-                   <input type="date" class="form-control" id="leaveEndDate"  name="leaveEndDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                   <input type="date" class="form-control" id="leaveEndDate"  name="leaveEndDate" value="<?=date('Y-m-d');?>" >
                 </div>
                <div class="col-lg-12">
                <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
