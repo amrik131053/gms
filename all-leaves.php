@@ -24,7 +24,7 @@
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" onclick="manageLeaveBalance();">Leave Blance</a>
+                      <a class="dropdown-item" onclick="manageLeaveBalance();">Leave Balance</a>
                       <a class="dropdown-item"onclick="load_leave_data();" >Manage Leaves</a>
                     </div>
                   </div>
