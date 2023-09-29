@@ -16,8 +16,8 @@
                     <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
                  <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
                    <a class="btn"  id="btn3" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
-                   <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Apply Leave </a> -->
-                    <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a> -->
+                  <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="concession();bg(this.id);">Concession</a> 
+                   
                   </div>
 </div>
 <div class="card-body card" id="card">
