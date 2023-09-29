@@ -21,13 +21,15 @@ window.location.href = "index.php";
 </script>
 <?php }
    include "connection/connection.php";
-       $employee_details="SELECT Name,Department,CollegeName,Designation FROM Staff Where IDNo='$EmployeeID'";
+       $employee_details="SELECT Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
          $Emp_Name=$employee_details_row['Name'];
          $Emp_Designation=$employee_details_row['Designation'];
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
+         $Authority=$employee_details_row['LeaveRecommendingAuthority'];
+         $Recommend=$employee_details_row['LeaveSanctionAuthority'];
       }
       else
       {
@@ -13093,9 +13095,6 @@ elseif($code==217)
                        <button type="button" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);" class=" btn btn-success  btn-sm"><i class="fa fa-eye" ></i></button>
                        
                    </div>
-<!-- 
-<i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i> -->
-
 
 
 </td>
@@ -13324,9 +13323,91 @@ elseif($code==222)
     ?>
      <div class="card-body ">
     <div class="card-header ">
-<center><h5>Coming Soon</h5></center>
+<center><h6>Apply Leave Online</h6></center>
 
 </div>
+<br>
+<form action="action_g.php" method="post">
+<div class="row">
+    
+    <input type="hidden" name="EmpID" value="<?=$EmployeeID;?>">
+    <input type="hidden" name="code" value="224">
+               <div class="col-lg-12">
+               <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
+               <select class="form-control" name="LeaveType"  id="LeaveType" required>
+    <option value="">Select Type</option>
+    <?php 
+      $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID'"; 
+      $stmt = sqlsrv_query($conntest,$sql_att23);  
+                  while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                    ?>
+    <option value="<?=$row['Id'];?>"><?=$row['Name'];?>(<?=$row['Balance'];?>)</option>
+    <?php
+     }
+    ?>    
+    </select>
+                </div>
+                  <div class="col-lg-12">
+                  <label>Duration<span class="text-danger">&nbsp;*</span></label><br>
+                  <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimaryLeave" onclick="singleHideShow();" value="Half" name="leaveHalfShortRadio"  checked>
+                    <label>
+                        Half/Short
+                    </label>
+                </div>
+                &nbsp;
+                &nbsp;
+                <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimaryLeave" onclick="dateHideShow();" value="Full" name="leaveHalfShortRadio">
+                    <label>
+                    Full/Multiple
+                    </label>
+                </div>
+                    <div class="input-group" id="DivLeaveShift">     
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <b>F</b>&nbsp;&nbsp;<input type="radio" value="1" name="leaveShift">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <b>S</b>&nbsp;&nbsp;<input type="radio" value="2"  name="leaveShift">
+                        </span>
+                      </div>
+                      <select class="form-control" name="leaveShort" id="leaveShort">
+                        <option value="">Leave Duration</option>
+                        <option value=".25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                        
+                    </select>
+                    </div>
+                  
+                  </div>
+               
+               <div class="col-lg-12" id="SingleDate">
+               <label>Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="date" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                </div>
+               <div class="col-lg-12" id="StartDate" style="display:none;">
+               <label>Start Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                </div>
+                <div class="col-lg-12 " id="EndDate" style="display:none;">
+               <label>End Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="date" class="form-control" id="leaveEndDate"  name="leaveEndDate" value="<?=date('Y-m-d');?>"  min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                </div>
+               <div class="col-lg-12">
+               <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
+                   <textarea Class="form-control" id="leaveReason" name="leaveReason" placeholder="Enter leave reason............" required></textarea>
+                </div>
+               <div class="col-lg-12">
+               <label>Adjustment File<span class="text-danger">&nbsp;*</span></label>
+               <input type="file" class="form-control" name='leaveFile' required>
+                </div>
+               <div class="col-lg-12">
+             <br>
+               <input type="button" onclick="leaveSubmit(this.form);" name="leaveButtonSubmit" class="btn btn-success" value="Submit">
+                </div>
+</div>
+</form>
 </div>
 <?php 
 
@@ -13335,7 +13416,7 @@ elseif($code==223)
 {
     ?><div class="card-body">
         <div class="card-header">
-            <h5>Attendance Reports</h5>
+           <center> <h6>Attendance Reports</h6></center>
 </div>
 <br>
 <div class="container-fluid">
@@ -13385,6 +13466,69 @@ elseif($code==223)
 </div>
 <?php 
 
+}
+elseif($code==224)
+{
+
+$EmpID=$_POST['EmpID'];
+$LeaveType=$_POST['LeaveType']; // like Casual/Comansantry
+if($_POST['leaveHalfShortRadio']!='Full')
+{
+$leaveHalfShortRadio=$_POST['leaveHalfShortRadio'];
+$leaveShift=$_POST['leaveShift']; // like S/F
+$leaveShort=$_POST['leaveShort']; //  like  1/4 1/2
+}
+else
+{
+$leaveShift="0"; 
+$leaveShort="0"; 
+}
+if($_POST['leaveDate']!='')
+{
+    $leaveStartDate=$_POST['leaveDate']; //  start date when full leave  
+    $leaveEndDate=$_POST['leaveDate']; //  start date when full leave  
+}
+else
+{
+    $leaveStartDate=$_POST['leaveStartDate']; //  start date when full leave  
+    $leaveEndDate=$_POST['leaveEndDate']; // end date  when full leave 
+}
+
+
+
+$leaveReason=$_POST['leaveReason']; 
+// $leaveFile=$_POST['leaveFile'];
+$ApplyDate=date('Y-m-d');
+$checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
+$countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                    $leaveexistCount=sqlsrv_num_rows($countX);
+                    if($leaveexistCount>0)
+                    {
+                            echo "2";
+                    }
+                    else
+                    {
+
+                if($leaveStartDate>=$ApplyDate)
+                {
+   $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
+ VALUES('$EmpID','$LeaveType'
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction')";
+  $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+                if($InsertLeaveRun==true)
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                }
+              }
+                else
+                {
+                    echo "3";
+                }
+}
 }
    else
    {

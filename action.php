@@ -20015,6 +20015,8 @@ else
 {
   $deducationo=0;  
 }
+
+
  $totaldeduction=$deducation+$deducationo;
 
 }
