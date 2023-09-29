@@ -73,9 +73,9 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                         'title'         => $leaveName,
                           'start'         => $start_date,
                           'allDay'        => true,
-                          'backgroundColor'=> 'yellow', 
-                          'borderColor'   => 'yellow', 
-                          'textColor'   => 'black' 
+                          'backgroundColor'=> '#0dcaf0', 
+                          'borderColor'   => '#0dcaf0', 
+                          'textColor'   => 'white' 
                                         );
                      }
                      else
@@ -84,9 +84,9 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                        'title'         => $leavedurationtime.':'.$leaveName,
                          'start'         => $start_date,
                          'allDay'        => true,
-                         'backgroundColor'=> 'yellow', 
-                         'borderColor'   => 'yellow', 
-                         'textColor'   => 'black' 
+                         'backgroundColor'=> '#0dcaf0', 
+                         'borderColor'   => '#0dcaf0', 
+                         'textColor'   => 'white' 
                                        );
                                       }
                                    
@@ -111,11 +111,14 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
              } 
              else
              {
+              
               $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
               $leaveName='';
               $stmt = sqlsrv_query($conntest,$sql_att23);  
                           if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                          {
+                         
+                          
                          
                           }
                                else
@@ -126,12 +129,18 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
                 'title'         => $Other,
                   'start'         => $start_date,
                   'allDay'        => true,
-                  'backgroundColor'=> 'red', 
-                  'borderColor'   => 'red', 
+                  'backgroundColor'=> '#dc3545', 
+                  'borderColor'   => '#dc3545', 
                   'textColor'   => 'white' 
                                 );
                  } //---------------------------------------------------------------------------------------
           }
+
+         
+
+
+
+          
         }
             else
             {
@@ -141,8 +150,9 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
               $data[] = array(
                 'title'   => $InTime,
                  'start'   => $start_date,
-                    'backgroundColor'   => "#00a65a",
-                        'borderColor'   => "#00a65a",
+                    'backgroundColor'   => "#28a745",
+                        'borderColor'   => "#28a745",
+                       
                              'allDay'   => true
                                 );
               //--------------------------
@@ -177,9 +187,9 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
                       'title'         => $leavedurationtime.':'.$leaveName,
                          'start'         => $start_date,
                          'allDay'        => true,
-                         'backgroundColor'=> 'yellow', 
-                         'borderColor'   => 'yellow', 
-                         'textColor'   => 'black' 
+                         'backgroundColor'=> '#0dcaf0', 
+                         'borderColor'   => '#0dcaf0', 
+                         'textColor'   => 'white' 
                                        );
               }
               $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start_date 00:00:00.000' ANd  '$start_date 23:59:00.000'";
@@ -193,7 +203,8 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
                           'allDay'        => true,
                           'backgroundColor'=> 'white', 
                           'borderColor'   => 'white', 
-                          'textColor'   => 'black' 
+                          'textColor'   => 'black'
+                          
                                         );
                            } 
                            else
@@ -213,14 +224,22 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
               $data[] = array(
                 'title'   => $OutTime,
                  'start'   => $start_date,
-                    'backgroundColor'   => "#00a65a",
-                        'borderColor'   => "#00a65a",
+                    'backgroundColor'   => "#28a745",
+                        'borderColor'   => "#28a745",
                              'allDay'   => true
                                );
                               }
                               else
                               {
-                                
+                                $data[] = array(
+                                  'title'   => 'No Punch',
+                                   'start'   => $start_date,
+                                      'backgroundColor'   => "#ffc107",
+                                          'borderColor'   => "#ffc107",
+                                          'textColor'   => 'white', 
+                                         
+                                               'allDay'   => true
+                                                 );
 
                               }
                                //-------------------------------------

@@ -1,6 +1,7 @@
 <?php 
   include "header.php";   
 ?>  
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -14,7 +15,6 @@
                     <a class="btn btn-primary"  id="btn11" style="background-color:; color: white; border: 5px solid;" onclick="showCalendar(),bg(this.id);"> Calendar </a>
                      <a class="btn btn-primary" id="btn22"style="background-color:; color: white; border: 5px solid;" onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
                     <a class="btn btn-primary" id="btn33" style="background-color:; color: white; border: 5px solid;" onclick="showReport(),bg(this.id);"> Report </a>
-                
                   </div>
                 <div class="card-body table-responsive-lg" id="calendar" style=" padding:0px!important;">
               
@@ -278,17 +278,109 @@
             }
          });
      }
+function dateHideShow() 
+{
+  $("#SingleDate").hide();
+  $("#StartDate").show();
+  $("#EndDate").show();                            
+  $("#DivLeaveShift").hide(); 
+  document.getElementById("leaveDate").value="";                                             
+}
+function singleHideShow() 
+{
+ $("#SingleDate").show();
+ $("#StartDate").hide();
+ $("#EndDate").hide();    
+ document.getElementById("leaveStartDate").value="";                
+ document.getElementById("leaveEndDate").value="";                
+ $("#DivLeaveShift").show();                    
+}
 
 
 
 
+function leaveSubmit(form) {
 
+    var leaveType = form.LeaveType.value;
+    var leaveShort = form.leaveShort.value;
+    var leaveReason = form.leaveReason.value;
+    // var leaveFile = form.leaveFile.value;
+    var leaveShift = form.leaveShift.value;
+    var leaveHalfShortRadio = form.leaveHalfShortRadio.value;
 
+    if (leaveType === "") {
+       
+        ErrorToast('Please select a Leave Type.','bg-warning');
+        return;
+    }
+    if(leaveHalfShortRadio!='Full')
+    {
+    if (leaveShort === "") {
+      
+        ErrorToast('Please select a Leave Duration.','bg-warning');
+        return;
+    }
+    if (leaveShift === "") {
+        
+        ErrorToast('Please select a Leave Shift F/S.','bg-warning');
+        return;
+    }
+   }
+    if (leaveReason.trim() === "") {
+       
+        ErrorToast('Please enter a Leave Reason.','bg-warning');
+        return;
+    }
 
+    // if (leaveFile === "") {
+       
+    //     ErrorToast('Please upload an Adjustment File.','bg-warning');
+    //     return;
+    // }
+   
+    var submitButton = form.querySelector('input[name="leaveButtonSubmit"]');
+    submitButton.disabled = true;
+    submitButton.value = "Submitting...";
 
-
-
-
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Leave submit successfully');
+                pendingLeaves();
+                document.getElementById("LeaveType").value="";
+                document.getElementById("leaveShort").value="";
+                document.getElementById("leaveReason").innerHTML="";
+                
+            }
+            else if (response == 2)
+             {
+              ErrorToast('one leave already pending to Sanction authority.','bg-warning');
+            }
+            else if (response == 3)
+             {
+              ErrorToast("you can't apply back date leave.",'bg-warning');
+            }
+             else
+              {
+                ErrorToast('Please try after sometime.','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        },
+        complete: function() {
+            submitButton.disabled = false;
+            submitButton.value = "Submit";
+        }
+    });
+}
 
 
 
