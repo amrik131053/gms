@@ -11559,7 +11559,7 @@ $emp_pic=base64_encode($Emp_Image);
 elseif ($code==186) 
 {
    $empID=$_POST['id'];
-    $staff="SELECT * FROM Staff Where IDNo='$empID'";
+    $staff="SELECT * FROM Staff Where IDNo='$empID' ANd JobStatus='1'";
     $stmt = sqlsrv_query($conntest,$staff);  
     if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
     {
@@ -11576,7 +11576,7 @@ elseif ($code==186)
         {
             echo "<b>Can not assign to ".$empID;
         }
-        // $array[]=$row_staff;
+        
     }
 }  
 

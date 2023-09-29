@@ -12,11 +12,12 @@
       <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
         <div class="btn-group w-100 mb-2">
-           <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
+                     <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
-                 <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
-                   <a class="btn"  id="btn3" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
-                  <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="concession();bg(this.id);">Concession</a> 
+                   <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
+                   <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
+                  <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 10px solid;" onclick="Concession();bg(this.id);">Concession</a> 
+                  <a class="btn" id="btn6" style="background-color:#223260; color: white; border: 10px solid;" onclick="ApplyLeave();bg(this.id);">Apply Leave</a> 
                    
                   </div>
 </div>
@@ -103,8 +104,131 @@
             }
          });
 }
+ function Concession(){ 
+
+   var code=337;
+         var spinner=document.getElementById('ajax-loader');
+        
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
+            }
+         });
+}
+
+function ApplyLeave()
+{ 
+
+   var code=338;
+         var spinner=document.getElementById('ajax-loader');
+        
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
+            }
+         });
+}
 
 
+function fetch_leave_Balance(id){
+ 
+   var code=340;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+               },
+            success: function(response) 
+            { 
+               console.log(response);
+               spinner.style.display='none';
+              $("#LeaveType").html("");
+$("#LeaveType").html(response);
+               
+            }
+         });
+
+
+
+}
+
+function cocessionSubmit(form) {
+
+
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Leave submit successfully');
+                               
+                
+            }
+            else if (response == 2)
+             {
+              ErrorToast('one leave already pending to Sanction authority.','bg-warning');
+            }
+            else if (response == 3)
+             {
+              ErrorToast("you can't apply back date leave.",'bg-warning');
+            }
+             else
+              {
+                ErrorToast('Please try after sometime.','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+        
+    });
+}
+
+ function empdatashow(id){ 
+   var code=186;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("employee_name_show").innerHTML=response;
+               
+            }
+         });
+}
 
 
  function holiday(){ 
@@ -185,7 +309,23 @@
       }
 }
 
-
+function dateHideShow() 
+{
+  $("#SingleDate").hide();
+  $("#StartDate").show();
+  $("#EndDate").show();                            
+  $("#DivLeaveShift").hide(); 
+  document.getElementById("leaveDate").value="";                                             
+}
+function singleHideShow() 
+{
+ $("#SingleDate").show();
+ $("#StartDate").hide();
+ $("#EndDate").hide();    
+ document.getElementById("leaveStartDate").value="";                
+ document.getElementById("leaveEndDate").value="";                
+ $("#DivLeaveShift").show();                    
+}
 
 
 function editRow(button) {
@@ -401,6 +541,104 @@ var spinner=document.getElementById('ajax-loader');
                                     }
                                  });
                            }
+
+
+
+
+
+
+
+                           function leaveSubmit(form) {
+
+    var leaveType = form.LeaveType.value;
+    var Empid = form.EmpID.value;
+    var leaveShort = form.leaveShort.value;
+    var leaveReason = form.leaveReason.value;
+    // var leaveFile = form.leaveFile.value;
+    var leaveShift = form.leaveShift.value;
+    var leaveHalfShortRadio = form.leaveHalfShortRadio.value;
+
+   if (Empid === "") {
+       
+        ErrorToast('Please Enter Employee ID.','bg-warning');
+        return;
+    }
+    if (leaveType === "") {
+       
+        ErrorToast('Please select a Leave Type.','bg-warning');
+        return;
+    }
+    if(leaveHalfShortRadio!='Full')
+    {
+    if (leaveShort === "") {
+      
+        ErrorToast('Please select a Leave Duration.','bg-warning');
+        return;
+    }
+    if (leaveShift === "") {
+        
+        ErrorToast('Please select a Leave Shift F/S.','bg-warning');
+        return;
+    }
+   }
+    if (leaveReason.trim() === "") {
+       
+        ErrorToast('Please enter a Leave Reason.','bg-warning');
+        return;
+    }
+
+    // if (leaveFile === "") {
+       
+    //     ErrorToast('Please upload an Adjustment File.','bg-warning');
+    //     return;
+    // }
+   
+    var submitButton = form.querySelector('input[name="leaveButtonSubmit"]');
+    submitButton.disabled = true;
+    submitButton.value = "Submitting...";
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Leave submit successfully');
+                
+                document.getElementById("LeaveType").value="";
+                document.getElementById("leaveShort").value="";
+                document.getElementById("leaveReason").innerHTML="";
+                
+            }
+            else if (response == 2)
+             {
+              ErrorToast('one leave already pending to Sanction authority.','bg-warning');
+            }
+            else if (response == 3)
+             {
+              ErrorToast("you can't apply back date leave.",'bg-warning');
+            }
+             else
+              {
+                ErrorToast('Please try after sometime.','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        },
+        complete: function() {
+            submitButton.disabled = false;
+            submitButton.value = "Submit";
+        }
+    });
+}
+
+
+
 
 </script>
       

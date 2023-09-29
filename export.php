@@ -3062,7 +3062,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
  }
 
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12)
+ if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
  {
 
   if($leavedurationtime>0)
@@ -3167,7 +3167,7 @@ if($intime!='' && $outtime!='' && ($outtime>$intime) )
 $deducation=0;
 
 
-if($myin>'09:03' && $myin<'11:01')
+if($myin>'09:02' && $myin<'11:01')
 {
     $deducation=0.25;
 }
@@ -3500,7 +3500,7 @@ if($row_count_join>0)
              }
 
 
-             
+
              }
 
 
@@ -3549,7 +3549,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
  }
 
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12)
+ if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
  {
 
   if($leavedurationtime>0)
@@ -3607,7 +3607,7 @@ if($intime!='' && $outtime!='' && ($outtime>$intime) )
 $deducation=0;
 
 
-if($myin>'09:03' && $myin<'11:01')
+if($myin>'09:02' && $myin<'11:01')
 {
     $deducation=0.25;
 }
@@ -3924,7 +3924,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
  }
 
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12)
+ if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
  {
 
   if($leavedurationtime>0)
@@ -4041,7 +4041,7 @@ if($intime!='' && $outtime!='' && ($outtime>$intime) )
 $deducation=0;
 
 
-if($myin>'09:03' && $myin<'11:01')
+if($myin>'09:02' && $myin<'11:01')
 {
     $deducation=0.25;
 }
