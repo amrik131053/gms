@@ -13061,14 +13061,7 @@ elseif($code==217)
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
-        if($row['LeaveDurationsTime']!=0)
-        {
-            $LeaveDurationsTime=$row['LeaveDurationsTime'];
-        }
-        else
-        {
-            $LeaveDurationsTime=$row['LeaveDuration'];
-        }
+      
 
         if($row['Status']=='Approved')
         {
@@ -13087,7 +13080,14 @@ elseif($code==217)
 <td><?=$Sr;?></td>
 <td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
 <td><?=$row['LeaveTypeName'];?></td>
-<td><?=$LeaveDurationsTime;?></td>
+<td><?php   if($row['LeaveDurationsTime']!=0)
+        {
+          echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
+        }
+        else
+        {
+           echo  $LeaveDurationsTime=$row['LeaveDuration'];
+        }?></td>
 <td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
 <td>
 <div class="controls">
@@ -13337,15 +13337,21 @@ elseif($code==222)
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
     <option value="">Select Type</option>
     <?php 
-      $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID'"; 
+      $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' order by LeaveTypes.Id ASC"; 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
                   while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                  {
                     ?>
-    <option value="<?=$row['Id'];?>"><?=$row['Name'];?>(<?=$row['Balance'];?>)</option>
+    <option value="<?=$row['Id'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['Balance'];?>)</option>
     <?php
      }
-    ?>    
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2'"; 
+     $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
+                 while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
+                {
+    ?> 
+    <option value="<?=$row11['Id'];?>"><?=$row11['Name'];?></option>   
+    <?php }?>
     </select>
                 </div>
                   <div class="col-lg-12">
@@ -13494,11 +13500,39 @@ else
     $leaveEndDate=$_POST['leaveEndDate']; // end date  when full leave 
 }
 
+$startTimeStamp = strtotime($leaveStartDate);
+$endTimeStamp = strtotime($leaveEndDate);
+$timeDiff = abs($endTimeStamp - $startTimeStamp);
+$numberDays = $timeDiff/86400;  // 86400 seconds in one day
+// and you might want to convert to integer
+$numberDays = intval($numberDays);
+$numberDays=$numberDays+1;
 
 
 $leaveReason=$_POST['leaveReason']; 
 // $leaveFile=$_POST['leaveFile'];
 $ApplyDate=date('Y-m-d');
+
+$sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveBalances.LeaveType_Id FROM LeaveTypes inner join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' and LeaveType_Id='$LeaveType'";  
+$stmt=sqlsrv_query($conntest,$sql_att23,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ifBalanceEmty=sqlsrv_num_rows($stmt);
+if($ifRow=sqlsrv_fetch_array($stmt))
+{
+    if($ifRow['LeaveType_Id']=='1')
+    {
+      $compnleavecount=$ifRow['Balance'];
+
+    }elseif($ifRow['LeaveType_Id']=='2')
+    {
+        $compnleavecount=$ifRow['Balance'];
+    }
+    else
+    {
+        $compnleavecount=1;
+    }
+}
+
+
 $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
 $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                     $leaveexistCount=sqlsrv_num_rows($countX);
@@ -13509,11 +13543,14 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                     else
                     {
 
+                        if($compnleavecount>0)
+                        {
                 if($leaveStartDate>=$ApplyDate)
                 {
-   $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
+
+    $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
@@ -13528,7 +13565,12 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                 {
                     echo "3";
                 }
-}
+            }
+        else
+        {
+            echo "4";
+        }
+    }
 }
    else
    {

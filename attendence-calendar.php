@@ -367,6 +367,10 @@ function leaveSubmit(form) {
              {
               ErrorToast("you can't apply back date leave.",'bg-warning');
             }
+            else if (response == 4)
+             {
+              ErrorToast("you con't have any leave count.",'bg-warning');
+            }
              else
               {
                 ErrorToast('Please try after sometime.','bg-danger');
