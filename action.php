@@ -17562,8 +17562,8 @@ else if($code=='303')
               <div class="col-lg-4">
                  <label>Action</label><br>
                  <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Daily</button>
-                 <button onclick="export_count_attendance();" class="btn btn-danger">Detailed Count</button>
-                  <button onclick="export_count_summary();" class="btn btn-danger">Summary</button>
+                <!--  <button onclick="export_count_attendance();" class="btn btn-danger">Detailed Count</button>
+                  <button onclick="export_count_summary();" class="btn btn-danger">Summary</button> -->
               </div>
                
             
@@ -19672,7 +19672,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-    echo $paiddays;
+    echo $paiddays ." out of ".$myenddate;
 }
 else
 {
@@ -19684,7 +19684,7 @@ else
 
  }
 
-else if($code='335')
+else if($code=='335')
 {
 ?>
 <div class='row'>
@@ -20053,7 +20053,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?></b></td></tr><?php
+  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?> out of <?=$myenddate?></b></td></tr><?php
 }
 else
 {
@@ -20079,6 +20079,110 @@ else
 <?php
 
 }
+elseif($code=='336') 
+   {
+   ?>
+   
+
+           <div class="row">
+                <div class="col-lg-2">
+             
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-2">
+                 <label>Department</label>
+                  <select  id="Department" name="Department" class="form-control"   required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
+
+
+               
+
+      
+    
+    <div class="col-lg-1"> <label>Month</label>
+    <select name="month"  id="month" class="form-control "> 
+  <option  value="" style="display:none;">MM</option>
+  <option  value="1">January</option>
+  <option  value="2">February</option>
+  <option  value="3">March</option>
+  <option  value="4">April</option>
+   <option  value="5">May</option>
+  <option  value="6">June</option>
+  <option  value="7">July</option>
+  <option  value="8">August</option>
+   <option  value="9">September</option>
+  <option  value="10">October</option>
+  <option  value="11">November</option>
+  <option  value="12">December</option>
+</select>
+
+</div>
+<div class="col-lg-1">
+    <label>Year</label>
+    <select  name="year" id="year" class="form-control "> 
+  <option  value="2023">2023</option>
+  <option  value="2022">2022</option>
+  <option  value="2021">2021</option>
+  <option  value="2020">2020</option>
+  <option  value="2019">2019</option>
+  <option  value="2018">2018</option>
+  <option  value="2017">2017</option>
+  <option  value="2016">2016</option>
+  
+</select>
+</div>
+
+   <div class="col-lg-4">
+                 <label>Action</label><br>
+                 <!-- <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Daily</button> -->
+                 <button onclick="export_count_attendance();" class="btn btn-danger">Detailed Count</button>
+                  <button onclick="export_count_summary();" class="btn btn-danger">Summary</button>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
+            
+            </div>  
+            <br> 
+<?php 
+
+   }
+
  else
 {
 echo "select code";

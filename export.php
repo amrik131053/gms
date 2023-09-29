@@ -2803,9 +2803,8 @@ elseif($exportCode==29)
    
 
 
-
-$start_date=$_GET['start_date'];
-          $end_date=$_GET['end_date'];
+        $curmnth =$_GET['month'];
+$curyear = $_GET['year'];
 
           $College=$_GET['College'];
           $Department=$_GET['Department'];
@@ -2838,6 +2837,35 @@ $stmt = sqlsrv_query($conntest,$sql_a);
           }
 
  $no_of_emp=count($emp_codes);
+
+
+
+function get_days_in_month($month,$year)
+{
+    if ($month == "02")
+    {
+        if ($year % 4 == 0) return 29;
+        else return 28;
+    }
+    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
+    else return 30;
+}
+$totDays = get_days_in_month($curmnth,$curyear);
+
+$start_date="$curyear-$curmnth-01";
+
+$currentmonth=date('m');
+
+if($curmnth<>$currentmonth)
+{
+    $myenddate=$totDays;
+}
+else
+{
+$myenddate=$currentdate=date('d');
+}
+
+ $end_date="$curyear-$curmnth-$myenddate";
 
 
 function getBetweenDates($startDate,$endDate) {
@@ -2915,7 +2943,7 @@ $exportdaily.="<tr><td colspan=2>Employee ID</td><td colspan=3 style='text-align
 $exportdaily.="<tr><td colspan=2>Name</td><td colspan=3>{$Name}</td></tr>";
 $exportdaily.="<tr><td colspan=2>Department</td ><td colspan=3>{$Department}</td></tr>";
 
-$exportdaily.="<tr><td colspan=2>College Name</td><td colspan=3>{$CollegeName}</td></tr>";
+$exportdaily.="<tr><td colspan=5><b>{$CollegeName}</b></td></tr>";
 
 $exportdaily.="<tr><td>Date</td><td>In time</td><td>Out Time</td><td>Remarks</td><td>Count</td></tr>";
  
@@ -3191,8 +3219,10 @@ $paiddays=$paiddays+$countday;
 
 }
 if($paiddays<>$h)
-{
-    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
+{ 
+
+
+    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays} out of {$myenddate}</b></td></tr>";
 }
 else
 {
@@ -3220,11 +3250,11 @@ elseif($exportCode==30)
 {    
    
 
-$start_date=$_GET['start_date'];
-          $end_date=$_GET['end_date'];
 
-          $College=$_GET['College'];
-          $Department=$_GET['Department'];
+        $curmnth =$_GET['month'];
+        $curyear = $_GET['year'];
+        $College=$_GET['College'];
+        $Department=$_GET['Department'];
 
 
 
@@ -3254,9 +3284,35 @@ $stmt = sqlsrv_query($conntest,$sql_a);
           }
 
  $no_of_emp=count($emp_codes);
- 
 
 
+
+function get_days_in_month($month,$year)
+{
+    if ($month == "02")
+    {
+        if ($year % 4 == 0) return 29;
+        else return 28;
+    }
+    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
+    else return 30;
+}
+$totDays = get_days_in_month($curmnth,$curyear);
+
+$start_date="$curyear-$curmnth-01";
+
+$currentmonth=date('m');
+
+if($curmnth<>$currentmonth)
+{
+    $myenddate=$totDays;
+}
+else
+{
+$myenddate=$currentdate=date('d');
+}
+
+ $end_date="$curyear-$curmnth-$myenddate";
 
 
 function getBetweenDates($startDate,$endDate) {
@@ -3279,22 +3335,6 @@ $datee = getBetweenDates($start_date,$end_date);
 
 
 
-
-
-//  $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
-//  from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
-// '$end_date 23:59:00.000'";
-
-// $stmt = sqlsrv_query($conntest,$sql_dates);  
-//             while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-//             {
-//     $datee[]=$row_dates['mydate'];
-
-// }
-
-
-
-//print_r($datee);
  $no_of_dates=count($datee);
 
 
@@ -3631,6 +3671,10 @@ $myenddate=$currentdate=date('d');
 
  $end_date="$curyear-$curmnth-$myenddate";
 
+
+
+
+
 function getBetweenDates($startDate,$endDate) {
  $array = array();
  $interval = new DateInterval('P1D');
@@ -3954,7 +3998,7 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays}</b></td></tr>";
+    $exportdaily.="<tr><td  style='color:red;' colspan=3>Total Paid Days</td><td colspan=2><b>{$paiddays} out of {$myenddate}</b></td></tr>";
 }
 else
 {

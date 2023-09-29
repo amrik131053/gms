@@ -14,9 +14,9 @@
         <div class="btn-group w-100 mb-2">
            <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
-                   <!-- <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> -->
+                 <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
                    <a class="btn"  id="btn3" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
-                   <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a> -->
+                   <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Apply Leave </a> -->
                     <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="Update();bg(this.id);"> Update </a> -->
                   </div>
 </div>
@@ -82,6 +82,30 @@
             }
          });
 }
+
+ function Monthly(){ 
+
+   var code=336;
+         var spinner=document.getElementById('ajax-loader');
+        
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
+            }
+         });
+}
+
+
+
 
  function holiday(){ 
    var code=212;
@@ -256,12 +280,15 @@ function editRow(button) {
 
   var College=document.getElementById('College').value;
   var Department=document.getElementById('Department').value;
-  var start_date=document.getElementById('start_date').value;
-  var end_date=document.getElementById('end_date').value;
 
-  if(start_date!='' && end_date!='')
+
+
+  var month=document.getElementById('month').value;
+  var year=document.getElementById('year').value;
+
+  if(month!='' && year!='')
    {
-   window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&start_date="+start_date+"&end_date="+end_date;
+   window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year;
     }
       else
       {
@@ -276,16 +303,19 @@ function editRow(button) {
 
 
    {
-         var exportCode=30;
+      var exportCode=30;
 
   var College=document.getElementById('College').value;
   var Department=document.getElementById('Department').value;
-  var start_date=document.getElementById('start_date').value;
-  var end_date=document.getElementById('end_date').value;
 
-  if(start_date!='' && end_date!='')
+
+
+  var month=document.getElementById('month').value;
+  var year=document.getElementById('year').value;
+
+  if(month!='' && year!='')
    {
-   window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&start_date="+start_date+"&end_date="+end_date;
+   window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year;
     }
       else
       {
