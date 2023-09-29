@@ -304,7 +304,7 @@ function leaveSubmit(form) {
     var leaveType = form.LeaveType.value;
     var leaveShort = form.leaveShort.value;
     var leaveReason = form.leaveReason.value;
-    // var leaveFile = form.leaveFile.value;
+    var leaveFile = form.leaveFile.value;
     var leaveShift = form.leaveShift.value;
     var leaveHalfShortRadio = form.leaveHalfShortRadio.value;
 
@@ -332,11 +332,11 @@ function leaveSubmit(form) {
         return;
     }
 
-    // if (leaveFile === "") {
+    if (leaveFile === "") {
        
-    //     ErrorToast('Please upload an Adjustment File.','bg-warning');
-    //     return;
-    // }
+        ErrorToast('Please upload an Adjustment File.','bg-warning');
+        return;
+    }
    
     var submitButton = form.querySelector('input[name="leaveButtonSubmit"]');
     submitButton.disabled = true;

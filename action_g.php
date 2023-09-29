@@ -21,6 +21,7 @@ window.location.href = "index.php";
 </script>
 <?php }
    include "connection/connection.php";
+   include "connection/ftp.php";
        $employee_details="SELECT Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
@@ -13499,6 +13500,10 @@ else
     $leaveStartDate=$_POST['leaveStartDate']; //  start date when full leave  
     $leaveEndDate=$_POST['leaveEndDate']; // end date  when full leave 
 }
+$file_name = $_FILES['leaveFile']['name'];
+$file_tmp = $_FILES['leaveFile']['tmp_name'];
+$type = $_FILES['leaveFile']['type'];
+
 
 $startTimeStamp = strtotime($leaveStartDate);
 $endTimeStamp = strtotime($leaveEndDate);
@@ -13548,9 +13553,28 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                 if($leaveStartDate>=$ApplyDate)
                 {
 
-    $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
+                    $file_name = $_FILES['leaveFile']['name'];
+      $file_tmp = $_FILES['leaveFile']['tmp_name'];
+      $type = $_FILES['leaveFile']['type'];
+       $file_data = file_get_contents($file_tmp);
+      $characters = '';
+     $result = $IDNo;
+     $image_name =$result;
+     $ftp_server1 = "10.0.8.10";
+     $ftp_user_name1 = "gurukashi";
+     $ftp_user_pass1 = "Amrik@123";
+     $remote_file1 = "";
+     $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+     $destdir = 'fastival';
+     ftp_chdir($conn_id, "LeaveFileAttachment   /") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+     file_put_contents($destdir.$image_name.'.PNG',$file_data);
+     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+     ftp_close($conn_id);
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction','$image_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
