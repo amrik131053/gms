@@ -13338,12 +13338,14 @@ elseif($code==222)
     
     <input type="hidden" name="EmpID" value="<?=$EmployeeID;?>">
     <input type="hidden" name="code" value="224">
+    <input type="hidden" name="status_leave" value="0">
+
                <div class="col-lg-12">
                <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
     <option value="">Select Type</option>
     <?php 
-      $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' order by LeaveTypes.Id ASC"; 
+      $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' ANd LeaveBalances.Balance>0 order by LeaveTypes.Id ASC"; 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
                   while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                  {
@@ -13385,9 +13387,9 @@ elseif($code==222)
                       </div>
                       <select class="form-control" name="leaveShort" id="leaveShort">
                         <option value="">Leave Duration</option>
-                        <option value=".25">1/4</option>
-                        <option value="0.5">1/2</option>
-                        <option value="0.75">3/4</option>
+                        <option value=".25">0.25</option>
+                        <option value="0.5">0.50</option>
+                        <option value="0.75">0.75</option>
                         
                     </select>
                     </div>
@@ -13483,6 +13485,17 @@ elseif($code==224)
 {
 
 $EmpID=$_POST['EmpID'];
+$LeaveStatus=$_POST['status_leave'];
+if($LeaveStatus>0)
+{
+  $status='Approved';
+
+}else
+{
+$status="Pending to Sanction";
+
+}
+
 $LeaveType=$_POST['LeaveType']; // like Casual/Comansantry
 if($_POST['leaveHalfShortRadio']!='Full')
 {
@@ -13573,7 +13586,7 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
      ftp_close($conn_id);
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','Pending to Sanction','$image_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$image_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
