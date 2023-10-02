@@ -20468,12 +20468,19 @@ elseif ($code==340)
                  {
                     ?>
     <option value="<?=$row['Id'];?>"><?=$row['Name'];?>(<?=$row['Balance'];?>)</option>
+
+
     <?php
      }
+        $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2'"; 
+     $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
+                 while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
+                {
+    ?> 
+    <option value="<?=$row11['Id'];?>"><?=$row11['Name'];?></option>   
+    <?php }
     
-      ?>
-
-<?php 
+    
 
 }
 
