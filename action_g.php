@@ -13567,8 +13567,8 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                     else
                     {
 
-                        if($compnleavecount>0)
-                        {
+                        // if($compnleavecount>0)
+                        // {
                 if($leaveStartDate>=$ApplyDate)
                 {
                   $string = bin2hex(openssl_random_pseudo_bytes(4));
@@ -13620,11 +13620,11 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                 {
                     echo "3";
                 }
-            }
-        else
-        {
-            echo "4";
-        }
+        //     }
+        // else
+        // {
+        //     echo "4";
+        // }
     }
 }
    else
