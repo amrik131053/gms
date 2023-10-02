@@ -20332,6 +20332,7 @@ elseif($code=='336')
  </div>
     <br>
     <input type="hidden" name="code" value="224">
+     <input type="hidden" name="status_leave" value="1">
                <div class="col-lg-12">
                <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
@@ -20367,9 +20368,9 @@ elseif($code=='336')
                       </div>
                       <select class="form-control" name="leaveShort" id="leaveShort">
                         <option value="">Leave Duration</option>
-                        <option value=".25">1/4</option>
-                        <option value="0.5">1/2</option>
-                        <option value="0.75">3/4</option>
+                        <option value=".25">.25</option>
+                        <option value="0.5">.50</option>
+                        <option value="0.75">.75</option>
                         
                     </select>
                     </div>
@@ -20461,7 +20462,7 @@ elseif ($code==340)
 <option value = ""> Select </option>
 <?php
 
-     echo  $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$ID'"; 
+     echo  $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$ID' AND LeaveBalances.Balance>0"; 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
                   while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                  {
