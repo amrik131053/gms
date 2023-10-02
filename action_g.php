@@ -13545,7 +13545,8 @@ if($ifRow=sqlsrv_fetch_array($stmt))
     {
       $compnleavecount=$ifRow['Balance'];
 
-    }elseif($ifRow['LeaveType_Id']=='2')
+    }
+    elseif($ifRow['LeaveType_Id']=='2')
     {
         $compnleavecount=$ifRow['Balance'];
     }
@@ -13570,20 +13571,38 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                         {
                 if($leaveStartDate>=$ApplyDate)
                 {
+                  $string = bin2hex(openssl_random_pseudo_bytes(4));
 
                     $file_name = $_FILES['leaveFile']['name'];
       $file_tmp = $_FILES['leaveFile']['tmp_name'];
       $type = $_FILES['leaveFile']['type'];
        $file_data = file_get_contents($file_tmp);
-      $characters = '';
-     $result = $EmpID;
-     $image_name =$result;
+
+        $file_name = $EmpID."_".$ApplyDate."_".$string."_".basename($_FILES['leaveFile']['name']);
+    
+   $target_dir = $file_name;
+
+
      $destdir = 'LeaveFileAttachment';
+
+
      ftp_chdir($conn_id, "LeaveFileAttachment/") or die("Could not change directory");
+
+
+
+
      ftp_pasv($conn_id,true);
-     file_put_contents($destdir.$image_name.'.PNG',$file_data);
-     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+
+
+
+
+     //file_put_contents(,$file_data);
+ ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+
      ftp_close($conn_id);
+
+
+
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$image_name')";
