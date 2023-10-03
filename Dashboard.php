@@ -42,68 +42,16 @@ while($permission_data=mysqli_fetch_array($permission_res))
    <div class="container-fluid">
    
       <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-info shadow-lg">
-              <div class="inner">
-              <h5>
-              
-              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?>
-                 
-</h5>
-            <p>
-            <?= $day = date('l', strtotime($todaydate));?>  
-
-</p>
-              </div>
-              <div class="icon">
-                <i class="far fa-calendar"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-success shadow-lg">
-              <div class="inner">
-              
-                <h5 id='paiddays'></h5>
 
 
-                <p>Numer of  paid Days</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
 
-<form action="export.php" method="POST">
+      <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box bg-success shadow-lg">
+              <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
 
-  <input type="hidden" name="exportCode" value="31">
-
-  <input type="hidden" name="month" value="<?= date('m');?>">
-
-    <input type="hidden" name="EmployeeId" value="<?=$EmployeeID;?>">
-    <input type="hidden" name="year" value="<?= date('Y');?>">
-
-              <button type="submit"  class="small-box-footer form-control form-control-sm"  style="text-align:center;border-color:transparent;background-color:#55b355;color: white;font-size: 16px;">
-
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </Button>
-              </form>
-            </div>
-            
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-warning shadow-lg">
-              <div class="inner">
-               <h5><b>
-              <?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></b></h5>
-                <p>  <?php  
+              <div class="info-box-content">
+                <span class="info-box-text"><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate)); ?></span>
+                <span class="info-box-number"> <?php  
                     $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1
  from DeviceLogsAll  where LogDateTime Between '$todaydate 01:00:00.000'  AND 
 '$todaydate 23:59:00.000' AND EMpCOde='$EmployeeID' ";
@@ -113,27 +61,99 @@ $stmt = sqlsrv_query($conntest,$sql_att);
            {
        $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
-}
-            ?><b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?>  &nbsp;&nbsp;
-            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b style='color:red'>No punch</b>";}?>
-</p>
-
-                <!-- <p>User Registrations</p> -->
+}?> </span>
+<b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;
+            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
+                <div class="progress">
+                  <div class="progress-bar" id="ProgreessBarInOut" style="width: 100%;"></div>
+                </div>
+                <span class="progress-description">
+                &nbsp;
+                </span>
               </div>
-              <div class="icon">
-                <i class="fa fa-clock"></i>
-              </div>
-              <a href="attendence-calendar.php" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
+              <!-- /.info-box-content -->
+              <a href="attendence-calendar.php" class="small-box-footer"><button type="submit" class="btn btn-sm " style='color:white;'>
+                 <i class="fas fa-eye fa-lg"></i></button>
               </a>
             </div>
+            <!-- /.info-box -->
           </div>
+
+
+
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box bg-info shadow-lg">
+              <span class="info-box-icon"><i class="fa fa-signal " style='color:white;'></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text" style='color:white;'><?php echo $timeStamp =date("F-Y",strtotime($todaydate));?></span>
+                <span class="info-box-number" id='paiddays' style='color:white;'>  </span>
+
+                <div class="progress">
+                  <div class="progress-bar" id="progressPaidDays" style="width: 0%;" ></div>
+                </div>
+                <span class="progress-description">
+                  <!-- 100%; Increase in 30 Days -->
+                  &nbsp;
+
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+              <form action="export.php" method="POST">
+
+  <input type="hidden" name="exportCode" value="31">
+
+  <input type="hidden" name="month" value="<?= date('m');?>">
+
+    <input type="hidden" name="EmployeeId" value="<?=$EmployeeID;?>">
+    <input type="hidden" name="year" value="<?= date('Y');?>">
+
+    <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm">
+
+    <i class="fas fa-download fa-lg" style='color:white;'></i>
+              </Button>
+              </form>
+              
+              </a>
+            </div>
+            <!-- /.info-box -->
+          </div>
+
+
+
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-danger ">
-              <div class="inner">
-                <h5><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box bg-warning shadow-lg">
+              <span class="info-box-icon"><i class="fa fa-clock" aria-hidden="true" style='color:white;'></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text" style='color:white;'><?php  echo $timeStamp =date("d-M-Y",strtotime($todaydate));?></span>
+                <span class="info-box-number" style='color:white;'><?= $day = date('l', strtotime($todaydate));?>  </span>
+
+                <div class="progress">
+                  <div class="progress-bar" style="width: 100%;"></div>
+                </div>
+                <span class="progress-description">
+                &nbsp;
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+              <!-- <a href="#" class="small-box-footer">
+               <i class="fas fa-eye"></i>
+              </a> -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+
+
+
+          
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box bg-danger shadow-lg">
+              <span class="info-box-icon"><i class="fa fa-book"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text"><?php  $sql_att="select count(*) as cc from IssueRegister where IDNo='$EmployeeID'";
 
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -141,19 +161,23 @@ $stmt = sqlsrv_query($conntest,$sql_att);
            $bcount=$row_staff_att['cc'];      
 }     
                        echo $bcount;
-                       ?></h5>
+                       ?></span>
+                <span class="info-box-number">Book Issued  </span>
 
-                <p>Book Issued</p>
+                <div class="progress">
+                  <div class="progress-bar" style="width: 100%;"></div>
+                </div>
+                <span class="progress-description">
+                &nbsp;
+                </span>
               </div>
-              <div class="icon">
-                <i class="fas fa-book"></i>
-              </div>
-              <a href="books-issued.php" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
+              <!-- /.info-box-content -->
+              <a href="books-issued.php" class="small-box-footer"><button type="submit" class="btn btn-sm " style='color:white;'>
+                <i class="fas fa-eye fa-lg"></i></button>
               </a>
             </div>
+            <!-- /.info-box -->
           </div>
-          <!-- ./col -->
         </div>
         <!-- /.row -->
 
@@ -474,6 +498,11 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 </section>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
+
+
+
+
+
                         function it_instructor()
                                {
                                   var spinner=document.getElementById("ajax-loader");
@@ -574,8 +603,15 @@ const dateToday = new Date();
                                     data:{code:code,month:currentMonth,year:years,EmployeeId:EmployeeId},
                                     success:function(response)
                                     {
+                                      
                                        spinner.style.display='none';
                                        document.getElementById("paiddays").innerHTML=response;
+                                       
+                                       const myArray1 = response.split(" out");
+                                       const daysInSeptember = getDays(new Date().getFullYear(), 7); 
+                                       var pro=myArray1[0]/daysInSeptember*100;
+                                      // console.log(pro);
+                                       document.getElementById("progressPaidDays").style.width =pro+'%' ;
                                     }
                                  });
                            }
@@ -588,6 +624,9 @@ const dateToday = new Date();
         $('#modal-lg-notification').modal('show');
 
 paiddays();
-    });          
+    });   
+    const getDays = (year, month) => {
+    return new Date(year, month, 0).getDate();
+};       
                         </script>
 <?php include "footer.php"; ?> 

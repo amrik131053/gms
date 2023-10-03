@@ -13063,7 +13063,7 @@ elseif($code==217)
          <?php 
     $Sr=1;
     
-    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status='Pending to Sanction' order by  ApplyLeaveGKU.Id DESC "; 
+    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
@@ -13244,6 +13244,7 @@ elseif ($code==220) {
 $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
 if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 {
+
   $StartDate=$row['StartDate'];
  $EndDate=$row['EndDate'];
  $ApplyDate=$row['ApplyDate'];
@@ -13268,47 +13269,171 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     {
         $statusColor="warning";
     }
+
+    $Emp_Image=$row['Snap'];
+    $emp_pic=base64_encode($Emp_Image);
+  
+   
+                  
 ?>
-<div class="row">
-<div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>" readonly></div>
-<div class="col-lg-12"><label>Employee</label><input type="text" class="form-control" value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
-<div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>" readonly></div>
-<div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>" readonly></div>
-<div class="col-lg-12"><label>Apply Date</label><input type="date" id="ApplyDate" class="form-control" value="<?php echo date("Y-m-d", strtotime($ApplyDate->format("Y-m-d")));?>" readonly></div>
-
-<div class="col-lg-12">
-    <label>Leave Type</label><input type="text" id="ApplyDate" class="form-control" value="<?=$row['LeaveTypeName'];?>" readonly></div>
-
-<div class="col-lg-12">
-<label>Duration</label>
-<?php 
-if($row['Status']=='Approved')
-{?>
-<input type="text" class="form-control" id="LeaveDuration" value="<?=$LeaveDurationsTime;?>"  readonly >
-<?php 
-}
-else
-{
- ?><input type="text" class="form-control" id="LeaveDuration" value="NA"  readonly ><?php   
-}
-?>
-</div>
-
-<div class="col-lg-12">
-    <?php 
-if($row['Status']=='Approved')
-    {
-        $statusColor="success";
+<div class="table table-responsive">
+<table class="table table-bordered">
+    <tr>
+        <td><?PHP  echo  "<img class='' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='width:100px;height:100px;'>"; ?></td>
+        <td colspan="1">
+           
+            
+                <label>Employee ID</label><br>
+                <P><?=$row['IDNo'];?> </P>
+           
+        </td>
+        <td colspan="1">
+           
+            
+           <label>Name</label><br>
+           <P><?=$row['StaffName'];?> </P>
+      
+   </td>
+   <td colspan="1">
+           
+            
+           <label>Designation</label><br>
+           <p><?=$row['Designation'];?> </p>
+      
+   </td>
+       
+    </tr>
+    <tr>
+        <td><label>Start Date</label></td>
+        <td> <P><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?> </P</td>
+        <td><label>End Date</label></td>
+        <td> <P><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?></P></td>
+    </tr>
+    <tr>
+        <td><label>Apply Date</label></td>
+        <td> <p><?php echo date("d-m-Y", strtotime($ApplyDate->format("Y-m-d")));?></p></td>
+        <td><label>Leave Type</label></td>
+        <td> <p><?=$row['LeaveTypeName'];?></p></td>
+    </tr>
+    <tr>
+        <td><label>Duration</label></td>
+        <td colspan="1">
+           
+                <p><?=$LeaveDurationsTime;?></p>
+        </td>
+        <td colspan="1">
+            <b>View Adjustment File</b>
+           
+        </td>
+        <td colspan="1">
+        <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>' target='_blank'> <i class="fa fa-eye fa-lg text-success"></i></a>
+      
+           
+        </td>
+    </tr>
+    <tr>
+        <td><label>Reason</label></td>
+        <td colspan="4">
+            <p><?=$row['LeaveReason'];?></p>
+            
+        </td>
+    </tr>
+   
+    <tr>
+        <td colspan="2" ><label>Leave Recommended Authority </label></td>
+        <td colspan="1" ><label>
+            
+        <?php   $employee_details="SELECT Name  FROM Staff Where IDNo='$Recommend'";
+    $employee_details_run=sqlsrv_query($conntest,$employee_details);
+    if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC))
+     {
+      echo  $Recommend.' ('.$RecommendName=$employee_details_row['Name'].')';
     }
-    elseif($row['Status']=='Reject')
-    {
-        $statusColor="danger";
+    ?>
+    
+    </label></td>
+        <td colspan="1" ><label>
+        <?php 
+            if($row['Status']=='Pending to Sanction')
+            {
+            echo  $leavePendingStatusRecommend="<b class='text-danger'><i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
+            }
+            elseif($row['Status']=='Pending to Authority')
+            {
+                echo  $leavePendingStatusRecommend="<b class='text-success'><i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
+            }
+            elseif($row['Status']=='Approved')
+            {
+                echo  $leavePendingStatusRecommend="<b class='text-success'><i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
+            }
+            else
+            {
+                echo  $leavePendingStatusRecommend="<b class='text-danger'><i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
+            }
+            ?>
+            
+        </label></td>
+        </tr>
+    <tr> 
+    <td colspan="2" ><label>Leave Sanction Authority</label></td>
+        <td colspan="1" ><label>
+        <?php   $employee_details="SELECT Name  FROM Staff Where IDNo='$Authority'";
+    $employee_details_run=sqlsrv_query($conntest,$employee_details);
+    if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC))
+     {
+      echo  $Authority.' ('.$AuthorityName=$employee_details_row['Name'].')';
     }
-    else
-    {
-        $statusColor="warning";
-    }?>
-    <label>Status</label><input type="text" id="" class="form-control text-<?=$statusColor;?> bg-<?=$statusColor;?>" value="<?=$row['Status'];?>" readonly></div>
+    ?>
+           
+         </label></td>
+        <td colspan="1" ><label>
+            <?php 
+            if($row['Status']=='Pending to Sanction')
+            {
+            echo  $leavePendingStatusAuthority="<b class='text-danger'><i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
+            }
+            elseif($row['Status']=='Pending to Authority')
+            {
+                echo  $leavePendingStatusAuthority="<b class='text-danger'><i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
+            }
+            elseif($row['Status']=='Approved')
+            {
+                echo  $leavePendingStatusAuthority="<b class='text-success'><i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
+            }
+            else
+            {
+                echo  $leavePendingStatusAuthority="<b class='text-danger'><i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
+            }
+            ?> 
+        </label></td>
+        </tr>
+         <tr>
+        <td><label>Status</label></td>
+         <td colspan="4">
+            <p>
+         <?php 
+            if($row['Status']=='Approved') {
+                $statusColor="success";
+                echo "<b class='text-".$statusColor."'><i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
+               
+            }
+            elseif($row['Status']=='Reject') {
+                $statusColor="danger";
+                echo "<b class='text-".$statusColor."'><i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
+            }
+            else {
+                $statusColor="danger";
+                echo "<b class='text-".$statusColor."'><i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
+            }
+            ?>
+            </p>
+          
+        </td>
+       
+    </tr> 
+      
+</table>
+        </div>
 <?php 
 }
 }
@@ -13438,7 +13563,7 @@ elseif($code==223)
     <div class="btn-group w-100 mb-2">
         <input type="hidden" name="exportCode" value='31'>
         <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
-    <div class="col-lg-1">
+    <div class="col-lg-2">
     <select placeholder="MM" name="month" class="form-control form-control-sm"> 
   <option  value="" style="display:none;">MM</option>
   <option  value="1">January</option>
@@ -13456,7 +13581,7 @@ elseif($code==223)
 </select>
 
 </div>
-<div class="col-lg-1">
+<div class="col-lg-2">
     <select placeholder="MM" name="year" class="form-control form-control-sm"> 
   <option  value="2023">2023</option>
   <option  value="2022">2022</option>
@@ -13470,7 +13595,7 @@ elseif($code==223)
 </select>
 
 </div>
-<div class="col-lg-1">
+<div class="col-lg-2">
 <input type="submit" class="btn btn-success btn-sm" value="Download">
 </div>
 </div>
@@ -13490,7 +13615,8 @@ if($LeaveStatus>0)
 {
   $status='Approved';
 
-}else
+}
+else
 {
 $status="Pending to Sanction";
 
@@ -13571,9 +13697,8 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
                         // {
                 if($leaveStartDate>=$ApplyDate)
                 {
-                  $string = bin2hex(openssl_random_pseudo_bytes(4));
-
-                    $file_name = $_FILES['leaveFile']['name'];
+ $string = bin2hex(openssl_random_pseudo_bytes(4));
+    $file_name = $_FILES['leaveFile']['name'];
       $file_tmp = $_FILES['leaveFile']['tmp_name'];
       $type = $_FILES['leaveFile']['type'];
        $file_data = file_get_contents($file_tmp);
@@ -13584,25 +13709,12 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
 
 
      $destdir = 'LeaveFileAttachment';
-
-
      ftp_chdir($conn_id, "LeaveFileAttachment/") or die("Could not change directory");
-
-
-
-
      ftp_pasv($conn_id,true);
-
-
-
-
      //file_put_contents(,$file_data);
  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 
      ftp_close($conn_id);
-
-
-
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";

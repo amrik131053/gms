@@ -292,7 +292,7 @@ $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
                </li> 
    
 
-                 <?php if ($spoc_per>0) 
+                 <?php if ($spoc_per<0) 
                   {
                  ?>
                

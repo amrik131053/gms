@@ -19689,9 +19689,14 @@ $paiddays=$paiddays+$countday;
 
 
 }
-if($paiddays<>$h)
+
+if($paiddays<8)
 {
-    echo $paiddays ." out of ".$myenddate;
+   echo'Paid Days: '.$paiddays ." out of ".$myenddate;
+}
+elseif($paiddays<>$h)
+{
+   echo'Paid Days: '.$paiddays ." out of ".$myenddate;
 }
 else
 {
