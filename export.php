@@ -2131,6 +2131,12 @@ cities on cities.id=offer_latter.District  ";
              <th>Consultant</th>
               <th>Status</th>
               <th>Verification</th>
+              <th>Loan Number</th>
+              <th>Application No</th>
+              <th>Date Of Verification</th>
+
+
+              
           </tr>
             
        </thead>
@@ -2145,6 +2151,10 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];    
     $Gender=$row['Gender'];    
     $classroll=$row['Class_RollNo'];
+     $loanNumber=$row['loanNumber'];
+      $applicationNo=$row['applicationNo'];
+       $dateVerification =$row['dateVerification'];
+
     $statusVerification=$row['statusVerification'];
     $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
     $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
@@ -2226,6 +2236,12 @@ else
           <td>{$consultantName}</td>
            <td bgcolor=$colorl>{$mnStatus}</td>
              <td bgcolor=$color1>{$verification}</td>
+
+          
+
+              <td >{$loanNumber}</td>
+               <td >{$applicationNo}</td>
+                <td >{$dateVerification}</td>
        </tr>";                                    
        $count++;    
     }
