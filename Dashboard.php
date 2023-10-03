@@ -608,9 +608,10 @@ const dateToday = new Date();
                                        document.getElementById("paiddays").innerHTML=response;
                                        
                                        const myArray1 = response.split(" out");
+                                       const myArray2 = myArray1[0].split(" Days: ");
                                        const daysInSeptember = getDays(new Date().getFullYear(), 7); 
-                                       var pro=myArray1[0]/daysInSeptember*100;
-                                      // console.log(pro);
+                                       var pro=myArray2[1]/daysInSeptember*100;
+                                      
                                        document.getElementById("progressPaidDays").style.width =pro+'%' ;
                                     }
                                  });
