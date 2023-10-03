@@ -2,24 +2,34 @@
   include "header.php";   
 ?>   
 
-  
 <section class="content">
    <div class="container-fluid">
    <div class="card card-info">
    </div>
    <div class="row">
-       
+   <div class="card">
+              
+              
+              
+
+               
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
       <div class="col-lg-12 col-md-4 col-sm-12">
          <div class="card-body card">
-        <div class="btn-group w-100 mb-2">
+            <div class="card-body table-responsive pad">
+        <div class="btn-group w-100 mb-12">
                      <a class="btn" id="btn1" style="background-color:#223260; color: white; border: 10px solid;" onclick="Search();bg(this.id);"> Search </a>
                     <a class="btn"  id="btn2" style="background-color:#223260; color: white; border: 10px solid;" onclick="Daily();bg(this.id);"> Daily Attendance </a>
                    <a class="btn" id="btn3"style="background-color:#223260; color: white; border: 10px solid;" onclick="Monthly();bg(this.id);"> Monthly Attendance </a> 
-                   <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
-                  <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 10px solid;" onclick="Concession();bg(this.id);">Concession</a> 
-                  <a class="btn" id="btn6" style="background-color:#223260; color: white; border: 10px solid;" onclick="ApplyLeave();bg(this.id);">Apply Leave</a> 
-                   
-                  </div>
+            
+               <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
+               <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 10px solid;" onclick="Concession();bg(this.id);">Concession</a> 
+               <a class="btn" id="btn6" style="background-color:#223260; color: white; border: 10px solid;" onclick="ApplyLeave();bg(this.id);">Apply Leave</a> 
+             
+</div>
 </div>
 <div class="card-body card" id="card">
            </div>
