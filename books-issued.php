@@ -27,6 +27,7 @@ include "connection/connection.php";
            <th>Title</th>
            <th>Author</th>
            <th>Category</th>
+           <th>Return Date</th>
          </tr>
          </thead>
          <tbody>
@@ -45,6 +46,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
            $Author=$row_staff_att['Author'];      
            $CollegeName=$row_staff_att['CollegeName'];      
            $Category=$row_staff_att['Category'];  
+           $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
            ?>
 <tr>
 <td><?=$sr;?></td>
@@ -53,12 +55,15 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 <td><?=$Title;?></td>
 <td><?=$Author;?></td>
 <td><?=$Category;?></td>
+<td><?=$LastReturnDate;?></td>
            </tr>
 
 
 <?php 
-   $sr++;       
+   $sr++; 
+   // $aaa[]=$row_staff_att;      
 }     
+// print_r($aaa);
                        ?>
 </div>
 </div>

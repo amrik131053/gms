@@ -62,8 +62,8 @@ $stmt = sqlsrv_query($conntest,$sql_att);
        $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }?> </span>
-<b> Intime:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;
-            <b> Outime:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
+<b> In:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;
+            <b> Out:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
                 <div class="progress">
                   <div class="progress-bar" id="ProgreessBarInOut" style="width: 100%;"></div>
                 </div>
@@ -91,12 +91,17 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
                 <div class="progress">
                   <div class="progress-bar" id="progressPaidDays" style="width: 0%;" ></div>
+                 
                 </div>
+               
                 <span class="progress-description">
                   <!-- 100%; Increase in 30 Days -->
-                  &nbsp;
+                  &nbsp; <div class="spinner-border spinner-border-sm" role="status" id="div-loader-paid-days" style='display:none;'>
+
+</div>
 
                 </span>
+                
               </div>
               <!-- /.info-box-content -->
               <form action="export.php" method="POST">
@@ -112,11 +117,14 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 
     <i class="fas fa-download fa-lg" style='color:white;'></i>
               </Button>
+
               </form>
               
               </a>
+              
             </div>
             <!-- /.info-box -->
+            
           </div>
 
 
@@ -180,6 +188,16 @@ $stmt = sqlsrv_query($conntest,$sql_att);
           </div>
         </div>
         <!-- /.row -->
+
+<?php 
+
+$Stock="SELECT * FROM stock_summary where Corrent_owner='$EmployeeID'";
+$reslut_Stock=mysqli_query($conn,$Stock);
+$rowCount=mysqli_num_rows($reslut_Stock);
+if($rowCount>0)
+{
+?>
+
 
 <div class="row">
          <div class="col-md-3 col-sm-6 col-12">
@@ -487,9 +505,11 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                   </div>
                 </div>
               </div>
+              
             </div>
 
 <?php 
+}
 }
 }
 ?></div>
@@ -582,7 +602,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
 
                             function paiddays()
                                {
-                                  var spinner=document.getElementById("ajax-loader");
+                                  var spinner=document.getElementById("div-loader-paid-days");
                                   var EmployeeId=<?php echo $EmployeeID;?>
 
 const dateToday = new Date();

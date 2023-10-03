@@ -4,8 +4,7 @@
 
 <section class="content">
    <div class="container-fluid">
-   <div class="card card-info">
-   </div>
+
    <div class="row">
    <div class="card">
               

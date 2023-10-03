@@ -35,7 +35,13 @@
                 
                   </div>
 
-         <div  id="table_load" class="table-responsive" style="height:700px; ">
+         <div  id="table_load" class="table-responsive" style="height:auto; ">
+
+</div>
+<div class="text-center" id="div-loader">
+<div class="spinner-border" role="status">
+
+</div>
 </div>
 
    
@@ -90,7 +96,7 @@
        function  pendingLeaves()
          {
          var code=217;
-         var spinner=document.getElementById('ajax-loader');
+         var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
          $.ajax({
             url:'action_g.php',
@@ -110,7 +116,7 @@
          function approvedLeaves()
          {
           var code=218;
-         var spinner=document.getElementById('ajax-loader');
+         var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
          $.ajax({
             url:'action_g.php',
@@ -128,7 +134,7 @@
       function rejectLeaves()
          {
           var code=219;
-         var spinner=document.getElementById('ajax-loader');
+         var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
          $.ajax({
             url:'action_g.php',
