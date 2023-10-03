@@ -13698,7 +13698,7 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
 
                         // if($compnleavecount>0)
                         // {
-                if($leaveStartDate>=$ApplyDate)
+                if($leaveStartDate>=$ApplyDate  || $status=='Approved')
                 {
  $string = bin2hex(openssl_random_pseudo_bytes(4));
     $file_name = $_FILES['leaveFile']['name'];
