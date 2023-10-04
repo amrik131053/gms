@@ -13679,7 +13679,7 @@ if($ifRow=sqlsrv_fetch_array($stmt))
     }
 }
 
-if($LeaveType==1 || $LeaveType==2 )
+if($LeaveType==1|| $LeaveType==2)
 {
 $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
 $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
