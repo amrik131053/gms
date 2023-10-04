@@ -123,7 +123,7 @@ $pdf->Cell(30, 8,"Count",1,'C');
 
 $srno++;
 
-$y=$pdf->GETY();
+$y=50;
 
 for ($at=0;$at<$no_of_dates;$at++)
 {
