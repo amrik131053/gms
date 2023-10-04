@@ -3096,21 +3096,22 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
 
  }
+
  else
  {
 
-  if($leavedurationtime>0)
-{ 
-  $leavecount= -$leavedurationtime;
+//   if($leavedurationtime>0)
+// { 
+//   $leavecount= -$leavedurationtime;
  
-} 
- else
- {
+// } 
+//  else
+//  {
     
- $leavecount=-1;
+//  $leavecount=-1;
 
 
- }
+//  }
 
 
  }
@@ -3244,6 +3245,10 @@ else
 }
  $totaldeduction=$deducation+$deducationo;
 
+}
+else
+{
+  $totaldeduction=1;  
 }
 
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
@@ -3586,18 +3591,18 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
  else
  {
 
-  if($leavedurationtime>0)
-{ 
-  $leavecount= -$leavedurationtime;
+//   if($leavedurationtime>0)
+// { 
+//   $leavecount= -$leavedurationtime;
  
-} 
- else
- {
+// } 
+//  else
+//  {
     
- $leavecount=-1;
+//  $leavecount=-1;
 
 
- }
+//  }
 
 
  }
@@ -3685,6 +3690,11 @@ else
  $totaldeduction=$deducation+$deducationo;
 
 }
+else
+{
+  $totaldeduction=1;  
+}
+
 
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
 
@@ -4118,6 +4128,11 @@ else
 }
  $totaldeduction=$deducation+$deducationo;
 
+}
+
+else
+{
+  $totaldeduction=1;  
 }
 
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;

@@ -250,6 +250,14 @@ function groupexport(id)
           window.location.href="export.php?building="+group+"&exportCode="+exportCode;
       }
 
+function groupexportpdf(id)
+      {
+           
+            var group=id;
+            
+          window.location.href="group-reading-pdf.php?group="+group;
+      }
+
 
 
 
@@ -432,7 +440,7 @@ function groupexport(id)
      function  exportMetergroup()
 
 {
-         
+          
          var code='284';
          
          var spinner=document.getElementById("ajax-loader");
