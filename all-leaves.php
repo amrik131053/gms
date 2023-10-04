@@ -6,17 +6,10 @@
 <section class="content">
    <div class="container-fluid">
       <div class="row">
-         <!-- left column -->
-         <!-- Button trigger modal -->
          <div class="col-lg-12 col-md-12 col-sm-12">
-     
   <div class="card card-outline">
     <div class="card-header">
-      <!-- <h3 class="card-title">Leaves</h3> -->
-     
- <!-- <button type="button" onclick="manageLeaveBalance();" class="btn btn-success btn-xs ">
-    Leave Balance
-      </button>  -->
+   
       <div class="btn-group">
         
                     <button type="button" class="btn btn-default btn-sm"><b id="actionButtonValue"></b></button>
@@ -27,7 +20,12 @@
                       <a class="dropdown-item" onclick="manageLeaveBalance();">Leave Balance</a>
                       <a class="dropdown-item"onclick="load_leave_data();" >Manage Leaves</a>
                     </div>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    
                   </div>
+                  <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i class="fa fa-retweet" aria-hidden="true"></i></button>
       <input type="hidden" id="CollegeID_Set">
       <div class="card-tools">
         <div class="input-group ">
@@ -142,6 +140,26 @@ function editRow(button) {
 
 
     load_leave_data();
+function empSyncFromStaffToLeave()
+          {
+         var code=228;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,
+                  },
+            success: function(response) 
+            {
+               console.log(response);
+               spinner.style.display='none';
+
+            }
+         });
+
+     }
 function load_leave_data()
           {
          var code=203;
@@ -236,6 +254,37 @@ function viewLeaveModal(id)
 
      }
 
+function deleteLeaveOne(LeaveID)
+          {
+            var a=confirm('Are you sure you want to delete  ');
+   if (a==true) {
+       var code=227;
+        var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,LeaveID:LeaveID
+                  },
+            success: function(response) 
+            {
+   
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  search_leave_employee();
+                SuccessToast('SuccessFully Deleted');
+               }
+               else
+               {
+                ErrorToast('try again','bg-danger');
+               }
+            }
+         });
+      }
+
+     }
 function UpdateLeave()
           {
        var code=206;

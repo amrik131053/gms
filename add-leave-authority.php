@@ -785,7 +785,6 @@ function updateRole(empid,userMasterId)
    }
 function addCollegePermissions(empid) 
 {
-
    // alert(empid);
    var CollegeID = document.getElementById("CollegeID").value;
    var Department = document.getElementById("Department").value;
@@ -819,7 +818,25 @@ function addCollegePermissions(empid)
          }
       });
    }
-
+   function addCollegePermissionsAccordingToCollegeAdd(empid) 
+{
+   var CollegeID = document.getElementById("College3").value;
+   var Department = document.getElementById("Department3").value;
+   var Course = "";
+      var code = 191;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,CollegeID:CollegeID,Department:Department,Course:Course
+         },
+         success: function(response) 
+         {
+           
+         }
+      });
+   }
 
 function deleteCollegeCourse(ID,empid) 
 {
@@ -858,7 +875,46 @@ function deleteCollegeCourse(ID,empid)
 
    }
 }
+function addEmpInLms(loginId,category) 
+{
 
+   
+      var code = 226;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,loginId:loginId
+         },
+         success: function(response) 
+         {
+        
+            lmsAddRoleAcordingToAddEmp(loginId,category);
+         }
+      });
+ 
+}
+function lmsAddRoleAcordingToAddEmp(empid,category) 
+{
+   
+   // alert(category);
+ 
+      var code = 225;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,LoginType:category
+         },
+         success: function(response) 
+         {
+           
+         }
+      });
+ 
+}
 
 function lmsAddRole(empid) 
 {
@@ -1292,9 +1348,7 @@ function addEmployee()
        var designation=document.getElementById('designation').value;
        var College3=document.getElementById('College3').value;
        var Department3=document.getElementById('Department3').value;
-      //  var Group=document.getElementById('Group').value;
        var Dob=document.getElementById('Dob').value;
-      //  var Type=document.getElementById('Type').value;
        var Gender=document.getElementById('Gender').value;
        var FatherName=document.getElementById('FatherName').value;
        var Conatct=document.getElementById('Conatct').value;
@@ -1317,9 +1371,10 @@ function addEmployee()
                   category:category,Permanent:Permanent,Correspondance:Correspondance},
                 success: function(response) 
                { 
-               	 
                spinner.style.display='none';
                 SuccessToast('Successfully Added');
+                addEmpInLms(loginId,category);
+                addCollegePermissionsAccordingToCollegeAdd(loginId);
       document.getElementById('loginId').value="";
        document.getElementById('Name').value="";
        document.getElementById('designation').value="";

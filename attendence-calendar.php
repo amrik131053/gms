@@ -16,7 +16,7 @@
                      <a class="btn btn-primary" id="btn22"style="background-color:; color: white; border: 5px solid;" onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
                     <a class="btn btn-primary" id="btn33" style="background-color:; color: white; border: 5px solid;" onclick="showReport(),bg(this.id);"> Report </a>
                   </div>
-                <div class="card-body table-responsive-lg" id="calendar" style=" padding:0px!important;">
+                <div class="card-body table-responsive-lg pd" id="calendar" style=" padding:0px!important;">
               
                 </div>
               <!-- </div> -->
@@ -35,7 +35,7 @@
                 
                   </div>
 
-         <div  id="table_load" class="table-responsive" style="height:auto; ">
+         <div  id="table_load" class="table-responsive" style="height:auto; font-size:12px; ">
 
 </div>
 <div class="text-center" id="div-loader">
