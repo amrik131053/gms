@@ -12071,24 +12071,7 @@ elseif($code=='198')
 
                     </select>
                 </div>
-                <!-- <div class="col-12 col-lg-2">
-                <div class="form-group">
-                    <label>Blood Group</label>
-                    <select class="form-control" id="Group">
-                    <option selected="selected" value="Select">Select</option>
-	<option value="A +ve">A +ve</option>
-	<option value="A -ve">A -ve</option>
-	<option value="AB +ve">AB +ve</option>
-	<option value="AB -ve">AB -ve</option>
-	<option value="B +ve">B +ve</option>
-	<option value="B -ve">B -ve</option>
-	<option value="NA">NA</option>
-	<option value="None">None</option>
-	<option value="O +ve">O +ve</option>
-	<option value="O -ve">O -ve</option>
-                    </select>
-                </div>
-            </div> -->
+              
                 <div class="col-12 col-lg-3">
                     <div class="form-group">
                         <label>Date of Birth</label>
@@ -12097,25 +12080,7 @@ elseif($code=='198')
 
                     </div>
                 </div>
-                <!-- <div class="col-12 col-lg-2">
-                <div class="form-group">
-                    <label>Type</label>
-                    <select class="form-control" id="Type">
-                    <option value="Select">Select</option>
-	<option value="Admin">Admin</option>
-	<option value="Administration">Administration</option>
-	<option value="Administrator">Administrator</option>
-	<option value="Finance">Finance</option>
-	<option value="HR">HR</option>
-	<option value="IT">IT</option>
-	<option value="Marketing">Marketing</option>
-	<option value="Non-Teaching">Non-Teaching</option>
-	<option value="Regular">Regular</option>
-	<option value="staff">staff</option>
-	<option value="Teaching">Teaching</option>
-                    </select>
-                </div>
-            </div> -->
+              
                 <div class="col-12 col-lg-3">
                     <div class="form-group">
                         <label>Gender</label>
@@ -12208,6 +12173,7 @@ elseif($code==199)
 {
 
 $loginId=$_POST['loginId'];
+
 $Name=$_POST['Name'];
 $designation=$_POST['designation'];
 $CollegeId=$_POST['College3'];
@@ -12236,12 +12202,29 @@ $Doj=$_POST['Doj'];
 $category=$_POST['category'];
 $Permanent=$_POST['Permanent'];
 $Correspondance=$_POST['Correspondance'];
-$insertEmployee="INSERT into (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college');";
-$insertEmployeeRun=sqlsrv_query($conntest,$insertEmployeeRun);
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1');";
+$insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
+
+if($category=='6')
+{
+$LoginType="Staff";
+$RightsLevel="Faculty";
+}
+else
+{
+    $LoginType="Staff";
+    $RightsLevel="Staff";
+}
+$insert_record="INSERT into UserMaster(UserName,Password,LoginType,RightsLevel,ApplicationType,ApplicationName,CollegeName)values('$loginId','$loginId','$LoginType','$RightsLevel','Web','Campus','$college');";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if($insert_record_run==true)
+{
+
     echo "1";
+}
 }
 else
 {
@@ -12410,7 +12393,13 @@ elseif($code==203)
 <td><?=$LeaveDurationsTime;?></td>
 <td><?php echo substr($row['LeaveReason'], 0,50);?></td>
 <td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
-<td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i></td>
+<td>
+    <i class="fa fa-eye text-success fa-sm" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
+   &nbsp;
+   <?php if($role_id=2) {?>
+    <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
+    <?php }?>
+</td>
     </tr>
 <?php
 
@@ -12500,7 +12489,12 @@ else
 <td><?=$LeaveDurationsTime;?></td>
 <td><?php echo substr($row['LeaveReason'], 0,50);?></td>
 <td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
-<td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i></td>
+<td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal" data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
+&nbsp;
+   <?php if($role_id=2 | $role_id=18) {?>
+    <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
+    <?php }?>
+</td>
     </tr>
 <?php
 
@@ -13051,7 +13045,7 @@ elseif($code==216)
 elseif($code==217)
 {
 ?>
-<table class="table" style="font-size:;" >
+<table class="table " id="example" >
   <thead>
                   <tr>
            <th>Sr. No</th>
@@ -13121,7 +13115,7 @@ elseif($code==217)
 elseif($code==218)
 {
 ?>
-<table class="table" style="font-size:;" >
+<table class="table" id="example" >
   <thead>
                   <tr>
            <th>Sr. No</th>
@@ -13132,7 +13126,7 @@ elseif($code==218)
            <th>Action</th>
          </tr>
          </thead>
-         <tbody  >
+         <tbody>
          <?php 
     $Sr=1;
     
@@ -13182,7 +13176,7 @@ elseif($code==218)
 elseif($code==219)
 {
     ?>
-    <table class="table" style="font-size:;" >
+    <table class="table" id="example" >
       <thead>
                       <tr>
                <th>Sr. No</th>
@@ -13562,12 +13556,12 @@ elseif($code==223)
 </div>
 <br>
 <div class="container-fluid">
-    <form action="export.php" method="post">
+    <form action="attendance-pdf-summary.php" method="post" target="_blank">
     <div class="btn-group w-100 mb-2">
         <input type="hidden" name="exportCode" value='31'>
         <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
     <div class="col-lg-2">
-    <select placeholder="MM" name="month" class="form-control form-control-sm"> 
+    <select placeholder="MM" name="month" class="form-control "> 
   <option  value="" style="display:none;">MM</option>
   <option  value="1">January</option>
   <option  value="2">February</option>
@@ -13585,7 +13579,7 @@ elseif($code==223)
 
 </div>
 <div class="col-lg-2">
-    <select placeholder="MM" name="year" class="form-control form-control-sm"> 
+    <select placeholder="MM" name="year" class="form-control "> 
   <option  value="2023">2023</option>
   <option  value="2022">2022</option>
   <option  value="2021">2021</option>
@@ -13599,7 +13593,7 @@ elseif($code==223)
 
 </div>
 <div class="col-lg-2">
-<input type="submit" class="btn btn-success btn-sm" value="Download">
+<button type='submit' class="btn btn-success ">Download&nbsp;&nbsp;<i class="fa fa-file-pdf" aria-hidden="true"></i></button>
 </div>
 </div>
 </form>
@@ -13698,7 +13692,7 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
 
                         // if($compnleavecount>0)
                         // {
-                if($leaveStartDate>=$ApplyDate  || $status=='Approved')
+                if($leaveStartDate>=$ApplyDate || $status=='Approved')
                 {
  $string = bin2hex(openssl_random_pseudo_bytes(4));
     $file_name = $_FILES['leaveFile']['name'];
@@ -13742,6 +13736,97 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
         // }
     }
 }
+elseif($code==225)
+{
+    $empid = $_POST['empid'];
+     $LoginType = $_POST['LoginType'];
+    
+    if($LoginType=='6')
+    {
+        $role='11';
+    }
+    else
+    {
+        $role='12';   
+    }
+    $check_role="SELECT * FROM user WHERE emp_id='$empid'";
+    $count_run=mysqli_query($conn,$check_role);
+    $count=mysqli_num_rows($count_run);
+    if($count>0)
+    {
+ $insert="UPDATE user SET role_id='$role' WHERE emp_id='$empid'";
+$insert_run=mysqli_query($conn,$insert);
+}
+else
+{
+    
+}
+}
+elseif($code==226)
+{
+    $loginId=$_POST['loginId'];
+    $userQry="SELECT * FROM user WHERE emp_id = '$loginId'";
+    $userRes=mysqli_query($conn,$userQry);
+    if (mysqli_num_rows($userRes)<1) 
+    {      
+    $staff="SELECT * FROM Staff Where IDNo='$loginId' ";
+    $stmt = sqlsrv_query($conntest,$staff);  
+    if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+    {
+    $IDNo=$row_staff['IDNo'];
+    $Name=$row_staff['Name'];
+    $Clg=$row_staff['CollegeName'];
+    $dept=$row_staff['Department'];
+    $Desi=$row_staff['Designation'];
+    $contact=$row_staff['ContactNo'];
+    $email=$row_staff['EmailID'];
+     $in="INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')";
+    mysqli_query($conn,$in);
+    }
+    }
+}
+elseif($code==227)
+{
+    $LeaveID=$_POST['LeaveID'];
+
+          $LeaveUpdate="DELETE  FROM ApplyLeaveGKU  Where Id='$LeaveID' ";
+        $LeaveUpdateRun=sqlsrv_query($conntest,$LeaveUpdate);
+        if($LeaveUpdateRun==true)
+        {
+           echo "1";
+        }
+        else
+        {
+           echo "0";
+        }
+}
+    elseif($code==228)
+{
+   
+   
+    $staff=" SELECT  * FROM   LeaveBalances WHERE  IDNo NOT IN (SELECT IDNo FROM Staff)";
+    $stmt=sqlsrv_query($conntest,$staff,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    $emp_count=sqlsrv_num_rows($stmt);
+    while($row=sqlsrv_fetch_array($stmt)){
+$aa[]=$row;
+    }
+    print_r($aa);
+// if($emp_count<1)
+// {
+    
+    
+
+// }
+
+        // if($LeaveUpdateRun==true)
+        // {
+        //    echo "1";
+        // }
+        // else
+        // {
+        //    echo "0";
+        // }
+    }
    else
    {
    
