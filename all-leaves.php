@@ -336,9 +336,9 @@ function UpdateLeave()
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <?php   if($role_id==2)
-{?>        <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
-<?php }?>
+       
+       <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
+
       </div>
     </div>
   </div>
