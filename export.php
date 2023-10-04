@@ -2497,29 +2497,6 @@ function getBetweenDates($startDate,$endDate) {
 $datee = getBetweenDates($start_date,$end_date);
 
 
-
-
-
-
-
-
-//  $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
-//  from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
-// '$end_date 23:59:00.000'";
-
-// $stmt = sqlsrv_query($conntest,$sql_dates);  
-//             while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-//             {
-//     $datee[]=$row_dates['mydate'];
-
-// }
-
-
-
-
-
-
-
  $no_of_dates=count($datee);
 
 
@@ -2820,7 +2797,7 @@ elseif($exportCode==29)
 
 
         $curmnth =$_GET['month'];
-$curyear = $_GET['year'];
+     $curyear = $_GET['year'];
 
           $College=$_GET['College'];
           $Department=$_GET['Department'];
@@ -2900,25 +2877,6 @@ function getBetweenDates($startDate,$endDate) {
  return $array;
 }
 $datee = getBetweenDates($start_date,$end_date);
-
-
-
-
-
-
-//  $sql_dates="SELECT DISTINCT CAST(LogDateTime as DATE) as mydate
-//  from DeviceLogsAll  where LogDateTime Between '$start_date 00:00:00.000'  AND 
-// '$end_date 23:59:00.000'";
-
-// $stmt = sqlsrv_query($conntest,$sql_dates);  
-//             while($row_dates = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-//             {
-//     $datee[]=$row_dates['mydate'];
-
-// }
-
-
-
 
 
 
@@ -3971,18 +3929,18 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
  else
  {
 
-  if($leavedurationtime>0)
-{ 
-  $leavecount= -$leavedurationtime;
+//   if($leavedurationtime>0)
+// { 
+//   $leavecount= -$leavedurationtime;
  
-} 
- else
- {
+// } 
+//  else
+//  {
     
- $leavecount=-1;
+//  $leavecount=-1;
 
 
- }
+//  }
 
 
  }
