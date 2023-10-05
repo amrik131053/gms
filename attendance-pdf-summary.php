@@ -458,9 +458,14 @@ else
 }
 
   $pdf->SetXY(170,$y);
+if($countday<1)
+{
+    $pdf->SetTextColor(255,0,0);
+}  
 $pdf->Cell(30,7,$countday,1,'C');
-
+$pdf->SetTextColor(0,0,0);
 $paiddays=$paiddays+$countday;
+
 $y=$y+7;
 
 
@@ -479,7 +484,7 @@ if($paiddays<>$h)
     
 }
 else
-{
+{$pdf->SetXY(100,$y);
     $pdf->Cell(100,10,"Total Paid Days  :  0 ",1,'C');
 }
 
