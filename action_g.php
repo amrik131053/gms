@@ -13,6 +13,7 @@ window.location.href = 'index.php';
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $timeStamp=date('Y-m-d H-i-s');
+   
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -3134,6 +3135,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       }
       elseif($code==61)
       {
+        $DateOfBirth="01-01-1900";
       ?>
     <section class="content">
 
@@ -5717,6 +5719,15 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    if(sqlsrv_query($conntest,$query))
    {
       echo "1";
+      $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$loginId'  and Status!='Approved' and Status!='Reject'";
+        $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                  $leaveexistCount=sqlsrv_num_rows($countX);
+                  if($leaveexistCount>0)
+                  {
+                      $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionId='$leaveRecommendingAuthority',AuthorityId='$leaveSanctionAuthority' where StaffId='$loginId'";
+                      sqlsrv_query($conntest,$updateLeaveAuth);
+
+                  }
    }
    else
    {
@@ -12173,11 +12184,20 @@ elseif($code==199)
 {
 
 $loginId=$_POST['loginId'];
-
+$RecommendingAuth=0;
+$SenctionAuth=0;
 $Name=$_POST['Name'];
 $designation=$_POST['designation'];
 $CollegeId=$_POST['College3'];
 $Department3=$_POST['Department3'];
+$get_leave_auth="SELECT * FROM leave_authority where DepartmentID='$Department3' and CollegeID='$CollegeId'";
+$get_leave_auth_run=mysqli_query($conn,$get_leave_auth);
+if($row_auth=mysqli_fetch_array($get_leave_auth_run))
+{
+    $SenctionAuth=$row_auth['Recommending'];
+     $RecommendingAuth=$row_auth['Senction'];
+
+}
  $getCollegeName="SELECT CollegeName FROM MasterCourseCodes Where CollegeID='$CollegeId'";
 $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
 if($row=sqlsrv_fetch_array($getCollegeNameRun))
@@ -12202,11 +12222,13 @@ $Doj=$_POST['Doj'];
 $category=$_POST['category'];
 $Permanent=$_POST['Permanent'];
 $Correspondance=$_POST['Correspondance'];
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1');";
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
+
+
 
 if($category=='6')
 {
@@ -12444,7 +12466,7 @@ elseif($code==204)
     }
     elseif($emp_id!='' && $from=='')
     {
-        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Staff.IDNo='$emp_id' "; 
+        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  Staff.IDNo='$emp_id' order by ApplyLeaveGKU.StartDate DESC "; 
     }
     elseif($from!='' && $emp_id=='' )
 {
@@ -13448,10 +13470,100 @@ elseif($code==221)
 }
 elseif($code==222)
 {
-    ?>
+   ?>
+                                     
+                 
+
      <div class="card-body ">
-    <div class="card-header ">
-<center><h6>Apply Leave Online</h6></center>
+     <div class="stepwizard col-md-offset-3">
+    <div class="stepwizard-row setup-panel">
+    <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-success btn-circle" style='width:30px;height:30px;'></a>
+        
+        <p><b>You</b></p>
+      </div>
+        <?php 
+if($Recommend==$Authority)
+{
+    $getUserDetailsRecomend="SELECT Name,Snap FROM Staff Where IDNo='$Recommend'";
+    $getUserDetailsRecomendRun=sqlsrv_query($conntest,$getUserDetailsRecomend);
+    if($getUserDetailsRecomendRow=sqlsrv_fetch_array($getUserDetailsRecomendRun,SQLSRV_FETCH_ASSOC))
+    {
+        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
+        $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
+        ?>
+      <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+        <p><?=$getUserDetailsRecomendRow['Name'];?><b>&nbsp;( Authority)</b></p>
+      </div>
+      <?php }
+      else
+      {?>
+       <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle' src="dist/img/crose.png"></a>
+        <p>Please Update Leave  Authority</p>
+      </div><?php
+        
+      }
+}
+else
+{
+    $getUserDetailsRecomend="SELECT Name,Snap FROM Staff Where IDNo='$Recommend'";
+    $getUserDetailsRecomendRun=sqlsrv_query($conntest,$getUserDetailsRecomend);
+    if($getUserDetailsRecomendRow=sqlsrv_fetch_array($getUserDetailsRecomendRun,SQLSRV_FETCH_ASSOC))
+    {
+        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
+        $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
+        ?>
+      <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+        <p><?=$getUserDetailsRecomendRow['Name'];?></p>
+         <!-- <b>&nbsp;(Recommending Authority)</b -->
+      </div>
+      <?php }
+      else
+      {?>
+       <div class="stepwizard-step">
+        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle' src="dist/img/crose.png"></a>
+        <p>Please Update Leave Recommending Authority</p>
+      </div><?php
+        
+      }?>
+      <?php 
+    $getUserDetailsAuthority="SELECT Name,Snap FROM Staff Where IDNo='$Authority'";
+    $getUserDetailsAuthorityRun=sqlsrv_query($conntest,$getUserDetailsAuthority);
+    if($getUserDetailsAuthorityRow=sqlsrv_fetch_array($getUserDetailsAuthorityRun,SQLSRV_FETCH_ASSOC))
+    {
+        $Emp_ImageAuthority=$getUserDetailsAuthorityRow['Snap'];
+        $emp_picAuthority=base64_encode($Emp_ImageAuthority);     
+        ?>
+      <div class="stepwizard-step">
+      <a href="#step-2" type="button" class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picAuthority."' alt='message user image' style=''>";?></a>
+        <p><?=$getUserDetailsAuthorityRow['Name'];?></p>
+        <!-- <b>&nbsp;(Sanction Authority)</b> -->
+      </div>
+      <?php }
+      else
+      {?>
+       <div class="stepwizard-step">
+        <a href="#step-2" type="button" class="btn btn-primary btn-circle"><img class='btn-circle' src="dist/img/crose.png"></a>
+        <p>Please Update Leave Sanction Authority</p>
+      </div><?php
+        
+      }
+      
+    }?>
+
+      
+    </div>
+  </div>
+<?php 
+if($Recommend!='0' && $Authority!='0')
+{
+?>
+
+    <div class="card-header " style="height:auto;">
+<center><Strong>Apply Leave Online</Strong></center>
 
 </div>
 <br>
@@ -13544,6 +13656,7 @@ elseif($code==222)
                 </div>
 </div>
 </form>
+<?php }?>
 </div>
 <?php 
 
@@ -13561,7 +13674,7 @@ elseif($code==223)
         <input type="hidden" name="exportCode" value='31'>
         <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
     <div class="col-lg-2">
-    <select placeholder="MM" name="month" class="form-control "> 
+    <select placeholder="MM" name="month" class="form-control form-control-sm"> 
   <option  value="" style="display:none;">MM</option>
   <option  value="1">January</option>
   <option  value="2">February</option>
@@ -13579,7 +13692,7 @@ elseif($code==223)
 
 </div>
 <div class="col-lg-2">
-    <select placeholder="MM" name="year" class="form-control "> 
+    <select placeholder="MM" name="year" class="form-control form-control-sm "> 
   <option  value="2023">2023</option>
   <option  value="2022">2022</option>
   <option  value="2021">2021</option>
@@ -13593,7 +13706,7 @@ elseif($code==223)
 
 </div>
 <div class="col-lg-2">
-<button type='submit' class="btn btn-success ">Download&nbsp;&nbsp;<i class="fa fa-file-pdf" aria-hidden="true"></i></button>
+<button type='submit' class="btn btn-success btn-sm ">PDF&nbsp;&nbsp;<i class="fa fa-download" aria-hidden="true"></i></button>
 </div>
 </div>
 </form>
@@ -13645,40 +13758,21 @@ $file_name = $_FILES['leaveFile']['name'];
 $file_tmp = $_FILES['leaveFile']['tmp_name'];
 $type = $_FILES['leaveFile']['type'];
 
-
 $startTimeStamp = strtotime($leaveStartDate);
 $endTimeStamp = strtotime($leaveEndDate);
 $timeDiff = abs($endTimeStamp - $startTimeStamp);
 $numberDays = $timeDiff/86400;  // 86400 seconds in one day
-// and you might want to convert to integer
+
 $numberDays = intval($numberDays);
 $numberDays=$numberDays+1;
 
-
 $leaveReason=$_POST['leaveReason']; 
-// $leaveFile=$_POST['leaveFile'];
+
 $ApplyDate=date('Y-m-d');
 
-$sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveBalances.LeaveType_Id FROM LeaveTypes inner join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' and LeaveType_Id='$LeaveType'";  
+$sql_att23="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and StartDate='$leaveStartDate' and EndDate='$leaveEndDate' ";  
 $stmt=sqlsrv_query($conntest,$sql_att23,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-$ifBalanceEmty=sqlsrv_num_rows($stmt);
-if($ifRow=sqlsrv_fetch_array($stmt))
-{
-    if($ifRow['LeaveType_Id']=='1')
-    {
-      $compnleavecount=$ifRow['Balance'];
-
-    }
-    elseif($ifRow['LeaveType_Id']=='2')
-    {
-        $compnleavecount=$ifRow['Balance'];
-    }
-    else
-    {
-        $compnleavecount=1;
-    }
-}
-
+$ifLeaveExist=sqlsrv_num_rows($stmt);
 if($LeaveType==1|| $LeaveType==2)
 {
 $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
@@ -13690,7 +13784,6 @@ else
     $leaveexistCount=0;
 }
 
-
                     if($leaveexistCount>0)
                     {
                             echo "2";
@@ -13698,8 +13791,8 @@ else
                     else
                     {
 
-                        // if($compnleavecount>0)
-                        // {
+                        if($ifLeaveExist<1)
+                        {
                 if($leaveStartDate>=$ApplyDate || $status=='Approved')
                 {
  $string = bin2hex(openssl_random_pseudo_bytes(4));
@@ -13737,11 +13830,11 @@ else
                 {
                     echo "3";
                 }
-        //     }
-        // else
-        // {
-        //     echo "4";
-        // }
+            }
+        else
+        {
+            echo "4";
+        }
     }
 }
 elseif($code==225)
@@ -13819,22 +13912,10 @@ elseif($code==227)
 $aa[]=$row;
     }
     print_r($aa);
-// if($emp_count<1)
-// {
-    
-    
 
-// }
-
-        // if($LeaveUpdateRun==true)
-        // {
-        //    echo "1";
-        // }
-        // else
-        // {
-        //    echo "0";
-        // }
     }
+
+
    else
    {
    

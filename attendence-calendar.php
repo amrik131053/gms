@@ -12,9 +12,9 @@
               <!-- <div > -->
                 <!-- THE CALENDAR -->
                 <div class="btn-group w-100 mb-2">
-                    <a class="btn btn-primary"  id="btn11" style="background-color:; color: white; border: 5px solid;" onclick="showCalendar(),bg(this.id);"> Calendar </a>
-                     <a class="btn btn-primary" id="btn22"style="background-color:; color: white; border: 5px solid;" onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
-                    <a class="btn btn-primary" id="btn33" style="background-color:; color: white; border: 5px solid;" onclick="showReport(),bg(this.id);"> Report </a>
+                    <a class="btn btn-primary"  id="btn11" style="background-color:#223260; color: white; border: 5px solid;" onclick="showCalendar(),bg(this.id);"> Calendar </a>
+                     <a class="btn btn-primary" id="btn22"style="background-color:#223260; color: white; border: 5px solid;" onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
+                    <a class="btn btn-primary" id="btn33" style="background-color:#223260; color: white; border: 5px solid;" onclick="showReport(),bg(this.id);"> Report </a>
                   </div>
                 <div class="card-body table-responsive-lg pd" id="calendar" style=" padding:0px!important;">
               
@@ -27,11 +27,11 @@
 
            <div class="col-md-4">
   
-     <div class="card-body card">
+     <div class=" card card-primary">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn btn-primary"  id="btn1" style="background-color:; color: white; border: 1px solid;" onclick="pendingLeaves(),bg(this.id);"> Pending </a>
-                     <a class="btn btn-primary" id="btn2"style="background-color:; color: white; border: 1px solid;" onclick="approvedLeaves(),bg(this.id);"> Approved </a>
-                    <a class="btn btn-primary" id="btn3" style="background-color:; color: white; border: 1px solid;" onclick="rejectLeaves(),bg(this.id);"> Rejected </a>
+                    <a class="btn btn-primary"  id="btn1" style="background-color:#223260; color: white; border: 5px solid;" onclick="pendingLeaves(),bg(this.id);"> Pending </a>
+                     <a class="btn btn-primary" id="btn2"style="background-color:#223260; color: white; border: 5px solid;" onclick="approvedLeaves(),bg(this.id);"> Approved </a>
+                    <a class="btn btn-primary" id="btn3" style="background-color:#223260; color: white; border: 5px solid;" onclick="rejectLeaves(),bg(this.id);"> Rejected </a>
                 
                   </div>
 
@@ -375,7 +375,7 @@ function leaveSubmit(form) {
             }
             else if (response == 4)
              {
-              ErrorToast("you con't have any leave count.",'bg-warning');
+              ErrorToast("you con't apply more than one leave same day ",'bg-warning');
             }
              else
               {

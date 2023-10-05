@@ -382,6 +382,8 @@ function emp_detail_verify2(id)
 }
 
 
+
+
   function uploadPhoto(form) {
    var formData = new FormData(form);
       $.ajax({
@@ -391,7 +393,7 @@ function emp_detail_verify2(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             if (response==1) 
             {
             SuccessToast('Successfully Updated');
