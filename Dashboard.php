@@ -65,7 +65,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 <b> In:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;
             <b> Out:</b> <?php if($outtime!="" && $outtime>$intime){ echo $outtime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>
                 <div class="progress">
-                  <div class="progress-bar" style="width:100%;"></div>
+                  <div class="progress-bar" style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;"></div>
                 </div>
                 <span class="progress-description">
                 &nbsp;
@@ -139,7 +139,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                 <span class="info-box-number" style='color:white;'><?= $day = date('l', strtotime($todaydate));?>  </span>
 
                 <div class="progress">
-                  <div class="progress-bar" style="width: 100%;"></div>
+                  <div class="progress-bar" style="width:<?php ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100 ?>%;"></div>
                 </div>
                 <span class="progress-description">
                 &nbsp;
