@@ -3008,6 +3008,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3018,7 +3019,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $department=$_POST['department'];
             $collegeId=$_POST['collegeId'];
             
-                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId' and DepartmentID='$department' and JobStatus='1'";
+                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId' and DepartmentID='$department'";
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
@@ -3032,6 +3033,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
+                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
                 <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
             </tr>
@@ -3054,6 +3056,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3061,7 +3064,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
         <tbody>
             <?php 
             $sr=1;
-             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
+             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') ";
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
              {
@@ -3073,7 +3076,9 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                else
                {
                   $mobile=$row['MobileNo'];
-               }?>
+               }
+               
+               ?>
             <tr>
                 <td><?=$sr;?></td>
                 <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
@@ -3082,6 +3087,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['DepartmentName'];?></td>
+                <td><?php if($row['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
                 <td>
                     <i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
@@ -3106,6 +3112,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3115,7 +3122,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $sr=1;
             $empID=$_POST['empID'];
             
-                $get_category1="SELECT * FROM Staff where  IDNo='$empID' and  JobStatus='1'";
+                $get_category1="SELECT * FROM Staff where  IDNo='$empID' ";
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
@@ -3129,6 +3136,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
+                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"> </i></td>
                 <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
@@ -3155,6 +3163,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             <th>Designation</th>
                             <th>College</th>
                             <th>Department</th>
+                            <th>Status</th>
                             <th>Edit</th>
                             <th>ID Card</th>
                         </tr>
@@ -3162,7 +3171,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                     <tbody>
                         <?php 
                         $emp_id=$_POST['empID'];
-                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' and JobStatus='1'";
+                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' ";
                         $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
@@ -3181,6 +3190,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             <td><?=$row1['Designation'];?></td>
                             <td><?=$row1['CollegeName'];?></td>
                             <td><?=$row1['DepartmentName'];?></td>
+                            <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
                             <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i>
                             </td>
                             <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
