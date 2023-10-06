@@ -13558,7 +13558,7 @@ else
     </div>
   </div>
 <?php 
-if($Recommend!='0' && $Authority!='0')
+if($Recommend!='0' && $Authority!='0' && $Recommend!=NULL && $Authority!=NULL)
 {
 ?>
 
