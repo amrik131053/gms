@@ -122,8 +122,11 @@ if($laveAuthCount>0)
           {
          $('#btn1').toggleClass("bg-success"); 
          $('#btn11').toggleClass("bg-success"); 
+         $('#btn111').toggleClass("bg-success"); 
          pendingLeaves();
          showCalendar();
+         pendingLeavesAuth();
+        
            })
   function bg(id)
           {
