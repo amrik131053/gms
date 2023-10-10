@@ -33,11 +33,11 @@ window.location.href = "index.php";
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
 
-        //    $Authority=$employee_details_row['LeaveRecommendingAuthority'];
-        //   $Recommend=$employee_details_row['LeaveSanctionAuthority'];
+           $Authority=$employee_details_row['LeaveRecommendingAuthority'];
+          $Recommend=$employee_details_row['LeaveSanctionAuthority'];
 
-         $Authority=$employee_details_row['LeaveSanctionAuthority'];
-         $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
+        //  $Authority=$employee_details_row['LeaveSanctionAuthority'];
+        //  $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
       }
       else
       {
@@ -1038,7 +1038,7 @@ window.location.href = "index.php";
       {
          $ID=$_POST['ID'];
          $Marks=$_POST['Marks'];
-         $Remarks=$_POST['Remarks'];
+            $remarks =str_replace("'",'',$_POST['remarks']);
          $Update_marks="UPDATE task_master SET Remarks='$Remarks',marks='$Marks' where ID='$ID'";
          $Update_marks_run=mysqli_query($conn,$Update_marks);
          if ($Update_marks_run==true)
@@ -3033,7 +3033,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
-                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
+                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                </td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
                 <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
             </tr>
@@ -3087,7 +3088,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['DepartmentName'];?></td>
-                <td><?php if($row['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
+                <td><?php if($row['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                </td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
                 <td>
                     <i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
@@ -3136,7 +3138,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?></td>
-                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
+                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                </td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"> </i></td>
                 <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
             </tr>
@@ -3190,7 +3193,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             <td><?=$row1['Designation'];?></td>
                             <td><?=$row1['CollegeName'];?></td>
                             <td><?=$row1['DepartmentName'];?></td>
-                            <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?></td>
+                            <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                            </td>
                             <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i>
                             </td>
                             <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
@@ -8862,7 +8866,7 @@ echo "1";
    elseif($code==146)
    {
       $id=$_POST['id'];
-      $remarks=$_POST['remarks'];
+         $remarks =str_replace("'",'',$_POST['remarks']);
       $date=date('Y-m-d h:s:m');
       $get_pending="UPDATE SmartCardDetails SET status='Rejected',RejectDate='$date',RejectReason='$remarks' Where IDNO='$id' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
@@ -13248,9 +13252,9 @@ elseif($code==218)
                     <td><?=$row['LeaveTypeName'];?></td>
                     <td><?=$LeaveDurationsTime;?></td>
                     <td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
-                    <td>  <button type="button" data-toggle="modal" data-target="#ViewLeaveexampleModal"
-                                data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"
-                                class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
+                    <td> <button type="button" data-toggle="modal" data-target="#ViewLeaveexampleModal"
+                            data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"
+                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
                 </tr>
                 <?php
 
@@ -13313,9 +13317,9 @@ elseif($code==219)
                     <td><?=$row['LeaveTypeName'];?></td>
                     <td><?=$LeaveDurationsTime;?></td>
                     <td><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b></td>
-                    <td>  <button type="button" data-toggle="modal" data-target="#ViewLeaveexampleModal"
-                                data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"
-                                class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
+                    <td> <button type="button" data-toggle="modal" data-target="#ViewLeaveexampleModal"
+                            data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"
+                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
                 </tr>
                 <?php
     
@@ -13365,119 +13369,133 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
    
                   
 ?>
-       
-        <style>
-            .leaveViewColor{
-                color:black!important;
-            }
-        </style>
-      
-            <!-- Widget: user widget style 2 -->
-            <div class="card card-widget widget-user-2">
-        <div class="card card-widget widget-user-2">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-<?=$statusColor;?>">
-                <div class="widget-user-image">
-                <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</h3>
-                <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
-                <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
-              </div>
-              <div class="card-footer p-0">
-                <ul class="nav flex-column" style="color:black;">
-                  <li class="nav-item" >
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b> Start Date &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>End Date &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b> Apply Date &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>Duration &nbsp;&nbsp;&nbsp;</b><?=$LeaveDurationsTime;?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                 
-                    <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
-                            target='_blank' class="nav-link leaveViewColor">
-               <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i class="fa fa-eye fa-lg text-success"></i>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                  
-                    <a href='#' class="nav-link leaveViewColor">
-                    <b>  Reason&nbsp;&nbsp;&nbsp;  </b> <?=$row['LeaveReason'];?>
-                    </a>
-                  </li>
 
-                  <?php if($row['AuthorityId']==$row['SanctionId'] && $row['SanctionRemarks']!='' && $row['RecommendedRemarks']!='' ){ ?>
-                    <li class="nav-item">
-                  
-                  <a href='#' class="nav-link leaveViewColor"> <b>Remarks &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By (<?=$row['AuthorityId'];?>) On
-                            <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
-                </a></li>
-                <?php if($row['HRRemarks']!='')
+        <style>
+        .leaveViewColor {
+            color: black !important;
+        }
+        </style>
+
+        <!-- Widget: user widget style 2 -->
+        <div class="card card-widget widget-user-2">
+            <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-<?=$statusColor;?>">
+                    <div class="widget-user-image">
+                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</h3>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
+                </div>
+                <div class="card-footer p-0">
+                    <ul class="nav flex-column" style="color:black;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Start Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>End Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Apply Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Duration &nbsp;&nbsp;&nbsp;</b><?=$LeaveDurationsTime;?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+                                target='_blank' class="nav-link leaveViewColor">
+                                <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
+                                    class="fa fa-eye fa-lg text-success"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Reason&nbsp;&nbsp;&nbsp; </b> <?=$row['LeaveReason'];?>
+                            </a>
+                        </li>
+
+                        <?php if($row['AuthorityId']==$row['SanctionId'] && $row['SanctionRemarks']!='' && $row['RecommendedRemarks']!='' ){ ?>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks
+                                    &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
+                                    (<?=$row['AuthorityId'];?>) On
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
                 {?>
-                    <li class="nav-item">
-                  
-                  <a href='#' class="nav-link leaveViewColor"> <b>Remarks  By Vice Chancellor</b> &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
-                            <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
-                </a></li>
-                <?php }?>
-                <?php }
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                                &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php }
 
 if($row['SanctionRemarks']!='')
 {
-    ?>  <li class="nav-item">
-                  
-    <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks  </b>&nbsp;&nbsp;&nbsp;
-          &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
-              <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
-</a></li><?php 
+    ?> <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+                                &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li><?php 
                     }
 
        if($row['RecommendedRemarks']!='')
         {?>
-                
-        <li class="nav-item">
-        <a href='#' class="nav-link leaveViewColor">
-        <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
-                        <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
-                            <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
-        </b></a></li>
-        <?php if($row['HRRemarks']!='')
+
+                        <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
+                                <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                </b></a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
                 {?>
-                    <li class="nav-item">
-                  
-                    <a href='#' class="nav-link leaveViewColor"> <b> Remarks  By Vice Chancellor &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                            <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
-                </a></li>
-                <?php }?>
-        
-        
-        <?php }
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
+                                    &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li>
+                        <?php }?>
+
+
+                        <?php }
     ?>
-        
-        <li class="nav-item">
-        <a href='#' class="nav-link leaveViewColor">
-        <b> Status &nbsp;&nbsp;&nbsp;</b>
-        <?php 
+
+                        <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Status &nbsp;&nbsp;&nbsp;</b>
+                                <?php 
             if($row['Status']=='Approved') {
                 $statusColor="success";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
@@ -13496,12 +13514,13 @@ if($row['SanctionRemarks']!='')
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
             }
             ?></b>
-        </b></a></li>
-        </ul>
-        </div>
-        </div>
-       
-        <?php 
+                                </b></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <?php 
 }
 }
 elseif($code==221)
@@ -13522,16 +13541,16 @@ elseif($code==222)
 
 
 
-        <div class="card-body ">
-            <div class="stepwizard col-md-offset-3">
-                <div class="stepwizard-row setup-panel">
-                    <div class="stepwizard-step">
-                        <a href="#step-1" type="button" class="btn btn-success btn-circle"
-                            style='width:30px;height:30px;'></a>
+            <div class="card-body ">
+                <div class="stepwizard col-md-offset-3">
+                    <div class="stepwizard-row setup-panel">
+                        <div class="stepwizard-step">
+                            <a href="#step-1" type="button" class="btn btn-success btn-circle"
+                                style='width:30px;height:30px;'></a>
 
-                        <p><b>You</b></p>
-                    </div>
-                    <?php 
+                            <p><b>You</b></p>
+                        </div>
+                        <?php 
 if($Recommend==$Authority)
 {
     $getUserDetailsRecomend="SELECT Name,Snap FROM Staff Where IDNo='$Recommend'";
@@ -13541,19 +13560,19 @@ if($Recommend==$Authority)
         $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
         $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
         ?>
-                    <div class="stepwizard-step">
-                        <a href="#step-1" type="button"
-                            class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
-                        <p><?=$getUserDetailsRecomendRow['Name'];?><b>&nbsp;( Authority)</b></p>
-                    </div>
-                    <?php }
+                        <div class="stepwizard-step">
+                            <a href="#step-1" type="button"
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+                            <p><?=$getUserDetailsRecomendRow['Name'];?><b>&nbsp;( Authority)</b></p>
+                        </div>
+                        <?php }
       else
       {?>
-                    <div class="stepwizard-step">
-                        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
-                                src="dist/img/crose.png"></a>
-                        <p>Please Update Leave Authority</p>
-                    </div><?php
+                        <div class="stepwizard-step">
+                            <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
+                                    src="dist/img/crose.png"></a>
+                            <p>Please Update Leave Authority</p>
+                        </div><?php
         
       }
 }
@@ -13566,23 +13585,23 @@ else
         $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
         $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
         ?>
-                    <div class="stepwizard-step">
-                        <a href="#step-1" type="button"
-                            class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
-                        <p><?=$getUserDetailsRecomendRow['Name'];?></p>
-                        <!-- <b>&nbsp;(Recommending Authority)</b -->
-                    </div>
-                    <?php }
+                        <div class="stepwizard-step">
+                            <a href="#step-1" type="button"
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+                            <p><?=$getUserDetailsRecomendRow['Name'];?></p>
+                            <!-- <b>&nbsp;(Recommending Authority)</b -->
+                        </div>
+                        <?php }
       else
       {?>
-                    <div class="stepwizard-step">
-                        <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
-                                src="dist/img/crose.png"></a>
-                        <p>Please Update Leave Recommending Authority</p>
-                    </div><?php
+                        <div class="stepwizard-step">
+                            <a href="#step-1" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
+                                    src="dist/img/crose.png"></a>
+                            <p>Please Update Leave Recommending Authority</p>
+                        </div><?php
         
       }?>
-                    <?php 
+                        <?php 
     $getUserDetailsAuthority="SELECT Name,Snap FROM Staff Where IDNo='$Authority'";
     $getUserDetailsAuthorityRun=sqlsrv_query($conntest,$getUserDetailsAuthority);
     if($getUserDetailsAuthorityRow=sqlsrv_fetch_array($getUserDetailsAuthorityRun,SQLSRV_FETCH_ASSOC))
@@ -13590,196 +13609,197 @@ else
         $Emp_ImageAuthority=$getUserDetailsAuthorityRow['Snap'];
         $emp_picAuthority=base64_encode($Emp_ImageAuthority);     
         ?>
-                    <div class="stepwizard-step">
-                        <a href="#step-2" type="button"
-                            class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picAuthority."' alt='message user image' style=''>";?></a>
-                        <p><?=$getUserDetailsAuthorityRow['Name'];?></p>
-                        <!-- <b>&nbsp;(Sanction Authority)</b> -->
-                    </div>
-                    <?php }
+                        <div class="stepwizard-step">
+                            <a href="#step-2" type="button"
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picAuthority."' alt='message user image' style=''>";?></a>
+                            <p><?=$getUserDetailsAuthorityRow['Name'];?></p>
+                            <!-- <b>&nbsp;(Sanction Authority)</b> -->
+                        </div>
+                        <?php }
       else
       {?>
-                    <div class="stepwizard-step">
-                        <a href="#step-2" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
-                                src="dist/img/crose.png"></a>
-                        <p>Please Update Leave Sanction Authority</p>
-                    </div><?php
+                        <div class="stepwizard-step">
+                            <a href="#step-2" type="button" class="btn btn-primary btn-circle"><img class='btn-circle'
+                                    src="dist/img/crose.png"></a>
+                            <p>Please Update Leave Sanction Authority</p>
+                        </div><?php
         
       }
       
     }?>
 
 
+                    </div>
                 </div>
-            </div>
-            <?php 
+                <?php 
 if($Recommend!='0' && $Authority!='0' && $Recommend!=NULL && $Authority!=NULL)
 {
 ?>
 
-            <div class="card-header " style="height:auto;">
-                <center><Strong>Apply Leave Online</Strong></center>
+                <div class="card-header " style="height:auto;">
+                    <center><Strong>Apply Leave Online</Strong></center>
 
-            </div>
-            <br>
-            <form action="action_g.php" method="post">
-                <div class="row">
+                </div>
+                <br>
+                <form action="action_g.php" method="post">
+                    <div class="row">
 
-                    <input type="hidden" name="EmpID" value="<?=$EmployeeID;?>">
-                    <input type="hidden" name="code" value="224">
-                    <input type="hidden" name="status_leave" value="0">
+                        <input type="hidden" name="EmpID" value="<?=$EmployeeID;?>">
+                        <input type="hidden" name="code" value="224">
+                        <input type="hidden" name="status_leave" value="0">
 
-                    <div class="col-lg-12">
-                        <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
-                        <select class="form-control" name="LeaveType" id="LeaveType" required>
-                            <option value="">Select Type</option>
-                            <?php 
+                        <div class="col-lg-12">
+                            <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
+                            <select class="form-control" name="LeaveType" id="LeaveType" required>
+                                <option value="">Select Type</option>
+                                <?php 
       $sql_att23="SELECT DISTINCT LeaveBalances.Balance,LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes right join LeaveBalances ON LeaveTypes.Id=LeaveBalances.LeaveType_Id where Employee_Id='$EmployeeID' ANd LeaveBalances.Balance>0 order by LeaveTypes.Id ASC"; 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
                   while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                  {
                     ?>
-                            <option value="<?=$row['Id'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['Balance'];?>)</option>
-                            <?php
+                                <option value="<?=$row['Id'];?>"><?=$row['Name'];?>&nbsp;(<?=$row['Balance'];?>)
+                                </option>
+                                <?php
      }
      $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {
     ?>
-                            <option value="<?=$row11['Id'];?>"><?=$row11['Name'];?></option>
-                            <?php }?>
-                        </select>
-                    </div>
-                    <div class="col-lg-12">
-                        <label>Duration<span class="text-danger">&nbsp;*</span></label><br>
-                        <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimaryLeave" onclick="singleHideShow();" value="Half"
-                                name="leaveHalfShortRadio" checked>
-                            <label>
-                                Half/Short
-                            </label>
-                        </div>
-                        &nbsp;
-                        &nbsp;
-                        <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimaryLeave" onclick="dateHideShow();" value="Full"
-                                name="leaveHalfShortRadio">
-                            <label>
-                                Full/Multiple
-                            </label>
-                        </div>
-                        <div class="input-group" id="DivLeaveShift">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <b>F</b>&nbsp;&nbsp;<input type="radio" value="1"
-                                        name="leaveShift">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <b>S</b>&nbsp;&nbsp;<input type="radio" value="2" name="leaveShift">
-                                </span>
-                            </div>
-                            <select class="form-control" name="leaveShort" id="leaveShort">
-                                <option value="">Leave Duration</option>
-                                <option value=".25">0.25</option>
-                                <option value="0.5">0.50</option>
-                                <option value="0.75">0.75</option>
-
+                                <option value="<?=$row11['Id'];?>"><?=$row11['Name'];?></option>
+                                <?php }?>
                             </select>
                         </div>
+                        <div class="col-lg-12">
+                            <label>Duration<span class="text-danger">&nbsp;*</span></label><br>
+                            <div class="icheck-primary d-inline">
+                                <input type="radio" id="radioPrimaryLeave" onclick="singleHideShow();" value="Half"
+                                    name="leaveHalfShortRadio" checked>
+                                <label>
+                                    Half/Short
+                                </label>
+                            </div>
+                            &nbsp;
+                            &nbsp;
+                            <div class="icheck-primary d-inline">
+                                <input type="radio" id="radioPrimaryLeave" onclick="dateHideShow();" value="Full"
+                                    name="leaveHalfShortRadio">
+                                <label>
+                                    Full/Multiple
+                                </label>
+                            </div>
+                            <div class="input-group" id="DivLeaveShift">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <b>F</b>&nbsp;&nbsp;<input type="radio" value="1"
+                                            name="leaveShift">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <b>S</b>&nbsp;&nbsp;<input type="radio" value="2" name="leaveShift">
+                                    </span>
+                                </div>
+                                <select class="form-control" name="leaveShort" id="leaveShort">
+                                    <option value="">Leave Duration</option>
+                                    <option value=".25">0.25</option>
+                                    <option value="0.5">0.50</option>
+                                    <option value="0.75">0.75</option>
 
-                    </div>
+                                </select>
+                            </div>
 
-                    <div class="col-lg-12" id="SingleDate">
-                        <label>Date<span class="text-danger">&nbsp;*</span></label>
-                        <input type="date" class="form-control" id="leaveDate" name="leaveDate"
-                            value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                        </div>
+
+                        <div class="col-lg-12" id="SingleDate">
+                            <label>Date<span class="text-danger">&nbsp;*</span></label>
+                            <input type="date" class="form-control" id="leaveDate" name="leaveDate"
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                        </div>
+                        <div class="col-lg-12" id="StartDate" style="display:none;">
+                            <label>Start Date<span class="text-danger">&nbsp;*</span></label>
+                            <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate"
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                        </div>
+                        <div class="col-lg-12 " id="EndDate" style="display:none;">
+                            <label>End Date<span class="text-danger">&nbsp;*</span></label>
+                            <input type="date" class="form-control" id="leaveEndDate" name="leaveEndDate"
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
+                            <textarea Class="form-control" id="leaveReason" name="leaveReason"
+                                placeholder="Enter leave reason............" required></textarea>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Adjustment File<span class="text-danger">&nbsp;*</span></label>
+                            <input type="file" class="form-control" name='leaveFile' required>
+                        </div>
+                        <div class="col-lg-12">
+                            <br>
+                            <input type="button" onclick="leaveSubmit(this.form);" name="leaveButtonSubmit"
+                                class="btn btn-success" value="Submit">
+                        </div>
                     </div>
-                    <div class="col-lg-12" id="StartDate" style="display:none;">
-                        <label>Start Date<span class="text-danger">&nbsp;*</span></label>
-                        <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate"
-                            value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
-                    </div>
-                    <div class="col-lg-12 " id="EndDate" style="display:none;">
-                        <label>End Date<span class="text-danger">&nbsp;*</span></label>
-                        <input type="date" class="form-control" id="leaveEndDate" name="leaveEndDate"
-                            value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
-                    </div>
-                    <div class="col-lg-12">
-                        <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
-                        <textarea Class="form-control" id="leaveReason" name="leaveReason"
-                            placeholder="Enter leave reason............" required></textarea>
-                    </div>
-                    <div class="col-lg-12">
-                        <label>Adjustment File<span class="text-danger">&nbsp;*</span></label>
-                        <input type="file" class="form-control" name='leaveFile' required>
-                    </div>
-                    <div class="col-lg-12">
-                        <br>
-                        <input type="button" onclick="leaveSubmit(this.form);" name="leaveButtonSubmit"
-                            class="btn btn-success" value="Submit">
-                    </div>
-                </div>
-            </form>
-            <?php }?>
-        </div>
-        <?php 
+                </form>
+                <?php }?>
+            </div>
+            <?php 
 
 }
 elseif($code==223)
 {
     ?><div class="card-body">
-            <div class="card-header">
-                <center>
-                    <h6>Attendance Reports</h6>
-                </center>
+                <div class="card-header">
+                    <center>
+                        <h6>Attendance Reports</h6>
+                    </center>
+                </div>
+                <br>
+                <div class="container-fluid">
+                    <form action="attendance-pdf-summary.php" method="post" target="_blank">
+                        <div class="btn-group w-100 mb-2">
+                            <input type="hidden" name="exportCode" value='31'>
+                            <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
+                            <div class="col-lg-2">
+                                <select placeholder="MM" name="month" class="form-control form-control-sm">
+                                    <option value="" style="display:none;">MM</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <select placeholder="MM" name="year" class="form-control form-control-sm ">
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <button type='submit' class="btn btn-success btn-sm ">PDF&nbsp;&nbsp;<i
+                                        class="fa fa-download" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
             </div>
-            <br>
-            <div class="container-fluid">
-                <form action="attendance-pdf-summary.php" method="post" target="_blank">
-                    <div class="btn-group w-100 mb-2">
-                        <input type="hidden" name="exportCode" value='31'>
-                        <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
-                        <div class="col-lg-2">
-                            <select placeholder="MM" name="month" class="form-control form-control-sm">
-                                <option value="" style="display:none;">MM</option>
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-
-                        </div>
-                        <div class="col-lg-2">
-                            <select placeholder="MM" name="year" class="form-control form-control-sm ">
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                                <option value="2018">2018</option>
-                                <option value="2017">2017</option>
-                                <option value="2016">2016</option>
-
-                            </select>
-
-                        </div>
-                        <div class="col-lg-2">
-                            <button type='submit' class="btn btn-success btn-sm ">PDF&nbsp;&nbsp;<i
-                                    class="fa fa-download" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-        <?php 
+            <?php 
 
 }
 elseif($code==224)
@@ -13984,21 +14004,21 @@ $aa[]=$row;
     elseif($code==229)
     {
     ?>
-    <div class=" table-responsive">
-        <table class="table " id="example" >
-            <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>EmpID/Name</th>
-                    <th>Apply Date</th>
-                    <th>Type</th>
-                    <th>Count</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody style="height:1px" id="">
-                <?php 
+            <div class=" table-responsive">
+                <table class="table " id="example">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>EmpID/Name</th>
+                            <th>Apply Date</th>
+                            <th>Type</th>
+                            <th>Count</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height:1px" id="">
+                        <?php 
         $Sr=1;
          $ifLeaveCheckWhenAuth="SELECT IDNo FROM Staff Where LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID' and JobStatus='1'";
         $ifLeaveCheckWhenAuthRun=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth);
@@ -14052,13 +14072,13 @@ $aa[]=$row;
             } 
          
 ?>
-                <tr>
-                    <td><?=$Sr;?></td>
-                    <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                    <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                    <td><?=$row['LeaveTypeName'];?></td>
-                    <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                    <td><?php   if($row['LeaveDurationsTime']!=0)
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?php   if($row['LeaveDurationsTime']!=0)
             {
               echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
             }
@@ -14067,19 +14087,20 @@ $aa[]=$row;
                echo  $LeaveDurationsTime=$row['LeaveDuration'];
             }?></td>
 
-                    <td>
-                        <div class="controls">
+                            <td>
+                                <div class="controls">
 
-                            <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                                data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                                class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                                    <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
 
-                        </div>
+                                </div>
 
 
-                    </td>
-                </tr>
-                <?php
+                            </td>
+                        </tr>
+                        <?php
     
            
             $Sr++;
@@ -14111,13 +14132,13 @@ $aa[]=$row;
         } 
      
 ?>
-            <tr>
-                <td><?=$Sr;?></td>
-                <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                <td><?=$row['LeaveTypeName'];?></td>
-                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                <td><?php   if($row['LeaveDurationsTime']!=0)
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?php   if($row['LeaveDurationsTime']!=0)
         {
           echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
         }
@@ -14126,19 +14147,20 @@ $aa[]=$row;
            echo  $LeaveDurationsTime=$row['LeaveDuration'];
         }?></td>
 
-                <td>
-                    <div class="controls">
+                            <td>
+                                <div class="controls">
 
-                        <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                                    <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
 
-                    </div>
+                                </div>
 
 
-                </td>
-            </tr>
-            <?php
+                            </td>
+                        </tr>
+                        <?php
 
        
         $Sr++;
@@ -14148,29 +14170,29 @@ $aa[]=$row;
      
         // print_r($aa);
         ?>
-            </tbody>
-        </table>
-        </div><?php 
+                    </tbody>
+                </table>
+            </div><?php 
     }
 
     elseif($code==230)
     {
     ?>
-    <div class=" table-responsive">
-        <table class="table" id="example">
-            <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>EmpID/Name</th>
-                    <th>Apply Date</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Count</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
+            <div class=" table-responsive">
+                <table class="table" id="example">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>EmpID/Name</th>
+                            <th>Apply Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Count</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
         $Sr=1;
 
                   $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID' ) and    ApplyLeaveGKU.Status='Approved' order by  ApplyLeaveGKU.Id DESC "; 
@@ -14205,22 +14227,22 @@ $aa[]=$row;
                 $statusColor="primary";
             } 
     ?>
-                <tr>
-                    <td><?=$Sr;?></td>
-                    <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                    <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                    <td><?=$row['LeaveTypeName'];?></td>
-                    <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                    <td><?=$LeaveDurationsTime;?></td>
-                    <td>
-                        <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
-                    </td>
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?=$LeaveDurationsTime;?></td>
+                            <td>
+                                <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                    data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                    class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                            </td>
 
 
-                </tr>
-                <?php
+                        </tr>
+                        <?php
     
            
             $Sr++;
@@ -14250,13 +14272,13 @@ $aa[]=$row;
         } 
      
 ?>
-            <tr>
-                <td><?=$Sr;?></td>
-                <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                <td><?=$row['LeaveTypeName'];?></td>
-                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                <td><?php   if($row['LeaveDurationsTime']!=0)
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?php   if($row['LeaveDurationsTime']!=0)
         {
           echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
         }
@@ -14265,19 +14287,20 @@ $aa[]=$row;
            echo  $LeaveDurationsTime=$row['LeaveDuration'];
         }?></td>
 
-                <td>
-                    <div class="controls">
+                            <td>
+                                <div class="controls">
 
-                        <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                                    <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
 
-                    </div>
+                                </div>
 
 
-                </td>
-            </tr>
-            <?php
+                            </td>
+                        </tr>
+                        <?php
 
        
         $Sr++;
@@ -14286,27 +14309,28 @@ $aa[]=$row;
 }
     // }
         ?>
-            </tbody>
-        </table></div><?php 
+                    </tbody>
+                </table>
+            </div><?php 
     } 
     elseif($code==231)
 {
     ?>
-    <div class=" table-responsive">
-        <table class="table" id="example">
-            <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>EmpID/Name</th>
-                    <th>Apply Date</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Count</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
+            <div class=" table-responsive">
+                <table class="table" id="example">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>EmpID/Name</th>
+                            <th>Apply Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Count</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
         $Sr=1;
       
         $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Reject' order by  ApplyLeaveGKU.Id DESC "; 
@@ -14342,20 +14366,20 @@ $aa[]=$row;
                 $statusColor="primary";
             } 
     ?>
-                <tr>
-                    <td><?=$Sr;?></td>
-                    <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                    <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                    <td><?=$row['LeaveTypeName'];?></td>
-                    <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                    <td><?=$LeaveDurationsTime;?></td>
-                    <td>
-                        <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
-                    </td>
-                </tr>
-                <?php
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?=$LeaveDurationsTime;?></td>
+                            <td>
+                                <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                    data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                    class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        <?php
     
            
             $Sr++;
@@ -14384,13 +14408,13 @@ $aa[]=$row;
         } 
      
 ?>
-            <tr>
-                <td><?=$Sr;?></td>
-                <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                <td><?=$row['LeaveTypeName'];?></td>
-                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                <td><?php   if($row['LeaveDurationsTime']!=0)
+                        <tr>
+                            <td><?=$Sr;?></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td><?=$row['LeaveTypeName'];?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td><?php   if($row['LeaveDurationsTime']!=0)
         {
           echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
         }
@@ -14399,19 +14423,20 @@ $aa[]=$row;
            echo  $LeaveDurationsTime=$row['LeaveDuration'];
         }?></td>
 
-                <td>
-                    <div class="controls">
+                            <td>
+                                <div class="controls">
 
-                        <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                                    <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
 
-                    </div>
+                                </div>
 
 
-                </td>
-            </tr>
-            <?php
+                            </td>
+                        </tr>
+                        <?php
 
        
         $Sr++;
@@ -14419,8 +14444,9 @@ $aa[]=$row;
     }
 }
         ?>
-            </tbody>
-        </table></div><?php 
+                    </tbody>
+                </table>
+            </div><?php 
 }
 
 elseif ($code==232) {
@@ -14466,112 +14492,128 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
    
                   
 ?>
-       
-        <style>
-            .leaveViewColor{
-                color:black!important;
+
+            <style>
+            .leaveViewColor {
+                color: black !important;
             }
-        </style>
-      
+            </style>
+
             <!-- Widget: user widget style 2 -->
             <div class="card card-widget widget-user-2">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-<?=$statusColor;?>">
-                <div class="widget-user-image">
-                <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-<?=$statusColor;?>">
+                    <div class="widget-user-image">
+                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</h3>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
                 </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</h3>
-                <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
-                <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
-              </div>
-              <div class="card-footer p-0">
-                <ul class="nav flex-column" style="color:black;">
-                  <li class="nav-item" >
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b> Start Date &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>End Date &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b> Apply Date &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link leaveViewColor">
-                    <b>Duration &nbsp;&nbsp;&nbsp;</b><?=$LeaveDurationsTime;?>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                 
-                    <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
-                            target='_blank' class="nav-link leaveViewColor">
-               <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i class="fa fa-eye fa-lg text-success"></i>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                  
-                    <a href='#' class="nav-link leaveViewColor">
-                    <b>  Reason&nbsp;&nbsp;&nbsp;  </b> <?=$row['LeaveReason'];?>
-                    </a>
-                  </li>
-              
-                <?php if($row['AuthorityId']==$row['SanctionId'] && $row['SanctionRemarks']!=''){ ?>
-                    <li class="nav-item">
-                  
-                  <a href='#' class="nav-link leaveViewColor"> <b>Remarks &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By (<?=$row['AuthorityId'];?>) On
-                            <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
-                </a></li>
-                <?php if($row['HRRemarks']!='')
+                <div class="card-footer p-0">
+                    <ul class="nav flex-column" style="color:black;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Start Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>End Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Apply Date
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Duration &nbsp;&nbsp;&nbsp;</b><?=$LeaveDurationsTime;?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+                                target='_blank' class="nav-link leaveViewColor">
+                                <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
+                                    class="fa fa-eye fa-lg text-success"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Reason&nbsp;&nbsp;&nbsp; </b> <?=$row['LeaveReason'];?>
+                            </a>
+                        </li>
+
+                        <?php if($row['AuthorityId']==$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!=''){ ?>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks
+                                    &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
+                                    (<?=$row['AuthorityId'];?>) On
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
                 {?>
-                    <li class="nav-item">
-                  
-                  <a href='#' class="nav-link leaveViewColor"> <b>Remarks  By Vice Chancellor</b> &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                            <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
-                </a></li>
-                <?php }?>
-                <?php }
-               if($row['SanctionRemarks']!=''){
-?> <li class="nav-item">
-                  
-<a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks  </b>&nbsp;&nbsp;&nbsp;
-      &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
-          <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
-</a></li><?php 
-                }
-       if($row['RecommendedRemarks']!=''  )
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                                &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php }
+       else if( $row['AuthorityId']!=$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!='' )
         {?>
-                
-        <li class="nav-item">
-        <a href='#' class="nav-link leaveViewColor">
-        <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
-                        <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
-                            <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
-        </b></a></li>
-        <?php if($row['HRRemarks']!='')
+                        <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+                            &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                        </a></li>
+                        <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
+                                <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                </b></a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
                 {?>
-                    <li class="nav-item">
-                  
-                  <a href='#' class="nav-link leaveViewColor"> <b>Remarks  By Vice Chancellor</b> &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                            <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?>
-                </a></li>
-                <?php }?>
-                <?php }
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                                &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php }
+                               else if($row['SanctionRemarks']!='' && $row['RecommendedRemarks']==''){
+                                ?> <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+                                &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                            </a>
+                        </li><?php 
+                                                }
                 ?>
-                 <li class="nav-item">
-        <a href='#' class="nav-link leaveViewColor">
-        <b> Status &nbsp;&nbsp;&nbsp;</b>
-        <?php 
+                        <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Status &nbsp;&nbsp;&nbsp;</b>
+                                <?php 
             if($row['Status']=='Approved') {
                 $statusColor="success";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
@@ -14590,93 +14632,107 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
             }
             ?></b>
-        </b></a></li><?php 
+                                </b></a>
+                        </li><?php 
     if($row['Status']!='Approved' && $row['Status']!='Reject'){
     ?>
 
-<li class="nav-item">
-        <a href='#' class="nav-link leaveViewColor">
-                        <textarea name="" id="remarksForApproved" cols="10" class='form-control'></textarea>
-                       </a></li>
-                       
-    <div class="col-lg-12">
-                <?php }?>
-                
+                        <li class="nav-item">
+                            <div class="card">
+                                <textarea id="remarksForApproved" cols="10" class='form-control'></textarea>
+                            </div>
+                        </li>
 
-                    <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending to VC'){ ?>
+                        <div class="col-lg-12">
+                            <?php }?>
 
-                    <button class="btn btn-success" onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
-                    <?php if($Emp_Designation!='Vice Chancellor')
+
+                            <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending to VC'){ ?>
+
+                            <button class="btn btn-success"
+                                onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
+                            <?php if($Emp_Designation!='Vice Chancellor')
                     {?>
-                    <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward To VC</button>
-                    <?php }?>
-                    <button class="btn btn-danger" onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
-                    <?php }
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
+                                To VC</button>
+                            <?php }?>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                            <?php }
         else if($row['AuthorityId']!=$EmployeeID && $row['SanctionId']==$EmployeeID && $row['Status']!='Approved' && $row['Status']!='Reject')
           {
         ?>
-                    <button class="btn btn-success" onclick="recommendLeavesByAuthButton(<?=$id;?>);">Recommend</button>
-                    <button class="btn btn-danger" onclick="rejectLeavesByAuthButtonRec(<?=$id;?>);">Reject</button>
-                    <?php 
+                            <button class="btn btn-success"
+                                onclick="recommendLeavesByAuthButton(<?=$id;?>);">Recommend</button>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButtonRec(<?=$id;?>);">Reject</button>
+                            <?php 
          }
          else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject')
           {
             ?>
-                    <button class="btn btn-success" onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
-                    <?php if($Emp_Designation!='Vice Chancellor')
+                            <button class="btn btn-success"
+                                onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
+                            <?php if($Emp_Designation!='Vice Chancellor')
                     {?>
-                    <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward To VC</button>
-                    <?php }?>
-                    <button class="btn btn-danger"  onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
-                    <?php
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
+                                To VC</button>
+                            <?php }?>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                            <?php
          }
          else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && $row['Status']!='Approved' && $row['Status']!='Reject' && $Emp_Designation!='Vice Chancellor')
          {
            ?>
-           
-                    <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward To VC</button>
-                    <button class="btn btn-danger"  onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
-                    <?php
+
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
+                                To VC</button>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                            <?php
         }
         else if($row['Status']=='Pending to VC' && $Emp_Designation=='Vice Chancellor')
         {
           ?>
-          
-                     <button class="btn btn-success" onclick="approvedLeavesByAuthButtonVC(<?=$id;?>);">Approve</button>
-                   <button class="btn btn-danger"  onclick="rejectLeavesByAuthButtonVC(<?=$id;?>);">Reject</button>
-                   <?php
+
+                            <button class="btn btn-success"
+                                onclick="approvedLeavesByAuthButtonVC(<?=$id;?>);">Approve</button>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButtonVC(<?=$id;?>);">Reject</button>
+                            <?php
        }
     }
         ?>
 
 
 
-   
-              </div>
-              <br>
-            
-            <!-- /.widget-user -->
-          </div>
-        <?php 
+
+                        </div>
+                        <br>
+
+                        <!-- /.widget-user -->
+                </div>
+                <?php 
 }
 elseif($code==233)
 {
     ?>
-    <div class=" table-responsive">
-        <table class="table" id="example">
-            <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>EmpID/Name</th>
-                    <th>Apply Date</th>
-                    <th>Type</th>
-                    <th>Count</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
+                <div class=" table-responsive">
+                    <table class="table" id="example">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>EmpID/Name</th>
+                                <th>Apply Date</th>
+                                <th>Type</th>
+                                <th>Count</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
         $Sr=1;
        
         $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending to VC' order by  ApplyLeaveGKU.StartDate DESC "; 
@@ -14711,26 +14767,28 @@ elseif($code==233)
                 $statusColor="primary";
             } 
     ?>
-                <tr>
-                    <td><?=$Sr;?></td>
-                    <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                    <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
-                    <td><?=$row['LeaveTypeName'];?></td>
-                    <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></td>
-                    <td><?=$LeaveDurationsTime;?></td>
-                    <td> <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                            data-whatever="@mdo" onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                            class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
-                </tr>
-                <?php
+                            <tr>
+                                <td><?=$Sr;?></td>
+                                <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                                <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                                <td><?=$row['LeaveTypeName'];?></td>
+                                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></td>
+                                <td><?=$LeaveDurationsTime;?></td>
+                                <td> <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button></td>
+                            </tr>
+                            <?php
     
            
             $Sr++;
         }
 
         ?>
-            </tbody>
-        </table></div><?php 
+                        </tbody>
+                    </table>
+                </div><?php 
 }
 elseif($code==234)
 {
@@ -14743,7 +14801,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 $Leave_Recom=$row['SanctionId'];
 $Leave_Authority=$row['AuthorityId'];
 }
-    $remarks=$_POST['remarks']; 
+       $remarks =str_replace("'",'',$_POST['remarks']); 
     $dataTime=date('Y-m-d h:s:m.v');
     if($Leave_Recom==$Leave_Authority)
     {
@@ -14770,7 +14828,7 @@ elseif($code==235)
     $id=$_POST['id'];
     
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to Authority',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -14784,7 +14842,7 @@ elseif($code==236)
 
     $id=$_POST['id'];
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
@@ -14799,7 +14857,7 @@ elseif($code==236)
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
     }
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -14813,9 +14871,9 @@ elseif($code==237)
     $id=$_POST['id'];
     
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
    
-    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
       {
@@ -14827,7 +14885,7 @@ elseif($code==238)
 {
     $id=$_POST['id'];
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
@@ -14854,7 +14912,7 @@ elseif($code==239)
 {
     $id=$_POST['id'];
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -14872,7 +14930,7 @@ elseif($code==240)
     $id=$_POST['id'];
     
     $dataTime=date('Y-m-d h:s:m.v');
-    $remarks=$_POST['remarks'];
+    $remarks =str_replace("'",'',$_POST['remarks']);
      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -14889,29 +14947,29 @@ elseif($code==241)
                   $Batch=$_POST['Batch'];
                   $Semester=$_POST['Semester'];
 ?>
-                  <div class="col-lg-12 ">
-                  <div class="card-header">
-                     Student Reports
-                  </div>
-                     <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                <div class="col-lg-12 ">
+                    <div class="card-header">
+                        Student Reports
+                    </div>
+                    <div class="table table-responsive table-bordered table-hover" style="font-size:12px;">
                         <table class="table">
-                           <tr>
-                              <th>Srno</th>
-                            
-                              <th>Image</th>
-                              <th>UniRollNo</th>
-                              <th>ClassRollNo</th>
-                              <th>Name</th>
-                              <th>FatherName</th>
-                              <th>MotherName</th>
-                              <th>Course</th>
-                              <th>Batch</th>
-                              
-                              <th>Session</th>
-                              <th>Action</th>
-                               
-                           </tr>
-                     <?php 
+                            <tr>
+                                <th>Srno</th>
+
+                                <th>Image</th>
+                                <th>UniRollNo</th>
+                                <th>ClassRollNo</th>
+                                <th>Name</th>
+                                <th>FatherName</th>
+                                <th>MotherName</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+
+                                <th>Session</th>
+                                <th>Action</th>
+
+                            </tr>
+                            <?php 
 
                          $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Session='$Semester'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -14928,24 +14986,26 @@ elseif($code==241)
                             
                            
                                        ?>
-                              <tr>
-                                 <td><?=$count_0;?></td>
-                                
-                                 <td><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
-                                 <td><?=$get_row['UniRollNo'];?></td>
-                                 <td><?=$get_row['ClassRollNo'];?></td>
-                                 <td><?=$get_row['StudentName'];?></td>
-                                 <td><?=$get_row['FatherName'];?></td>
-                                 <td><?=$get_row['MotherName'];?></td>
-                                 <td><?=$get_row['Course'];?></td>
-                                 <td><?=$get_row['Batch'];?></td>
-                                 
-                                 <td><?=$get_row['Session'];?></td>
-                                 <td> <?php echo '<a download="'.$univ_rollno.'.jpg" href="data:image/png;base64,'.base64_encode($photo).'">'; ?>
-                            <BUTTON class="btn btn-danger btn-xs">Download Image</BUTTON></td>
-                                
-                              </tr>
-                        <?php
+                            <tr>
+                                <td><?=$count_0;?></td>
+
+                                <td><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                                </td>
+                                <td><?=$get_row['UniRollNo'];?></td>
+                                <td><?=$get_row['ClassRollNo'];?></td>
+                                <td><?=$get_row['StudentName'];?></td>
+                                <td><?=$get_row['FatherName'];?></td>
+                                <td><?=$get_row['MotherName'];?></td>
+                                <td><?=$get_row['Course'];?></td>
+                                <td><?=$get_row['Batch'];?></td>
+
+                                <td><?=$get_row['Session'];?></td>
+                                <td> <?php echo '<a download="'.$univ_rollno.'.jpg" href="data:image/png;base64,'.base64_encode($photo).'">'; ?>
+                                    <BUTTON class="btn btn-danger btn-xs">Download Image</BUTTON>
+                                </td>
+
+                            </tr>
+                            <?php
                          
                          }
                         
@@ -14956,12 +15016,12 @@ elseif($code==241)
                         echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
                        }
                        ?>
-                    </table>
-                  </div>
- 
-                
-               </div>
-<?php
+                        </table>
+                    </div>
+
+
+                </div>
+                <?php
 }
    else
    {
