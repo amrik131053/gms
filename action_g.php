@@ -3631,9 +3631,27 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                         <div class="form-group">
                                             <label>Leave Recommending Authority
                                             </label>
+        <input type="text" class="form-control" name="leaveRecommendingAuthority"
+                                                placeholder="Enter leave sanction authority"
+                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
+                                                onkeyup="emp_detail_verify2(this.value);">
+                                            <?php  
+                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+    {
+       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
+    }?>
 
+                                          
+                                        </div>
 
-                                            <input type="text" class="form-control" name="leaveSanctionAuthority"
+                                        
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group">
+                                            <label>Leave Sanction Authority</label>
+  <input type="text" class="form-control" name="leaveSanctionAuthority"
                                                 placeholder="Enter leave recommending authority"
                                                 value="<?=$row1['LeaveSanctionAuthority'];?>"
                                                 onkeyup="emp_detail_verify1(this.value);">
@@ -3648,23 +3666,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             <?php 
        
     }?>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-12">
-                                        <div class="form-group">
-                                            <label>Leave Sanction Authority</label>
-
-                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"
-                                                placeholder="Enter leave sanction authority"
-                                                value="<?=$row1['LeaveRecommendingAuthority'];?>"
-                                                onkeyup="emp_detail_verify2(this.value);">
-                                            <?php  
-                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
-    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
-    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
-    {
-       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
-    }?>
+                                    
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
