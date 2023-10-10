@@ -35,10 +35,10 @@ if($laveAuthCount>0)
 ?>
    <div class=" card card-primary">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn btn-primary"  id="btn111" style="background-color:#223260; color: white; border: 5px solid;" onclick="pendingLeavesAuth(),bg(this.id);"> Pending </a>
-                     <a class="btn btn-primary" id="btn222"style="background-color:#223260; color: white; border: 5px solid;" onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
-                    <a class="btn btn-primary" id="btn333" style="background-color:#223260; color: white; border: 5px solid;" onclick="rejectLeavesAuth(),bg(this.id);"> Rejected </a>
-                    <a class="btn btn-primary" id="btn444" style="background-color:#223260; color: white; border: 5px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forwarded </a>
+                    <a class="btn btn-primary"  id="btn111" style="background-color:#223260; color: white; border: 1px solid;" onclick="pendingLeavesAuth(),bg(this.id);">Pending  </a>
+                     <a class="btn btn-primary" id="btn222"style="background-color:#223260; color: white; border: 1px solid;" onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
+                    <a class="btn btn-primary "  id="btn333" style="background-color:#223260; color: white; border: 1px solid;" onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a>
+                    <a class="btn btn-primary " id="btn444" style="background-color:#223260; color: white; border: 1px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forward </a>
                 
                   </div>
 
@@ -82,12 +82,12 @@ if($laveAuthCount>0)
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ViewLeaveexampleModalLabel">View</h5>
+        <h5 class="modal-title" id="ViewLeaveexampleModalLabel">Leave Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="view_leave_table_load">
+      <div class="modal-body" id="view_leave_table_load" style="padding:1px!important;">
        
       </div>
       <div class="modal-footer">
@@ -101,12 +101,12 @@ if($laveAuthCount>0)
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="viewApprovedLeaveByAuthLabel">View</h5>
+        <h5 class="modal-title" id="viewApprovedLeaveByAuthLabel">Leave Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="view_leave_table_load_ApprovedByAuth">
+      <div class="modal-body" id="view_leave_table_load_ApprovedByAuth" style="padding:1px!important;">
        
       </div>
       <div class="modal-footer">
@@ -259,8 +259,280 @@ if($laveAuthCount>0)
             }
          });
       }
+      
 
+      function  approvedLeavesByAuthButton(id)
+         {
+         var code=234;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
 
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Recommend');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+
+            }
+         });
+      }
+      else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  recommendLeavesByAuthButton(id)
+         {
+         var code=235;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Recommend');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+               
+            }
+         });
+      }
+      else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  rejectLeavesByAuthButton(id)
+         {
+         var code=236;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               // console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+ 
+      }
+         else
+      {
+
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  rejectLeavesByAuthButtonRec(id)
+         {
+         var code=237;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+
+      function  forwardToVCLeavesByAuthButton(id)
+         {
+         var code=238;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Forward');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+          $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  approvedLeavesByAuthButtonVC(id)
+         {
+         var code=239;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Approved');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+          $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+
+      function  rejectLeavesByAuthButtonVC(id)
+         {
+         var code=240;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
 
 
 
