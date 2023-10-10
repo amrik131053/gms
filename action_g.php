@@ -14881,6 +14881,88 @@ elseif($code==240)
       }
 
 }
+
+elseif($code==241)
+{
+                  $CollegeID=$_POST['CollegeID'];
+                  $Course=$_POST['Course'];
+                  $Batch=$_POST['Batch'];
+                  $Semester=$_POST['Semester'];
+?>
+                  <div class="col-lg-12 ">
+                  <div class="card-header">
+                     Student Reports
+                  </div>
+                     <div  class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                           <tr>
+                              <th>Srno</th>
+                            
+                              <th>Image</th>
+                              <th>UniRollNo</th>
+                              <th>ClassRollNo</th>
+                              <th>Name</th>
+                              <th>FatherName</th>
+                              <th>MotherName</th>
+                              <th>Course</th>
+                              <th>Batch</th>
+                              
+                              <th>Session</th>
+                              <th>Action</th>
+                               
+                           </tr>
+                     <?php 
+
+                         $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Session='$Semester'";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_0++;
+                            $univ_rollno=$get_row['IDNo'];
+                            $photo = $get_row['Snap'];
+                          
+                            $emp_pic=base64_encode($photo);
+                            
+                           
+                                       ?>
+                              <tr>
+                                 <td><?=$count_0;?></td>
+                                
+                                 <td><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
+                                 <td><?=$get_row['UniRollNo'];?></td>
+                                 <td><?=$get_row['ClassRollNo'];?></td>
+                                 <td><?=$get_row['StudentName'];?></td>
+                                 <td><?=$get_row['FatherName'];?></td>
+                                 <td><?=$get_row['MotherName'];?></td>
+                                 <td><?=$get_row['Course'];?></td>
+                                 <td><?=$get_row['Batch'];?></td>
+                                 
+                                 <td><?=$get_row['Session'];?></td>
+                                 <td> <?php echo '<a download="'.$univ_rollno.'.jpg" href="data:image/png;base64,'.base64_encode($photo).'">'; ?>
+                            <BUTTON class="btn btn-danger btn-xs">Download Image</BUTTON></td>
+                                
+                              </tr>
+                        <?php
+                         
+                         }
+                        
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
+                       ?>
+                    </table>
+                  </div>
+ 
+                
+               </div>
+<?php
+}
    else
    {
    
