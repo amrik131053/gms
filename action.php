@@ -8934,7 +8934,7 @@ elseif($code=='144')
    {
        $search = $_POST['search'];
 
-       $query = "SELECT * FROM Staff Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
+        $query = "SELECT * FROM Staff Where (IDNo like '%".$search."%' or Name like '%".$search."%') and JobStatus='1'";
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -8946,7 +8946,7 @@ elseif($code=='144')
          {
             $mobile=$row['MobileNo'];
          }
-           $response[] = array("value"=>$row['IDNo'],"department"=>$row['Department'],"mobile"=>$mobile,"designation"=>$row['Designation'],"label"=>$row['Name'].' ('.$row['Department'].')');
+           $response[] = array("value"=>$row['IDNo'],"department"=>$row['Department'],"mobile"=>$mobile,"designation"=>$row['Designation'],"name"=>$row['Name'],"label"=>$row['Name'].' ('.$row['Department'].')');
        }
        echo json_encode($response);
        exit;
@@ -20495,6 +20495,214 @@ elseif ($code==340)
     
     
 
+}
+elseif($code==341)
+{
+$idno=$_POST['idno'];
+$mobile=$_POST['mobile_e'];
+$name=$_POST['e_name'];
+$department=$_POST['e_department'];
+$designation=$_POST['e_designation'];
+$type="Staff";
+$purpose=$_POST['e_purpose'];
+$edate=date('Y-m-d');
+$entry_time = date('h:i:s a');
+ $emp="INSERT INTO visitor_entry (emp_id,name,department,designation,purpose,type,entry_date,entry_time,mobile,status) VALUES('$idno','$name','$department','$designation','$purpose','$type','$edate','$entry_time','$mobile','waiting')";
+$emp_q=mysqli_query($conn,$emp);
+
+
+
+if ($emp_q)
+{
+
+$query = "SELECT * FROM Staff Where Designation='Vice Chancellor' AND  JobStatus='1'";
+       $result = sqlsrv_query($conntest,$query);
+       if($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+         
+            $EmployeeID=$row['IDNo'];
+         }
+         
+
+     $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$EmployeeID','$idno','Waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
+ mysqli_query($conn,$Notification);
+
+echo "1";
+}
+else {
+echo "0";
+  }
+}
+
+
+elseif($code=='342')
+{?>
+   
+
+<?php
+    $sql = '';
+    $person_accom = "";
+    $disptime = '';
+    $mydate=date('Y-m-d');
+    $sql = "SELECT * FROM visitor_entry  where entry_date='$mydate'ORDER BY id DESC";
+    $result = mysqli_query($conn, $sql);
+    $count = 1;
+      while($row = mysqli_fetch_array($result))
+      {
+        if($row['status']=='Checked In'){
+            echo "<tr style='background:#86fb86;'> ";
+        }elseif ($row['status']=='waiting') {
+            echo "<tr style='background:#f1f16b;'> ";
+        }else {
+          echo "<tr>";// code...
+        }
+
+          echo "<td>".$count++."</td>";
+          echo "<td>".$row['name']."</td>";
+          echo "<td>".$row['mobile']."</td>";
+          echo "<td>".$row['designation']."</td>";
+          echo "<td>".$row['department']."</td>";
+          echo "<td>".$row['address']."</td>";
+          echo "<td>".$row['entry_time']."</td>";
+          echo "<td>".$row['exit_time']."</td>";
+          echo "<td>";
+          if ($row['status']=='Checked Out')
+          {
+          echo " Checked Out";
+          }
+          else
+          { 
+
+            if($row['status']=='Checked In')
+              {?>
+   
+                <button  class='btn btn-primary btn-sm'  name='checkout' onclick="checkout_office(<?=$row["id"];?>)"> Check Out</button>
+           
+        <?php
+           }
+           else{ echo "waiting";
+
+           }} echo "</td>";
+          echo "</tr>";
+      }
+
+?>
+
+<?php }
+elseif($code=='343')
+{?>
+
+
+<?php
+    $sql = '';
+    $person_accom = "";
+    $disptime = '';
+    $mydate=date('Y-m-d');
+    $sql = "SELECT * FROM visitor_entry  where entry_date='$mydate'  and status='waiting' ORDER BY id DESC";
+    $result = mysqli_query($conn, $sql);
+    $count = 1;
+      while($row = mysqli_fetch_array($result))
+      {
+        if($row['status']=='Checked In'){
+            echo "<tr style='background:#86fb86;'> ";
+        }elseif ($row['status']=='waiting') {
+            echo "<tr style='background:#f1f16b;'> ";
+        }else {
+          echo "<tr>";// code...
+        }
+
+          echo "<td>".$count++."</td>";
+          echo "<td>".$row['name']."</td>";
+          echo "<td>".$row['type']."</td>";
+          echo "<td>".$row['mobile']."</td>";
+          echo "<td>".$row['designation']."</td>";
+          echo "<td>".$row['department']."</td>";
+          echo "<td>".$row['address']."</td>";
+          echo "<td>".$row['entry_time']."</td>";
+          echo "<td>".$row['exit_time']."</td>";
+          echo "<td>";
+         ?>
+          <button type='submit' class='btn btn primary'  name='checkout' onclick="checkin(<?=$row["id"];?>,<?=$row["emp_id"];?>)"><i class='fa fa-arrow-circle-right fa=2x'></i></button><?php
+          echo "</td>";
+          echo "</tr>";
+      }
+
+?>
+
+<?php }
+
+elseif($code==344)
+{
+      $exit_date = date('Y-m-d');
+      $exit_time = date('h:i:s a');
+      $visitid = $_POST['id'];
+      $eid = $_POST['eid'];
+     $sql = "UPDATE visitor_entry SET check_in='$exit_time', status='Checked In' WHERE id ='$visitid'";
+    mysqli_query($conn,$sql);
+
+
+    $query = "SELECT * FROM Staff Where Designation='Vice Chancellor' AND  JobStatus='1'";
+     $result = sqlsrv_query($conntest,$query);
+       if($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+         
+            $EmployeeID=$row['IDNo'];
+       }
+         
+
+  $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type)
+   VALUES ('$eid','$EmployeeID','Check in approved for meeting','NA', '#','$timeStamp','0','1')";
+   mysqli_query($conn,$Notification);
+
+
+}
+
+elseif($code==345)
+{
+$exit_date = date('d-M-Y');
+   $exit_time = date('h:i:s a');
+   $visitid = $_POST['id'];
+ $sql = "UPDATE visitor_entry SET exit_date = '$exit_date', exit_time = '$exit_time', status = 'Checked Out' WHERE id = '$visitid' ORDER by status";
+   mysqli_query($conn,$sql);
+
+}
+
+elseif($code==346)
+{
+
+$mobile=$_POST['mobile_e'];
+$name=$_POST['e_name'];
+$address=$_POST['address'];
+
+$type="Guest";
+$purpose=$_POST['e_purpose'];
+$edate=date('Y-m-d');
+$entry_time = date('h:i:s a');
+  $emp="INSERT INTO visitor_entry (emp_id,name,address,purpose,type,entry_date,entry_time,mobile,status) VALUES('$EmployeeID','$name','$address','$purpose','$type','$edate','$entry_time','$mobile','waiting')";
+$emp_q=mysqli_query($conn,$emp);
+
+
+
+if ($emp_q)
+{
+
+$query = "SELECT * FROM Staff Where Designation='Vice Chancellor' AND  JobStatus='1'";
+       $result = sqlsrv_query($conntest,$query);
+       if($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+         
+            $Empid=$row['IDNo'];
+         }
+         
+
+      $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Empid','$EmployeeID','$name waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
+ mysqli_query($conn,$Notification);
+
+echo "1";
+}
+else {
+echo "0";
+  }
 }
 
 
