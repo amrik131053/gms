@@ -26,7 +26,27 @@
           </div>
 
            <div class="col-md-4">
-  
+<?php 
+$ifLeaveAuth="SELECT * FROM Staff Where LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID'";
+$stmt=sqlsrv_query($conntest,$ifLeaveAuth,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$laveAuthCount=sqlsrv_num_rows($stmt);
+if($laveAuthCount>0)
+{
+?>
+   <div class=" card card-primary">
+        <div class="btn-group w-100 mb-2">
+                    <a class="btn btn-primary"  id="btn111" style="background-color:#223260; color: white; border: 1px solid;" onclick="pendingLeavesAuth(),bg(this.id);">Pending  </a>
+                     <a class="btn btn-primary" id="btn222"style="background-color:#223260; color: white; border: 1px solid;" onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
+                    <a class="btn btn-primary "  id="btn333" style="background-color:#223260; color: white; border: 1px solid;" onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a>
+                    <a class="btn btn-primary " id="btn444" style="background-color:#223260; color: white; border: 1px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forward </a>
+                
+                  </div>
+
+         <div  id="table_load_auth_leaves" class="" style="height:auto; font-size:12px; ">
+        </div>
+   </div>
+
+<?php } ?>
      <div class=" card card-primary">
         <div class="btn-group w-100 mb-2">
                     <a class="btn btn-primary"  id="btn1" style="background-color:#223260; color: white; border: 5px solid;" onclick="pendingLeaves(),bg(this.id);"> Pending </a>
@@ -36,11 +56,9 @@
                   </div>
 
          <div  id="table_load" class="table-responsive" style="height:auto; font-size:12px; ">
-
-</div>
+        </div>
 <div class="text-center" id="div-loader">
 <div class="spinner-border" role="status">
-
 </div>
 </div>
 
@@ -64,12 +82,31 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ViewLeaveexampleModalLabel">View</h5>
+        <h5 class="modal-title" id="ViewLeaveexampleModalLabel">Leave Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="view_leave_table_load">
+      <div class="modal-body" id="view_leave_table_load" style="padding:1px!important;">
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="viewApprovedLeaveByAuth" tabindex="-1" role="dialog" aria-labelledby="viewApprovedLeaveByAuthLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewApprovedLeaveByAuthLabel">Leave Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="view_leave_table_load_ApprovedByAuth" style="padding:1px!important;">
        
       </div>
       <div class="modal-footer">
@@ -150,10 +187,357 @@
          });
         }
 
+        function  pendingLeavesAuth()
+         {
+         var code=229;
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load_auth_leaves").innerHTML=response;
+            }
+         });
+      }
+        function  approvedLeavesAuth()
+         {
+         var code=230;
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load_auth_leaves").innerHTML=response;
+            }
+         });
+      }
+        function  rejectLeavesAuth()
+         {
+         var code=231;
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load_auth_leaves").innerHTML=response;
+            }
+         });
+      }
+        function  forwardedLeavesAuth()
+         {
+         var code=233;
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load_auth_leaves").innerHTML=response;
+            }
+         });
+      }
+      
+
+      function  approvedLeavesByAuthButton(id)
+         {
+         var code=234;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Recommend');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+
+            }
+         });
+      }
+      else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  recommendLeavesByAuthButton(id)
+         {
+         var code=235;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Recommend');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+               
+            }
+         });
+      }
+      else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  rejectLeavesByAuthButton(id)
+         {
+         var code=236;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               // console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+ 
+      }
+         else
+      {
+
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  rejectLeavesByAuthButtonRec(id)
+         {
+         var code=237;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+
+      function  forwardToVCLeavesByAuthButton(id)
+         {
+         var code=238;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Forward');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+          $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+      function  approvedLeavesByAuthButtonVC(id)
+         {
+         var code=239;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Approved');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+          $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+
+      function  rejectLeavesByAuthButtonVC(id)
+         {
+         var code=240;
+         var remarksForApproved=document.getElementById('remarksForApproved').value;
+         if(remarksForApproved!='')
+         {
+         var spinner=document.getElementById('div-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,remarks:remarksForApproved
+            },
+            success: function(response) 
+            {
+               console.log(response);
+               spinner.style.display='none';
+               if(response==1)
+               {
+                  SuccessToast('SuccessFully Reject');
+                  pendingLeavesAuth();
+                  $('#remarksForApproved').removeClass("is-invalid");
+                  $('#viewApprovedLeaveByAuth').modal('hide');
+               }
+
+               else
+               {
+
+               }
+               
+            }
+         });
+      }
+         else
+      {
+         $('#remarksForApproved').toggleClass("is-invalid"); 
+      }
+      }
+
+
 
         function viewLeaveModal(id)
           {
-
        var code=220;
         
          var spinner=document.getElementById('ajax-loader');
@@ -170,6 +554,28 @@
                 // console.log(response);
                spinner.style.display='none';
                document.getElementById("view_leave_table_load").innerHTML=response;
+            }
+         });
+
+     }
+        function viewLeaveModalApprovedByAuth(id)
+          {
+       var code=232;
+        
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+
+                // console.log(response);
+               spinner.style.display='none';
+               document.getElementById("view_leave_table_load_ApprovedByAuth").innerHTML=response;
             }
          });
 

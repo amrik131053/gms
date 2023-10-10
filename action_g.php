@@ -33,11 +33,11 @@ window.location.href = "index.php";
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
 
-           $Authority=$employee_details_row['LeaveRecommendingAuthority'];
-          $Recommend=$employee_details_row['LeaveSanctionAuthority'];
+        //    $Authority=$employee_details_row['LeaveRecommendingAuthority'];
+        //   $Recommend=$employee_details_row['LeaveSanctionAuthority'];
 
-        //  $Authority=$employee_details_row['LeaveSanctionAuthority'];
-        //  $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
+         $Authority=$employee_details_row['LeaveSanctionAuthority'];
+         $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
       }
       else
       {
@@ -14033,11 +14033,11 @@ $aa[]=$row;
             {
             if($ifLEaveRow1['AuthorityId']!=$EmployeeID && $ifLEaveRow1['SanctionId']==$EmployeeID)
             {
-               $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status='Pending To Sanction' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
+               $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
             }
             elseif($ifLEaveRow1['SanctionId']!=$EmployeeID && $ifLEaveRow1['AuthorityId']==$EmployeeID)
             {
-                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveSanctionAuthority='$EmployeeID' and ApplyLeaveGKU.Status='Pending To Authority' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC ";
+                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveSanctionAuthority='$EmployeeID' and ApplyLeaveGKU.Status='Pending To Authority'  and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC ";
             }
             elseif($ifLEaveRow1['SanctionId']==$ifLEaveRow1['AuthorityId'])
             {
@@ -14661,7 +14661,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php }
-        else if($row['AuthorityId']!=$EmployeeID && $row['SanctionId']==$EmployeeID && $row['Status']!='Approved' && $row['Status']!='Reject')
+        else if($row['AuthorityId']!=$EmployeeID && $row['SanctionId']==$EmployeeID && $row['Status']=='Pending to Sanction')
           {
         ?>
                             <button class="btn btn-success"
@@ -14670,7 +14670,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 onclick="rejectLeavesByAuthButtonRec(<?=$id;?>);">Reject</button>
                             <?php 
          }
-         else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject')
+         else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime<3 && $row['Status']=='Pending to Authority')
           {
             ?>
                             <button class="btn btn-success"
@@ -14684,7 +14684,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
          }
-         else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && $row['Status']!='Approved' && $row['Status']!='Reject' && $Emp_Designation!='Vice Chancellor')
+         else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $Emp_Designation!='Vice Chancellor')
          {
            ?>
 
@@ -14694,6 +14694,16 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
         }
+        else if($row['AuthorityId']!=$row['SanctionId'] && $LeaveDurationsTime>2 && $row['Status']=='Pending to Authority'  && $Emp_Designation!='Vice Chancellor')
+        {
+          ?>
+
+                           <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
+                               To VC</button>
+                           <button class="btn btn-danger"
+                               onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                           <?php
+       }
         else if($row['Status']=='Pending to VC' && $Emp_Designation=='Vice Chancellor')
         {
           ?>
