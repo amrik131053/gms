@@ -7756,19 +7756,19 @@ elseif($code==130)
             <div class="col-lg-6">
                 <label>Month</label>
                 <select name="month" class="form-control" required>
-                    <option value="">Select</option>
-                    <option value="Jan">January</option>
-                    <option value="Feb">February</option>
-                    <option value="Mar">March</option>
-                    <option value="Apr">April</option>
+                  <option value="">Select</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="Marchr">March</option>
+                    <option value="April">April</option>
                     <option value="May">May</option>
-                    <option value="Jun">June</option>
-                    <option value="Jul">July</option>
-                    <option value="Aug">August</option>
-                    <option value="Sep">September</option>
-                    <option value="Oct">October</option>
-                    <option value="Nov">November</option>
-                    <option value="Dec">December</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                 </select>
             </div>
             <div class="col-lg-6">
@@ -7821,18 +7821,18 @@ elseif($code==131)
                 <label>Month</label>
                 <select name="month" class="form-control" required>
                     <option value="">Select</option>
-                    <option value="Jan">January</option>
-                    <option value="Feb">February</option>
-                    <option value="Mar">March</option>
-                    <option value="Apr">April</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="Marchr">March</option>
+                    <option value="April">April</option>
                     <option value="May">May</option>
-                    <option value="Jun">June</option>
-                    <option value="Jul">July</option>
-                    <option value="Aug">August</option>
-                    <option value="Sep">September</option>
-                    <option value="Oct">October</option>
-                    <option value="Nov">November</option>
-                    <option value="Dec">December</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                 </select>
             </div>
             <div class="col-lg-6">
@@ -7890,18 +7890,18 @@ elseif($code==132)
                 <label>Month</label>
                 <select name="month" class="form-control" required>
                     <option value="">Select</option>
-                    <option value="Jan">January</option>
-                    <option value="Feb">February</option>
-                    <option value="Mar">March</option>
-                    <option value="Apr">April</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="Marchr">March</option>
+                    <option value="April">April</option>
                     <option value="May">May</option>
-                    <option value="Jun">June</option>
-                    <option value="Jul">July</option>
-                    <option value="Aug">August</option>
-                    <option value="Sep">September</option>
-                    <option value="Oct">October</option>
-                    <option value="Nov">November</option>
-                    <option value="Dec">December</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                 </select>
             </div>
             <div class="col-lg-6">

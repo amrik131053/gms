@@ -8442,14 +8442,19 @@ elseif ($code==135)
                 <td><?=$data['Batch']?></td>
                 <td><?=$data['Semester']?></td>
                 <!-- <td><?=$data['session_name']?></td> -->
-                <td><?php
-                    $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                <td>
+
+
+                  <?php
+                     $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
                     if ($data1=mysqli_fetch_array($checkGenerateRes)) 
                     {
+                     $qid=$data1['id'];
+                     $data1=1;
                         ?>
                     <form action="print-paper.php" method="post" target="_blank">
-                        <input type="hidden" name="paperId" value="<?=$data1['id']?>">
+                        <input type="hidden" name="paperId" value="<?=$qid;?>">
                     <!-- <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
                         <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
                     </form>
@@ -8457,9 +8462,10 @@ elseif ($code==135)
                     }                    
                     else
                     {
+                     $data1=0;
 
                     ?>
-                    <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+                     <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
                     <?php 
                     }
                     ?>
@@ -8467,17 +8473,18 @@ elseif ($code==135)
                 <td>
 
                   <?php
-                if ($EmployeeID=='131053') 
+                if ($EmployeeID=='131053' && $data1>0) 
                     {
                     
                     ?>
-                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$data1['id']?>)" ><?= $data1['id']?></i>
+                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$qid;?>)" ><?=$qid;?>                                
+              </i>
                     <?php 
                     }
-                    else
+                    else if($data1>0)
                     {
                      ?>
-                    <i class="fa text-danger fa-2x"  ><?= $data1['id']?></i>
+                    <i class="fa text-danger fa-2x"  > <?= $qid;?></i>
                     <?php
                      
                     }
@@ -8563,6 +8570,14 @@ elseif ($code==138)
       $flag=1;
 
    }
+    elseif($examName=='5')
+   {
+
+      // for special mst
+  $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
+      $flag=1;
+
+   }
    else
    {
       $flag=0;
@@ -8605,9 +8620,9 @@ else
                $unit=rand(1,2);
             }
 
-            if($unit > 4)
+            if($unit>4)
             {
-         $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+          $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             }
             else
             {
@@ -8649,6 +8664,10 @@ $gene=1;
 $gene=1;
     } 
     elseif($examName==4 && $countarray==27)
+    {
+$gene=1;
+    } 
+      elseif($examName==5 && $countarray==16)
     {
 $gene=1;
     } 
