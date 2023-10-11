@@ -122,7 +122,9 @@ if($laveAuthCount>0)
           {
          $('#btn1').toggleClass("bg-success"); 
          $('#btn11').toggleClass("bg-success"); 
+         $('#btn111').toggleClass("bg-success"); 
          pendingLeaves();
+         pendingLeavesAuth();
          showCalendar();
            })
   function bg(id)
@@ -265,9 +267,9 @@ if($laveAuthCount>0)
          {
          var code=234;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+         let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
-
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
          $.ajax({
@@ -298,13 +300,15 @@ if($laveAuthCount>0)
       else
       {
          $('#remarksForApproved').toggleClass("is-invalid"); 
+         $('#error-leave-textarea').show();
       }
       }
       function  recommendLeavesByAuthButton(id)
          {
          var code=235;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -336,13 +340,15 @@ if($laveAuthCount>0)
       else
       {
          $('#remarksForApproved').toggleClass("is-invalid"); 
+         $('#error-leave-textarea').show();
       }
       }
       function  rejectLeavesByAuthButton(id)
          {
          var code=236;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -376,14 +382,16 @@ if($laveAuthCount>0)
          else
       {
 
-         $('#remarksForApproved').toggleClass("is-invalid"); 
+         $('#remarksForApproved').toggleClass("is-invalid");
+         $('#error-leave-textarea').show(); 
       }
       }
       function  rejectLeavesByAuthButtonRec(id)
          {
          var code=237;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -415,6 +423,7 @@ if($laveAuthCount>0)
          else
       {
          $('#remarksForApproved').toggleClass("is-invalid"); 
+         $('#error-leave-textarea').show();
       }
       }
 
@@ -422,7 +431,8 @@ if($laveAuthCount>0)
          {
          var code=238;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -452,14 +462,16 @@ if($laveAuthCount>0)
       }
          else
       {
-          $('#remarksForApproved').toggleClass("is-invalid"); 
+          $('#remarksForApproved').toggleClass("is-invalid");
+          $('#error-leave-textarea').show(); 
       }
       }
       function  approvedLeavesByAuthButtonVC(id)
          {
          var code=239;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -491,6 +503,7 @@ if($laveAuthCount>0)
          else
       {
           $('#remarksForApproved').toggleClass("is-invalid"); 
+          $('#error-leave-textarea').show();
       }
       }
 
@@ -498,7 +511,8 @@ if($laveAuthCount>0)
          {
          var code=240;
          var remarksForApproved=document.getElementById('remarksForApproved').value;
-         if(remarksForApproved!='')
+        let length = remarksForApproved.length;
+         if(remarksForApproved!='' && length>2)
          {
          var spinner=document.getElementById('div-loader');
          spinner.style.display='block';
@@ -531,6 +545,7 @@ if($laveAuthCount>0)
          else
       {
          $('#remarksForApproved').toggleClass("is-invalid"); 
+         $('#error-leave-textarea').show();
       }
       }
 

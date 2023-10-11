@@ -14639,8 +14639,10 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                         <li class="nav-item">
                             <div class="card">
-                                <textarea id="remarksForApproved" cols="10" class='form-control'></textarea>
+                                <textarea id="remarksForApproved" cols="10" class='form-control' placeholder="Write your remakrs.........."></textarea>
+                              <small id="error-leave-textarea" class='text-danger' style='display:none;'>Please enter a value minimum 3 characters.</small>
                             </div>
+                            
                         </li>
 
                         <div class="col-lg-12">
