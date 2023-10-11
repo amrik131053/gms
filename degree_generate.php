@@ -587,6 +587,7 @@ function edit_student_details(id) {
    // alert(id);
   var Name = document.getElementById('Name').value;
   var UniRollNo = document.getElementById('unirollno').value;
+  var upload_date = document.getElementById('upload_date').value;
 
   var FatherName = document.getElementById('FatherName').value;
   var Gender = document.getElementById('Gender').value;
@@ -598,7 +599,7 @@ if(Name!='' && FatherName!='')
     id: id,
     Name: Name,
     FatherName: FatherName,
-    Stream: Stream_,Gender:Gender,UniRollNo:UniRollNo,
+    Stream: Stream_,Gender:Gender,UniRollNo:UniRollNo,upload_date:upload_date
     code: code
   };
  
