@@ -35,10 +35,10 @@ if($laveAuthCount>0)
 ?>
    <div class=" card card-primary">
         <div class="btn-group w-100 mb-2">
-                    <a class="btn btn-primary"  id="btn111" style="background-color:#223260; color: white; border: 1px solid;" onclick="pendingLeavesAuth(),bg(this.id);">Pending  </a>
-                     <a class="btn btn-primary" id="btn222"style="background-color:#223260; color: white; border: 1px solid;" onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
-                    <a class="btn btn-primary "  id="btn333" style="background-color:#223260; color: white; border: 1px solid;" onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a>
-                    <a class="btn btn-primary " id="btn444" style="background-color:#223260; color: white; border: 1px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forward </a>
+                    <a class="btn btn-primary"  id="btn111" style="background-color:#223260; color: white; border: 5px solid;" onclick="pendingLeavesAuth(),bg(this.id);">Pending  </a>
+                     <a class="btn btn-primary" id="btn222"style="background-color:#223260; color: white; border: 5px solid;" onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
+                    <a class="btn btn-primary "  id="btn333" style="background-color:#223260; color: white; border: 5px solid;" onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a>
+                    <!-- <a class="btn btn-primary " id="btn444" style="background-color:#223260; color: white; border: 5px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forward </a> -->
                 
                   </div>
 

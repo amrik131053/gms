@@ -146,9 +146,10 @@ $stmt = sqlsrv_query($conntest,$sql_att);
                 </span>
               </div>
               <!-- /.info-box-content -->
-              <!-- <a href="#" class="small-box-footer">
-               <i class="fas fa-eye"></i>
-              </a> -->
+              <a href="#" class="small-box-footer">
+               <i class="fas fa-eye text-warning" ></i>
+               &nbsp;
+              </a>
             </div>
             <!-- /.info-box -->
           </div>
