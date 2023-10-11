@@ -25,7 +25,7 @@ window.location.href = "index.php";
 
 
    include "connection/connection.php";
-       $employee_details="SELECT Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+       $employee_details="SELECT IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
          $Emp_Name=$employee_details_row['Name'];
@@ -1693,9 +1693,11 @@ window.location.href = "index.php";
                     $emp_pic=base64_encode($Emp_Image);
                                 }
       $Notification_type=$row['Notification_type'];
+      
+
       if ($Notification_type=='0') 
       {
-         $Noti_color="text-primary";
+         $Noti_color="text-info";
       }
       elseif($Notification_type=='1')
       {
@@ -1705,11 +1707,22 @@ window.location.href = "index.php";
       {
          $Noti_color="text-warning";
       }
-       else
+      elseif($Notification_type=='3')
+      {
+         $Noti_color="text-primary";
+      }
+      elseif($Notification_type=='5')
       {
          $Noti_color="text-danger";
       }
+       else
+      {
+         $Noti_color="text-secondary";
+      }
       
+
+
+
       $datetime=$row['DateTime'];?>
     <?php 
       ?>

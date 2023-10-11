@@ -114,7 +114,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
        {
        var code=344;
 
-          alert(eid);       
+           
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
