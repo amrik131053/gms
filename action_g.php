@@ -1689,9 +1689,11 @@ window.location.href = "index.php";
                     $emp_pic=base64_encode($Emp_Image);
                                 }
       $Notification_type=$row['Notification_type'];
+      
+
       if ($Notification_type=='0') 
       {
-         $Noti_color="text-primary";
+         $Noti_color="text-info";
       }
       elseif($Notification_type=='1')
       {
@@ -1701,11 +1703,22 @@ window.location.href = "index.php";
       {
          $Noti_color="text-warning";
       }
-       else
+      elseif($Notification_type=='3')
+      {
+         $Noti_color="text-primary";
+      }
+      elseif($Notification_type=='5')
       {
          $Noti_color="text-danger";
       }
+       else
+      {
+         $Noti_color="text-secondary";
+      }
       
+
+
+
       $datetime=$row['DateTime'];?>
     <?php 
       ?>
