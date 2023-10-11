@@ -126,7 +126,6 @@ if($laveAuthCount>0)
          pendingLeaves();
          pendingLeavesAuth();
          showCalendar();
-         pendingLeavesAuth();
         
            })
   function bg(id)
@@ -322,6 +321,7 @@ if($laveAuthCount>0)
             },
             success: function(response) 
             {
+               console.log(response);
                spinner.style.display='none';
                if(response==1)
                {
