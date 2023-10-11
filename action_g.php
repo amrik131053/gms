@@ -25,7 +25,7 @@ window.location.href = "index.php";
 
 
    include "connection/connection.php";
-       $employee_details="SELECT Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+       $employee_details="SELECT IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
          $Emp_Name=$employee_details_row['Name'];
