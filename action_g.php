@@ -8615,7 +8615,7 @@ elseif($code==141)
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
                      <label>Upload Date</label>
-                    <input type="text" value="<?=$upload_date;?>" id="upload_date" class="form-control">
+                    <input type="date" value="<?=$upload_date;?>" id="upload_date" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Gender</label>

@@ -599,7 +599,7 @@ if(Name!='' && FatherName!='')
     id: id,
     Name: Name,
     FatherName: FatherName,
-    Stream: Stream_,Gender:Gender,UniRollNo:UniRollNo,upload_date:upload_date
+    Stream: Stream_,Gender:Gender,UniRollNo:UniRollNo,upload_date:upload_date,
     code: code
   };
  
