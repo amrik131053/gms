@@ -1,32 +1,67 @@
-<?php 
-
-include "connection/connection.php";
-
-       $check_college_emp="SELECT
-    TABLE_NAME
-FROM
-    INFORMATION_SCHEMA.TABLES order by TABLE_NAME ASC";
-        $check_college_emp_run=sqlsrv_query($conntest,$check_college_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-      
-          while($row=sqlsrv_fetch_array($check_college_emp_run,SQLSRV_FETCH_ASSOC))
-      {
-
-        ?>
-       <B><?=$row['TABLE_NAME'];?></B>
-      <table border="1">
-          <tr>
-        <?php 
-// $aa[]=$row;
-        $get_table_colum="SELECT name FROM sys.columns WHERE object_id = OBJECT_ID('".$row['TABLE_NAME']."')  ";
-        $get_table_colum_run=sqlsrv_query($conntest,$get_table_colum);
-        while($r=sqlsrv_fetch_array($get_table_colum_run,SQLSRV_FETCH_ASSOC))
-        {
-?>
-            <td><?=$r['name'];?></td>
-        <?php 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Video Tag Suggestions</title>
+    <style>
+        #suggestions {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
         }
-        ?>  </tr></table><?php
-      }
+
+        #suggestions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #suggestions li {
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="video-description" placeholder="Write your video description"></textarea>
+    <div id="suggestions">
+        <ul id="tag-suggestions">
+            <li>Tag 1</li>
+            <li>Tag 2</li>
+            <li>Tag 3</li>
+        </ul>
+    </div>
+    <script>
+        const textarea = document.getElementById('video-description');
+        const suggestions = document.getElementById('suggestions');
+        const tagSuggestions = document.getElementById('tag-suggestions');
         
-// print_r($aa);
-        ?>
+        // Define some sample tag suggestions.
+        const sampleTags = ["Approved", "Recomend", "Tag 3", "Tag 4", "Tag 5"];
+
+        textarea.addEventListener('input', function () {
+            const inputText = textarea.value.toLowerCase();
+            const matchingTags = sampleTags.filter(tag => tag.toLowerCase().includes(inputText));
+
+            // Clear existing suggestions.
+            tagSuggestions.innerHTML = '';
+
+            if (matchingTags.length > 0) {
+                matchingTags.forEach(tag => {
+                    const suggestionItem = document.createElement('li');
+                    suggestionItem.textContent = tag;
+                    suggestionItem.addEventListener('click', function () {
+                        // When a suggestion is clicked, add it to the textarea.
+                        textarea.value = textarea.value.replace(inputText, tag);
+                        suggestions.style.display = 'none';
+                    });
+                    tagSuggestions.appendChild(suggestionItem);
+                });
+
+                suggestions.style.display = 'block';
+            } else {
+                suggestions.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
