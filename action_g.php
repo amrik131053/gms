@@ -12421,6 +12421,7 @@ elseif($code==203)
                 <tr>
                     <th>Sr. No</th>
                     <th>Employee</th>
+                    <th>Apply Date</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Type</th>
@@ -12463,6 +12464,7 @@ elseif($code==203)
                 <tr>
                     <td><?=$Sr;?></td>
                     <td><b>(<?=$row['StaffName'];?>) <?=$row['IDNo'];?></b></td>
+                    <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:s A');?></td>
                     <td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
                     <td><?=$row['EndDate']->format('d-m-Y');?></td>
                     <td><?=$row['LeaveTypeName'];?></td>
@@ -12517,19 +12519,19 @@ elseif($code==204)
     
     if($from!='' && $emp_id!='' )
     {
-        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId where Month(StartDate)='$month' AND YEAR(StartDate)='$year'  and   Staff.IDNo='$emp_id' ";
+        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId where Month(StartDate)='$month' AND YEAR(StartDate)='$year'  and   Staff.IDNo='$emp_id' order by  ApplyLeaveGKU.Id DESC  ";
     }
     elseif($emp_id!='' && $from=='')
     {
-        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  Staff.IDNo='$emp_id' order by ApplyLeaveGKU.StartDate DESC "; 
+        $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  Staff.IDNo='$emp_id' order by ApplyLeaveGKU.Id DESC "; 
     }
     elseif($from!='' && $emp_id=='' )
 {
-    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year'  ";
+    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  Month(StartDate)='$month' AND YEAR(StartDate)='$year' order by  ApplyLeaveGKU.Id DESC  ";
 }
 else
 {
-    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP) "; 
+    $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where Month(StartDate)=Month(CURRENT_TIMESTAMP) AND YEAR(StartDate)=YEAR(CURRENT_TIMESTAMP)  order by  ApplyLeaveGKU.Id DESC "; 
    
 }
 
@@ -13436,7 +13438,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("d-m-Y h:s A")));?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -13465,7 +13467,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                     (<?=$row['AuthorityId'];?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13474,7 +13476,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -13486,7 +13488,7 @@ if($row['SanctionRemarks']!='')
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li><?php 
                     }
@@ -13498,7 +13500,7 @@ if($row['SanctionRemarks']!='')
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13507,7 +13509,7 @@ if($row['SanctionRemarks']!='')
 
                             <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14595,7 +14597,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                     (<?=$row['AuthorityId'];?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14604,7 +14606,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A ');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14613,13 +14615,13 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
         {?>
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
                         </a></li>
                         <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14628,7 +14630,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y');};?>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?>
                             </a>
                         </li>
                         <?php }?>
@@ -14637,7 +14639,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 ?> <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>) On
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li><?php 
                                                 }
@@ -15120,6 +15122,84 @@ elseif($code==241)
                        {
                         echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
                        }
+                       ?>
+                        </table>
+                    </div>
+
+
+                </div>
+                <?php
+}
+elseif($code==242)
+{
+                  $CollegeID=$_POST['CollegeID'];
+                  $Course=$_POST['Course'];
+                  $oddeven=$_POST['oddeven'];
+                  
+                
+?>
+                <div class="col-lg-12 ">
+                    <div class="card-header">
+                        Student Reports
+                    </div>
+                    <div class="table table-responsive table-bordered table-hover" style="font-size:;">
+                        <table class="table">
+                            <tr>
+                               
+                                <th>Course</th>
+                                <th>Batch</th>
+                                <th>Semester</th>
+                                <th>Admission Count</th>
+                                <th>Exam Form Accepted</th>
+                               
+
+                            </tr>
+                            <?php 
+
+                         $get_study_scheme="SELECT * FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$Course'";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                         {
+                         if($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                         {
+                            $Duration=$get_row['Duration'];
+                         }
+                        $currentYears=date('Y');
+                         $startBatch=$currentYears-$Duration;
+                           $startBatch=$startBatch+1;
+                          for($sem=1,$batch=$currentYears;$batch >=$startBatch,$sem <$Duration*2;$batch-=1,$sem++) {
+                           
+                            if($sem%2==$oddeven)
+                            {
+                               $sem;
+                            $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$batch' ";
+                            $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                            $count=sqlsrv_num_rows($get_study_scheme_run)."<br>";
+
+                            $examFormAccepted="SELECT * FROM ExamForm WHERE SemesterId='$sem' and CourseID='$Course' and Batch='$batch' and Status='8'";
+                            $examFormAccepted_run=sqlsrv_query($conntest,$examFormAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                            $countExamForm=sqlsrv_num_rows($examFormAccepted_run)."<br>";
+                            if($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                            {
+                           ?>
+                           <tr>
+                           <td><?=$get_row['Course'];?></td>
+                           <td><?=$batch;?></td>
+                           <td><?=$sem;?></td>
+                           <td><?=$count;?></td>
+                           <td><?=$countExamForm;?></td>
+                          </tr>
+                           <?php 
+
+                                 
+                            }
+                        }
+                        }
+                        
+                    }
+                    
+
                        ?>
                         </table>
                     </div>
