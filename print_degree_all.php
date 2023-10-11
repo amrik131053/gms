@@ -62,7 +62,7 @@
             }
         }
     $code=$_GET['code'];
-    // -------------------------------------------diploma degreee---------------------------------------------------
+    // -------------------------------------------diploma agreee---------------------------------------------------
     if($code==1)
     {
         $dateColumn=$_GET['Todate'];
@@ -119,6 +119,7 @@
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
+                                  $CGPA = number_format($CGPA, 2);
                                             $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
@@ -177,7 +178,7 @@
                           $ms1="Mr.";    // code...
                           } 
                        
-                          $CGPA = number_format($CGPA, 2);
+                          
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                        having completed the requirements for the award of this Diploma and having passed the prescribed

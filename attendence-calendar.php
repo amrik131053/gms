@@ -126,6 +126,8 @@ if($laveAuthCount>0)
          pendingLeaves();
          pendingLeavesAuth();
          showCalendar();
+         pendingLeavesAuth();
+        
            })
   function bg(id)
           {
