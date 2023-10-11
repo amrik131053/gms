@@ -8591,6 +8591,7 @@ elseif($code==141)
                      $QrCourse=$degree_row['QrCourse'];
                      $RegistrationNo=$degree_row['RegistrationNo'];
                      $CGPA=$degree_row['CGPA'];
+                     $upload_date=$degree_row['upload_date'];
                      $ExtraRow=$degree_row['ExtraRow'];
                     
                      $Type=$degree_row['Type'];
@@ -8611,11 +8612,14 @@ elseif($code==141)
                 <div class="col-lg-6">
                     <label>Student Name</label>
                     <input type="text" value="<?=$StudentName;?>" id="Name" class="form-control">
+                     <label>Uni Roll NOe</label>
                     <input type="text" value="<?=$UniRollNo;?>" id="unirollno" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
+                     <label>Upload Date</label>
+                    <input type="date" value="<?=$upload_date;?>" id="upload_date" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Gender</label>
@@ -8657,7 +8661,8 @@ $FatherName = $_POST['FatherName'];
 $Stream = $_POST['Stream'];
 $Gender = $_POST['Gender'];
 $UniRollNo = $_POST['UniRollNo'];
-  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender'  where id='$id'";
+$upload_date = $_POST['upload_date'];
+  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date'  where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 
  $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
