@@ -285,7 +285,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Recommend');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -327,7 +326,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Recommend');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -370,7 +368,6 @@ if($laveAuthCount>0)
                {
 
                   SuccessToast('SuccessFully Reject');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -412,7 +409,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Reject');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -454,7 +450,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Forward');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -495,7 +490,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Approved');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -537,7 +531,6 @@ if($laveAuthCount>0)
                if(response==1)
                {
                   SuccessToast('SuccessFully Reject');
-                  pendingLeavesAuth();
                   leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
@@ -570,7 +563,7 @@ if($laveAuthCount>0)
             },
             success: function(response) 
             {
-            
+               pendingLeavesAuth();
             }
          });
       }
