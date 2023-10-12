@@ -286,6 +286,7 @@ if($laveAuthCount>0)
                {
                   SuccessToast('SuccessFully Recommend');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -327,6 +328,7 @@ if($laveAuthCount>0)
                {
                   SuccessToast('SuccessFully Recommend');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -369,6 +371,7 @@ if($laveAuthCount>0)
 
                   SuccessToast('SuccessFully Reject');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -410,6 +413,7 @@ if($laveAuthCount>0)
                {
                   SuccessToast('SuccessFully Reject');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -451,6 +455,7 @@ if($laveAuthCount>0)
                {
                   SuccessToast('SuccessFully Forward');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -485,12 +490,13 @@ if($laveAuthCount>0)
             },
             success: function(response) 
             {
-               console.log(response);
+               // console.log(response);
                spinner.style.display='none';
                if(response==1)
                {
                   SuccessToast('SuccessFully Approved');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -526,12 +532,13 @@ if($laveAuthCount>0)
             },
             success: function(response) 
             {
-               console.log(response);
+               // console.log(response);
                spinner.style.display='none';
                if(response==1)
                {
                   SuccessToast('SuccessFully Reject');
                   pendingLeavesAuth();
+                  leaveTypeChnageOnApprove(id);
                   $('#remarksForApproved').removeClass("is-invalid");
                   $('#viewApprovedLeaveByAuth').modal('hide');
                }
@@ -550,6 +557,25 @@ if($laveAuthCount>0)
          $('#error-leave-textarea').show();
       }
       }
+      function  leaveTypeChnageOnApprove(id)
+         {
+         var code=243;
+         var type=document.getElementById('leaveTypeByAuth').value;
+       
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,id:id,type:type
+            },
+            success: function(response) 
+            {
+            
+            }
+         });
+      }
+      
+   
 
 
 

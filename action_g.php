@@ -55,7 +55,7 @@ window.location.href = "index.php";
       }
    
    $code = $_POST['code'];
-   if($code==224)
+   if($code==224 || $code==94)
 {
        include "connection/ftp.php";
 }
@@ -3648,7 +3648,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                         <div class="form-group">
                                             <label>Leave Recommending Authority
                                             </label>
-        <input type="text" class="form-control" name="leaveRecommendingAuthority"
+                                            <input type="text" class="form-control" name="leaveRecommendingAuthority"
                                                 placeholder="Enter leave sanction authority"
                                                 value="<?=$row1['LeaveRecommendingAuthority'];?>"
                                                 onkeyup="emp_detail_verify2(this.value);">
@@ -3660,15 +3660,15 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
        ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
     }?>
 
-                                          
+
                                         </div>
 
-                                        
+
                                     </div>
                                     <div class="col-lg-4 col-12">
                                         <div class="form-group">
                                             <label>Leave Sanction Authority</label>
-  <input type="text" class="form-control" name="leaveSanctionAuthority"
+                                            <input type="text" class="form-control" name="leaveSanctionAuthority"
                                                 placeholder="Enter leave recommending authority"
                                                 value="<?=$row1['LeaveSanctionAuthority'];?>"
                                                 onkeyup="emp_detail_verify1(this.value);">
@@ -3683,7 +3683,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                                             <?php 
        
     }?>
-                                    
+
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12">
@@ -5615,11 +5615,7 @@ else
  }
 elseif($code==94)
 {
-    $ftp_server1 = "10.0.10.11";
-    $ftp_user_name1 = "Gurpreet";
-    $ftp_user_pass1 = "Guri@123";
-    $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server1");
-     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+   
    $loginId = $_POST["loginId"];
    $name = $_POST["name"];
    $fatherName = $_POST["fatherName"];
@@ -5629,21 +5625,6 @@ elseif($code==94)
    $gender = $_POST["gender"];
    $category = $_POST["category"];
    $panNumber = $_POST["panNumber"];
-
-   // Build the update query
-   $query = "UPDATE Staff SET ";
-   // $query .= "loginId = '$loginId', ";
-   $query .= "Name = '$name', ";
-   $query .= "FatherName = '$fatherName', ";
-   $query .= "MotherName = '$motherName', ";
-   $query .= "Designation = '$designation', ";
-   $query .= "DateOfBirth = '$dob', ";
-   $query .= "Gender = '$gender', ";
-   $query .= "Category = '$category', ";
-   $query .= "PANNo = '$panNumber' ";
-   // Append other fields to the query
-
-   // Add section 2 fields to the query
    $personalEmail = $_POST["personalEmail"];
    $officialEmail = $_POST["officialEmail"];
    $mobileNumber = $_POST["mobileNumber"];
@@ -5655,8 +5636,76 @@ elseif($code==94)
    $PostalCode = $_POST["postalCode"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   
+   $organisationID = $_POST["organisationName"];
 
+ $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
+                        $get_collegeRun=sqlsrv_query($conntest,$get_college);
+                      if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
+                                                { 
+                                                  $organisationName=$get_collegeRow['CollegeName'];
+                                                }
+   
+   $departmentName = $_POST["departmentName"];
+   $get_Department="SELECT  * FROM MasterDepartment where Id='$departmentName' ";
+                        $get_DepartmentRun=sqlsrv_query($conntest,$get_Department);
+                      if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
+                                                { 
+                                                  $DepartmentID=$get_DepartmentRow['Department'];
+                                             }
+   $joiningDate = $_POST["joiningDate"];
+    $Nationality1 = $_POST["nationality_by_post"];
+   $salary = $_POST["salary"];
+   $EmpCategory = $_POST["EmpCategory"];
+   $employmentType = $_POST["employmentType"];
+   $employmentStatus = $_POST["employmentStatus"];
+   $leaveSanctionAuthority1 = $_POST["leaveSanctionAuthority"];
+   $leaveRecommendingAuthority1 = $_POST["leaveRecommendingAuthority"];
+   $bankAccountNo = $_POST["bankAccountNo"];
+   $employeeBankName = $_POST["employeeBankName"];
+   $bankIFSC = $_POST["bankIFSC"];
+
+   // Handling file uploads
+   $panCard = $_FILES["panCard"]["name"];
+   $aadharCard = $_FILES["aadharCard"]["name"];
+   $photo = $_FILES["photo"]["name"];
+   $signature = $_FILES["signature"]["name"];
+   if ($panCard) {
+      $panCardTmp = $_FILES["panCard"]["tmp_name"];
+      $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
+      $panrImageName="PanCard_".$loginId.$file_type;
+   ftp_put($conn_id, "Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
+   }
+   if ($aadharCard) {
+      $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
+      $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
+      $adharImageName="AadharCard_".$loginId.$file_type;
+   ftp_put($conn_id, "Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
+   }
+   if ($photo) {
+      $photoTmp = $_FILES["photo"]["tmp_name"];
+      $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
+  $ImageName=$loginId.$file_type;
+   ftp_put($conn_id, "Staff/$ImageName", $photoTmp, FTP_BINARY);
+    $file_data = file_get_contents($photoTmp);
+        $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+$params = array($file_data, $loginId);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+   }
+   if ($signature) {
+      $signatureTmp = $_FILES["signature"]["tmp_name"];
+  $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
+      $SignatureImageName="Signature".$loginId.$file_type;
+   ftp_put($conn_id, "Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+   }
+   $query = "UPDATE Staff SET ";
+   $query .= "Name = '$name', ";
+   $query .= "FatherName = '$fatherName', ";
+   $query .= "MotherName = '$motherName', ";
+   $query .= "Designation = '$designation', ";
+   $query .= "DateOfBirth = '$dob', ";
+   $query .= "Gender = '$gender', ";
+   $query .= "Category = '$category', ";
+   $query .= "PANNo = '$panNumber' ";
    $query .= ",EmailID = '$personalEmail', ";
    $query .= "OfficialEmailID = '$officialEmail', ";
    $query .= "MobileNo = '$mobileNumber', ";
@@ -5668,42 +5717,7 @@ elseif($code==94)
    $query .= "PostalCode = '$PostalCode', ";
    $query .= "PermanentAddress = '$permanentAddress', ";
    $query .= "CorrespondanceAddress = '$correspondenceAddress' ";
- 
-
-   // Add section 3 fields to the query
-   $organisationID = $_POST["organisationName"];
- $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
-                        $get_collegeRun=sqlsrv_query($conntest,$get_college);
-                      if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
-                                                { 
-                                                  $organisationName=$get_collegeRow['CollegeName'];
-
-                                                }
-   
-
-   $departmentName = $_POST["departmentName"];
-   $get_Department="SELECT  * FROM MasterDepartment where Id='$departmentName' ";
-                        $get_DepartmentRun=sqlsrv_query($conntest,$get_Department);
-                      if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
-                                                { 
-                                                  $DepartmentID=$get_DepartmentRow['Department'];
-
-                                                }
-   $joiningDate = $_POST["joiningDate"];
-    $Nationality1 = $_POST["nationality_by_post"];
-   $salary = $_POST["salary"];
-   $EmpCategory = $_POST["EmpCategory"];
-   $employmentType = $_POST["employmentType"];
-   $employmentStatus = $_POST["employmentStatus"];
-   $leaveSanctionAuthority = $_POST["leaveSanctionAuthority"];
-
-   $leaveRecommendingAuthority = $_POST["leaveRecommendingAuthority"];
-
-   $bankAccountNo = $_POST["bankAccountNo"];
-   $employeeBankName = $_POST["employeeBankName"];
-   $bankIFSC = $_POST["bankIFSC"];
-
-   $query .= ", CollegeId = '$organisationID', ";
+   $query .= ",CollegeId = '$organisationID', ";
    $query .= "CollegeName = '$organisationName', ";
    $query .= "Department = '$DepartmentID', ";
    $query .= "DepartmentID = '$departmentName', ";
@@ -5712,60 +5726,14 @@ elseif($code==94)
    $query .= "Type = '$employmentType', ";
    $query .= "CategoryId = '$EmpCategory', ";
    $query .= "SalaryAtPresent = '$salary', ";
-
    $query .= "JobStatus = '$employmentStatus', ";
-
-   $query .= "LeaveRecommendingAuthority = '$leaveRecommendingAuthority', ";
-
-   $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority', ";
-
+   $query .= "LeaveRecommendingAuthority = '$leaveRecommendingAuthority1', ";
+   $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority1', ";
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
    $query .= "BankIFSC = '$bankIFSC' ";
-
- 
-   // Handling file uploads
-   $panCard = $_FILES["panCard"]["name"];
-   $aadharCard = $_FILES["aadharCard"]["name"];
-   $photo = $_FILES["photo"]["name"];
-   $signature = $_FILES["signature"]["name"];
-
-   if ($panCard) {
-      $panCardTmp = $_FILES["panCard"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
-      $panrImageName="PanCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
-     
-   }
-
-   if ($aadharCard) {
-      $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
-      $adharImageName="AadharCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY);
-      
-   }
-
-   if ($photo) {
-      $photoTmp = $_FILES["photo"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-  $ImageName=$loginId.$file_type;
-   ftp_put($conn_id, "Staff/$ImageName", $photoTmp, FTP_BINARY);
-    $file_data = file_get_contents($photoTmp);
-        $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $loginId);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
-   }
-
-   if ($signature) {
-      $signatureTmp = $_FILES["signature"]["tmp_name"];
-  $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
-      $SignatureImageName="Signature".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
-   }
-
-     $query .= "WHERE IDNo = '$loginId'";
-
+   $query .= "WHERE IDNo = '$loginId'";
+ $query;
    if(sqlsrv_query($conntest,$query))
    {
       echo "1";
@@ -5774,7 +5742,7 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
                   $leaveexistCount=sqlsrv_num_rows($countX);
                   if($leaveexistCount>0)
                   {
-                       $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionId='$leaveRecommendingAuthority',AuthorityId='$leaveSanctionAuthority' where StaffId='$loginId'";
+                  $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionId='$leaveRecommendingAuthority1',AuthorityId='$leaveSanctionAuthority1' where StaffId='$loginId'";
                       sqlsrv_query($conntest,$updateLeaveAuth);
 
                   }
@@ -7756,7 +7724,7 @@ elseif($code==130)
             <div class="col-lg-6">
                 <label>Month</label>
                 <select name="month" class="form-control" required>
-                  <option value="">Select</option>
+                    <option value="">Select</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
                     <option value="Marchr">March</option>
@@ -8625,13 +8593,13 @@ elseif($code==141)
                 <div class="col-lg-6">
                     <label>Student Name</label>
                     <input type="text" value="<?=$StudentName;?>" id="Name" class="form-control">
-                     <label>Uni Roll NOe</label>
+                    <label>Uni Roll NOe</label>
                     <input type="text" value="<?=$UniRollNo;?>" id="unirollno" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
-                     <label>Upload Date</label>
+                    <label>Upload Date</label>
                     <input type="date" value="<?=$upload_date;?>" id="upload_date" class="form-control">
                 </div>
                 <div class="col-lg-6">
@@ -14059,10 +14027,13 @@ $aa[]=$row;
         while($ifLEaveRow=sqlsrv_fetch_array($ifLeaveCheckWhenAuthRun))
         {
       
-                $ifLeaveCheckWhenAuth1="SELECT * FROM ApplyLeaveGKU Where StaffId='".$ifLEaveRow['IDNo']."'";
+              $ifLeaveCheckWhenAuth1="SELECT * FROM ApplyLeaveGKU Where StaffId='".$ifLEaveRow['IDNo']."' and Status!='Approved'";
+             
             $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
             if($ifLEaveRow1=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run))
             {
+              
+              
             if($ifLEaveRow1['AuthorityId']!=$EmployeeID && $ifLEaveRow1['SanctionId']==$EmployeeID)
             {
                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
@@ -14078,7 +14049,7 @@ $aa[]=$row;
             }
             else
             {
-                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To VC' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+                 $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To VC' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
         
@@ -14111,7 +14082,7 @@ $aa[]=$row;
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
                             <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
-                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+
                             <td><?php   if($row['LeaveDurationsTime']!=0)
             {
               echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
@@ -14120,6 +14091,7 @@ $aa[]=$row;
             {
                echo  $LeaveDurationsTime=$row['LeaveDuration'];
             }?></td>
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
 
                             <td>
                                 <div class="controls">
@@ -14550,8 +14522,32 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                     <ul class="nav flex-column" style="color:black;">
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
-                                <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
+
+                                <b class="float-left ">Leave Type &nbsp;&nbsp;&nbsp;</b>
+                                <span class="float-left ">
+                                    <select class="form-control form-control-sm" id="leaveTypeByAuth">
+
+                                        <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
+                                        <?php 
+                    if($row['LeaveTypeId']!='1' && $row['LeaveTypeId']!='2')
+                    {
+$getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2' ";
+$getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
+while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
+{?>
+                                        <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
+                                        <?php
+ }
+}
+?>
+                                    </select>
+                                </span>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
                             </a>
+
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
@@ -14673,10 +14669,12 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                         <li class="nav-item">
                             <div class="card">
-                                <textarea id="remarksForApproved" cols="10" class='form-control' placeholder="Write your remakrs.........."></textarea>
-                              <small id="error-leave-textarea" class='text-danger' style='display:none;'>Please enter a value minimum 3 characters.</small>
+                                <textarea id="remarksForApproved" cols="10" class='form-control'
+                                    placeholder="Write your remakrs.........."></textarea>
+                                <small id="error-leave-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 3 characters.</small>
                             </div>
-                            
+
                         </li>
 
                         <div class="col-lg-12">
@@ -14732,11 +14730,11 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
         {
           ?>
 
-                           <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                               To VC</button>
-                           <button class="btn btn-danger"
-                               onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
-                           <?php
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
+                                To VC</button>
+                            <button class="btn btn-danger"
+                                onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                            <?php
        }
         else if($row['Status']=='Pending to VC' && $Emp_Designation=='Vice Chancellor')
         {
@@ -15145,13 +15143,15 @@ elseif($code==242)
                     <div class="table table-responsive table-bordered table-hover" style="font-size:;">
                         <table class="table">
                             <tr>
-                               
+
                                 <th>Course</th>
                                 <th>Batch</th>
                                 <th>Semester</th>
                                 <th>Admission Count</th>
                                 <th>Exam Form Accepted</th>
-                               
+                                <th>Exam Form Pending</th>
+                                <th>Not Applied</th>
+
 
                             </tr>
                             <?php 
@@ -15168,37 +15168,59 @@ elseif($code==242)
                         $currentYears=date('Y');
                          $startBatch=$currentYears-$Duration;
                            $startBatch=$startBatch+1;
-                          for($sem=1,$batch=$currentYears;$batch >=$startBatch,$sem <$Duration*2;$batch-=1,$sem++) {
                            
+                          for($batch=$currentYears;$batch >=$startBatch;$batch-=1) 
+                          {
+                           $batchArray[]=$batch;
+                          }
+                            for ($sem=1;$sem <$Duration*2; $sem++) 
+                            { 
                             if($sem%2==$oddeven)
                             {
-                               $sem;
-                            $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$batch' ";
+                              $SemArray[]=$sem;
+
+                            }
+                        }
+                            
+                            foreach ($batchArray as $key => $value) {
+                               
+                             $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$value' ";
                             $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                             $count=sqlsrv_num_rows($get_study_scheme_run)."<br>";
-
-                            $examFormAccepted="SELECT * FROM ExamForm WHERE SemesterId='$sem' and CourseID='$Course' and Batch='$batch' and Status='8'";
+                              $examFormAccepted="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status='8'";
                             $examFormAccepted_run=sqlsrv_query($conntest,$examFormAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                             $countExamForm=sqlsrv_num_rows($examFormAccepted_run)."<br>";
+
+                            $examFormAccepted1="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status!='8'";
+                            $examFormAccepted_run1=sqlsrv_query($conntest,$examFormAccepted1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                            $countExamFormPending=sqlsrv_num_rows($examFormAccepted_run1)."<br>";
+                            
+                            $examFormAccepted12="SELECT  IDNo FROM  Admissions  WHERE IDNo NOT IN (SELECT IDNo FROM ExamForm where SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value')";
+                            $examFormAccepted_run12=sqlsrv_query($conntest,$examFormAccepted12,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                            $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12)."<br>";
+
+
                             if($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
                             {
                            ?>
-                           <tr>
-                           <td><?=$get_row['Course'];?></td>
-                           <td><?=$batch;?></td>
-                           <td><?=$sem;?></td>
-                           <td><?=$count;?></td>
-                           <td><?=$countExamForm;?></td>
-                          </tr>
-                           <?php 
+                            <tr>
+                                <td><?=$get_row['Course'];?></td>
+                                <td><?=$value;?></td>
+                                <td><?=$SemArray[$key];?></td>
+                                <td><?=$count;?></td>
+                                <td><?=$countExamForm;?></td>
+                                <td><?=$countExamFormPending;?></td>
+                                <td><?=$countExamFormNotApply;?></td>
+                            </tr>
+                            <?php 
 
                                  
-                            }
-                        }
+                            
+                        
                         }
                         
                     }
-                    
+                }
 
                        ?>
                         </table>
@@ -15207,6 +15229,13 @@ elseif($code==242)
 
                 </div>
                 <?php
+}
+elseif ($code==243) 
+{
+   $leaveID=$_POST['id'];
+   $leaveType=$_POST['type'];
+    $updateLeaveAuth="UPDATE ApplyLeaveGKU SET LeaveTypeId='$leaveType' where Id='$leaveID'";
+    sqlsrv_query($conntest,$updateLeaveAuth);
 }
    else
    {
