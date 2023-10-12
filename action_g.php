@@ -14040,7 +14040,7 @@ $aa[]=$row;
         while($ifLEaveRow=sqlsrv_fetch_array($ifLeaveCheckWhenAuthRun))
         {
       
-              $ifLeaveCheckWhenAuth1="SELECT * FROM ApplyLeaveGKU Where StaffId='".$ifLEaveRow['IDNo']."' and Status!='Approved'";
+              $ifLeaveCheckWhenAuth1="SELECT * FROM ApplyLeaveGKU Where StaffId='".$ifLEaveRow['IDNo']."' and Status!='Approved' and Status!='Reject'";
              
             $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
             if($ifLEaveRow1=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run))
