@@ -11,8 +11,8 @@ window.location.href = 'index.php';
    }
    else
    {
-   date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H-i-s');
+   //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
+   //$timeStamp=date('Y-m-d H-i-s');
    
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -13909,7 +13909,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("d-m-Y h:s A")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y H:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -15341,7 +15341,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
                             </a>
                         </li>
                         <?php }?>
@@ -15533,7 +15533,7 @@ elseif($code==233)
                             <tr>
                                 <td><?=$Sr;?></td>
                                 <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                                <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                                <td widht="100"><?=$row['ApplyDate']->format('Y-m-d H:i:s A');?></td>
                                 <td><?=$row['LeaveTypeName'];?></td>
                                 <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></td>
                                 <td><?=$LeaveDurationsTime;?></td>
