@@ -4063,7 +4063,7 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 ?>
                                             <tr><td><?= $getUseridcardRow['IDNo'];?></td>
                                                 <td><?= $getUseridcardRow['PrintStatus'];?></td>
-                                             <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y H:i:s');?></td>
+                                             <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y h:i:s A');?></td>
                                              </tr><?php }?>
 
                                            
@@ -13040,7 +13040,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                 &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                 (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li>
                     <?php if($row['HRRemarks']!='')
@@ -13049,7 +13049,7 @@ else
 
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A ');};?></b>
+                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                         </a>
                     </li>
                     <?php }?>
@@ -13060,7 +13060,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -13068,7 +13068,7 @@ else
                             <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                             <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                 (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </b></a>
                     </li>
                     <?php if($row['HRRemarks']!='')
@@ -13077,7 +13077,7 @@ else
 
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
+                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                         </a>
                     </li>
                     <?php }?>
@@ -13088,7 +13088,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li><?php 
                                                 }
@@ -13894,22 +13894,24 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
                             </a>
                         </li>
-                        <li class="nav-item">
+                           <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php $row['StartDate']->format("d-m-Y");?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php $row['EndDate']->format("d-m-Y"); ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y H:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
+
+
+                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -13941,7 +13943,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13965,7 +13967,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                     (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)
                                     On
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li><?php 
                     }
@@ -13980,7 +13982,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14706,7 +14708,7 @@ $aa[]=$row;
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?>
+                            <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
 if ($monthdown<1) {?>
@@ -14903,7 +14905,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?>
+                            <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
 if ($monthdown<1) {?>
@@ -15075,7 +15077,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
                             <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
                             <td><?=$LeaveDurationsTime;?></td>
@@ -15117,7 +15119,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
                             <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
                             <td><?php   if($row['LeaveDurationsTime']!=0)
@@ -15256,13 +15258,13 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['StartDate']->format("d-m-Y");?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['EndDate']->format("d-m-Y"); ?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -15270,7 +15272,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 <b> Apply Date
 
 
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
+                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -15302,7 +15304,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -15322,7 +15324,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
 
                         </a></li>
                         <li class="nav-item">
@@ -15332,7 +15334,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -15341,7 +15343,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                             </a>
                         </li>
                         <?php }?>
@@ -15353,7 +15355,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                     (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)
                                     on
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
 
                             </a>
                         </li><?php 
