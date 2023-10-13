@@ -42,6 +42,10 @@ ini_set('max_execution_time', '0');
        include "connection/connection_web.php"; 
 
    }
+     if($code==272)
+{
+       include "connection/ftp-erp.php";
+}
    
     $get_session="SELECT * FROM question_session where session_status='1'";
       $get_session_run=mysqli_query($conn,$get_session);
@@ -15892,26 +15896,30 @@ elseif ($code==272) //170976
     $designation=$_POST['designation'];
     $address=$_POST['address'];
     // echo $_POST['yes'];
-    echo $_POST['yes1'];
+   // $_POST['yes1'];
       if($_POST['yes1']=='1')
      {
-      $link=$_POST['userImageCaptured'];
-    $characters = '';
+   $link= $_POST['userImageCaptured'];
+
+   $characters = '';
+
    $result = $IdNo;
+
    $image_name =$result;
-   $ftp_server1 = "10.0.10.11";
-   $ftp_user_name1 = "Gurpreet";
-   $ftp_user_pass1 = "Guri@123";
-   $remote_file1 = "";
-   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
-   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
-   $destdir = 'dummy_images/';
-   ftp_chdir($conn_id, "") or die("Could not change directory");
+  
+      ftp_chdir($conn_id, "Staff/") or die("Could not change directory");
    ftp_pasv($conn_id,true);
-   file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
-   ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   file_put_contents($image_name.'.jpg', file_get_contents($link));
+
+   ftp_put($conn_id,$image_name.'.jpg',$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
-   $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+
+   $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+$params = array($link, $IdNo);
+
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+
+ $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
 
     }
     else
@@ -15922,19 +15930,28 @@ $file_size = $_FILES['imgage']['size'];
 $file_tmp = $_FILES['imgage']['tmp_name'];
  $file_type = $_FILES['imgage']['type'];
 $target_dir = "";
-$ftp_server = "10.0.10.11";
-  $ftp_user_name = "Gurpreet";
-  $ftp_user_pass = "Guri@123";
-  $remote_file = "";
-$conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
-    $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
-    $file_name =$IdNo.'.jpg';
-  echo   $target_dir = $file_name;
-  ftp_chdir($conn_id, "") or die("Could not change directory");
-  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-  ftp_close($conn_id);
+
+
+      
+      $file_type = str_ireplace("image/", ".", $_FILES['imgage']['type']);
+ echo  $ImageName=$IdNo.$file_type;
+    ftp_chdir($conn_id, "Staff") or die("Could not change directory");
+   //ftp_pasv($conn_id,true);
+
+   ftp_put($conn_id, "$ImageName",$file_tmp, FTP_BINARY);
+
+    $file_data = file_get_contents($file_tmp);
+
+        $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+$params = array($file_data, $IdNo);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+
+
  $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
 }
+
+
+
  $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
