@@ -18,48 +18,37 @@
 @keyframes a1 {
   90%,100%{flex-grow: 1}
 }
+  
+.my
+   {
+   background-color: #a62535;
+   color: #fc3;
+   }
+   input[type=radio] + label {
+   background-color: #a62535;
+   color: #fc3;
+   } 
+   input[type=radio]:checked + label {
+   color: #fc3;
+   background-color:#223260;
+   } 
+</style>
+<style type="text/css">
+   h5{
+   color: black;
+   text-decoration: bold;
+   }
+</style>
 
-   </style>
     <script src="plugins/webcam.js/webcam.js"> </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
    <script>
 
-      $(document).ready(function()
-      {
-         $(document).on('keydown', '.personmeet', function() 
-         {
-            $("#personmeet").autocomplete(
-            {
-               source: function( request, response ) 
-               {
-                  $.ajax(
-                  {
-                     url: "action.php",
-                     type: 'post',
-                     dataType: "json",
-                     data: 
-                     {
-                        search: request.term,code:145
-                     },
-                     success: function( data ) 
-                     {
-                        response( data );
-                     }
-                  });
-               },
-               select: function (event, ui) 
-               {
-                  $(this).val(ui.item.label); // display the selected text
-                  var userid = ui.item.value; // selected value
-                  document.getElementById('personmeet_id').value = ui.item.value;
-                  document.getElementById('designation').value = ui.item.designation;
-                  document.getElementById('department').value = ui.item.department;
-                  document.getElementById('empMobile').value = ui.item.mobile;
-                  return false;
-               }
-            });
-         });
-      });
+             
+               
+               
+           
+
 
    function student_search()
    {
@@ -117,17 +106,11 @@
             
                   
               
-            <div class="card card-info collapsed-card" >
+            <div class="card card-info" >
                <div class="card-header">
                   <h3 class="card-title">Supporting Staff</h3>
                   <div class="card-tools">
-                     <button type="button"
-                          class="btn btn-outline-light btn-sm"
-                          data-card-widget="collapse"
-                          data-toggle="tooltip"
-                          title="Collapse">
-                    <i class="fas fa-plus"></i>
-                  </button>
+                     
                   </div>
                </div>
               
@@ -142,41 +125,61 @@
 
 
                   <div class="row" >
-                     <div class="col-lg-3 col-md-3">
-                        <label>IDNo</label>
-                         <div class="btn-group input-group-md  ">
-                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Enter IDNo " aria-describedby="button-addon2" value="">
-                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
-                           </div>
-                     </div>      
-               </div>
-<div class="row" id="student_search_record">
-    <div class="col-lg-3 col-md-3">
-   <label>Name</label>
-<input type="text" class="form-control"  name="name" id="name">
-</div>
- <div class="col-lg-3 col-md-3">
-   <label>Father Name</label>
-<input type="text" class="form-control"  name="father_name" id="father_name">
-</div>
-<div class="col-lg-3 col-md-3">
-   <label>Designation</label>
-<input type="text" class="form-control"  name="designation" id="designation">
-</div>
- <div class="col-lg-3 col-md-3">
-   <label>Address</label>
-<input type="text" class="form-control"  name="address" id="address">
-</div> 
-<div class="col-lg-1 col-md-1">
-   <label>Yes</label>
-   
-<input type="radio"  value="1"  name="yes1" id="yes" checked>
-</div>
-<div class="col-lg-1 col-md-1">
-   <label>No</label>
 
-<input type="radio"  value="0" name="yes1" id="yes">
-</div>
+   <div class="col-lg-3 col-md-3 col-sm-3" >
+
+
+   <script>
+               function emc1_show() {
+               var x = document.getElementById("lect_div");
+                 var y = document.getElementById("lect_div1");
+                
+               x.style.display = "block";
+                y.style.display = "none";
+
+               
+               
+               }
+                      function emc1_hide() {
+               var x = document.getElementById("lect_div");
+                var y = document.getElementById("lect_div1");
+               
+
+               x.style.display = "none";
+                y.style.display = "block";
+               
+               }
+               
+               
+            </script>
+
+
+
+               <div class="card-header" style="background-color: #223260;">Visitor Entry Form</div>
+                  <div class="card card-body" >
+
+
+                       
+                         <div class="btn-group input-group-md " >
+                                 <input type="text" name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Enter IDNo " aria-describedby="button-addon2" value="">
+                              <button class="btn btn-info btn-md" type="button" id="button-addon2" onclick="student_search();" name="search"><i class="fa fa-search"></i></button>
+                           </div>
+                    
+
+                    
+
+ 
+
+
+
+<div class="row" id="student_search_record">
+
+       
+               </div>
+               <br>
+
+   
+  
 </div>
 
        
@@ -185,19 +188,14 @@
 
             </div>
             <div class="col-lg-2 col-md-2" >
-               <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
-               <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
-                  <img src="dummy-user.png" width="100%" height="130px" >
-
-                           
-               </div>
+               
                <br>
-<input type="file" class="form-control" accept=".jpg"  name="imgage" id="imgage">
+
 
                <br>
                <!-- <label>&nbsp;</label> -->
                <div class="col-lg-12 col-md-12">
-                  <input type="submit" name="entrybtn" id="entrybtn" class="btn form-control btn-info ">
+                  
                </div>
             </div>
       </div>
@@ -207,24 +205,7 @@
             </div>
          </div>
          
-         <div class="col-md-12 col-lg-12 col-sm-12">
-            <div class="card card-info">
-               <div class="card-header">
-                  <h3 class="card-title"><strong>Date: </strong> <?php echo date('d-M-Y'); ?>
-                     <!-- <strong>Time: </strong> <span id="timestamp"></span> -->
-                  </h3>
-               </div>
-               <div class="card-body" id="checked_out_students"  >
-                  <div id="live_data" class="table table-striped table-responsive">
-                     
-                  </div>
-               
-               </div>
-               
-               <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
-         </div>
+ 
       </div>
    </div>
 </section>
@@ -365,7 +346,7 @@
                             $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
-                              
+                               
            
             var student_roll_no = document.getElementById("student_roll_no").value;
             var name = document.getElementById("name").value;
@@ -390,7 +371,7 @@
                      spinner.style.display='none';
             if (data==1) 
             {
-                      // console.log(data);
+                       console.log(data);
 
             }
             else
@@ -398,13 +379,13 @@
                   showVisitors(student_roll_no);
                     console.log(data);
 
-                  SuccessToast('Successfully Inserted');
+             SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
              document.getElementById('image_captured').innerHTML = ' <img src="dummy-user.png" width="100%" height="130px">';
-            document.getElementById("name").value='';
-            document.getElementById("designation").value='';
-            document.getElementById("father_name").value='';
-            document.getElementById("address").value='';
+            // document.getElementById("name").value='';
+            // document.getElementById("designation").value='';
+            // document.getElementById("father_name").value='';
+            // document.getElementById("address").value='';
 
             }
     
@@ -463,7 +444,7 @@
                                     {
 
                                        // console.log(response);
-                                       document.getElementById("live_data").innerHTML=response;
+                                       //document.getElementById("live_data").innerHTML=response;
                                     }
                                  });
                            }

@@ -161,6 +161,38 @@
           }      
               
 
+
+
+
+
+
+              function show_emp_all_college(collegeId)
+          {
+           
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=58_0;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,collegeId:collegeId
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+                  spinner.style.display='none';
+                 document.getElementById("show_record").innerHTML=response;
+                 document.getElementById("CollegeID_Set").value='CollegeID='+collegeId;
+      
+              }
+           });
+          }    
+
+
+
+
+
               function show_emp_all_department(collegeId,department)
           {
            
@@ -183,6 +215,14 @@
               }
            });
           }    
+
+
+
+
+
+
+
+
 
 
     function search_all_employee_emp_name(emp_name)
@@ -1413,6 +1453,21 @@ function printEmpIDCard(id) {
          {  
          //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
           window.open("printSmartCardEmp.php?code="+code+"&id="+id,'_blank');
+         }
+         else
+         {
+            alert("Select ");
+         }
+      
+}
+
+
+function printfourthCard(id) {
+   var code=3;
+        if (id!='') 
+         {  
+         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
+          window.open("print_id_card_pass.php?code="+code+"&id_array="+id,'_blank');
          }
          else
          {

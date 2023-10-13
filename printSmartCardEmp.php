@@ -1,7 +1,9 @@
 <?php
 session_start();
 $EmployeeID=$_SESSION['usr'];
+
 ini_set('max_execution_time', '0');
+
 include 'connection/connection.php';
 $result = mysqli_query($conn,"SELECT role_id FROM user  where emp_id=$EmployeeID");
 if($row=mysqli_fetch_array($result)) 
@@ -55,6 +57,7 @@ if ($code==1)
     $result = sqlsrv_query($conntest,$sql);
     while($row=sqlsrv_fetch_array($result))
     {
+       $name= $row['Name'];
         $pdf->SetFont('Arial','',9);
         $pdf->SetTextColor(255,255,255);
         $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,8);
@@ -126,6 +129,11 @@ if ($code==1)
     
    }
 
+$date=date('Y-m-d H:i:s');
+
+ $up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$empid')";
+
+ $stmt1 = sqlsrv_query($conntest,$up);
 
 }
 
