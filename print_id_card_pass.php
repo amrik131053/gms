@@ -1469,9 +1469,21 @@ $exdate = date("d-m-Y", strtotime($exdate1));
    $left=$left;
    $down=$down+120;
  }
-   $date=date('Y-m-d');
-   $up="INSERT INTO suporting_staff (IDNo,Status,P_Date) values ('$value','1','$date')";
-   $up1 =mysqli_query($conn,$up);
+   $date=date('Y-m-d H:i:s');
+
+ $up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$value')";
+
+ $stmt1 = sqlsrv_query($conntest,$up);
+
+if ($stmt1==true)
+    {
+  
+   }
+   else
+   {
+    
+   }
+ 
    $count++;
    }
    

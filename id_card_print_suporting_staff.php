@@ -396,7 +396,7 @@
             else
             {
                   showVisitors(student_roll_no);
-                      // console.log(data);
+                    console.log(data);
 
                   SuccessToast('Successfully Inserted');
             document.getElementById("userImageCaptured").value="";
