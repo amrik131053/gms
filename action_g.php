@@ -3198,8 +3198,7 @@ else { ?>
     <?php 
       }
 
-
-  elseif($code==58_0)
+  elseif($code==5800)
       {
       ?>
     <table class="table" id="example">

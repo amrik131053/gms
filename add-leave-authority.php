@@ -171,7 +171,7 @@
            
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=58_0;
+           var code=5800;
            $.ajax({
               url:'action_g.php',
               type:'POST',
