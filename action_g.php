@@ -15553,6 +15553,7 @@ elseif($code==233)
                     </table>
                 </div><?php 
 }
+
 elseif($code==234)
 {
     $id=$_POST['id'];
@@ -15566,17 +15567,17 @@ $Leave_Authority=$row['AuthorityId'];
 $StaffId=$row['StaffId'];
 }
        $remarks =str_replace("'",'',$_POST['remarks']); 
-    $dataTime=date('Y-m-d h:s:m.v');
+    
     if($Leave_Recom==$Leave_Authority)
     {
-      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
      
       $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
       mysqli_query($conn,$Notification1);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
 
         $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification1);
@@ -15597,9 +15598,9 @@ elseif($code==235)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    // ECHO $timeStamp;
        $remarks =str_replace("'",'',$_POST['remarks']);
-    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to Authority',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to Authority',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15622,7 +15623,7 @@ elseif($code==236)
 {
 
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15635,13 +15636,13 @@ elseif($code==236)
     if($Leave_Recom==$Leave_Authority)
     {
 
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks', SanctionApproveDate='$dataTime',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime'  WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks', SanctionApproveDate='$timeStamp',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp'  WHERE Id='$id'";
      $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
         mysqli_query($conn,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
         mysqli_query($conn,$Notification11);
     }
@@ -15656,10 +15657,10 @@ elseif($code==237)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
    
-    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15680,7 +15681,7 @@ elseif($code==237)
 elseif($code==238)
 {
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15692,13 +15693,13 @@ elseif($code==238)
     }
     if($Leave_Recom==$Leave_Authority)
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         mysqli_query($conn,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         mysqli_query($conn,$Notification11);
     }
@@ -15712,9 +15713,9 @@ elseif($code==238)
 elseif($code==239)
 {
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15743,9 +15744,9 @@ elseif($code==240)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    
     $remarks =str_replace("'",'',$_POST['remarks']);
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15763,6 +15764,7 @@ elseif($code==240)
       }
 
 }
+
 
 elseif($code==241)
 {

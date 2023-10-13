@@ -15877,8 +15877,8 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 </div>
 
  <div class="col-lg-12 col-md-12">
-  
-<input type="submit" id='entrybtn' name></textarea>
+  <br>
+<input type="submit" id='entrybtn' class="btn btn-primary form-control" ></textarea>
 </div>
 <?php 
    }
