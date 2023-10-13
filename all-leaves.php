@@ -372,7 +372,7 @@ function UpdateLeave()
 <p id="ajax-loader"></p>
 
 <div class="modal fade" id="ViewLeaveexampleModal" tabindex="-1" role="dialog" aria-labelledby="ViewLeaveexampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ViewLeaveexampleModalLabel">View</h5>
@@ -385,7 +385,7 @@ function UpdateLeave()
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-       
+      
        <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
 
       </div>
