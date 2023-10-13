@@ -12,7 +12,7 @@ window.location.href = 'index.php';
    else
    {
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H-i-s');
+   $timeStamp=date('Y-m-d H:i:s.v');
    
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -21,8 +21,6 @@ window.location.href = 'index.php';
 window.location.href = "index.php";
 </script>
 <?php }
-
-
 
    include "connection/connection.php";
        $employee_details="SELECT IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
@@ -12445,7 +12443,7 @@ elseif($code==203)
                 <tr>
                     <td><?=$Sr;?></td>
                     <td><b>(<?=$row['StaffName'];?>) <?=$row['IDNo'];?></b></td>
-                    <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:s A');?></td>
+                    <td widht="100"><?=$row['ApplyDate']->format('d-m-Y H:i:s A');?></td>
                     <td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
                     <td><?=$row['EndDate']->format('d-m-Y');?></td>
                     <td><?=$row['LeaveTypeName'];?></td>
@@ -13419,7 +13417,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("d-m-Y h:s A")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("d-m-Y H:i:s A")));?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -13448,7 +13446,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13457,7 +13455,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -13469,7 +13467,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) On
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li><?php 
                     }
@@ -13481,7 +13479,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13490,7 +13488,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
 
                             <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -13898,7 +13896,6 @@ else
     
    $target_dir = $file_name;
 
-   $ApplyDate1=date('Y-m-d h:i:s A');
      $destdir = 'LeaveFileAttachment';
      ftp_chdir($conn_id, "LeaveFileAttachment/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
@@ -13908,7 +13905,7 @@ else
      ftp_close($conn_id);
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$timeStamp','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
 
   //for notifications------------------------------
@@ -14581,7 +14578,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("Y-m-d h:i:s A", strtotime($ApplyDate->format("Y-m-d h:s A")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("d-m-Y H:i:s A")));?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -14611,7 +14608,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14620,7 +14617,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A ');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A ');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14629,13 +14626,13 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
         {?>
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
                         </a></li>
                         <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14644,7 +14641,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
                             </a>
                         </li>
                         <?php }?>
@@ -14653,7 +14650,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 ?> <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
                             </a>
                         </li><?php 
                                                 }
@@ -14865,17 +14862,17 @@ $Leave_Authority=$row['AuthorityId'];
 $StaffId=$row['StaffId'];
 }
        $remarks =str_replace("'",'',$_POST['remarks']); 
-    $dataTime=date('Y-m-d h:s:m.v');
+    
     if($Leave_Recom==$Leave_Authority)
     {
-      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
      
       $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
       mysqli_query($conn,$Notification1);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
 
         $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification1);
@@ -14896,9 +14893,9 @@ elseif($code==235)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    // ECHO $timeStamp;
        $remarks =str_replace("'",'',$_POST['remarks']);
-    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to Authority',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to Authority',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -14921,7 +14918,7 @@ elseif($code==236)
 {
 
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -14934,13 +14931,13 @@ elseif($code==236)
     if($Leave_Recom==$Leave_Authority)
     {
 
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks', SanctionApproveDate='$dataTime',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime'  WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks', SanctionApproveDate='$timeStamp',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp'  WHERE Id='$id'";
      $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
         mysqli_query($conn,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
         mysqli_query($conn,$Notification11);
     }
@@ -14955,10 +14952,10 @@ elseif($code==237)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
    
-    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -14979,7 +14976,7 @@ elseif($code==237)
 elseif($code==238)
 {
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -14991,13 +14988,13 @@ elseif($code==238)
     }
     if($Leave_Recom==$Leave_Authority)
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime',SanctionRemarks='$remarks',SanctionApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         mysqli_query($conn,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$dataTime' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         mysqli_query($conn,$Notification11);
     }
@@ -15011,9 +15008,9 @@ elseif($code==238)
 elseif($code==239)
 {
     $id=$_POST['id'];
-    $dataTime=date('Y-m-d h:s:m.v');
+    
        $remarks =str_replace("'",'',$_POST['remarks']);
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15042,9 +15039,9 @@ elseif($code==240)
 {
     $id=$_POST['id'];
     
-    $dataTime=date('Y-m-d h:s:m.v');
+    
     $remarks =str_replace("'",'',$_POST['remarks']);
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',HRRemarks='$remarks',HRApprovedate='$dataTime' WHERE Id='$id'";
+     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
