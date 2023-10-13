@@ -12579,6 +12579,11 @@ elseif($code==205)
    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
    if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
    {
+    $Emp_Image=$row['Snap'];
+    $emp_pic=base64_encode($Emp_Image);
+  
+  
+  
      $StartDate=$row['StartDate'];
     $EndDate=$row['EndDate'];
     $ApplyDate=$row['ApplyDate'];
@@ -12604,14 +12609,33 @@ elseif($code==205)
            $statusColor="warning";
        }
 
-       if($role_id==2)
-       {
+      
 ?>
-        <div class="row">
+ <style>
+        .leaveViewColor {
+            color: black !important;
+        }
+        </style>
+ <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-<?=$statusColor;?>">
+                    <div class="widget-user-image">
+                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</h3>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
+                </div>
+                <div class="card-footer p-0">
+                    <ul class="nav flex-column" style="color:black;">
+    
+     
             <div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>" readonly>
             </div>
-            <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control"
-                    value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
+            <!-- <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control"
+                    value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div> -->
             <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate"
                     class="form-control" value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
             </div>
@@ -12656,71 +12680,176 @@ else
             </div>
             <div class="col-lg-12"><label>Reason</label><textarea id="LeaveReason"
                     class="form-control"><?=$row['LeaveReason'];?></textarea></div>
-            <div class="col-lg-12"><label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b>
-            </div>
-        </div>
-        <?php }
-else
-{
-    ?>
-        <div class="row">
-            <div class="col-lg-12"><input type="hidden" id="LeaveID" class="form-control" value="<?=$id;?>" readonly>
-            </div>
-            <div class="col-lg-12"><label>Employee</label><input type="text" class="form-control"
-                    value="(<?=$row['StaffName'];?>)&nbsp;<?=$row['IDNo'];?>" readonly></div>
-            <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate"
-                    class="form-control" value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>"
-                    readonly></div>
-            <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control"
-                    value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>" readonly></div>
-            <div class="col-lg-12"><label>End Date</label><input type="date" id="ApplyDate" class="form-control"
-                    value="<?php echo date("Y-m-d", strtotime($ApplyDate->format("Y-m-d")));?>" readonly></div>
-            <div class="col-lg-12">
-                <label>Leave Type</label>
-                <select class="form-control" id="LeaveType" readonly>
-                    <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
-                    <?php 
-    $getLeaveTypes="SELECT * from LeaveTypes";
-    $getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
-    while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
-    {?>
-                    <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
-                    <?php
-     }
-    ?>
-                </select>
-            </div>
-            <div class="col-lg-12"><label>Duration</label>
-                <?php 
-    if($row['Status']=='Approved')
-    {?>
-                <input type="text" class="form-control" id="LeaveDuration" value="<?=$LeaveDurationsTime;?>" readonly>
-                <?php 
-    }
-    else
-    {?>
-                <select class="form-control" id="LeaveDuration" readonly>
-                    <option value="<?=$LeaveDurationsTime;?>"><?=$LeaveDurationsTime;?></option>
-                    <option value="0.25">0.25</option>
-                    <option value="0.50">0.5</option>
-                    <option value="0.75">0.75</option>
-                    <option value="0">1</option>
-                </select>
-                <?php
-     }
-     ?>
-            </div>
-            <div class="col-lg-12"><label>Reason</label><textarea id="LeaveReason" class="form-control"
-                    readonly><?=$row['LeaveReason'];?></textarea></div>
-            <div class="col-lg-12"><label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b>
-            </div>
-        </div>
-        <?php }?>
+                    <li class="nav-item">
 
-        <?php
-      
+<a href='#' class="nav-link leaveViewColor"> <label>Status</label><br><b class="text-<?=$statusColor;?>"><?=$row['Status'];?></b>
+           
+</a></li>
+        
+       <?php if($row['AuthorityId']==$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!=''){
+                             ?>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks
+                                    &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
+                                    (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                            </a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
+                {?>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                                &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A ');};?></b>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php }
+       else if( $row['AuthorityId']!=$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!='' )
+        {?>
+        <li class="nav-item">
+                        <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+                            &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                        </a></li>
+                        <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor">
+                                <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
+                                <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                </b></a>
+                        </li>
+                        <?php if($row['HRRemarks']!='')
+                {?>
+                        <li class="nav-item">
+
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                                &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php }
+                               else if($row['SanctionRemarks']!='' && $row['RecommendedRemarks']==''){
+                                ?> 
+                                <li class="nav-item">
+                            <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+                                &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                            </a>
+                        </li><?php 
+                                                }
+                              
+
+                                                if($row['SanctionId']==$row['AuthorityId'])
+                                                {
+                                                    $checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
+                                                    $checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
+                                                        if($rowcheckIfleavependingRun=sqlsrv_fetch_array($checkIfleavependingRun,SQLSRV_FETCH_ASSOC))
+                                                        {
+                                                            if($rowcheckIfleavependingRun['Status']=='Reject')
+                                                                {?>
+    <li class="nav-item">
+                                                            <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+                                                                &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+                                                            </a>
+                                                        </li>
+                                                                <?php }else
+                                                                {
      
-   }
+                                                            ?> 
+                                                            <li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+                                                            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li><?php 
+                                                        }
+                                                    }
+                                                        else
+                                                        { ?> 
+                                                            <li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+                                                            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li><?php 
+    
+                                                        }
+
+                                                }
+                                                else
+                                                {
+                                                $checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
+                                                $checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
+                                                    if($rowcheckIfleavependingRun=sqlsrv_fetch_array($checkIfleavependingRun,SQLSRV_FETCH_ASSOC))
+                                                    {
+                                                        if($rowcheckIfleavependingRun['Status']=='Reject')
+                                                            {?>
+<li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+                                                            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li>
+                                                            <?php }else
+                                                            {
+ 
+                                                        ?> 
+                                                        <li class="nav-item">
+                                                    <a href='#' class="nav-link leaveViewColor"> <b>Recommended Authority </b>
+                                                        &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+                                                    </a>
+                                                </li><?php 
+                                                    }
+                                                }
+                                                    else
+                                                    { ?> 
+                                                        <li class="nav-item">
+                                                    <a href='#' class="nav-link leaveViewColor"> <b>Recommended Authority </b>
+                                                        &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+                                                    </a>
+                                                </li><?php 
+
+                                                    }
+                                                    $checkIfleavepending1="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and RecommendedRemarks!=''";
+                                                    $checkIfleavepending1Run=sqlsrv_query($conntest,$checkIfleavepending1);
+                                                        if($rowcheckIfleavepending1Run=sqlsrv_fetch_array($checkIfleavepending1Run,SQLSRV_FETCH_ASSOC))
+                                                        {
+                                                            if($rowcheckIfleavepending1Run['Status']=='Reject')
+                                                            {?>
+<li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+                                                            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li>
+                                                            <?php }else
+                                                            {
+
+                                                            ?> 
+                                                            <li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+                                                            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li><?php 
+                                                        }
+                                                        }
+                                                        else
+                                                        { ?> 
+                                                            <li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+                                                            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+                                                        </a>
+                                                    </li><?php 
+    
+                                                        }
+                                                    }
+                                                
+                                                       
+                ?> 
+              
+        <?php }
+
+
 
 }
 elseif($code==206)
@@ -13495,32 +13624,132 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
 
 
                         <?php }
-    ?>
+   
 
-                        <li class="nav-item">
-                            <a href='#' class="nav-link leaveViewColor">
-                                <b> Status &nbsp;&nbsp;&nbsp;</b>
-                                <?php 
-            if($row['Status']=='Approved') {
-                $statusColor="success";
-                echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
-               
-            }
-            elseif($row['Status']=='Reject') {
-                $statusColor="danger";
-                echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
-            }
-            elseif($row['Status']=='Pending to VC') {
-                $statusColor="info";
-                echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
-            }
-            else {
-                $statusColor="primary";
-                echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
-            }
-            ?></b>
-                                </b></a>
-                        </li>
+if($row['SanctionId']==$row['AuthorityId'])
+{
+    $checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
+    $checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
+        if($rowcheckIfleavependingRun=sqlsrv_fetch_array($checkIfleavependingRun,SQLSRV_FETCH_ASSOC))
+        {
+            if($rowcheckIfleavependingRun['Status']=='Reject')
+                {?>
+<li class="nav-item">
+            <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+                &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+            </a>
+        </li>
+                <?php }else
+                {
+
+            ?> 
+            <li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+        </a>
+    </li><?php 
+        }
+    }
+        else
+        { ?> 
+            <li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b> Authority </b>
+            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+        </a>
+    </li><?php 
+
+        }
+
+}
+else
+{
+$checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
+$checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
+    if($rowcheckIfleavependingRun=sqlsrv_fetch_array($checkIfleavependingRun,SQLSRV_FETCH_ASSOC))
+    {
+        if($rowcheckIfleavependingRun['Status']=='Reject')
+            {?>
+<li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b>Recommended Authority </b>
+            &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+        </a>
+    </li>
+            <?php }else
+            {
+
+        ?> 
+        <li class="nav-item">
+    <a href='#' class="nav-link leaveViewColor"> <b>Recommended Authority </b>
+        &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+    </a>
+</li><?php 
+    }
+}
+    else
+    { ?> 
+        <li class="nav-item">
+    <a href='#' class="nav-link leaveViewColor"> <b>Recommended Authority </b>
+        &nbsp;(<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+    </a>
+</li><?php 
+
+    }
+    $checkIfleavepending1="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and RecommendedRemarks!=''";
+    $checkIfleavepending1Run=sqlsrv_query($conntest,$checkIfleavepending1);
+        if($rowcheckIfleavepending1Run=sqlsrv_fetch_array($checkIfleavepending1Run,SQLSRV_FETCH_ASSOC))
+        {
+            if($rowcheckIfleavepending1Run['Status']=='Reject')
+            {?>
+<li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg text-danger' aria-hidden='true'></i></b>
+        </a>
+    </li>
+            <?php }else
+            {
+
+            ?> 
+            <li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg text-success' aria-hidden='true'></i></b>
+        </a>
+    </li><?php 
+        }
+        }
+        else
+        { ?> 
+            <li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b>Sanction Authority </b>
+            &nbsp;(<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)&nbsp;&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg text-danger' aria-hidden='true'></i></b>
+        </a>
+    </li><?php 
+
+        }
+    }
+?> <li class="nav-item">
+<a href='#' class="nav-link leaveViewColor">
+    <b> Status &nbsp;&nbsp;&nbsp;</b>
+    <?php 
+if($row['Status']=='Approved') {
+$statusColor="success";
+echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-check fa-lg' aria-hidden='true'></i></b>";
+
+}
+elseif($row['Status']=='Reject') {
+$statusColor="danger";
+echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
+}
+elseif($row['Status']=='Pending to VC') {
+$statusColor="info";
+echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
+}
+else {
+$statusColor="primary";
+echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-hourglass-start fa-lg' aria-hidden='true'></i></b>";
+}
+?></b>
+    </b></a>
+</li>
                     </ul>
                 </div>
             </div>
