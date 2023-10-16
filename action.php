@@ -15821,69 +15821,68 @@ $stmt2 = sqlsrv_query($conntest,$sql);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
    
-    // $IDNo= $row['IDNo'];
-?>
- <div class="col-lg-3 col-md-3">
+ ?>
+   <div class="row">
+              
+     
+<div class="col-lg-12 col-md-12" style="text-align:center;">
+<br>
+ <div class="btn-group input-group-sm" style="text-align:center;">
+
+
+                       <input type="radio"  id="ossm"    hidden="" required="" checked=""
+                       onclick="emc1_show();" value="1" name="empc1">  
+
+                       <label for="ossm" class="btn btn-xs">Camera</label>
+
+
+                       <input type="radio"   id="ossm1"  onclick="emc1_hide();"  value='2' hidden="" required="" name="empc1">  
+
+                       <label for="ossm1" class="btn  btn-xs">Upload File</label>
+
+                    
+
+                     </div> 
+</div>
+ <div class="col-lg-12 col-md-12" style="text-align:center;"><br>
+                           
+                            
+                                 <img src="http://erp.gku.ac.in:86/Images/Staff/<?php echo $univ_rollno;?>.jpg" id="img_u"  height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%" alt="image"/>
+                           
+                        </div><br>    
+                        <div class="col-md-12"  id="lect_div" style="text-align: center;display:none;"><br>  <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
+               <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
+                  <img src="dummy-user.png" width="50px"  height="50px" wi >
+
+                           
+               </div> </div>
+
+    <div class="col-md-12" style="display: none;" id="lect_div1"><br>   <input type="file" class="form-control" accept=".jpg"  name="imgage" id="imgage"> </div>  
+
+ <div class="col-lg-12 col-md-12">
    <label>Name</label>
 <input type="text" class="form-control" value="<?=$row['Name'];?>" name="name" id="name">
 </div>
- <div class="col-lg-3 col-md-3">
+ <div class="col-lg-12 col-md-12">
    <label>Father Name</label>
 <input type="text" class="form-control" value="<?=$row['FatherName'];?>" name="father_name" id="father_name">
 </div>
-<div class="col-lg-3 col-md-3">
+<div class="col-lg-12 col-md-12">
    <label>Designation</label>
 <input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation">
 </div>
- <div class="col-lg-3 col-md-3">
+ <div class="col-lg-12 col-md-12">
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address"><?=$row['PermanentAddress'];?></textarea>
 </div>
-<div class="col-lg-1 col-md-1">
-   <label>Yes</label>
-   
-<input type="radio"  value="1"  name="yes1" id="yes" checked>
-</div>
-<div class="col-lg-1 col-md-1">
-   <label>No</label>
 
-<input type="radio"  value="0" name="yes1" id="yes">
+ <div class="col-lg-12 col-md-12">
+  <br>
+<input type="submit" id='entrybtn' class="btn btn-primary form-control" ></textarea>
 </div>
 <?php 
    }
-   else
-      {?>
-
- <div class="col-lg-3 col-md-3">
-   <label>Name</label>
-<input type="text" class="form-control"  name="name" id="name">
-</div>
- <div class="col-lg-3 col-md-3">
-   <label>Father Name</label>
-<input type="text" class="form-control" name="father_name" id="father_name">
-</div>
-<div class="col-lg-3 col-md-3">
-   <label>Designation</label>
-<input type="text" class="form-control"  name="designation" id="designation">
-</div>
- <div class="col-lg-3 col-md-3">
-   <label>Address</label>
-<textarea type="text" class="form-control"  name="address" id="address"></textarea>
-</div>
-<div class="col-lg-1 col-md-1">
-   <label>Yes</label>
-   
-<input type="radio"  value="1"  name="yes1" id="yes" checked>
-</div>
-<div class="col-lg-1 col-md-1">
-   <label>No</label>
-
-<input type="radio"  value="0" name="yes1" id="yes">
-</div>
-<center><small style="color:red;">Record found</small></center>
-      <?php 
-
-   }
+ 
 
 
 }
@@ -15897,10 +15896,14 @@ elseif ($code==272) //170976
     $address=$_POST['address'];
     // echo $_POST['yes'];
    // $_POST['yes1'];
-      if($_POST['yes1']=='1')
+      if($_POST['empc1']=='1')
      {
-   $link= $_POST['userImageCaptured'];
+ $link=$_POST['userImageCaptured'];
 
+
+ 
+
+ 
    $characters = '';
 
    $result = $IdNo;
@@ -15909,13 +15912,20 @@ elseif ($code==272) //170976
   
       ftp_chdir($conn_id, "Staff/") or die("Could not change directory");
    ftp_pasv($conn_id,true);
-   file_put_contents($image_name.'.jpg', file_get_contents($link));
+   file_put_contents($image_name.'.jpg',file_get_contents($link));
 
    ftp_put($conn_id,$image_name.'.jpg',$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
 
+
+$img = file_get_contents('http://erp.gku.ac.in:86/Images/Staff/60582.jpg'); 
+  
+// Encode the image string data into base64 
+ $data = base64_encode($img); 
+
+
    $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($link, $IdNo);
+$params = array($data, $IdNo);
 
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 
@@ -15934,13 +15944,15 @@ $target_dir = "";
 
       
       $file_type = str_ireplace("image/", ".", $_FILES['imgage']['type']);
- echo  $ImageName=$IdNo.$file_type;
+
+
+  $ImageName=$IdNo.'.jpg';
     ftp_chdir($conn_id, "Staff") or die("Could not change directory");
    //ftp_pasv($conn_id,true);
 
-   ftp_put($conn_id, "$ImageName",$file_tmp, FTP_BINARY);
+   ftp_put($conn_id,"$ImageName",$file_tmp, FTP_BINARY);
 
-    $file_data = file_get_contents($file_tmp);
+    echo $file_data = file_get_contents($file_tmp);
 
         $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
 $params = array($file_data, $IdNo);

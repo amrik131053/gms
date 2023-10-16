@@ -11,8 +11,8 @@ window.location.href = 'index.php';
    }
    else
    {
-   date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $timeStamp=date('Y-m-d H:i:s.v');
+   //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
+   //$timeStamp=date('Y-m-d H-i-s');
    
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -21,6 +21,8 @@ window.location.href = 'index.php';
 window.location.href = "index.php";
 </script>
 <?php }
+
+
 
    include "connection/connection.php";
        $employee_details="SELECT IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
@@ -66,9 +68,13 @@ window.location.href = "index.php";
 
 
    $code = $_POST['code'];
-   if($code==224 || $code==94)
+   if($code==224 )
 {
        include "connection/ftp.php";
+}
+ if($code==94)
+{
+       include "connection/ftp-erp.php";
 }
    if($code=='1')
    {
@@ -2810,9 +2816,37 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
-                <td><?=$row['Department'];?></td>
+                <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
-                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
+
+                   <td> 
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row['DepartmentID']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+
+          </td>
             </tr>
             <?php $sr++; }
             
@@ -2825,6 +2859,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
          elseif($code==52)
       {
         $check_count_emp_category_wise="SELECT IDNo FROM Staff Where JobStatus='1'";
+
             $check_count_emp_category_wise_run=sqlsrv_query($conntest,$check_count_emp_category_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $emp_count_active=sqlsrv_num_rows($check_count_emp_category_wise_run);
       
@@ -2881,9 +2916,39 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
-                <td><?=$row['Department'];?></td>
+                  <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
-                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
+
+
+
+               <td> 
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row['DepartmentID']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+
+          </td>
             </tr>
             <?php $sr++; }?>
         </tbody>
@@ -2952,9 +3017,36 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
-                <td><?=$row1['Department'];?></td>
+                <td><?=$row1['Department'];?><?=$row1['DepartmentID'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
-                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
+                      <td> 
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row1['DepartmentID']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+
+          </td>
             </tr>
             <?php $sr++;
             } }?>
@@ -2964,8 +3056,9 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       }
             elseif($code==56)
       {
-         $get_category="SELECT Distinct CollegeName,CollegeID FROM MasterCourseCodes   ";
+         $get_category="SELECT Distinct CollegeName,CollegeID FROM MasterCourseCodes Order By CollegeID";
          $get_category_run=sqlsrv_query($conntest,$get_category);
+
          while($row=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
          {
          
@@ -2976,7 +3069,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       ?>
     <div class="card">
         <div class="card-header" style="background-color:white!important; color: black !important;">
-            <h3 class="card-title" style="font-size: 14px!important"><b><?= $row['CollegeName']; ?></b></h3>
+            <h3 class="card-title" style="font-size: 14px!important" onclick="show_emp_all_college(<?=$CollegeID;?>);"><b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b></h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool">
                     <i class="fas fa-edit" onclick="AddleaveAuthority(<?=$CollegeID;?>);"></i>
@@ -3002,7 +3095,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       {
       
       $collegeId=$_POST['collegeId'];
-             $check_college_emp="SELECT * FROM MasterDepartment  Where  CollegeId='$collegeId'";
+             $check_college_emp="SELECT * FROM MasterDepartment  Where  CollegeId='$collegeId' ";
          $check_college_emp_run=sqlsrv_query($conntest,$check_college_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
           while($row=sqlsrv_fetch_array($check_college_emp_run,SQLSRV_FETCH_ASSOC))
                 {
@@ -3047,7 +3140,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $department=$_POST['department'];
             $collegeId=$_POST['collegeId'];
             
-                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId' and DepartmentID='$department'";
+                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId' and DepartmentID='$department' ANd JobStatus='1' ";
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
@@ -3060,11 +3153,43 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
-                <td><?=$row1['Department'];?></td>
+                <td><?=$row1['Department'];?>(<?=$row1['DepartmentID'];?>)</td>
                 <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
                 </td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
-                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
+
+
+
+
+               
+               <td> 
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row1['DepartmentID']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+
+          </td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3072,6 +3197,104 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
     </table>
     <?php 
       }
+
+  elseif($code==5800)
+      {
+      ?>
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Image</th>
+                <th>EmpID</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>ID Card</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $sr=1;
+          
+            $collegeId=$_POST['collegeId'];
+            
+                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId'  ANd JobStatus='1' ";
+            $get_category_run1=sqlsrv_query($conntest,$get_category1);
+            while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
+            { 
+                $emp_pic=base64_encode($row1['Snap']);
+               ?>
+            <tr>
+                <td><?=$sr;?></td>
+                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                </td>
+                <td><?=$row1['Name'];?></td>
+                <td><?=$row1['IDNo'];?></td>
+                <td><?=$row1['Designation'];?></td>
+                <td><?=$row1['Department'];?>(<?=$row1['DepartmentID'];?>)</td>
+                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                </td>
+                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
+
+
+
+
+               
+               <td> 
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row1['DepartmentID']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+
+          </td>
+            </tr>
+            <?php $sr++;
+            } ?>
+        </tbody>
+    </table>
+    <?php 
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
          elseif($code==59)
       {
           $search = $_POST['empID'];
@@ -3093,7 +3316,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
         <tbody>
             <?php 
             $sr=1;
-             $query = "SELECT *, MasterDepartment.Department as DepartmentName FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') ";
+
+             $query = "SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') ";
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
              {
@@ -3115,12 +3339,39 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
-                <td><?=$row['DepartmentName'];?></td>
+                <td><?=$row['DepartmentName'];?>(<?=$row['depid'];?>)</td>
                 <td><?php if($row['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
                 </td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
                 <td>
-                    <i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+
+
+<?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row['depid']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+
+    <?php
+}?>
+
+                   
                 </td>
             </tr>
             <?php $sr++;
@@ -3152,7 +3403,11 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $sr=1;
             $empID=$_POST['empID'];
             
-                $get_category1="SELECT * FROM Staff where  IDNo='$empID' ";
+                $get_category1="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where  IDNo='$empID' ";
+
+                //$get_category1="SELECT * FROM Staff where  IDNo='$empID' ";
+
+
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
@@ -3168,8 +3423,31 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row1['Department'];?></td>
                 <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
                 </td>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"> </i></td>
-                <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i></td>
+                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"> </i></td>
+                <td><?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row1['depid']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+
+    <?php
+}?></td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3220,12 +3498,36 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             <td><?=$row1['IDNo'];?></td>
                             <td><?=$row1['Designation'];?></td>
                             <td><?=$row1['CollegeName'];?></td>
-                            <td><?=$row1['DepartmentName'];?></td>
+                            <td><?=$row1['DepartmentName'];?>(<?=$row1['DepartmentId'];?>)</td>
                             <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
                             </td>
                             <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i>
                             </td>
-                            <td><i class="fa fa-print fa-lg" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i></td>
+                            <td><?php 
+    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
+
+                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                        $color='';
+                          if(sqlsrv_num_rows($get_card_run)>0)
+                          {
+                            
+                            $color="red";
+                          }  
+?>
+
+<?php if($row1['DepartmentId']!='81'){
+    ?>
+
+     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+<?php 
+}
+else { ?>
+    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+
+    <?php
+}?>
+ </td>
                         </tr>
                     </tbody>
                 </table>
@@ -3245,6 +3547,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                             <?php   if($role_id==2){
                                             
                                             ?>
+                                            <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="#permissions"
                                     data-toggle="tab">Permissions</a></li>
                             <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
@@ -3735,6 +4039,41 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
 
 
                             </div>
+                             <div class="tab-pane" id="idcard">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <table class="table  table-bordered">
+                                            <tr>
+                                                <th colspan="7">
+                                                    <center> ID Card</center>
+                                                </th>
+                                            </tr>
+                                             <tr><td>IDNO</td>
+                                                <td>Status</td>
+                                             <td>Date</td>
+                                             </tr>
+<?php 
+           $IdCard="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'"; 
+$getUseridcard=sqlsrv_query($conntest,$IdCard);
+$countPerms=0;
+while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+{
+?>
+                                            <tr><td><?= $getUseridcardRow['IDNo'];?></td>
+                                                <td><?= $getUseridcardRow['PrintStatus'];?></td>
+                                             <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y h:i:s A');?></td>
+                                             </tr><?php }?>
+
+                                           
+                                </table> 
+                                </div> 
+</div>
+</div>
+
+
+
                             <div class="tab-pane" id="permissions">
 
                                 <div class="row">
@@ -5694,10 +6033,13 @@ elseif($code==94)
    }
    if ($photo) {
       $photoTmp = $_FILES["photo"]["tmp_name"];
+
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-  $ImageName=$loginId.$file_type;
+  $ImageName=$loginId.'.jpg';
    ftp_put($conn_id, "Staff/$ImageName", $photoTmp, FTP_BINARY);
+
     $file_data = file_get_contents($photoTmp);
+
         $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
 $params = array($file_data, $loginId);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
@@ -12443,7 +12785,7 @@ elseif($code==203)
                 <tr>
                     <td><?=$Sr;?></td>
                     <td><b>(<?=$row['StaffName'];?>) <?=$row['IDNo'];?></b></td>
-                    <td widht="100"><?=$row['ApplyDate']->format('d-m-Y H:i:s A');?></td>
+                    <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:s A');?></td>
                     <td widht="100"><?=$row['StartDate']->format('d-m-Y');?></td>
                     <td><?=$row['EndDate']->format('d-m-Y');?></td>
                     <td><?=$row['LeaveTypeName'];?></td>
@@ -12698,7 +13040,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                 &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
                                 (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li>
                     <?php if($row['HRRemarks']!='')
@@ -12707,7 +13049,7 @@ else
 
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A ');};?></b>
+                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                         </a>
                     </li>
                     <?php }?>
@@ -12718,7 +13060,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -12726,7 +13068,7 @@ else
                             <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
                             <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                 (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>) on
-                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </b></a>
                     </li>
                     <?php if($row['HRRemarks']!='')
@@ -12735,7 +13077,7 @@ else
 
                         <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
+                                <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                         </a>
                     </li>
                     <?php }?>
@@ -12746,7 +13088,7 @@ else
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                         </a>
                     </li><?php 
                                                 }
@@ -13552,22 +13894,24 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
                             </a>
                         </li>
-                        <li class="nav-item">
+                           <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php $row['StartDate']->format("d-m-Y");?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php $row['EndDate']->format("d-m-Y"); ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
+
+
+                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -13595,9 +13939,11 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
+
+
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13606,7 +13952,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -13617,10 +13963,11 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
     ?> <li class="nav-item">
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                     (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)
                                     On
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li><?php 
                     }
@@ -13631,10 +13978,11 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                         <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
+
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     On
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -13643,7 +13991,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
 
                             <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14160,6 +14508,7 @@ else
     
    $target_dir = $file_name;
 
+   $ApplyDate1=date('Y-m-d h:i:s A');
      $destdir = 'LeaveFileAttachment';
      ftp_chdir($conn_id, "LeaveFileAttachment/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
@@ -14169,7 +14518,7 @@ else
      ftp_close($conn_id);
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$timeStamp','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
 
   //for notifications------------------------------
@@ -14359,7 +14708,7 @@ $aa[]=$row;
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?>
+                            <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
 if ($monthdown<1) {?>
@@ -14556,7 +14905,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?>
+                            <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
 if ($monthdown<1) {?>
@@ -14728,7 +15077,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td widht="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
                             <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
                             <td><?=$LeaveDurationsTime;?></td>
@@ -14770,7 +15119,7 @@ if ($monthdown<1) {?>
                         <tr>
                             <td><?=$Sr;?></td>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                            <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                            <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
                             <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
                             <td><?php   if($row['LeaveDurationsTime']!=0)
@@ -14909,19 +15258,21 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($StartDate->format("Y-m-d")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['StartDate']->format("d-m-Y");?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y", strtotime($EndDate->format("Y-m-d"))); ?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['EndDate']->format("d-m-Y"); ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
+
+
+                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -14950,9 +15301,10 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['RecommendedRemarks'];   ?>&nbsp;<b>By
+
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14961,7 +15313,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A ');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A ');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14969,17 +15321,20 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
        else if( $row['AuthorityId']!=$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!='' )
         {?>
                         <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+
                             &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                 (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>) on
-                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
+
                         </a></li>
                         <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor">
                                 <b> Sanction Remarks &nbsp;&nbsp;&nbsp;</b>
+
                                 <?=$row['RecommendedRemarks'];   ?> &nbsp; <b>By
                                     (<?=$row['AuthorityId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['AuthorityId']);?>)
                                     on
-                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['RecommendedApproveDate']!=''){echo $row['RecommendedApproveDate']->format('d-m-Y h:i:s A');};?></b>
                                 </b></a>
                         </li>
                         <?php if($row['HRRemarks']!='')
@@ -14988,7 +15343,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y H:i:s A');};?>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                             </a>
                         </li>
                         <?php }?>
@@ -14996,10 +15351,12 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                else if($row['SanctionRemarks']!='' && $row['RecommendedRemarks']==''){
                                 ?> <li class="nav-item">
                             <a href='#' class="nav-link leaveViewColor"> <b>Recommend Remarks </b>&nbsp;&nbsp;&nbsp;
+
                                 &nbsp;<?=$row['SanctionRemarks'];  ?>&nbsp;<b> By
                                     (<?=$row['SanctionId'];?>&nbsp;:&nbsp;<?php getEmployeeName($row['SanctionId']);?>)
                                     on
-                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y H:i:s A');};?></b>
+                                    <?php if($row['SanctionApproveDate']!=''){echo $row['SanctionApproveDate']->format('d-m-Y h:i:s A');};?></b>
+
                             </a>
                         </li><?php 
                                                 }
@@ -15178,7 +15535,7 @@ elseif($code==233)
                             <tr>
                                 <td><?=$Sr;?></td>
                                 <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
-                                <td widht="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
+                                <td widht="100"><?=$row['ApplyDate']->format('Y-m-d H:i:s A');?></td>
                                 <td><?=$row['LeaveTypeName'];?></td>
                                 <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></td>
                                 <td><?=$LeaveDurationsTime;?></td>
@@ -15198,6 +15555,7 @@ elseif($code==233)
                     </table>
                 </div><?php 
 }
+
 elseif($code==234)
 {
     $id=$_POST['id'];
@@ -15408,6 +15766,7 @@ elseif($code==240)
       }
 
 }
+
 
 elseif($code==241)
 {

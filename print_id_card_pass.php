@@ -1418,17 +1418,17 @@ $exdate = date("d-m-Y", strtotime($exdate1));
    if ($sss<29) 
    {
    // $pdf->SetXY($left1-10-20,$down1+2+33);
-   $pdf->MultiCell(66,2,$row['PermanentAddress'].' '.$row['District'].'  '.$row['State'].' '.$row['PostalCode'],'0','C');
+   $pdf->MultiCell(66,2,$row['PermanentAddress'].' '.$row['District'].'  '.$row['State'],'0','C');
    }
    elseif ($sss<58) 
    {
    // $pdf->SetXY($left1-10-20,$down1+2+33);
-   $pdf->MultiCell(66,6,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'].' '.$row['PostalCode'],'0','C');
+   $pdf->MultiCell(66,6,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'],'0','C');
    }
    else
    {
        $pdf->SetXY($left1-10,$down1+2+37);
-   $pdf->MultiCell(66,7,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'].' '.$row['PostalCode'],'0','C');
+   $pdf->MultiCell(66,7,$row['PermanentAddress'].' '.$row['District'].' '.$row['State'],'0','C');
    }
    
    $pdf->SetXY($left1-10,$down1+40+38);
