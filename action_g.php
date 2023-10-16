@@ -13567,7 +13567,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("d-m-Y H:i:s A")));?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo date("d-m-Y h:i:s A", strtotime($ApplyDate->format("Y-m-d H:i:s A")));?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -15189,7 +15189,7 @@ elseif($code==233)
                             </tr>
                             <?php
     
-           
+                    
             $Sr++;
         }
 
