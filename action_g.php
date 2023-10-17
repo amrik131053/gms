@@ -13897,13 +13897,13 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                            <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php $row['StartDate']->format("d-m-Y");?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['StartDate']->format("d-m-Y");?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php $row['EndDate']->format("d-m-Y"); ?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['EndDate']->format("d-m-Y"); ?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -13952,7 +13952,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -13991,7 +13991,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
 
                             <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -14705,9 +14705,11 @@ $aa[]=$row;
             $monthdown=$interval->format('%m');
          
 ?>
-                        <tr>
+                        <tr data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);">
                             <td><?=$Sr;?></td>
-                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td><b ><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
                             <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
@@ -15313,7 +15315,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 
                             <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
-                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:s A ');};?></b>
+                                    <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                             </a>
                         </li>
                         <?php }?>
@@ -15546,7 +15548,7 @@ elseif($code==233)
                             </tr>
                             <?php
     
-           
+                    
             $Sr++;
         }
 
