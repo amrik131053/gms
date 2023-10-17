@@ -14705,9 +14705,11 @@ $aa[]=$row;
             $monthdown=$interval->format('%m');
          
 ?>
-                        <tr>
+                        <tr data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
+                                        data-whatever="@mdo"
+                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);">
                             <td><?=$Sr;?></td>
-                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td><b ><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
                             <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 

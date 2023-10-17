@@ -7,7 +7,7 @@
         <div class="row">
          
           <!-- /.col -->
-          <div class="col-md-8">
+          <div class="col-lg-7  col-sm-12 col-lg-7">
             <div class="card card-primary">
               <!-- <div > -->
                 <!-- THE CALENDAR -->
@@ -25,7 +25,7 @@
     
           </div>
 
-           <div class="col-md-4">
+           <div class="col-lg-5  col-sm-12 col-lg-5">
 <?php 
 $ifLeaveAuth="SELECT * FROM Staff Where LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID'";
 $stmt=sqlsrv_query($conntest,$ifLeaveAuth,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
