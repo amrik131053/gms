@@ -1349,7 +1349,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   }
 
      $pdf->SetTextColor(0,0,0);
-  $up="SELECT valid FROM  suporting_staff where IDNo='$value'";
+  $up="SELECT valid FROM  suporting_staff order by Id desc";
    $up1 =mysqli_query($conn,$up);
    while ($row1=mysqli_fetch_array($up1)) 
    {
