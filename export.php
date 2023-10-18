@@ -4123,95 +4123,83 @@ else if($exportCode==32)
 {
 
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Convocation 2023'");
-    $counter = 1; 
-     
-    
-        
-    $exportMeter="<table class='table' border='1'>
+   $College_ID=$_POST['CollegeID'];
+
+
+$SrNo=1;
+
+  $exportstudy="<table class='table' border='1'>
         <thead>
-                <tr color='red'>
-          <th>Sr. No</th>
-          <th>Coll</th>
-          <th>Ref no</th>
-          <th>Name</th>
-          <th>Father Name</th>
-           <th>Uni Roll No</th>
-          
-             <th>Course</th>
-         
-          <th>Email</th> 
-          <th>Purpose</th>
-          <th>Phone</th>
-          <th>Amount</th>
-          <th>Transaction Date/ Time</th>
-         
-         </tr>
+                
+    <tr>
+        <th>SrNo</th>
+        <th>ColegeName</th>
+        <th>Course</th>
+        <th>Batch</th>
+        <th>Semester</th>
+        <th>Subject Code </th>
+        <th>Document Type </th>
+        <th>Employee ID </th>
+        <th>Name </th>
+        <th>Count </th>
+      
+      
+    </tr>
         </thead>";
+
+
+      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
+      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
        
-
-         $count=1;
-    
-     while($row=mysqli_fetch_array($result)) 
-        {
-      $id = $row['slip_no'];
-      $payment_id = $row['payment_id'];
-      $name = $row['name'];
-      $father_name = $row['father_name'];
-      $Designation = $row['roll_no'];
-      $Organisation = $row['course'];
-      $IdNo = $row['Class_rollno'];
-      $batch=$row['batch'];
-      $purpose=$row['purpose'];
-      $remarks=$row['remarks'];
-
-      $Created_date=$row['Created_date'];
-      $Created_time=$row['Created_time'];
-       $quali=$row['quali'];
-     
-      $amount=$row['amount'];
-      $email = $row['email'];
-
-      $accomodation=$row['accomodation'];
-       $country=$row['country'];
-     
-      $acctype=$row['acctype'];
-      $start=$row['start'];
-      $endd=$row['endd'];
-
-
-      $phone = $row['phone'];
-
-     
+         
        
-            $exportMeter.="<tr>
-                <td>{$count}</td>
-                <td>{$payment_id}</td>
-                <td>{$id}</td>
-                <td>{$name}</td>
-                <td>{$father_name}</td>
-                 <td>{$Designation}</td>
-                 <td>{$Organisation}</td>
+        $CheckStudyMaterial1="select Course,CollegeName from  
+        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."' and Batch='".$row['batch']."' and SubjectCode='".$row['SubjectCode']."'";
+     $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
+     if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
+     {
+
+         $ColegeName=$row1['CollegeName'];
+         $Courseid=$row1['Course'];
+     }
+
+     
+   $semid=$row['semid'];
+$batch=$row['batch'];
+$StaffID=$row['IDNo'];
+$StaffName=$row['Name'];
+$SubjectCode=$row['SubjectCode'];
+$nooflect=$row['nooflect'];
+$DocumentType=$row['DocumentType'];
+
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$ColegeName}</td>
+                <td>{$Courseid}</td>
+                <td>{$batch}</td>
+                <td>{$semid}</td>
+                 <td>{$SubjectCode}</td>
+                 <td>{$DocumentType}</td>
+                   <td>{$StaffID}</td>
+                     <td>{$nooflect}</td>
                
-            
                  
-                
-                <td>{$email}</td>
-                <td>{$purpose}</td>
-                <td>{$phone}</td>
-                <td>{$amount}</td>
-                <td>{$Created_date}&nbsp;{$Created_time}</td>
-                
-
-               
             </tr>";
-$count++;
-    }
+
+<?php 
+    $SrNo++;
+}
+
+
     
-    $exportMeter.="</table>";
+    $exportstudy.="</table>";
     //echo $exportMeterHeader;
-    echo $exportMeter;
-    $fileName="Report";
+    echo $exportstudy.;
+    $fileName="Study Material Report";
 
 
 
