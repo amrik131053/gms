@@ -303,13 +303,14 @@
    <?php   if($RegistrationNo!='')
                         {
                          ?>
-                         <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration No. ".$RegistrationNo;?></b></div>
+                         <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration No. ".$RegistrationNo;?></b>
+                         </div>
                         <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
                         <?php 
                         }
                         else
                         {
-                          ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
+                          ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b>&nbsp;&nbsp;&nbsp;</b></div><div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
                         <?php
                         }
                         ?> </div>
