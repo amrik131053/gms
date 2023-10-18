@@ -4123,7 +4123,7 @@ else if($exportCode==32)
 {
 
 
-   $College_ID=$_POST['CollegeID'];
+   $College_ID=$_GET['CollegeID'];
 
 
 $SrNo=1;
@@ -4185,12 +4185,13 @@ $DocumentType=$row['DocumentType'];
                  <td>{$SubjectCode}</td>
                  <td>{$DocumentType}</td>
                    <td>{$StaffID}</td>
+                    <td>{$StaffName}</td>
                      <td>{$nooflect}</td>
                
                  
             </tr>";
 
-<?php 
+
     $SrNo++;
 }
 
@@ -4198,7 +4199,7 @@ $DocumentType=$row['DocumentType'];
     
     $exportstudy.="</table>";
     //echo $exportMeterHeader;
-    echo $exportstudy.;
+    echo $exportstudy;
     $fileName="Study Material Report";
 
 
