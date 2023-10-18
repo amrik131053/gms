@@ -10,11 +10,13 @@ ini_set('max_execution_time', '0');
       <div class="row">
          <div class="col-lg-12 col-sm-6">
             <div class="card card-primary ">
-               <div class="card-header ">
+               <div class="card-header">
+               study material
+              <div class="card-tools">
               
-               <div class="row">
-              <div class="col-lg-3">
-              
+                   
+                   <div class="input-group input-group-sm">
+                   
                  <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
                  <option value=''>Select Course</option>
                   <?php
@@ -29,27 +31,18 @@ ini_set('max_execution_time', '0');
                  <?php }
                         ?>
                </select> 
-              </div>
-              <div class="col-lg-2">
-                
-                  <select  id="Course" class="form-control">
-                     <option value=''>Select Course</option>
-                 </select>
-              </div>
-              
-              <!-- <div class="col-lg-2">
-                
-                  <select  id="oddeven" class="form-control">
-                     <option value=''>Select</option>
-                     <option value='1'>ODD</option>
-                     <option value='0'>EVEN</option>
-                 </select>
-              </div> -->
-              
+             
+             
+                    
+                     
             
-              <div class="col-lg-2">
                 
-                 <button onclick="SearchReport();" class="btn btn-success">Search</button>
+                 <button onclick="SearchReport();" class="btn btn-success btn-sm">Search</button>
+             
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                 <button onclick="exportStudyMaterial();" class="btn btn-success btn-sm">Export</button>
               </div>
             
             </div>
@@ -94,6 +87,14 @@ function SearchReport()
                document.getElementById("table_load").innerHTML=response;
             }
          });
+
+     }  
+function exportStudyMaterial()
+          {
+ 
+       var CollegeID=document.getElementById('College').value;
+       var exportCode=32;
+       window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID;
 
      }  
      </script>
