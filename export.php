@@ -3984,24 +3984,6 @@ if($row_count_joinab>0)
              }
 
 
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 else
@@ -4118,9 +4100,6 @@ $paiddays=$paiddays+$countday;
 
 }
 
-
-
-
 }
 if($paiddays<>$h)
 {
@@ -4131,13 +4110,6 @@ else
     $exportdaily.="<tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b>0</b></td></tr>";
 }
 
-
-
-
-
-
-
-
 }
    
     $exportdaily.="<tr></table>"; 
@@ -4145,13 +4117,95 @@ else
        echo $exportdaily;  
         $fileName=" Attendance Report";
 
+}
 
+else if($exportCode==32)
+{
+
+
+   $College_ID=$_GET['CollegeID'];
+
+
+$SrNo=1;
+
+  $exportstudy="<table class='table' border='1'>
+        <thead>
+                
+    <tr>
+        <th>SrNo</th>
+        <th>ColegeName</th>
+        <th>Course</th>
+        <th>Batch</th>
+        <th>Semester</th>
+        <th>Subject Code </th>
+        <th>Document Type </th>
+        <th>Employee ID </th>
+        <th>Name </th>
+        <th>Count </th>
+      
+      
+    </tr>
+        </thead>";
+
+
+      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
+      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+       
+         
+       
+        $CheckStudyMaterial1="select Course,CollegeName from  
+        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."' and Batch='".$row['batch']."' and SubjectCode='".$row['SubjectCode']."'";
+     $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
+     if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
+     {
+
+         $ColegeName=$row1['CollegeName'];
+         $Courseid=$row1['Course'];
+     }
+
+     
+   $semid=$row['semid'];
+$batch=$row['batch'];
+$StaffID=$row['IDNo'];
+$StaffName=$row['Name'];
+$SubjectCode=$row['SubjectCode'];
+$nooflect=$row['nooflect'];
+$DocumentType=$row['DocumentType'];
+
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$ColegeName}</td>
+                <td>{$Courseid}</td>
+                <td>{$batch}</td>
+                <td>{$semid}</td>
+                 <td>{$SubjectCode}</td>
+                 <td>{$DocumentType}</td>
+                   <td>{$StaffID}</td>
+                    <td>{$StaffName}</td>
+                     <td>{$nooflect}</td>
+               
+                 
+            </tr>";
+
+
+    $SrNo++;
+}
+
+
+    
+    $exportstudy.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportstudy;
+    $fileName="Study Material Report";
 
 
 
 
 }
-
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
