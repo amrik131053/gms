@@ -9238,7 +9238,7 @@ echo "1";
         <tbody>
             <?php 
    
-                  $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' ";
+                  $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1' ";
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {?>
@@ -9270,7 +9270,7 @@ echo "1";
         </thead>
         <tbody><?php 
    
-                  $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' ";
+                  $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected'and Admissions.Status='1' ";
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
@@ -9294,7 +9294,7 @@ echo "1";
    }
    elseif ($code==149) {
       $count=0;
-      $get_pending="SELECT * FROM SmartCardDetails where status='Applied' ";
+      $get_pending="SELECT * FROM SmartCardDetails inner join  Admissions ON Admissions.IDNo=SmartCardDetails.IDNO   where SmartCardDetails.status='Applied' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -9304,7 +9304,7 @@ echo "1";
    }
    elseif ($code==150) {
       $count=0;
-      $get_pending="SELECT * FROM SmartCardDetails where status='Rejected' ";
+      $get_pending="SELECT * FROM SmartCardDetails inner join  Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='Rejected' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -9315,7 +9315,7 @@ echo "1";
    elseif ($code==151)
     {
  
-      $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' ";
+      $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1'";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -9503,7 +9503,7 @@ echo "1";
    elseif ($code==154)
     {
  
-      $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' ";
+      $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -15881,9 +15881,9 @@ elseif($code==242)
                             </tr>
                             <?php 
 
-                         $get_study_scheme="SELECT * FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$Course'";
+                         $get_study_scheme="SELECT * FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$Course' ";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
+                      
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
                          {
                          if($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
@@ -15898,31 +15898,38 @@ elseif($code==242)
                           {
                            $batchArray[]=$batch;
                           }
-                            for ($sem=1;$sem <$Duration*2; $sem++) 
+                            for ($sem=1;$sem <=$Duration*2; $sem++) 
                             { 
                             if($sem%2==$oddeven)
                             {
                               $SemArray[]=$sem;
 
                             }
+                            else
+                            {
+                                // echo $sem;
+                            }
                         }
+                        // print_r($SemArray);
                             
                             foreach ($batchArray as $key => $value) {
                                
-                             $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$value' ";
+                             $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$value' and Status='1' ";
                             $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                            $count=sqlsrv_num_rows($get_study_scheme_run)."<br>";
-                              $examFormAccepted="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status='8'";
+                            $count=sqlsrv_num_rows($get_study_scheme_run);
+                              $examFormAccepted="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status='8' and Type='Regular'";
                             $examFormAccepted_run=sqlsrv_query($conntest,$examFormAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                            $countExamForm=sqlsrv_num_rows($examFormAccepted_run)."<br>";
+                            $countExamForm=sqlsrv_num_rows($examFormAccepted_run);
 
-                            $examFormAccepted1="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status!='8'";
+                            $examFormAccepted1="SELECT * FROM ExamForm WHERE SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value' and Status!='8' and Type='Regular'";
                             $examFormAccepted_run1=sqlsrv_query($conntest,$examFormAccepted1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                            $countExamFormPending=sqlsrv_num_rows($examFormAccepted_run1)."<br>";
+                            $countExamFormPending=sqlsrv_num_rows($examFormAccepted_run1);
                             
-                            $examFormAccepted12="SELECT  IDNo FROM  Admissions  WHERE IDNo NOT IN (SELECT IDNo FROM ExamForm where SemesterId='".$SemArray[$key]."' and CourseID='$Course' and Batch='$value')";
+                          $examFormAccepted12 = "SELECT IDNo FROM Admissions WHERE Admissions.Status='1' AND IDNo NOT IN 
+                            (SELECT IDNo FROM ExamForm WHERE SemesterId='" . $SemArray[$key] . "' AND CourseID='$Course' AND Batch='$value')  AND CourseID='$Course' AND Batch='$value'";
+
                             $examFormAccepted_run12=sqlsrv_query($conntest,$examFormAccepted12,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                            $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12)."<br>";
+                            $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12);
 
 
                             if($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
@@ -15932,10 +15939,10 @@ elseif($code==242)
                                 <td><?=$get_row['Course'];?></td>
                                 <td><?=$value;?></td>
                                 <td><?=$SemArray[$key];?></td>
-                                <td><?=$count;?></td>
-                                <td><?=$countExamForm;?></td>
-                                <td><?=$countExamFormPending;?></td>
-                                <td><?=$countExamFormNotApply;?></td>
+                                <td><?=$count;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalAdm(<?=$CollegeID;?>,<?=$Course;?>,<?=$value;?>);" ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
+                                <td><?=$countExamForm;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormAccept(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
+                                <td><?=$countExamFormPending;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormPending(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);" ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
+                                <td><?=$countExamFormNotApply;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormNotApplied(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"  ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
                             </tr>
                             <?php 
 

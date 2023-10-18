@@ -6,13 +6,12 @@ ini_set('max_execution_time', '0');
 
 <section class="content">
    <div class="container-fluid">
-      <div class="card card-info">
-      </div>
+    
       <div class="row">
          <div class="col-lg-12 col-sm-6">
             <div class="card card-primary ">
                <div class="card-header ">
-                <br>
+               
                <div class="row">
               <div class="col-lg-3">
               
@@ -96,6 +95,38 @@ function SearchReport()
          });
 
      }  
+
+     function exportTotalAdm(College,course,Batch) {
+      // alert(College+'-'+Course+'-'+Batch);
+     
+       var exportCode=33;
+       window.location.href="export.php?exportCode="+exportCode+"&College="+College+"&course="+course+"&Batch="+Batch;
+       
+     }
+function exportTotalExamFormAccept(Sem,Course,Batch) {
+   // alert(Sem+'-'+Course+'-'+Batch);
+   
+       var exportCode=34;
+       window.location.href="export.php?exportCode="+exportCode+"&Sem="+Sem+"&course="+Course+"&Batch="+Batch;
+      
+   
+}
+function exportTotalExamFormPending(Sem,Course,Batch) {
+   // alert(Sem+'-'+Course+'-'+Batch);
+  
+       var exportCode=35;
+        window.location.href="export.php?exportCode="+exportCode+"&Sem="+Sem+"&course="+Course+"&Batch="+Batch;
+      
+   
+}
+function exportTotalExamFormNotApplied(Sem,Course,Batch) {
+   // alert(Sem+'-'+Course+'-'+Batch);
+ 
+       var exportCode=36;
+        window.location.href="export.php?exportCode="+exportCode+"&Sem="+Sem+"&course="+Course+"&Batch="+Batch;
+    
+   
+}
      </script>
 <p id="ajax-loader"></p>
 <?php include "footer.php";  ?>

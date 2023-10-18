@@ -4206,8 +4206,204 @@ $DocumentType=$row['DocumentType'];
 
 
 }
+else if($exportCode==33)
+{
 
 
+   $CollegeID=$_GET['College'];
+   $Course=$_GET['course'];
+   $Batch=$_GET['Batch'];
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>RollNo </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Colege Name</th>
+    <th>Course</th>
+    <th>Batch</th>
+    </tr>
+        </thead>";
+      $CheckStudyMaterial="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Status='1'";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+$Batch=$row['Batch'];
+$IDNo=$row['IDNo'];
+$Name=$row['StudentName'];
+$FatherName=$row['FatherName'];
+$CollegeName=$row['CollegeName'];
+$Course=$row['Course'];
+$UniRollNo=$row['UniRollNo'];
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$IDNo}</td>
+                <td>{$UniRollNo}</td>
+                <td>{$Name}</td>
+                 <td>{$FatherName}</td>
+                <td>{$CollegeName}</td>
+                <td>{$Course}</td>
+                <td>{$Batch}</td>      
+            </tr>";
+    $SrNo++;
+}  
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Adm Report";
+}
+
+else if($exportCode==34)
+{
+
+
+   $Sem=$_GET['Sem'];
+   $Course=$_GET['course'];
+   $Batch=$_GET['Batch'];
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>RollNo </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Colege Name</th>
+    <th>Course</th>
+    <th>Batch</th>
+    </tr>
+        </thead>";
+      $CheckStudyMaterial="SELECT * FROM ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo WHERE ExamForm.SemesterId='$Sem' and ExamForm.CourseID='$Course' and ExamForm.Batch='$Batch' and ExamForm.Status='8' and ExamForm.Type='Regular'";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+$Batch=$row['Batch'];
+$IDNo=$row['IDNo'];
+$Name=$row['StudentName'];
+$FatherName=$row['FatherName'];
+$CollegeName=$row['CollegeName'];
+$Course=$row['Course'];
+$UniRollNo=$row['UniRollNo'];
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$IDNo}</td>
+                <td>{$UniRollNo}</td>
+                <td>{$Name}</td>
+                 <td>{$FatherName}</td>
+                <td>{$CollegeName}</td>
+                <td>{$Course}</td>
+                <td>{$Batch}</td>      
+            </tr>";
+    $SrNo++;
+}  
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Exam Form Accepted Report";
+}
+else if($exportCode==35)
+{
+
+
+   $Sem=$_GET['Sem'];
+   $Course=$_GET['course'];
+   $Batch=$_GET['Batch'];
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>RollNo </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Colege Name</th>
+    <th>Course</th>
+    <th>Batch</th>
+    </tr>
+        </thead>";
+      $CheckStudyMaterial="SELECT * FROM ExamForm  inner join Admissions ON Admissions.IDNo=ExamForm.IDNo WHERE ExamForm.SemesterId='$Sem' and ExamForm.CourseID='$Course' and ExamForm.Batch='$Batch' and ExamForm.Status!='8' and ExamForm.Type='Regular'";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+$Batch=$row['Batch'];
+$IDNo=$row['IDNo'];
+$Name=$row['StudentName'];
+$FatherName=$row['FatherName'];
+$CollegeName=$row['CollegeName'];
+$Course=$row['Course'];
+$UniRollNo=$row['UniRollNo'];
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$IDNo}</td>
+                <td>{$UniRollNo}</td>
+                <td>{$Name}</td>
+                 <td>{$FatherName}</td>
+                <td>{$CollegeName}</td>
+                <td>{$Course}</td>
+                <td>{$Batch}</td>      
+            </tr>";
+    $SrNo++;
+}  
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Exam Form Pending Report";
+}
+else if($exportCode==36)
+{
+
+
+   $Sem=$_GET['Sem'];
+   $Course=$_GET['course'];
+   $Batch=$_GET['Batch'];
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>RollNo </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Colege Name</th>
+    <th>Course</th>
+    <th>Batch</th>
+    </tr>
+        </thead>";
+      $CheckStudyMaterial="SELECT * FROM Admissions WHERE Admissions.Status='1' AND IDNo NOT IN 
+      (SELECT IDNo FROM ExamForm WHERE SemesterId='$Sem' AND CourseID='$Course' AND Batch='$Batch')  AND CourseID='$Course' AND Batch='$Batch'";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+$Batch=$row['Batch'];
+$IDNo=$row['IDNo'];
+$Name=$row['StudentName'];
+$FatherName=$row['FatherName'];
+$CollegeName=$row['CollegeName'];
+$Course=$row['Course'];
+$UniRollNo=$row['UniRollNo'];
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$IDNo}</td>
+                <td>{$UniRollNo}</td>
+                <td>{$Name}</td>
+                 <td>{$FatherName}</td>
+                <td>{$CollegeName}</td>
+                <td>{$Course}</td>
+                <td>{$Batch}</td>      
+            </tr>";
+    $SrNo++;
+}  
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Exam Form Not Applied Report";
+}
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
