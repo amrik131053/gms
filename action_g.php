@@ -15959,8 +15959,86 @@ elseif ($code==243)
 {
    $leaveID=$_POST['id'];
    $leaveType=$_POST['type'];
-    $updateLeaveAuth="UPDATE ApplyLeaveGKU SET LeaveTypeId='$leaveType' where Id='$leaveID'";
+    $updateLeaveAuth="UPDATE ApplyLeaveGKU SET LeaveTypeId='$leaveType' where Id='$leaveID' ";
     sqlsrv_query($conntest,$updateLeaveAuth);
+}
+elseif ($code==244) 
+{
+    ?>
+<table class="table">
+    <tr>
+        <th>SrNo</th>
+        <th>ColegeName</th>
+        <th>Course</th>
+        <th>Batch</th>
+        <th>Semester</th>
+        <th>Subject Code </th>
+        <th>Document Type </th>
+        <th>Employee ID </th>
+        <th>Name </th>
+        <th>Count </th>
+      
+      
+    </tr>
+
+<?php 
+  $College_ID=$_POST['CollegeID'];
+//   $GetStaff="SELECT IDNo FROM Staff Where CollegeID='$College_ID' and JobStatus='1'";
+//   $GetStaffRun=sqlsrv_query($conntest,$GetStaff);
+//   while($GetRow=sqlsrv_fetch_array($GetStaffRun,SQLSRV_FETCH_ASSOC))
+//   {
+// $AllStaffPerCollege[]=$GetRow['IDNo'];
+//   }
+$SrNo=1;
+      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
+      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+    {
+       
+       
+       
+       
+        $CheckStudyMaterial1="select Course,CollegeName from  
+        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."' and Batch='".$row['batch']."' and SubjectCode='".$row['SubjectCode']."'";
+     $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
+     if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
+     {
+
+         $ColegeName=$row1['CollegeName'];
+         $Courseid=$row1['Course'];
+     }
+
+$semid=$row['semid'];
+$batch=$row['batch'];
+$StaffID=$row['IDNo'];
+$StaffName=$row['Name'];
+$SubjectCode=$row['SubjectCode'];
+$nooflect=$row['nooflect'];
+$DocumentType=$row['DocumentType'];
+?>
+<tr>
+    <td><?=$SrNo;?></td>
+    <td><?=$ColegeName;?></td>
+    <td><?=$Courseid;?></td>
+    <td><?=$batch;?></td>
+    <td><?=$semid;?></td>
+    <td><?=$SubjectCode;?></td>
+    <td><?=$DocumentType;?></td>
+    <td><?=$StaffID;?></td>
+    <td><?=$StaffName;?></td>
+    <td><?=$nooflect;?></td>
+    <!-- <td><?=$Topic;?></td> -->
+</tr>
+
+<?php 
+    $SrNo++;
+}
+
+?>
+</table>
+<?php 
 }
    else
    {
