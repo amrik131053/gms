@@ -538,7 +538,7 @@ include "header.php";
                <script>
 
 
-function by_search_studetn() {
+function by_search_studetn() {  
                     
                      var currentPage = 1;
                    var code = 134;
