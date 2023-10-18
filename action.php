@@ -19051,7 +19051,7 @@ $sql=" SELECT State,District, COUNT(*) AS `dist` ,states.name as StateName,citie
 <td><?=$count;?></td>
 <td><?=$row['dist'];?></td>
 <td><i class="fa fa-file-excel fa-2x text-success" onclick="export_one('<?=$row['District'];?>');"></i></td>
-
+ 
 
    <?php               
                    

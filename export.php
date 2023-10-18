@@ -4404,6 +4404,65 @@ $UniRollNo=$row['UniRollNo'];
     echo $exportstudy;
     $fileName="Student Exam Form Not Applied Report";
 }
+
+else if($exportCode==37)
+{
+
+
+  
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>Course </th>
+    <th>Count </th>
+    
+  
+    </tr>
+        </thead>";
+
+
+      $CheckStudyMaterial="SELECT Course,COUNT(Course) as coursecount FROM offer_latter GROUP BY Course";
+
+ 
+
+ $article_run = mysqli_query($conn,$CheckStudyMaterial);
+    while ($row = mysqli_fetch_array($article_run))
+
+    {
+$countc=$row['coursecount'];
+$Course=$row['Course'];
+
+
+   $CheckStudyMaterial1="select Course,CollegeName from  MasterCourseStructure Where CourseID='$Course'";
+
+     $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
+     if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
+     {
+
+         $ColegeName=$row1['CollegeName'];
+         $Courseid=$row1['Course'];
+     }
+
+
+
+
+ $exportstudy.="<tr>
+                <td>{$SrNo}</td>
+                <td>{$Courseid}</td>
+                <td>{$countc}</td>
+                    
+            </tr>";
+    $SrNo++;
+}  
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="credit card ";
+}
+
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

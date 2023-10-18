@@ -77,6 +77,7 @@ include "header.php";
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-success" onclick="export_course_wise_count();">Export Course Wise COunt</button>
          <button type="button" class="btn btn-success" onclick="export_detail();">Export Detail</button>
         <button type="button" class="btn btn-success" onclick="export_all();">Export Count</button>
       </div>
@@ -1398,6 +1399,13 @@ function export_detail()
          var exportCode='23';
 
       window.location.href="export.php?exportCode="+exportCode+"&District="+0;
+      
+      }
+      function export_course_wise_count() 
+      {
+         var exportCode='37';
+
+      window.location.href="export.php?exportCode="+exportCode;
       
       }
 
