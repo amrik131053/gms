@@ -15965,7 +15965,8 @@ elseif ($code==243)
 elseif ($code==244) 
 {
     ?>
-<table class="table">
+<table class="table" id="example">
+    <thead>
     <tr>
         <th>SrNo</th>
         <th>ColegeName</th>
@@ -15977,9 +15978,9 @@ elseif ($code==244)
         <th>Employee ID </th>
         <th>Name </th>
         <th>Total </th>
-      
-      
     </tr>
+</thead>
+<tbody>
 
 <?php 
   $College_ID=$_POST['CollegeID'];
@@ -15995,11 +15996,9 @@ $SrNo=1;
      $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
      if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
      {
-
          $ColegeName=$row1['CollegeName'];
          $Courseid=$row1['Course'];
      }
-
 $semid=$row['semid'];
 $batch=$row['batch'];
 $StaffID=$row['IDNo'];
@@ -16025,6 +16024,7 @@ $DocumentType=$row['DocumentType'];
 }
 
 ?>
+</tbody>
 </table>
 <?php 
 }

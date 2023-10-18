@@ -11,7 +11,7 @@ ini_set('max_execution_time', '0');
          <div class="col-lg-12 col-sm-6">
             <div class="card card-primary ">
                <div class="card-header">
-               study material
+               Study Material
               <div class="card-tools">
               
                    
@@ -51,7 +51,7 @@ ini_set('max_execution_time', '0');
                 
               
                   
-                        <div id="table_load">
+                        <div id="table_load" class="table table-responsive">
                          
                    
                      
@@ -69,9 +69,6 @@ function SearchReport()
           {
        var code=244;
        var CollegeID=document.getElementById('College').value;
-    //    var Course=document.getElementById('Course').value;
-    //    var oddeven=document.getElementById('oddeven').value;
-    
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
@@ -93,9 +90,15 @@ function exportStudyMaterial()
           {
  
        var CollegeID=document.getElementById('College').value;
+       if(CollegeID!='')
+       {
        var exportCode=32;
        window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID;
-
+       }
+       else
+       {
+        ErrorToast('Select College','bg-warning');
+       }
      }  
      </script>
 <p id="ajax-loader"></p>
