@@ -9015,8 +9015,9 @@ else
   }
   elseif($code==143)
   {
+   
    $id=$_POST['id'];
-   $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
+    $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
@@ -9040,9 +9041,29 @@ else
     <div class="container">
         <div class="container-fluid">
             <div class="card card-primary">
-
-
+<?php 
+if($row_pending['SmartCardStatus']=='Applied')
+{
+    $clr="primary";
+}elseif($row_pending['SmartCardStatus']=='Rejected')
+{
+    $clr="danger";
+}elseif($row_pending['SmartCardStatus']=='Verified')
+{
+    $clr="warning";
+}elseif($row_pending['SmartCardStatus']=='Left')
+{
+    $clr="dark";
+}elseif($row_pending['SmartCardStatus']=='Printed')
+{
+    $clr="success";
+}
+?>
+<div class="card  bg-<?=$clr;?> text-center ">
+<h5><?=$row_pending['SmartCardStatus'];?></h5>
+</div>
                 <div class="card-body">
+
                     <div class="row">
                         <!-- <div class="col-lg-12"> -->
 
@@ -9060,11 +9081,13 @@ else
                             <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>"
                                 download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
                                     class="btn btn-success btn-sm">Download Image</button></a>
+                                    <br><br>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
                                 <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
                                 <input type="hidden" name="code" value="153">
+                                <br>
                                 <input type="button" value="Upload" class="btn btn-success btn-xs"
                                     onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
                             </form>
@@ -9098,15 +9121,25 @@ else
                             <span id="State" readonly="true"><?= $row_pending['State']; ?></span> PIN-
                             <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
                             <br>
-
+                            
+    
                             <textarea name="" rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>"
                                 class="form-control"
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
-                            <br>
-                            <input type="submit" name="" value="Verify"
+                                <br>
+                                <div class="form-group"> 
+                            <input type="button" name="" value="Verify"
                                 onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <input type="submit" name="" value="Reject"
+                            <input type="button" name="" value="Reject"
                                 onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+                           
+                              
+                            <input type="button" name="" value="Applied"
+                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                            <input type="button" name="" value="Left"
+                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                        </div>
+                        <b><?=$row_pending['SmartCardStatus'];?></b>
                         </div>
                     </div>
                 </div>
@@ -9315,7 +9348,7 @@ echo "1";
    elseif ($code==151)
     {
  
-      $get_pending="SELECT top(10)* FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1'";
+      $get_pending="SELECT top(10)*,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1'";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -9401,10 +9434,21 @@ echo "1";
                             <textarea rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control"
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                             <br>
-                            <input type="submit" name="" value="Verify"
+                            <br>
+                                <div class="form-group"> 
+                            <input type="button" name="" value="Verify"
                                 onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <input type="submit" name="" value="Reject"
+                            <input type="button" name="" value="Reject"
                                 onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+                           
+                              
+                            <input type="button" name="" value="Applied"
+                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                            <input type="button" name="" value="Left"
+                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                        </div>
+                        <b><?=$row_pending['SmartCardStatus'];?></b>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -9503,7 +9547,7 @@ echo "1";
    elseif ($code==154)
     {
  
-      $get_pending="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' and Admissions.Status='1' ";
+      $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
@@ -9593,9 +9637,19 @@ echo "1";
                             <textarea rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control"
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                             <br>
-                            <input type="submit" name="" value="Verify"
+                            <div class="form-group"> 
+                            <input type="button" name="" value="Verify"
                                 onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <!-- <input type="submit" name="" value="Reject" onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger"> -->
+                            <input type="button" name="" value="Reject"
+                                onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+                           
+                              
+                            <input type="button" name="" value="Applied"
+                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                            <input type="button" name="" value="Left"
+                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                        </div>
+                        <b><?=$row_pending['SmartCardStatus'];?></b>
                         </div>
                     </div>
                 </div>
@@ -15237,7 +15291,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                         <?php 
                     if($row['LeaveTypeId']!='1' && $row['LeaveTypeId']!='2' && $row['Status']!='Approved' && $row['Status']!='Reject' )
                     {
-$getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2' ";
+$getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2'  and Id!='3'  and Id!='8'  and Id!='12'  and Id!='7' and Id!='6'   ";
 $getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
 while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 {?>
@@ -15970,7 +16024,6 @@ $Leave_Recom=$row['SanctionId'];
 $Leave_Authority=$row['AuthorityId'];
 $HRRemarks=$row['HRRemarks'];
 }
-    
     if($Leave_Recom==$EmployeeID && $Leave_Authority==$EmployeeID )
     {
         
@@ -16065,12 +16118,16 @@ elseif($code==245)
 <table class="table">
     <tr>
         <th>SrNo</th>
-        <th>IDNo</th>
+        <!-- <th>Print</th> -->
+        <th colspan='2'>IDNo</th>
         <th>ClassRollNo</th>
         <th>Student Name</th>
         <th>Apply Date</th>
         <th>Verify Date</th>
+        <th>Reject Date</th>
         <th>Print Date</th>
+        <th>Status</th>
+        <th>Action</th>
     </tr>
 
 <?php 
@@ -16081,15 +16138,15 @@ $toDateFromIdCard=$_POST['toDateFromIdCard'];
 $RollNo=$_POST['RollNo'];
 if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!=''  && $RollNo=='')
 {
-    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard' and '$toDateFromIdCard' order by SmartCardDetails.PrintDate ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by SmartCardDetails.PrintDate ASC  ";
 }
 elseif($statusForIdCard!=''  && $RollNo=='')
 {
-    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
 }
 elseif($RollNo!='')
 {
-    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or SmartCardDetails.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or SmartCardDetails.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
  while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
@@ -16097,14 +16154,21 @@ elseif($RollNo!='')
     // $aaa[]=$row['VerifyDate'];
     ?>
 <tr>
-    <td><?=$SrNo;?></td>
-    <td><?=$row['IDNo'];?></td>
+    <td ><?=$SrNo;?></td>
+    <td colspan='2'>
+    <?php if($row['IDcardStatus']=='Verified')
+    {?><button class="btn btn-success" onclick="printSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print"></i> </button>
+    <?php }?><?=$row['IDNo'];?></td>
     <td><?=$row['ClassRollNo'];?></td>
    <td><?=$row['StudentName'];?></td>
    <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
    <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
+   <td><?php if($row['RejectDate']!=''){echo$row['RejectDate']->format('d-m-Y H:i:s');}?></td>
    <td><?php if($row['PrintDate']!=''){echo $row['PrintDate']->format('d-m-Y H:i:s');} ?></td>
-   <td><?=$row['Status']; ?></td>
+   <td><?=$row['IDcardStatus']; ?></td>
+   <td>
+<button class="btn btn-success" data-toggle="modal" data-target="#exampleModal" onclick="viewLeaveModalSmartCard(<?=$row['StudentSmartCardID'];?>);">View </button>
+</td>
 </tr>
  <?php
  $SrNo++;
@@ -16113,6 +16177,34 @@ elseif($RollNo!='')
 ?>
 </table>
 <?php 
+}
+elseif($code==246)
+{
+   $id=$_POST['id'];
+   $get_pending="UPDATE SmartCardDetails SET status='Applied' Where IDNO='$id' ";
+   $get_pending_run=sqlsrv_query($conntest,$get_pending);
+   if($get_pending_run==true)
+   {
+echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
+}
+elseif($code==247)
+{
+   $id=$_POST['id'];
+   $get_pending="UPDATE SmartCardDetails SET status='Left' Where IDNO='$id' ";
+   $get_pending_run=sqlsrv_query($conntest,$get_pending);
+   if($get_pending_run==true)
+   {
+echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
 }
    else
    {

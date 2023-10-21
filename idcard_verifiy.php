@@ -69,7 +69,7 @@
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -88,7 +88,7 @@
   </div>
 </div>
 <div class="modal fade" id="all_showexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -186,6 +186,68 @@
            });
           
     }
+    function applied_idcard(id){
+       
+       var code=246;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id
+                },
+                success: function(response) 
+                {
+                     pending_show_idcard();
+                     reject_show_idcard();
+                     set_count_pending();
+                     set_count_reject();
+                     show_all();
+                 if(response=='1')
+                 {
+                     SuccessToast('Success Verifiy');
+                  
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+            
+      }
+function left_idcard(id){
+       
+       var code=247;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id
+                },
+                success: function(response) 
+                {
+                     pending_show_idcard();
+                     reject_show_idcard();
+                     set_count_pending();
+                     set_count_reject();
+                     show_all();
+                   
+                     
+                 if(response=='1')
+                 {
+                     SuccessToast('Success Verifiy');
+                  
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+            
+      }
     function reject_idcard(id){
        
     var remarks=document.getElementById('Remarks'+id).value;
@@ -205,6 +267,8 @@
                    set_count_pending();
                    set_count_reject();
                    show_all();
+                   pending_show_idcard();
+                  
             //    spinner.style.display='none';
                if(response=='1')
                {
@@ -242,6 +306,7 @@
                set_count_pending();
                set_count_reject();
                show_all();
+               
                document.getElementById("pending_record").innerHTML=response;
          
               }
@@ -366,6 +431,7 @@ function uploadImage(form, id) {
             SuccessToast('Successfully Uploaded');
             view_image(id);
             show_all();
+         
             reject_show_idcard();
             view_pending(id);
          },

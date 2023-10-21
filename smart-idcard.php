@@ -109,10 +109,211 @@ function searchStudentForIDcard()
                            
 }
 
+    
+function viewLeaveModalSmartCard(id)
+    {
+      //  alert(id);
+               var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     var code=143;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              { 
+              //  console.log(response);
+               spinner.style.display='none';
+                document.getElementById("view_record").innerHTML=response;
+                
+              }
+           });
+          
+         }
+         
 
+function applied_idcard(id){
+       
+       var code=246;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id
+                },
+                success: function(response) 
+                {
+                  searchStudentForIDcard();
+                  viewLeaveModalSmartCard(id);
+                   
+                 if(response=='1')
+                 {
+                     SuccessToast('Successfully Applied');
+                  
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+            
+      }
+function left_idcard(id){
+       
+       var code=247;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id
+                },
+                success: function(response) 
+                {
+                  searchStudentForIDcard();
+                  viewLeaveModalSmartCard(id);
+                 if(response=='1')
+                 {
+                     SuccessToast('Successfully Left');
+                  
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+            
+      }
+      function verify_idcard(id){
+       
+       var code=145;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id
+                },
+                success: function(response) 
+                {
+                  searchStudentForIDcard();
+                  viewLeaveModalSmartCard(id);
+                 if(response=='1')
+                 {
+                     SuccessToast('Success Verifiy');
+                  
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+            
+      }
+      function printSmartCardForStudent(id) {
+   var code=1;
+        if (id!='') 
+         {  
+         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
+          window.open("printSmartCardStudent.php?code="+code+"&id="+id,'_blank');
+         }
+         else
+         {
+            alert("Select ");
+         }
+      
+}
+  function left_idcard(id){
+         
+         var code=247;
+               $.ajax({
+                  url:'action_g.php',
+                  type:'POST',
+                  data:{
+                     code:code,id:id
+                  },
+                  success: function(response) 
+                  {
+                    searchStudentForIDcard();
+                  viewLeaveModalSmartCard(id);
+                   if(response=='1')
+                   {
+                       SuccessToast('Success Verifiy');
+                    
+                   }
+                   else
+                   {
+    
+                   }
+                    
+                  }
+               });
+              
+        }
+      function reject_idcard(id){
+         
+      var remarks=document.getElementById('Remarks'+id).value;
+     //  alert(remarks);
+      if(remarks!='')
+      {
+       var code=146;
+             $.ajax({
+                url:'action_g.php',
+                type:'POST',
+                data:{
+                   code:code,id:id,remarks:remarks
+                },
+                success: function(response) 
+                {
+                  searchStudentForIDcard();
+                  viewLeaveModalSmartCard(id);
+              
+                 if(response=='1')
+                 {
+                     SuccessToast('Successfully Rejected');
+                    
+                 }
+                 else
+                 {
+  
+                 }
+                  
+                }
+             });
+           }
+           else
+           {
+              ErrorToast('Enter Remarks','bg-warning');
+           }
+            
+      }
 </script>
 <p id="ajax-loader"></p>
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="view_record">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="ViewLeaveexampleModal" tabindex="-1" role="dialog" aria-labelledby="ViewLeaveexampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
