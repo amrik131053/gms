@@ -554,15 +554,19 @@ if($laveAuthCount>0)
          {
          var code=243;
          var type=document.getElementById('leaveTypeByAuth').value;
-       
+         var StartDate=document.getElementById('StartDate').value;
+         var EndDate=document.getElementById('EndDate').value;
+         
+
          $.ajax({
             url:'action_g.php',
             type:'POST',
             data:{
-               code:code,id:id,type:type
+               code:code,id:id,type:type,StartDate:StartDate,EndDate:EndDate
             },
             success: function(response) 
             {
+               // console.log(response);
                pendingLeavesAuth();
             }
          });

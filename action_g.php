@@ -12985,7 +12985,7 @@ elseif($code==205)
                     </div>
                     <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
-                    <div class="col-lg-12"><label>End Date</label><input type="date" id="ApplyDate" class="form-control"
+                    <div class="col-lg-12"><label>Apply Date</label><input type="date" id="ApplyDate" class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($ApplyDate->format("Y-m-d")));?>"></div>
                     <div class="col-lg-12">
                         <label>Leave Type</label>
@@ -14473,6 +14473,8 @@ $leaveReason=str_replace("'","`",$_POST['leaveReason']);
 
 $ApplyDate=date('Y-m-d');
 
+$DateChnageRemarks='Leave applied from '.$leaveStartDate.' to '.$leaveEndDate.' due to ';
+$leaveReason=$DateChnageRemarks.' '.$leaveReason;
 $sql_att23="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and StartDate='$leaveStartDate' and EndDate='$leaveEndDate' and Status!='Approved' and Status!='Reject' ";  
 $stmt=sqlsrv_query($conntest,$sql_att23,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifLeaveExist=sqlsrv_num_rows($stmt);
@@ -14809,18 +14811,17 @@ if ($monthdown<1) {?>
                             <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
                             <td width="100"><?=$row['ApplyDate']->format('Y-m-d h:i:s A');?></td>
                             <td><?=$row['LeaveTypeName'];?></td>
-                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
                             <td><?php   if($row['LeaveDurationsTime']!=0)
         {
-          echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
+            echo   $LeaveDurationsTime=$row['LeaveDurationsTime'];
         }
         else
         {
-           echo  $LeaveDurationsTime=$row['LeaveDuration'];
+            echo  $LeaveDurationsTime=$row['LeaveDuration'];
         }?></td>
 
-                            <td>
-                                <div class="controls">
+                                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                               <td> <div class="controls">
 
                                     <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
                                         data-whatever="@mdo"
@@ -15228,11 +15229,8 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 </div>
                 <div class="card-footer p-0">
                     <ul class="nav flex-column" style="color:black;">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link leaveViewColor">
-
-                                <b class="float-left ">Leave Type &nbsp;&nbsp;&nbsp;</b>
-                                <span class="float-left ">
+                    <div class="col-lg-12" widht="100"> <label>Leave Type</label>
+                    
                                     <select class="form-control form-control-sm" id="leaveTypeByAuth">
 
                                         <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
@@ -15250,25 +15248,14 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 ?>
                                     </select>
                                 </span>
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                            </a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link leaveViewColor">
-                                <b> Start Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['StartDate']->format("d-m-Y");?>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link leaveViewColor">
-                                <b>End Date
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['EndDate']->format("d-m-Y"); ?>
-                            </a>
-                        </li>
+</div>
+                       
+                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate"
+                            class="form-control"
+                            value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
+                    </div>
+                    <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control"
+                            value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
@@ -15966,7 +15953,44 @@ elseif ($code==243)
 {
    $leaveID=$_POST['id'];
    $leaveType=$_POST['type'];
-    $updateLeaveAuth="UPDATE ApplyLeaveGKU SET LeaveTypeId='$leaveType' where Id='$leaveID' ";
+   $StartDate=$_POST['StartDate'];
+   $EndDate=$_POST['EndDate'];
+   $DateChnageRemarks=' from '.$StartDate.' to '.$EndDate;
+   $startTimeStamp = strtotime($_POST['StartDate']);
+$endTimeStamp = strtotime($_POST['EndDate']);
+$timeDiff = abs($endTimeStamp - $startTimeStamp);
+$numberDays = $timeDiff/86400; 
+$numberDays = intval($numberDays);
+$numberDays=$numberDays+1;
+$getAllleaves="SELECT * FROM  ApplyLeaveGKU   where Id='$leaveID'  "; 
+$getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+{
+$Leave_Recom=$row['SanctionId'];
+$Leave_Authority=$row['AuthorityId'];
+$HRRemarks=$row['HRRemarks'];
+}
+    
+    if($Leave_Recom==$EmployeeID && $Leave_Authority==$EmployeeID )
+    {
+        
+        $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionRemarks=SanctionRemarks+'$DateChnageRemarks', RecommendedRemarks=RecommendedRemarks+'$DateChnageRemarks' , LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID' ";
+    }
+    elseif($Leave_Recom==$EmployeeID && $Leave_Authority!=$EmployeeID )
+    {
+        $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionRemarks=SanctionRemarks+'$DateChnageRemarks', LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID' and SanctionId='$Leave_Recom'  ";
+
+    } 
+    elseif($Leave_Recom!=$EmployeeID && $Leave_Authority==$EmployeeID )
+    {
+         $updateLeaveAuth="UPDATE ApplyLeaveGKU SET  RecommendedRemarks=RecommendedRemarks+'$DateChnageRemarks' , LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID' and AuthorityId='$Leave_Authority'  ";
+
+    }
+    elseif($Leave_Recom!=$EmployeeID && $Leave_Authority!=$EmployeeID  && $HRRemarks!='' )
+    {
+        $updateLeaveAuth="UPDATE ApplyLeaveGKU SET  HRRemarks=HRRemarks+'$DateChnageRemarks' , LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID'   ";
+
+    }
     sqlsrv_query($conntest,$updateLeaveAuth);
 }
 elseif ($code==244) 
@@ -16032,6 +16056,61 @@ $DocumentType=$row['DocumentType'];
 
 ?>
 </tbody>
+</table>
+<?php 
+}
+elseif($code==245)
+{
+    ?>
+<table class="table">
+    <tr>
+        <th>SrNo</th>
+        <th>IDNo</th>
+        <th>ClassRollNo</th>
+        <th>Student Name</th>
+        <th>Apply Date</th>
+        <th>Verify Date</th>
+        <th>Print Date</th>
+    </tr>
+
+<?php 
+$SrNo=1;
+$statusForIdCard=$_POST['statusForIdCard'];
+$fromDateForIdCard=$_POST['fromDateForIdCard'];
+$toDateFromIdCard=$_POST['toDateFromIdCard'];
+$RollNo=$_POST['RollNo'];
+if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!=''  && $RollNo=='')
+{
+    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard' and '$toDateFromIdCard' order by SmartCardDetails.PrintDate ASC  ";
+}
+elseif($statusForIdCard!=''  && $RollNo=='')
+{
+    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
+}
+elseif($RollNo!='')
+{
+    $GetSmartCardDetails="SELECT * FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or SmartCardDetails.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
+}
+ $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
+ while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
+ {
+    // $aaa[]=$row['VerifyDate'];
+    ?>
+<tr>
+    <td><?=$SrNo;?></td>
+    <td><?=$row['IDNo'];?></td>
+    <td><?=$row['ClassRollNo'];?></td>
+   <td><?=$row['StudentName'];?></td>
+   <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
+   <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
+   <td><?php if($row['PrintDate']!=''){echo $row['PrintDate']->format('d-m-Y H:i:s');} ?></td>
+   <td><?=$row['Status']; ?></td>
+</tr>
+ <?php
+ $SrNo++;
+ }
+//  print_r($aaa);
+?>
 </table>
 <?php 
 }

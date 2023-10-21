@@ -11,7 +11,6 @@
     <div class="card-header">
    
       <div class="btn-group ">
-        
                   <select class="form-control form-control-sm" id="statusForIdCard">
 <option value="">Select</option>
 
@@ -45,7 +44,7 @@
         <div class="input-group ">
       
   
-          <input type="search" class="form-control form-control-sm" name="emp_name" id="empid" placeholder="RollNo Here">
+          <input type="search" class="form-control form-control-sm"  id="RollNo" placeholder="RollNo Here">
           <div class="input-group-append">
             <button type="button" onclick="searchStudentForIDcard();" class="btn btn-success btn-sm">
               <i class="fa fa-search"></i>
@@ -59,7 +58,7 @@
  
                </div>
               
-                  <div class="card-body table-responsive" id="" >
+                  <div class="card-body table-responsive" id="search_record" >
       
 
             </div>
@@ -78,7 +77,37 @@
 
 
 <script>
-
+function searchStudentForIDcard()
+{
+                              var spinner=document.getElementById("ajax-loader");
+                              spinner.style.display='block';
+                              var statusForIdCard= document.getElementById("statusForIdCard").value;
+                              var fromDateForIdCard= document.getElementById("fromDateForIdCard").value;
+                              var toDateFromIdCard= document.getElementById("toDateFromIdCard").value;
+                              var RollNo= document.getElementById("RollNo").value;
+                              //alert(officeOwnerID);
+                              var code=245;
+                              $.ajax(
+                              {
+                                 url:"action_g.php ",
+                                 type:"POST",
+                                 data:
+                                 {
+                                    code:code, statusForIdCard:statusForIdCard,fromDateForIdCard:fromDateForIdCard,toDateFromIdCard:toDateFromIdCard,RollNo:RollNo
+                                 },
+                                 success:function(response) 
+                                 {
+                                    document.getElementById("search_record").innerHTML =response;
+                                    spinner.style.display='none';
+                                   
+                                 },
+                                 error:function()
+                                 {
+                                    alert("error");
+                                 }
+                              });
+                           
+}
 
 
 </script>
