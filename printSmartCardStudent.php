@@ -34,24 +34,18 @@ $this->MultiCell(53,4,'GURU KASHI UNIVERSITY Sardulgarh Road,Talwandi Sabo Bathi
 if($this->PageNo() == 1){
   
     $this->SetXY(0,81);
-    // $this->SetY(-4);
     $this->SetFont('Arial','B',8);
     $this->SetTextColor(255,255,255);
     $this->MultiCell(53.98,3,'AUTHORISED SIGNATORY','0','C');
 }
 }
-}
-
-// $pdf = new FPDF('P');  // 
+} 
 $pdf = new PDF('P','mm',array(53.98,85.60));
 $pdf->SetAutoPageBreak(false);
 $pdf -> AliasNbPages();
 $pdf->AddPage('');
-// $code=$_GET['code'];
+
 $empid=$_GET['id'];
-// if ($code==1) 
-// {
-   
     $pdf-> Image('dist\img\GKUIDCARDLogo.png',4,2,45,13);
     $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
     inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$empid'  ";
@@ -64,42 +58,58 @@ $empid=$_GET['id'];
         {
             $gg[]=$rowgetCourseDetails;
             $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
-            $DOB=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
+            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         }
-       $name= $row['StudentName'];
-        $pdf->SetFont('Arial','',9);
+        $name= $row['StudentName'];
+        $pdf->SetFont('Arial','',10);
         $pdf->SetTextColor(255,255,255);
-        $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,8);
+        $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,9);
         $pdf-> Image('dist\img\idcardbg.png',0,80,53.98,6);
-        $pdf-> Image('dist\img\signn.jpg',22.5,75,10,3); 
-        $pdf->SetXY(1,18.5);
-        $pdf->MultiCell(52,3,$row['CollegeName'],'','C');
-    $img= $row['Snap'];
-    $pic = 'data://text/plain;base64,' . base64_encode($img);
-    $info = getimagesize($pic);
-    $extension = explode('/', mime_content_type($pic))[1];
-    $pdf-> Image($pic,18,25.8,20,22,$extension);
-    $YCount=strlen(strtoupper($row['StudentName']));
-    if($YCount>20)
-    {
-        $XSet=60;
-        $RowsSet=3;
-    }
-    else
-    {
-        $XSet=55;
-        $RowsSet=6;
-    }
+        $pdf-> Image('dist\img\signn.jpg',20.5,75,13,4); 
+        $collegeLen=strlen($row['CollegeName']);
+        if($collegeLen<25)
+        {
+            $ClgC=4;
+            $ClgY=19;
+        }elseif($collegeLen<30)
+        {
+            $ClgC=4;
+            $ClgY=19;
+        }
+        else
+        {
+            $ClgC=4;
+            $ClgY=17.5;
+        }
+        $pdf->SetXY(1,$ClgY);
+        $pdf->MultiCell(52,$ClgC,$row['CollegeName'],'0','C');
+        $img= $row['Snap'];
+        $pic = 'data://text/plain;base64,' . base64_encode($img);
+        $info = getimagesize($pic);
+        $extension = explode('/', mime_content_type($pic))[1];
+        $pdf-> Image($pic,18,26.8,20,21,$extension);
+        $YCount=strlen(strtoupper($row['StudentName']));
+        if($YCount>18)
+        {
+            $XSet=60;
+            $RowsSet=3;
+        }
+        
+        else
+        {
+            $XSet=58;
+            $RowsSet=3;
+        }
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(0,0,0);
     $pdf->Write(3,'Name     :','0','L');
-    $pdf->SetXY(1.1,$XSet-3);
+    $pdf->SetXY(1,$XSet-3);
     $pdf->Write(3,'Roll No  :','0','L');
-    $pdf->SetXY(0.6,$XSet+2);
-    $pdf->Write(3,'Course   :','0','L');
+    $pdf->SetXY(1,$XSet+2);
+    $pdf->Write(3,'Course  :','0','L');
     $pdf->SetXY(1,$XSet+7);
-    $pdf->Write(3,'Batch.    :','0','L');
+    $pdf->Write(3,'Batch    :','0','L');
     $pdf->SetXY(0.9,$XSet+12);
     $pdf->Write(3,'Valid Up To. :','0','L');
     
@@ -115,52 +125,70 @@ $empid=$_GET['id'];
     $pdf->SetXY(14.5,$XSet+7);
     $pdf->MultiCell(39,3,$row['Batch'],'0','L');
     $pdf->SetXY(20.5,$XSet+12);
-    $pdf->MultiCell(39,3,$DOB,'0','L');
+    $pdf->MultiCell(39,3,$ValidUpTo,'0','L');
     $pdf->SetXY(0,0);
     
     $pdf->SetTextColor(0,0,0);
-  
+    $YCountBack=strlen(strtoupper($row['FatherName']));
+    if($YCountBack>18)
+    {
+        $XSetBack=24;
+        $RowsSetBack=3;
+    }
+    else
+    {
+        $XSetBack=22;
+        $RowsSetBack=3;
+    }
     $pdf->AddPage('P');
-    $pdf->SetXY(0,3);
-    $pdf->SetFont('Arial','B',10);
+    $pdf->SetXY(0,1);
+    $pdf->SetFont('Arial','B',9);
     $pdf->line(0,10,1000,10);
     $pdf->line(0,10.1,1000,10.1);
     $pdf->line(0,10.2,1000,10.2);
     $pdf->line(0,60,1000,60);
     $pdf->line(0,60.1,1000,60.1);
     $pdf->line(0,60.2,1000,60.2);
-    $pdf->MultiCell(53.98,3,'This is a property of GKU','0','C');
+    $pdf->MultiCell(53.98,4,'This is a property of Guru Kashi University','0','C');
     $pdf->SetXY(1,12);
-    $pdf->SetFont('Arial','B',8);
+    $pdf->SetFont('Arial','B',9);
     $pdf->Write(3,'F. Name :','0','L');
-    $pdf->SetXY(0.8,18);
+    $pdf->SetXY(0.8,$XSetBack-5);
     $pdf->Write(3,'Mobile    :','0','L');
-    $pdf->SetXY(1.1,24);
+    $pdf->SetXY(1.1,$XSetBack+1);
     $pdf->Write(3,'D.O.B     :','0','L');
 
-    
-    $pdf->SetXY(14.5,12);
-    $pdf->MultiCell(39,3,strtoupper($row['FatherName']),'0','L');
-    $pdf->SetXY(14.5,18);
-    $pdf->MultiCell(39,3,$row['IDNo'],'0','L');
-    $pdf->SetXY(14.5,24);
+  
+    $pdf->SetXY(16.5,12);
+    $pdf->MultiCell(39,$RowsSetBack,strtoupper($row['FatherName']),'0','L');
+    $pdf->SetXY(16.5,$XSetBack-5);
+    $pdf->MultiCell(39,3,$row['StudentMobileNo'],'0','L');
+    $pdf->SetXY(16.5,$XSetBack+1);
     $DATE=$row['DOB']->format('d-m-Y');
     $pdf->MultiCell(39,3,$DATE,'0','L');
-    $pdf->SetXY(0,32);
+    $pdf->SetXY(0,$XSetBack+8);
     $pdf->MultiCell(53.98,3,'Address','0','C');
-    $pdf->SetXY(0,37);
-    $pdf->MultiCell(53,4,strtoupper($row['PermanentAddress']),'0','C');
+    $pdf->SetXY(0.4,$XSetBack+13);
+    $pdf->MultiCell(53,4,strtoupper($row['PermanentAddress'].', PIN CODE-'.$row['PIN']),'0','C');
     
-    $aa[]=$row;
-   }
+
+   
 
 $date=date('Y-m-d H:i:s');
 
-//  $up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$empid')";
+$up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
+ sqlsrv_query($conntest,$up);
 
-//  $stmt1 = sqlsrv_query($conntest,$up);
-
+$up1="UPDATE SmartCardDetails SET Status='Printed',PrintDate='$date' WHERE IDNO='$empid' ";
+ sqlsrv_query($conntest,$up1);
 }
+}
+// $sql="SELECT *  FROM Admissions" ;
+// $aa=sqlsrv_query($conntest,$sql);
+// if($rr=sqlsrv_fetch_array($aa))
+// {
+//     $gg[]=$rr;
+// }
 // print_r($gg);
 
 

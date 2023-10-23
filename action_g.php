@@ -9021,7 +9021,15 @@ else
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
-
+    $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+    $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
+    if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
+    {
+        // $gg[]=$rowgetCourseDetails;
+        $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+        $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
+        $CourseShortName=$rowgetCourseDetails['CourseShortName'];
+    }
       $UniRollNo=$row_pending['IDNo'];
       $Snap=$row_pending['Snap'];
       $s_pic=base64_encode($Snap);
@@ -9096,10 +9104,10 @@ if($row_pending['SmartCardStatus']=='Applied')
                             <br>
                             RollNo: <span id="ClassRollNo" readonly="true"><?= $row_pending['ClassRollNo']; ?></span>
                             <br>
-                            Course: <span id="Course" readonly="true"><?= $row_pending['Course']; ?></span>
+                            Course: <span id="Course" readonly="true"><?=$CourseShortName; ?></span>
                             <br>
                             Batch: <span id="Batch" readonly="true"><?= $row_pending['Batch']; ?></span><br>
-                            Valid upto: <span id="ValidUpto" readonly="true"></span><br>
+                            Valid upto: <span id="ValidUpto" readonly="true"><?php echo $ValidUpTo; ?></span><br>
                             <br>
                             <h5 style="background-color: #223260; color: white">Authourity Signature</h5>
                         </div>
@@ -9114,12 +9122,9 @@ if($row_pending['SmartCardStatus']=='Applied')
                             DOB: <span id="DOB" readonly="true"><?= $row_pending['DOB']->format('d-m-Y'); ?></span>
                             <br>
                             <b><span>Address</span></b><br>
-                            <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?></span>
+                            <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?> &nbsp;&nbsp;PIN CODE-<?= $row_pending['PIN']; ?></span>
                             <br>
-                            <span id="State" readonly="true"><?= $row_pending['District']; ?></span>
-                            <br>
-                            <span id="State" readonly="true"><?= $row_pending['State']; ?></span> PIN-
-                            <span id="PIN" readonly="true"><?= $row_pending['PIN']; ?></span>
+                           
                             <br>
                             
     
@@ -16146,7 +16151,11 @@ elseif($statusForIdCard!=''  && $RollNo=='')
 }
 elseif($RollNo!='')
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or SmartCardDetails.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
+}
+else
+{
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where  SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
  while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
@@ -16206,6 +16215,65 @@ echo "1";
       echo "0";
    }
 }
+elseif($code==248)
+{
+   $id=$_POST['id'];
+   $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
+   inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$id'  ";
+   $result = sqlsrv_query($conntest,$sql);
+   if($row=sqlsrv_fetch_array($result))
+   {
+        $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
+       $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
+       if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
+       {
+           
+           $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+           $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
+           $CourseShortName=$rowgetCourseDetails['CourseShortName'];
+       }
+             $FatherName=$row['FatherName'];
+             $StudentName=$row['StudentName'];
+
+             if($ValidUpTo=='')
+             {
+                echo "Please Update Valid Up To ";
+             }
+             else if(strlen($CourseShortName)>19)
+             {
+                echo "Course Short Name Large";
+             }
+             
+             else if($CourseShortName=='')
+             {
+                echo "Course Short Name Emty";
+             }
+             else
+             {
+echo "1";
+             }
+      
+    }
+}
+elseif ($code==249) {
+    $count=0;
+    $status=$_POST['status'];
+    $from=$_POST['from'];
+    $to=$_POST['to'];
+    if($status!='' && $from!='' && $to!='')
+{
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$status' and PrintDate Between '$from 01:00:00.000' and '$to 23:59:00.000' order by SmartCardDetails.PrintDate ASC  ";
+}
+elseif($status!='')
+{
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$status' order by SmartCardDetails.IDNO ASC  ";
+}    $get_pending_run=sqlsrv_query($conntest,$GetSmartCardDetails);
+    while($row_pending=sqlsrv_fetch_array($get_pending_run))
+    {
+       $count++;
+    }
+    echo $count;
+ }
    else
    {
    

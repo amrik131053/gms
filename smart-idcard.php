@@ -35,10 +35,12 @@
                   &nbsp;
 
                   <input type="date" class="form-control form-control-sm" id="toDateFromIdCard">
+                  &nbsp;
 
+&nbsp;
 
+                  <button type="button" class="form-control form-control-sm bg-success"><b id="verified_count"></b></button>
                   </div>
-                  <!-- <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i class="fa fa-retweet" aria-hidden="true"></i></button> -->
     
       <div class="card-tools">
         <div class="input-group ">
@@ -97,6 +99,7 @@ function searchStudentForIDcard()
                                  },
                                  success:function(response) 
                                  {
+                                    set_count_verifed(statusForIdCard,fromDateForIdCard,toDateFromIdCard);
                                     document.getElementById("search_record").innerHTML =response;
                                     spinner.style.display='none';
                                    
@@ -217,18 +220,52 @@ function left_idcard(id){
             
       }
       function printSmartCardForStudent(id) {
-   var code=1;
-        if (id!='') 
-         {  
-         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
-          window.open("printSmartCardStudent.php?code="+code+"&id="+id,'_blank');
-         }
-         else
-         {
-            alert("Select ");
-         }
+   var code=248;
+   $.ajax({
+                  url:'action_g.php',
+                  type:'POST',
+                  data:{
+                     code:code,id:id
+                  },
+                  success: function(response) 
+                  {
+                    // console.log(response);
+                   if(response=='1')
+                   {
+                    window.open("printSmartCardStudent.php?id="+id,'_blank');
+                    searchStudentForIDcard();
+                   }
+                   else
+                   {
+                    ErrorToast(response,'bg-warning');
+                   }
+                    
+                  }
+               });
+      
       
 }
+function set_count_verifed(status,from,to){
+     var code=249;
+    //  var spinner=document.getElementById('div-loader');
+    //      spinner.style.display='block';
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,status:status,from:from,to:to
+              },
+              success: function(response) 
+              {
+              
+              
+                // spinner.style.display='none';
+               document.getElementById("verified_count").innerHTML=response;
+               
+              }
+           });
+          
+    }
   function left_idcard(id){
          
          var code=247;
