@@ -2706,17 +2706,23 @@ elseif($exportCode=='28')
         <thead>
                 <tr color='red'>
           <th>Sr. No</th>
-          <th>Payment ID</th>
-          <th>Ref no</th>
+       
+        <th>Faculty</th> 
+        <th>Program</th>
+         <th> Batch</th>
+         <th>Uni Roll No</th>
           <th>Name</th>
           <th>Father Name</th>
-           <th>Uni Roll No</th>
           
-             <th>Course</th>
+          
+             
          
           <th>Email</th> 
+             <th>Phone</th>
           <th>Purpose</th>
-          <th>Phone</th>
+       
+             <th>Payment ID</th>
+          <th>Ref no</th>
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
          
@@ -2733,6 +2739,11 @@ elseif($exportCode=='28')
       $name = $row['name'];
       $father_name = $row['father_name'];
       $Designation = $row['roll_no'];
+
+
+
+
+
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
@@ -2756,23 +2767,40 @@ elseif($exportCode=='28')
 
       $phone = $row['phone'];
 
-     
+
+  $query1="Select CollegeName,Course,Batch,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions where  UniRollNo='$Designation'";
+
+$stmt2 = sqlsrv_query($conntest,$query1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+ while($rowb = sqlsrv_fetch_array($stmt2))
+     {
+
+
+$collegename= $rowb['CollegeName'];
+ $batch=$rowb['Batch'];
+ $father_name=$rowb['FatherName'];
+
+ 
        
             $exportMeter.="<tr>
-                <td>{$count}</td>
-                <td>{$payment_id}</td>
-                <td>{$id}</td>
-                <td>{$name}</td>
-                <td>{$father_name}</td>
-                 <td>{$Designation}</td>
+             <td>{$count}</td>
+             <td>{$collegename}</td>
                  <td>{$Organisation}</td>
-               
-            
-                 
-                
-                <td>{$email}</td>
-                <td>{$purpose}</td>
+                 <td>{$batch}</td>
+               <td>{$Designation}</td>
+                  <td>{$name}</td>
+                <td>{$father_name}</td>
+                   <td>{$email}</td>
                 <td>{$phone}</td>
+                 <td>{$purpose}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>               
                 <td>{$amount}</td>
                 <td>{$Created_date}&nbsp;{$Created_time}</td>
                 
@@ -2781,7 +2809,8 @@ elseif($exportCode=='28')
             </tr>";
 $count++;
     }
-    
+    }
+}
     $exportMeter.="</table>";
     //echo $exportMeterHeader;
     echo $exportMeter;
