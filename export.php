@@ -4462,6 +4462,89 @@ $Course=$row['Course'];
     $fileName="credit card ";
 }
 
+else if($exportCode==38)
+{
+    $statusForIdCard=$_GET['status'];
+    $fromDateForIdCard=$_GET['from'];
+    $toDateFromIdCard=$_GET['to'];
+
+  
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>ClassRoll No </th>
+    <th>Name </th>
+    <th>College </th>
+    <th>Course </th>
+    <th>Duration </th>
+    <th>Print Date </th>
+    
+  
+    </tr>
+        </thead>";
+
+
+        if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!='' )
+        {
+             $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
+        }
+        else
+        {
+             $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where  SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
+        }
+         $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
+         while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
+         {
+            
+            $ClassRollNo=$row['ClassRollNo'];
+            $StudentName=$row['StudentName'];
+            $Course=$row['Course'];
+         
+            $CollegeName=$row['CollegeName'];
+            $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
+            $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
+            if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
+            {
+               
+               
+                if($rowgetCourseDetails['Duration']==1)
+                {
+                    $Duration=$rowgetCourseDetails['Duration'].' Year';
+                }else{
+                    $Duration=$rowgetCourseDetails['Duration'].' Years';
+                }
+                $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+                $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
+            }
+            if($row['PrintDate']!='')
+            {
+               $PrintDate=  $row['PrintDate']->format('d-m-Y H:i:s');
+            }
+            else
+            {
+                $PrintDate="";
+            }
+        
+         $exportstudy.="<tr>
+         <td>{$SrNo}</td>
+         <td>{$ClassRollNo}</td>
+         <td>{$StudentName}</td>
+         <td>{$CollegeName}</td>
+         <td>{$Course}</td>
+         <td>{$Duration}</td>
+         <td>{$PrintDate}</td>
+             
+     </tr>";
+     $SrNo++;
+         } 
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Smart card ";
+}
+
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);

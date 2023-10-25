@@ -1,12 +1,12 @@
 <?php
 require('fpdf/fpdf.php');
-$servername1 = "localhost";
-$username1 = "bhagi";
-$password1 = "@Sarbjot@98157";
-$dbname1 = "lims";
+// $servername1 = "localhost";
+// $username1 = "bhagi";
+// $password1 = "@Sarbjot@98157";
+// $dbname1 = "lims";
 
-$conn = new mysqli($servername1, $username1, $password1, $dbname1);   
-
+// $conn = new mysqli($servername1, $username1, $password1, $dbname1);   
+include "connection/connection.php";
  $ID=$_POST['ID'];
 $d=0;
  $location=" SELECT * , rm.Floor as FloorName, rm.RoomNo as abc, lm.RoomNo as RoomNo ,lm.ID as L_ID from location_master lm INNER JOIN room_master rm on lm.Floor=rm.FloorID INNER JOIN room_name_master rnm on lm.RoomName=rnm.ID INNER JOIN room_type_master rtm on lm.Type=rtm.ID INNER join building_master bm on lm.Block=bm.ID where lm.ID='$ID'";

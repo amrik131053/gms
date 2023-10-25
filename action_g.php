@@ -12661,7 +12661,8 @@ Values('$loginId','$Name','$FatherName','$designation','$Department3','$Departme
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
-
+    $insert_record1="INSERT into LeaveBalances(Employee_Id,LeaveType_Id,Balance,LastModifiedDate)values('$loginId','1','0','$timeStamp');";
+    sqlsrv_query($conntest, $insert_record1);
 
 
 if($category=='6')
@@ -16166,8 +16167,14 @@ else
     <td ><?=$SrNo;?></td>
     <td colspan='2'>
     <?php if($row['IDcardStatus']=='Verified')
-    {?><button class="btn btn-success" onclick="printSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print"></i> </button>
-    <?php }?><?=$row['IDNo'];?></td>
+    {
+        ?><button class="btn btn-success" onclick="printSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print"></i> </button>
+    <?php
+ } else if($row['IDcardStatus']=='Printed'){
+    ?><button class="btn btn-danger" onclick="printSingleSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print bg-danger"></i> </button>
+    <?php
+ }?><?=$row['IDNo'];?>
+</td>
     <td><?=$row['ClassRollNo'];?></td>
    <td><?=$row['StudentName'];?></td>
    <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
