@@ -16150,13 +16150,9 @@ elseif($statusForIdCard!=''  && $RollNo=='')
 {
      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
 }
-elseif($RollNo!='')
-{
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
-}
 else
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where  SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.IDNO ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by SmartCardDetails.IDNO ASC  ";
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
  while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))

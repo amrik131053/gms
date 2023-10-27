@@ -70,15 +70,27 @@ if ($code==1)
     $info = getimagesize($pic);
     $extension = explode('/', mime_content_type($pic))[1];
     $pdf-> Image($pic,18,25.8,20,22,$extension);
+    $YCount=strlen(strtoupper($row['Name']));
+    if($YCount>24)
+    {
+        $XSet=60;
+        $RowsSet=3;
+    }
+    
+    else
+    {
+        $XSet=58;
+        $RowsSet=3;
+    }
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(0,0,0);
     $pdf->Write(3,'Name     :','0','L');
-    $pdf->SetXY(1.1,55);
+    $pdf->SetXY(1.1,$XSet-3);
     $pdf->Write(3,'Emp.No :','0','L');
-    $pdf->SetXY(1,60);
+    $pdf->SetXY(1,$XSet+2);
     $pdf->Write(3,'Desig.    :','0','L');
-    $pdf->SetXY(0.9,65);
+    $pdf->SetXY(0.9,$XSet+7);
     $pdf->Write(3,'Dept.      :','0','L');
     
 
@@ -86,11 +98,11 @@ if ($code==1)
     $pdf->SetXY(14.5,50);
 
     $pdf->MultiCell(39,3,$row['Name'],'0','L');
-    $pdf->SetXY(14.5,55);
+    $pdf->SetXY(14.5,$XSet-3);
     $pdf->MultiCell(39,3,$row['IDNo'],'0','L');
-    $pdf->SetXY(14.5,60);
+    $pdf->SetXY(14.5,$XSet+2);
     $pdf->MultiCell(39,3,$row['Designation'],'0','L');
-    $pdf->SetXY(14.5,65 );
+    $pdf->SetXY(14.5,$XSet+7);
     $pdf->MultiCell(39,3,$row['DepartmentName'],'0','L');
     $pdf->SetXY(0,0);
     
@@ -107,6 +119,7 @@ if ($code==1)
     $pdf->line(0,60.2,1000,60.2);
     $pdf->MultiCell(53.98,3,'This is a property of GKU','0','C');
     $pdf->SetXY(1,12);
+    
     $pdf->SetFont('Arial','B',8);
     $pdf->Write(3,'F. Name :','0','L');
     $pdf->SetXY(0.8,18);
