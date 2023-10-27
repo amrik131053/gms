@@ -4,7 +4,7 @@
  include "dashboard-alert.php"; 
 if(!(ISSET($_SESSION['usr']))) 
 {
-  header('Location:index.php');  
+  //header('Location:index.php');  
 }
 else
 {
