@@ -26,7 +26,7 @@ else
 	if($status==1)
 
 {      
-echo   $_SESSION['usr'] = $user;
+   $_SESSION['usr'] = $user;
 ?>
 
 
