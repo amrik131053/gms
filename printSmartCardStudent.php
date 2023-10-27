@@ -329,7 +329,6 @@ $up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
 }
 }
 }
-
 $pdf->Output();
 // }
 ?>
