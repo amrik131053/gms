@@ -33,9 +33,6 @@ header('Location:Dashboard.php');
 
 
 
-
-<?php 
-
 	}
 	
 	
