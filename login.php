@@ -27,11 +27,11 @@ else
 
 {      
    $_SESSION['usr'] = $user;
-?>
 
 
+header('Location:Dashboard.php');
 
-<!--<script>window.location = "Dashboard.php"; </script>-->
+
 
 
 <?php 
