@@ -233,7 +233,7 @@ elseif($code==2)
         $info = getimagesize($pic);
         $extension = explode('/', mime_content_type($pic))[1];
         $pdf-> Image($pic,18,26.8,20,21,$extension);
-        $YCount=strlen(strtoupper($row['StudentName']));
+        $YCount=strlen(strtoupper(trim($row['StudentName'])));
         if($YCount>18)
         {
             $XSet=60;
@@ -262,7 +262,7 @@ elseif($code==2)
     
     $pdf->SetXY(14.5,50);
 
-    $pdf->MultiCell(39,$RowsSet,strtoupper($row['StudentName']),'0','L');
+    $pdf->MultiCell(39,$RowsSet,strtoupper(trim($row['StudentName'])),'0','L');
     $pdf->SetXY(14.5,$XSet-3);
     $pdf->MultiCell(39,3,$row['ClassRollNo'],'0','L');
     $pdf->SetXY(14.5,$XSet+2);
