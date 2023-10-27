@@ -1,6 +1,6 @@
 <?php
 session_start();
-echo  $_SESSION['usr'];
+
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 include "connection/connection.php";
 $todaydate=date('Y-m-d');
@@ -11,7 +11,7 @@ if(!(ISSET($_SESSION['usr'])))
 
 
 <script type="text/javascript">
-   // window.location.href="index.php";
+    window.location.href="index.php";
 </script>
 <?php 
 }
