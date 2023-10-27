@@ -259,7 +259,7 @@ elseif($code==2)
     $pdf->Write(3,'Valid Up To. :','0','L');
     
 
-    
+       
     $pdf->SetXY(14.5,50);
 
     $pdf->MultiCell(39,$RowsSet,strtoupper(trim($row['StudentName'])),'0','L');

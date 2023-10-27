@@ -119,7 +119,7 @@ if ($code==1)
     $pdf->line(0,60.2,1000,60.2);
     $pdf->MultiCell(53.98,3,'This is a property of GKU','0','C');
     $pdf->SetXY(1,12);
-    
+   
     $pdf->SetFont('Arial','B',8);
     $pdf->Write(3,'F. Name :','0','L');
     $pdf->SetXY(0.8,18);

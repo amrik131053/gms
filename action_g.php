@@ -16136,7 +16136,7 @@ elseif($code==245)
         <th>Status</th>
         <th>Action</th>
     </tr>
-
+   
 <?php 
 $SrNo=1;
 $statusForIdCard=$_POST['statusForIdCard'];
