@@ -27,7 +27,7 @@ else
 {        $_SESSION['usr'] = $user;
 ?>
 
-<script>window.location = "dashboard.php"; </script>
+<script>window.location = "Dashboard.php"; </script>
 
 
 <?php 
