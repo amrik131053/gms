@@ -24,10 +24,14 @@ else
 }
 
 	if($status==1)
-{        $_SESSION['usr'] = $user;
+
+{      
+echo   $_SESSION['usr'] = $user;
 ?>
 
-<script>window.location = "Dashboard.php"; </script>
+
+
+<!--<script>window.location = "Dashboard.php"; </script>-->
 
 
 <?php 
