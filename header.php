@@ -6,7 +6,12 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $timeStamp=date('Y-m-d H-i');
 
 if(!(ISSET($_SESSION['usr']))) 
-{?>
+{
+
+echo  $_SESSION['usr'];
+
+   ?>
+
 
 <script type="text/javascript">
    // window.location.href="index.php";
