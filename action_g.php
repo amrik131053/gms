@@ -16128,6 +16128,7 @@ elseif($code==245)
         <th colspan='2'>IDNo</th>
         <th>ClassRollNo</th>
         <th>Student Name</th>
+        <th>Course</th>
         <th>Apply Date</th>
         <th>Verify Date</th>
         <th>Reject Date</th>
@@ -16144,15 +16145,15 @@ $toDateFromIdCard=$_POST['toDateFromIdCard'];
 $RollNo=$_POST['RollNo'];
 if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!=''  && $RollNo=='')
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by SmartCardDetails.Course ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
 }
 elseif($statusForIdCard!=''  && $RollNo=='')
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.Course ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
 }
 else
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by SmartCardDetails.Course ASC  ";
+     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by Admissions.Course ASC  ";
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
  while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
@@ -16173,6 +16174,7 @@ else
 </td>
     <td><?=$row['ClassRollNo'];?></td>
    <td><?=$row['StudentName'];?></td>
+   <td><?=$row['CourseShortName'];?></td>
    <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
    <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
    <td><?php if($row['RejectDate']!=''){echo$row['RejectDate']->format('d-m-Y H:i:s');}?></td>
