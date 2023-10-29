@@ -1,4 +1,4 @@
-<?php
+<?php 
  include "header.php"; 
  include "dashboard-alert.php"; 
 if(!(ISSET($_SESSION['usr']))) 
