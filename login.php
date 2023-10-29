@@ -1,4 +1,6 @@
 <?php session_start();
+$_SESSION['test'] = 'test';
+var_dump($_SESSION);
 date_default_timezone_set("Asia/Kolkata");
 $status=0;
 $user=$_POST["user"];

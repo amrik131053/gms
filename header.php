@@ -1,4 +1,6 @@
 <?php session_start();
+$_SESSION['test'] = 'test';
+var_dump($_SESSION);
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 include "connection/connection.php";
 $todaydate=date('Y-m-d');
