@@ -1,6 +1,5 @@
 <?php session_start();
-$_SESSION['test'] = 'test';
-var_dump($_SESSION);
+
 date_default_timezone_set("Asia/Kolkata");
 $status=0;
 $user=$_POST["user"];
@@ -29,8 +28,11 @@ else
 {      
    $_SESSION['usr'] = $user;
 
+echo session_save_path();
+$amrik =$_SESSION['usr'];
+echo $amrik;
 
-header('Location:Dashboard.php');
+//header('Location:Dashboard.php');
 
 
 
