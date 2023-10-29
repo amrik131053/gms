@@ -29,11 +29,11 @@ else
 {      
    $_SESSION['usr'] = $user;
 
-echo session_save_path();
-$amrik =$_SESSION['usr'];
-echo $amrik;
+//echo session_save_path();
+// $amrik =$_SESSION['usr'];
+// echo $amrik;
 
-//header('Location:Dashboard.php');
+header('Location:Dashboard.php');
 
 
 

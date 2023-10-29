@@ -1,6 +1,6 @@
-<?php ob_clean(); 
+<?php 
 session_start();
-echo $amrik;
+// echo $amrik;
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 include "connection/connection.php";
 $todaydate=date('Y-m-d');
