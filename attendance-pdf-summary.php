@@ -361,13 +361,13 @@ $fintime1='09:02';
 $fintime2='11:00';
 $fintime3='13:00';
 $fintime4='15:00';
-$fintime4='17:00';
+$fintime5='17:00';
 
 $fouttime1='17:00';
 $fouttime2='15:00';
 $fouttime3='13:00';
 $fouttime4='11:00';
-$fouttime4='09:00';
+$fouttime5='09:00';
 
 if($start=='2023-10-27'){
 
