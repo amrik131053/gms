@@ -1,24 +1,28 @@
-<?php
+<?php 
 session_start();
+// echo $amrik;
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   include "connection/connection.php";
-   $todaydate=date('Y-m-d');
+include "connection/connection.php";
+$todaydate=date('Y-m-d');
 $timeStamp=date('Y-m-d H-i');
 if(!(ISSET($_SESSION['usr']))) 
 {?>
 
+
+
 <script type="text/javascript">
     window.location.href="index.php";
 </script>
-<?php }
+<?php 
+}
 else
 {
- $EmployeeID=$_SESSION['usr'];
- $spoc_per=0;
+$EmployeeID=$_SESSION['usr'];
+$spoc_per=0;
 $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
-   $result = $conn_spoc->query($sqlspoc);
-   if ($result->num_rows > 0) 
-   {
+$result = $conn_spoc->query($sqlspoc);
+if ($result->num_rows > 0) 
+{
       $spoc_per=1;
       while($rowspoc = $result->fetch_assoc())   
       {

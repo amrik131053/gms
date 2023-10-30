@@ -1,9 +1,10 @@
-<?php
-
+<?php 
  include "header.php"; 
  include "dashboard-alert.php"; 
 if(!(ISSET($_SESSION['usr']))) 
 {
+  
+ echo  $_SESSION['usr'];
   header('Location:index.php');  
 }
 else
