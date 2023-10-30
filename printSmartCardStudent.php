@@ -9,15 +9,12 @@ $result = mysqli_query($conn,"SELECT role_id FROM user  where emp_id=$EmployeeID
 if($row=mysqli_fetch_array($result)) 
 {
    
-    $role_id = $row['role_id'];
+      $role_id = $row['role_id'];
 }
-if($role_id!=2 || $role_id!=3)
+if( $role_id=='3' ||  $role_id=='2' )
 {
     
-    ?><script>window.open("not_found.php");   </script><?php
-}
-else
-{
+
 
 require_once('fpdf/fpdf.php');
 require_once('fpdf/fpdi.php');
@@ -328,7 +325,13 @@ $up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
   sqlsrv_query($conntest,$up11);
 }
 }
-}
+
 $pdf->Output();
-// }
+}
+else
+{
+    ?>
+<script>window.location="not_found.php";   </script>
+<?php
+}
 ?>
