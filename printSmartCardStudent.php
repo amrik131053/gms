@@ -137,7 +137,7 @@ if($code==1)
     }
     else
     {
-        $XSetBack=22;
+        $XSetBack=24;
         $RowsSetBack=3;
     }
     $pdf->AddPage('P');
@@ -279,7 +279,7 @@ elseif($code==2)
     }
     else
     {
-        $XSetBack=22;
+        $XSetBack=24;
         $RowsSetBack=3;
     }
     $pdf->AddPage('P');
@@ -291,7 +291,7 @@ elseif($code==2)
     $pdf->line(0,60,1000,60);
     $pdf->line(0,60.1,1000,60.1);
     $pdf->line(0,60.2,1000,60.2);
-    $pdf->MultiCell(53.98,4,'This is a property of Guru Kashi University','0','C');
+    $pdf->MultiCell(53.98,4,$YCountBack.'This is a property of Guru Kashi University','0','C');
     $pdf->SetXY(1,12);
     $pdf->SetFont('Arial','B',9);
     $pdf->Write(3,'F. Name :','0','L');

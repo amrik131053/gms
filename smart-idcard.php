@@ -89,7 +89,7 @@ function searchStudentForIDcard() {
     var fromDateForIdCard = document.getElementById("fromDateForIdCard").value;
     var toDateFromIdCard = document.getElementById("toDateFromIdCard").value;
     var RollNo = document.getElementById("RollNo").value;
-    if (statusForIdCard != '') {
+    if (statusForIdCard != '' && fromDateForIdCard!='') {
 
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
