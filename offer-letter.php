@@ -517,8 +517,8 @@ include "header.php";
          </div>
          <div class="col-lg-12 col-md-12 col-sm-3">
             <div class="card card-info">
-               <div class="card-header">
-                     <!-- <h5>All Records</h5> -->
+              <!--  <div class="card-header">
+                     <h5>All Records</h5> 
                   <div class="card-tools">
                       
                                      <div class="input-group input-group-sm">
@@ -534,7 +534,7 @@ include "header.php";
                       
                      </div>
                   </div>
-               </div>
+               </div> -->
                <script>
 
 
@@ -582,9 +582,10 @@ function by_search_studetn() {
                     var by_search="";
 
 
-                     loadData(currentPage);
+                     //loadData(currentPage);
 
                      function loadData(page) {
+
                         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
                         // var by_search=document.getElementById('by_search').value;

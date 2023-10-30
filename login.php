@@ -29,7 +29,7 @@ else
 {      
    $_SESSION['usr'] = $user;
 
-//echo session_save_path();
+echo session_save_path();
 // $amrik =$_SESSION['usr'];
 // echo $amrik;
 
