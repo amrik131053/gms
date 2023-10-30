@@ -29,7 +29,7 @@ else
 {      
    $_SESSION['usr'] = $user;
 
-echo session_save_path();
+//echo session_save_path();
 // $amrik =$_SESSION['usr'];
 // echo $amrik;
 
@@ -43,6 +43,6 @@ header('Location:Dashboard.php');
 else
 {
 	echo $_SESSION['incorrect'] = "<p style='color:red;'>Incorrect Password. Try ERP Password .</p>";
-	//header('Location:index.php');
+	header('Location:index.php');
 }
 ?>
