@@ -2618,6 +2618,8 @@ elseif($exportCode=='27')
            <th>Accomodation Type </th>
               <th>Check in Date </th>
                 <th>Check out Date </th>
+                 <th>Presenting</th>
+          <th>Attending</th>
             
          </tr>
         </thead>";
@@ -2653,8 +2655,12 @@ elseif($exportCode=='27')
       $endd=$row['endd'];
 
 
+      $presenting = $row['presenting'];
+
+
       $phone = $row['phone'];
 
+      $attending = $row['attending'];
      
        
             $exportMeter.="<tr>
@@ -2679,8 +2685,11 @@ elseif($exportCode=='27')
                  <td>{$accomodation}</td>
                   <td>{$acctype}</td>
                    <td>{$start}</td>
+                    <td>{$endd}</td>
+                    <td>{$presenting}</td>
+                     <td>{$attending}</td>
 
-                <td>{$endd}</td>
+               
             </tr>";
 $count++;
     }

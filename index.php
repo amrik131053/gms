@@ -1,6 +1,15 @@
 <?php 
 session_start();
 
+ if(isset($_SESSION['usr']))
+{
+header('Location:Dashboard.php');
+
+}
+else
+{
+
+
 ?>
 <head>
   <meta charset="utf-8">
@@ -78,5 +87,5 @@ include "fastival.php";
 <script src="plugins/jquery/jquery.min.js"></script>
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
  
-
+<?php }?>
 
