@@ -20085,8 +20085,22 @@ else
 $mydaycount=1;
 $totaldeduction=1;
 
+$fintime1='09:02';
+$fintime2='11:00';
+$fintime3='13:00';
+$fintime4='15:00';
+$fintime5='17:00';
 
+$fouttime1='17:00';
+$fouttime2='15:00';
+$fouttime3='13:00';
+$fouttime4='11:00';
+$fouttime5='09:00';
 
+if($start=='2023-10-27'){
+
+$fouttime1='16:00';
+}
 
 if($intime!='' && $outtime!='' && ($outtime>$intime) )
 {
@@ -20095,24 +20109,24 @@ if($intime!='' && $outtime!='' && ($outtime>$intime) )
 $deducation=0;
 
 
-if($myin>'09:02' && $myin<'11:01')
+if($myin>$fintime1 && $myin<=$fintime2)
 {
     $deducation=0.25;
 }
-else if($myin>'11:00'&& $myin<'13:01')
+else if($myin>$fintime2&& $myin<=$fintime3)
 {
     $deducation=0.50;
 }
 
-else if($myin>'13:00'&& $myin<'15:01')
+else if($myin>$fintime3 && $myin<=$fintime4)
 {
     $deducation=0.75;
 }
-else if($myin>'15:00'&& $myin<'17:01')
+else if($myin>$fintime4&& $myin<=$fintime5)
 {
    $deducation=1;  
 }
-else if($myin>'17:00')
+else if($myin>$fintime5)
 {
     $deducation=1;
 }
@@ -20121,32 +20135,34 @@ else
    $deducation=0;  
 }
 
+
 $deducationo=0;
 
-if($myout>='15:00'&& $myout<'17:00')
+
+if($myout>=$fouttime2&& $myout<$fouttime1)
 {
     $deducationo=0.25;
 }
-else if($myout>='13:00'&& $myout<'15:00')
+else if($myout>=$fouttime3&& $myout<$fouttime2)
 {
     $deducationo=0.50;
 }
 
-else if($myout>='11:00'&& $myout<'13:00')
+else if($myout>=$fouttime4&& $myout<$fouttime3)
 {
     $deducationo=0.75;
 }
 
-else if($myout>='09:00'&& $myout<'11:00')
+else if($myout>=$fouttime5&& $myout<$fouttime4)
 {
     $deducationo=1;
 }
 
-else if($myout>='09:00'&& $myout<'11:00')
+else if($myout>=$fouttime5&& $myout<$fouttime4)
 {
     $deducationo=1;
 }
-else if($myout<'09:00')
+else if($myout<$fouttime5)
 {
     $deducationo=1;
 }
@@ -20154,16 +20170,15 @@ else
 {
   $deducationo=0;  
 }
-
-
  $totaldeduction=$deducation+$deducationo;
 
 }
-
 else
 {
   $totaldeduction=1;  
 }
+
+
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
 
 if($countdayn<=1)
@@ -20180,7 +20195,8 @@ $countday=0;
 else
 {
     $countday=1;
-}?>
+}
+
 
 <?= $countday;?></td></tr>
 <?php 
