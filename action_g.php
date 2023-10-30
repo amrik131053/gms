@@ -16128,6 +16128,7 @@ elseif($code==245)
         <th colspan='2'>IDNo</th>
         <th>ClassRollNo</th>
         <th>Student Name</th>
+        <th>Batch</th>
         <th>Course</th>
         <th>Apply Date</th>
         <th>Verify Date</th>
@@ -16174,6 +16175,7 @@ else
 </td>
     <td><?=$row['ClassRollNo'];?></td>
    <td><?=$row['StudentName'];?></td>
+   <td><?=$row['Batch'];?></td>
    <td><?=$row['CourseShortName'];?></td>
    <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
    <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
@@ -16228,14 +16230,14 @@ elseif($code==248)
    $result = sqlsrv_query($conntest,$sql);
    if($row=sqlsrv_fetch_array($result))
    {
-        $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
+         $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
        $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
        if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
        {
            
            $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
-           $CourseShortName=$rowgetCourseDetails['CourseShortName'];
+            $CourseShortName=$row['CourseShortName'];
        }
              $FatherName=$row['FatherName'];
              $StudentName=$row['StudentName'];

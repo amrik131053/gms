@@ -318,11 +318,11 @@ elseif($code==2)
 
 $date=date('Y-m-d H:i:s');
 
-$up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
- sqlsrv_query($conntest,$up);
+// $up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
+//  sqlsrv_query($conntest,$up);
 
- $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
-  sqlsrv_query($conntest,$up11);
+//  $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
+//   sqlsrv_query($conntest,$up11);
 }
 }
 
