@@ -85,12 +85,25 @@
 
 <script>
 function searchStudentForIDcard() {
+    var valodation=0;
     var statusForIdCard = document.getElementById("statusForIdCard").value;
     var fromDateForIdCard = document.getElementById("fromDateForIdCard").value;
     var toDateFromIdCard = document.getElementById("toDateFromIdCard").value;
     var RollNo = document.getElementById("RollNo").value;
-    if (statusForIdCard != '' && fromDateForIdCard!='') {
-
+    if (statusForIdCard== 'Printed' && fromDateForIdCard!='' && toDateFromIdCard!='') 
+    {   
+valodation=1;
+}
+else if(statusForIdCard!= 'Printed' && statusForIdCard!= '')
+{
+    valodation=1;
+}
+else
+{
+    valodation=0;
+}
+if(valodation>0)
+{
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 245;
@@ -114,7 +127,10 @@ function searchStudentForIDcard() {
                 // alert("error");
             }
         });
-    } else {
+
+    } 
+    else
+    {
         ErrorToast('Please Select status/date', 'bg-warning');
 
     }
