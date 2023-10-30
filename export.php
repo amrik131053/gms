@@ -2828,100 +2828,14 @@ $count++;
 
 }
 
-
+//print detailed
 elseif($exportCode==29)
 {    
    
 
-
-        $curmnth =$_GET['month'];
-     $curyear = $_GET['year'];
-
-          $College=$_GET['College'];
-          $Department=$_GET['Department'];
-
-
-
-  if($College!=''&& $Department!='')
-  {       
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
-
-}
-else if($College!='')
-{
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
-
-}
-else
-{
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
-
-}
-
-
-
-$emp_codes=array();
-$stmt = sqlsrv_query($conntest,$sql_a);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-          {
-         $emp_codes[]=$row_staff['IDNo'];
-          }
-
- $no_of_emp=count($emp_codes);
-
-
-
-function get_days_in_month($month,$year)
-{
-    if ($month == "02")
-    {
-        if ($year % 4 == 0) return 29;
-        else return 28;
-    }
-    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
-    else return 30;
-}
-$totDays = get_days_in_month($curmnth,$curyear);
-
-$start_date="$curyear-$curmnth-01";
-
-$currentmonth=date('m');
-
-if($curmnth<>$currentmonth)
-{
-    $myenddate=$totDays;
-}
-else
-{
-$myenddate=$currentdate=date('d');
-}
-
- $end_date="$curyear-$curmnth-$myenddate";
-
-
-function getBetweenDates($startDate,$endDate) {
- $array = array();
- $interval = new DateInterval('P1D');
-
- $realEnd = new DateTime($endDate);
- $realEnd->add($interval);
-
- $period = new DatePeriod(new DateTime($startDate), $interval, $realEnd);
-
- foreach($period as $date) {
-   $array[] = $date->format('Y-m-d');
- }
-
- return $array;
-}
-$datee = getBetweenDates($start_date,$end_date);
-
-
-
-
-
-
- $no_of_dates=count($datee);
+include 'attendance-employee-get-export.php';
+     
+include 'attendance-date-function.php';
 
 
 $exportdaily="<table class='table' border='1'><tr>";
@@ -2949,7 +2863,7 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
                   $College=$row_staff['CollegeName'];
 
 
-  $exportdaily.="<tr><th style='color:red;' colspan=5>Summary Report</th></tr>";
+  $exportdaily.="<tr><th style='color:red;' colspan=5>Summary Report({$showmonth}-{$curyear})</th></tr>";
 
 $exportdaily.="<tr><td colspan=2>Employee ID</td><td colspan=3 style='text-align:left'>{$IDNo}</td></tr>";
 $exportdaily.="<tr><td colspan=2>Name</td><td colspan=3>{$Name}</td></tr>";
@@ -2960,11 +2874,12 @@ $exportdaily.="<tr><td colspan=5><b>{$CollegeName}</b></td></tr>";
 $exportdaily.="<tr><td>Date</td><td>In time</td><td>Out Time</td><td>Remarks</td><td>Count</td></tr>";
  
 $srno++;
+
 for ($at=0;$at<$no_of_dates;$at++)
 {
     $HolidayName='';
 
-   $start=$datee[$at];
+    $start=$datee[$at];
   $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
 
      $exportdaily.="<tr><td style='text-align:center'>{$start}</td>";
@@ -3001,119 +2916,10 @@ else
 
 $exportdaily.="{$myout}</td>";
 
-$holidaycount=0;
-
-$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
-$stmt = sqlsrv_query($conntest,$sql_holiday);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-            {
- $h++;
- $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
 
 
- $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+include 'attendance-calculator.php';
 
-                $row_count_join = sqlsrv_num_rows($list_result_join);  
-
-if($row_count_join>0)
-            {
-         $holidaycount=1;
-          $HolidayName=$row_staff['HolidayName'];
-             }
-             else
-             {
-                $holidaycount=0;
-
-                $HolidayName1=$row_staff['HolidayName'];
-                $HolidayName="Late Joining"."(" .$HolidayName1.")";
-             }
-
-}
-
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
-            CASE 
-               WHEN StartDate < '$start' THEN '$start'
-               ELSE StartDate 
-            END AS Leave_Start_Date,
-            CASE 
-               WHEN EndDate > '$start' THEN '$start'
-               ELSE EndDate 
-            END AS Leave_End_Date       
-FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
-WHERE       StartDate <= '$start' AND
-            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
-$leaveName='';
-$printleave='';
-$leavecount=0;
-$stmt = sqlsrv_query($conntest,$sql_att23);  
-            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-           {
-            
-           $leavetypeid=$row['leavetypes'];
-            $leaveName=$row['Name'];
-               $leaveduration=$row['LeaveDuration'];
-                   $leavedurationtime=$row['LeaveDurationsTime'];
-
-           }
-
- if($leaveName!='')
- {
-  if($leavedurationtime>0)
-{ 
-  $printleave=  $leavedurationtime.' day '.$leaveName;
-
- 
-
-} 
- else
- {
-    
- $printleave= '1 day '.$leaveName;
-
- 
-
- }
-
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
- {
-
-  if($leavedurationtime>0)
-{ 
-  $leavecount= $leavedurationtime;
- 
-} 
- else
- {
-    
- $leavecount=1;
-
-
- }
-
-
- }
-
- else
- {
-
-//   if($leavedurationtime>0)
-// { 
-//   $leavecount= -$leavedurationtime;
- 
-// } 
-//  else
-//  {
-    
-//  $leavecount=-1;
-
-
-//  }
-
-
- }
-
-
-}
 
 if($HolidayName!='' && $printleave!='')
 {
@@ -3150,14 +2956,6 @@ if($row_count_joinab>0)
 
 
 
-
-
-
-    
-
-
-
-
 }
 else
 {
@@ -3165,114 +2963,12 @@ else
 }
 
 
-
-
-$mydaycount=1;
-$totaldeduction=1;
-
-
-
-
-if($intime!='' && $outtime!='' && ($outtime>$intime) )
-{
-
-
-$deducation=0;
-
-
-if($myin>'09:02' && $myin<'11:01')
-{
-    $deducation=0.25;
-}
-else if($myin>'11:00'&& $myin<'13:01')
-{
-    $deducation=0.50;
-}
-
-else if($myin>'13:00'&& $myin<'15:01')
-{
-    $deducation=0.75;
-}
-else if($myin>'15:00'&& $myin<'17:01')
-{
-   $deducation=1;  
-}
-else if($myin>'17:00')
-{
-    $deducation=1;
-}
-else 
-{
-   $deducation=0;  
-}
-
-$deducationo=0;
-
-if($myout>='15:00'&& $myout<'17:00')
-{
-    $deducationo=0.25;
-}
-else if($myout>='13:00'&& $myout<'15:00')
-{
-    $deducationo=0.50;
-}
-
-else if($myout>='11:00'&& $myout<'13:00')
-{
-    $deducationo=0.75;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-else if($myout<'09:00')
-{
-    $deducationo=1;
-}
-else 
-{
-  $deducationo=0;  
-}
- $totaldeduction=$deducation+$deducationo;
-
-}
-else
-{
-  $totaldeduction=1;  
-}
-
-$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
-
-if($countdayn<=1)
-{
-    if($countdayn<0)
-    {
-$countday=0;
-    }
-    else
-    {
-  $countday=$countdayn;  
-}
-}
-else
-{
-    $countday=1;
-}
-
 $exportdaily.="{$countday}</td></tr>";
 
 $paiddays=$paiddays+$countday;
 
 
 }
-
-
 
 
 }
@@ -3299,7 +2995,8 @@ $exportdaily.="</th><th></th>";
     $exportdaily.="<tr></table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
-        $fileName="Daily Report";
+
+        $fileName="$filename ($showmonth-$curyear) Attendance Report ";
 }
 
 
@@ -3309,93 +3006,9 @@ $exportdaily.="</th><th></th>";
 elseif($exportCode==30)
 {    
    
-
-
-        $curmnth =$_GET['month'];
-        $curyear = $_GET['year'];
-        $College=$_GET['College'];
-        $Department=$_GET['Department'];
-
-
-
-  if($College!=''&& $Department!='')
-  {       
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
-
-}
-else if($College!='')
-{
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
-
-}
-else
-{
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
-
-}
-
-
-
-$emp_codes=array();
-$stmt = sqlsrv_query($conntest,$sql_a);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-          {
-         $emp_codes[]=$row_staff['IDNo'];
-          }
-
- $no_of_emp=count($emp_codes);
-
-
-
-function get_days_in_month($month,$year)
-{
-    if ($month == "02")
-    {
-        if ($year % 4 == 0) return 29;
-        else return 28;
-    }
-    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
-    else return 30;
-}
-$totDays = get_days_in_month($curmnth,$curyear);
-
-$start_date="$curyear-$curmnth-01";
-
-$currentmonth=date('m');
-
-if($curmnth<>$currentmonth)
-{
-    $myenddate=$totDays;
-}
-else
-{
-$myenddate=$currentdate=date('d');
-}
-
- $end_date="$curyear-$curmnth-$myenddate";
-
-
-function getBetweenDates($startDate,$endDate) {
- $array = array();
- $interval = new DateInterval('P1D');
-
- $realEnd = new DateTime($endDate);
- $realEnd->add($interval);
-
- $period = new DatePeriod(new DateTime($startDate), $interval, $realEnd);
-
- foreach($period as $date) {
-   $array[] = $date->format('Y-m-d');
- }
-
- return $array;
-}
-$datee = getBetweenDates($start_date,$end_date);
-
-
-
-
- $no_of_dates=count($datee);
+include 'attendance-employee-get-export.php';
+     
+include 'attendance-date-function.php';
 
 
 $exportdaily="<table class='table' border='1'>
@@ -3403,11 +3016,10 @@ $exportdaily="<table class='table' border='1'>
        <thead>
                           
           <tr >
-       <th style='color:red;'>Sr No</th><th  style='color:red;'>Name </th><th style='color:red;'>Emp ID</th><th style='color:red;'>College</th>";
+       <th style='color:red;'>Sr No</th><th  style='color:red;'>Employee ID </th><th style='color:red;'>Name</th><th style='color:red;'>College</th>";
  
 
-
-$exportdaily.="<th  style='text-align:center' style='color:red;'>No Of Days</th></tr></thead>";
+$exportdaily.="<th  style='text-align:center' style='color:red;'>No of  Paid Days</th></tr></thead>";
     
 $srno=1;
 for ($i=0;$i<$no_of_emp;$i++)
@@ -3468,249 +3080,7 @@ else
  { $myout= "";}
    
    
-
-
-
-$holidaycount=0;
-
-$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
-$stmt = sqlsrv_query($conntest,$sql_holiday);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-            {
-//              $HolidayName=$row_staff['HolidayName'];
-//  $h++;
-//  echo $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00.00'";
-
-
-//  $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-
-//                 $row_count_join = sqlsrv_num_rows($list_result_join);  
-
-// if($row_count_join>0)
-//             {
-//          $holidaycount=1;
-//              }
-//              else
-//              {
-//                 $holidaycount=0;
-//              }
-
-$h++;
- $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
-
-
- $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-
-                $row_count_join = sqlsrv_num_rows($list_result_join);  
-
-if($row_count_join>0)
-            {
-         $holidaycount=1;
-          $HolidayName=$row_staff['HolidayName'];
-             }
-             else
-             {
-                $holidaycount=0;
-
-                $HolidayName1=$row_staff['HolidayName'];
-                $HolidayName="Late Joining"."(" .$HolidayName1.")";
-             }
-
-
-
-             }
-
-
-
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
-            CASE 
-               WHEN StartDate < '$start' THEN '$start'
-               ELSE StartDate 
-            END AS Leave_Start_Date,
-            CASE 
-               WHEN EndDate > '$start' THEN '$start'
-               ELSE EndDate 
-            END AS Leave_End_Date       
-FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
-WHERE       StartDate <= '$start' AND
-            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
-$leaveName='';
-$printleave='';
-$leavecount=0;
-$stmt = sqlsrv_query($conntest,$sql_att23);  
-            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-           {
-            
-           $leavetypeid=$row['leavetypes'];
-            $leaveName=$row['Name'];
-               $leaveduration=$row['LeaveDuration'];
-                   $leavedurationtime=$row['LeaveDurationsTime'];
-
-           }
-
- if($leaveName!='')
- {
-  if($leavedurationtime>0)
-{ 
-  $printleave=  $leavedurationtime.' day '.$leaveName;
-
- 
-
-} 
- else
- {
-    
- $printleave= '1 day '.$leaveName;
-
- 
-
- }
-
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
- {
-
-  if($leavedurationtime>0)
-{ 
-  $leavecount= $leavedurationtime;
- 
-} 
- else
- {
-    
- $leavecount=1;
-
-
- }
-
-
- }
- else
- {
-
-//   if($leavedurationtime>0)
-// { 
-//   $leavecount= -$leavedurationtime;
- 
-// } 
-//  else
-//  {
-    
-//  $leavecount=-1;
-
-
-//  }
-
-
- }
-
-
-}
-
-
-
-
-
-
-$mydaycount=1;
-$totaldeduction=1;
-
-
-
-
-if($intime!='' && $outtime!='' && ($outtime>$intime) )
-{
-
-
-$deducation=0;
-
-
-if($myin>'09:02' && $myin<'11:01')
-{
-    $deducation=0.25;
-}
-else if($myin>'11:00'&& $myin<'13:01')
-{
-    $deducation=0.50;
-}
-
-else if($myin>'13:00'&& $myin<'15:01')
-{
-    $deducation=0.75;
-}
-else if($myin>'15:00'&& $myin<'17:01')
-{
-   $deducation=1;  
-}
-else if($myin>'17:00')
-{
-    $deducation=1;
-}
-else 
-{
-   $deducation=0;  
-}
-
-$deducationo=0;
-
-if($myout>='15:00'&& $myout<'17:00')
-{
-    $deducationo=0.25;
-}
-else if($myout>='13:00'&& $myout<'15:00')
-{
-    $deducationo=0.50;
-}
-
-else if($myout>='11:00'&& $myout<'13:00')
-{
-    $deducationo=0.75;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-else if($myout<'09:00')
-{
-    $deducationo=1;
-}
-else 
-{
-  $deducationo=0;  
-}
- $totaldeduction=$deducation+$deducationo;
-
-}
-else
-{
-  $totaldeduction=1;  
-}
-
-
-$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
-
-if($countdayn<=1)
-{
-    if($countdayn<0)
-    {
-$countday=0;
-    }
-    else
-    {
-  $countday=$countdayn;  
-}
-}
-else
-{
-    $countday=1;
-}
-
-//$exportdaily.="{$countday}";
+include 'attendance-calculator.php';
 
 $paiddays=$paiddays+$countday;
 
@@ -3730,15 +3100,16 @@ else
     $exportdaily.="<td><b>0</b></td></tr>";
 }
 }
-
    
 }
  $exportdaily.="</table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
-        $fileName="Attendance Report";
+        $fileName="$filename ($showmonth-$curyear) Summary Report";
 }
 
+
+//single report
 
 else if($exportCode==31)
 {
@@ -3747,54 +3118,11 @@ $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
  $emp_code=$_POST['EmployeeId'];
 
-function get_days_in_month($month, $year)
-{
-    if ($month == "02")
-    {
-        if ($year % 4 == 0) return 29;
-        else return 28;
-    }
-    else if ($month == "01" || $month == "03" || $month == "05" || $month == "07" || $month == "08" || $month == "10" || $month == "12") return 31;
-    else return 30;
-}
-$totDays = get_days_in_month($curmnth, $curyear);
-
-$start_date="$curyear-$curmnth-01";
-$currentmonth=date('m');
-
-if($curmnth<>$currentmonth)
-{
-    $myenddate=$totDays;
-}
-else
-{
-$myenddate=$currentdate=date('d');
-}
-
- $end_date="$curyear-$curmnth-$myenddate";
 
 
-
-
-
-function getBetweenDates($startDate,$endDate) {
- $array = array();
- $interval = new DateInterval('P1D');
-
- $realEnd = new DateTime($endDate);
- $realEnd->add($interval);
-
- $period = new DatePeriod(new DateTime($startDate), $interval, $realEnd);
-
- foreach($period as $date) {
-   $array[] = $date->format('Y-m-d');
- }
-
- return $array;
-}
-
-$datee = getBetweenDates($start_date,$end_date);
- $no_of_dates=count($datee);
+//include 'attendance-employee-get-export.php';
+     
+include 'attendance-date-function.php';
 
 
 $exportdaily="<table class='table' border='1'>";
@@ -3817,7 +3145,7 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
                   $College=$row_staff['CollegeName'];
 
 
-  $exportdaily.="<tr><th style='color:red;' colspan=5>Summary Report</th></tr>";
+  $exportdaily.="<tr><th style='color:red;' colspan=5>Attendance Report $showmonth-$curyear </th></tr>";
 
 $exportdaily.="<tr><td colspan=2>Employee ID</td><td colspan=3 style='text-align:left'>{$IDNo}</td></tr>";
 $exportdaily.="<tr><td colspan=2>Name</td><td colspan=3>{$Name}</td></tr>";
@@ -3828,6 +3156,7 @@ $exportdaily.="<tr><td colspan=2>College Name</td><td colspan=3>{$CollegeName}</
 $exportdaily.="<tr><td>Date</td><td>In time</td><td>Out Time</td><td>Remarks</td><td>Count</td></tr>";
  
 $srno++;
+
 for ($at=0;$at<$no_of_dates;$at++)
 {
     $HolidayName='';
@@ -3871,120 +3200,14 @@ $exportdaily.="{$myout}</td>";
 
 $holidaycount=0;
 $row_count_join=0;
-$sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
-$stmt = sqlsrv_query($conntest,$sql_holiday);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-            {
-        
- $h++;
- $joiningdate="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
 
 
- $list_result_join = sqlsrv_query($conntest,$joiningdate, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-
-                $row_count_join = sqlsrv_num_rows($list_result_join);  
-
-if($row_count_join>0)
-            {
-         $holidaycount=1;
-          $HolidayName=$row_staff['HolidayName'];
-             }
-             else
-             {
-                $holidaycount=0;
-
-                $HolidayName1=$row_staff['HolidayName'];
-                $HolidayName="Late Joining"."(" .$HolidayName1.")";
-             }
-
-
-             }
+include 'attendance-calculator.php';
 
 
 
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
-            CASE 
-               WHEN StartDate < '$start' THEN '$start'
-               ELSE StartDate 
-            END AS Leave_Start_Date,
-            CASE 
-               WHEN EndDate > '$start' THEN '$start'
-               ELSE EndDate 
-            END AS Leave_End_Date       
-FROM        ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
-WHERE       StartDate <= '$start' AND
-            EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
-$leaveName='';
-$printleave='';
-$leavecount=0;
-$stmt = sqlsrv_query($conntest,$sql_att23);  
-            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-           {
-            
-           $leavetypeid=$row['leavetypes'];
-            $leaveName=$row['Name'];
-               $leaveduration=$row['LeaveDuration'];
-                   $leavedurationtime=$row['LeaveDurationsTime'];
-
-           }
-
- if($leaveName!='')
- {
-  if($leavedurationtime>0)
-{ 
-  $printleave=  $leavedurationtime.' day '.$leaveName;
-
- 
-
-} 
- else
- {
-    
- $printleave= '1 day '.$leaveName;
-
- 
-
- }
-
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
- {
-
-  if($leavedurationtime>0)
-{ 
-  $leavecount= $leavedurationtime;
- 
-} 
- else
- {
-    
- $leavecount=1;
 
 
- }
-
-
- }
- else
- {
-
-//   if($leavedurationtime>0)
-// { 
-//   $leavecount= -$leavedurationtime;
- 
-// } 
-//  else
-//  {
-    
-//  $leavecount=-1;
-
-
-//  }
-
-
- }
-
-
-}
 
 if($HolidayName!='' && $printleave!='')
 {
@@ -4000,6 +3223,8 @@ else if($HolidayName=='' && $printleave!='')
 {
  $exportdaily.="<td>{$printleave}</td><td>";
 }
+
+
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
 
@@ -4029,108 +3254,6 @@ else
     $exportdaily.="<td></td><td>";
 }
 
-
-
-
-$mydaycount=1;
-$totaldeduction=1;
-
-
-
-
-if($intime!='' && $outtime!='' && ($outtime>$intime) )
-{
-
-
-$deducation=0;
-
-
-if($myin>'09:02' && $myin<'11:01')
-{
-    $deducation=0.25;
-}
-else if($myin>'11:00'&& $myin<'13:01')
-{
-    $deducation=0.50;
-}
-
-else if($myin>'13:00'&& $myin<'15:01')
-{
-    $deducation=0.75;
-}
-else if($myin>'15:00'&& $myin<'17:01')
-{
-   $deducation=1;  
-}
-else if($myin>'17:00')
-{
-    $deducation=1;
-}
-else 
-{
-   $deducation=0;  
-}
-
-$deducationo=0;
-
-if($myout>='15:00'&& $myout<'17:00')
-{
-    $deducationo=0.25;
-}
-else if($myout>='13:00'&& $myout<'15:00')
-{
-    $deducationo=0.50;
-}
-
-else if($myout>='11:00'&& $myout<'13:00')
-{
-    $deducationo=0.75;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-
-else if($myout>='09:00'&& $myout<'11:00')
-{
-    $deducationo=1;
-}
-else if($myout<'09:00')
-{
-    $deducationo=1;
-}
-else 
-{
-  $deducationo=0;  
-}
- $totaldeduction=$deducation+$deducationo;
-
-}
-
-else
-{
-  $totaldeduction=1;  
-}
-
-$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
-
-if($countdayn<=1)
-{
-    if($countdayn<0)
-    {
-$countday=0;
-    }
-    else
-    {
-  $countday=$countdayn;  
-}
-}
-else
-{
-    $countday=1;
-}
-
 $exportdaily.="{$countday}</td></tr>";
 
 $paiddays=$paiddays+$countday;
@@ -4153,7 +3276,8 @@ else
     $exportdaily.="<tr></table>"; 
        //echo $exportMeterHeader;    
        echo $exportdaily;  
-        $fileName=" Attendance Report";
+        $fileName="$Name($IDNo)-$showmonth-$curyear Attendance Report";
+
 
 }
 
