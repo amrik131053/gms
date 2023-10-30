@@ -20196,7 +20196,7 @@ else
 {
     $countday=1;
 }
-
+?>
 
 <?= $countday;?></td></tr>
 <?php 
