@@ -298,7 +298,7 @@ include "header.php";
                      
                         <div class="input-group input-group-sm">
                            <?php 
-                  if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='00001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+                  if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='170573' || $EmployeeID=='170601' || $EmployeeID=='170976' )
                            {
                            ?>
                         <button  data-toggle="modal" data-target="#for_add_adm_count" class="btn btn-success " >Add Count</button >
