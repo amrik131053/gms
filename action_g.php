@@ -8279,7 +8279,7 @@ $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $District = $_POST['District'];
 $Consultant = $_POST['Consultant'];
-$duration= $_POST['duration'];
+//$duration= $_POST['duration'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
@@ -8292,6 +8292,19 @@ if ($numof_exit>0) {
 }
 else
 {
+
+
+$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
+$get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+
+    $duration=$row_collegecourse_name['Duration'];
+    
+
+}
+
+
+
  $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
@@ -8758,7 +8771,7 @@ else
                     </select>
                 </div>
                 <div class="col-lg-2">
-                    <label>Duration</label>
+                    <label>Duration Year</label>
                     <select class="form-control" id="Duration">
                         <option value="<?= $Duration?>"><?= $Duration;?></option>
                         <option value="1">1</option>
@@ -8771,7 +8784,7 @@ else
                     </select>
                 </div>
                 <div class="col-lg-2">
-                    <label>Course Duration</label>
+                    <label>Duration Month</label>
 
                     <select class="form-control" id="months">
                         <option value="<?= $months?>"><?= $months;?></option>
@@ -8782,10 +8795,23 @@ else
                     </select>
                 </div>
 
+ <div class="col-lg-2">
+                    <label>Leet</label>
+                   
+                   <select class="form-control" id="leet" >
+                        <option value="<?=$Lateral;?>"><?=$Lateral;?>                    
+
+                        </option>
+                        <option value="Yes">Yes </option>
+                        <option value="No">No</option>
 
 
 
-                <div class="col-lg-3">
+                    </select>
+                </div>
+
+
+                <div class="col-lg-2">
                     <label>Class RollNo</label>
                     <?php if($EmployeeID=='121031' ||$EmployeeID=='131053') 
                     {?>
@@ -8812,8 +8838,8 @@ else
                   ?>
                 </div>
                 <div class="col-lg-2">
-                    <label>District</label>
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID='170573')
+                    <label>Status</label>
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053' || $EmployeeID=='170573')
                     {?>
 
                     <?php if($lStatus>0) {
@@ -8884,6 +8910,7 @@ $classroll="";
 $duration = $_POST['duration'];
 $id = $_POST['id'];
 $Name = $_POST['Name'];
+$leet = $_POST['leet'];
 $months = $_POST['months'];
 $FatherName = $_POST['FatherName'];
 $Gender = $_POST['Gender'];
@@ -8897,7 +8924,7 @@ $District = $_POST['District1'];
 $status= $_POST['status'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

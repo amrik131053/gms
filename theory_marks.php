@@ -128,9 +128,9 @@ for($i=1;$i<=12;$i++)
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
                 <option value="CE1">CA-1 & CA-2</option>
-                <option value="MST1">MST Marks </option>
+                <option value="MST1">MST-1 </option>
                  <!-- <option value="CE2">CE-2</option> -->
-                <!-- <option value="MST2">MST-2</option> -->
+               <option value="MST2">MST-2</option> 
                 <option value="CE3">CA-3</option>
                  <option value="ESE">End Semester Exam</option>
                     <option value="Attendance">Attendance</option>
@@ -212,7 +212,7 @@ for($i=1;$i<=12;$i++)
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title"> Examination wise Lock / Unlock </h3>
+                <h3 class="card-title"> Examination wise Lock / Unlock (select Semester,Examination,Type) </h3>
               </div> 
                 <div class="card-body">
                      <h3 class="card-title"><i class='btn btn-warning btn-xs' onclick="lockall();">Lock All</i>&nbsp;&nbsp;&nbsp;
@@ -226,7 +226,7 @@ for($i=1;$i<=12;$i++)
 
              <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title"> Semester Wise </h3>
+                <h3 class="card-title"> Semester Wise (Select College,Course,Batch,Semester,Examination) </h3>
               </div> 
                 <div class="card-body">
 <input type="checkbox" id="CE1" name="CE1" value="CE1" class="semesterwisetheory">
@@ -562,6 +562,7 @@ function unlockSemester()
   var examination=document.getElementById('Examination').value;
   var batch=document.getElementById('Batch').value;
   var semester=document.getElementById('Semester').value;
+
   var distributiontheory=document.getElementsByClassName('semesterwisetheory');
   var len_distribution= distributiontheory.length;
   var distributiontheory_str=[];

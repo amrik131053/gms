@@ -257,6 +257,7 @@ function by_search_studetn() {
                            {
 table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button >&nbsp;';
 }
+
  if(userid!='131027' )
                            {
 
@@ -561,7 +562,7 @@ function edit_student_details(id) {
    var duration = document.getElementById('Duration').value;
   // var session = document.getElementById('session').value;
   // var AdharCardNo = document.getElementById('AdharCardNo').value;
-  // var PassportNo = document.getElementById('PassportNo').value;
+   var leet = document.getElementById('leet').value;
   var classroll = document.getElementById('classroll').value;
   var District = document.getElementById('District1').value;
   var Status1 = document.getElementById('Status1').value;
@@ -590,7 +591,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     duration: duration,
     // session: session,
     // AdharCardNo: AdharCardNo,
-    // PassportNo: PassportNo,
+  leet:leet,
     months:months,
     classroll: classroll,
     District1: District,status:Status1,
