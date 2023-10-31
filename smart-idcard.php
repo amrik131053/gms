@@ -53,7 +53,7 @@
                             <div class="input-group ">
                                &nbsp;
                                &nbsp;
-                               <button type="button" class="form-control form-control-sm bg-success" onclick="exportPdfSmartCard();"><i
+                               <button type="button" class="form-control form-control-sm bg-danger" onclick="exportPdfSmartCard();"><i
                                   class="fa fa-file-pdf" ></i></button>
                                &nbsp;
                                &nbsp;
@@ -95,6 +95,10 @@ function searchStudentForIDcard() {
 valodation=1;
 }
 else if(statusForIdCard!= 'Printed' && statusForIdCard!= '')
+{
+    valodation=1;
+}
+else if(statusForIdCard== '' && fromDateForIdCard== '' && toDateFromIdCard=='' && RollNo!= '')
 {
     valodation=1;
 }

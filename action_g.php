@@ -16173,15 +16173,20 @@ $toDateFromIdCard=$_POST['toDateFromIdCard'];
 $RollNo=$_POST['RollNo'];
 if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!=''  && $RollNo=='')
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
+      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
 }
-elseif($statusForIdCard!=''  && $RollNo=='')
+elseif($statusForIdCard!='Printed'    && $RollNo=='' )
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
+      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
+}
+elseif($statusForIdCard==''  && $RollNo!='' && $fromDateForIdCard=='' && $toDateFromIdCard=='')
+{
+      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by Admissions.Course ASC  ";
 }
 else
 {
-     $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo' order by Admissions.Course ASC  ";
+    $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by Admissions.Course ASC  ";
+
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
  while($row=sqlsrv_fetch_array($GetSmartCardDetailsRun,SQLSRV_FETCH_ASSOC))
@@ -16299,16 +16304,153 @@ elseif ($code==249)
 {
      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$status' and PrintDate Between '$from 01:00:00.000' and '$to 23:59:00.000' order by SmartCardDetails.PrintDate ASC  ";
 }
-elseif($status!='')
+elseif($status!='Printed' && $from=='' && $to=='')
 {
      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$status' order by SmartCardDetails.IDNO ASC  ";
-}    $get_pending_run=sqlsrv_query($conntest,$GetSmartCardDetails);
+}  
+elseif($status=='' && $from=='' && $to=='')
+{
+     $GetSmartCardDetails=" ";
+}    
+
+$get_pending_run=sqlsrv_query($conntest,$GetSmartCardDetails);
     while($row_pending=sqlsrv_fetch_array($get_pending_run))
     {
        $count++;
     }
     echo $count;
  }
+ elseif($code==250) 
+{
+   $Id=$_POST['college'];
+  ?>   <div class="card-body table-responsive p-0" >
+         <table class="table table-head-fixed text-nowrap" >
+            <?php 
+               ?>
+            <thead>
+               <tr>
+                  <th>Sr No.</th>
+                  <th>Shift Name</th>
+                  <!-- <th>Department(ID CARD)</th>
+                  <th>Department Full Name</th> -->
+                  <th>Action</th>
+               </tr>
+            </thead>
+            <tbody>
+<?php
+$count=1;
+
+if($Id!='')
+{
+$sql="SELECT  * FROM MasterShift where Id='$Id'";
+}
+else
+{
+   $sql="SELECT  * FROM MasterShift ";
+
+}
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+      $ShiftName = $row1['ShiftName']; 
+            $id = $row1['Id'];
+    ?>
+
+
+
+               <tr><th><?=$count;?></th>
+                  <td><?=$ShiftName;?>(<?= $id;?>)</td>
+                 
+                  <td>
+                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:red;"></i></td>
+                
+               </tr>
+<?php 
+$count++;
+}?>
+
+
+
+            </tbody>
+           
+         </table>
+      </div> <?php 
+
+}
+elseif($code==251) 
+{
+
+$id = $_POST['id']; 
+ 
+ $updatedep="DELETE from  MasterShift where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
+elseif($code==252) 
+{
+$Id=$_POST['id'];
+$count=1;
+   $sql="SELECT  * FROM MasterShift Where Id='$Id' ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+      $ShiftName = $row1['ShiftName'];
+            $id = $row1['Id'];
+    ?>
+
+<div class="row">
+<div class="col-lg-10">
+   <label>Shift Name</label>
+<input type="text" value="<?=$ShiftName ;?>" id="shiftName"   class="form-control" required=""  name="">
+
+   </div>
+   
+   <div class="col-lg-1">
+<label>Action</label>
+<button onclick="Updatedepdata(<?=$id;?>)" class="btn btn-primary">Update</button>
+   </div>
+</div>
+
+             
+<?php 
+$count++;
+}
+
+}
+elseif($code==253) 
+{
+
+$id = $_POST['id'];
+$shiftName = $_POST['shiftName']; 
+      
+
+
+$updatedep="UPDATE MasterShift set ShiftName='$shiftName' where Id='$id'";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+  echo "1";
+}
+
+elseif($code==254) 
+{
+
+      $shiftName = $_POST['shiftName']; 
+     
+ $updatedep="INSERT  into MasterShift (ShiftName,Status) Values('$shiftName','1')";
+
+  $stmt2 = sqlsrv_query($conntest,$updatedep);
+ if($stmt2)
+ {
+   echo '1';
+ } 
+}
    else
    {
    
