@@ -8279,7 +8279,7 @@ $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $District = $_POST['District'];
 $Consultant = $_POST['Consultant'];
-$duration= $_POST['duration'];
+//$duration= $_POST['duration'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
@@ -8292,6 +8292,19 @@ if ($numof_exit>0) {
 }
 else
 {
+
+
+$get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
+$get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+
+    $duration=$row_collegecourse_name['Duration'];
+    
+
+}
+
+
+
  $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 

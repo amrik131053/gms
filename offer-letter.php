@@ -464,10 +464,10 @@ include "header.php";
               </select>
           <!--  </div>  -->
 
-             <div class="col-lg-3">
+             <!-- <div class="col-lg-3">
                 <label>Course Duration</label>  
-            
-              <select class="form-control" id="duration">
+             -->
+              <select class="form-control" id="duration" hidden>
                  <option value="">Select Years</option>
                  <option value="1">1 Year</option>
                  <option value="2">2 Years</option>
@@ -476,17 +476,17 @@ include "header.php";
                  <option value="5">5 Years</option>
                  <option value="6">6 Years</option>
               </select>
-            </div>
-               <div class="col-lg-2">
-                  <label>Course Duration</label>  
+            <!-- </div> -->
+               <!-- <div class="col-lg-2">
+                  <label>Course Duration</label>   -->
 
-              <select class="form-control" id="months">
+              <select class="form-control" id="months" hidden>
                
                  <option value="0">0 Month</option>
                  <option value="6">6 Month</option>
                 
               </select>
-           </div>
+           <!-- </div> -->
                
              <input type="hidden"  class="form-control"  id="Pincode" >
           
@@ -1092,14 +1092,14 @@ function submit_record() {
   var District = document.getElementById('District').value;
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
-  var duration = document.getElementById('duration').value;
+  //var duration = document.getElementById('duration').value;
    var months = document.getElementById('months').value;
   var session = document.getElementById('session').value;
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
 
-if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && duration!='' && Consultant!='' &&months!='')
+if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && Consultant!='' &&months!='')
  
 {
    if(AdharCardNo!='' || PassportNo!='')
@@ -1122,7 +1122,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     District: District,
     Consultant: Consultant,
     Lateral: Lateral,
-    duration: duration,
+    //duration: duration,
     session: session,
     AdharCardNo: AdharCardNo,
     PassportNo: PassportNo,
@@ -1135,7 +1135,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+  console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
