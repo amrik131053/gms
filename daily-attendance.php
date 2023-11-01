@@ -446,6 +446,25 @@ function editRow(button) {
       }
 }
 
+ function pdf_count_attendance()
+   {  
+var exportCode="";
+  var College=document.getElementById('College').value;
+  var Department=document.getElementById('Department').value;
+  var month=document.getElementById('month').value;
+  var year=document.getElementById('year').value;
+
+  if(month!='' && year!='')
+   {
+   window.location.href="attendance-detailed-pdf.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year;
+    }
+      else
+      {
+        ErrorToast('Select Start and End Date','bg-danger');
+ 
+      }
+}
+
 
 
  function export_count_summary()
