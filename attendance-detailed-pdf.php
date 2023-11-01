@@ -24,6 +24,7 @@ class CustomPDF extends FPDF {
     }
       
 }
+include 'attendance-employee-get-export.php';
 
 include 'attendance-date-function.php';
 
@@ -38,7 +39,8 @@ $h=0;
 $pdf = new CustomPDF();
 $pdf->AliasNbPages();
 
-$sql_staff="select * from Staff where IDNo='$emp_code'";
+//$sql_staff="select * from Staff where IDNo='$emp_code'";
+$sql_staff="select * from Staff where IDNo='$emp_codes[$i]'";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {

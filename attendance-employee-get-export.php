@@ -1,7 +1,23 @@
-<?php $curmnth =$_GET['month'];
+<?php
+
+if (isset($_POST['month']))
+{
+$curmnth =$_POST['month'];
+$curyear = $_POST['year'];
+ $emp_code=$_POST['EmployeeId'];
+ $College="";
+ $Department="";
+}
+else
+{
+  $curmnth =$_GET['month'];
      $curyear = $_GET['year'];
      $College=$_GET['College'];
      $Department=$_GET['Department'];
+}
+
+
+
 
 
   if($College!=''&& $Department!='')
