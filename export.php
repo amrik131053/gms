@@ -2854,7 +2854,7 @@ $h=0;
 
 $sql_staff="select * from Staff where IDNo='$emp_codes[$i]'";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
-            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
            $Name=$row_staff['Name'];
            $Department=$row_staff['Department'];

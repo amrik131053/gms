@@ -2,6 +2,7 @@
 
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $timeStamp=date('Y-m-d H:i:s.v');
+   $timeStampS=date('Y-m-d H:i:s');
 
 $serverName = "10.0.10.11"; //serverName\instanceName
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");

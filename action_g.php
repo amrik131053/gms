@@ -16451,6 +16451,379 @@ elseif($code==254)
    echo '1';
  } 
 }
+elseif($code==255) 
+{
+?>
+<div class="container-fluid">
+          <div class="input-group">
+                            <button type="button" data-toggle="modal" data-target="#NewDepartmentModal"
+                                value="New Designation" class="btn btn-primary btn-xs"><i class="fa fa-plus"> New
+                                    Shift</i> </button>
+                            &nbsp;
+                            &nbsp;
+                            <select name="College" id='CollegeID_For_Department' class="form-control form-control-sm"
+                                required="">
+                                <option value=''>Select Shift</option>
+                                <?php
+                        $sql="SELECT * from MasterShift ";
+                                $stmt2 = sqlsrv_query($conntest,$sql);
+                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                {
+                            $ShiftName = $row1['ShiftName']; 
+                            $Id = $row1['Id'];
+                            ?>
+                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                                <?php    }
+
+                                                    ?>
+                            </select>
+                            <input type="button" onclick="search();" value="Search" class="btn btn-success btn-xs">
+                        </div>
+                        <div class="card-body table-responsive-lg pd" id="tab_data">
+
+                                </div>
+                                </div>
+<?php
+}
+elseif($code==256) 
+{
+
+    ?>
+    <div class="container-fluid">
+
+                                    <div class="card-body table-responsive-lg pd" id="insertData" >
+                                    <table class="table" >
+                                    <tr>
+                                        <th>Shift Name</th>
+                                      
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                        <th>Action</th>
+                                        
+                                    </tr>
+ 
+    <tr><form action="action_g.php" method="post">
+        <input type="hidden" name="code" value="259">
+        <td>  <select  id='shiftId' class="form-control form-control-sm"
+                                required="">
+                                <option value=''>Select Shift</option>
+                                <?php
+                        $sql="SELECT * from MasterShift ";
+                                $stmt2 = sqlsrv_query($conntest,$sql);
+                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                {
+                            $ShiftName = $row1['ShiftName']; 
+                            $Id = $row1['Id'];
+                            ?>
+                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                                <?php    }
+
+                                                    ?>
+                            </select></td>
+                         
+        <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+        <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+        <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+        <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+        <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+        <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+        <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+        <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+        <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addMasterShift();"></td>
+        </form>         
+                                </tr>
+</table>
+                                        </div>
+                            <div class="card-body table-responsive-lg pd" >
+                                <table class="table" >
+                                    <tr>
+                                        <th>Shift Name</th>
+                                      
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                      
+                                    </tr>
+            <?php
+
+$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' order by MasterShift.Id ASC";
+$stmt2 = sqlsrv_query($conntest,$sql);
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+    <tr>
+        <td><?=$row1['ShiftName']; ?></td>
+      
+        <td><?=$row1['Intime']; ?></td>
+        <td><?=$row1['Intime1']; ?></td>
+        <td><?=$row1['Intime2']; ?></td>
+        <td><?=$row1['Intime3']; ?></td>
+        <td><?=$row1['Outtime']; ?></td>
+        <td><?=$row1['Outtime1']; ?></td>
+        <td><?=$row1['Outtime2']; ?></td>
+        <td><?=$row1['Outtime3']; ?></td>
+    
+        <?php 
+}
+?>
+</table>
+                                    </div>
+                                    </div>
+    <?php
+}
+elseif($code==257) 
+{
+
+    ?>
+    <div class="container-fluid">
+
+                                    <div class="card-body table-responsive-lg pd" id="" >
+                                    <table class="table" >
+                                    <tr>
+                                        <th>Shift Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                        <th>Action</th>
+                                    </tr>
+ 
+    <tr>
+        <td>  <select  id='shiftId' class="form-control form-control-sm"
+                                required="" onchange="setValueTimeAcrodingToShift();">
+                                <option value=''>Select Shift</option>
+                                <?php
+                        $sql="SELECT * from MasterShift ";
+                                $stmt2 = sqlsrv_query($conntest,$sql);
+                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                {
+                            $ShiftName = $row1['ShiftName']; 
+                            $Id = $row1['Id'];
+                            ?>
+                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                                <?php    }
+
+                                                    ?>
+                            </select></td>
+                            <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
+                            <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+                            <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addExceptionMasterShift();"></td>
+
+</table>
+                                        </div>
+                            <div class="card-body table-responsive-lg pd" >
+                                <table class="table" >
+                                    <tr>
+                                        <th>Shift Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                        <th>Action</th>
+                                    </tr>
+            <?php
+
+$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='1' order by MasterShift.Id ASC";
+$stmt2 = sqlsrv_query($conntest,$sql);
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+    <tr>
+        <td><?=$row1['ShiftName']; ?></td>
+        <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+        <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+        <td><?=$row1['Intime']; ?></td>
+        <td><?=$row1['Intime1']; ?></td>
+        <td><?=$row1['Intime2']; ?></td>
+        <td><?=$row1['Intime3']; ?></td>
+        <td><?=$row1['Outtime']; ?></td>
+        <td><?=$row1['Outtime1']; ?></td>
+        <td><?=$row1['Outtime2']; ?></td>
+        <td><?=$row1['Outtime3']; ?></td>
+        <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
+        <?php 
+}
+?>
+</table>
+                                    </div>
+                                    </div>
+    <?php
+
+}
+elseif ($code==258) {
+    ?>
+    <div class="container-fluid">
+
+                                    <div class="card-body table-responsive-lg pd" id="insertData" >
+                                    <table class="table" >
+                                    <tr>
+                                        <th>Emp ID</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                        <th>Action</th>
+                                    </tr>
+ 
+    <tr>
+    <td><input type="number" class="form-control form-control-sm"></td>
+                            <td><input type="date" class="form-control form-control-sm"></td>
+                            <td><input type="date" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="time" class="form-control form-control-sm"></td>
+        <td><input type="button" class="btn btn-success btn-xs" value="ADD"></td>
+
+</table>
+                                        </div>
+                            <div class="card-body table-responsive-lg pd" >
+                                <table class="table" >
+                                    <tr>
+                                        <th>Emp ID Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>InTime</th>
+                                        <th>InTime1</th>
+                                        <th>InTime2</th>
+                                        <th>InTime3</th>
+                                        <th>OutTime</th>
+                                        <th>OutTime1</th>
+                                        <th>OutTime2</th>
+                                        <th>OutTime3</th>
+                                        <th>Action</th>
+                                    </tr>
+            <?php
+
+$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId order by MasterShift.Id ASC";
+$stmt2 = sqlsrv_query($conntest,$sql);
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+    <tr>
+        <td><?=$row1['StaffID']; ?></td>
+        <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+        <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+        <td><?=$row1['Intime']; ?></td>
+        <td><?=$row1['Intime1']; ?></td>
+        <td><?=$row1['Intime2']; ?></td>
+        <td><?=$row1['Intime3']; ?></td>
+        <td><?=$row1['Outtime']; ?></td>
+        <td><?=$row1['Outtime1']; ?></td>
+        <td><?=$row1['Outtime2']; ?></td>
+        <td><?=$row1['Outtime3']; ?></td>
+        <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
+        <?php 
+}
+?>
+</table>
+                                    </div>
+                                    </div>
+    <?php
+}
+elseif ($code==259) {
+    $shiftId=$_POST['shiftId'];
+    $intime=$_POST['intime'];
+    $intime1=$_POST['intime1'];
+    $intime2=$_POST['intime2'];
+    $intime3=$_POST['intime3'];
+    $outtime=$_POST['outtime'];
+    $outtime1=$_POST['outtime1'];
+    $outtime2=$_POST['outtime2'];
+    $outtime3=$_POST['outtime3'];
+
+     $insertMasterShift="INSERT into MasterShiftTime(ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
+    VALUES('$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','0')";
+    $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
+    if($insertMasterShiftRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+}
+elseif ($code==260) {
+    $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+    $shiftId=$_POST['shiftId'];
+    $intime=$_POST['intime'];
+    $intime1=$_POST['intime1'];
+    $intime2=$_POST['intime2'];
+    $intime3=$_POST['intime3'];
+    $outtime=$_POST['outtime'];
+    $outtime1=$_POST['outtime1'];
+    $outtime2=$_POST['outtime2'];
+    $outtime3=$_POST['outtime3'];
+
+      $insertMasterShift="INSERT into MasterShiftTime(StartDate,EndDate,ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
+    VALUES('$StartDate','$EndDate','$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','1')";
+    $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
+    if($insertMasterShiftRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+    if ($insertMasterShiftRun === false) {
+        $errors = sqlsrv_errors();
+        // echo "Error: " . print_r($errors, true);
+        // echo "0";
+    } 
+}elseif ($code==261) {
+    $times=array();
+    $shiftID=$_POST['shiftId'];
+     $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+    $stmt2 = sqlsrv_query($conntest,$sql);
+    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+    {
+        $times[]=$row1;
+       
+    }
+    echo  json_encode($times);
+}
    else
    {
    
