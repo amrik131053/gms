@@ -8323,7 +8323,7 @@ else
          $value=$_POST['by_search'];
          if($value!='')
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170573'|| $EmployeeID=='170976' )
             {
 
                 $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
@@ -8365,7 +8365,7 @@ else
          }
          else
          {
-            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170976' )
+            if($EmployeeID=='131053' || $EmployeeID=='121031' || $EmployeeID=='100001' || $EmployeeID=='170601' || $EmployeeID=='170573'|| $EmployeeID=='170976' )
             {
 
                 
@@ -8602,7 +8602,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
             <div class="row">
                 <div class="col-lg-2">
                     <label>Nationality</label>
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
                     <select class="form-control" id="Nationality" onchange="fetch_state2(this.value);">
                         <option value="<?=$Nationality;?>"><?=$NationalityName;?></option>
@@ -8631,7 +8631,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
                 <div class="col-lg-2">
                     <label>State</label>
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
                     <select class="form-control" id="State" onchange="fetch_district2(this.value);">
                         <option value="<?=$State_id;?>"><?=$State;?></option>
@@ -8651,7 +8651,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
                 </div>
                 <div class="col-lg-2">
                     <label>District</label>
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
 
 
@@ -8676,7 +8676,7 @@ else
                 <div class="col-lg-2">
                     <label>Consultant</label>
 
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053')
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573')
                     {?>
 
 
@@ -8813,7 +8813,7 @@ else
 
                 <div class="col-lg-2">
                     <label>Class RollNo</label>
-                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053') 
+                    <?php if($EmployeeID=='121031' ||$EmployeeID=='131053'  || $EmployeeID=='170573') 
                     {?>
                     <input type="number" id="classroll" class="form-control" value="<?=$classroll;?>">
                     <?php }
