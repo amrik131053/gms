@@ -19705,8 +19705,10 @@ elseif($code=='336')
    <div class="col-lg-4">
                  <label>Action</label><br>
                  <!-- <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Daily</button> -->
-                 <button onclick="export_count_attendance();" class="btn btn-danger">Detailed Count</button>
-                  <button onclick="export_count_summary();" class="btn btn-danger">Summary</button>
+                 <button onclick="export_count_attendance();" class="btn btn-success">Detailed Count</button>
+                  <button onclick="export_count_summary();" class="btn btn-warning">Summary</button>
+                   <button onclick="pdf_count_attendance();" class="btn btn-danger">Pdf Count Attendance</button>
+                   <!--   <button onclick="export_count_summary();" class="btn btn-danger">Summary</button> -->
               </div>
 
 
