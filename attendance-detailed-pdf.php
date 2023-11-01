@@ -1,4 +1,6 @@
 <?php 
+session_start();
+$EmployeeID=$_SESSION['usr'];
 ini_set('display_errors', 'on');
 error_reporting(E_ALL | E_STRICT);
 require('fpdf/fpdf.php');
@@ -9,13 +11,21 @@ date_default_timezone_set("Asia/Kolkata");
 
 class CustomPDF extends FPDF {
     function Footer() {
+        $this->SetY(-17);
+        $this->Cell(10, 10, 'Checked By.................... ', 0, 0, 'L');
+        $this->SetY(-17);
+        $this->Cell(250, 10, 'Verified By.................. ', 0, 0, 'C');
+        $this->SetY(-17);
+        $this->Cell(230, 10, 'HR Manager.................. ', 0, 0, 'R');
         // Set the position of the footer at 15mm from the bottom
-        $this->SetY(-15);
+
         // Set font and color for the footer text
         $this->SetFont('Arial', 'I', 8);
         $this->SetTextColor(128);
-        // Page number
-        // $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
+        $this->SetY(-12);
+        $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
+        $this->SetY(-12);
+        $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'], 0, 0, 'R');
     }
       
 }
@@ -23,15 +33,37 @@ include 'attendance-employee-get-export.php';
 
 include 'attendance-date-function.php';
 $srno=1;
+$X=0;
+$y=23;
+$Height=4.5;
 $pdf = new CustomPDF();
 $pdf->AliasNbPages();
-
+// $pdf->AddPage('L', 'A4');
+// no_of_emp
 
 for ($i=0;$i<$no_of_emp;$i++)
 {
 $paiddays=0;
 $h=0;
-$pdf->AddPage('P', 'A4');
+
+if($i%3==0 )
+{
+    $pdf->AddPage('L', 'A4');
+    $X=0;
+    $pdf->SetXY($X+65,$y-14);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->SetTextColor(150,0,0);
+    $pdf->MultiCell(180,8," Attendance Summary Report ".$showmonth.' '.$curyear, 0, 'C');
+    $pdf->SetXY($X+65,$y-8);
+    $pdf->SetTextColor(0,0,0);
+    $pdf->MultiCell(180,8,$collegeName, 0, 'C');
+
+}
+
+
+$pdf-> Image('dist\img\new-logo.jpg',4,4,55,10);
+$pdf-> Image('dist\img\naac-logo.jpg',260,4,30,10);
+
 
 // $sql_staff="select * from Staff where IDNo='170976'";
 $sql_staff="select Name,Department,CollegeName,IDNo from Staff where IDNo='$emp_codes[$i]'";
@@ -43,35 +75,37 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
                       $CollegeName=$row_staff['CollegeName'];
              $IDNo=$row_staff['IDNo'];
             }   
-
  // Enable page numbering
-
-
-
-
 $pdf->SetFont('Arial', 'B', 8);
 
 
-$pdf->MultiCell(190, 6,"Employee ID :    ".$IDNo, 1, 'l');
 
-$pdf->MultiCell(190, 6, "Name :    ".$Name, 1, 'l');
-$pdf->MultiCell(190, 6, "Department :    ".$Department, 1, 'l');
-$pdf->MultiCell(190, 6, "College :    ".$CollegeName, 1, 'l');
-$pdf->SetXY(10,42);
-$pdf->Cell(30,6,"Date", 1,'C');
-$pdf->SetXY(40,42);
-$pdf->Cell(30, 6,"In Time",1,'C');
-$pdf->SetXY(70,42);
-$pdf->Cell(30, 6,"Out Time",1,'C');
-$pdf->SetXY(100,42);
-$pdf->Cell(70, 6,"Remarks",1,'C');
- $pdf->SetXY(170,42);
-$pdf->Cell(30, 6,"Count",1,'C');
+$pdf->SetXY($X+10,$y);
+$pdf->MultiCell(33, $Height,"Employee ID : ".$IDNo, 1, 'l');
+$pdf->SetXY($X+43,$y);
+$pdf->MultiCell(57, $Height," Name : ".$Name, 1, 'l');
+$pdf->SetXY($X+10,$y+4.5);
+// $pdf->MultiCell(100, 5, "Name :    ".$Name, 1, 'l');
+$pdf->MultiCell(90, $Height, "Department :    ".$Department, 1, 'l');
+$pdf->SetXY($X+10,$y+8.9);
+$pdf->MultiCell(90, $Height, "College :    ".$CollegeName, 1, 'l');
+$pdf->SetXY($X+10,$y+13.3);
 
+$pdf->Cell(20,$Height,"Date",1,'C');
+$pdf->SetXY($X+30,$y+13.3);
+
+$pdf->Cell(15, $Height,"In Time",1,'C');
+$pdf->SetXY($X+45,$y+13.3);
+
+$pdf->Cell(15, $Height,"Out Time",1,'C');
+$pdf->SetXY($X+60,$y+13.3);
+
+$pdf->Cell(30, $Height,"Remarks",1,'C');
+ $pdf->SetXY($X+90,$y+13.3);
+$pdf->Cell(10, $Height,"Count",1,'C');
 $srno++;
 
-$y=50;
-
+$y=$y+13;
 for ($at=0;$at<$no_of_dates;$at++)
 {
     $HolidayName='';
@@ -79,9 +113,9 @@ for ($at=0;$at<$no_of_dates;$at++)
    $start=$datee[$at];
   $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
 
- $pdf->SetXY(10,$y);
+ $pdf->SetXY($X+10,$y+4.6);
 
-$pdf->Cell(30,6,$start,1,'C');
+$pdf->Cell(20,$Height,$start,1,'C');
 
 
      
@@ -90,10 +124,6 @@ $pdf->Cell(30,6,$start,1,'C');
            {
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
-
-         
-
-
  if($intime!="")
 { 
 $myin= $intime->format('H:i');
@@ -102,9 +132,9 @@ else
 { 
  $myin="";
 }
-$pdf->SetXY(40,$y);
+$pdf->SetXY($X+30,$y+4.6);
 
-$pdf->Cell(30,6,$myin,1,'C');
+$pdf->Cell(15,$Height,$myin,1,'C');
 
  if($outtime!="" && $outtime>$intime)
     { 
@@ -117,42 +147,31 @@ else
    
    
 
-$pdf->SetXY(70,$y);
+$pdf->SetXY($X+45,$y+4.6);
 
-$pdf->Cell(30,6,$myout,1,'C');
-
-
-
+$pdf->Cell(15,$Height,$myout,1,'C');
 $holidaycount=0;
-
 $row_count_join=0;
-
-
-
 include 'attendance-calculator.php';
 
 if($HolidayName!='' && $printleave!='')
 {
 
-$pdf->SetXY(100,$y);
+$pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(70,6,$HolidayName.$printleave,1,'C');
-
-
- 
-    
+$pdf->Cell(30,$Height,$HolidayName.$printleave,1,'C'); 
 }
 else if($HolidayName!='' && $printleave=='')
 {
-$pdf->SetXY(100,$y);
+$pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(70,6,$HolidayName,1,'C');
+$pdf->Cell(30,$Height,$HolidayName,1,'C');
 }
 else if($HolidayName=='' && $printleave!='')
 {
- $pdf->SetXY(100,$y);
+ $pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(70,6,$printleave,1,'C');
+$pdf->Cell(30,$Height,$printleave,1,'C');
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
@@ -163,57 +182,67 @@ else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 
 if($row_count_joinab>0)
             {
-           $pdf->SetXY(100,$y);
-
-//$pdf->Cell(70,7,"Absent",1,'C');
+           $pdf->SetXY($X+60,$y+4.6);
+           $pdf->SetTextColor(255,0,0);
+$pdf->Cell(30,$Height,"Absent",1,'C');
          
              }
              else
              {
-               $pdf->SetXY(100,$y);
+               $pdf->SetXY($X+60,$y+4.6);
 
-//$pdf->Cell(70,7,"Late joining ",1,'C');
+$pdf->Cell(30,$Height,"Late joining ",1,'C');
              }
 
 }
 
 else
-{ $pdf->SetXY(100,$y);
-    $pdf->Cell(70,6," ",1,'C');
+{ $pdf->SetXY($X+60,$y+4.6);
+    $pdf->Cell(30,$Height," ",1,'C');
 }
  
 
 
-  $pdf->SetXY(170,$y);
+  $pdf->SetXY($X+90,$y+4.6);
 if($countday<1)
 {
     $pdf->SetTextColor(255,0,0);
 }  
-$pdf->Cell(30,6,$countday,1,'C');
+// $y=$pdf->GetY();
+$pdf->Cell(10,$Height,$countday,1,'C');
 $pdf->SetTextColor(0,0,0);
 $paiddays=$paiddays+$countday;
 
-$y=$y+6;
-
-}
 
 
 }
+
+$y=$y+4.6;
+}
+
+
+
+
 if($paiddays<>$h)
 {  
- $pdf->SetXY(100,$y);
+    $y=$pdf->GetY();
 
-    $pdf->Cell(100,10,"Total Paid Days  :  $paiddays Out of $myenddate  ",1,'C');
+ $pdf->SetXY($X+10,$y);
+
+    $pdf->Multicell(90,6,"Total Paid Days  :  $paiddays Out of $myenddate  ",1,'R');
 
     
 }
 else
-{$pdf->SetXY(100,$y);
-    $pdf->Cell(100,10,"Total Paid Days  :  0 ",1,'C');
+{
+    $y=$pdf->GetY();
+    $pdf->SetXY($X+10,$y);
+    $pdf->Multicell(90,6,"Total Paid Days  :  0 ",1,'R');
 }
 
 
-
+$X=$X+95;
+$y=23;
 }
 $pdf->Output();
 
