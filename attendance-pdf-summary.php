@@ -8,10 +8,6 @@ date_default_timezone_set("Asia/Kolkata");
 $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
  $emp_code=$_POST['EmployeeId'];
-
-
-
-
 class CustomPDF extends FPDF {
     function Footer() {
         // Set the position of the footer at 15mm from the bottom
@@ -21,20 +17,16 @@ class CustomPDF extends FPDF {
         $this->SetTextColor(128);
         // Page number
         // $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
-    }
-      
+        $this->SetY(-12);
+        $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS'], 0, 0, 'R');
+    }   
 }
-
-include 'attendance-date-function.php';
-
-
-    
+include 'attendance-date-function.php'; 
 $srno=1;
 $exportdaily='';
 
 $paiddays=0;
 $h=0;
-
 $pdf = new CustomPDF();
 $pdf->AliasNbPages();
 
@@ -53,26 +45,33 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
 
 
 $pdf->AddPage('P', 'A4');
+$pdf->SetXY(10,18);
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetTextColor(150,0,0);
+$pdf->MultiCell(190,8," Attendance Summary Report ".$showmonth.' '.$curyear, 0, 'C');
+$pdf->SetTextColor(0,0,0);
+$pdf-> Image('dist\img\new-logo.jpg',10,4,55,10);
+$pdf-> Image('dist\img\naac-logo.jpg',170,4,30,10);
+$pdf->SetXY(10,25);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->MultiCell(190, 8,"Employee ID :    ".$IDNo, 1, 'l');
-
-$pdf->MultiCell(190, 8, "Name :    ".$Name, 1, 'l');
-$pdf->MultiCell(190, 8, "Department :    ".$Department, 1, 'l');
-$pdf->MultiCell(190, 8, "College :    ".$CollegeName, 1, 'l');
-$pdf->SetXY(10,42);
-$pdf->Cell(30,8,"Date", 1,'C');
-$pdf->SetXY(40,42);
-$pdf->Cell(30, 8,"In Time",1,'C');
-$pdf->SetXY(70,42);
-$pdf->Cell(30, 8,"Out Time",1,'C');
-$pdf->SetXY(100,42);
-$pdf->Cell(70, 8,"Remarks",1,'C');
- $pdf->SetXY(170,42);
-$pdf->Cell(30, 8,"Count",1,'C');
-
+$pdf->MultiCell(190, 6,"Employee ID :    ".$IDNo, 1, 'l');
+$pdf->MultiCell(190, 6, "Name :    ".$Name, 1, 'l');
+$pdf->MultiCell(190, 6, "Department :    ".$Department, 1, 'l');
+$pdf->MultiCell(190, 6, "College :    ".$CollegeName, 1, 'l');
+$pdf->SetXY(10,49);
+$pdf->SetTextColor(255,255,255);
+$pdf->multicell(30,6,"Date", 1,1,'C');
+$pdf->SetXY(40,49);
+$pdf->multicell(30, 6,"In Time",1,1,'C');
+$pdf->SetXY(70,49);
+$pdf->multicell(30, 6,"Out Time",1,1,'C');
+$pdf->SetXY(100,49);
+$pdf->multicell(70, 6,"Remarks",1,1,'C');
+ $pdf->SetXY(170,49);
+$pdf->multicell(30, 6,"Count",1,1,'C');
+$pdf->SetTextColor(0,0,0);
 $srno++;
-
-$y=50;
+$y=58;
 
 for ($at=0;$at<$no_of_dates;$at++)
 {
@@ -83,7 +82,7 @@ for ($at=0;$at<$no_of_dates;$at++)
 
 $pdf->SetXY(10,$y);
 
-$pdf->Cell(30,7,$start,1,'C');
+$pdf->Cell(30,6,$start,1,'C');
 
 
      
@@ -106,7 +105,7 @@ else
 }
 $pdf->SetXY(40,$y);
 
-$pdf->Cell(30,7,$myin,1,'C');
+$pdf->Cell(30,6,$myin,1,'C');
 
  if($outtime!="" && $outtime>$intime)
     { 
@@ -121,7 +120,7 @@ else
 
 $pdf->SetXY(70,$y);
 
-$pdf->Cell(30,7,$myout,1,'C');
+$pdf->Cell(30,6,$myout,1,'C');
 
 
 
@@ -138,7 +137,7 @@ if($HolidayName!='' && $printleave!='')
 
 $pdf->SetXY(100,$y);
 
-$pdf->Cell(70,7,$HolidayName.$printleave,1,'C');
+$pdf->Cell(70,6,$HolidayName.$printleave,1,'C');
 
 
  
@@ -148,14 +147,14 @@ else if($HolidayName!='' && $printleave=='')
 {
 $pdf->SetXY(100,$y);
 
-$pdf->Cell(70,7,$HolidayName,1,'C');
+$pdf->Cell(70,6,$HolidayName,1,'C');
 }
 else if($HolidayName=='' && $printleave!='')
 
 {
  $pdf->SetXY(100,$y);
 
-$pdf->Cell(70,7,$printleave,1,'C');
+$pdf->Cell(70,6,$printleave,1,'C');
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
@@ -171,15 +170,15 @@ else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 if($row_count_joinab>0)
             {
            $pdf->SetXY(100,$y);
-
-$pdf->Cell(70,7,"Absent",1,'C');
+           $pdf->SetTextColor(255,0,0);
+$pdf->Cell(70,6,"Absent",1,'C');
          
              }
              else
              {
                $pdf->SetXY(100,$y);
-
-$pdf->Cell(70,7,"Late joining ",1,'C');
+               $pdf->SetTextColor(255,0,0);
+$pdf->Cell(70,6,"Late joining ",1,'C');
              }
 
 
@@ -189,7 +188,7 @@ $pdf->Cell(70,7,"Late joining ",1,'C');
 
 else
 { $pdf->SetXY(100,$y);
-    $pdf->Cell(70,7," ",1,'C');
+    $pdf->Cell(70,6," ",1,'C');
 }
  
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
@@ -220,11 +219,11 @@ if($countday<1)
 {
     $pdf->SetTextColor(255,0,0);
 }  
-$pdf->Cell(30,7,$countday,1,'C');
+$pdf->Cell(30,6,$countday,1,'C');
 $pdf->SetTextColor(0,0,0);
 $paiddays=$paiddays+$countday;
 
-$y=$y+7;
+$y=$y+6;
 
 
 }

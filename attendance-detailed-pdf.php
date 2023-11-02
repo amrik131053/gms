@@ -90,19 +90,20 @@ $pdf->MultiCell(90, $Height, "Department :    ".$Department, 1, 'l');
 $pdf->SetXY($X+10,$y+8.9);
 $pdf->MultiCell(90, $Height, "College :    ".$CollegeName, 1, 'l');
 $pdf->SetXY($X+10,$y+13.3);
-
-$pdf->Cell(20,$Height,"Date",1,'C');
+$pdf->SetTextColor(255,255,255);
+$pdf->MultiCell(20,$Height,"Date",1,1,'C');
 $pdf->SetXY($X+30,$y+13.3);
 
-$pdf->Cell(15, $Height,"In Time",1,'C');
+$pdf->MultiCell(15, $Height,"In Time",1,1,'C');
 $pdf->SetXY($X+45,$y+13.3);
 
-$pdf->Cell(15, $Height,"Out Time",1,'C');
+$pdf->MultiCell(15, $Height,"Out Time",1,1,'C');
 $pdf->SetXY($X+60,$y+13.3);
 
-$pdf->Cell(30, $Height,"Remarks",1,'C');
+$pdf->MultiCell(30, $Height,"Remarks",1,1,'C');
  $pdf->SetXY($X+90,$y+13.3);
-$pdf->Cell(10, $Height,"Count",1,'C');
+$pdf->MultiCell(10, $Height,"Count",1,1,'C');
+$pdf->SetTextColor(0,0,0);
 $srno++;
 
 $y=$y+13;

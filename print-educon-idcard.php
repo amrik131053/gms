@@ -1,127 +1,112 @@
-<?php   
+<?php
 require_once('fpdf/fpdf.php');
 require_once('fpdf/fpdi.php');
    date_default_timezone_set("Asia/Kolkata");  
-   include 'connection/connection_web.php';
-   // echo "label";
-   class PDF extends FPDF
-   {
+   include 'connection/connection_web.php';                            
+$refNo=array();
+$fname=array();
+$designation=array();
+
+$a=0;
+  
+$aa=0;
+$get_official="SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon' ";
+    $official_run=mysqli_query($conn_online,$get_official);
+    while($data_offical=mysqli_fetch_array($official_run))
+    { 
+       $s_name[]=$data_offical['name']; 
+       $s_id=$data_offical['name']; 
+       $s_designation[]=$data_offical['father_name'];
+       $s_image[]=$data_offical['father_name'];  
    
-   
-      function Header()
-   { 
-    $this->SetTextColor(0,0,0);
-    $this->SetFont('Times','b',16);
-   
-   }
-   
-   
-   function Footer()
-   { 
-    $ctime = date("d-m-Y h:i:s A");
-    
-       // Position at 1.5 cm from bottom
-       $this->SetXY(150,-10);
-       // Times italic 8
-       $this->SetFont('Times','I',12
-     );
-       // Page number
-       $this->Cell(0,10,'Printed on '.$ctime,0,0,'C');
-       $this->SetXY(10,-10);
-   }
-   
-   }
-   
-   $pdf = new PDF();
-   $pdf->AddPage();
-   
-   // $pdf = new FPDI();
-   //$pdf->setSourceFile('idcard.pdf'); 
-   $pdf->SetFont('Times','B',40);
-   //$pdf->setSourceFile('idcard.pdf');
-   $count_idcard_manger=0;
-   $count_idcard_players=0;
-       
-   $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon' ");
-   $counter = 1; 
-       while($row=mysqli_fetch_array($result)) 
-       {
-     $id = $row['slip_no'];
-       $user_id = $row['user_id'];
-     $payment_id = $row['payment_id'];
-     $name = $row['name'];
-     $father_name = $row['father_name'];
-     $roll_no = $row['roll_no'];
-     $course = $row['course'];
-     $sem = $row['sem'];
-     $batch=$row['batch'];
-     $purpose=$row['purpose'];
-     $remarks=$row['remarks'];
-     $status=$row['status'];
-     $Created_date=$row['Created_date'];
-     $Created_time=$row['Created_time'];
-     $amount=$row['amount'];
-     $email = $row['email'];
-     $phone = $row['phone'];
-      $admissionstatus=$row['merge'];
-       }
-       $x=10;
-       $y=10;
-       $pdf->Image('visitor_pass.jpg',$x,$y,95,140);   
-       $ls=strlen($user_id);
-       if ($ls<15) {
-         $pdf->MultiCell(76, 5, strtoupper($user_id),0 , 'C');  // name 
-       }
-       else
-       {
-           $pdf->SetFont('Arial','B',12);
-       $pdf->MultiCell(76, 5, ucfirst($user_id),0 , 'C');  // name 
-       }
-           $pdf->SetTextColor(0,0,0);
-       // $pdf->SetTextColor(34,50,96);
-       $pdf->SetXY($x+1,$y+83);
-       // $pdf->SetTextColor(255,255,255);
-       $pdf->SetFont('Arial','B',12);
-       $pdf->MultiCell(76, 5,$user_id,0, 'C');
-       $pdf->SetXY($x+1,$y+88);
-       $pdf->SetFont('Arial','B',13);
-       if ($user_id==1) 
-       {
-       $pdf->MultiCell(76, 5,'('.$user_id.')',0, 'C'); // uni name
-       }
-       else
-       {
-       
-       $pdf->MultiCell(76, 5,'Uni. Roll No. '.$user_id,0, 'C'); // uni name
-       }
-         
-       
-        $pdf->SetXY($x,$y+135.5);
-        $pdf->SetFont('Arial','B',9);
-       //  $pdf->SetTextColor(255,255,255);
-        $testy=$pdf->GetY(); 
-        $testx=$pdf->GetX()+68;
-         //$pdf->MultiCell(94, 5,$s_id[$i],0 , 'R');
-          $pdf->SetTextColor(0,0,0,0);
-       
-          $x=$x-98;
-          if ($x>141) 
-         {
-             $y=130;
-             $x=10;
-         }
-         if ($testy>130 && $testx<73) 
-         {   
-            if ($i!=$aa-1) {
-               $pdf->AddPage('L');
-               $x=198;
-               $y=10;
-           }
-           
-               
-         }
-       
-    
-                                         
-       $pdf->Output();
-       ?>
+       $aa++;
+    }        
+
+class PDF extends FPDF
+{
+
+}
+$pdf = new PDF();
+
+if($aa>0)
+{
+  $pdf->AddPage('L');
+}
+                               $x=198; 
+                               $y=5;
+       for ($i=0; $i<$aa;$i++)
+        {
+            
+$pdf->SetTextColor(255,0,0,0);
+$pdf->Image('IDCardEducon.jpg',$x,$y,95,140);   
+$pdf->SetFont('Arial','B',16);
+$pdf->SetXY($x+1,$y+68);
+$pdf->SetTextColor(0,0,0);
+$ls=strlen($s_name[$i]);
+if ($ls<15) {
+  $pdf->MultiCell(95, 6, strtoupper($s_name[$i]),0 , 'C');  // name 
+}
+elseif($ls<25)
+{
+    $pdf->SetFont('Arial','B',12);
+$pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
+}else
+{
+    $pdf->SetFont('Arial','B',9);
+$pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
+}
+$pdf->SetTextColor(34,50,96);
+$pdf->SetXY($x+1,$y+83);
+$pdf->SetTextColor(187,50,65);
+$pdf->SetFont('Arial','B',12);
+if($s_designation[$i]=='Student and Research Scholars')
+{
+$Desi='Research Scholars';
+}
+elseif($s_designation[$i]=='Participants')
+{
+    $Desi='Participants';
+}
+elseif($s_designation[$i]=='Collaborative University Members')
+{
+    $Desi='Organizer';
+}
+else
+{
+    $Desi='Committe Member';
+}
+$pdf->MultiCell(95, 5,$Desi,0, 'C');
+$pdf->SetXY($x+1,$y+88);
+$pdf->SetFont('Arial','B',13);
+ $pdf->SetXY($x,$y+135.5);
+ $pdf->SetFont('Arial','B',9);
+ $pdf->SetTextColor(255,255,255);
+ $testy=$pdf->GetY(); 
+ $testx=$pdf->GetX()+68;
+  $pdf->MultiCell(94, 5, $i+1,0 , 'R');
+   $pdf->SetTextColor(0,0,0,0);
+ $x=$x-98;
+  if ($x>141) 
+  {
+      $y=130;
+      $x=10;
+  }
+  if ($testy>130 && $testx<73) 
+  {   
+    if ($i!=$aa-1) {
+        $pdf->AddPage('L');
+        $x=198;
+        $y=10;
+    }
+        
+  }
+
+}
+
+
+
+
+
+
+$pdf->Output();
+?>
