@@ -76,7 +76,7 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
              $IDNo=$row_staff['IDNo'];
             }   
  // Enable page numbering
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 7);
 
 
 

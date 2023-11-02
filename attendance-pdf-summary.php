@@ -53,7 +53,7 @@ $pdf->SetTextColor(0,0,0);
 $pdf-> Image('dist\img\new-logo.jpg',10,4,55,10);
 $pdf-> Image('dist\img\naac-logo.jpg',170,4,30,10);
 $pdf->SetXY(10,25);
-$pdf->SetFont('Arial', 'B', 10);
+$pdf->SetFont('Arial', 'B', 9);
 $pdf->MultiCell(190, 6,"Employee ID :    ".$IDNo, 1, 'l');
 $pdf->MultiCell(190, 6, "Name :    ".$Name, 1, 'l');
 $pdf->MultiCell(190, 6, "Department :    ".$Department, 1, 'l');
