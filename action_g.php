@@ -10654,7 +10654,7 @@ if ($code == 173) {
 
             if($_POST['empid']!='')
             {
-                 $sel_per1 = "SELECT  emp_id FROM special_permission where emp_id='".$_POST['empid']."'";
+                 $sel_per1 = "SELECT  Distinct emp_id FROM special_permission where emp_id='".$_POST['empid']."'";
                
             }else
             {
@@ -10664,7 +10664,7 @@ if ($code == 173) {
 
             while ($r1 = mysqli_fetch_array($sel_run1)) {
                 
-                $sel_per = "SELECT *, special_permission.id as s_id FROM special_permission INNER JOIN permissions ON permissions.id=special_permission.page_id WHERE special_permission.emp_id='" . $r1['emp_id'] . "' ORDER BY emp_id ASC";
+                 $sel_per = "SELECT *, special_permission.id as s_id FROM special_permission INNER JOIN permissions ON permissions.id=special_permission.page_id WHERE special_permission.emp_id='" . $r1['emp_id'] . "' ORDER BY emp_id ASC";
                 $sel_run = mysqli_query($conn, $sel_per);
 
                 
