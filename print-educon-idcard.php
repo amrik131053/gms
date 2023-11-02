@@ -39,7 +39,7 @@ if($aa>0)
             
 $pdf->SetTextColor(255,0,0,0);
 $pdf->Image('IDCardEducon.jpg',$x,$y,95,140);   
-$pdf->SetFont('Arial','B',16);
+$pdf->SetFont('times','B',16);
 $pdf->SetXY($x+1,$y+68);
 $pdf->SetTextColor(0,0,0);
 $ls=strlen($s_name[$i]);
@@ -48,17 +48,17 @@ if ($ls<15) {
 }
 elseif($ls<25)
 {
-    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('times','B',16);
 $pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
 }else
 {
-    $pdf->SetFont('Arial','B',9);
+    $pdf->SetFont('times','B',16);
 $pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
 }
 $pdf->SetTextColor(34,50,96);
 $pdf->SetXY($x+1,$y+83);
 $pdf->SetTextColor(187,50,65);
-$pdf->SetFont('Arial','B',12);
+$pdf->SetFont('times','B',18);
 if($s_designation[$i]=='Student and Research Scholars')
 {
 $Desi='Research Scholars';
@@ -67,19 +67,16 @@ elseif($s_designation[$i]=='Participants')
 {
     $Desi='Participants';
 }
-elseif($s_designation[$i]=='Collaborative University Members')
+else
 {
     $Desi='Organizer';
 }
-else
-{
-    $Desi='Committe Member';
-}
+
 $pdf->MultiCell(95, 5,$Desi,0, 'C');
 $pdf->SetXY($x+1,$y+88);
-$pdf->SetFont('Arial','B',13);
+$pdf->SetFont('times','B',13);
  $pdf->SetXY($x,$y+135.5);
- $pdf->SetFont('Arial','B',9);
+ $pdf->SetFont('times','B',9);
  $pdf->SetTextColor(255,255,255);
  $testy=$pdf->GetY(); 
  $testx=$pdf->GetX()+68;

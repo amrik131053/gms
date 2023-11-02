@@ -14599,8 +14599,15 @@ else
                         {
                 if($leaveStartDate>=$ApplyDate || $status=='Approved')
                 {
-                   
-if($LeaveType<3 &&  $LeaveBlance<$numberDays)
+                if($leaveShort>0)
+                {   
+                    $dummyVal=$leaveShort;  
+                }
+                else
+                {
+                    $dummyVal=$numberDays;
+                }    
+if($LeaveType<3 && $LeaveBlance<$dummyVal)
 {
 echo "5"; //leave balance not equeal
 }

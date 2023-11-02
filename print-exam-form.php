@@ -33,6 +33,7 @@ if( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
 {  
  $IDNo=$row5['IDNo'];
 $type=$row5['Type'];
+$SemesterId=$row5['Semester'];
 $examination=$row5['Examination'];
 $examinationss=$row5['Examination'];
 $sgroup= $row5['SGroup'];
@@ -94,7 +95,9 @@ $pdf->MultiCell(140, 6, "Course :    ".$course, 1, 'l');
 $pdf->SetXY(150,37);
 $pdf->MultiCell(50, 6, "Batch :    ".$batch, 1, 'l');
 $pdf->SetXY(10,43);
-$pdf->MultiCell(190, 6, "College :    ".$college, 1, 'l');
+$pdf->MultiCell(140, 6, "College :    ".$college, 1, 'l');
+$pdf->SetXY(150,43);
+$pdf->MultiCell(50, 6, "Semester :    ".$SemesterId, 1, 'l');
 $pdf->SetXY(10,60);
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->multicell(30,6,"SrNo", 1,'C');
