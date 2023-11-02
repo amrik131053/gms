@@ -14522,7 +14522,19 @@ $status="Pending to Sanction";
 
 }
 
+
+
+
 $LeaveType=$_POST['LeaveType']; // like Casual/Comansantry
+
+$getLeaveBlance="SELECT Balance FROM  LeaveBalances where  Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
+$getLeaveBlanceRun=sqlsrv_query($conntest,$getLeaveBlance);
+if($getLeaveBlanceRow= sqlsrv_fetch_array($getLeaveBlanceRun, SQLSRV_FETCH_ASSOC))
+{
+$LeaveBlance=$getLeaveBlanceRow['Balance'];
+}
+
+
 if($_POST['leaveHalfShortRadio']!='Full')
 {
 $leaveHalfShortRadio=$_POST['leaveHalfShortRadio'];
@@ -14578,7 +14590,7 @@ else
 
                     if($leaveexistCount>0)
                     {
-                            echo "2";
+                            echo "2"; // already pending to section
                     }
                     else
                     {
@@ -14587,6 +14599,13 @@ else
                         {
                 if($leaveStartDate>=$ApplyDate || $status=='Approved')
                 {
+                   
+if($LeaveType<3 &&  $LeaveBlance<$numberDays)
+{
+echo "5"; //leave balance not equeal
+}
+else
+{                 
  $string = bin2hex(openssl_random_pseudo_bytes(4));
     $file_name = $_FILES['leaveFile']['name'];
       $file_tmp = $_FILES['leaveFile']['tmp_name'];
@@ -14625,15 +14644,17 @@ else
                 {
                     echo "0";
                 }
+            }
+           
               }
                 else
                 {
-                    echo "3";
+                    echo "3";  //back date leave apply
                 }
             }
         else
         {
-            echo "4";
+            echo "4";  //leave already exist
         }
     }
 }
@@ -15640,9 +15661,18 @@ elseif($code==234)
 $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
 if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
 {
+    $LeaveTypeID=$row['LeaveTypeId'];
 $Leave_Recom=$row['SanctionId'];
 $Leave_Authority=$row['AuthorityId'];
 $StaffId=$row['StaffId'];
+if($row['LeaveDurationsTime']>0)
+{
+    $LeaveDeduction=$row['LeaveDurationsTime'];
+}
+else
+{
+    $LeaveDeduction=$row['LeaveDuration'];
+}
 }
        $remarks =str_replace("'",'',$_POST['remarks']); 
     
@@ -15659,11 +15689,16 @@ $StaffId=$row['StaffId'];
 
         $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification1);
+ 
     }
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
+        if($LeaveTypeID<3){
+            $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
+            sqlsrv_query($conntest,$deductionBLance);
+       }
       }
       if ($updateLeaveAcrodingToActionRun === false) {
         $errors = sqlsrv_errors();
@@ -15799,18 +15834,33 @@ elseif($code==239)
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     {
+         $LeaveTypeID=$row['LeaveTypeId'];
     $Leave_Recom=$row['SanctionId'];
     $Leave_Authority=$row['AuthorityId'];
     $StaffId=$row['StaffId'];
     $Leave_Recom=$row['SanctionId'];
     $Leave_Authority=$row['AuthorityId'];
     $StaffId=$row['StaffId'];
+if($row['LeaveDurationsTime']>0)
+{
+    $LeaveDeduction=$row['LeaveDurationsTime'];
+}
+else
+{
+    $LeaveDeduction=$row['LeaveDuration'];
+}
+
     }
     if($updateLeaveAcrodingToActionRun==true)
     {
         echo "1";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification11);
+        if($LeaveTypeID<3){
+             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
+             sqlsrv_query($conntest,$deductionBLance);
+        }
+
     }
     else
     {

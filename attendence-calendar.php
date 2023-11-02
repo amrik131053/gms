@@ -766,7 +766,7 @@ function leaveSubmit(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             if (response == 1) {
                 SuccessToast('Leave submit successfully');
                 pendingLeaves();
@@ -780,7 +780,10 @@ function leaveSubmit(form) {
                 ErrorToast("you can't apply back date leave.", 'bg-warning');
             } else if (response == 4) {
                 ErrorToast("you con't apply more than one leave same day ", 'bg-warning');
-            } else {
+            } else if (response == 5) {
+                ErrorToast('Can`t apply leave more then balance.', 'bg-warning');
+            }
+            else{
                 ErrorToast('Please try after sometime.', 'bg-danger');
             }
         },
