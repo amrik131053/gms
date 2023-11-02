@@ -227,7 +227,7 @@ if($paiddays<>$h)
 {  
     $y=$pdf->GetY();
 
- $pdf->SetXY($X+10,$y);
+ $pdf->SetXY($X+10,$y+5);
 
     $pdf->Multicell(90,6,"Total Paid Days  :  $paiddays Out of $myenddate  ",1,'R');
 
@@ -236,7 +236,7 @@ if($paiddays<>$h)
 else
 {
     $y=$pdf->GetY();
-    $pdf->SetXY($X+10,$y);
+    $pdf->SetXY($X+10,$y+5);
     $pdf->Multicell(90,6,"Total Paid Days  :  0 ",1,'R');
 }
 
