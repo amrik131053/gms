@@ -1134,7 +1134,7 @@ $ms1="<strike>Mr.</strike>";    // code...
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
-                                       $CGPA = number_format($CGPA, 2);
+                                       // $CGPA = number_format($CGPA, 2);
                                                 $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
@@ -1193,12 +1193,21 @@ $ms1="<strike>Mr.</strike>";    // code...
     // code...
  
  }
+if($Stream!=''){
 
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirements for the award of this Diploma and having passed 
  the prescribed examination held in <b>".$Examination."</b> has been conferred the 
-<b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks, with distinction in the subjects(s) ".$Stream."</b> and has satisfactorily completed the pratical training for ".$course."<b> (Part-III)</b>.";
-
+<b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks, with distinction in the subjects(s) ".$Stream."</b> 
+and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b>.";
+}
+else{
+   echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+   having completed the requirements for the award of this Diploma and having passed 
+   the prescribed examination held in <b>".$Examination."</b> has been conferred the 
+  <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks,</b> 
+  and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b>.";
+}
                 ?></i>
              
           </div>
