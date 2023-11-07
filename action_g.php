@@ -16326,7 +16326,8 @@ elseif($code==248)
            
            $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
-            $CourseShortName=$row['CourseShortName'];
+           
+            $CourseShortNameMAster=$rowgetCourseDetails['CourseShortName'];
        }
              $FatherName=$row['FatherName'];
              $StudentName=$row['StudentName'];
@@ -16335,14 +16336,13 @@ elseif($code==248)
              {
                 echo "Please Update Valid Up To ";
              }
-             else if(strlen($CourseShortName)>19)
+             else if(strlen($CourseShortNameMAster)>19)
              {
                 echo "Course Short Name Large";
              }
-             
-             else if($CourseShortName=='')
+             else if($CourseShortNameMAster=='')
              {
-                echo "Course Short Name Emty";
+                echo "Course Short Name Emty In Master";
              }
              else
              {

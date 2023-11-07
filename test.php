@@ -16,44 +16,170 @@ if(ISSET($_POST['email_imp']))
   $file = $_FILES['file_exl']['tmp_name'];
   $handle = fopen($file, 'r');
   $c = 0;
-
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
-  $reg_id = $filesop[0];
-  // echo  $reg_id1 =$filesop[1];
+ $a1=$filesop[0];
+$a2=$filesop[1];
+$a3=$filesop[2];
+$a4=$filesop[3];
+$a5=$filesop[4];
+$a6=$filesop[5];
+$a7=$filesop[6];
+$a8=$filesop[7];
+$a9=$filesop[8];
+$a10=$filesop[9];
+$a11=$filesop[10];
+$a12=$filesop[11];
+$a13=$filesop[12];
+$a14=$filesop[13];
+$a15=$filesop[14];
+$a16=$filesop[15];
+$a17=$filesop[16];
+$a18=$filesop[17];
+$a19=$filesop[18];
+$a20=$filesop[19];
+$a21=$filesop[20];
+$a22=$filesop[21];
+$a23=$filesop[22];
+$a24=$filesop[23];
+$a25=$filesop[24];
+$a26=$filesop[25];
+$a27=$filesop[26];
+$a28=$filesop[27];
+$a29=$filesop[28];
+$a30=$filesop[29];
+$a31=$filesop[30];
+$a32=$filesop[31];
+$a33=$filesop[32];
+$a34=$filesop[33];
+$a35=$filesop[34];
+$a36=$filesop[35];
+$a37=$filesop[36];
+$a38=$filesop[38];
+$a39=$filesop[39];
+$a40=$filesop[40];
+$a41=$filesop[41];
+$a42=$filesop[42];
+$a43=$filesop[43];
+$a44=$filesop[44];
+$a45=$filesop[45];
+$a46=$filesop[46];
+$a47=$filesop[47];
+$a48=$filesop[48];
+$a49=$filesop[49];
+$a50=$filesop[50];
+$a51=$filesop[51];
+$a52=$filesop[52];
+$a53=$filesop[53];
+$a54=$filesop[54];
+$a55=$filesop[55];
+$a56=$filesop[56];
+$a57=$filesop[57];
+$a58=$filesop[58];
+$a59=$filesop[59];
+$a60=$filesop[60];
+$a61=$filesop[61];
+$a62=$filesop[62];
+$a63=$filesop[63];
+$a64=$filesop[64];
+$a65=$filesop[65];
+$a66=$filesop[66];
+$a67=$filesop[67];
+$a68=$filesop[68];
+$a69=$filesop[69];
+$a70=$filesop[70];
+$a71=$filesop[71];
+$a72=$filesop[72];
+$a73=$filesop[73];
+$a74=$filesop[74];
+// $a75=$filesop[75];
 
-    //echo  $reg_id2 = (int)$filesop[2];
-    //echo  $reg_id3 = $filesop[3];
+	
 
 //echo $query1="INSERT into StudentRegistrationForm (Session,IDNo,Status,SemesterId) Values('$reg_id','$reg_id1','$reg_id2','$reg_id3')";
-
-  $query1="Select CollegeName,Course,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions where  UniRollNo='$reg_id'";
+echo "<br><br>";
+ echo  $query1="
+  INSERT INTO Staff
+  
+  
+  
+  
+  
+  
+  
+  
+  ([CollegeName]
+  ,[IDNo]
+  ,[CardID]
+  ,[Name]
+  ,[FatherName]
+  ,[MotherName]
+  ,[Designation]
+  ,[Department]
+  ,[Type]
+  ,[ShiftName]
+  ,[Gender]
+  ,[CorrespondanceAddress]
+  ,[PermanentAddress]
+  ,[ContactNo]
+  ,[MobileNo]
+  ,[EmailID]
+  ,[DateOfBirth]
+  ,[BloodGroup]
+  ,[DateOfJoining]
+  ,[SalaryAtJoining]
+  ,[SalaryAtPresent]
+  ,[Qualification]
+  ,[PreviousExperience]
+  ,[BankName]
+  ,[BankAccountNo]
+  ,[PANNo]
+  ,[Snap]
+  ,[Locked]
+  ,[DateOfLeaving]
+  ,[PF]
+  ,[Security]
+  ,[EmpCode]
+  ,[TotalLeaves]
+  ,[Level]
+  ,[DesignationLevel]
+  ,[AddressLine1]
+  ,[AddressLine2]
+  ,[AddressLine3]
+  ,[SmartCardAccess]
+  ,[DepartmentID]
+  ,[JobStatus]
+  ,[AadhaarCard]
+  ,[IsPhysicallyHandicapped]
+  ,[Category]
+  ,[City]
+  ,[District]
+  ,[State]
+  ,[PostalCode]
+  ,[PostOffice]
+  ,[Nationality]
+  ,[CategoryId]
+  ,[PersonalIdentificationMark]
+  ,[EmergencyContactNo]
+  ,[OfficialMobileNo]
+  ,[OfficialEmailID]
+  ,[AddressSame]
+  ,[BankIFSC]
+  ,[EmploymentLetter]
+  ,[LeaveRecommendingAuthority]
+  ,[LeaveSanctionAuthority]
+  ,[DepartmentShortName]
+  ,[PrecautionaryDose]
+  ,[ShiftID]
+  ,[CollegeId])
+VALUES('$a1','$a2','$a3','$a4','$a5','$a6','$a7','$a8','$a9','$a10','$a11','$a12','$a13','$a14','$a15','$a16','$a17','$a18','$a19','$a20','$a21','$a22','$a23','$a24','$a25','$a26','$a27','$a28','$a29','$a30','$a31','$a32','$a33','$a34','$a35','$a36','$a37','$a38','$a39','$a40','$a41','$a42''$a43','$a44','$a45','$a46','$a47','$a48','$a49','$a50','$a51','$a52','$a53','$a54','$a55','$a56','$a57','$a58','$a59','$a60','$a61','$a62','$a63','$a64','$a65','$a66','$a67','$a68','$a69','$a70','$a71','$a72','$a73','$a74')
+  )";
 
 $stmt2 = sqlsrv_query($conntest,$query1);
 
-if( $stmt2  === false) {
+if($stmt2 === false) {
 
-    die( print_r( sqlsrv_errors(), true) );
-}
-else
-{
- //$row = sqlsrv_fetch_array($stmt2);
-  ?>
-  <table border="1">
-
-  <?php    while($row = sqlsrv_fetch_array($stmt2))
-     {
-?><tr><td><?= $row['CollegeName'];?></td><td><?= $row['Course'];?></td><td><?= $row['UniRollNo'];?></td><td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['EmailID'];?></td><td><?= $row['StudentMobileNo'];?></td></tr>
-
-<!-- 
-echo $Email=$row['EmailID'];
-echo "<br>";-->
-<?php 
-
-}
-?>
-</table>
-<?php 
+  die( print_r( sqlsrv_errors(), true) );
 }
 }
 }
