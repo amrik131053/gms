@@ -121,7 +121,7 @@ if($code==1)
     $pdf->SetXY(14.5,$XSet-3);
     $pdf->MultiCell(39,3,$row['ClassRollNo'],'0','L');
     $pdf->SetXY(14.5,$XSet+2);
-    $pdf->MultiCell(39,3,strtoupper($CourseShortName),'0','L');
+    $pdf->MultiCell(39,3,$CourseShortName,'0','L');
     $pdf->SetXY(14.5,$XSet+7);
     $pdf->MultiCell(39,3,$row['Batch'],'0','L');
     $pdf->SetXY(20.5,$XSet+12);

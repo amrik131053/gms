@@ -16663,8 +16663,8 @@ elseif($code==257)
                                     </tr>
  
     <tr>
-        <td>  <select  id='shiftId' class="form-control form-control-sm"
-                                required="" onchange="setValueTimeAcrodingToShift();">
+        <td>  <select id="shiftID"   class="form-control form-control-sm"
+                                required="" onchange="setValueTimeAcrodingToShift(this.value);">
                                 <option value=''>Select Shift</option>
                                 <?php
                         $sql="SELECT * from MasterShift ";
@@ -16866,13 +16866,13 @@ elseif ($code==260) {
     }
     if ($insertMasterShiftRun === false) {
         $errors = sqlsrv_errors();
-        // echo "Error: " . print_r($errors, true);
+        echo "Error: " . print_r($errors, true);
         // echo "0";
     } 
 }elseif ($code==261) {
     $times=array();
     $shiftID=$_POST['shiftId'];
-     $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+      $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
