@@ -16614,7 +16614,7 @@ elseif($code==256)
                                     </tr>
             <?php
 
-$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' order by MasterShift.Id ASC";
+$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -16711,7 +16711,7 @@ elseif($code==257)
                                     </tr>
             <?php
 
-$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='1' order by MasterShift.Id ASC";
+$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -16793,7 +16793,7 @@ elseif ($code==258) {
                                     </tr>
             <?php
 
-$sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId order by MasterShift.Id ASC";
+$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -16830,7 +16830,7 @@ elseif ($code==259) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
-     $insertMasterShift="INSERT into MasterShiftTime(ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
+     $insertMasterShift="INSERT into MadamShiftTime(ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
     VALUES('$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','0')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
     if($insertMasterShiftRun==true)
@@ -16854,7 +16854,7 @@ elseif ($code==260) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
-      $insertMasterShift="INSERT into MasterShiftTime(StartDate,EndDate,ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
+      $insertMasterShift="INSERT into MadamShiftTime(StartDate,EndDate,ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
     VALUES('$StartDate','$EndDate','$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','1')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
     if($insertMasterShiftRun==true)
@@ -16866,13 +16866,13 @@ elseif ($code==260) {
     }
     if ($insertMasterShiftRun === false) {
         $errors = sqlsrv_errors();
-        // echo "Error: " . print_r($errors, true);
+        echo "Error: " . print_r($errors, true);
         // echo "0";
     } 
 }elseif ($code==261) {
     $times=array();
     $shiftID=$_POST['shiftId'];
-      $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+      $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' and MadamShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
