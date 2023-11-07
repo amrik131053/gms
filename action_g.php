@@ -16866,7 +16866,7 @@ elseif ($code==260) {
     }
     if ($insertMasterShiftRun === false) {
         $errors = sqlsrv_errors();
-        echo "Error: " . print_r($errors, true);
+        // echo "Error: " . print_r($errors, true);
         // echo "0";
     } 
 }elseif ($code==261) {
