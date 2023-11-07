@@ -20,16 +20,19 @@ if(ISSET($_POST['email_imp']))
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
   $reg_id = $filesop[0];
-  // echo  $reg_id1 =$filesop[1];
+  $reg_id1 =$filesop[1];
 
-    //echo  $reg_id2 = (int)$filesop[2];
+$reg_id2 = $filesop[2];
     //echo  $reg_id3 = $filesop[3];
 
 //echo $query1="INSERT into StudentRegistrationForm (Session,IDNo,Status,SemesterId) Values('$reg_id','$reg_id1','$reg_id2','$reg_id3')";
 
-  $query1="Select CollegeName,Course,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions where  UniRollNo='$reg_id'";
 
-$stmt2 = sqlsrv_query($conntest,$query1);
+ echo $query1=" Update LeaveBalances set Balance=Balance-$reg_id1 where Employee_Id='$reg_id' AND LeaveType_Id='$reg_id2'";
+
+ // $query1="Select CollegeName,Course,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions where  UniRollNo='$reg_id'";
+
+//$stmt2 = sqlsrv_query($conntest,$query1);
 
 if( $stmt2  === false) {
 
@@ -41,17 +44,7 @@ else
   ?>
   <table border="1">
 
-  <?php    while($row = sqlsrv_fetch_array($stmt2))
-     {
-?><tr><td><?= $row['CollegeName'];?></td><td><?= $row['Course'];?></td><td><?= $row['UniRollNo'];?></td><td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['EmailID'];?></td><td><?= $row['StudentMobileNo'];?></td></tr>
-
-<!-- 
-echo $Email=$row['EmailID'];
-echo "<br>";-->
-<?php 
-
-}
-?>
+ 
 </table>
 <?php 
 }

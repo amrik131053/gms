@@ -112,6 +112,62 @@ $totaldeduction=1;
 
 
 
+$sql_att23="SELECT * ,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Shift_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Shift_End_Date       
+FROM        
+WHERE       StartDate <= '$start' AND
+            EndDate >= '$start' ANd StaffId='$IDNo' "; 
+
+$stmt = sqlsrv_query($conntest,$sql_att23);  
+            while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+          $fintime1=$row['Intime'];
+$fintime2='11:00';
+$fintime3='13:00';
+$fintime4='15:00';
+$fintime5='17:00';
+
+$fouttime1='17:00';
+$fouttime2='15:00';
+$fouttime3='13:00';
+$fouttime4='11:00';
+$fouttime5='09:00';
+           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $fintime1='09:02';
 $fintime2='11:00';
 $fintime3='13:00';
