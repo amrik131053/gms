@@ -210,11 +210,7 @@ else
 
 
   $pdf->SetXY($X+90,$y+4.6);
-if($countday<1)
-{
-    $pdf->SetTextColor(255,0,0);
-    $printleave= " ( ".$fintime1."  to  ".$fintime5." )*";
-}  
+ 
 // $y=$pdf->GetY();
 $pdf->MultiCell(10,$Height,$countday,1,'C');
 $pdf->SetTextColor(0,0,0);

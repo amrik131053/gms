@@ -13509,11 +13509,11 @@ elseif($code==210)
                             <div class="col-lg-2">
                                 <label>Emp ID</label>
                                 <input type="text" name="EmployeeId" id="employeeId_" class="form-control "
-                                    placeholder="Emp ID">
+                                    placeholder="Emp ID" required>
                             </div>
                             <div class="col-lg-2">
                                 <label>Month</label>
-                                <select name="month" id="month" class="form-control ">
+                                <select name="month" id="month" class="form-control " required >
                                     <option value="" style="display:none;">MM</option>
                                     <option value="1">January</option>
                                     <option value="2">February</option>
@@ -13532,7 +13532,7 @@ elseif($code==210)
                             </div>
                             <div class="col-lg-2">
                                 <label>Year</label>
-                                <select name="year" id="year" class="form-control ">
+                                <select name="year" id="year" class="form-control " required>
                                     <option value="2023">2023</option>
                                     <option value="2022">2022</option>
                                     <option value="2021">2021</option>
