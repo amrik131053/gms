@@ -116,6 +116,8 @@ for ($at=0;$at<$no_of_dates;$at++)
 
  $pdf->SetXY($X+10,$y+4.6);
 
+//$print_start= $start->format('d-m-Y');
+
 $pdf->Cell(20,$Height,$start,1,'C');
 
 
@@ -135,7 +137,7 @@ else
 }
 $pdf->SetXY($X+30,$y+4.6);
 
-$pdf->Cell(15,$Height,$myin,1,'C');
+$pdf->MultiCell(15,$Height,$myin,1,'C');
 
  if($outtime!="" && $outtime>$intime)
     { 
@@ -150,17 +152,20 @@ else
 
 $pdf->SetXY($X+45,$y+4.6);
 
-$pdf->Cell(15,$Height,$myout,1,'C');
+$pdf->MultiCell(15,$Height,$myout,1,'C');
 $holidaycount=0;
 $row_count_join=0;
+
 include 'attendance-calculator.php';
+
+
 
 if($HolidayName!='' && $printleave!='')
 {
 
 $pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(30,$Height,$HolidayName.$printleave,1,'C'); 
+$pdf->Cell(30,$Height,$HolidayName."(".$printleave.")",1,'C'); 
 }
 else if($HolidayName!='' && $printleave=='')
 {
@@ -199,7 +204,7 @@ $pdf->Cell(30,$Height,"Late joining ",1,'C');
 
 else
 { $pdf->SetXY($X+60,$y+4.6);
-    $pdf->Cell(30,$Height," ",1,'C');
+    $pdf->Cell(30,$Height,$print_shift,1,'C');
 }
  
 
@@ -208,9 +213,10 @@ else
 if($countday<1)
 {
     $pdf->SetTextColor(255,0,0);
+    $printleave= " ( ".$fintime1."  to  ".$fintime5." )*";
 }  
 // $y=$pdf->GetY();
-$pdf->Cell(10,$Height,$countday,1,'C');
+$pdf->MultiCell(10,$Height,$countday,1,'C');
 $pdf->SetTextColor(0,0,0);
 $paiddays=$paiddays+$countday;
 
@@ -228,7 +234,7 @@ if($paiddays<>$h)
 {  
     $y=$pdf->GetY();
 
- $pdf->SetXY($X+10,$y+4.5);
+ $pdf->SetXY($X+10,$y);
 
     $pdf->Multicell(90,6,"Total Paid Days  :  $paiddays Out of $myenddate  ",1,'R');
 
@@ -237,7 +243,7 @@ if($paiddays<>$h)
 else
 {
     $y=$pdf->GetY();
-    $pdf->SetXY($X+10,$y+4.5);
+    $pdf->SetXY($X+10,$y);
     $pdf->Multicell(90,6,"Total Paid Days  :  0 ",1,'R');
 }
 

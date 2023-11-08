@@ -286,7 +286,7 @@ function addExceptionMasterShift() {
 
 var StartDate = document.getElementById("StartDate").value;
 var EndDate = document.getElementById("EndDate").value;
-var shiftId = document.getElementById("shiftId").value;
+var shiftId = document.getElementById("shiftID").value;
 var intime = document.getElementById("intime").value;
 var intime1 = document.getElementById("intime1").value;
 var intime2 = document.getElementById("intime2").value;
@@ -351,16 +351,17 @@ if (outtime === "") {
             shiftId:shiftId,intime:intime,intime1:intime1,intime2:intime2,intime3:intime3,outtime:outtime,outtime1:outtime1,outtime2:outtime2,outtime3:outtime3,EndDate:EndDate,StartDate:StartDate
         },
         success: function(response) {
-            // console.log(response);
+            console.log(response);
             showExceptionShift();
             SuccessToast('Successfully Added');
         }
     });
 }
 
-function setValueTimeAcrodingToShift() 
+function setValueTimeAcrodingToShift(id) 
 {
-    var shiftId = document.getElementById("shiftId").value;
+    // alert(id);
+    // var shiftId = document.getElementById("shiftId").value;
     var code = 261;
     $.ajax({
         url: 'action_g.php',
@@ -368,13 +369,19 @@ function setValueTimeAcrodingToShift()
         dataType: 'json',
         data: {
             code: code,
-            shiftId: shiftId
+            shiftId: id
         },
         success: function(response) 
         {
-        //   console.log();  
-        $("#intime").val(response.intime);
-        alert(response.intime);
+          console.log(response[0]['Intime']);  
+        $("#intime").val(response[0]['Intime']);
+        $("#intime1").val(response[0]['Intime1']);
+        $("#intime2").val(response[0]['Intime2']);
+        $("#intime3").val(response[0]['Intime3']);
+        $("#outtime").val(response[0]['Outtime']);
+        $("#outtime1").val(response[0]['Outtime1']);
+        $("#outtime2").val(response[0]['Outtime2']);
+        $("#outtime3").val(response[0]['Outtime3']);
         }
     });
 }

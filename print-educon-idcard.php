@@ -10,7 +10,9 @@ $designation=array();
 $a=0;
   
 $aa=0;
-$get_official="SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon' ";
+
+$get_official="SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon'  ANd father_name!='Student and Research Scholars' Limit 21  ";
+//$get_official="SELECT * FROM online_payment where    status='success' AND purpose='Conference Educon' AND attending=''  order by  father_name";
     $official_run=mysqli_query($conn_online,$get_official);
     while($data_offical=mysqli_fetch_array($official_run))
     { 
@@ -43,34 +45,42 @@ $pdf->SetFont('times','B',16);
 $pdf->SetXY($x+1,$y+68);
 $pdf->SetTextColor(0,0,0);
 $ls=strlen($s_name[$i]);
-if ($ls<15) {
-  $pdf->MultiCell(95, 6, strtoupper($s_name[$i]),0 , 'C');  // name 
-}
-elseif($ls<25)
-{
-    $pdf->SetFont('times','B',16);
-$pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
-}else
-{
-    $pdf->SetFont('times','B',16);
-$pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
-}
+// if ($ls<15) {
+//   $pdf->MultiCell(95, 6, strtoupper($s_name[$i]),0 , 'C');  // name 
+// }
+// elseif($ls<25)
+// {
+//     $pdf->SetFont('times','B',16);
+// $pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
+// }else
+// {
+//     $pdf->SetFont('times','B',16);
+// $pdf->MultiCell(95, 6, ucfirst($s_name[$i]),0 , 'C');  // name 
+// }
 $pdf->SetTextColor(34,50,96);
 $pdf->SetXY($x+1,$y+83);
 $pdf->SetTextColor(187,50,65);
 $pdf->SetFont('times','B',18);
 if($s_designation[$i]=='Student and Research Scholars')
 {
-$Desi='Research Scholars';
+$Desi='Research Scholar';
 }
 elseif($s_designation[$i]=='Participants')
 {
-    $Desi='Participants';
+    $Desi='Participant';
 }
 else
 {
-    $Desi='Organizer';
+    $Desi='Organiser';
 }
+// if($s_designation[$i]=='Collaborative University Members')
+// {
+// $Desi='Participant';
+// }
+// elseif($s_designation[$i]=='GERA Members')
+// {
+//     $Desi='Participant';
+// }
 
 $pdf->MultiCell(95, 5,$Desi,0, 'C');
 $pdf->SetXY($x+1,$y+88);

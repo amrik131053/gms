@@ -13548,10 +13548,14 @@ elseif($code==210)
                                 <label>Action</label><br>
                                 <input type="button" onclick="showEmpReport();" class="btn btn-primary " value="Show">
 
-                                <input type="submit" class="btn btn-success " value="Download">
+                                <input type="submit" class="btn btn-success " value="Excel">
+
+                                <input type="button" onclick="pdfEmpReport();" class="btn btn-danger " value="Pdf">
                             </div>
 
                     </form>
+
+                    
 
             </div>
 
@@ -16326,7 +16330,8 @@ elseif($code==248)
            
            $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
-            $CourseShortName=$row['CourseShortName'];
+           
+            $CourseShortNameMAster=$rowgetCourseDetails['CourseShortName'];
        }
              $FatherName=$row['FatherName'];
              $StudentName=$row['StudentName'];
@@ -16335,14 +16340,13 @@ elseif($code==248)
              {
                 echo "Please Update Valid Up To ";
              }
-             else if(strlen($CourseShortName)>19)
+             else if(strlen($CourseShortNameMAster)>19)
              {
                 echo "Course Short Name Large";
              }
-             
-             else if($CourseShortName=='')
+             else if($CourseShortNameMAster=='')
              {
-                echo "Course Short Name Emty";
+                echo "Course Short Name Emty In Master";
              }
              else
              {
@@ -16663,8 +16667,8 @@ elseif($code==257)
                                     </tr>
  
     <tr>
-        <td>  <select  id='shiftId' class="form-control form-control-sm"
-                                required="" onchange="setValueTimeAcrodingToShift();">
+        <td>  <select id="shiftID"   class="form-control form-control-sm"
+                                required="" onchange="setValueTimeAcrodingToShift(this.value);">
                                 <option value=''>Select Shift</option>
                                 <?php
                         $sql="SELECT * from MasterShift ";
@@ -16872,7 +16876,7 @@ elseif ($code==260) {
 }elseif ($code==261) {
     $times=array();
     $shiftID=$_POST['shiftId'];
-     $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+      $sql="SELECT * from MasterShiftTime inner join MasterShift ON MasterShift.Id=MasterShiftTime.ShiftId where MasterShiftTime.Exception='0' and MasterShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
