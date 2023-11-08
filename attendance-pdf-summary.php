@@ -76,15 +76,15 @@ $pdf->SetXY(60,49);
 $pdf->multicell(20, 6,"Out Time",1,'C','1');
 $pdf->SetXY(80,49);
 
-$pdf->multicell(60, 6,"Remarks",1,'C','1');
+$pdf->multicell(75, 6,"Remarks",1,'C','1');
 
- $pdf->SetXY(140,49);
+ $pdf->SetXY(155,49);
 $pdf->multicell(15, 6,"Count",1,'C','1');
-$pdf->SetXY(155,49);
-$pdf->multicell(45, 6,"Shift Time",1,'C','1');
+$pdf->SetXY(170,49);
+$pdf->multicell(30, 6,"Shift Time",1,'C','1');
 $pdf->SetTextColor(0,0,0);
 $srno++;
-$y=58;
+$y=55;
 
 for ($at=0;$at<$no_of_dates;$at++)
 {

@@ -19588,12 +19588,15 @@ if($row_count_joinab>0)
 }
 else
 {
-  ?><td></td><td><?php
+  ?><td><?=$print_shift;?></td>
+  <td><?php
 }
 
-?>
-
-<?= $countday;?></td></tr>
+if($countday<1){ ?> <b style="color:red"><?php echo  $countday;?></b> <?php }
+ else{
+echo $countday;
+}
+?></p></td></tr>
 <?php 
 
 $paiddays=$paiddays+$countday;

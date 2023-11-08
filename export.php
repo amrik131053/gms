@@ -2959,7 +2959,7 @@ if($row_count_joinab>0)
 }
 else
 {
-    $exportdaily.="<td></td><td>";
+    $exportdaily.="<td>{$print_shift}</td><td>";
 }
 
 
@@ -3251,7 +3251,7 @@ if($row_count_joinab>0)
 
 else
 {
-    $exportdaily.="<td></td><td>";
+    $exportdaily.="<td>{$print_shift}</td><td>";
 }
 
 $exportdaily.="{$countday}</td></tr>";
