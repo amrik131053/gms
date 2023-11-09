@@ -456,7 +456,9 @@ var exportCode="";
 
   if(month!='' && year!='')
    {
-   window.location.href="attendance-detailed-pdf.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year;
+      window.open("attendance-detailed-pdf.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year,'_blank');
+
+   //window.location.href="attendance-detailed-pdf.php?exportCode="+exportCode+"&College="+College+"&Department="+Department+"&month="+month+"&year="+year;
     }
       else
       {
@@ -491,6 +493,10 @@ var exportCode="";
  
       }
 }
+
+
+
+
 
 
 
@@ -553,6 +559,7 @@ var spinner=document.getElementById('ajax-loader');
                                   var month=document.getElementById("month").value;
                                   var year=document.getElementById("year").value;
                                   
+                                  if(employeeId!=''&& month!=''){
                                   var spinner=document.getElementById("ajax-loader");
                              spinner.style.display='block';
                                 
@@ -568,12 +575,36 @@ var spinner=document.getElementById('ajax-loader');
                                        document.getElementById("table_load").innerHTML=response;
                                     }
                                  });
+                              }
+                              else{
+                                  ErrorToast('Please select EmployeeId and Month.','bg-warning');
+        return;
+                              }
                            }
 
 
 
+ function pdfEmpReport()
+        {
 
 
+ var employeeId=document.getElementById("employeeId_").value;
+                                  var month=document.getElementById("month").value;
+                                  var year=document.getElementById("year").value;
+                                  
+                                  if(employeeId!=''&& month!='')
+                                  {
+   window.open("attendance-pdf-summary.php?month="+month+"&year="+year+"&EmployeeId="+employeeId,'_blank');
+
+  // window.open('https://askjavascript.com', '_blank');
+    }
+      else
+      {
+        ErrorToast('Select Employee Id and Month','bg-danger');
+ 
+      }
+
+}
 
 
                            function leaveSubmit(form) {

@@ -5,9 +5,18 @@ ini_set('max_execution_time', '0');
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
 
+if(isset($_POST['month']))
+{
 $curmnth =$_POST['month'];
 $curyear = $_POST['year'];
- $emp_code=$_POST['EmployeeId'];
+$emp_code=$_POST['EmployeeId'];
+}
+else
+{
+$curmnth =$_GET['month'];
+$curyear = $_GET['year'];
+$emp_code=$_GET['EmployeeId'];
+}
 class CustomPDF extends FPDF {
     function Footer() {
         // Set the position of the footer at 15mm from the bottom
@@ -34,7 +43,7 @@ $sql_staff="select * from Staff where IDNo='$emp_code'";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
-           $Name=$row_staff['Name'];
+           $Name=trim($row_staff['Name']);
            $Department=$row_staff['Department'];
                       $CollegeName=$row_staff['CollegeName'];
              $IDNo=$row_staff['IDNo'];
@@ -60,18 +69,22 @@ $pdf->MultiCell(190, 6, "Department :    ".$Department, 1, 'l');
 $pdf->MultiCell(190, 6, "College :    ".$CollegeName, 1, 'l');
 $pdf->SetXY(10,49);
 $pdf->SetTextColor(255,255,255);
-$pdf->multicell(30,6,"Date", 1,1,'C');
+$pdf->multicell(30,6,"Date",1,'C','1');
 $pdf->SetXY(40,49);
-$pdf->multicell(30, 6,"In Time",1,1,'C');
-$pdf->SetXY(70,49);
-$pdf->multicell(30, 6,"Out Time",1,1,'C');
-$pdf->SetXY(100,49);
-$pdf->multicell(70, 6,"Remarks",1,1,'C');
- $pdf->SetXY(170,49);
-$pdf->multicell(30, 6,"Count",1,1,'C');
+$pdf->multicell(20, 6,"In Time",1,'C','1');
+$pdf->SetXY(60,49);
+$pdf->multicell(20, 6,"Out Time",1,'C','1');
+$pdf->SetXY(80,49);
+
+$pdf->multicell(75, 6,"Remarks",1,'C','1');
+
+ $pdf->SetXY(155,49);
+$pdf->multicell(15, 6,"Count",1,'C','1');
+$pdf->SetXY(170,49);
+$pdf->multicell(30, 6,"Shift Time",1,'C','1');
 $pdf->SetTextColor(0,0,0);
 $srno++;
-$y=58;
+$y=55;
 
 for ($at=0;$at<$no_of_dates;$at++)
 {
@@ -105,7 +118,7 @@ else
 }
 $pdf->SetXY(40,$y);
 
-$pdf->Cell(30,6,$myin,1,'C');
+$pdf->MultiCell(20,6,$myin,1,'C');
 
  if($outtime!="" && $outtime>$intime)
     { 
@@ -118,9 +131,9 @@ else
    
    
 
-$pdf->SetXY(70,$y);
+$pdf->SetXY(60,$y);
 
-$pdf->Cell(30,6,$myout,1,'C');
+$pdf->MultiCell(20,6,$myout,1,'C');
 
 
 
@@ -135,9 +148,9 @@ include 'attendance-calculator.php';
 if($HolidayName!='' && $printleave!='')
 {
 
-$pdf->SetXY(100,$y);
+$pdf->SetXY(80,$y);
 
-$pdf->Cell(70,6,$HolidayName.$printleave,1,'C');
+$pdf->Cell(75,6,$HolidayName." (".$printleave.")",1,'C');
 
 
  
@@ -145,16 +158,16 @@ $pdf->Cell(70,6,$HolidayName.$printleave,1,'C');
 }
 else if($HolidayName!='' && $printleave=='')
 {
-$pdf->SetXY(100,$y);
+$pdf->SetXY(80,$y);
 
-$pdf->Cell(70,6,$HolidayName,1,'C');
+$pdf->Cell(75,6,$HolidayName,1,'C');
 }
 else if($HolidayName=='' && $printleave!='')
 
 {
- $pdf->SetXY(100,$y);
+ $pdf->SetXY(80,$y);
 
-$pdf->Cell(70,6,$printleave,1,'C');
+$pdf->Cell(75,6,$printleave,1,'C');
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
@@ -171,14 +184,14 @@ if($row_count_joinab>0)
             {
            $pdf->SetXY(100,$y);
            $pdf->SetTextColor(255,0,0);
-$pdf->Cell(70,6,"Absent",1,'C');
+$pdf->Cell(75,6,"Absent",1,'C');
          
              }
              else
              {
                $pdf->SetXY(100,$y);
                $pdf->SetTextColor(255,0,0);
-$pdf->Cell(70,6,"Late joining ",1,'C');
+$pdf->Cell(75,6,"Late joining ",1,'C');
              }
 
 
@@ -187,8 +200,8 @@ $pdf->Cell(70,6,"Late joining ",1,'C');
 }
 
 else
-{ $pdf->SetXY(100,$y);
-    $pdf->Cell(70,6," ",1,'C');
+{ $pdf->SetXY(80,$y);
+    $pdf->Cell(75,6," ",1,'C');
 }
  
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
@@ -214,13 +227,26 @@ else
     $countday=1;
 }
 
-  $pdf->SetXY(170,$y);
+  $pdf->SetXY(154.98,$y);
 if($countday<1)
 {
     $pdf->SetTextColor(255,0,0);
 }  
-$pdf->Cell(30,6,$countday,1,'C');
+$pdf->MultiCell(15,6,$countday,1,'C');
+
+ $pdf->SetXY(170,$y);
+
+$pdf->MultiCell(30,6,$fintime1." to ".$fintime5,1,'C');
+
+
+
+
 $pdf->SetTextColor(0,0,0);
+
+
+
+
+
 $paiddays=$paiddays+$countday;
 
 $y=$y+6;

@@ -1,5 +1,6 @@
 <?php 
 $holidaycount=0;
+$print_shift='';
 $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -26,7 +27,6 @@ if($row_count_join>0)
              }
 
 }
-
  $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
@@ -57,15 +57,13 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
  {
   if($leavedurationtime>0)
 { 
-  $printleave=  $leavedurationtime.' day '.$leaveName;
-
+  $printleave=  $leavedurationtime.' '.$leaveName;
  
-
 } 
  else
  {
     
- $printleave= '1 day '.$leaveName;
+ $printleave=$leaveName;
  
 
  }
@@ -105,36 +103,109 @@ $totaldeduction=1;
 
 
 
+  $sql_att234="SELECT * ,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Shift_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Shift_End_Date       
+FROM MadamSingleEmployeeException where StartDate <= '$start' AND
+            EndDate >= '$start' ANd  IDNo='$IDNo' "; 
 
 
+$stmt4 = sqlsrv_query($conntest,$sql_att234);  
+            if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+           {
+        $fintime1=$row['Intime'];
+        $fintime2=$row['Intime1'];
+        $fintime3=$row['Intime2'];
+        $fintime4=$row['Intime3'];
+        $fintime5=$row['Outtime'];
 
 
+        $fouttime1=$row['Outtime'];
+        $fouttime2=$row['Outtime1'];
+        $fouttime3=$row['Outtime2'];
+        $fouttime4=$row['Outtime3'];
+        $fouttime5=$row['Intime'];
 
 
+      
+            }
 
-$fintime1='09:02';
-$fintime2='11:00';
-$fintime3='13:00';
-$fintime4='15:00';
-$fintime5='17:00';
+else
+  
+  {
 
-$fouttime1='17:00';
-$fouttime2='15:00';
-$fouttime3='13:00';
-$fouttime4='11:00';
-$fouttime5='09:00';
+       $sql_att234="SELECT * ,
+            CASE 
+               WHEN StartDate < '$start' THEN '$start'
+               ELSE StartDate 
+            END AS Shift_Start_Date,
+            CASE 
+               WHEN EndDate > '$start' THEN '$start'
+               ELSE EndDate 
+            END AS Shift_End_Date       
+FROM        
+ MadamShiftTime where StartDate <= '$start' AND
+            EndDate >= '$start' ANd Exception='1' ANd ShiftId='1'"; 
 
 
+$stmt4 = sqlsrv_query($conntest,$sql_att234);  
+            if($row3 = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
+           {
+        $fintime1=$row3['Intime'];
+        $fintime2=$row3['Intime1'];
+        $fintime3=$row3['Intime2'];
+        $fintime4=$row3['Intime3'];
+        $fintime5=$row3['Outtime'];
 
 
+        $fouttime1=$row3['Outtime'];
+        $fouttime2=$row3['Outtime1'];
+        $fouttime3=$row3['Outtime2'];
+        $fouttime4=$row3['Outtime3'];
+        $fouttime5=$row3['Intime'];
 
 
+        
+            }
+
+else
+{
+  $sql_att235="SELECT * FROM        
+ MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
 
 
-if($start=='2023-10-27'){
+$stmt4 = sqlsrv_query($conntest,$sql_att235);  
+            while($row5 = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
+           {
+        $fintime1=$row5['Intime'];
+        $fintime2=$row5['Intime1'];
+        $fintime3=$row5['Intime2'];
+        $fintime4=$row5['Intime3'];
+        $fintime5=$row5['Outtime'];
 
-$fouttime1='16:00';
+
+        $fouttime1=$row5['Outtime'];
+        $fouttime2=$row5['Outtime1'];
+        $fouttime3=$row5['Outtime2'];
+        $fouttime4=$row5['Outtime3'];
+        $fouttime5=$row5['Intime'];
+
+            }
+
+
 }
+
+
+
+
+}
+
 
 if($intime!='' && $outtime!='' && ($outtime>$intime) )
 {
@@ -219,7 +290,9 @@ if($countdayn<=1)
 {
     if($countdayn<0)
     {
+
 $countday=0;
+
     }
     else
     {
@@ -229,5 +302,12 @@ $countday=0;
 else
 {
     $countday=1;
+}
+
+
+if($countday<1 && $countday>0)
+{
+    //$pdf->SetTextColor(255,0,0);
+    $print_shift= $fintime1."  to  ".$fintime5;
 }
 ?>
