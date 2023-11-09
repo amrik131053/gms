@@ -8561,7 +8561,7 @@ elseif ($code==138)
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='4'";
+      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3'";
       $flag=1;
 
    }
@@ -8589,7 +8589,7 @@ elseif ($code==138)
    }
 
 
-}
+   }
 else
 {
    echo"Select Exam Please";
@@ -8623,6 +8623,14 @@ else
             {
                $unit=rand(1,2);
             }
+            elseif ($type=='1' && $unit=='3') 
+            {
+               $unit=rand(3,4);
+            }
+             elseif ($type=='2' && $unit=='3') 
+            {
+               $unit=rand(3,4);
+            }
 
             if($unit>4)
             {
@@ -8630,7 +8638,7 @@ else
             }
             else
             {
-             $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             }
         
 
@@ -8645,9 +8653,9 @@ else
                    
          
          }    
-         //  print_r($questionArray);
+          //print_r($questionArray);
 
-       $countarray=count($questionArray);
+        $countarray=count($questionArray);
 
 
  if(!array_unique($questionArray))
@@ -8663,10 +8671,14 @@ $gene=0;
     {
 $gene=1;
     }
-    elseif(($examName==2 || $examName==3)&& $countarray==13)
+    elseif($examName==2 && $countarray==13)
     {
 $gene=1;
     } 
+    elseif($examName==3 && $countarray==22)
+    {
+$gene=1;
+    }
     elseif($examName==4 && $countarray==27)
     {
 $gene=1;
