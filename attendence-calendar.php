@@ -524,8 +524,8 @@ function rejectLeavesByAuthButtonVC(id) {
 function leaveTypeChnageOnApprove(id) {
     var code = 243;
     var type = document.getElementById('leaveTypeByAuth').value;
-    var StartDate = document.getElementById('StartDate').value;
-    var EndDate = document.getElementById('EndDate').value;
+    var StartDate = document.getElementById('StartDateChange').value;
+    var EndDate = document.getElementById('EndDateChange').value;
 
 
     $.ajax({

@@ -15369,11 +15369,11 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 </span>
 </div>
                        
-                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDate"
+                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDateChange"
                             class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
                     </div>
-                    <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control"
+                    <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDateChange" class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
@@ -16121,7 +16121,7 @@ $HRRemarks=$row['HRRemarks'];
     if($Leave_Recom==$EmployeeID && $Leave_Authority==$EmployeeID )
     {
         
-        $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionRemarks=SanctionRemarks+'$DateChnageRemarks', RecommendedRemarks=RecommendedRemarks+'$DateChnageRemarks' , LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID' ";
+      $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionRemarks=SanctionRemarks+'$DateChnageRemarks', RecommendedRemarks=RecommendedRemarks+'$DateChnageRemarks' , LeaveTypeId='$leaveType',StartDate='$StartDate',EndDate='$EndDate',LeaveDuration='$numberDays' where Id='$leaveID' ";
     }
     elseif($Leave_Recom==$EmployeeID && $Leave_Authority!=$EmployeeID )
     {
