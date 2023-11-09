@@ -11239,6 +11239,7 @@ $row_count = sqlsrv_num_rows($stmt1);
     $Status = $row['Status'];
     $Locked=$row['Locked'];
     $Eligibility = $row['Eligibility'];
+        $Reason = $row['Reason'];
     $validUpto=$row['ValidUpTo'];
       $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
       $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
@@ -11333,7 +11334,7 @@ if($row_count>0)
   <button class="btn btn-danger btn-xs" data-toggle="modal"  onclick="changecourse(<?= $IDNo;?>)" data-target="#Updatestudentmodal" style="text-align:right"><i class="fa fa fa-arrow-right"></i></button>
         <?php
      }
-     else{
+     else{ 
       ?>
       <button class="btn btn-danger btn-xs"   onclick="Studentsignup(<?= $IDNo;?>,'<?= $college;?>')" style="text-align:right"><i class="fa fa fa-plus"></i></button>
       <?php
@@ -11419,7 +11420,7 @@ else {
    <b class="text-danger">
 <?php if ($Eligibility>0)  {
    
-   echo "Eligible";
+   echo $Reason." Eligible";
     } 
     else
     {
@@ -13228,6 +13229,7 @@ $IDNo= $_POST['IDNo'];
     $Status = $row['Status'];
     $Locked = $row['Locked'];
      $Eligibility = $row['Eligibility'];
+     $Reason = $row['Reason'];
     $validUpto='NA';
     $password= $row['Password'];
           }
@@ -13411,7 +13413,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
    <b class="text-danger">
 <?php if ($Eligibility>0)  {
    
-   echo "Eligible";
+   echo $Reason." Eligible";
     } 
     else
     {
@@ -13425,6 +13427,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 <option value="<?=$Eligibility;?>">Select</option>
 <option value="1">Eligible</option>
 <option value="0">Not Eligible</option>
+<option value="2">Provisional Eligible</option>
 
 
 
@@ -13461,8 +13464,13 @@ elseif($code==220)
      $uniroll=$_POST['uniroll'];
        $Collegechange=$_POST['Collegechange'];
          $coursechange=$_POST['coursechange'];
+$provisional='';
 
-
+if($eligible>1)
+{
+   $eligible=1;
+   $provisional='Provisional';
+}
 
  $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$Collegechange' and CourseID='$coursechange'";
 
@@ -13481,7 +13489,7 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
 
 
 
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course' where IDNo='$id'";
+   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',Reason='$provisional' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -18353,7 +18361,7 @@ $IDNo= $_POST['IDNo'];
     $Status = $row['Status'];
     $Locked = $row['Locked'];
       $Eligibility = $row['Eligibility'];
-
+$Reason = $row['Reason'];
     $validUpto='NA';
     $password= $row['Password'];
           }
@@ -18476,7 +18484,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
 if ($Eligibility>0)  {
    
-   echo "Eligible";
+   echo $Reason." Eligible";
     } 
     else
     {
@@ -18490,6 +18498,7 @@ if ($Eligibility>0)  {
 <option value="<?=$Eligibility;?>">Select</option>
 <option value="1">Eligible</option>
 <option value="0">Not Eligible</option>
+<option value="2">Provisional Eligible</option>
 
 
 
