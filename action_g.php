@@ -16760,18 +16760,18 @@ elseif ($code==258) {
                                     </tr>
  
     <tr>
-    <td><input type="number" class="form-control form-control-sm"></td>
-                            <td><input type="date" class="form-control form-control-sm"></td>
-                            <td><input type="date" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="time" class="form-control form-control-sm"></td>
-        <td><input type="button" class="btn btn-success btn-xs" value="ADD"></td>
+                            <td><input type="number" id="StaffID" onchange="getEmployeeShift(this.value);" class="form-control form-control-sm"></td>
+                            <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
+                            <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+                            <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+        <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addExceptionSingle();"></td>
 
 </table>
                                         </div>
@@ -16793,7 +16793,7 @@ elseif ($code==258) {
                                     </tr>
             <?php
 
-$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId order by MasterShift.Id ASC";
+$sql="SELECT * from MadamSingleEmployeeException inner join MasterShift ON MasterShift.Id=MadamSingleEmployeeException.ShiftId order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -16869,7 +16869,8 @@ elseif ($code==260) {
         echo "Error: " . print_r($errors, true);
         // echo "0";
     } 
-}elseif ($code==261) {
+}
+elseif ($code==261) {
     $times=array();
     $shiftID=$_POST['shiftId'];
       $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' and MadamShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
@@ -16880,6 +16881,55 @@ elseif ($code==260) {
        
     }
     echo  json_encode($times);
+}
+elseif ($code==262) {
+    $StaffID=$_POST['StaffID'];
+    $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+    $intime=$_POST['intime'];
+    $intime1=$_POST['intime1'];
+    $intime2=$_POST['intime2'];
+    $intime3=$_POST['intime3'];
+    $outtime=$_POST['outtime'];
+    $outtime1=$_POST['outtime1'];
+    $outtime2=$_POST['outtime2'];
+    $outtime3=$_POST['outtime3'];
+
+      echo $insertMasterShift="INSERT into MadamSingleEmployeeException(IDNo,StartDate,EndDate,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3)
+    VALUES('$StaffID','$StartDate','$EndDate','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3')";
+    $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
+    if($insertMasterShiftRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+    if ($insertMasterShiftRun === false) {
+        $errors = sqlsrv_errors();
+        echo "Error: " . print_r($errors, true);
+        // echo "0";
+    } 
+}
+elseif ($code==263)
+ {
+    $times=array();
+    $staffID=$_POST['staffID'];
+$getShift="SELECT ShiftId FROM Staff WHERE IDNo='$staffID'";
+$getShiftRun=sqlsrv_query($conntest,$getShiftRun);
+if($row=sqlsrv_fetch_array($getShiftRun))
+{
+    $ShiftId=$row['ShiftId'];
+
+      $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' and MadamShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+    $stmt2 = sqlsrv_query($conntest,$sql);
+    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+    {
+        $times[]=$row1;
+       
+    }
+    echo  json_encode($times);
+}
 }
    else
    {

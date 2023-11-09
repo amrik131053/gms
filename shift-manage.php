@@ -351,6 +351,81 @@ if (outtime === "") {
             shiftId:shiftId,intime:intime,intime1:intime1,intime2:intime2,intime3:intime3,outtime:outtime,outtime1:outtime1,outtime2:outtime2,outtime3:outtime3,EndDate:EndDate,StartDate:StartDate
         },
         success: function(response) {
+            // console.log(response);
+            showExceptionShift();
+            SuccessToast('Successfully Added');
+        }
+    });
+}
+function addExceptionSingle() {
+
+var StaffID = document.getElementById("StaffID").value;
+var StartDate = document.getElementById("StartDate").value;
+var EndDate = document.getElementById("EndDate").value;
+var intime = document.getElementById("intime").value;
+var intime1 = document.getElementById("intime1").value;
+var intime2 = document.getElementById("intime2").value;
+var intime3 = document.getElementById("intime3").value;
+var outtime = document.getElementById("outtime").value;
+var outtime1 = document.getElementById("outtime1").value;
+var outtime2 = document.getElementById("outtime2").value;
+var outtime3 = document.getElementById("outtime3").value;
+// alert(intime);
+var code=262;
+if (StaffID === "") {
+
+    ErrorToast('Please Enter a StaffID.', 'bg-warning');
+    return;
+}
+if (intime === "") {
+
+    ErrorToast('Please select a intime.', 'bg-warning');
+    return;
+}
+    if (intime1 === "") {
+
+        ErrorToast('Please select a intime1.', 'bg-warning');
+        return;
+    }
+    if (intime2 === "") {
+
+        ErrorToast('Please select a intime2.', 'bg-warning');
+        return;
+    }
+    if (intime3 === "") {
+
+        ErrorToast('Please select a intime3.', 'bg-warning');
+        return;
+    }
+if (outtime === "") {
+
+    ErrorToast('Please select a outtime.', 'bg-warning');
+    return;
+}
+    if (outtime1 === "") {
+
+        ErrorToast('Please select a outtime1.', 'bg-warning');
+        return;
+    }
+    if (outtime2 === "") {
+
+        ErrorToast('Please select a outtime2.', 'bg-warning');
+        return;
+    }
+    if (outtime3 === "") {
+
+        ErrorToast('Please select a outtime3.', 'bg-warning');
+        return;
+    }
+
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            StaffID:StaffID,intime:intime,intime1:intime1,intime2:intime2,intime3:intime3,outtime:outtime,outtime1:outtime1,outtime2:outtime2,outtime3:outtime3,EndDate:EndDate,StartDate:StartDate
+        },
+        success: function(response) {
             console.log(response);
             showExceptionShift();
             SuccessToast('Successfully Added');
@@ -370,6 +445,33 @@ function setValueTimeAcrodingToShift(id)
         data: {
             code: code,
             shiftId: id
+        },
+        success: function(response) 
+        {
+        //   console.log(response[0]['Intime']);  
+        $("#intime").val(response[0]['Intime']);
+        $("#intime1").val(response[0]['Intime1']);
+        $("#intime2").val(response[0]['Intime2']);
+        $("#intime3").val(response[0]['Intime3']);
+        $("#outtime").val(response[0]['Outtime']);
+        $("#outtime1").val(response[0]['Outtime1']);
+        $("#outtime2").val(response[0]['Outtime2']);
+        $("#outtime3").val(response[0]['Outtime3']);
+        }
+    });
+}
+
+function getEmployeeShift(id) 
+{
+    
+    var code = 263;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            code: code,
+            staffID: id
         },
         success: function(response) 
         {
