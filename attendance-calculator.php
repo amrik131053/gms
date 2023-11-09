@@ -103,7 +103,7 @@ $totaldeduction=1;
 
 
 
-  $sql_att234="SELECT * ,
+ $sql_att234="SELECT * ,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
                ELSE StartDate 
@@ -117,9 +117,9 @@ FROM MadamSingleEmployeeException where StartDate <= '$start' AND
 
 
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
-            if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            if($row = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
-        $fintime1=$row['Intime'];
+     $fintime1=$row['Intime'];
         $fintime2=$row['Intime1'];
         $fintime3=$row['Intime2'];
         $fintime4=$row['Intime3'];
@@ -157,7 +157,7 @@ FROM
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
             if($row3 = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
-        $fintime1=$row3['Intime'];
+       $fintime1=$row3['Intime'];
         $fintime2=$row3['Intime1'];
         $fintime3=$row3['Intime2'];
         $fintime4=$row3['Intime3'];
