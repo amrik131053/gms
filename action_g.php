@@ -16753,18 +16753,18 @@ elseif ($code==258) {
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
+                                        <th>0.75</th>
+                                        <th>0.50</th>
+                                        <th>0.25</th>
                                         <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
+                                        <th>0.75</th>
+                                        <th>0.50</th>
+                                        <th>0.25</th>
                                         <th>Action</th>
                                     </tr>
  
     <tr>
-                            <td><input type="number" id="StaffID" onchange="getEmployeeShift(this.value);" class="form-control form-control-sm"></td>
+                            <td><input type="number" id="StaffID" onblur="getEmployeeShift(this.value);" class="form-control form-control-sm"></td>
                             <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
                             <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
                             <td><input type="time" id="intime" class="form-control form-control-sm"></td>
@@ -16793,17 +16793,17 @@ elseif ($code==258) {
                                         <th>OutTime1</th>
                                         <th>OutTime2</th>
                                         <th>OutTime3</th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
             <?php
 
-$sql="SELECT * from MadamSingleEmployeeException inner join MasterShift ON MasterShift.Id=MadamSingleEmployeeException.ShiftId order by MasterShift.Id ASC";
+$sql="SELECT * from MadamSingleEmployeeException  order by Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
     ?>
     <tr>
-        <td><?=$row1['StaffID']; ?></td>
+        <td><?=$row1['IDNo']; ?></td>
         <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
         <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
         <td><?=$row1['Intime']; ?></td>
@@ -16814,7 +16814,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
         <td><?=$row1['Outtime1']; ?></td>
         <td><?=$row1['Outtime2']; ?></td>
         <td><?=$row1['Outtime3']; ?></td>
-        <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
+        <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
         <?php 
 }
 ?>
@@ -16919,13 +16919,13 @@ elseif ($code==263)
  {
     $times=array();
     $staffID=$_POST['staffID'];
-$getShift="SELECT ShiftId FROM Staff WHERE IDNo='$staffID'";
-$getShiftRun=sqlsrv_query($conntest,$getShiftRun);
-if($row=sqlsrv_fetch_array($getShiftRun))
+  $getShift="SELECT ShiftID FROM Staff WHERE IDNo='$staffID'";
+$getShiftRun=sqlsrv_query($conntest,$getShift);
+if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
 {
-    $ShiftId=$row['ShiftId'];
-
-      $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' and MadamShiftTime.ShiftId='$shiftID' order by MasterShift.Id ASC";
+    $shiftID=$row['ShiftID'];
+}
+       $sql="SELECT * from MadamShiftTime  where Exception='0' and ShiftId='$shiftID' order by Id ASC";
     $stmt2 = sqlsrv_query($conntest,$sql);
     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
     {
@@ -16933,7 +16933,6 @@ if($row=sqlsrv_fetch_array($getShiftRun))
        
     }
     echo  json_encode($times);
-}
 }
    else
    {
