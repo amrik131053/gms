@@ -11,16 +11,16 @@
             <div class="card card-info">
                <div class="card-header">
                   <h3 class="card-title">ADD</h3>
+                  <button class="btn btn-warning btn-xs" style="float:right;"> <a href="http://gurukashiuniversity.co.in/data-server/fastival/format-fastival-logo.psd" style="color:white;">Format</a></button>
                </div>
-               <form class="form-horizontal" action="#" method="POST" enctype='multipart/form-data'>
+               <form  action="action_g.php" method="post" enctype="multipart/form-data">
+               <!-- <form class="form-horizontal" action="#" method="POST" enctype='multipart/form-data'> -->
                   <div class="card-body">
                      <div class="form-group row">
 
-                     <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
     
         <input type="hidden" name="code" value="168">
     
-    </form>
                         <div class="col-lg-12">
                         <label for="inputEmail3" class=" col-form-label">Title</label>
                         <input type="text" name="title" required class="form-control">
@@ -94,53 +94,8 @@
  
 </section>
 
-<div class="modal fade" id="exampleModal_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-   <div class="modal-dialog" role="document" >
-      <div class="modal-content"  >
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Update Category </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <form action="action.php" method="post">
-            <input type="hidden" name="code" value="19">
-            <div class="modal-body" id="update_category">
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-         </form>
-      </div>
-   </div>
-</div>
 
-<div class="modal fade" id="Assign_Permission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-   <div class="modal-dialog" role="document" >
-      <div class="modal-content"  >
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Assign Permission </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-               <form action="action.php" method="post">
-                  
-            <input type="hidden" name="code" value="57">
-            <div class="modal-body" id="assignCategoryPermissons">
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-               </form>
-        
-      </div>
-   </div>
-</div>
+
 
 <script type="text/javascript">
     
@@ -154,6 +109,7 @@
          processData: false,
          success: function(response) {
             // console.log(response);
+            open_examination_permision_search();
             SuccessToast('Successfully Uploaded');
          },
          error: function(xhr, status, error) {

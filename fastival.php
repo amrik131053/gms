@@ -11,26 +11,26 @@ if($row=mysqli_fetch_array($check_fastival_run))
     if($row['image']!='')
     {
 ?>
- <img src="dist/img/<?=$row['image'];?>" class="brand_logo" alt="Logo" onerror="this.src='dist/img/logo-main.png';" >
+ <img src="http://gurukashiuniversity.co.in/data-server/fastival/<?=$row['image'];?>" class="brand_logo" alt="Logo" onerror="this.src='dist/img/logo-main.png';" >
  <?php
     }
     else
     {
         ?> 
-        <img src="dist/img/logo-main.png" class="brand_logo" alt="Logo"  >
+        <img src="http://gurukashiuniversity.co.in/data-server/fastival/logo-main.png" class="brand_logo" alt="Logo"  >
         <?php   
     }
 }
 else{
 ?> 
-<img src="dist/img/logo-main.png" class="brand_logo" alt="Logo" >
+<img src="http://gurukashiuniversity.co.in/data-server/fastival/logo-main.png" class="brand_logo" alt="Logo" >
 <?php 
 }
 }
 else
 {
     ?> 
-<img src="dist/img/logo-main.png" class="brand_logo" alt="Logo" >
+<img src="http://gurukashiuniversity.co.in/data-server/fastival/logo-main.png" class="brand_logo" alt="Logo" >
 <?php 
 
 }

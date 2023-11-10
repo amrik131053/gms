@@ -68,7 +68,7 @@ window.location.href = "index.php";
 
 
    $code = $_POST['code'];
-   if($code==224 )
+   if($code==224 ||  $code==168  )
 {
        include "connection/ftp.php";
 }
@@ -10097,7 +10097,7 @@ elseif($code==165)
             $endDate=$row5['end_date'];
          ?>
 <tr>
-    <td><img src="dist/img/<?=$row5['image'];?>" width="100"></td>
+    <td><img src="http://gurukashiuniversity.co.in/data-server/fastival/<?=$row5['image'];?>" width="100"></td>
 
     <th><?=$row5['name'];?></th>
     <th><?=$row5['start_date_'];?></th>
@@ -10195,23 +10195,18 @@ elseif($code==166)
       $file_tmp = $_FILES['image']['tmp_name'];
       $type = $_FILES['image']['type'];
        $file_data = file_get_contents($file_tmp);
-      $characters = '';
-     $result = $IDNo;
+       $n = 10;
+       $result = bin2hex(random_bytes($n));
      $image_name =$result;
-     $ftp_server1 = "10.0.8.10";
-     $ftp_user_name1 = "gurukashi";
-     $ftp_user_pass1 = "Amrik@123";
-     $remote_file1 = "";
-     $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
-     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+$fileName=$image_name.'.PNG';
      $destdir = 'fastival';
      ftp_chdir($conn_id, "fastival/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
      file_put_contents($destdir.$image_name.'.PNG',$file_data);
-     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server");
      ftp_close($conn_id);
 
-     $insert="INSERT into fastival_images(name,start_date_,end_date,logo)values('$title','$start','$end','1') ";
+     $insert="INSERT into fastival_images(image,name,start_date_,end_date,logo)values('$fileName','$title','$start','$end','1') ";
      $insert_run=mysqli_query($conn,$insert);
 
 
