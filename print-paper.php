@@ -76,14 +76,30 @@ while ($data=mysqli_fetch_array($res))
                     </th>
                       <th   align="center">
                       <span style="font-size: 20px;">GURU KASHI UNIVERSITY</span>
-                      <br>
-<?php if($examid==4) 
+       
+<?php 
+       $sqlsession = "SELECT * FROM question_session WHERE session_status='1'";
+       
+$resultsession=mysqli_query($conn,$sqlsession);
+                          if($rowsession=mysqli_fetch_array($resultsession))
+                          {
+
+
+
+$sessionnane=$rowsession['session_name'];
+
+ }
+
+
+
+if($examid==4) 
 {
 
 }
 else
 {
-echo  $examName;
+  echo "<br>";
+echo  $examName ." (".$sessionnane.")" ; 
 }
 ?>
                       <!-- <?=$examName?> -->
