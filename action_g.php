@@ -17023,6 +17023,44 @@ elseif($Status==8)
 
     <?php 
 }
+elseif ($code==265) {
+    $id=$_POST['id'];
+ $getExamPermission="SELECT * FROM ExamDate Where id='$id'";
+   $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
+   if($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
+   {
+   ?>
+   <h5 class="text-danger text-center"><b>Examination form Date For : <?=$getExamPermissionRow['Type'];?></b></h5>
+   <label for="">Last Date</label>
+   <input type="date" class="form-control" name="" id="lastDate" value="<?php echo $getExamPermissionRow['LastDate']->format('Y-m-d');?>">
+
+   <label for="">Amount</label>
+   <input type="number" class="form-control" name="" id="ammount" value="">
+   <label for="">Type</label>
+<select name="" id="">
+    <?php 
+$getType="SELECT * FROM  ExamType";
+$getType=sqlsrv_query($conntest,$getType);
+while($getrow=sqlsrv_fetch_array($getType))
+{?>
+<option value=""><input type="checkbox"><?=$getrow['ExamType'];?></option>
+<?php }
+?>
+</select>
+
+
+                                   <tr>
+                                       <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+                                       <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
+                                       <td> <?=$getExamPermissionRow['Type'];?>
+                                       </td>
+                                       <td><button class="btn btn" data-toggle="modal"
+                                       data-target="#editExamAllPermission" onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i class="fa fa-edit"></i></button></td>
+   
+                                   </tr>
+                                   <?php }
+   
+}
    else
    {
    
