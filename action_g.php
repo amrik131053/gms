@@ -16929,6 +16929,100 @@ if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
     }
     echo  json_encode($times);
 }
+elseif ($code==264)
+ {
+    ?>
+      <div class="card-body table-responsive-lg pd" id="insertData" >
+                                    <table class="table" >
+                                    <tr>
+                                        <th>IDNo</th>
+                                        <th>UniRollNo</th>
+                                        <th>StudentName</th>
+                                        <th>Course</th>
+                                        <th>Sem</th>
+                                        <th>Batch</th>
+                                        <th>Type</th>
+                                        <th>SGroup</th>
+                                        <th>Status</th>
+                                        <th>Submit Date</th>
+                                        <th>Receipt Date</th>
+                                        <th>Action</th>
+                                    </tr><?php 
+    $times=array();
+$univ_rollno=$_POST['empid'];
+    $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Admissions.UniRollNo='$univ_rollno' or Admissions.ClassRollNo='$univ_rollno' or Admissions.IDNo='$univ_rollno' ORDER BY ExamForm.Semesterid ASC"; 
+    
+    $list_result = sqlsrv_query($conntest,$list_sql);
+     while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+        {
+            $Status= $row['Status'];
+?>  
+    
+       <tr>
+        <td><?=$row['IDNo']; ?></td>
+        <td><?=$row['UniRollNo']; ?></td>
+        <td><?=$row['StudentName']; ?></td>
+        <td><?=$row['Course']; ?></td>
+        <td><?=$row['Semesterid']; ?></td>
+        <td><?=$row['Batch']; ?></td>
+        <td><?=$row['Type']; ?></td>
+        <td><?=$row['SGroup']; ?></td>
+        <td> <?php if($Status==-1)
+ {
+   echo "Fee<br>pending";
+
+ }
+ elseif($Status==0)
+ {
+   echo "Draft";
+ }elseif($Status==1)
+ {
+   echo 'Forward<br>to<br>dean';
+ }
+
+ elseif($Status==2)
+ {
+   echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+ }
+  elseif($Status==3)
+ {
+   echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+ }
+
+elseif($Status==4)
+ {
+   echo 'Forward <br>to<br> Account';
+ }
+elseif($Status==5)
+ {
+   echo 'Forward <br>to<br> Examination<br> Branch';
+ }
+
+elseif($Status==6)
+ {
+   echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+ }
+elseif($Status==7)
+ {
+   echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+ }           
+
+elseif($Status==8)
+ {
+   echo "<b style='color:green'>Accepted</b>";
+ }   ?></td>
+        <td><?=$row['SubmitFormDate']->format('d-m-Y'); ?></td>
+        <td><?=$row['ReceiptDate']->format('d-m-Y'); ?></td>
+        <td>   <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden' name="examID" value="<?=$row['ID'];?>"><button type="submit" class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form></td></tr><?php
+       
+    }
+    ?>
+</table>
+</div>
+
+    <?php 
+}
    else
    {
    

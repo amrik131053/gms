@@ -12537,7 +12537,7 @@ elseif($Status==8)
 unset($SubjectCode);
 unset($SubjectType);
 
-$sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno'";
+$sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
 
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )

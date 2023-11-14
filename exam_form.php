@@ -18,7 +18,7 @@ ini_set('max_execution_time', '0');
                                 <h3 class="card-title">Exam From</h3>
                             </div>
                             <div class="col-lg-2">
-                               <FORm action="print-exam-form.php" method="post" target="_blank">
+                            
                                 <input type="text" class="form-control" name="IDNo" id="rollno" placeholder="RollNo">
                             </div>
                             <div class="col-lg-1">
@@ -33,9 +33,6 @@ ini_set('max_execution_time', '0');
                                 </button>
             &nbsp;
             &nbsp;
-                                <button type="submit" class="btn btn-danger"  style="float: center;"> PDF
-
-                                </button>
 
                               </FORm>
                             </div>
