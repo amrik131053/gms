@@ -17309,7 +17309,7 @@ elseif($code==267) //update student
                                   <div class="col-12 col-lg-3">
                                       <div class="form-group">
                                           <label>Name</label>
-                                          <input type="text" class="form-control" name="name"
+                                          <input type="text" class="form-control" name="StudentName"
                                               placeholder="Enter name" value="<?=$row1['StudentName'];?>">
                                       </div>
                                   </div>
@@ -17671,9 +17671,9 @@ elseif($code==268)
    $addressLine2 = $_POST["addressLine2"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   $organisationID = $_POST["organisationName"];
+   $organisationName = $_POST["organisationName"];
    $employmentStatus = $_POST["employmentStatus"];
-   $Nationality1 = $_POST["nationality"];
+   $Nationality1 = $_POST["nationality_by_post"];
    $district = $_POST["district"];
    $state = $_POST["state"];
    // Handling file uploads

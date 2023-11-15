@@ -151,26 +151,26 @@ $YBottom=$pdf->GETY()+5;
 $pdf->SetXY(10,$YBottom+5);
 $pdf->multicell(190, 5,"I have read all the regulations and it's amendments in regard to examination. I found myself eligible to appear in examination. In case university declare me ineligible due to any wrong information submitted in examination form by me, i shall be responsible for its consequences.",0,'L');
 $YBottom=$pdf->GETY();
-$pdf->SetXY(10,$YBottom+5);
+$pdf->SetXY(10,$YBottom+10);
 $pdf->SetFont('Arial', 'B', 10);
-$imageUrl = 'http://10.0.10.11/images/signature/'.$IDNo.'.PNG';
-if($imageUrl!=''){
-$type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-$data = file_get_contents($imageUrl);
-$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-$info = getimagesize($base64);
-$extension = explode('/', mime_content_type($base64))[1];
-$pdf-> Image($base64,48,$YBottom+2,30,10,$extension);
-$pdf->multicell(190, 5,"Candidate Signature",0,'L');
-}
-else{
+// $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNo.'.PNG';
+// if($imageUrl!=''){
+// $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
+// $data = file_get_contents($imageUrl);
+// $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+// $info = getimagesize($base64);
+// $extension = explode('/', mime_content_type($base64))[1];
+// $pdf-> Image($base64,48,$YBottom+2,30,10,$extension);
+// $pdf->multicell(190, 5,"Candidate Signature",0,'L');
+// }
+// else{
 
-    $pdf->multicell(190, 5,"Candidate Signature................",0,'L');
-}
+    $pdf->multicell(190, 5,"Candidate Signature.............................",0,'L');
+// }
 
-$pdf->SetXY(10,$YBottom+5);
+$pdf->SetXY(10,$YBottom+15);
 $pdf->SetFont('Arial', '', 10);
-$pdf->multicell(190, 5,"Date ".$SubmitDate,0,'R');
+// $pdf->multicell(190, 5,"Date ".$SubmitDate,0,'R');
 $pdf->SetFont('Arial', 'B', 10);
 $YBottom=$pdf->GETY();
 $pdf->SetFont('Arial', '', 10);
@@ -179,9 +179,9 @@ $pdf->multicell(190, 5,"Certified that the Candidate has completed the prescribe
 $YBottom=$pdf->GETY();
 $pdf->SetXY(10,$YBottom+5);
 // $pdf->multicell(190, 6,"Head of Department",0,'L');
-$pdf->SetXY(10,$YBottom+10);
+$pdf->SetXY(10,$YBottom+15);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->multicell(190, 5,"Signature of the Principal/Dean",0,'R');
+$pdf->multicell(190, 5,"Signature of the Dean",0,'R');
 
     }
 // }
