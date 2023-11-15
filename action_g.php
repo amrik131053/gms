@@ -4626,7 +4626,7 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
       $Recommending=$row['Recommending'];
       if ($Senction!='0' && $Recommending!='0' )
        {
-        $update_auth="UPDATE Staff SET LeaveSanctionAuthority='$Recommending' ,LeaveRecommendingAuthority='$Senction' where DepartmentID='$departmentid' and CollegeId='$CollegeID'";
+        $update_auth="UPDATE Staff SET LeaveSanctionAuthority='$Senction' ,LeaveRecommendingAuthority='$Recommending' where DepartmentID='$departmentid' and CollegeId='$CollegeID'";
       $update_auth_run=sqlsrv_query($conntest,$update_auth);
      
       
@@ -10259,7 +10259,7 @@ $fileName=$image_name.'.PNG';
       if($value!='')
       {
          
-             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%'  order by Id DESC "; 
         
         
          $degree_run=mysqli_query($conn,$degree);
@@ -10334,6 +10334,8 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     $loanNumber=$row['loanNumber'];
     $applicationNo=$row['applicationNo'];
+      $UTRNumber=$row['UTRNumber'];
+    $loan_amount=$row['loan_amount'];
     if($row['dateVerification']!='')
     {
 
@@ -10343,6 +10345,18 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     {
         $dateVerification=date('Y-m-d');
     }
+
+
+    if($row['datePayment']!='')
+    {
+
+        $datePayment=$row['datePayment'];
+    }
+    else
+    {
+        $datePayment=date('Y-m-d');
+    }
+
     $statusVerification=$row['statusVerification'];
     
 
@@ -10555,13 +10569,82 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
 
             </div>
+            <?php
+if($statusVerification>0)
+{
+         ?> 
             <div class="col-lg-3">
+                <label>Loan Account No</label>
+                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>" readonly>
+
+
+            </div>
+
+  <div class="col-lg-3">
+                <label>ApplicationNo</label>
+                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" readonly>
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date</label>
+                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>" readonly>
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Status</label>
+                <Select class="form-control" id="statusVerification" readonly>
+                    <?php 
+                        if($statusVerification=="0"){
+                            ?><option value="<?=$statusVerification;?>">Pending</option>
+                    
+                    <?php 
+
+                        }else
+                        {
+?> <option value="<?=$statusVerification;?>">Verified</option>
+                  
+                    <?php 
+                        }
+                       ?>
+                </Select>
+</div>
+<hr>
+<div class="col-lg-3">
+                <label>UTR No</label>
+                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+
+
+            </div>
+
+  <div class="col-lg-3">
+                <label>Amount</label>
+                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date</label>
+                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+
+
+            </div>
+           
+
+<?php
+}
+else
+{
+?>
+ <div class="col-lg-3">
                 <label>Loan Account No</label>
                 <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">
 
 
             </div>
-            <div class="col-lg-3">
+
+  <div class="col-lg-3">
                 <label>ApplicationNo</label>
                 <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>">
 
@@ -10593,10 +10676,20 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
 
 
             </div>
+
+<?php 
+
+}
+?>
+
+
+
+
             <div class="col-lg-3">
                 <label>&nbsp;</label>
                 <button class="btn btn-primary form-control" onclick="edit_student_details_a(<?=$id;?>)">Submit</button>
             </div>
+
 
         </div>
     </div>
@@ -10610,7 +10703,18 @@ $loanNumber = $_POST['loanNumber'];
 $applicationNo = $_POST['applicationNo'];
 $statusVerification = $_POST['statusVerification'];
 $dateVerification = $_POST['dateVerification'];
- $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification' where id='$id'";
+
+$UTRNumber = $_POST['UTRNumber'];
+$loan_amount = $_POST['loan_amount'];
+
+$datePayment = $_POST['datePayment'];
+
+
+
+
+
+
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

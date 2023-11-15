@@ -2134,6 +2134,9 @@ cities on cities.id=offer_latter.District  ";
               <th>Loan Number</th>
               <th>Application No</th>
               <th>Date Of Verification</th>
+               <th>Amount</th>
+              <th>UTR Number</th>
+              <th>Date Of Payment</th>
 
 
               
@@ -2154,6 +2157,9 @@ while($row=mysqli_fetch_array($get_student_details_run))
      $loanNumber=$row['loanNumber'];
       $applicationNo=$row['applicationNo'];
        $dateVerification =$row['dateVerification'];
+          $UTRNumber=$row['UTRNumber'];
+      $loan_amount=$row['loan_amount'];
+       $datePayment =$row['datePayment'];
 
     $statusVerification=$row['statusVerification'];
     $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
@@ -2242,6 +2248,9 @@ else
               <td >{$loanNumber}</td>
                <td >{$applicationNo}</td>
                 <td >{$dateVerification}</td>
+                  <td >{$loan_amount}</td>
+                    <td >{$UTRNumber}</td>
+                      <td >{$datePayment}</td>
        </tr>";                                    
        $count++;    
     }
