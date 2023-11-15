@@ -189,7 +189,7 @@ elseif($code==2)
 {
     $pdf-> Image('dist\img\GKUIDCARDLogo.png',4,2,45,13);
     $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
-    inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$empid'  ";
+    right join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNO='$empid' or Admissions.IDNo='$empid'   ";
     $result = sqlsrv_query($conntest,$sql);
     if($row=sqlsrv_fetch_array($result))
     {

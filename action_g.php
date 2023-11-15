@@ -68,11 +68,11 @@ window.location.href = "index.php";
 
 
    $code = $_POST['code'];
-   if($code==224 ||  $code==168  )
+   if($code==224 ||  $code==168   )
 {
        include "connection/ftp.php";
 }
- if($code==94)
+ if($code==94 || $code==268)
 {
        include "connection/ftp-erp.php";
 }
@@ -2819,8 +2819,8 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
 
-                   <td> 
-<?php 
+                <td>
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -2833,20 +2833,22 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                           }  
 ?>
 
-<?php if($row['DepartmentID']!='81'){
+                    <?php if($row['DepartmentID']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
 
-          </td>
+                </td>
             </tr>
             <?php $sr++; }
             
@@ -2916,13 +2918,13 @@ else { ?>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
-                  <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
+                <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
 
 
 
-               <td> 
-<?php 
+                <td>
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -2935,20 +2937,22 @@ else { ?>
                           }  
 ?>
 
-<?php if($row['DepartmentID']!='81'){
+                    <?php if($row['DepartmentID']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
 
-          </td>
+                </td>
             </tr>
             <?php $sr++; }?>
         </tbody>
@@ -3019,8 +3023,8 @@ else { ?>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?><?=$row1['DepartmentID'];?></td>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
-                      <td> 
-<?php 
+                <td>
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -3033,20 +3037,22 @@ else { ?>
                           }  
 ?>
 
-<?php if($row1['DepartmentID']!='81'){
+                    <?php if($row1['DepartmentID']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
 
-          </td>
+                </td>
             </tr>
             <?php $sr++;
             } }?>
@@ -3069,7 +3075,8 @@ else { ?>
       ?>
     <div class="card">
         <div class="card-header" style="background-color:white!important; color: black !important;">
-            <h3 class="card-title" style="font-size: 14px!important" onclick="show_emp_all_college(<?=$CollegeID;?>);"><b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b></h3>
+            <h3 class="card-title" style="font-size: 14px!important" onclick="show_emp_all_college(<?=$CollegeID;?>);">
+                <b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b></h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool">
                     <i class="fas fa-edit" onclick="AddleaveAuthority(<?=$CollegeID;?>);"></i>
@@ -3161,9 +3168,9 @@ else { ?>
 
 
 
-               
-               <td> 
-<?php 
+
+                <td>
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -3176,20 +3183,22 @@ else { ?>
                           }  
 ?>
 
-<?php if($row1['DepartmentID']!='81'){
+                    <?php if($row1['DepartmentID']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
 
-          </td>
+                </td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3242,9 +3251,9 @@ else { ?>
 
 
 
-               
-               <td> 
-<?php 
+
+                <td>
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -3257,20 +3266,22 @@ else { ?>
                           }  
 ?>
 
-<?php if($row1['DepartmentID']!='81'){
+                    <?php if($row1['DepartmentID']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
 
-          </td>
+                </td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3346,7 +3357,7 @@ else { ?>
                 <td>
 
 
-<?php 
+                    <?php 
     $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                         $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -3359,19 +3370,21 @@ else { ?>
                           }  
 ?>
 
-<?php if($row['depid']!='81'){
+                    <?php if($row['depid']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
 
-    <?php
+                    <?php
 }?>
 
-                   
+
                 </td>
             </tr>
             <?php $sr++;
@@ -3437,17 +3450,20 @@ else { ?>
                           }  
 ?>
 
-<?php if($row1['depid']!='81'){
+                    <?php if($row1['depid']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-<?php 
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
 
-    <?php
-}?></td>
+                    <?php
+}?>
+                </td>
             </tr>
             <?php $sr++;
             } ?>
@@ -3516,18 +3532,20 @@ else { ?>
                           }  
 ?>
 
-<?php if($row1['DepartmentId']!='81'){
+                                <?php if($row1['DepartmentId']!='81'){
     ?>
 
-     <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-<?php 
+                                <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                                    onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
+                                <?php 
 }
 else { ?>
-    <i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
+                                <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                                    onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
 
-    <?php
+                                <?php
 }?>
- </td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -3547,7 +3565,7 @@ else { ?>
                             <?php   if($role_id==2){
                                             
                                             ?>
-                                            <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                            <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#permissions"
                                     data-toggle="tab">Permissions</a></li>
@@ -4039,7 +4057,7 @@ else { ?>
 
 
                             </div>
-                             <div class="tab-pane" id="idcard">
+                            <div class="tab-pane" id="idcard">
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -4050,27 +4068,29 @@ else { ?>
                                                     <center> ID Card</center>
                                                 </th>
                                             </tr>
-                                             <tr><td>IDNO</td>
+                                            <tr>
+                                                <td>IDNO</td>
                                                 <td>Status</td>
-                                             <td>Date</td>
-                                             </tr>
-<?php 
+                                                <td>Date</td>
+                                            </tr>
+                                            <?php 
            $IdCard="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'"; 
 $getUseridcard=sqlsrv_query($conntest,$IdCard);
 $countPerms=0;
 while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 {
 ?>
-                                            <tr><td><?= $getUseridcardRow['IDNo'];?></td>
+                                            <tr>
+                                                <td><?= $getUseridcardRow['IDNo'];?></td>
                                                 <td><?= $getUseridcardRow['PrintStatus'];?></td>
-                                             <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y h:i:s A');?></td>
-                                             </tr><?php }?>
+                                                <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y h:i:s A');?></td>
+                                            </tr><?php }?>
 
-                                           
-                                </table> 
-                                </div> 
-</div>
-</div>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -8795,11 +8815,11 @@ else
                     </select>
                 </div>
 
- <div class="col-lg-2">
+                <div class="col-lg-2">
                     <label>Leet</label>
-                   
-                   <select class="form-control" id="leet" >
-                        <option value="<?=$Lateral;?>"><?=$Lateral;?>                    
+
+                    <select class="form-control" id="leet">
+                        <option value="<?=$Lateral;?>"><?=$Lateral;?>
 
                         </option>
                         <option value="Yes">Yes </option>
@@ -9076,7 +9096,7 @@ else
     <div class="container">
         <div class="container-fluid">
             <div class="card card-primary">
-<?php 
+                <?php 
 if($row_pending['SmartCardStatus']=='Applied')
 {
     $clr="primary";
@@ -9094,9 +9114,9 @@ if($row_pending['SmartCardStatus']=='Applied')
     $clr="success";
 }
 ?>
-<div class="card  bg-<?=$clr;?> text-center ">
-<h5><?=$row_pending['SmartCardStatus'];?></h5>
-</div>
+                <div class="card  bg-<?=$clr;?> text-center ">
+                    <h5><?=$row_pending['SmartCardStatus'];?></h5>
+                </div>
                 <div class="card-body">
 
                     <div class="row">
@@ -9116,7 +9136,7 @@ if($row_pending['SmartCardStatus']=='Applied')
                             <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>"
                                 download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
                                     class="btn btn-success btn-sm">Download Image</button></a>
-                                    <br><br>
+                            <br><br>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -9149,29 +9169,30 @@ if($row_pending['SmartCardStatus']=='Applied')
                             DOB: <span id="DOB" readonly="true"><?= $row_pending['DOB']->format('d-m-Y'); ?></span>
                             <br>
                             <b><span>Address</span></b><br>
-                            <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?> &nbsp;&nbsp;PIN CODE-<?= $row_pending['PIN']; ?></span>
+                            <span id="PermanentAddress" readonly="true"><?= $row_pending['PermanentAddress']; ?>
+                                &nbsp;&nbsp;PIN CODE-<?= $row_pending['PIN']; ?></span>
                             <br>
-                           
+
                             <br>
-                            
-    
+
+
                             <textarea name="" rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>"
                                 class="form-control"
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
-                                <br>
-                                <div class="form-group"> 
-                            <input type="button" name="" value="Verify"
-                                onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <input type="button" name="" value="Reject"
-                                onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
-                           
-                              
-                            <input type="button" name="" value="Applied"
-                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
-                            <input type="button" name="" value="Left"
-                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
-                        </div>
-                        <b><?=$row_pending['SmartCardStatus'];?></b>
+                            <br>
+                            <div class="form-group">
+                                <input type="button" name="" value="Verify"
+                                    onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
+                                <input type="button" name="" value="Reject"
+                                    onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+
+
+                                <input type="button" name="" value="Applied"
+                                    onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                                <input type="button" name="" value="Left"
+                                    onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                            </div>
+                            <b><?=$row_pending['SmartCardStatus'];?></b>
                         </div>
                     </div>
                 </div>
@@ -9467,26 +9488,26 @@ echo "1";
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                             <br>
                             <br>
-                                <div class="form-group"> 
-                            <input type="button" name="" value="Verify"
-                                onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <input type="button" name="" value="Reject"
-                                onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
-                           
-                              
-                            <input type="button" name="" value="Applied"
-                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
-                            <input type="button" name="" value="Left"
-                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
-                        </div>
-                        <b><?=$row_pending['SmartCardStatus'];?></b>
-                        </div>
+                            <div class="form-group">
+                                <input type="button" name="" value="Verify"
+                                    onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
+                                <input type="button" name="" value="Reject"
+                                    onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+
+
+                                <input type="button" name="" value="Applied"
+                                    onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                                <input type="button" name="" value="Left"
+                                    onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                            </div>
+                            <b><?=$row_pending['SmartCardStatus'];?></b>
                         </div>
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
+            <!-- </div> -->
         </div>
+    </div>
 
     </div>
     <?php 
@@ -9669,19 +9690,19 @@ echo "1";
                             <textarea rows="2" cols="20" id="Remarks<?=$row_pending['IDNO'];?>" class="form-control"
                                 placeholder="Rejected Reason"><?= $row_pending['RejectReason']; ?></textarea>
                             <br>
-                            <div class="form-group"> 
-                            <input type="button" name="" value="Verify"
-                                onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
-                            <input type="button" name="" value="Reject"
-                                onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
-                           
-                              
-                            <input type="button" name="" value="Applied"
-                                onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
-                            <input type="button" name="" value="Left"
-                                onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
-                        </div>
-                        <b><?=$row_pending['SmartCardStatus'];?></b>
+                            <div class="form-group">
+                                <input type="button" name="" value="Verify"
+                                    onclick="verify_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-success">
+                                <input type="button" name="" value="Reject"
+                                    onclick="reject_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-danger">
+
+
+                                <input type="button" name="" value="Applied"
+                                    onclick="applied_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-primary">
+                                <input type="button" name="" value="Left"
+                                    onclick="left_idcard(<?=$row_pending['IDNO'];?>);" class="btn btn-info">
+                            </div>
+                            <b><?=$row_pending['SmartCardStatus'];?></b>
                         </div>
                     </div>
                 </div>
@@ -10572,7 +10593,7 @@ if ($row_consultant=mysqli_fetch_array($consultant_details_run))
             <?php
 if($statusVerification>0)
 {
-         ?> 
+         ?>
             <div class="col-lg-3">
                 <label>Loan Account No</label>
                 <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>" readonly>
@@ -10580,7 +10601,7 @@ if($statusVerification>0)
 
             </div>
 
-  <div class="col-lg-3">
+            <div class="col-lg-3">
                 <label>ApplicationNo</label>
                 <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" readonly>
 
@@ -10598,53 +10619,53 @@ if($statusVerification>0)
                     <?php 
                         if($statusVerification=="0"){
                             ?><option value="<?=$statusVerification;?>">Pending</option>
-                    
+
                     <?php 
 
                         }else
                         {
 ?> <option value="<?=$statusVerification;?>">Verified</option>
-                  
+
                     <?php 
                         }
                        ?>
                 </Select>
-</div>
-<hr>
-<div class="col-lg-3">
+            </div>
+            <hr>
+            <div class="col-lg-3">
                 <label>UTR No</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
 
 
             </div>
 
-  <div class="col-lg-3">
+            <div class="col-lg-3">
                 <label>Amount</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
 
 
             </div>
             <div class="col-lg-3">
                 <label>Date</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
 
 
             </div>
-           
 
-<?php
+
+            <?php
 }
 else
 {
 ?>
- <div class="col-lg-3">
+            <div class="col-lg-3">
                 <label>Loan Account No</label>
                 <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">
 
 
             </div>
 
-  <div class="col-lg-3">
+            <div class="col-lg-3">
                 <label>ApplicationNo</label>
                 <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>">
 
@@ -10677,7 +10698,7 @@ else
 
             </div>
 
-<?php 
+            <?php 
 
 }
 ?>
@@ -13171,7 +13192,8 @@ elseif($code==205)
                     </div>
                     <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDate" class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
-                    <div class="col-lg-12"><label>Apply Date</label><input type="date" id="ApplyDate" class="form-control"
+                    <div class="col-lg-12"><label>Apply Date</label><input type="date" id="ApplyDate"
+                            class="form-control"
                             value="<?php echo date("Y-m-d", strtotime($ApplyDate->format("Y-m-d")));?>"></div>
                     <div class="col-lg-12">
                         <label>Leave Type</label>
@@ -13612,7 +13634,7 @@ elseif($code==210)
                             </div>
                             <div class="col-lg-2">
                                 <label>Month</label>
-                                <select name="month" id="month" class="form-control " required >
+                                <select name="month" id="month" class="form-control " required>
                                     <option value="" style="display:none;">MM</option>
                                     <option value="1">January</option>
                                     <option value="2">February</option>
@@ -13654,7 +13676,7 @@ elseif($code==210)
 
                     </form>
 
-                    
+
 
             </div>
 
@@ -14084,7 +14106,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 <b>Leave Type &nbsp;&nbsp;&nbsp;</b><?=$row['LeaveTypeName'];?>
                             </a>
                         </li>
-                           <li class="nav-item">
+                        <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Start Date
                                     &nbsp;&nbsp;&nbsp;</b><?php echo $row['StartDate']->format("d-m-Y");?>
@@ -14101,7 +14123,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                                 <b> Apply Date
 
 
-                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -14925,11 +14947,10 @@ $aa[]=$row;
             $monthdown=$interval->format('%m');
          
 ?>
-                        <tr data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
-                                        data-whatever="@mdo"
-                                        onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);">
+                        <tr data-toggle="modal" data-target="#viewApprovedLeaveByAuth" data-whatever="@mdo"
+                            onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);">
                             <td><?=$Sr;?></td>
-                            <td><b ><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
+                            <td><b><?=$row['StaffName'];?>(<?=$row['IDNo'];?>)</b></td>
                             <td width="100"><?=$row['ApplyDate']->format('d-m-Y h:i:s A');?>
                                 <?php 
 
@@ -15038,8 +15059,9 @@ if ($monthdown<1) {?>
             echo  $LeaveDurationsTime=$row['LeaveDuration'];
         }?></td>
 
-                                <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
-                               <td> <div class="controls">
+                            <td><b class='text-<?=$statusColor;?>'><?=$row['Status'];?></b></td>
+                            <td>
+                                <div class="controls">
 
                                     <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
                                         data-whatever="@mdo"
@@ -15447,39 +15469,40 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 </div>
                 <div class="card-footer p-0">
                     <ul class="nav flex-column" style="color:black;">
-                    <div class="col-lg-12" widht="100"> <label>Leave Type</label>
-                    
-                                    <select class="form-control form-control-sm" id="leaveTypeByAuth">
+                        <div class="col-lg-12" widht="100"> <label>Leave Type</label>
 
-                                        <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
-                                        <?php 
+                            <select class="form-control form-control-sm" id="leaveTypeByAuth">
+
+                                <option value="<?=$row['LeaveTypeId'];?>"><?=$row['LeaveTypeName'];?></option>
+                                <?php 
                     if($row['LeaveTypeId']!='1' && $row['LeaveTypeId']!='2' && $row['Status']!='Approved' && $row['Status']!='Reject' )
                     {
 $getLeaveTypes="SELECT * from LeaveTypes where Id!='1' and Id!='2'  and Id!='3'  and Id!='8'  and Id!='12'  and Id!='7' and Id!='6'   ";
 $getLeaveTypesRun=sqlsrv_query($conntest,$getLeaveTypes);
 while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
 {?>
-                                        <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
-                                        <?php
+                                <option value="<?=$rowType['Id'];?>"><?=$rowType['Name'];?></option>
+                                <?php
  }
 }
 ?>
-                                    </select>
-                                </span>
-</div>
-                       
-                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date" id="StartDateChange"
-                            class="form-control"
-                            value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
-                    </div>
-                    <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDateChange" class="form-control"
-                            value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
+                            </select>
+                            </span>
+                        </div>
+
+                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date"
+                                id="StartDateChange" class="form-control"
+                                value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
+                        </div>
+                        <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDateChange"
+                                class="form-control"
+                                value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
                                 <b> Apply Date
 
 
-                                  &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -16173,10 +16196,24 @@ elseif($code==242)
                                 <td><?=$get_row['Course'];?></td>
                                 <td><?=$value;?></td>
                                 <td><?=$SemArray[$key];?></td>
-                                <td><?=$count;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalAdm(<?=$CollegeID;?>,<?=$Course;?>,<?=$value;?>);" ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
-                                <td><?=$countExamForm;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormAccept(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
-                                <td><?=$countExamFormPending;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormPending(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);" ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
-                                <td><?=$countExamFormNotApply;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success" onclick="exportTotalExamFormNotApplied(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"  ><i class="fa fa-file-excel" aria-hidden="true" style='color:white;'></i></button></td>
+                                <td><?=$count;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success"
+                                        onclick="exportTotalAdm(<?=$CollegeID;?>,<?=$Course;?>,<?=$value;?>);"><i
+                                            class="fa fa-file-excel" aria-hidden="true"
+                                            style='color:white;'></i></button></td>
+                                <td><?=$countExamForm;?>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm bg-success"
+                                        onclick="exportTotalExamFormAccept(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"><i
+                                            class="fa fa-file-excel" aria-hidden="true"
+                                            style='color:white;'></i></button></td>
+                                <td><?=$countExamFormPending;?>&nbsp;&nbsp;&nbsp;&nbsp;<button
+                                        class="btn btn-sm bg-success"
+                                        onclick="exportTotalExamFormPending(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"><i
+                                            class="fa fa-file-excel" aria-hidden="true"
+                                            style='color:white;'></i></button></td>
+                                <td><?=$countExamFormNotApply;?>&nbsp;&nbsp;&nbsp;&nbsp;<button
+                                        class="btn btn-sm bg-success"
+                                        onclick="exportTotalExamFormNotApplied(<?=$SemArray[$key];?>,<?=$Course;?>,<?=$value;?>);"><i
+                                            class="fa fa-file-excel" aria-hidden="true"
+                                            style='color:white;'></i></button></td>
                             </tr>
                             <?php 
 
@@ -16242,24 +16279,24 @@ $HRRemarks=$row['HRRemarks'];
 elseif ($code==244) 
 {
     ?>
-<table class="table" id="example">
-    <thead>
-    <tr>
-        <th>SrNo</th>
-        <th>ColegeName</th>
-        <th>Course</th>
-        <th>Batch</th>
-        <th>Semester</th>
-        <th>Subject Code </th>
-        <th>Document Type </th>
-        <th>Employee ID </th>
-        <th>Name </th>
-        <th>Total </th>
-    </tr>
-</thead>
-<tbody>
+                <table class="table" id="example">
+                    <thead>
+                        <tr>
+                            <th>SrNo</th>
+                            <th>ColegeName</th>
+                            <th>Course</th>
+                            <th>Batch</th>
+                            <th>Semester</th>
+                            <th>Subject Code </th>
+                            <th>Document Type </th>
+                            <th>Employee ID </th>
+                            <th>Name </th>
+                            <th>Total </th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-<?php 
+                        <?php 
   $College_ID=$_POST['CollegeID'];
 $SrNo=1;
       $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
@@ -16284,48 +16321,48 @@ $SubjectCode=$row['SubjectCode'];
 $nooflect=$row['nooflect'];
 $DocumentType=$row['DocumentType'];
 ?>
-<tr>
-    <td><?=$SrNo;?></td>
-    <td><?=$ColegeName;?></td>
-    <td><?=$Courseid;?></td>
-    <td><?=$batch;?></td>
-    <td><?=$semid;?></td>
-    <td><?=$SubjectCode;?></td>
-    <td><?=$DocumentType;?></td>
-    <td><b><?=$StaffID;?><b></td>
-    <td><b><?=$StaffName;?></b></td>
-    <td><?=$nooflect;?></td>
-</tr>
-<?php 
+                        <tr>
+                            <td><?=$SrNo;?></td>
+                            <td><?=$ColegeName;?></td>
+                            <td><?=$Courseid;?></td>
+                            <td><?=$batch;?></td>
+                            <td><?=$semid;?></td>
+                            <td><?=$SubjectCode;?></td>
+                            <td><?=$DocumentType;?></td>
+                            <td><b><?=$StaffID;?><b></td>
+                            <td><b><?=$StaffName;?></b></td>
+                            <td><?=$nooflect;?></td>
+                        </tr>
+                        <?php 
     $SrNo++;
 }
 
 ?>
-</tbody>
-</table>
-<?php 
+                    </tbody>
+                </table>
+                <?php 
 }
 elseif($code==245)
 {
     ?>
-<table class="table">
-    <tr>
-        <th>SrNo</th>
-        <!-- <th>Print</th> -->
-        <th colspan='2'>IDNo</th>
-        <th>ClassRollNo</th>
-        <th>Student Name</th>
-        <th>Batch</th>
-        <th>Course</th>
-        <th>Apply Date</th>
-        <th>Verify Date</th>
-        <th>Reject Date</th>
-        <th>Print Date</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-   
-<?php 
+                <table class="table">
+                    <tr>
+                        <th>SrNo</th>
+                        <!-- <th>Print</th> -->
+                        <th colspan='2'>IDNo</th>
+                        <th>ClassRollNo</th>
+                        <th>Student Name</th>
+                        <th>Batch</th>
+                        <th>Course</th>
+                        <th>Apply Date</th>
+                        <th>Verify Date</th>
+                        <th>Reject Date</th>
+                        <th>Print Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                    <?php 
 $SrNo=1;
 $statusForIdCard=$_POST['statusForIdCard'];
 $fromDateForIdCard=$_POST['fromDateForIdCard'];
@@ -16353,38 +16390,41 @@ else
  {
     // $aaa[]=$row['VerifyDate'];
     ?>
-<tr>
-    <td ><?=$SrNo;?></td>
-    <td colspan='2'>
-    <?php if($row['IDcardStatus']=='Verified')
+                    <tr>
+                        <td><?=$SrNo;?></td>
+                        <td colspan='2'>
+                            <?php if($row['IDcardStatus']=='Verified')
     {
-        ?><button class="btn btn-success" onclick="printSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print"></i> </button>
-    <?php
+        ?><button class="btn btn-success" onclick="printSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i
+                                    class="fa fa-print"></i> </button>
+                            <?php
  } else if($row['IDcardStatus']=='Printed'){
-    ?><button class="btn btn-danger" onclick="printSingleSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i class="fa fa-print bg-danger"></i> </button>
-    <?php
+    ?><button class="btn btn-danger" onclick="printSingleSmartCardForStudent(<?=$row['StudentSmartCardID'];?>);"><i
+                                    class="fa fa-print bg-danger"></i> </button>
+                            <?php
  }?><?=$row['IDNo'];?>
-</td>
-    <td><?=$row['ClassRollNo'];?></td>
-   <td><?=$row['StudentName'];?></td>
-   <td><?=$row['Batch'];?></td>
-   <td><?=$row['CourseShortName'];?></td>
-   <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
-   <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
-   <td><?php if($row['RejectDate']!=''){echo$row['RejectDate']->format('d-m-Y H:i:s');}?></td>
-   <td><?php if($row['PrintDate']!=''){echo $row['PrintDate']->format('d-m-Y H:i:s');} ?></td>
-   <td><?=$row['IDcardStatus']; ?></td>
-   <td>
-<button class="btn btn-success" data-toggle="modal" data-target="#exampleModal" onclick="viewLeaveModalSmartCard(<?=$row['StudentSmartCardID'];?>);">View </button>
-</td>
-</tr>
- <?php
+                        </td>
+                        <td><?=$row['ClassRollNo'];?></td>
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['Batch'];?></td>
+                        <td><?=$row['CourseShortName'];?></td>
+                        <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
+                        <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
+                        <td><?php if($row['RejectDate']!=''){echo$row['RejectDate']->format('d-m-Y H:i:s');}?></td>
+                        <td><?php if($row['PrintDate']!=''){echo $row['PrintDate']->format('d-m-Y H:i:s');} ?></td>
+                        <td><?=$row['IDcardStatus']; ?></td>
+                        <td>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal"
+                                onclick="viewLeaveModalSmartCard(<?=$row['StudentSmartCardID'];?>);">View </button>
+                        </td>
+                    </tr>
+                    <?php
  $SrNo++;
  }
 //  print_r($aaa);
 ?>
-</table>
-<?php 
+                </table>
+                <?php 
 }
 elseif($code==246)
 {
@@ -16483,21 +16523,21 @@ $get_pending_run=sqlsrv_query($conntest,$GetSmartCardDetails);
  elseif($code==250) 
 {
    $Id=$_POST['college'];
-  ?>   <div class="card-body table-responsive p-0" >
-         <table class="table table-head-fixed text-nowrap" >
-            <?php 
+  ?> <div class="card-body table-responsive p-0">
+                    <table class="table table-head-fixed text-nowrap">
+                        <?php 
                ?>
-            <thead>
-               <tr>
-                  <th>Sr No.</th>
-                  <th>Shift Name</th>
-                  <!-- <th>Department(ID CARD)</th>
+                        <thead>
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Shift Name</th>
+                                <!-- <th>Department(ID CARD)</th>
                   <th>Department Full Name</th> -->
-                  <th>Action</th>
-               </tr>
-            </thead>
-            <tbody>
-<?php
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
 $count=1;
 
 if($Id!='')
@@ -16519,25 +16559,30 @@ else
 
 
 
-               <tr><th><?=$count;?></th>
-                  <td><?=$ShiftName;?>(<?= $id;?>)</td>
-                 
-                  <td>
-                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+                            <tr>
+                                <th><?=$count;?></th>
+                                <td><?=$ShiftName;?>(<?= $id;?>)</td>
 
-                  <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:red;"></i></td>
-                
-               </tr>
-<?php 
+                                <td>
+                                    <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal"
+                                        data-target="#exampleModalCenter2" style="color:green;"></i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal"
+                                        data-target="#view_assign_stock_employee_Modal" style="color:red;"></i>
+                                </td>
+
+                            </tr>
+                            <?php 
 $count++;
 }?>
 
 
 
-            </tbody>
-           
-         </table>
-      </div> <?php 
+                        </tbody>
+
+                    </table>
+                </div> <?php 
 
 }
 elseif($code==251) 
@@ -16565,21 +16610,22 @@ $count=1;
             $id = $row1['Id'];
     ?>
 
-<div class="row">
-<div class="col-lg-10">
-   <label>Shift Name</label>
-<input type="text" value="<?=$ShiftName ;?>" id="shiftName"   class="form-control" required=""  name="">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <label>Shift Name</label>
+                        <input type="text" value="<?=$ShiftName ;?>" id="shiftName" class="form-control" required=""
+                            name="">
 
-   </div>
-   
-   <div class="col-lg-1">
-<label>Action</label>
-<button onclick="Updatedepdata(<?=$id;?>)" class="btn btn-primary">Update</button>
-   </div>
-</div>
+                    </div>
 
-             
-<?php 
+                    <div class="col-lg-1">
+                        <label>Action</label>
+                        <button onclick="Updatedepdata(<?=$id;?>)" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+
+
+                <?php 
 $count++;
 }
 
@@ -16614,17 +16660,17 @@ elseif($code==254)
 elseif($code==255) 
 {
 ?>
-<div class="container-fluid">
-          <div class="input-group">
-                            <button type="button" data-toggle="modal" data-target="#NewDepartmentModal"
-                                value="New Designation" class="btn btn-primary btn-xs"><i class="fa fa-plus"> New
-                                    Shift</i> </button>
-                            &nbsp;
-                            &nbsp;
-                            <select name="College" id='CollegeID_For_Department' class="form-control form-control-sm"
-                                required="">
-                                <option value=''>Select Shift</option>
-                                <?php
+                <div class="container-fluid">
+                    <div class="input-group">
+                        <button type="button" data-toggle="modal" data-target="#NewDepartmentModal"
+                            value="New Designation" class="btn btn-primary btn-xs"><i class="fa fa-plus"> New
+                                Shift</i> </button>
+                        &nbsp;
+                        &nbsp;
+                        <select name="College" id='CollegeID_For_Department' class="form-control form-control-sm"
+                            required="">
+                            <option value=''>Select Shift</option>
+                            <?php
                         $sql="SELECT * from MasterShift ";
                                 $stmt2 = sqlsrv_query($conntest,$sql);
                             while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -16632,48 +16678,48 @@ elseif($code==255)
                             $ShiftName = $row1['ShiftName']; 
                             $Id = $row1['Id'];
                             ?>
-                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
-                                <?php    }
+                            <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                            <?php    }
 
                                                     ?>
-                            </select>
-                            <input type="button" onclick="search();" value="Search" class="btn btn-success btn-xs">
-                        </div>
-                        <div class="card-body table-responsive-lg pd" id="tab_data">
+                        </select>
+                        <input type="button" onclick="search();" value="Search" class="btn btn-success btn-xs">
+                    </div>
+                    <div class="card-body table-responsive-lg pd" id="tab_data">
 
-                                </div>
-                                </div>
-<?php
+                    </div>
+                </div>
+                <?php
 }
 elseif($code==256) 
 {
 
     ?>
-    <div class="container-fluid">
+                <div class="container-fluid">
 
-                                    <div class="card-body table-responsive-lg pd" id="insertData" >
-                                    <table class="table" >
-                                    <tr>
-                                        <th>Shift Name</th>
-                                      
-                                        <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
-                                        <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
-                                        <th>Action</th>
-                                        
-                                    </tr>
- 
-    <tr><form action="action_g.php" method="post">
-        <input type="hidden" name="code" value="259">
-        <td>  <select  id='shiftId' class="form-control form-control-sm"
-                                required="">
-                                <option value=''>Select Shift</option>
-                                <?php
+                    <div class="card-body table-responsive-lg pd" id="insertData">
+                        <table class="table">
+                            <tr>
+                                <th>Shift Name</th>
+
+                                <th>InTime</th>
+                                <th>InTime1</th>
+                                <th>InTime2</th>
+                                <th>InTime3</th>
+                                <th>OutTime</th>
+                                <th>OutTime1</th>
+                                <th>OutTime2</th>
+                                <th>OutTime3</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            <tr>
+                                <form action="action_g.php" method="post">
+                                    <input type="hidden" name="code" value="259">
+                                    <td> <select id='shiftId' class="form-control form-control-sm" required="">
+                                            <option value=''>Select Shift</option>
+                                            <?php
                         $sql="SELECT * from MasterShift ";
                                 $stmt2 = sqlsrv_query($conntest,$sql);
                             while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -16681,95 +16727,96 @@ elseif($code==256)
                             $ShiftName = $row1['ShiftName']; 
                             $Id = $row1['Id'];
                             ?>
-                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
-                                <?php    }
+                                            <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                                            <?php    }
 
                                                     ?>
-                            </select></td>
-                         
-        <td><input type="time" id="intime" class="form-control form-control-sm"></td>
-        <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
-        <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
-        <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
-        <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
-        <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
-        <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
-        <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
-        <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addMasterShift();"></td>
-        </form>         
-                                </tr>
-</table>
-                                        </div>
-                            <div class="card-body table-responsive-lg pd" >
-                                <table class="table" >
-                                    <tr>
-                                        <th>Shift Name</th>
-                                      
-                                        <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
-                                        <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
-                                      
-                                    </tr>
-            <?php
+                                        </select></td>
+
+                                    <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+                                    <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+                                    <td><input type="button" class="btn btn-success btn-xs" value="ADD"
+                                            onclick="addMasterShift();"></td>
+                                </form>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card-body table-responsive-lg pd">
+                        <table class="table">
+                            <tr>
+                                <th>Shift Name</th>
+
+                                <th>InTime</th>
+                                <th>InTime1</th>
+                                <th>InTime2</th>
+                                <th>InTime3</th>
+                                <th>OutTime</th>
+                                <th>OutTime1</th>
+                                <th>OutTime2</th>
+                                <th>OutTime3</th>
+
+                            </tr>
+                            <?php
 
 $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
     ?>
-    <tr>
-        <td><?=$row1['ShiftName']; ?></td>
-      
-        <td><?=$row1['Intime']; ?></td>
-        <td><?=$row1['Intime1']; ?></td>
-        <td><?=$row1['Intime2']; ?></td>
-        <td><?=$row1['Intime3']; ?></td>
-        <td><?=$row1['Outtime']; ?></td>
-        <td><?=$row1['Outtime1']; ?></td>
-        <td><?=$row1['Outtime2']; ?></td>
-        <td><?=$row1['Outtime3']; ?></td>
-    
-        <?php 
+                            <tr>
+                                <td><?=$row1['ShiftName']; ?></td>
+
+                                <td><?=$row1['Intime']; ?></td>
+                                <td><?=$row1['Intime1']; ?></td>
+                                <td><?=$row1['Intime2']; ?></td>
+                                <td><?=$row1['Intime3']; ?></td>
+                                <td><?=$row1['Outtime']; ?></td>
+                                <td><?=$row1['Outtime1']; ?></td>
+                                <td><?=$row1['Outtime2']; ?></td>
+                                <td><?=$row1['Outtime3']; ?></td>
+
+                                <?php 
 }
 ?>
-</table>
-                                    </div>
-                                    </div>
-    <?php
+                        </table>
+                    </div>
+                </div>
+                <?php
 }
 elseif($code==257) 
 {
 
     ?>
-    <div class="container-fluid">
+                <div class="container-fluid">
 
-                                    <div class="card-body table-responsive-lg pd" id="" >
-                                    <table class="table" >
-                                    <tr>
-                                        <th>Shift Name</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
-                                        <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
-                                        <th>Action</th>
-                                    </tr>
- 
-    <tr>
-        <td>  <select id="shiftID"   class="form-control form-control-sm"
-                                required="" onchange="setValueTimeAcrodingToShift(this.value);">
-                                <option value=''>Select Shift</option>
-                                <?php
+                    <div class="card-body table-responsive-lg pd" id="">
+                        <table class="table">
+                            <tr>
+                                <th>Shift Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>InTime</th>
+                                <th>InTime1</th>
+                                <th>InTime2</th>
+                                <th>InTime3</th>
+                                <th>OutTime</th>
+                                <th>OutTime1</th>
+                                <th>OutTime2</th>
+                                <th>OutTime3</th>
+                                <th>Action</th>
+                            </tr>
+
+                            <tr>
+                                <td> <select id="shiftID" class="form-control form-control-sm" required=""
+                                        onchange="setValueTimeAcrodingToShift(this.value);">
+                                        <option value=''>Select Shift</option>
+                                        <?php
                         $sql="SELECT * from MasterShift ";
                                 $stmt2 = sqlsrv_query($conntest,$sql);
                             while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -16777,150 +16824,153 @@ elseif($code==257)
                             $ShiftName = $row1['ShiftName']; 
                             $Id = $row1['Id'];
                             ?>
-                                <option value="<?=$Id;?>"><?= $ShiftName;?></option>
-                                <?php    }
+                                        <option value="<?=$Id;?>"><?= $ShiftName;?></option>
+                                        <?php    }
 
                                                     ?>
-                            </select></td>
-                            <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
-                            <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
-                            <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addExceptionMasterShift();"></td>
+                                    </select></td>
+                                <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
+                                <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+                                <td><input type="button" class="btn btn-success btn-xs" value="ADD"
+                                        onclick="addExceptionMasterShift();"></td>
 
-</table>
-                                        </div>
-                            <div class="card-body table-responsive-lg pd" >
-                                <table class="table" >
-                                    <tr>
-                                        <th>Shift Name</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
-                                        <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
-                                        <th>Action</th>
-                                    </tr>
-            <?php
+                        </table>
+                    </div>
+                    <div class="card-body table-responsive-lg pd">
+                        <table class="table">
+                            <tr>
+                                <th>Shift Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>InTime</th>
+                                <th>InTime1</th>
+                                <th>InTime2</th>
+                                <th>InTime3</th>
+                                <th>OutTime</th>
+                                <th>OutTime1</th>
+                                <th>OutTime2</th>
+                                <th>OutTime3</th>
+                                <th>Action</th>
+                            </tr>
+                            <?php
 
 $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MasterShift.Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
     ?>
-    <tr>
-        <td><?=$row1['ShiftName']; ?></td>
-        <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
-        <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
-        <td><?=$row1['Intime']; ?></td>
-        <td><?=$row1['Intime1']; ?></td>
-        <td><?=$row1['Intime2']; ?></td>
-        <td><?=$row1['Intime3']; ?></td>
-        <td><?=$row1['Outtime']; ?></td>
-        <td><?=$row1['Outtime1']; ?></td>
-        <td><?=$row1['Outtime2']; ?></td>
-        <td><?=$row1['Outtime3']; ?></td>
-        <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
-        <?php 
+                            <tr>
+                                <td><?=$row1['ShiftName']; ?></td>
+                                <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+                                <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+                                <td><?=$row1['Intime']; ?></td>
+                                <td><?=$row1['Intime1']; ?></td>
+                                <td><?=$row1['Intime2']; ?></td>
+                                <td><?=$row1['Intime3']; ?></td>
+                                <td><?=$row1['Outtime']; ?></td>
+                                <td><?=$row1['Outtime1']; ?></td>
+                                <td><?=$row1['Outtime2']; ?></td>
+                                <td><?=$row1['Outtime3']; ?></td>
+                                <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
+                                <?php 
 }
 ?>
-</table>
-                                    </div>
-                                    </div>
-    <?php
+                        </table>
+                    </div>
+                </div>
+                <?php
 
 }
 elseif ($code==258) {
     ?>
-    <div class="container-fluid">
+                <div class="container-fluid">
 
-                                    <div class="card-body table-responsive-lg pd" id="insertData" >
-                                    <table class="table" >
-                                    <tr>
-                                        <th>Emp ID</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>InTime</th>
-                                        <th>0.75</th>
-                                        <th>0.50</th>
-                                        <th>0.25</th>
-                                        <th>OutTime</th>
-                                        <th>0.75</th>
-                                        <th>0.50</th>
-                                        <th>0.25</th>
-                                        <th>Action</th>
-                                    </tr>
- 
-    <tr>
-                            <td><input type="number" id="StaffID" onblur="getEmployeeShift(this.value);" class="form-control form-control-sm"></td>
-                            <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
-                            <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
-                            <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
-        <td><input type="button" class="btn btn-success btn-xs" value="ADD" onclick="addExceptionSingle();"></td>
+                    <div class="card-body table-responsive-lg pd" id="insertData">
+                        <table class="table">
+                            <tr>
+                                <th>Emp ID</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>InTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>OutTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>Action</th>
+                            </tr>
 
-</table>
-                                        </div>
-                            <div class="card-body table-responsive-lg pd" >
-                                <table class="table" >
-                                    <tr>
-                                        <th>Emp ID Name</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>InTime</th>
-                                        <th>InTime1</th>
-                                        <th>InTime2</th>
-                                        <th>InTime3</th>
-                                        <th>OutTime</th>
-                                        <th>OutTime1</th>
-                                        <th>OutTime2</th>
-                                        <th>OutTime3</th>
-                                        <!-- <th>Action</th> -->
-                                    </tr>
-            <?php
+                            <tr>
+                                <td><input type="number" id="StaffID" onblur="getEmployeeShift(this.value);"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="date" id="StartDate" class="form-control form-control-sm"></td>
+                                <td><input type="date" id="EndDate" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime1" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime2" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="intime3" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime1" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime2" class="form-control form-control-sm"></td>
+                                <td><input type="time" id="outtime3" class="form-control form-control-sm"></td>
+                                <td><input type="button" class="btn btn-success btn-xs" value="ADD"
+                                        onclick="addExceptionSingle();"></td>
+
+                        </table>
+                    </div>
+                    <div class="card-body table-responsive-lg pd">
+                        <table class="table">
+                            <tr>
+                                <th>Emp ID Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>InTime</th>
+                                <th>InTime1</th>
+                                <th>InTime2</th>
+                                <th>InTime3</th>
+                                <th>OutTime</th>
+                                <th>OutTime1</th>
+                                <th>OutTime2</th>
+                                <th>OutTime3</th>
+                                <!-- <th>Action</th> -->
+                            </tr>
+                            <?php
 
 $sql="SELECT * from MadamSingleEmployeeException  order by Id ASC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
     ?>
-    <tr>
-        <td><?=$row1['IDNo']; ?></td>
-        <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
-        <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
-        <td><?=$row1['Intime']; ?></td>
-        <td><?=$row1['Intime1']; ?></td>
-        <td><?=$row1['Intime2']; ?></td>
-        <td><?=$row1['Intime3']; ?></td>
-        <td><?=$row1['Outtime']; ?></td>
-        <td><?=$row1['Outtime1']; ?></td>
-        <td><?=$row1['Outtime2']; ?></td>
-        <td><?=$row1['Outtime3']; ?></td>
-        <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
-        <?php 
+                            <tr>
+                                <td><?=$row1['IDNo']; ?></td>
+                                <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+                                <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+                                <td><?=$row1['Intime']; ?></td>
+                                <td><?=$row1['Intime1']; ?></td>
+                                <td><?=$row1['Intime2']; ?></td>
+                                <td><?=$row1['Intime3']; ?></td>
+                                <td><?=$row1['Outtime']; ?></td>
+                                <td><?=$row1['Outtime1']; ?></td>
+                                <td><?=$row1['Outtime2']; ?></td>
+                                <td><?=$row1['Outtime3']; ?></td>
+                                <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
+                                <?php 
 }
 ?>
-</table>
-                                    </div>
-                                    </div>
-    <?php
+                        </table>
+                    </div>
+                </div>
+                <?php
 }
 elseif ($code==259) {
     $shiftId=$_POST['shiftId'];
@@ -17036,22 +17086,22 @@ if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
 elseif ($code==264)
  {
     ?>
-      <div class="card-body table-responsive-lg pd" id="insertData" >
-                                    <table class="table" >
-                                    <tr>
-                                        <th>IDNo</th>
-                                        <th>UniRollNo</th>
-                                        <th>StudentName</th>
-                                        <th>Course</th>
-                                        <th>Sem</th>
-                                        <th>Batch</th>
-                                        <th>Type</th>
-                                        <th>SGroup</th>
-                                        <th>Status</th>
-                                        <th>Submit Date</th>
-                                        <th>Receipt Date</th>
-                                        <th>Action</th>
-                                    </tr><?php 
+                <div class="card-body table-responsive-lg pd" id="insertData">
+                    <table class="table">
+                        <tr>
+                            <th>IDNo</th>
+                            <th>UniRollNo</th>
+                            <th>StudentName</th>
+                            <th>Course</th>
+                            <th>Sem</th>
+                            <th>Batch</th>
+                            <th>Type</th>
+                            <th>SGroup</th>
+                            <th>Status</th>
+                            <th>Submit Date</th>
+                            <th>Receipt Date</th>
+                            <th>Action</th>
+                        </tr><?php 
     $times=array();
 $univ_rollno=$_POST['empid'];
     $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
@@ -17061,18 +17111,18 @@ $univ_rollno=$_POST['empid'];
      while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
         {
             $Status= $row['Status'];
-?>  
-    
-       <tr>
-        <td><?=$row['IDNo']; ?></td>
-        <td><?=$row['UniRollNo']; ?></td>
-        <td><?=$row['StudentName']; ?></td>
-        <td><?=$row['Course']; ?></td>
-        <td><?=$row['Semesterid']; ?></td>
-        <td><?=$row['Batch']; ?></td>
-        <td><?=$row['Type']; ?></td>
-        <td><?=$row['SGroup']; ?></td>
-        <td> <?php if($Status==-1)
+?>
+
+                        <tr>
+                            <td><?=$row['IDNo']; ?></td>
+                            <td><?=$row['UniRollNo']; ?></td>
+                            <td><?=$row['StudentName']; ?></td>
+                            <td><?=$row['Course']; ?></td>
+                            <td><?=$row['Semesterid']; ?></td>
+                            <td><?=$row['Batch']; ?></td>
+                            <td><?=$row['Type']; ?></td>
+                            <td><?=$row['SGroup']; ?></td>
+                            <td> <?php if($Status==-1)
  {
    echo "Fee<br>pending";
 
@@ -17116,16 +17166,21 @@ elseif($Status==8)
  {
    echo "<b style='color:green'>Accepted</b>";
  }   ?></td>
-        <td><?=$row['SubmitFormDate']->format('d-m-Y'); ?></td>
-        <td><?=$row['ReceiptDate']->format('d-m-Y'); ?></td>
-        <td>   <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden' name="examID" value="<?=$row['ID'];?>"><button type="submit" class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form></td></tr><?php
+                            <td><?=$row['SubmitFormDate']->format('d-m-Y'); ?></td>
+                            <td><?=$row['ReceiptDate']->format('d-m-Y'); ?></td>
+                            <td>
+                                <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden'
+                                        name="examID" value="<?=$row['ID'];?>"><button type="submit"
+                                        class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form>
+                            </td>
+                        </tr><?php
        
     }
     ?>
-</table>
-</div>
+                    </table>
+                </div>
 
-    <?php 
+                <?php 
 }
 elseif ($code==265) {
     $id=$_POST['id'];
@@ -17134,46 +17189,49 @@ elseif ($code==265) {
    if($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
    {
    ?>
-   <h5 class="text-danger text-center"><b>Examination form Date For : <?=$getExamPermissionRow['Type'];?></b></h5>
-   <label for="">Last Date</label>
-   <input type="date" class="form-control" name="" id="lastDate" value="<?php echo $getExamPermissionRow['LastDate']->format('Y-m-d');?>">
+                <h5 class="text-danger text-center"><b>Examination form Date For :
+                        <?=$getExamPermissionRow['Type'];?></b></h5>
+                <label for="">Last Date</label>
+                <input type="date" class="form-control" name="" id="lastDate"
+                    value="<?php echo $getExamPermissionRow['LastDate']->format('Y-m-d');?>">
 
-   <label for="">Amount</label>
-   <input type="number" class="form-control" name="" id="ammount" value="">
-   <label for="">Type</label>
-<select class="form-control">
-    <?php 
+                <label for="">Amount</label>
+                <input type="number" class="form-control" name="" id="ammount" value="">
+                <label for="">Type</label>
+                <select class="form-control">
+                    <?php 
 $getType="SELECT * FROM  ExamType";
 $getType=sqlsrv_query($conntest,$getType);
 while($getrow=sqlsrv_fetch_array($getType))
 {?>
-<input type="checkbox"><option value=""><?=$getrow['ExamType'];?></option>
-<?php }
+                    <input type="checkbox">
+                    <option value=""><?=$getrow['ExamType'];?></option>
+                    <?php }
 ?>
-</select>
-<div class="">
-    <strong>Select Language:</strong>
-    <select id="multiple-checkboxes" multiple="multiple">
-        <option value="php">PHP</option>
-        <option value="javascript">JavaScript</option>
-        <option value="java">Java</option>
-        <option value="sql">SQL</option>
-        <option value="jquery">Jquery</option>
-        <option value=".net">.Net</option>
-    </select>
-</div>
+                </select>
+                <div class="">
+                    <strong>Select Language:</strong>
+                    <select id="multiple-checkboxes" multiple="multiple">
+                        <option value="php">PHP</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
+                        <option value="sql">SQL</option>
+                        <option value="jquery">Jquery</option>
+                        <option value=".net">.Net</option>
+                    </select>
+                </div>
 
 
-                                   <tr>
-                                       <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
-                                       <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
-                                       <td> <?=$getExamPermissionRow['Type'];?>
-                                       </td>
-                                       <td><button class="btn btn" data-toggle="modal"
-                                       data-target="#editExamAllPermission" onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i class="fa fa-edit"></i></button></td>
-   
-                                   </tr>
-                                   <?php }
+    <tr>
+        <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+        <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
+        <td> <?=$getExamPermissionRow['Type'];?>
+        </td>
+        <td><button class="btn btn" data-toggle="modal" data-target="#editExamAllPermission"
+                onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i class="fa fa-edit"></i></button></td>
+
+    </tr>
+    <?php }
    
 }
 
@@ -17181,24 +17239,24 @@ elseif($code==266)  // search student
 {
     $search = $_POST['empID'];
 ?>
-<table class="table " id="example">
-  <thead>
-      <tr>
-          <th>SrNo</th>
-          <th>Image</th>
-          <th>IDNo</th>
-          <th>ClassRollNo</th>
-          <th>UniRollNo</th>
-          <th>Name</th>
-          <th>FatherName</th>
-          <th>College</th>
-          <th>Status</th>
-          <th>Edit</th>
-          <th>ID Card</th>
-      </tr>
-  </thead>
-  <tbody>
-      <?php 
+    <table class="table " id="example">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>ClassRollNo</th>
+                <th>UniRollNo</th>
+                <th>Name</th>
+                <th>FatherName</th>
+                <th>College</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>ID Card</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
       $sr=1;
 
        $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
@@ -17217,23 +17275,24 @@ elseif($code==266)  // search student
          }
          
          ?>
-      <tr>
-          <td><?=$sr;?></td>
-          <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
-          </td>
-          <td><?=$row['IDNo'];?></td>
-          <td><?=$row['ClassRollNo'];?></td>
-          <td><?=$row['UniRollNo'];?></td>
-          <td><?=$row['StudentName'];?></td>
-          <td><?=$row['FatherName'];?></td>
-          <td><?=$row['CollegeName'];?></td>
-          <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-          </td>
-          <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);"></i></td>
-          <td>
+            <tr>
+                <td><?=$sr;?></td>
+                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                </td>
+                <td><?=$row['IDNo'];?></td>
+                <td><?=$row['ClassRollNo'];?></td>
+                <td><?=$row['UniRollNo'];?></td>
+                <td><?=$row['StudentName'];?></td>
+                <td><?=$row['FatherName'];?></td>
+                <td><?=$row['CollegeName'];?></td>
+                <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                </td>
+                <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                        data-target="#UpdateDesignationModalCenter21"></i></td>
+                <td>
 
 
-<?php 
+                    <?php 
 $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                   $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -17245,21 +17304,22 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                       $color="red";
                     }  
 ?>
-<i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 
 
 
-             
-          </td>
-      </tr>
-      <?php $sr++;
+
+                </td>
+            </tr>
+            <?php $sr++;
 
       }
     //   print_r($aa);
       ?>
-  </tbody>
-</table>
-<?php 
+        </tbody>
+    </table>
+    <?php 
 }
 
 elseif($code==267) //update student
@@ -17273,357 +17333,330 @@ elseif($code==267) //update student
     $DateOfBirth=$row1['DOB'];
      
 ?>
-<section class="content">
-  <div class="row" style="margin-top: 10px!important;">
-      <div class="col-md-12">
-          <div class="card">
-              <div class="card-header p-2" style="background-color:white!important">
-                  <ul class="nav nav-pills">
-                      <li class="nav-item"><a class="nav-link active" href="#personal_details"
-                              data-toggle="tab">Basic</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
-                      </li>
-                      <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
-                      </li>
-                     <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
-                      </li>
-                     
-                      
-                  </ul>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                  <div class="tab-content">
-                      <div class="active tab-pane" id="personal_details">
-                          <!-- /.login-logo -->
-                          <form action="action_g.php" method="post" enctype="multipart/form-data">
-                              <input type="hidden" name="code" value="268">
-                              <div class="row">
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>IDNo</label>
-                                          <input type="text" class="form-control" name="loginId"
-                                              value="<?=$row1['IDNo'];?>" readonly>
-                                      </div>
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Name</label>
-                                          <input type="text" class="form-control" name="StudentName"
-                                              placeholder="Enter name" value="<?=$row1['StudentName'];?>">
-                                      </div>
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Father's Name</label>
-                                          <input type="text" class="form-control" name="fatherName"
-                                              placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
-                                      </div>
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Mother's Name</label>
-                                          <input type="text" class="form-control" name="motherName"
-                                              placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
-                                      </div>
-                                  </div>
 
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Date of Birth</label>
-                                          <input type="date" class="form-control" name="dob"
-                                              value="<?php echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));?>">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header p-2" style="background-color:white!important">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#personal_details"
+                                data-toggle="tab">Basic</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                        </li>
 
 
-                                      </div>
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Gender</label>
-                                          <select class="form-control" name="gender">
-                                              <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
-                                              </option>
-                                              <option>Male</option>
-                                              <option>Female</option>
-                                              <option>Other</option>
-                                          </select>
-                                      </div>
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Category</label>
-                                          <select class="form-control" name="category">
-                                              <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?>
-                                              </option>
+                    </ul>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="personal_details">
+                            <!-- /.login-logo -->
+                            <form action="action_g.php" method="post" enctype="multipart/form-data" id="my-awesome-dropzone">
+                                <input type="hidden" name="code" value="268">
+                                <div class="row">
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>IDNo</label>
+                                            <input type="text" class="form-control" name="loginId"
+                                                value="<?=$row1['IDNo'];?>" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" name="StudentName"
+                                                placeholder="Enter name" value="<?=$row1['StudentName'];?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Father's Name</label>
+                                            <input type="text" class="form-control" name="fatherName"
+                                                placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Mother's Name</label>
+                                            <input type="text" class="form-control" name="motherName"
+                                                placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
+                                        </div>
+                                    </div>
 
-                                              <option>SC</option>
-                                              <option>ST</option>
-                                              <option>OBC</option>
-                                              <option>General</option>
-                                          </select>
-                                      </div>
-                                  </div>
-                     
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label> Identification Mark</label>
-                                          <textarea rows="1" class="form-control"
-                                              name="personalIdentificationMark"
-                                              rows="3"><?=$row1['PersonalIdentificationMark'];?></textarea>
-                                      </div>
-                                  </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Date of Birth</label>
+                                            <input type="date" class="form-control" name="dob"
+                                                value="<?php if($DateOfBirth!=''){echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
 
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Image</label>
-                                          <input type="file" class="form-control-file" name="photo" name="photo">
-                                          <i class="fa fa-eye text-success"
-                                              onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Image');"
-                                              data-toggle="modal" data-target="#UploadImageDocument"></i>
-                                      </div>
 
-                                  </div>
-                                  <div class="col-12 col-lg-3">
-                                      <div class="form-group">
-                                          <label>Upload Signature</label>
-                                          <input type="file" class="form-control-file" name="signature">
-                                          <i class="fa fa-eye text-success"
-                                              onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Sign');"
-                                              data-toggle="modal" data-target="#UploadImageDocument"></i>
-                                      </div>
-                                  </div>
-                              </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Gender</label>
+                                            <select class="form-control" name="gender">
+                                                <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
+                                                </option>
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            <select class="form-control" name="category">
+                                                <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?>
+                                                </option>
 
-                      </div>
-                      <div class="tab-pane" id="contact">
+                                                <option>SC</option>
+                                                <option>ST</option>
+                                                <option>OBC</option>
+                                                <option>General</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                          <div class="row">
 
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Personal Email ID</label>
-                                      <input type="email" class="form-control" name="personalEmail"
-                                          placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Official Email ID</label>
-                                      <input type="email" class="form-control" name="officialEmail"
-                                          placeholder="Enter official email"
-                                          value="<?=$row1['OfficialEmailID'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Mobile Number</label>
-                                      <input type="text" class="form-control" name="mobileNumber"
-                                          placeholder="Enter mobile number" value="<?=$row1['StudentMobileNo'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>WhatsApp Number</label>
-                                      <input type="text" class="form-control" name="whatsappNumber"
-                                          placeholder="Enter WhatsApp number"
-                                          value="<?=$row1['StudentMobileNo'];?>">
-                                  </div>
-                              </div>
-                             
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Address Line 1</label>
-                                      <input type="text" class="form-control" name="addressLine1"
-                                          placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Address Line 2</label>
-                                      <input type="text" class="form-control" name="addressLine2"
-                                          placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Permanent Address</label>
-                                      <input type="text" class="form-control" name="permanentAddress"
-                                          placeholder="Enter permanent address"
-                                          value="<?=$row1['PermanentAddress'];?>">
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Correspondence Address</label>
-                                      <input type="text" class="form-control" name="correspondenceAddress"
-                                          placeholder="Enter correspondence address"
-                                          value="<?=$row1['CorrespondanceAddress'];?>">
-                                  </div>
-                              </div>
-                              <!-- <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Postal Code</label>
-                                      <input type="text" class="form-control" name="postalCode"
-                                          onkeyup="postcode();" id="pincode-input"
-                                          value="<?=$row1['PostalCode'];?>">
-                                  </div>
-                              </div> -->
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>State</label>
-                                      <input type="text" class="form-control" value="<?=$row1['State'];?>"
-                                          id="state_by_post" >
-                                      <input type="hidden" class="form-control" name="state" id="state_by_post">
 
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>District</label>
-                                      <input type="text" class="form-control" value="<?=$row1['District'];?>"
-                                          id="district_by_post" placeholder="Enter district" >
-                                      <input type="hidden" class="form-control" name="district"
-                                          id="district_by_post" placeholder="Enter district">
-                                  </div>
-                              </div>
-                              <div class="col-12 col-lg-3">
-                                  <div class="form-group">
-                                      <label>Nationality</label>
-                                      <input type="text" id="nationality" class="form-control"
-                                          name="nationality_by_post" value="<?=$row1['Nationality'];?>" >
-                                  </div>
-                              </div>
-                              <!--  <div class="col-lg-3 col-12">
-                              <div class="form-group">
-                                 <label for="villageCity">Village/City</label>
-                                
-                                 <select class="form-control" name="villageCity" id="village_by_post">
-                                    <option value=""><?=$row1['Vila'];?></option>
-                                 </select>
-                              </div>
-                           </div> -->
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Post Office</label>
-                                      <input type="text" class="form-control" name="postOffice"
-                                          placeholder="Enter post office">
-                                  </div>
-                              </div>
-                          </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Image</label>
+                                            <input type="file" class="form-control-file" name="photo" name="photo">
+                                            <i class="fa fa-eye text-success"
+                                                onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Image');"
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i>
+                                        </div>
 
-                      </div>
-                      <div class="tab-pane" id="employment">
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Upload Signature</label>
+                                            <input type="file" class="form-control-file" name="signature">
+                                            <i class="fa fa-eye text-success"
+                                                onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Sign');"
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i>
+                                        </div>
+                                    </div>
+                                </div>
 
-                          <div class="row">
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>College Name</label>
+                        </div>
+                        <div class="tab-pane" id="contact">
 
-                                      <select class="form-control" name="organisationName"
-                                          >
-                                          <option value="<?=$row1['CollegeName'];?>">
-                                              <?=$row1['CollegeName'];?>(<?=$row1['CollegeName'];?>)</option>
-                                          <?php  $get_College="SELECT DISTINCT CollegeName,CollegeID FROM MasterCourseCodes ";
-                                          $get_CollegeRun=sqlsrv_query($conntest,$get_College);
-                                          while($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
-                                          {?>
-                                          <option value="<?=$get_CollegeRow['CollegeName'];?>">
-                                              <?=$get_CollegeRow['CollegeName'];?>(<?=$get_CollegeRow['CollegeID'];?>)
-                                          </option>
-                                          <?php }
-                                    ?>
-                                      </select>
-                                  </div>
-                              </div>
-                             
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Course</label>
+                            <div class="row">
 
-                                      <select class="form-control" name="course">
-                                          <option value="<?=$row1['Course'];?>">
-                                              <?=$row1['Course'];?></option>
-                                         
-                                      </select>
-                                  </div>
-                              </div>
-                             
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Personal Email ID</label>
+                                        <input type="email" class="form-control" name="personalEmail"
+                                            placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Official Email ID</label>
+                                        <input type="email" class="form-control" name="officialEmail"
+                                            placeholder="Enter official email" value="<?=$row1['OfficialEmailID'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Mobile Number</label>
+                                        <input type="text" class="form-control" name="mobileNumber"
+                                            placeholder="Enter mobile number" value="<?=$row1['StudentMobileNo'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>WhatsApp Number</label>
+                                        <input type="text" class="form-control" name="whatsappNumber"
+                                            placeholder="Enter WhatsApp number" value="<?=$row1['StudentMobileNo'];?>">
+                                    </div>
+                                </div>
 
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Batch</label>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Address Line 1</label>
+                                        <input type="text" class="form-control" name="addressLine1"
+                                            placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Address Line 2</label>
+                                        <input type="text" class="form-control" name="addressLine2"
+                                            placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Permanent Address</label>
+                                        <input type="text" class="form-control" name="permanentAddress"
+                                            placeholder="Enter permanent address"
+                                            value="<?=$row1['PermanentAddress'];?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Correspondence Address</label>
+                                        <input type="text" class="form-control" name="correspondenceAddress"
+                                            placeholder="Enter correspondence address"
+                                            value="<?=$row1['CorrespondanceAddress'];?>">
+                                    </div>
+                                </div>
 
-                                    <input type="text" class="form-control" value="<?=$row1['Batch'];?>" readonly>
-                                  </div>
-                              </div>
-                             
-                              <div class="col-lg-3 col-12">
-                                  <div class="form-group">
-                                      <label>Status </label>
-                                      <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                      <select class="form-control" name="employmentStatus">
-                                          <?php if ($row1['Status']==1) {?>
+                                <div class="col-lg-3">
+                                    <label>Nationality</label>
+                                    <select class="form-control" id="Nationality_1" name="Nationality_1"
+                                        onchange="fetch_state1(this.value);">
+                                        <option value="<?=$row1['Nationality'];?>"><?=$row1['Nationality'];?></option>
+                                        <option value="">Country</option>
+                                        <?php 
+                  $get_country="SELECT * FROM countries ";
+                  $get_country_run=mysqli_query($conn,$get_country);
+                  while($row=mysqli_fetch_array($get_country_run))
+                  {?>
+                                        <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
+                                        <?php }
 
-                                          <option value="<?=$row1['Status'];?>"
-                                              style="background-color:green !important;"><b>Active</b>
-                                          </option>
-                                          <?php }else
+                 ?>
+                                    </select>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>State</label>
+                                    <select class="form-control" id="State_1" name="State_1"
+                                        onchange="fetch_district1(this.value);">
+                                        <option value="">State</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>District</label>
+                                    <select class="form-control" id="District_1" name="District_1">
+                                        <option value="">District</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="employment">
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label>College Name</label>
+                                    <select name="CollegeName" id='CollegeName' onchange="fetchcourse(this.value);"
+                                        class="form-control" required>
+                                        <option value=''>Select Faculty</option>
+                                        <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row['CollegeName']; 
+                        $CollegeID = $row['CollegeID'];
+                        ?>
+                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                        <?php }
+                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Department</label>
+                                    <select id="Course" name="Course" class="form-control" required>
+                                        <option value=''>Select Course</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Batch</label>
+
+                                        <input type="text" name="batch" class="form-control"
+                                            value="<?=$row1['Batch'];?>" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-12">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                        <select class="form-control" name="employmentStatus">
+                                            <?php if ($row1['Status']==1) {?>
+
+                                            <option value="<?=$row1['Status'];?>"
+                                                style="background-color:green !important;"><b>Active</b>
+                                            </option>
+                                            <?php }else
                                     {
                                        ?>
-                                          <option value="<?=$row1['Status'];?>">DeActive</option>
-                                          <?php }
+                                            <option value="<?=$row1['Status'];?>">DeActive</option>
+                                            <?php }
                                     ?>
-                                          <option value="1">Active</option>
-                                          <option value="0">DeActive</option>
-                                      </select>
-                                  </div>
-                              </div>
-
-       
+                                            <option value="1">Active</option>
+                                            <option value="0">DeActive</option>
+                                        </select>
+                                    </div>
+                                </div>
 
 
-                      </div>
-                      </div>
-                       <div class="tab-pane" id="idcard">
 
-                          <div class="row">
-                              <div class="col-lg-12">
 
-                                  <table class="table  table-bordered">
-                                      <tr>
-                                          <th colspan="7">
-                                              <center> ID Card</center>
-                                          </th>
-                                      </tr>
-                                       <tr><td>IDNO</td>
-                                          <td>Status</td>
-                                       <td>Date</td>
-                                       </tr>
-<?php 
-     $IdCard="SELECT *  FROM SmartCardDetails where IDNO='".$row1['IDNo']."'"; 
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="idcard">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <table class="table  table-bordered">
+                                        <tr>
+                                            <th colspan="7">
+                                                <center> ID Card</center>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>IDNO</td>
+                                            <td>Status</td>
+                                            <td>Date</td>
+                                        </tr>
+                                        <?php 
+      $IdCard="SELECT *  FROM SmartCardDetails where IDNO='".$row1['IDNo']."'"; 
 $getUseridcard=sqlsrv_query($conntest,$IdCard);
 $countPerms=0;
 while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 {
 ?>
-                                      <tr><td><?= $getUseridcardRow['IDNO'];?></td>
-                                          <td><?= $getUseridcardRow['Status'];?></td>
-                                       <td><?= $getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
-                                       </tr><?php }?>
-
-                                     
-                          </table> 
-                          </div> 
-</div>
-</div>
+                                        <tr>
+                                            <td><?=$getUseridcardRow['IDNO'];?></td>
+                                            <td><?=$getUseridcardRow['status'];?></td>
+                                            <td><?=$getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
+                                        </tr>
+                                        <?php 
+                                    }?>
 
 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
-                
 
-                
 
-                      <?php
+
+
+
+
+                        <?php
                     
 }
                      
@@ -17632,24 +17665,24 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 
 
 
-                  </div>
-                  <!-- /.row -->
-                  <div class="card-footer">
-                      <div class="row">
+                    </div>
+                    <!-- /.row -->
+                    <div class="card-footer">
+                        <div class="row">
 
 
 
-                          <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
-                              id="update_button" style="display:none;">Update</button>
+                            <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
+                                id="update_button" style="display:none;">Update</button>
 
 
 
 
-                      </div>
+                        </div>
+                        </form>
 
-                      <!-- /.container-fluid -->
-</section>
-<?php 
+                        <!-- /.container-fluid -->
+                        <?php 
 }
 
 
@@ -17659,7 +17692,7 @@ elseif($code==268)
    $name = $_POST["StudentName"];
    $fatherName = $_POST["fatherName"];
    $motherName = $_POST["motherName"];
-   $course = $_POST["course"];
+   $course = $_POST["Course"];
    $dob = $_POST["dob"];
    $gender = $_POST["gender"];
    $category = $_POST["category"];
@@ -17671,11 +17704,38 @@ elseif($code==268)
    $addressLine2 = $_POST["addressLine2"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   $organisationName = $_POST["organisationName"];
+   $organisationName = $_POST["CollegeName"];
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$organisationName'";
+   $stmt2 = sqlsrv_query($conntest,$sql);
+   if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+    {   
+      $college = $row['CollegeName']; 
+    }
+
    $employmentStatus = $_POST["employmentStatus"];
-   $Nationality1 = $_POST["nationality_by_post"];
-   $district = $_POST["district"];
-   $state = $_POST["state"];
+   $Nationality1 = $_POST["Nationality_1"];
+   $get_country="SELECT * FROM countries where id='$Nationality1' ";
+   $get_country_run=mysqli_query($conn,$get_country);
+   if($row=mysqli_fetch_array($get_country_run))
+   {
+    $Nationality=$row['name'];
+    }
+   $district = $_POST["District_1"];
+   $sql = "SELECT  id,name FROM cities WHERE id='$district' order by name ASC";
+   $stmt = mysqli_query($conn,$sql); 
+   if($row4 = mysqli_fetch_array($stmt) )
+   {
+$districtName=$row4['name'];
+     }
+
+   $state = $_POST["State_1"]; 
+   $sql = "SELECT  Id,name FROM states WHERE Id='$state' order by name ASC";
+   $stmt = mysqli_query($conn,$sql);  
+          if($row3 = mysqli_fetch_array($stmt) )
+      {
+        $StateName=$row3['name'];
+      }
+   $batch = $_POST["batch"]; 
    // Handling file uploads
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
@@ -17707,22 +17767,23 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "Course = '$course', ";
    $query .= "DOB = '$dob', ";
    $query .= "Sex = '$gender', ";
+   $query .= "Batch = '$batch', ";
    $query .= "Category = '$category', ";
-   $query .= ",EmailID = '$personalEmail', ";
+   $query .= "EmailID = '$personalEmail', ";
    $query .= "OfficialEmailID = '$officialEmail', ";
    $query .= "StudentMobileNo = '$mobileNumber', ";
    $query .= "FatherMobileNo = '$whatsappNumber', ";
    $query .= "AddressLine1 = '$addressLine1', ";
    $query .= "AddressLine2 = '$addressLine2', ";
    $query .= "PermanentAddress = '$permanentAddress', ";
-   $query .= "CorrespondanceAddress = '$correspondenceAddress' ";
-   $query .= "CollegeName = '$organisationName', ";
-   $query .= "Nationality = '$Nationality1', ";
-   $query .= "District = '$district', ";
-   $query .= "State = '$state', ";
-   $query .= "Status = '$employmentStatus', ";
+   $query .= "CorrespondanceAddress = '$correspondenceAddress', ";
+   $query .= "CollegeName = '$college', ";
+   $query .= "Nationality = '$Nationality', ";
+   $query .= "District = '$districtName', ";
+   $query .= "State = '$StateName', ";
+   $query .= "Status = '$employmentStatus' ";
    $query .= "WHERE IDNo = '$loginId'";
- echo $query;
+   $query;
    if(sqlsrv_query($conntest,$query))
    {
       echo "1";
@@ -17731,13 +17792,145 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    {
       echo "0";
    }
-//    if ($query_run === false) {
-//     $errors = sqlsrv_errors();
-//     echo "Error: " . print_r($errors, true);
-//     // echo "0";
-// } 
+   if ($query_run === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
 
 }
+elseif($code=='269') 
+{
+$College=$_POST['College'];
+
+
+  $sql = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CollegeID='$College' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+
+$stmt = sqlsrv_query($conntest,$sql);  
+echo "<option value=''>Course</option>";
+       while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+
+{
+
+echo "<option value='".$row["Course"]."'>".$row["Course"]."</option>";
+}
+echo " <option value='other'>Other</option>";
+
+}
+
+elseif($code==270)  // search student 
+{
+    $college = $_POST['CollegeName'];
+    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$college'";
+    $stmt2 = sqlsrv_query($conntest,$sql);
+    if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+     {   
+       $CollegeName = $row['CollegeName']; 
+     }
+    $Course = $_POST['Course'];
+    $Batch = $_POST['Batch'];
+    $Status = $_POST['Status'];
+?>
+                        <table class="table " id="example">
+                            <thead>
+                                <tr>
+                                    <th>SrNo</th>
+                                    <th>Image</th>
+                                    <th>IDNo</th>
+                                    <th>ClassRollNo</th>
+                                    <th>UniRollNo</th>
+                                    <th>Name</th>
+                                    <th>FatherName</th>
+                                    <th>College</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>ID Card</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+      $sr=1;
+if($CollegeName!='' && $Course!='' && $Batch!='' && $Status!='')
+{
+     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course' and  Batch='$Batch' and Status='$Status' ";
+
+}elseif ($CollegeName!='' && $Course!='' && $Batch!='') {
+     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course' and  Batch='$Batch' ";
+    
+}
+elseif ($CollegeName!='' && $Course!='') {
+     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course'  ";
+    
+}
+elseif ($CollegeName!='') {
+    
+     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName'  ";
+    
+}else{
+      $query = " ";
+}
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+                                <tr>
+                                    <td><?=$sr;?></td>
+                                    <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                                    </td>
+                                    <td><?=$row['IDNo'];?></td>
+                                    <td><?=$row['ClassRollNo'];?></td>
+                                    <td><?=$row['UniRollNo'];?></td>
+                                    <td><?=$row['StudentName'];?></td>
+                                    <td><?=$row['FatherName'];?></td>
+                                    <td><?=$row['CollegeName'];?></td>
+                                    <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                                    </td>
+                                    <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);"
+                                            data-toggle="modal" data-target="#UpdateDesignationModalCenter21"></i></td>
+                                    <td>
+
+
+                                        <?php 
+$get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                  $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                  $count_0=0;
+                  $color='';
+                    if(sqlsrv_num_rows($get_card_run)>0)
+                    {
+                      
+                      $color="red";
+                    }  
+?>
+                                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                                            onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+
+
+
+
+                                    </td>
+                                </tr>
+                                <?php $sr++;
+
+      }
+    //   print_r($aa);
+      ?>
+                            </tbody>
+                        </table>
+                        <?php 
+}
+
    else
    {
    
