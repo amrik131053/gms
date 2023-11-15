@@ -17037,16 +17037,27 @@ elseif ($code==265) {
    <label for="">Amount</label>
    <input type="number" class="form-control" name="" id="ammount" value="">
    <label for="">Type</label>
-<select name="" id="">
+<select class="form-control">
     <?php 
 $getType="SELECT * FROM  ExamType";
 $getType=sqlsrv_query($conntest,$getType);
 while($getrow=sqlsrv_fetch_array($getType))
 {?>
-<option value=""><input type="checkbox"><?=$getrow['ExamType'];?></option>
+<input type="checkbox"><option value=""><?=$getrow['ExamType'];?></option>
 <?php }
 ?>
 </select>
+<div class="">
+    <strong>Select Language:</strong>
+    <select id="multiple-checkboxes" multiple="multiple">
+        <option value="php">PHP</option>
+        <option value="javascript">JavaScript</option>
+        <option value="java">Java</option>
+        <option value="sql">SQL</option>
+        <option value="jquery">Jquery</option>
+        <option value=".net">.Net</option>
+    </select>
+</div>
 
 
                                    <tr>
@@ -17060,6 +17071,568 @@ while($getrow=sqlsrv_fetch_array($getType))
                                    </tr>
                                    <?php }
    
+}
+
+elseif($code==266)  // search student 
+{
+    $search = $_POST['empID'];
+?>
+<table class="table " id="example">
+  <thead>
+      <tr>
+          <th>SrNo</th>
+          <th>Image</th>
+          <th>IDNo</th>
+          <th>ClassRollNo</th>
+          <th>UniRollNo</th>
+          <th>Name</th>
+          <th>FatherName</th>
+          <th>College</th>
+          <th>Status</th>
+          <th>Edit</th>
+          <th>ID Card</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php 
+      $sr=1;
+
+       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+      <tr>
+          <td><?=$sr;?></td>
+          <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+          </td>
+          <td><?=$row['IDNo'];?></td>
+          <td><?=$row['ClassRollNo'];?></td>
+          <td><?=$row['UniRollNo'];?></td>
+          <td><?=$row['StudentName'];?></td>
+          <td><?=$row['FatherName'];?></td>
+          <td><?=$row['CollegeName'];?></td>
+          <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+          </td>
+          <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);"></i></td>
+          <td>
+
+
+<?php 
+$get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+
+                  $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                  $count_0=0;
+                  $color='';
+                    if(sqlsrv_num_rows($get_card_run)>0)
+                    {
+                      
+                      $color="red";
+                    }  
+?>
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>" onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+
+
+
+             
+          </td>
+      </tr>
+      <?php $sr++;
+
+      }
+    //   print_r($aa);
+      ?>
+  </tbody>
+</table>
+<?php 
+}
+
+elseif($code==267) //update student
+{
+  $DateOfBirth="01-01-1900";
+  $empID=$_POST['empID'];
+  $query = "SELECT * FROM Admissions  Where IDNo='$empID'";
+  $result = sqlsrv_query($conntest,$query);
+  while($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+  {
+    $DateOfBirth=$row1['DOB'];
+     
+?>
+<section class="content">
+  <div class="row" style="margin-top: 10px!important;">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header p-2" style="background-color:white!important">
+                  <ul class="nav nav-pills">
+                      <li class="nav-item"><a class="nav-link active" href="#personal_details"
+                              data-toggle="tab">Basic</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
+                      </li>
+                     <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                      </li>
+                     
+                      
+                  </ul>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <div class="tab-content">
+                      <div class="active tab-pane" id="personal_details">
+                          <!-- /.login-logo -->
+                          <form action="action_g.php" method="post" enctype="multipart/form-data">
+                              <input type="hidden" name="code" value="268">
+                              <div class="row">
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>IDNo</label>
+                                          <input type="text" class="form-control" name="loginId"
+                                              value="<?=$row1['IDNo'];?>" readonly>
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Name</label>
+                                          <input type="text" class="form-control" name="name"
+                                              placeholder="Enter name" value="<?=$row1['StudentName'];?>">
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Father's Name</label>
+                                          <input type="text" class="form-control" name="fatherName"
+                                              placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Mother's Name</label>
+                                          <input type="text" class="form-control" name="motherName"
+                                              placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
+                                      </div>
+                                  </div>
+
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Date of Birth</label>
+                                          <input type="date" class="form-control" name="dob"
+                                              value="<?php echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));?>">
+
+
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Gender</label>
+                                          <select class="form-control" name="gender">
+                                              <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
+                                              </option>
+                                              <option>Male</option>
+                                              <option>Female</option>
+                                              <option>Other</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Category</label>
+                                          <select class="form-control" name="category">
+                                              <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?>
+                                              </option>
+
+                                              <option>SC</option>
+                                              <option>ST</option>
+                                              <option>OBC</option>
+                                              <option>General</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                     
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label> Identification Mark</label>
+                                          <textarea rows="1" class="form-control"
+                                              name="personalIdentificationMark"
+                                              rows="3"><?=$row1['PersonalIdentificationMark'];?></textarea>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Image</label>
+                                          <input type="file" class="form-control-file" name="photo" name="photo">
+                                          <i class="fa fa-eye text-success"
+                                              onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Image');"
+                                              data-toggle="modal" data-target="#UploadImageDocument"></i>
+                                      </div>
+
+                                  </div>
+                                  <div class="col-12 col-lg-3">
+                                      <div class="form-group">
+                                          <label>Upload Signature</label>
+                                          <input type="file" class="form-control-file" name="signature">
+                                          <i class="fa fa-eye text-success"
+                                              onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Sign');"
+                                              data-toggle="modal" data-target="#UploadImageDocument"></i>
+                                      </div>
+                                  </div>
+                              </div>
+
+                      </div>
+                      <div class="tab-pane" id="contact">
+
+                          <div class="row">
+
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Personal Email ID</label>
+                                      <input type="email" class="form-control" name="personalEmail"
+                                          placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Official Email ID</label>
+                                      <input type="email" class="form-control" name="officialEmail"
+                                          placeholder="Enter official email"
+                                          value="<?=$row1['OfficialEmailID'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Mobile Number</label>
+                                      <input type="text" class="form-control" name="mobileNumber"
+                                          placeholder="Enter mobile number" value="<?=$row1['StudentMobileNo'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>WhatsApp Number</label>
+                                      <input type="text" class="form-control" name="whatsappNumber"
+                                          placeholder="Enter WhatsApp number"
+                                          value="<?=$row1['StudentMobileNo'];?>">
+                                  </div>
+                              </div>
+                             
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Address Line 1</label>
+                                      <input type="text" class="form-control" name="addressLine1"
+                                          placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Address Line 2</label>
+                                      <input type="text" class="form-control" name="addressLine2"
+                                          placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Permanent Address</label>
+                                      <input type="text" class="form-control" name="permanentAddress"
+                                          placeholder="Enter permanent address"
+                                          value="<?=$row1['PermanentAddress'];?>">
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Correspondence Address</label>
+                                      <input type="text" class="form-control" name="correspondenceAddress"
+                                          placeholder="Enter correspondence address"
+                                          value="<?=$row1['CorrespondanceAddress'];?>">
+                                  </div>
+                              </div>
+                              <!-- <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Postal Code</label>
+                                      <input type="text" class="form-control" name="postalCode"
+                                          onkeyup="postcode();" id="pincode-input"
+                                          value="<?=$row1['PostalCode'];?>">
+                                  </div>
+                              </div> -->
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>State</label>
+                                      <input type="text" class="form-control" value="<?=$row1['State'];?>"
+                                          id="state_by_post" >
+                                      <input type="hidden" class="form-control" name="state" id="state_by_post">
+
+                                  </div>
+                              </div>
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>District</label>
+                                      <input type="text" class="form-control" value="<?=$row1['District'];?>"
+                                          id="district_by_post" placeholder="Enter district" >
+                                      <input type="hidden" class="form-control" name="district"
+                                          id="district_by_post" placeholder="Enter district">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-lg-3">
+                                  <div class="form-group">
+                                      <label>Nationality</label>
+                                      <input type="text" id="nationality" class="form-control"
+                                          name="nationality_by_post" value="<?=$row1['Nationality'];?>" >
+                                  </div>
+                              </div>
+                              <!--  <div class="col-lg-3 col-12">
+                              <div class="form-group">
+                                 <label for="villageCity">Village/City</label>
+                                
+                                 <select class="form-control" name="villageCity" id="village_by_post">
+                                    <option value=""><?=$row1['Vila'];?></option>
+                                 </select>
+                              </div>
+                           </div> -->
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Post Office</label>
+                                      <input type="text" class="form-control" name="postOffice"
+                                          placeholder="Enter post office">
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                      <div class="tab-pane" id="employment">
+
+                          <div class="row">
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>College Name</label>
+
+                                      <select class="form-control" name="organisationName"
+                                          >
+                                          <option value="<?=$row1['CollegeName'];?>">
+                                              <?=$row1['CollegeName'];?>(<?=$row1['CollegeName'];?>)</option>
+                                          <?php  $get_College="SELECT DISTINCT CollegeName,CollegeID FROM MasterCourseCodes ";
+                                          $get_CollegeRun=sqlsrv_query($conntest,$get_College);
+                                          while($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
+                                          {?>
+                                          <option value="<?=$get_CollegeRow['CollegeName'];?>">
+                                              <?=$get_CollegeRow['CollegeName'];?>(<?=$get_CollegeRow['CollegeID'];?>)
+                                          </option>
+                                          <?php }
+                                    ?>
+                                      </select>
+                                  </div>
+                              </div>
+                             
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Course</label>
+
+                                      <select class="form-control" name="course">
+                                          <option value="<?=$row1['Course'];?>">
+                                              <?=$row1['Course'];?></option>
+                                         
+                                      </select>
+                                  </div>
+                              </div>
+                             
+
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Batch</label>
+
+                                    <input type="text" class="form-control" value="<?=$row1['Batch'];?>" readonly>
+                                  </div>
+                              </div>
+                             
+                              <div class="col-lg-3 col-12">
+                                  <div class="form-group">
+                                      <label>Status </label>
+                                      <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                      <select class="form-control" name="employmentStatus">
+                                          <?php if ($row1['Status']==1) {?>
+
+                                          <option value="<?=$row1['Status'];?>"
+                                              style="background-color:green !important;"><b>Active</b>
+                                          </option>
+                                          <?php }else
+                                    {
+                                       ?>
+                                          <option value="<?=$row1['Status'];?>">DeActive</option>
+                                          <?php }
+                                    ?>
+                                          <option value="1">Active</option>
+                                          <option value="0">DeActive</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+       
+
+
+                      </div>
+                      </div>
+                       <div class="tab-pane" id="idcard">
+
+                          <div class="row">
+                              <div class="col-lg-12">
+
+                                  <table class="table  table-bordered">
+                                      <tr>
+                                          <th colspan="7">
+                                              <center> ID Card</center>
+                                          </th>
+                                      </tr>
+                                       <tr><td>IDNO</td>
+                                          <td>Status</td>
+                                       <td>Date</td>
+                                       </tr>
+<?php 
+     $IdCard="SELECT *  FROM SmartCardDetails where IDNO='".$row1['IDNo']."'"; 
+$getUseridcard=sqlsrv_query($conntest,$IdCard);
+$countPerms=0;
+while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+{
+?>
+                                      <tr><td><?= $getUseridcardRow['IDNO'];?></td>
+                                          <td><?= $getUseridcardRow['Status'];?></td>
+                                       <td><?= $getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
+                                       </tr><?php }?>
+
+                                     
+                          </table> 
+                          </div> 
+</div>
+</div>
+
+
+
+                
+
+                
+
+                      <?php
+                    
+}
+                     
+                     
+                      ?>
+
+
+
+                  </div>
+                  <!-- /.row -->
+                  <div class="card-footer">
+                      <div class="row">
+
+
+
+                          <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
+                              id="update_button" style="display:none;">Update</button>
+
+
+
+
+                      </div>
+
+                      <!-- /.container-fluid -->
+</section>
+<?php 
+}
+
+
+elseif($code==268)
+{
+   $loginId = $_POST["loginId"];
+   $name = $_POST["StudentName"];
+   $fatherName = $_POST["fatherName"];
+   $motherName = $_POST["motherName"];
+   $course = $_POST["course"];
+   $dob = $_POST["dob"];
+   $gender = $_POST["gender"];
+   $category = $_POST["category"];
+   $personalEmail = $_POST["personalEmail"];
+   $officialEmail = $_POST["officialEmail"];
+   $mobileNumber = $_POST["mobileNumber"];
+   $whatsappNumber = $_POST["whatsappNumber"];
+   $addressLine1 = $_POST["addressLine1"];
+   $addressLine2 = $_POST["addressLine2"];
+   $permanentAddress = $_POST["permanentAddress"];
+   $correspondenceAddress = $_POST["correspondenceAddress"];
+   $organisationID = $_POST["organisationName"];
+   $employmentStatus = $_POST["employmentStatus"];
+   $Nationality1 = $_POST["nationality"];
+   $district = $_POST["district"];
+   $state = $_POST["state"];
+   // Handling file uploads
+   $photo = $_FILES["photo"]["name"];
+   $signature = $_FILES["signature"]["name"];
+   if ($photo) {
+      $photoTmp = $_FILES["photo"]["tmp_name"];
+
+      $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
+  $ImageName=$loginId.'.jpg';
+   ftp_put($conn_id, "Student/$ImageName", $photoTmp, FTP_BINARY);
+
+    $file_data = file_get_contents($photoTmp);
+
+        $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
+$params = array($file_data, $loginId);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+   }
+   if ($signature) {
+      $signatureTmp = $_FILES["signature"]["tmp_name"];
+  $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
+      $SignatureImageName="Signature".$loginId.$file_type;
+   ftp_put($conn_id, "Student/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+   }
+
+
+   $query = "UPDATE Admissions SET ";
+   $query .= "StudentName = '$name', ";
+   $query .= "FatherName = '$fatherName', ";
+   $query .= "MotherName = '$motherName', ";
+   $query .= "Course = '$course', ";
+   $query .= "DOB = '$dob', ";
+   $query .= "Sex = '$gender', ";
+   $query .= "Category = '$category', ";
+   $query .= ",EmailID = '$personalEmail', ";
+   $query .= "OfficialEmailID = '$officialEmail', ";
+   $query .= "StudentMobileNo = '$mobileNumber', ";
+   $query .= "FatherMobileNo = '$whatsappNumber', ";
+   $query .= "AddressLine1 = '$addressLine1', ";
+   $query .= "AddressLine2 = '$addressLine2', ";
+   $query .= "PermanentAddress = '$permanentAddress', ";
+   $query .= "CorrespondanceAddress = '$correspondenceAddress' ";
+   $query .= "CollegeName = '$organisationName', ";
+   $query .= "Nationality = '$Nationality1', ";
+   $query .= "District = '$district', ";
+   $query .= "State = '$state', ";
+   $query .= "Status = '$employmentStatus', ";
+   $query .= "WHERE IDNo = '$loginId'";
+ echo $query;
+   if(sqlsrv_query($conntest,$query))
+   {
+      echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
+//    if ($query_run === false) {
+//     $errors = sqlsrv_errors();
+//     echo "Error: " . print_r($errors, true);
+//     // echo "0";
+// } 
+
 }
    else
    {
