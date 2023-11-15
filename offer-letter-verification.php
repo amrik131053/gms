@@ -498,6 +498,17 @@ function edit_student_details_a(id) {
     var loanNumber = document.getElementById('loanNumber').value;
     var applicationNo = document.getElementById('applicationNo').value;
     var statusVerification = document.getElementById('statusVerification').value;
+
+
+
+ var UTRNumber = document.getElementById('UTRNumber').value;
+ var loan_amount = document.getElementById('loan_amount').value;
+ var datePayment = document.getElementById('datePayment').value;
+
+
+
+
+
     var dateVerification = document.getElementById('dateVerification').value;
     // alert(loanNumber+"="+applicationNo+"="+statusVerification+"="+dateVerification);
 if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerification!='')
@@ -508,7 +519,7 @@ if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerifica
     loanNumber: loanNumber,
     applicationNo: applicationNo,
     statusVerification: statusVerification,
-    dateVerification: dateVerification,
+    dateVerification: dateVerification,UTRNumber:UTRNumber,loan_amount:loan_amount,datePayment:datePayment,
     code: code
   };
   // Send the AJAX request
