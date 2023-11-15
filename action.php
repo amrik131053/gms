@@ -13651,6 +13651,12 @@ elseif($code==231)
   if ($update_run==true)
     {
        echo "1";
+
+       $desc= "UPDATE User Master SET Password Reset";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
       
    }
    else
@@ -13670,6 +13676,12 @@ elseif($code==232)
   if ($update_run==true)
     {
        echo "1";
+         $desc= "UPDATE User Master SET ABC ID Reset";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
       
    }
    else
