@@ -11586,7 +11586,13 @@ else
 $stmt1 = sqlsrv_query($conntest,$result1);
 if ($stmt1==true)
  {
-echo "1";   
+echo "1";  
+
+$desc= "UPDATE Admissions SET Batch:".$Batch;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1); 
 }
 else
 {
@@ -13489,7 +13495,7 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
 
 
 
-   $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',Reason='$provisional' where IDNo='$id'";
+  $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',Reason='$provisional' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
@@ -13500,12 +13506,25 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
   if ($update_runb==true)
     {
        echo "1";
-      // die( print_r( sqlsrv_errors(), true) );
+
+
+$desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.",UniRollNo:".$uniroll.",ClassRollNo:".$classroll.",Eligibility:".$eligible.".,CollegeID:".$Collegechange.",CollegeName:".$CollegeName.".,CourseID:".$coursechange.",Course:".$Course.",Reason:".$provisional;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
+
+
+
+
+       die( print_r( sqlsrv_errors(), true) );
    }
    else
    {
        echo "0";
-      // die( print_r( sqlsrv_errors(), true) );
+       die( print_r( sqlsrv_errors(), true) );
 
    }
 
@@ -17390,8 +17409,18 @@ elseif($code==301)
 
                     $reason = $filesop[2];  
 
-                    echo $sql = "UPDATE  Admissions set  Status='$status', Reason='$reason' where ClassRollNo='$class_rollno'";
+                    $sql = "UPDATE  Admissions set  Status='$status', Reason='$reason' where ClassRollNo='$class_rollno'";
                  $result = sqlsrv_query($conntest,$sql);
+
+
+$desc= "UPDATE Admissions SET Status:".$status.",Course:".$Course.",Reason:".$reason;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
+
                 if($result=== false)
                  {
                     die( print_r( sqlsrv_errors(), true) );
