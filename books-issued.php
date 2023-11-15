@@ -26,7 +26,7 @@ include "connection/connection.php";
            <th>IssueDate</th>
            <th>Title</th>
            <th>Author</th>
-           <th>Category</th>
+           <!-- <th>Category</th> -->
            <th>Return Date</th>
          </tr>
          </thead>
@@ -54,7 +54,7 @@ $stmt = sqlsrv_query($conntest,$sql_att);
 <td><?=$IssueDate;?></td>
 <td><?=$Title;?></td>
 <td><?=$Author;?></td>
-<td><?=$Category;?></td>
+<!-- <td><?=$Category;?></td> -->
 <td><?=$LastReturnDate;?></td>
            </tr>
 
