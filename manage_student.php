@@ -578,6 +578,7 @@ document.getElementById("student_search_recordold").innerHTML ='';
             }
          });
       }
+
        function StudentUpdatedatar(id)
    {
      
@@ -658,7 +659,7 @@ document.getElementById("student_search_recordold").innerHTML ='';
             },
             success:function(response) 
             {
-             //console.log(response);
+             console.log(response);
                spinner.style.display='none';
                 if (response==1) {
                            SuccessToast('Successfully Updated');

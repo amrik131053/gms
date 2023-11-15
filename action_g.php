@@ -9034,6 +9034,11 @@ $upimage_run = sqlsrv_query($conntest,$upimage);
 if ($insert_record_run==true) 
 {
    echo "1";
+     $desc= "UPDATE Admissions SET Gender".$Gender;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
 }
 else
 {

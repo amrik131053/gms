@@ -127,7 +127,7 @@ $pdf->SetXY(10,53);
 $pdf->SetFont('Arial', '', 10);
 $pdf->multicell(190, 6,"Subjects in which appearing",0,'C');
 $pdf->SetFont('Arial', '', 8);
-$amrik = "SELECT * FROM ExamFormSubject where Examid='$univ_rollno' order by ExternalExam DESC";  
+$amrik = "SELECT * FROM ExamFormSubject where Examid='$univ_rollno'  ANd ExternalExam='Y' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 $srno=0;
 while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
