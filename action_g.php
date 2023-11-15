@@ -10682,6 +10682,27 @@ else
 
             </div>
 
+            <hr> 
+<div class="col-lg-3">
+                
+                <input type="hidden" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+
+
+            </div>
+
+  <div class="col-lg-3">
+              
+                <input type="hidden" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+
+
+            </div>
+            <div class="col-lg-3">
+               
+                <input type="hidden" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+
+
+            </div>
+
 <?php 
 
 }
