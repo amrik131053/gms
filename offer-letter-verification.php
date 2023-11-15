@@ -188,7 +188,7 @@ function by_search_studetn() {
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-                              // console.log(data);
+                               console.log(data);
                               spinner.style.display='none';
                               buildTable(data);
                               updatePagination(page);
@@ -234,7 +234,7 @@ function by_search_studetn() {
                         }
 
                             table += '</td>';
-
+ 
 
 
 
@@ -248,7 +248,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][34]+'</td>';
+                           table += '<td >'+ data[i][37]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
 
 

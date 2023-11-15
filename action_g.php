@@ -4626,7 +4626,7 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
       $Recommending=$row['Recommending'];
       if ($Senction!='0' && $Recommending!='0' )
        {
-        $update_auth="UPDATE Staff SET LeaveSanctionAuthority='$Recommending' ,LeaveRecommendingAuthority='$Senction' where DepartmentID='$departmentid' and CollegeId='$CollegeID'";
+        $update_auth="UPDATE Staff SET LeaveSanctionAuthority='$Senction' ,LeaveRecommendingAuthority='$Recommending' where DepartmentID='$departmentid' and CollegeId='$CollegeID'";
       $update_auth_run=sqlsrv_query($conntest,$update_auth);
      
       
@@ -10259,7 +10259,7 @@ $fileName=$image_name.'.PNG';
       if($value!='')
       {
          
-             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%'  order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%'  order by Id DESC "; 
         
         
          $degree_run=mysqli_query($conn,$degree);
