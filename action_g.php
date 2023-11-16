@@ -10704,7 +10704,28 @@ else
 
             </div>
 
-            <?php 
+            <hr> 
+<div class="col-lg-3">
+                
+                <input type="hidden" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+
+
+            </div>
+
+  <div class="col-lg-3">
+              
+                <input type="hidden" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+
+
+            </div>
+            <div class="col-lg-3">
+               
+                <input type="hidden" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+
+
+            </div>
+
+<?php 
 
 }
 ?>
@@ -17092,22 +17113,21 @@ if($row=sqlsrv_fetch_array($getShiftRun,SQLSRV_FETCH_ASSOC))
 elseif ($code==264)
  {
     ?>
-                <div class="card-body table-responsive-lg pd" id="insertData">
-                    <table class="table">
-                        <tr>
-                            <th>IDNo</th>
-                            <th>UniRollNo</th>
-                            <th>StudentName</th>
-                            <th>Course</th>
-                            <th>Sem</th>
-                            <th>Batch</th>
-                            <th>Type</th>
-                            <th>SGroup</th>
-                            <th>Status</th>
-                            <th>Submit Date</th>
-                            <th>Receipt Date</th>
-                            <th>Action</th>
-                        </tr><?php 
+      <div class="card-body table-responsive-lg pd" id="insertData" >
+                                    <table class="table" >
+                                    <tr>
+                                        <th>IDNo</th>
+                                        <th>UniRollNo</th>
+                                        <th>StudentName</th>
+                                        <th>Course</th>
+                                        <th>Sem</th>
+                                        <th>Batch</th>
+                                        <th>Type</th>
+                                        <th>SGroup</th>
+                                        <th>Status</th>
+                                       
+                                        <th>Action</th>
+                                    </tr><?php 
     $times=array();
 $univ_rollno=$_POST['empid'];
     $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.SGroup,ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
@@ -17171,15 +17191,11 @@ elseif($Status==7)
 elseif($Status==8)
  {
    echo "<b style='color:green'>Accepted</b>";
- }   ?></td>
-                            <td><?=$row['SubmitFormDate']->format('d-m-Y'); ?></td>
-                            <td><?=$row['ReceiptDate']->format('d-m-Y'); ?></td>
-                            <td>
-                                <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden'
-                                        name="examID" value="<?=$row['ID'];?>"><button type="submit"
-                                        class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form>
-                            </td>
-                        </tr><?php
+ }   ?>
+</td>
+       
+        <td>  
+         <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden' name="examID" value="<?=$row['ID'];?>"><button type="submit" class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form></td></tr><?php
        
     }
     ?>

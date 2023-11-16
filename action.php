@@ -11060,7 +11060,9 @@ $incharge_mobile=$_POST['incharge_mobile'];
   $handle = fopen($file, 'r');
   $c = 0;
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-  {
+  { 
+   if($c>0)
+   {
    $univ_rollno= $filesop[0];
      $class_rollno = $filesop[1];
     
@@ -11068,11 +11070,21 @@ $incharge_mobile=$_POST['incharge_mobile'];
     {
      $sqlsrb = "UPDATE  Admissions SET UniRollNo = '$univ_rollno' WHERE ClassRollNo='$class_rollno'";
      $list_result = sqlsrv_query($conntest,$sqlsrb);
+
+ $desc= "UPDATE Admissions set  UniRollNo :".$univ_rollno."ClassRollNo".$class_rollno;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
+
     }
     else
     {
 
     }
+ }
     $c++;
 }
 
@@ -11098,6 +11110,8 @@ $incharge_mobile=$_POST['incharge_mobile'];
                   $c = 0;
                   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
                   {
+                     if($c>0)
+                     {
                     $class_rollno = $filesop[0];
                     $status = $filesop[1];   
                     $sql = "UPDATE  Admissions set  Eligibility='$status' where ClassRollNo='$class_rollno'";
@@ -11107,12 +11121,22 @@ $incharge_mobile=$_POST['incharge_mobile'];
                     die( print_r( sqlsrv_errors(), true) );
                  }
                 
-                    $c = $c + 1;
                     
+                    
+                     $desc= "UPDATE Admissions set  Eligibility :".$status."ClassRollNo".$class_rollno;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
                   }
+                  $c = $c + 1;
+               }
                  if ($c>0)
                       {
                      echo "1";
+
+
+
                      }
                      else
                      {
@@ -11131,6 +11155,8 @@ elseif($code==185)
                   $c = 0;
                   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
                   {
+                     if($c>0)
+                     {
                     $class_rollno = $filesop[0];
                     $status = $filesop[1];   
                     $sql = "UPDATE  Admissions set  RegistrationNo='$status' where UniRollNo='$class_rollno'";
@@ -11140,6 +11166,12 @@ elseif($code==185)
                     die( print_r( sqlsrv_errors(), true) );
                 }
                 
+                $desc= "UPDATE Admissions set  RegistrationNo :".$status."UniRollNo".$class_rollno;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+                  }
                     $c = $c + 1;
                     
                   }
@@ -11166,6 +11198,8 @@ elseif($code==186)
                   $c = 0;
                   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
                   {
+                     if($c>0)
+                     {
                     $class_rollno = $filesop[0];
                     $status = $filesop[1];   
                     $sql = "UPDATE  Admissions set  ABCID='$status' where UniRollNo='$class_rollno'";
@@ -11174,7 +11208,13 @@ elseif($code==186)
                 
                     die( print_r( sqlsrv_errors(), true) );
                 }
-                
+ $desc= "UPDATE Admissions set  ABCID :".$status."UniRollNo".$class_rollno;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+                }
                     $c = $c + 1;
                     
                   }
@@ -13651,6 +13691,12 @@ elseif($code==231)
   if ($update_run==true)
     {
        echo "1";
+
+       $desc= "UPDATE User Master SET Password Reset";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
       
    }
    else
@@ -13670,6 +13716,12 @@ elseif($code==232)
   if ($update_run==true)
     {
        echo "1";
+         $desc= "UPDATE User Master SET ABC ID Reset";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
       
    }
    else
