@@ -2,16 +2,44 @@
    include "header.php";   
    ?>
 <script type="text/javascript">
+    
+function uploadPhotoStudent(form) {
+    // var formData = new FormData(form);
+    var formData = new FormData(document.getElementById("my-awesome-dropzone"));
+    // alert(formData);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            // console.log(response);
+            if (response == 1) {
+                SuccessToast('Successfully Updated');
+                search_all_employee();
+            } else if (response == 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else {
+
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
 function search_all_employee_emp_name(emp_name) {
+    var code_access = '<?php echo $code_access; ?>';
     if (emp_name != '') {
-        // var spinner=document.getElementById("ajax-loader");
-        // spinner.style.display='block';
         var code = 266;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
             data: {
                 code: code,
+                code_access: code_access,
                 empID: emp_name
             },
             success: function(response) {
@@ -25,6 +53,7 @@ function search_all_employee_emp_name(emp_name) {
 }
 
 function search_all_employee() {
+    var code_access = '<?php echo $code_access; ?>';
     var emp_name = document.getElementById('emp_name').value;
     if (emp_name != '') {
         var spinner = document.getElementById("ajax-loader");
@@ -35,6 +64,7 @@ function search_all_employee() {
             type: 'POST',
             data: {
                 code: code,
+                code_access: code_access,
                 empID: emp_name
             },
             success: function(response) {
@@ -47,6 +77,16 @@ function search_all_employee() {
     }
 }
 function searchStudentCollegeWise() {
+    var session1 = document.getElementById('session1').value;
+    var session2 = document.getElementById('session2').value;
+    var session3 = document.getElementById('session3').value;
+    if(session1!='' && session2!=''){
+
+        var Session=session1+'-'+session2+'-'+session3
+    }
+    else{
+        var Session="";
+    }
     var CollegeName = document.getElementById('CollegeName1').value;
     var Course = document.getElementById('Course1').value;
     var Batch = document.getElementById('Batch').value;
@@ -60,6 +100,7 @@ function searchStudentCollegeWise() {
             type: 'POST',
             data: {
                 code: code,
+                Session: Session,
                 CollegeName: CollegeName,
                 Course: Course,
                 Batch: Batch,
@@ -79,12 +120,14 @@ function updateStudent(empID) {
 
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
+    var code_access = '<?php echo $code_access; ?>';
     var code = 267;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
         data: {
             code: code,
+            code_access: code_access,
             empID: empID
         },
         success: function(response) {
@@ -184,29 +227,6 @@ function fetch_district1(state_id) {
 
 
 
-function uploadPhoto(form) {
-    var formData = new FormData(form);
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            console.log(response);
-            if (response == 1) {
-                SuccessToast('Successfully Updated');
-            } else if (response == 'Could not connect to 10.0.10.11') {
-                ErrorToast('FTP Server Off', 'bg-warning');
-            } else {
-
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-}
 
 
 
@@ -259,168 +279,259 @@ function printEmpIDCard(id) {
     }
 
 }
+
+function StudentUpdatedata(id)
+   {
+    
+      var code=219;
+          
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+
+document.getElementById("student_search_recordold").innerHTML ='';
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+      }
+      function changecourse(id)
+   {
+    
+      var code=322;
+          
+      var  spinner= document.getElementById("ajax-loader");
+      spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+   }
+   function updateStudentdata(id)
+ {
+
+
+   var  batch = document.getElementById('ubatch').value;
+    var  eligible = document.getElementById('eligible').value;
+   var  status = document.getElementById('ustatus').value;
+   var  lock = document.getElementById('ulocked').value;
+   var  classroll = document.getElementById('classroll').value;
+    var uniroll = document.getElementById('uniroll').value;
+
+        var Collegechange = document.getElementById('Collegechange').value;
+            var coursechange = document.getElementById('coursechange').value;
+  
+
+   var code=220;   
+ 
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible,
+               coursechange:coursechange,Collegechange:Collegechange
+
+            },
+            success:function(response) 
+            {
+            //  console.log(response);
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Successfully Updated');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              
+            }
+         });
+ }
+ 
+ function student_search1()
+   {
+     
+      var code=323;
+      var code_access = '<?php echo $code_access; ?>';
+      var rollNo= document.getElementById("student_roll_no1").value;
+         var option = 1;
+       
+    //   alert(rollNo);
+
+      if (rollNo!='') 
+      {
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,rollNo:rollNo,option:option,code_access:code_access
+            },
+            success:function(response) 
+            {
+            //   console.log(response);
+               spinner.style.display='none';
+               document.getElementById("student_search_recordold").innerHTML =response;
+            }
+         });
+      }
+      else
+      {
+         // alert("Please Enter the Roll No.");
+         document.getElementById("student_search_recordold").innerHTML ='Enter Roll No';
+      }
+   } 
+   function  movefee(nid)
+{
+  var code=324; 
+   
+      var oldid= document.getElementById("oldid").value;
+
+
+     
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,oldid:oldid,nid:nid
+            },
+            success:function(response) 
+            {
+               //console.log(response);
+               spinner.style.display='none';
+               SuccessToast('Successfully Moved');
+               
+            }
+         });
+      
+    
+
+
+}
+
+function changecourse(id)
+   {
+    
+      var code=322;
+          
+      var  spinner= document.getElementById("ajax-loader");
+      spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+   }
+   function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  SuccessToast('Copied');
+}
 </script>
+<div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id='student_record_for_update' style="text-align:center">
+          
+ </div>
+  <div class="card-body" id="student_search_recordold" style="font-size:12px;">
+               
+              
+            </div>
 
-<div class="modal fade" id="UploadImageDocument" tabindex="-1" role="dialog" aria-labelledby="UploadImageDocumentTitle"
-    aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="Show_document">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
 </div>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 
-<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
+
+<div class="modal fade" id="UpdateDesignationModalCenter21" tabindex="-1" role="dialog"
+    aria-labelledby="UpdateDesignationModalCenter21" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">View Record</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id='update_data'>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="UpdateDesignationModalCenter21" tabindex="-1" role="dialog"
-    aria-labelledby="UpdateDesignationModalCenter21" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">edit Designaion</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Update</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id='updateRecord'>
             </div>
-            <div class="modal-footer">
+            
                 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+                
+          
         </div>
     </div>
 </div>
-<div class="modal fade" id="NewDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="NewDepartmentModal"
-    aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="NewDepartmentModal">New Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10">
-                    <label>College</label>
-                    <select name="College" id='CollegeIDN' class="form-control" required="">
-                        <option value=''>Select Course</option>
-                        <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         { 
-     $college = $row1['CollegeName']; 
-     $CollegeID = $row1['CollegeID'];
-    ?>
-                        <option value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
-                        <?php    }
-?>
-                    </select>
-                    <label>Designation</label>
-                    <input type="text" name="table_search" id="department" class="form-control" required>
-                    <br>
-                    <input type="submit" onclick="save_designation();" value="save" class="btn btn-secondary">
 
-                </div>
-                <div class="col-lg-1"></div>
 
-            </div>
-            <br>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="NewDesignationModal" tabindex="-1" role="dialog" aria-labelledby="NewDesignationModal"
-    aria-hidden="true">
-    <div class="modal-dialog  " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="NewDesignationModal">New Designation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10">
-
-                    <label>Designation</label>
-                    <input type="text" name="table_search" id="Designation" class="form-control" required>
-                    <br>
-                    <input type="submit" onclick="save_designation();" value="save" class="btn btn-secondary">
-
-                </div>
-                <div class="col-lg-1"></div>
-
-            </div>
-            <br>
-
-        </div>
-    </div>
-</div>
 
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Search Student</h3>
+                    <h3 class="card-title">Search Student  </h3>
                     <div class="card-tools">
 
                     </div>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body p-2">
                         <div class="col-lg-12">
                             <label>College Name</label>
                             <select name="CollegeName" id='CollegeName1' onchange="fetchcourse1(this.value);"
@@ -462,13 +573,42 @@ function printEmpIDCard(id) {
                     </select>
                             </div>
                         </div>
-
+                        
+                        <div class="col-lg-12" style="text-align: ;">
+                                <label>Select Session</label>
+                                <br>
+                                <select id="session1" class="btn btn-default">
+                                <option value=''></option>
+                                    <?php 
+                                        for($s='2015';$s<='2030';$s++)
+                                        {
+                                        ?>
+                                                                            <option value='<?=$s;?>'><?=$s;?></option>
+                                                                            <?php }?>
+                                                                        </select>
+                                                                        <select id="session2" class="btn btn-default">
+                                                                        <option value=''></option>
+                                                                            <?php 
+                                        for($s1='16';$s1<='31';$s1++)
+                                        {
+                                        ?>
+                                    <option value='<?=$s1;?>'><?=$s1;?></option>
+                                    <?php }?>
+                                </select>
+                                <select id="session3" class="btn btn-default">
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='J'>J</option>
+                                </select>
+                            </div>
+                          
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
                                 <label>Status </label>
                                 <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
                                 <select class="form-control" id="Status">
                                   
+                                    <option value="">Select</option>
                                     <option value="1">Active</option>
                                     <option value="0">DeActive</option>
                                 </select>
@@ -476,7 +616,7 @@ function printEmpIDCard(id) {
                         </div>
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
-                                <label>Status </label><br>
+                                <label>Action </label><br>
                                 <button type="button" class="btn btn-success" onclick="searchStudentCollegeWise();">Search</button>
                             </div>
                         </div>
@@ -487,7 +627,7 @@ function printEmpIDCard(id) {
                 </div>
             </div>
             <!-- /.col -->
-            <div class="col-md-9">
+            <div class="col-lg-10">
                 <div class="card card-outline">
 
                     <div class="card-header">

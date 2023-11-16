@@ -67,7 +67,7 @@ window.location.href = "index.php";
 
 
 
-   $code = $_POST['code'];
+   $code =$_POST['code'];
    if($code==224 ||  $code==168   )
 {
        include "connection/ftp.php";
@@ -3076,7 +3076,8 @@ else { ?>
     <div class="card">
         <div class="card-header" style="background-color:white!important; color: black !important;">
             <h3 class="card-title" style="font-size: 14px!important" onclick="show_emp_all_college(<?=$CollegeID;?>);">
-                <b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b></h3>
+                <b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b>
+            </h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool">
                     <i class="fas fa-edit" onclick="AddleaveAuthority(<?=$CollegeID;?>);"></i>
@@ -17243,6 +17244,7 @@ while($getrow=sqlsrv_fetch_array($getType))
 elseif($code==266)  // search student 
 {
     $search = $_POST['empID'];
+    $code_access = $_POST['code_access'];
 ?>
     <table class="table " id="example">
         <thead>
@@ -17255,6 +17257,7 @@ elseif($code==266)  // search student
                 <th>Name</th>
                 <th>FatherName</th>
                 <th>College</th>
+                <th>Course</th>
                 <th>Status</th>
                 <th>Edit</th>
                 <th>ID Card</th>
@@ -17290,14 +17293,37 @@ elseif($code==266)  // search student
                 <td><?=$row['StudentName'];?></td>
                 <td><?=$row['FatherName'];?></td>
                 <td><?=$row['CollegeName'];?></td>
+                <td><?=$row['Course'];?></td>
+                
+                       
+                       
                 <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
                 </td>
-                <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
-                        data-target="#UpdateDesignationModalCenter21"></i></td>
+                <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                        data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
+                            class="fa fa-edit "></i></button>
+                  <?php 
+                  
+                  if ($role_id==2) 
+                  {                                 
+               ?><button class="btn btn-warning btn-xs" type="button" data-toggle="modal"
+                        onclick="StudentUpdatedata(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
+                        style="text-align:right"><i class="fa fa fa-edit"></i></button>
+
+                    <button class="btn btn-danger btn-xs" data-toggle="modal" type="button"
+                        onclick="changecourse(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
+                        style="text-align:right"><i class="fa fa fa-arrow-right"></i></button>
+                        <?php }?>
+                </td>
                 <td>
 
 
                     <?php 
+                    
+    
+                     if ($role_id==2) 
+                     {                                 
+                 
 $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                   $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -17312,7 +17338,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 
-
+<?php }?>
 
 
                 </td>
@@ -17329,14 +17355,21 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
 
 elseif($code==267) //update student
 {
+    $code_access = $_POST['code_access'];
   $DateOfBirth="01-01-1900";
   $empID=$_POST['empID'];
-  $query = "SELECT * FROM Admissions  Where IDNo='$empID'";
+  $query = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$empID'";
   $result = sqlsrv_query($conntest,$query);
-  while($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+  if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   {
-    $DateOfBirth=$row1['DOB'];
-     
+    $DateOfBirth=$row1['DOB']; 
+     $RegistrationNo = $row1['RegistrationNo'];
+    $abcid = $row1['ABCID'];
+    $Locked = $row1['Locked'];
+     $Eligibility = $row1['Eligibility'];
+     $Reason = $row1['Reason'];
+    $validUpto='NA';
+    $password= $row1['Password'];
 ?>
 
     <div class="row">
@@ -17350,354 +17383,309 @@ elseif($code==267) //update student
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                        <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
                         </li>
-
-
                     </ul>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="personal_details">
-                            <!-- /.login-logo -->
-                            <form action="action_g.php" method="post" enctype="multipart/form-data" id="my-awesome-dropzone">
-                                <input type="hidden" name="code" value="268">
+                    <form action="action_g.php" method="post" enctype="multipart/form-data" id="my-awesome-dropzone">
+                        <input type="hidden" name="code" value="268">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="personal_details">
+                                <!-- /.login-logo -->
                                 <div class="row">
+                                    
                                     <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>IDNo</label>
-                                            <input type="text" class="form-control" name="loginId"
-                                                value="<?=$row1['IDNo'];?>" readonly>
-                                        </div>
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" name="StudentName"
+                                            placeholder="Enter name" value="<?=$row1['StudentName'];?>">
                                     </div>
                                     <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input type="text" class="form-control" name="StudentName"
-                                                placeholder="Enter name" value="<?=$row1['StudentName'];?>">
-                                        </div>
+                                        <label>Father's Name</label>
+                                        <input type="text" class="form-control" name="fatherName"
+                                            placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
                                     </div>
                                     <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Father's Name</label>
-                                            <input type="text" class="form-control" name="fatherName"
-                                                placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
-                                        </div>
+                                        <label>Mother's Name</label>
+                                        <input type="text" class="form-control" name="motherName"
+                                            placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        <label>Date of Birth</label>
+                                        <input type="date" class="form-control" name="dob"
+                                            value="<?php if($DateOfBirth!=''){echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        <label>Gender</label>
+                                        <select class="form-control" name="gender">
+                                            <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
+                                            </option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        <label>Category</label>
+                                        <select class="form-control" name="category">
+                                            <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?></option>
+                                            <option>SC</option>
+                                            <option>ST</option>
+                                            <option>OBC</option>
+                                            <option>General</option>
+                                        </select>
                                     </div>
                                     <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Mother's Name</label>
-                                            <input type="text" class="form-control" name="motherName"
-                                                placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Date of Birth</label>
-                                            <input type="date" class="form-control" name="dob"
-                                                value="<?php if($DateOfBirth!=''){echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <select class="form-control" name="gender">
-                                                <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
-                                                </option>
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                                <option>Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select class="form-control" name="category">
-                                                <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?>
-                                                </option>
-
-                                                <option>SC</option>
-                                                <option>ST</option>
-                                                <option>OBC</option>
-                                                <option>General</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Image</label>
-                                            <input type="file" class="form-control-file" name="photo" name="photo">
-                                            <i class="fa fa-eye text-success"
-                                                onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Image');"
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i>
-                                        </div>
+                                        <label>Image</label>
+                                        <input type="file" class="form-control-file" name="photo" name="photo">
 
                                     </div>
                                     <div class="col-12 col-lg-3">
-                                        <div class="form-group">
-                                            <label>Upload Signature</label>
-                                            <input type="file" class="form-control-file" name="signature">
-                                            <i class="fa fa-eye text-success"
-                                                onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Sign');"
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i>
-                                        </div>
+                                        <label>Upload Signature</label>
+                                        <input type="file" class="form-control-file" name="signature">
+
                                     </div>
                                 </div>
-
-                        </div>
-                        <div class="tab-pane" id="contact">
-
-                            <div class="row">
-
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                            </div>
+                            <div class="tab-pane" id="contact">
+                                <div class="row">
+                                    <div class="col-lg-3 col-12">
                                         <label>Personal Email ID</label>
                                         <input type="email" class="form-control" name="personalEmail"
                                             placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <div class="col-lg-3 col-12">
                                         <label>Official Email ID</label>
                                         <input type="email" class="form-control" name="officialEmail"
                                             placeholder="Enter official email" value="<?=$row1['OfficialEmailID'];?>">
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <div class="col-lg-3 col-12">
                                         <label>Mobile Number</label>
                                         <input type="text" class="form-control" name="mobileNumber"
                                             placeholder="Enter mobile number" value="<?=$row1['StudentMobileNo'];?>">
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <div class="col-lg-3 col-12">
                                         <label>WhatsApp Number</label>
                                         <input type="text" class="form-control" name="whatsappNumber"
                                             placeholder="Enter WhatsApp number" value="<?=$row1['StudentMobileNo'];?>">
                                     </div>
-                                </div>
-
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
-                                        <label>Address Line 1</label>
-                                        <input type="text" class="form-control" name="addressLine1"
+                                    <!-- <div class="col-lg-3 col-12" style="display:none;">
+                                        <label>Address Line 1</label> -->
+                                        <input type="hidden" class="form-control" name="addressLine1"
                                             placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
-                                        <label>Address Line 2</label>
-                                        <input type="text" class="form-control" name="addressLine2"
+                                    <!-- </div> -->
+                                    <!-- <div class="col-lg-3 col-12" style="display:none;">
+                                        <label>Address Line 2</label> -->
+                                        <input type="hidden" class="form-control" name="addressLine2"
                                             placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <!-- </div> -->
+                                    <div class="col-lg-6 col-12">
                                         <label>Permanent Address</label>
-                                        <input type="text" class="form-control" name="permanentAddress"
+                                        <textarea  class="form-control" name="permanentAddress"
                                             placeholder="Enter permanent address"
-                                            value="<?=$row1['PermanentAddress'];?>">
+                                            ><?=$row1['PermanentAddress'];?></textarea>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <div class="col-lg-6 col-12">
                                         <label>Correspondence Address</label>
-                                        <input type="text" class="form-control" name="correspondenceAddress"
+                                        <textarea  class="form-control" name="correspondenceAddress"
                                             placeholder="Enter correspondence address"
-                                            value="<?=$row1['CorrespondanceAddress'];?>">
+                                            ><?=$row1['CorrespondanceAddress'];?></textarea>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Nationality</label>
+                                        <select class="form-control" id="Nationality_1" name="Nationality_1"
+                                            onchange="fetch_state1(this.value);">
+                                            <option value="<?=$row1['Nationality'];?>"><?=$row1['Nationality'];?>
+                                            </option>
+                                            <option value="">Country</option>
+                                            <?php 
+                                            $get_country="SELECT * FROM countries ";
+                                                        $get_country_run=mysqli_query($conn,$get_country);
+                                                        while($row=mysqli_fetch_array($get_country_run))
+                                                        {?>
+                                            <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
+                                            <?php }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>State</label>
+                                        <select class="form-control" id="State_1" name="State_1"
+                                            onchange="fetch_district1(this.value);">
+                                            <option value="<?=$row1['State'];?>"><?=$row1['State'];?></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>District</label>
+                                        <select class="form-control" id="District_1" name="District_1">
+                                            <option value="<?=$row1['District'];?>"><?=$row1['District'];?></option>
+                                        </select>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-3">
-                                    <label>Nationality</label>
-                                    <select class="form-control" id="Nationality_1" name="Nationality_1"
-                                        onchange="fetch_state1(this.value);">
-                                        <option value="<?=$row1['Nationality'];?>"><?=$row1['Nationality'];?></option>
-                                        <option value="">Country</option>
-                                        <?php 
-                  $get_country="SELECT * FROM countries ";
-                  $get_country_run=mysqli_query($conn,$get_country);
-                  while($row=mysqli_fetch_array($get_country_run))
-                  {?>
-                                        <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
-                                        <?php }
-
-                 ?>
-                                    </select>
-
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>State</label>
-                                    <select class="form-control" id="State_1" name="State_1"
-                                        onchange="fetch_district1(this.value);">
-                                        <option value="">State</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-2">
-                                    <label>District</label>
-                                    <select class="form-control" id="District_1" name="District_1">
-                                        <option value="">District</option>
-                                    </select>
-                                </div>
-
-
                             </div>
-
-                        </div>
-                        <div class="tab-pane" id="employment">
-
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <label>College Name</label>
-                                    <select name="CollegeName" id='CollegeName' onchange="fetchcourse(this.value);"
-                                        class="form-control" required>
-                                        <option value=''>Select Faculty</option>
-                                        <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-                     $stmt2 = sqlsrv_query($conntest,$sql);
-                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-                      {   
-                        $college = $row['CollegeName']; 
-                        $CollegeID = $row['CollegeID'];
-                        ?>
-                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
-                                        <?php }
-                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>Department</label>
-                                    <select id="Course" name="Course" class="form-control" required>
-                                        <option value=''>Select Course</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                            <div class="tab-pane" id="employment">
+                                <div class="row">
+                                <div class="col-12 col-lg-3">
+                                        <label>IDNo</label>
+                                        <input type="text" class="form-control" name="loginId"
+                                            value="<?=$row1['IDNo'];?>" readonly>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <label>Class Roll No</label>
+                                        <input type="text" class="form-control" name="classRollNo"
+                                            value="<?=$row1['ClassRollNo'];?>" readonly>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <label>Uni Roll No</label>
+                                        <input type="text" class="form-control" name="uniRollNo"
+                                            value="<?=$row1['UniRollNo'];?>" readonly>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>College Name</label>
+                                        <select name="CollegeName" id='CollegeName' onchange="fetchcourse(this.value);"
+                                            class="form-control" readonly>
+                                            <option value="<?=$row1['CollegeID'];?>"><?=$row1['CollegeName'];?></option>
+                                            <?php
+                                            $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                                $stmt2 = sqlsrv_query($conntest,$sql);
+                                                while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                                                {   
+                                                    $college = $row['CollegeName']; 
+                                                    $CollegeID = $row['CollegeID'];
+                                                    ?>
+                                            <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                            <?php }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Course</label>
+                                        <select id="Course" name="Course" class="form-control" readonly>
+                                            <option value="<?=$row1['CourseID'];?>"><?=$row1['Course'];?></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
                                         <label>Batch</label>
-
                                         <input type="text" name="batch" class="form-control"
                                             value="<?=$row1['Batch'];?>" readonly>
                                     </div>
-                                </div>
-
-                                <div class="col-lg-3 col-12">
-                                    <div class="form-group">
+                                    <div class="col-lg-3 col-12">
                                         <label>Status </label>
-                                        <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
                                         <select class="form-control" name="employmentStatus">
                                             <?php if ($row1['Status']==1) {?>
-
                                             <option value="<?=$row1['Status'];?>"
                                                 style="background-color:green !important;"><b>Active</b>
                                             </option>
-                                            <?php }else
-                                    {
-                                       ?>
+                                            <?php }else{
+                                        ?>
                                             <option value="<?=$row1['Status'];?>">DeActive</option>
                                             <?php }
-                                    ?>
+                                        ?>
                                             <option value="1">Active</option>
                                             <option value="0">DeActive</option>
                                         </select>
                                     </div>
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="idcard">
-
-                            <div class="row">
-                                <div class="col-lg-12">
-
-                                    <table class="table  table-bordered">
-                                        <tr>
-                                            <th colspan="7">
-                                                <center> ID Card</center>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>IDNO</td>
-                                            <td>Status</td>
-                                            <td>Date</td>
-                                        </tr>
-                                        <?php 
-      $IdCard="SELECT *  FROM SmartCardDetails where IDNO='".$row1['IDNo']."'"; 
-$getUseridcard=sqlsrv_query($conntest,$IdCard);
-$countPerms=0;
-while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
-{
-?>
-                                        <tr>
-                                            <td><?=$getUseridcardRow['IDNO'];?></td>
-                                            <td><?=$getUseridcardRow['status'];?></td>
-                                            <td><?=$getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
-                                        </tr>
-                                        <?php 
-                                    }?>
-
-
-                                    </table>
+                                    <div class="col-lg-3 col-12">
+                                        <label>Lock</label>
+                                        <select class="form-control" name='ulocked'>
+                                            <option value="<?=$Locked;?>">
+                                                <?php if ($Locked==1)  {echo "Lock";}else { echo "Unlock";}?></option>
+                                            <option value="0">Unlock</option>
+                                            <option value="1">Lock</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <label>Eligibility</label>
+                                        <select class="form-control" name='eligible'>
+                                            <option value="<?=$Eligibility;?>">
+                                                <?php if ($Eligibility>0)  {echo $Reason." Eligible";} else{echo "Not Eligible";} ?>
+                                            </option>
+                                            <option value="1">Eligible</option>
+                                            <option value="0">Not Eligible</option>
+                                            <option value="2">Provisional Eligible</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
+
+
+                            <div class="tab-pane" id="idcard1">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table  table-bordered">
+                                            <tr>
+                                                <th colspan="7">
+                                                    <center> ID Card</center>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>IDNO</td>
+                                                <td>Status</td>
+                                                <td>Date</td>
+                                            </tr>
+                                            <?php 
+                                                $IdCard="SELECT *  FROM SmartCardDetails where IDNO='".$row1['IDNo']."'"; 
+                                                $getUseridcard=sqlsrv_query($conntest,$IdCard);
+                                                $countPerms=0;
+                                                while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+                                                {
+                                                ?>
+                                            <tr>
+                                                <td><?=$getUseridcardRow['IDNO'];?></td>
+                                                <td><?=$getUseridcardRow['status'];?></td>
+                                                <td><?=$getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
+                                            </tr>
+                                            <?php 
+                                                }?>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <?php                   
+                                    }
+                                    // print_r($aa);        ?>
+                            </div>
                         </div>
+                      <br>
+   
+        <div class="modal-footer">
+   <?php 
+   if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+   {                                 
 
-
-
-
-
-
-
-                        <?php
-                    
-}
-                     
-                     
-                      ?>
-
-
-
-                    </div>
-                    <!-- /.row -->
-                    <div class="card-footer">
-                        <div class="row">
-
-
-
-                            <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
+   ?><br>
+                            <button type="button" onclick="uploadPhotoStudent(this.form)" class="btn btn-primary"
                                 id="update_button" style="display:none;">Update</button>
+                       
+                        <?php } ?>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
 
+                </form>
+            </div>
 
-
-
-                        </div>
-                        </form>
-
-                        <!-- /.container-fluid -->
-                        <?php 
+            <!-- /.container-fluid -->
+            <?php 
 }
 
 
 elseif($code==268)
 {
    $loginId = $_POST["loginId"];
+   $classRollNo = $_POST["classRollNo"];
+   $uniRollNo = $_POST["uniRollNo"];
    $name = $_POST["StudentName"];
    $fatherName = $_POST["fatherName"];
    $motherName = $_POST["motherName"];
-   $course = $_POST["Course"];
+   $CourseID = $_POST["Course"];
+   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+   $stmt = sqlsrv_query($conntest,$sql);  
+if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   {
+  $CourseName=$row6["Course"];
+   }
    $dob = $_POST["dob"];
    $gender = $_POST["gender"];
    $category = $_POST["category"];
@@ -17709,59 +17697,74 @@ elseif($code==268)
    $addressLine2 = $_POST["addressLine2"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   $organisationName = $_POST["CollegeName"];
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$organisationName'";
+   $CollegeID = $_POST["CollegeName"];
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$CollegeID'";
    $stmt2 = sqlsrv_query($conntest,$sql);
    if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
     {   
-      $college = $row['CollegeName']; 
+      $CollegeName = $row['CollegeName']; 
     }
 
    $employmentStatus = $_POST["employmentStatus"];
-   $Nationality1 = $_POST["Nationality_1"];
-   $get_country="SELECT * FROM countries where id='$Nationality1' ";
+   $NationalityID = $_POST["Nationality_1"];
+   $get_country="SELECT * FROM countries where id='$NationalityID' ";
    $get_country_run=mysqli_query($conn,$get_country);
    if($row=mysqli_fetch_array($get_country_run))
    {
-    $Nationality=$row['name'];
+    $NationalityName=$row['name'];
     }
-   $district = $_POST["District_1"];
-   $sql = "SELECT  id,name FROM cities WHERE id='$district' order by name ASC";
+    else{
+        $NationalityName=$NationalityID;
+    }
+   $districtID = $_POST["District_1"];
+   $sql = "SELECT  id,name FROM cities WHERE id='$districtID' order by name ASC";
    $stmt = mysqli_query($conn,$sql); 
    if($row4 = mysqli_fetch_array($stmt) )
    {
-$districtName=$row4['name'];
+$DistrictName=$row4['name'];
+     }else{
+        $DistrictName=$districtID;
      }
 
-   $state = $_POST["State_1"]; 
-   $sql = "SELECT  Id,name FROM states WHERE Id='$state' order by name ASC";
+   $stateID = $_POST["State_1"]; 
+   $sql = "SELECT  Id,name FROM states WHERE Id='$stateID' order by name ASC";
    $stmt = mysqli_query($conn,$sql);  
           if($row3 = mysqli_fetch_array($stmt) )
       {
         $StateName=$row3['name'];
       }
+      else{
+        $StateName=$stateID;
+      }
    $batch = $_POST["batch"]; 
-   // Handling file uploads
+
+   $ulocked =$_POST["ulocked"]; 
+   $eligible =$_POST["eligible"]; 
+
+
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
    if ($photo) {
       $photoTmp = $_FILES["photo"]["tmp_name"];
-
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-  $ImageName=$loginId.'.jpg';
-   ftp_put($conn_id, "Student/$ImageName", $photoTmp, FTP_BINARY);
+      $file_data = file_get_contents($photoTmp);
+   $ImageName=$loginId.".PNG";
+   ftp_put($conn_id, "Students/$ImageName", $photoTmp, FTP_BINARY);
 
-    $file_data = file_get_contents($photoTmp);
 
         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
 $params = array($file_data, $loginId);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+sqlsrv_query($conntest, $upimage, $params);
    }
    if ($signature) {
       $signatureTmp = $_FILES["signature"]["tmp_name"];
   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
-      $SignatureImageName="Signature".$loginId.$file_type;
-   ftp_put($conn_id, "Student/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+       $SignatureImageName=$loginId.".PNG";
+   ftp_put($conn_id, "Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+   $file_data1 = file_get_contents($signatureTmp);
+   $upimage1 = "UPDATE Admissions SET Signature = ? WHERE IDNo = ?";
+   $params1 = array($file_data1, $loginId);
+   sqlsrv_query($conntest, $upimage1, $params1);
    }
 
 
@@ -17769,7 +17772,8 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "StudentName = '$name', ";
    $query .= "FatherName = '$fatherName', ";
    $query .= "MotherName = '$motherName', ";
-   $query .= "Course = '$course', ";
+   $query .= "CourseID = '$CourseID', ";
+   $query .= "Course = '$CourseName', ";
    $query .= "DOB = '$dob', ";
    $query .= "Sex = '$gender', ";
    $query .= "Batch = '$batch', ";
@@ -17782,14 +17786,19 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "AddressLine2 = '$addressLine2', ";
    $query .= "PermanentAddress = '$permanentAddress', ";
    $query .= "CorrespondanceAddress = '$correspondenceAddress', ";
-   $query .= "CollegeName = '$college', ";
-   $query .= "Nationality = '$Nationality', ";
-   $query .= "District = '$districtName', ";
+   $query .= "CollegeName = '$CollegeName', ";
+   $query .= "CollegeID = '$CollegeID', ";
+   $query .= "Nationality = '$NationalityName', ";
+   $query .= "District = '$DistrictName', ";
    $query .= "State = '$StateName', ";
+   $query .= "Eligibility = '$eligible', ";
+   $query .= "Locked = '$ulocked', ";
+   $query .= "ClassRollNo = '$classRollNo', ";
+   $query .= "UniRollNo = '$uniRollNo', ";
    $query .= "Status = '$employmentStatus' ";
    $query .= "WHERE IDNo = '$loginId'";
-   $query;
-   if(sqlsrv_query($conntest,$query))
+    $query;
+   if($rrrrr=sqlsrv_query($conntest,$query))
    {
       echo "1";
    }
@@ -17797,7 +17806,7 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    {
       echo "0";
    }
-   if ($query_run === false) {
+   if ($rrrrr === false) {
     $errors = sqlsrv_errors();
     echo "Error: " . print_r($errors, true);
     // echo "0";
@@ -17809,7 +17818,7 @@ elseif($code=='269')
 $College=$_POST['College'];
 
 
-  $sql = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CollegeID='$College' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+  $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd (Status='1'  OR Status is NULL)order by Course ASC";
 
 $stmt = sqlsrv_query($conntest,$sql);  
 echo "<option value=''>Course</option>";
@@ -17817,7 +17826,7 @@ echo "<option value=''>Course</option>";
 
 {
 
-echo "<option value='".$row["Course"]."'>".$row["Course"]."</option>";
+echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
 }
 echo " <option value='other'>Other</option>";
 
@@ -17825,53 +17834,62 @@ echo " <option value='other'>Other</option>";
 
 elseif($code==270)  // search student 
 {
-    $college = $_POST['CollegeName'];
-    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$college'";
-    $stmt2 = sqlsrv_query($conntest,$sql);
-    if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-     {   
-       $CollegeName = $row['CollegeName']; 
-     }
-    $Course = $_POST['Course'];
+    $Session = $_POST['Session'];
+    $CollegeID = $_POST['CollegeName'];
+    $CourseID = $_POST['Course'];
     $Batch = $_POST['Batch'];
     $Status = $_POST['Status'];
 ?>
-                        <table class="table " id="example">
-                            <thead>
-                                <tr>
-                                    <th>SrNo</th>
-                                    <th>Image</th>
-                                    <th>IDNo</th>
-                                    <th>ClassRollNo</th>
-                                    <th>UniRollNo</th>
-                                    <th>Name</th>
-                                    <th>FatherName</th>
-                                    <th>College</th>
-                                    <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>ID Card</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
+            <table class="table " id="example">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Session</th>
+                        <th>IDNo</th>
+                        <th>ClassRollNo</th>
+                        <th>UniRollNo</th>
+                        <th>Name</th>
+                        <th>FatherName</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>ID Card</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
       $sr=1;
-if($CollegeName!='' && $Course!='' && $Batch!='' && $Status!='')
+if($CollegeID!='' && $CourseID!='' && $Batch!='' && $Status!='' && $Session!='')
 {
-     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course' and  Batch='$Batch' and Status='$Status' ";
+     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID' and  Batch='$Batch' and Status='$Status' and Session='$Session' ";
 
-}elseif ($CollegeName!='' && $Course!='' && $Batch!='') {
-     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course' and  Batch='$Batch' ";
+}elseif ($CollegeID!='' && $CourseID!='' && $Batch!='' ) {
+     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID' and  Batch='$Batch' ";
     
 }
-elseif ($CollegeName!='' && $Course!='') {
-     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName' and  Course ='$Course'  ";
+elseif ($CollegeID!='' && $CourseID!='') {
+     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID'  ";
     
 }
-elseif ($CollegeName!='') {
+elseif ($CollegeID!='' && $CourseID=='' && $Batch=='' && $Status=='' && $Session!='') {
     
-     $query = "SELECT * FROM Admissions  Where CollegeName='$CollegeName'  ";
+     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and Session='$Session'  ";
     
-}else{
+}elseif($CollegeID!='' && $CourseID=='' && $Batch=='' && $Status!='' && $Session!='')
+{
+    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and Status='$Status' and Session='$Session' ";
+}elseif($CollegeID!='' && $CourseID=='' && $Batch!='' && $Status!='' && $Session!='')
+{
+    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID'  and  Batch='$Batch' and Status='$Status' and Session='$Session' ";
+}
+elseif($CollegeID!='' && $CourseID!='' && $Batch!='' && $Status!='' && $Session=='')
+{
+    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID'  and  Batch='$Batch' and Status='$Status'  ";
+}
+else
+{
       $query = " ";
 }
        $result = sqlsrv_query($conntest,$query);
@@ -17889,24 +17907,42 @@ elseif ($CollegeName!='') {
          }
          
          ?>
-                                <tr>
-                                    <td><?=$sr;?></td>
-                                    <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
-                                    </td>
-                                    <td><?=$row['IDNo'];?></td>
-                                    <td><?=$row['ClassRollNo'];?></td>
-                                    <td><?=$row['UniRollNo'];?></td>
-                                    <td><?=$row['StudentName'];?></td>
-                                    <td><?=$row['FatherName'];?></td>
-                                    <td><?=$row['CollegeName'];?></td>
-                                    <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                                    </td>
-                                    <td><i class="fa fa-edit fa-lg" onclick="updateStudent(<?=$row['IDNo'];?>);"
-                                            data-toggle="modal" data-target="#UpdateDesignationModalCenter21"></i></td>
-                                    <td>
+                    <tr>
+                        <td><?=$sr;?></td>
+                        <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                        </td>
+                        <td><?=$row['Session'];?></td>
+                        <td><?=$row['IDNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?></td>
+                        <td><?=$row['UniRollNo'];?></td>
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['FatherName'];?></td>
+                        <td><?=$row['CollegeName'];?></td>
+                        <td><?=$row['Course'];?></td>
+                        <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                        </td>
+                        <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                        data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
+                            class="fa fa-edit "></i></button>
+                  <?php 
+                  
+                  if ($role_id==2) 
+                  {                                 
+               ?><button class="btn btn-warning btn-xs" type="button" data-toggle="modal"
+                        onclick="StudentUpdatedata(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
+                        style="text-align:right"><i class="fa fa fa-edit"></i></button>
+
+                    <button class="btn btn-danger btn-xs" data-toggle="modal" type="button"
+                        onclick="changecourse(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
+                        style="text-align:right"><i class="fa fa fa-arrow-right"></i></button>
+                        <?php }?>
+                </td>
+                        <td>
 
 
-                                        <?php 
+                            <?php 
+                             if ($role_id==2) 
+                             {  
 $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
                   $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -17918,22 +17954,22 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                       $color="red";
                     }  
 ?>
-                                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                                            onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                            <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                                onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+
+<?php }?>
 
 
-
-
-                                    </td>
-                                </tr>
-                                <?php $sr++;
+                        </td>
+                    </tr>
+                    <?php $sr++;
 
       }
     //   print_r($aa);
       ?>
-                            </tbody>
-                        </table>
-                        <?php 
+                </tbody>
+            </table>
+            <?php 
 }
 
    else
