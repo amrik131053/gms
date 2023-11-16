@@ -1197,14 +1197,14 @@ if($Stream!=''){
 
  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirements for the award of  Diploma and having passed 
- the prescribed examination held in <b>".$Examination."</b> has been conferred the 
+ the prescribed examination held in <b>".$Examination."</b>, has been conferred the 
 <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks, with distinction in the subjects(s) ".$Stream."</b> 
 and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b> in regular mode.";
 }
 else{
    echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
    having completed the requirements for the award of  Diploma and having passed 
-   the prescribed examination held in <b>".$Examination."</b> has been conferred the 
+   the prescribed examination held in <b>".$Examination."</b>, has been conferred the 
   <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks,</b> 
   and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b> in regular mode.";
 }
