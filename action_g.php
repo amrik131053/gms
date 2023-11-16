@@ -17074,8 +17074,7 @@ elseif ($code==264)
                                         <th>Type</th>
                                         <th>SGroup</th>
                                         <th>Status</th>
-                                        <th>Submit Date</th>
-                                        <th>Receipt Date</th>
+                                       
                                         <th>Action</th>
                                     </tr><?php 
     $times=array();
@@ -17141,10 +17140,11 @@ elseif($Status==7)
 elseif($Status==8)
  {
    echo "<b style='color:green'>Accepted</b>";
- }   ?></td>
-        <td><?=$row['SubmitFormDate']->format('d-m-Y'); ?></td>
-        <td><?=$row['ReceiptDate']->format('d-m-Y'); ?></td>
-        <td>   <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden' name="examID" value="<?=$row['ID'];?>"><button type="submit" class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form></td></tr><?php
+ }   ?>
+</td>
+       
+        <td>  
+         <FORm action="print-exam-form.php" method="post" target="_blank"><input type='hidden' name="examID" value="<?=$row['ID'];?>"><button type="submit" class="btn btn-dark btn-xs"><i class="fa fa-print"></i></button></form></td></tr><?php
        
     }
     ?>
