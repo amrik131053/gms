@@ -182,7 +182,7 @@
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                        having completed the requirements for the award of  Diploma and having passed the prescribed
-                        examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b> 
+                        examination held in <b>".$Examination."</b>, has been conferred with the<b> ".$course."</b> 
                          with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                     </div>
                     <div style="height: 3px;"></div>
@@ -1206,7 +1206,7 @@ else{
    having completed the requirements for the award of  Diploma and having passed 
    the prescribed examination held in <b>".$Examination."</b> has been conferred the 
   <b> ".$course." </b> by <b>securing ".$CGPA." marks out of ".$Outof." marks,</b> 
-  and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b>n regular mode.";
+  and has satisfactorily completed the practical training for ".$course."<b> (Part-III)</b> in regular mode.";
 }
                 ?></i>
              
@@ -1373,7 +1373,7 @@ else{
                                ?>
                            <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                            having completed the requirements for the award of  Diploma and having passed the prescribed
-                            examination held in <b>".$Examination."</b>   has been conferred with the<b> ".$course."</b> 
+                            examination held in <b>".$Examination."</b>, has been conferred with the<b> ".$course."</b> 
                              with <b>CGPA ".$CGPA."</b> on scale of <b>10</b> in regular mode.";?></i>
                         </div>
                         <div style="height: 3px;"></div>
