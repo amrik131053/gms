@@ -3617,7 +3617,7 @@ else { ?>
                                             <div class="form-group">
                                                 <label>Date of Birth</label>
                                                 <input type="date" class="form-control" name="dob"
-                                                    value="<?php echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));?>">
+                                                    value="<?php if($row1['DateOfBirth']!='') {echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
 
 
                                             </div>
