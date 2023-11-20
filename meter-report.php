@@ -59,7 +59,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     </select>
                                  </div>
                               </div>
-                              <div class="col-lg-2">
+                              <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <select class="form-control" name="hostelFloorID" id='hostelFloorID' onchange="meterRoom(0,this.value)" >
                                        <option value="">Select Floor</option>
@@ -67,7 +67,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     </select>
                                  </div>
                               </div>
-                              <div class="col-lg-2">
+                              <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <select class="form-control" name="hostelRoomID" id='hostelRoomID'  >
                                        <option value="">Select Room No.</option>
@@ -82,6 +82,11 @@ while($permission_data=mysqli_fetch_array($permission_res))
                               <div class="col-lg-1">
                                  <div class="input-group-sm">
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations('0')" >Export All</button>
+                                 </div>
+                              </div>
+                              <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations_print()" >Print</button>
                                  </div>
                               </div>
    <div class="col-lg-1">
@@ -239,6 +244,14 @@ while($permission_data=mysqli_fetch_array($permission_res))
             window.location.href="export.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room;
       }
 
+   function exportMeterLocations_print()
+      {
+            var exportCode='15';
+            var floor=document.getElementById("hostelFloorID").value;
+            var room=document.getElementById("hostelRoomID").value;
+               var building=document.getElementById("hostel_id").value;
+            window.open("print_bill_detail_excel.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room,"_blank");
+      }
 
 
 function groupexport(id)
