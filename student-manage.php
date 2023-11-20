@@ -2,234 +2,44 @@
    include "header.php";   
    ?>
 <script type="text/javascript">
-show_category_wise();
-
-function show_category_wise() {
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 50;
+    
+function uploadPhotoStudent(form) {
+    // var formData = new FormData(form);
+    var formData = new FormData(document.getElementById("my-awesome-dropzone"));
+    // alert(formData);
     $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("category_wise_show").innerHTML = response;
-        }
-    });
-}
-
-function show_emp_all(categoryID) {
-    // alert(categoryID);
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 51;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            CategoryId: categoryID
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-            document.getElementById("CollegeID_Set").value = 'CategoryId=' + categoryID;
-        }
-    });
-}
-
-function show_status_wise() {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 52;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("status_wise_show").innerHTML = response;
-        }
-    });
-}
-
-function show_emp_all_status(status) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 53;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            status: status
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-            document.getElementById("CollegeID_Set").value = 'JobStatus=' + status;
-        }
-    });
-}
-
-function show_role_wise() {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 54;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("role_wise_show").innerHTML = response;
-        }
-    });
-}
-
-function show_emp_all_role(role) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 55;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            role: role
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-            document.getElementById("CollegeID_Set").value = 'Role=' + role;
-        }
-    });
-}
-
-function show_college_wise() {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 56;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function(response) {
             // console.log(response);
+            if (response == 1) {
+                SuccessToast('Successfully Updated');
+                search_all_employee();
+            } else if (response == 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else {
 
-            spinner.style.display = 'none';
-            document.getElementById("college_wise_show").innerHTML = response;
-        }
-    });
-}
-
-function show_all_depaertment(collegeId) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 57;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            collegeId: collegeId
+            }
         },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("department_wise_show" + collegeId).innerHTML = response;
+        error: function(xhr, status, error) {
+            console.log(error);
         }
     });
 }
-
-
-
-
-
-
-
-function show_emp_all_college(collegeId) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 5800;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            collegeId: collegeId
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-            document.getElementById("CollegeID_Set").value = 'CollegeID=' + collegeId;
-
-        }
-    });
-}
-
-
-
-
-
-function show_emp_all_department(collegeId, department) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 58;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            collegeId: collegeId,
-            department: department
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-            document.getElementById("CollegeID_Set").value = 'CollegeID=' + collegeId;
-            document.getElementById("CollegeID_Set").value = 'DepartmentID=' + department;
-        }
-    });
-}
-
-
-
-
-
-
-
-
-
 
 function search_all_employee_emp_name(emp_name) {
+    var code_access = '<?php echo $code_access; ?>';
     if (emp_name != '') {
-        // var spinner=document.getElementById("ajax-loader");
-        // spinner.style.display='block';
-        var code = 59;
+        var code = 266;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
             data: {
                 code: code,
+                code_access: code_access,
                 empID: emp_name
             },
             success: function(response) {
@@ -243,6 +53,7 @@ function search_all_employee_emp_name(emp_name) {
 }
 
 function search_all_employee() {
+    var code_access = '<?php echo $code_access; ?>';
     var emp_name = document.getElementById('emp_name').value;
     if (emp_name != '') {
         var spinner = document.getElementById("ajax-loader");
@@ -253,12 +64,52 @@ function search_all_employee() {
             type: 'POST',
             data: {
                 code: code,
+                code_access: code_access,
                 empID: emp_name
             },
             success: function(response) {
                 spinner.style.display = 'none';
                 document.getElementById("show_record1").innerHTML = response;
-                document.getElementById('show_record').innerHTML="";
+                document.getElementById('show_record').innerHTML = "";
+
+            }
+        });
+    }
+}
+function searchStudentCollegeWise() {
+    var session1 = document.getElementById('session1').value;
+    var session2 = document.getElementById('session2').value;
+    var session3 = document.getElementById('session3').value;
+    if(session1!='' && session2!=''){
+
+        var Session=session1+'-'+session2+'-'+session3
+    }
+    else{
+        var Session="";
+    }
+    var CollegeName = document.getElementById('CollegeName1').value;
+    var Course = document.getElementById('Course1').value;
+    var Batch = document.getElementById('Batch').value;
+    var Status = document.getElementById('Status').value;
+    if (CollegeName != '') {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 270;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                Session: Session,
+                CollegeName: CollegeName,
+                Course: Course,
+                Batch: Batch,
+                Status: Status
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                document.getElementById("show_record1").innerHTML = response;
+                document.getElementById('show_record').innerHTML = "";
 
             }
         });
@@ -269,18 +120,20 @@ function updateStudent(empID) {
 
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
+    var code_access = '<?php echo $code_access; ?>';
     var code = 267;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
         data: {
             code: code,
+            code_access: code_access,
             empID: empID
         },
         success: function(response) {
             //  console.log(response);
             spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
+            document.getElementById("updateRecord").innerHTML = response;
             $('#update_button').show();
             tab();
 
@@ -288,196 +141,94 @@ function updateStudent(empID) {
     });
 }
 
-function AddleaveAuthority(collegeId) {
 
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 62;
+function fetchcourse1() {
+    var College = document.getElementById('CollegeName1').value;
+    var code = '269';
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
         data: {
-            code: code,
-            collegeId: collegeId
+            College: College,
+            code: code
         },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-
-
-        },
-        error: function(response) {
-
-            // console.log(response);
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+                console.log(data);
+                $("#Course1").html("");
+                $("#Course1").html(data);
+            }
         }
     });
 }
-
-function update_leave_authority(collegeId, department) {
-
-    var Recommending = document.getElementById('Recommending' + department).value;
-    var Senction = document.getElementById('Senction' + department).value;
-    var spinner = document.getElementById("ajax-loader");
-    // alert(Recommending);
-    spinner.style.display = 'block';
-    var code = 63;
+function fetchcourse() {
+    var College = document.getElementById('CollegeName').value;
+    var code = '269';
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
         data: {
-            code: code,
-            department: department,
-            Recommending: Recommending,
-            Senction: Senction,
-            collegeId: collegeId
+            College: College,
+            code: code
         },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-
-                SuccessToast('Successfully Updated');
-                AddleaveAuthority(collegeId);
-            } else {
-                // ErrorToast('bg-danger','Try Again');
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+                // console.log(data);
+                $("#Course").html("");
+                $("#Course").html(data);
             }
         }
     });
 }
 
-function sync_leave_auth(collegeId) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 64;
+function fetch_state1(country_id) {
+    alert(country_id);
+    var code = '160';
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
         data: {
-            code: code,
-            collegeId: collegeId
+            country_id: country_id,
+            code: code
         },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
+        type: 'POST',
+        success: function(data) {
+            console.log(data);
+            if (data != "") {
 
-                SuccessToast('Successfully Sync');
-
-            } else {
-                ErrorToast('bg-danger', 'Try Again');
+                $("#State_1").html("");
+                $("#State_1").html(data);
             }
-        },
-        error: function(response) {
-
-            // console.log(response);
         }
     });
+
 }
 
-function emp_detail_verify1(id) {
-
-    var code = 186;
+function fetch_district1(state_id) {
+    var code = '161';
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
         data: {
-            code: code,
-            id: id
+            state_id: state_id,
+            code: code
         },
-        success: function(response) {
-
-            document.getElementById("emp_detail_status_1").innerHTML = response;
-        }
-    });
-}
-
-function emp_detail_verify2(id) {
-
-    var code = 186;
-    $.ajax({
-        url: 'action_g.php',
         type: 'POST',
-        data: {
-            code: code,
-            id: id
-        },
-        success: function(response) {
+        success: function(data) {
+            console.log(data);
+            if (data != "") {
 
-            document.getElementById("emp_detail_status_2").innerHTML = response;
-        }
-    });
-}
-
-
-
-
-function uploadPhoto(form) {
-    var formData = new FormData(form);
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            console.log(response);
-            if (response == 1) {
-                SuccessToast('Successfully Updated');
-            } else if (response == 'Could not connect to 10.0.10.11') {
-                ErrorToast('FTP Server Off', 'bg-warning');
-            } else {
-
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-}
-
-
-
-function postcode(pincode) {
-    var pincode = document.getElementById("pincode-input").value;
-    var countryDisplay = document.getElementById("nationality");
-    var stateDisplay = document.getElementById("state_by_post");
-    var districtDisplay = document.getElementById("district_by_post");
-    // var dropdown = document.getElementById("village_by_post");
-
-    // Clear previous data
-    countryDisplay.value = "";
-    stateDisplay.value = "";
-    districtDisplay.value = "";
-    // dropdown.innerHTML = "";
-
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
-                var Country = response[0].PostOffice[0].Country;
-                var State = response[0].PostOffice[0].State;
-                var District = response[0].PostOffice[0].District;
-
-                countryDisplay.value = Country;
-                stateDisplay.value = State;
-                districtDisplay.value = District;
-
-                // for (var i = 0; i < response[0].PostOffice.length; i++) {
-                //   var option = document.createElement("option");
-                //   option.value = i;
-                //   option.text = response[0].PostOffice[i].Name;
-                //   dropdown.add(option);
-                // }
+                $("#District_1").html("");
+                $("#District_1").html(data);
             }
         }
-    };
+    });
 
-    var url = "https://api.postalpincode.in/pincode/" + pincode;
-    xhr.open("GET", url, true);
-    xhr.send();
 }
+
+
+
+
+
+
 
 function exportEmployee() {
     var exportCode = 20;
@@ -494,513 +245,6 @@ function exportEmployee() {
 
 }
 
-function view_uploaded_document(IDNo, Label) {
-
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 95;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            IDNo: IDNo,
-            label: Label
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            document.getElementById("Show_document").innerHTML = response;
-
-        },
-        error: function(response) {
-
-            // console.log(response);
-        }
-    });
-
-}
-
-function fetchDepartment(CollegeId) {
-
-    var code = '96';
-    $.ajax({
-        url: 'action_g.php',
-        data: {
-            CollegeId: CollegeId,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            if (data != "") {
-                //   console.log(data);
-                $("#departmentName").html("");
-                $("#departmentName").html(data);
-            }
-        }
-    });
-
-}
-
-
-
-
-function lmsDeleteRole(empid) {
-    var a = confirm('Are you sure you want to delete  ' + empid);
-    if (a == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 202;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                empid: empid
-            },
-            success: function(response) {
-                console.log(response);
-                spinner.style.display = 'none';
-                if (response == 1) {
-                    updateStudent(empid);
-                    SuccessToast('Successfully  Deleted');
-
-                } else {
-
-                }
-            }
-        });
-    }
-
-}
-
-function deleteRole(empid, userMasterId) {
-    var a = confirm('Are you sure you want to delete  ' + empid);
-    // alert(id);
-    if (a == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 182;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                empid: empid,
-                userMasterId: userMasterId
-            },
-            success: function(response) {
-                // console.log(response);
-                spinner.style.display = 'none';
-                if (response == 1) {
-                    updateStudent(empid);
-                    SuccessToast('Successfully  Deleted');
-
-                } else {
-
-                }
-            }
-        });
-    }
-
-}
-
-function deleteCollegeCoursePermissions() {
-
-    var a = confirm('Are you sure you want to delete');
-    if (a == true) {
-        var verifiy = document.getElementsByClassName('v_check');
-        var len_student = verifiy.length;
-
-        var code = 188;
-        var subjectIDs = [];
-
-        for (i = 0; i < len_student; i++) {
-            if (verifiy[i].checked === true) {
-                subjectIDs.push(verifiy[i].value);
-            }
-        }
-
-
-
-        if ((typeof subjectIDs[0] == 'undefined')) {
-            alert('Select atleast one ');
-        } else {
-            var spinner = document.getElementById("ajax-loader");
-            spinner.style.display = 'block';
-            $.ajax({
-                url: 'action_g.php',
-                data: {
-                    subjectIDs: subjectIDs,
-                    code: code
-                },
-                type: 'POST',
-                success: function(data) {
-                    spinner.style.display = 'none';
-                    console.log(data);
-                    if (data == 1) {
-                        // searchForDelete(id);
-                        SuccessToast('Successfully Deleted');
-
-                    } else {
-                        ErrorToast(' try Again', 'bg-danger');
-
-                    }
-                }
-            });
-        }
-    } else {
-
-    }
-}
-
-function selectForDelete() {
-    if (document.getElementById("select_all1").checked) {
-        $('.v_check').each(function() {
-            this.checked = true;
-        });
-    } else {
-        $('.v_check').each(function() {
-            this.checked = false;
-        });
-    }
-
-    $('.v_check').on('click', function() {
-        var a = document.getElementsByClassName("v_check:checked").length;
-        var b = document.getElementsByClassName("v_check").length;
-
-        if (a == b) {
-
-            $('#select_all1').prop('checked', true);
-        } else {
-            $('#select_all1').prop('checked', false);
-        }
-    });
-
-}
-
-function searchForDelete(id) {
-    var College = document.getElementById('CollegeForsearch').value;
-    var code = '190';
-    $.ajax({
-        url: 'action_g.php',
-        data: {
-            College: College,
-            empid: id,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            // console.log(data);
-            document.getElementById('TableAssignedPermissions').innerHTML = data;
-        }
-    });
-
-}
-
-function fetchcourse() {
-    var College = document.getElementById('CollegeID').value;
-    var department = document.getElementById('Department').value;
-
-    var code = '305';
-    $.ajax({
-        url: 'action.php',
-        data: {
-            department: department,
-            College: College,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            if (data != "") {
-                //   console.log(data);
-                $("#Course").html("");
-                $("#Course").html(data);
-            }
-        }
-    });
-
-}
-
-function lmsUpdateRole(empid) {
-
-    var LoginType = document.getElementById("LoginType_lms").value;
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 201;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            empid: empid,
-            LoginType: LoginType
-        },
-        success: function(response) {
-            console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-                // erp_role_drop();
-                SuccessToast('Successfully  Updated');
-                updateStudent(empid);
-
-            } else {
-
-            }
-        }
-    });
-}
-
-function updateRole(empid, userMasterId) {
-
-    var RightsLevel = document.getElementById("RightsLevel").value;
-    var LoginType = document.getElementById("LoginType").value;
-    // alert(LoginType+RightsLevel);
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 183;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            empid: empid,
-            userMasterId: userMasterId,
-            RightsLevel: RightsLevel,
-            LoginType: LoginType
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-                // erp_role_drop();
-                SuccessToast('Successfully  Updated');
-                updateStudent(empid);
-
-            } else {
-
-            }
-        }
-    });
-}
-
-function addCollegePermissions(empid) {
-    // alert(empid);
-    var CollegeID = document.getElementById("CollegeID").value;
-    var Department = document.getElementById("Department").value;
-    var Course = document.getElementById("Course").value;
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 191;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            empid: empid,
-            CollegeID: CollegeID,
-            Department: Department,
-            Course: Course
-        },
-        success: function(response) {
-            console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-                // erp_role_drop();
-                SuccessToast('Successfully  Added');
-                updateStudent(empid);
-
-
-            } else {
-
-            }
-        }
-    });
-}
-
-function addCollegePermissionsAccordingToCollegeAdd(empid) {
-    var CollegeID = document.getElementById("College3").value;
-    var Department = document.getElementById("Department3").value;
-    var Course = "";
-    var code = 191;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            empid: empid,
-            CollegeID: CollegeID,
-            Department: Department,
-            Course: Course
-        },
-        success: function(response) {
-
-        }
-    });
-}
-
-function deleteCollegeCourse(ID, empid) {
-    var a = confirm('Are you sure you want to delete');
-
-    if (a == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 189;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                ID: ID,
-                empid: empid
-            },
-            success: function(response) {
-                // console.log(response);
-                spinner.style.display = 'none';
-                if (response == '1') {
-
-                    SuccessToast('Successfully Deleted');
-                    searchForDelete(empid);
-                } else {
-                    ErrorToast('try', 'bg-danger');
-                }
-            }
-        });
-    } else {
-
-    }
-}
-
-function addEmpInLms(loginId, category) {
-
-
-    var code = 226;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            loginId: loginId
-        },
-        success: function(response) {
-
-            lmsAddRoleAcordingToAddEmp(loginId, category);
-        }
-    });
-
-}
-
-function lmsAddRoleAcordingToAddEmp(empid, category) {
-
-    // alert(category);
-
-    var code = 225;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            empid: empid,
-            LoginType: category
-        },
-        success: function(response) {
-
-        }
-    });
-
-}
-
-function lmsAddRole(empid) {
-
-    var LoginType = document.getElementById("LoginType_lms").value;
-    // alert(LoginType+RightsLevel);
-    if (LoginType != '') {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 200;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                empid: empid,
-                LoginType: LoginType
-            },
-            success: function(response) {
-                console.log(response);
-                spinner.style.display = 'none';
-                if (response == '1') {
-
-                    SuccessToast('Successfully  Inserted');
-                    updateStudent(empid);
-                } else {
-                    ErrorToast('try', 'bg-danger');
-                }
-            }
-        });
-    } else {
-        ErrorToast('all inputs required', 'bg-danger');
-    }
-}
-
-function addRole(empid, college) {
-
-    var RightsLevel = document.getElementById("RightsLevel").value;
-    var LoginType = document.getElementById("LoginType").value;
-
-    // alert(LoginType+RightsLevel);
-    if (RightsLevel != '' && LoginType != '') {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 184;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                empid: empid,
-                RightsLevel: RightsLevel,
-                LoginType: LoginType,
-                college: college
-            },
-            success: function(response) {
-                // console.log(response);
-                spinner.style.display = 'none';
-                if (response == '1') {
-
-                    SuccessToast('Successfully  Inserted');
-                    updateStudent(empid);
-                } else {
-                    ErrorToast('try', 'bg-danger');
-                }
-            }
-        });
-    } else {
-        ErrorToast('all inputs required', 'bg-danger');
-    }
-}
-
-
-
-function manageDepartment() {
-    var code = 192;
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-        }
-    });
-
-}
 
 function search() {
     var code = 327;
@@ -1024,640 +268,412 @@ function search() {
 
 }
 
-function update_dep(id) {
-    var code = 328;
-
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("update_data").innerHTML = response;
-        }
-    });
-
-}
-
-function update_designation(id) {
-    var code = 195;
-
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("update_data_designation").innerHTML = response;
-            manageDesignation();
-        }
-    });
-
-}
-
-
-
-
-
-
-
-function UpdatedepDesignation(id)
-
-{
-    var code = 196;
-    var fullname = document.getElementById('fullname').value;
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id,
-            fullname: fullname
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            manageDesignation();
-            SuccessToast('Successfully Updated');
-
-            // document.getElementById("update_data").innerHTML=response;
-        }
-    });
-
-}
-
-function Updatedepdata(id)
-
-{
-    var code = 329;
-    var shortname = document.getElementById('shortname').value;
-    var fullname = document.getElementById('fullname').value;
-    var college = document.getElementById('CollegeID').value;
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id,
-            shortname: shortname,
-            fullname: fullname,
-            college: college
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            search();
-            SuccessToast('Successfully Updated');
-
-            // document.getElementById("update_data").innerHTML=response;
-        }
-    });
-
-}
-
-
-function delete_dep(id) {
-    var a = confirm('Are you sure you want to delete');
-    // alert(id);
-    if (a == true) {
-        var code = 331;
-        var spinner = document.getElementById('ajax-loader');
-
-        spinner.style.display = 'block';
-        $.ajax({
-            url: 'action.php',
-            type: 'POST',
-            data: {
-                code: code,
-                id: id
-            },
-            success: function(response) {
-                console.log(response);
-                spinner.style.display = 'none';
-                search();
-                SuccessToast('Successfully Deleted');
-                // document.getElementById("tab_data").innerHTML=response;
-            }
-        });
-    } else {
-
-    }
-}
-
-function delete_designation(id) {
-    var a = confirm('Are you sure you want to delete');
-    // alert(id);
-    if (a == true) {
-        var code = 197;
-        var spinner = document.getElementById('ajax-loader');
-
-        spinner.style.display = 'block';
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                id: id
-            },
-            success: function(response) {
-                // console.log(response);
-                spinner.style.display = 'none';
-                manageDesignation();
-                SuccessToast('Successfully Deleted');
-                // document.getElementById("tab_data").innerHTML=response;
-            }
-        });
-    } else {
-
-    }
-}
-
-
-
-
-
-
-
-function save() {
-    var code = 330;
-
-    var college = document.getElementById('CollegeIDN').value;
-    var department = document.getElementById('department').value;
-
-    var spinner = document.getElementById('ajax-loader');
-
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action.php',
-        type: 'POST',
-        data: {
-            code: code,
-            college: college,
-            department: department
-        },
-        success: function(response) {
-            console.log(response);
-            spinner.style.display = 'none';
-            search();
-            SuccessToast('Successfully Updated');
-            // document.getElementById("tab_data").innerHTML=response;
-        }
-    });
-
-
-
-}
-
-function save_designation() {
-    var code = 194;
-    var department = document.getElementById('Designation').value;
-
-    var spinner = document.getElementById('ajax-loader');
-
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            department: department
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            manageDesignation();
-            SuccessToast('Successfully Added');
-            // document.getElementById("tab_data").innerHTML=response;
-        }
-    });
-
-
-
-}
-
-function manageDesignation() {
-    var code = 193;
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-        }
-    });
-
-}
-
-function addNewStaff() {
-    var code = 198;
-
-
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            document.getElementById("show_record").innerHTML = response;
-        }
-    });
-
-}
-
-
-function collegeByDepartment3(College) {
-
-    var code = '304';
-    $.ajax({
-        url: 'action.php',
-        data: {
-            College: College,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            // console.log(data);
-            if (data != "") {
-
-                $("#Department3").html("");
-                $("#Department3").html(data);
-            }
-        }
-    });
-
-}
-
-function fetchcourse3() {
-    var College = document.getElementById('College3').value;
-    var department = document.getElementById('Department3').value;
-    var code = '305';
-    $.ajax({
-        url: 'action.php',
-        data: {
-            department: department,
-            College: College,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            if (data != "") {
-                console.log(data);
-                $("#Course3").html("");
-                $("#Course3").html(data);
-            }
-        }
-    });
-}
-
-
-
-function addEmployee() {
-    var code = 199;
-    var loginId = document.getElementById('loginId').value;
-    var Name = document.getElementById('Name').value;
-    var designation = document.getElementById('designation').value;
-    var College3 = document.getElementById('College3').value;
-    var Department3 = document.getElementById('Department3').value;
-    var Dob = document.getElementById('Dob').value;
-    var Gender = document.getElementById('Gender').value;
-    var FatherName = document.getElementById('FatherName').value;
-    var Conatct = document.getElementById('Conatct').value;
-    var Mobile = document.getElementById('Mobile').value;
-    var Email = document.getElementById('Email').value;
-    var Doj = document.getElementById('Doj').value;
-    var category = document.getElementById('category').value;
-    var Doj = document.getElementById('Doj').value;
-    var Permanent = document.getElementById('Permanent').value;
-    var Correspondance = document.getElementById('Correspondance').value;
-    if (loginId != '' && Name != '' && designation != '' && College3 != '' && Department3 != '' && Dob != '' &&
-        Gender != '' && FatherName != '' && Conatct != '' && Mobile != '' && Email != '' && Doj != '' && category !=
-        '' && Doj != '' && Permanent != '' && Correspondance != '') {
-        var spinner = document.getElementById('ajax-loader');
-        spinner.style.display = 'block';
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                loginId: loginId,
-                Name: Name,
-                designation: designation,
-                College3: College3,
-                Department3: Department3,
-                Dob: Dob,
-                Gender: Gender,
-                FatherName: FatherName,
-                Conatct: Conatct,
-                Mobile: Mobile,
-                Email: Email,
-                Doj: Doj,
-                category: category,
-                Permanent: Permanent,
-                Correspondance: Correspondance
-            },
-            success: function(response) {
-                spinner.style.display = 'none';
-                SuccessToast('Successfully Added');
-                addEmpInLms(loginId, category);
-                addCollegePermissionsAccordingToCollegeAdd(loginId);
-                document.getElementById('loginId').value = "";
-                document.getElementById('Name').value = "";
-                document.getElementById('designation').value = "";
-                document.getElementById('College3').value = "";
-                document.getElementById('Department3').value = "";
-
-                document.getElementById('Dob').value = "";
-
-                document.getElementById('Gender').value = "";
-                document.getElementById('FatherName').value = "";
-                document.getElementById('Conatct').value = "";
-                document.getElementById('Mobile').value = "";
-                document.getElementById('Email').value = "";
-                document.getElementById('Doj').value = "";
-                document.getElementById('category').value = "";
-                document.getElementById('Doj').value = "";
-                document.getElementById('Permanent').value = "";
-                document.getElementById('Correspondance').value = "";
-
-            }
-        });
-    } else {
-        ErrorToast('All Inputs Required', 'bg-warning');
-    }
-}
-
-
 
 function printEmpIDCard(id) {
-    var code = 1;
+    var code = 2;
     if (id != '') {
         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
-        window.open("printSmartCardEmp.php?code=" + code + "&id=" + id, '_blank');
+        window.open("printSmartCardStudent.php?code=" + code + "&id=" + id, '_blank');
     } else {
         alert("Select ");
     }
 
 }
 
+function StudentUpdatedata(id)
+   {
+    
+      var code=219;
+          
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
 
-function printfourthCard(id) {
-    var code = 3;
-    if (id != '') {
-        //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
-        window.open("print_id_card_pass.php?code=" + code + "&id_array=" + id, '_blank');
-    } else {
-        alert("Select ");
-    }
+document.getElementById("student_search_recordold").innerHTML ='';
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+      }
+      function changecourse(id)
+   {
+    
+      var code=322;
+          
+      var  spinner= document.getElementById("ajax-loader");
+      spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
 
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+   }
+   function updateStudentdata(id)
+ {
+
+
+   var  batch = document.getElementById('ubatch').value;
+    var  eligible = document.getElementById('eligible').value;
+   var  status = document.getElementById('ustatus').value;
+   var  lock = document.getElementById('ulocked').value;
+   var  classroll = document.getElementById('classroll').value;
+    var uniroll = document.getElementById('uniroll').value;
+
+        var Collegechange = document.getElementById('Collegechange').value;
+            var coursechange = document.getElementById('coursechange').value;
+  
+
+   var code=220;   
+ 
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible,
+               coursechange:coursechange,Collegechange:Collegechange
+
+            },
+            success:function(response) 
+            {
+            //  console.log(response);
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Successfully Updated');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              
+            }
+         });
+ }
+ 
+ function student_search1()
+   {
+     
+      var code=323;
+      var code_access = '<?php echo $code_access; ?>';
+      var rollNo= document.getElementById("student_roll_no1").value;
+         var option = 1;
+       
+    //   alert(rollNo);
+
+      if (rollNo!='') 
+      {
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,rollNo:rollNo,option:option,code_access:code_access
+            },
+            success:function(response) 
+            {
+            //   console.log(response);
+               spinner.style.display='none';
+               document.getElementById("student_search_recordold").innerHTML =response;
+            }
+         });
+      }
+      else
+      {
+         // alert("Please Enter the Roll No.");
+         document.getElementById("student_search_recordold").innerHTML ='Enter Roll No';
+      }
+   } 
+   function  movefee(nid)
+{
+  var code=324; 
+   
+      var oldid= document.getElementById("oldid").value;
+
+
+     
+          var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,oldid:oldid,nid:nid
+            },
+            success:function(response) 
+            {
+               //console.log(response);
+               spinner.style.display='none';
+               SuccessToast('Successfully Moved');
+               
+            }
+         });
+      
+    
+
+
+}
+
+function changecourse(id)
+   {
+    
+      var code=322;
+          
+      var  spinner= document.getElementById("ajax-loader");
+      spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,IDNo:id
+            },
+            success:function(response) 
+            {
+               
+               spinner.style.display='none';
+
+               document.getElementById("student_record_for_update").innerHTML =response;
+            }
+         });
+   }
+   function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  SuccessToast('Copied');
 }
 </script>
+<div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal-dialog modal-lg" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" id='student_record_for_update' style="text-align:center">
+          
+ </div>
+  <div class="card-body" id="student_search_recordold" style="font-size:12px;">
+               
+              
+            </div>
 
-<div class="modal fade" id="UploadImageDocument" tabindex="-1" role="dialog" aria-labelledby="UploadImageDocumentTitle"
-    aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="Show_document">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
 </div>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 
-<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
+
+<div class="modal fade" id="UpdateDesignationModalCenter21" tabindex="-1" role="dialog"
+    aria-labelledby="UpdateDesignationModalCenter21" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">View Record</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Update</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id='update_data'>
-
+            <div class="modal-body" id='updateRecord'>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            
+                
+                
+          
         </div>
     </div>
 </div>
-<div class="modal fade" id="UpdateDesignationModalCenter2" tabindex="-1" role="dialog"
-    aria-labelledby="UpdateDesignationModalCenter2" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">edit Designaion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id='update_data_designation'>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="NewDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="NewDepartmentModal"
-    aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="NewDepartmentModal">New Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10">
-                    <label>College</label>
-                    <select name="College" id='CollegeIDN' class="form-control" required="">
-                        <option value=''>Select Course</option>
-                        <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         { 
-     $college = $row1['CollegeName']; 
-     $CollegeID = $row1['CollegeID'];
-    ?>
-                        <option value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
-                        <?php    }
-?>
-                    </select>
-                    <label>Designation</label>
-                    <input type="text" name="table_search" id="department" class="form-control" required>
-                    <br>
-                    <input type="submit" onclick="save_designation();" value="save" class="btn btn-secondary">
 
-                </div>
-                <div class="col-lg-1"></div>
 
-            </div>
-            <br>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="NewDesignationModal" tabindex="-1" role="dialog" aria-labelledby="NewDesignationModal"
-    aria-hidden="true">
-    <div class="modal-dialog  " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="NewDesignationModal">New Designation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10">
-
-                    <label>Designation</label>
-                    <input type="text" name="table_search" id="Designation" class="form-control" required>
-                    <br>
-                    <input type="submit" onclick="save_designation();" value="save" class="btn btn-secondary">
-
-                </div>
-                <div class="col-lg-1"></div>
-
-            </div>
-            <br>
-
-        </div>
-    </div>
-</div>
 
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">CATEGORY</h3>
+                    <h3 class="card-title">Search Student  </h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                            onclick="show_category_wise();">
-                            <i class="fas fa-minus"></i>
-                        </button>
+
                     </div>
                 </div>
-                <div class="card-body p-0">
-                    <ul class="nav nav-pills flex-column" id="category_wise_show">
-                        <!-- Some content can be added here -->
-                    </ul>
+                <div class="card-body p-2">
+                        <div class="col-lg-12">
+                            <label>College Name</label>
+                            <select name="CollegeName" id='CollegeName1' onchange="fetchcourse1(this.value);"
+                                class="form-control" required>
+                                <option value=''>Select Faculty</option>
+                                <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row['CollegeName']; 
+                        $CollegeID = $row['CollegeID'];
+                        ?>
+                                <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                <?php }
+                        ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Department</label>
+                            <select id="Course1" name="Course1" class="form-control" required>
+                                <option value=''>Select Course</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Batch</label>
+
+                                <select id="Batch" class="form-control" required>
+                        <option value="">Batch</option>
+                        <?php 
+                              for($i=2011;$i<=2030;$i++)
+                                 {?>
+                        <option value="<?=$i?>"><?=$i?></option>
+                        <?php }
+                                  ?>
+                    </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12" style="text-align: ;">
+                                <label>Select Session</label>
+                                <br>
+                                <select id="session1" class="btn btn-default">
+                                <option value=''></option>
+                                    <?php 
+                                        for($s='2015';$s<='2030';$s++)
+                                        {
+                                        ?>
+                                                                            <option value='<?=$s;?>'><?=$s;?></option>
+                                                                            <?php }?>
+                                                                        </select>
+                                                                        <select id="session2" class="btn btn-default">
+                                                                        <option value=''></option>
+                                                                            <?php 
+                                        for($s1='16';$s1<='31';$s1++)
+                                        {
+                                        ?>
+                                    <option value='<?=$s1;?>'><?=$s1;?></option>
+                                    <?php }?>
+                                </select>
+                                <select id="session3" class="btn btn-default">
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='J'>J</option>
+                                </select>
+                            </div>
+                          
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Status </label>
+                                <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                <select class="form-control" id="Status">
+                                  
+                                    <option value="">Select</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">DeActive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Action </label><br>
+                                <button type="button" class="btn btn-success" onclick="searchStudentCollegeWise();">Search</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-body -->
             </div>
+            <!-- /.col -->
+            <div class="col-lg-10">
+                <div class="card card-outline">
+
+                    <div class="card-header">
+
+                        <button type="button" onclick="exportEmployee();" class="btn btn-success btn-sm ">
+                            <i class="fa fa-file-excel"></i>
+                        </button>
+
+
+                        <span style="float:right;">
+                            <button class="btn btn-sm ">
+                                <input type="search" onblur="search_all_employee_emp_name(this.value);"
+                                    class="form-control form-control-sm" name="emp_name" id="emp_name"
+                                    placeholder="Search here">
+                            </button>
+                            <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                                Search
+                            </button>
+                        </span>
+                        <input type="hidden" id="CollegeID_Set">
+
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <form action="action_g.php" method="post" enctype="multipart/form-data">
+                            <div class="table-responsive" id="show_record1" style="height:auto;">
+                                <!-- Your table to display employee records goes here -->
+                            </div>
+                            <div class="table-responsive" id="show_record" style="height:auto;">
+                                <!-- Your table to display employee records goes here -->
+                            </div>
+                        </form>
+                        <!-- /.mail-box-messages -->
+                    </div>
+                    <!-- /.card-body -->
+
+
+
+                    <!-- Additional footer content if needed -->
+                </div>
+            </div>
+            <!-- /.card -->
         </div>
+
         <!-- /.col -->
-        <div class="col-md-9">
-            <div class="card card-outline">
-
-                <div class="card-header">
-
-                    <button type="button" onclick="exportEmployee();" class="btn btn-success btn-sm ">
-                        <i class="fa fa-file-excel"></i>
-                    </button>
-                   
-                  
-                    <span style="float:right;">
-                        <button class="btn btn-sm ">
-                            <input type="search" onblur="search_all_employee_emp_name(this.value);"
-                                class="form-control form-control-sm" name="emp_name" id="emp_name"
-                                placeholder="Search here">
-                        </button>
-                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
-                            Search
-                        </button>
-                    </span>
-                    <input type="hidden" id="CollegeID_Set">
-
-                   
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <form action="action_g.php" method="post" enctype="multipart/form-data">
-                        <div class="table-responsive" id="show_record1" style="height:auto;">
-                            <!-- Your table to display employee records goes here -->
-                        </div>
-                        <div class="table-responsive" id="show_record" style="height:auto;">
-                            <!-- Your table to display employee records goes here -->
-                        </div>
-                    </form>
-                    <!-- /.mail-box-messages -->
-                </div>
-                <!-- /.card-body -->
-
-
-
-                <!-- Additional footer content if needed -->
-            </div>
-        </div>
-        <!-- /.card -->
-    </div>
-
-    <!-- /.col -->
     </div>
     <!-- /.row -->
 </section>

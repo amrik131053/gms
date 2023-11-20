@@ -189,11 +189,11 @@ elseif($code==2)
 {
     $pdf-> Image('dist\img\GKUIDCARDLogo.png',4,2,45,13);
     $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
-    inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$empid'  ";
+    right join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNO='$empid' or Admissions.IDNo='$empid'   ";
     $result = sqlsrv_query($conntest,$sql);
     if($row=sqlsrv_fetch_array($result))
     {
-         $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
+          $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
         $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
         if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
         {
