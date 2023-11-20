@@ -2,10 +2,10 @@
    include "header.php";   
    ?>
 <script type="text/javascript">
-    
 function uploadPhotoStudent(form) {
-    // var formData = new FormData(form);
-    var formData = new FormData(document.getElementById("my-awesome-dropzone"));
+    var formData = new FormData(form);
+    // var formData = new FormData(document.getElementById("my-awesome-dropzone"));
+    var empID = form.loginId.value;
     // alert(formData);
     $.ajax({
         url: form.action,
@@ -17,6 +17,7 @@ function uploadPhotoStudent(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Updated');
+                updateStudent(empID) 
                 search_all_employee();
             } else if (response == 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -76,21 +77,22 @@ function search_all_employee() {
         });
     }
 }
+
 function searchStudentCollegeWise() {
     var session1 = document.getElementById('session1').value;
     var session2 = document.getElementById('session2').value;
     var session3 = document.getElementById('session3').value;
-    if(session1!='' && session2!=''){
+    if (session1 != '' && session2 != '') {
 
-        var Session=session1+'-'+session2+'-'+session3
-    }
-    else{
-        var Session="";
+        var Session = session1 + '-' + session2 + '-' + session3
+    } else {
+        var Session = "";
     }
     var CollegeName = document.getElementById('CollegeName1').value;
     var Course = document.getElementById('Course1').value;
     var Batch = document.getElementById('Batch').value;
     var Status = document.getElementById('Status').value;
+    var Eligibility = document.getElementById('Eligibility').value;
     if (CollegeName != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
@@ -104,6 +106,7 @@ function searchStudentCollegeWise() {
                 CollegeName: CollegeName,
                 Course: Course,
                 Batch: Batch,
+                Eligibility: Eligibility,
                 Status: Status
             },
             success: function(response) {
@@ -161,6 +164,7 @@ function fetchcourse1() {
         }
     });
 }
+
 function fetchcourse() {
     var College = document.getElementById('CollegeName').value;
     var code = '269';
@@ -230,20 +234,20 @@ function fetch_district1(state_id) {
 
 
 
-function exportEmployee() {
-    var exportCode = 20;
+// function exportEmployee() {
+//     var exportCode = 20;
 
-    var CollegeId = document.getElementById('CollegeID_Set').value;
+//     var CollegeId = document.getElementById('CollegeID_Set').value;
 
-    if (CollegeId != '') {
+//     if (CollegeId != '') {
 
-        window.location.href = "export.php?exportCode=" + exportCode + "&CollegeId=" + CollegeId;
-    } else {
-        alert("Select ");
-    }
+//         window.location.href = "export.php?exportCode=" + exportCode + "&CollegeId=" + CollegeId;
+//     } else {
+//         alert("Select ");
+//     }
 
 
-}
+// }
 
 
 function search() {
@@ -280,221 +284,213 @@ function printEmpIDCard(id) {
 
 }
 
-function StudentUpdatedata(id)
-   {
-    
-      var code=219;
-          
-   var  spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,IDNo:id
-            },
-            success:function(response) 
-            {
-               
-               spinner.style.display='none';
+function StudentUpdatedata(id) {
 
-document.getElementById("student_search_recordold").innerHTML ='';
-               document.getElementById("student_record_for_update").innerHTML =response;
-            }
-         });
-      }
-      function changecourse(id)
-   {
-    
-      var code=322;
-          
-      var  spinner= document.getElementById("ajax-loader");
-      spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,IDNo:id
-            },
-            success:function(response) 
-            {
-               
-               spinner.style.display='none';
+    var code = 219;
 
-               document.getElementById("student_record_for_update").innerHTML =response;
-            }
-         });
-   }
-   function updateStudentdata(id)
- {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            IDNo: id
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+
+            document.getElementById("student_search_recordold").innerHTML = '';
+            document.getElementById("student_record_for_update").innerHTML = response;
+        }
+    });
+}
+
+function changecourse(id) {
+
+    var code = 322;
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            IDNo: id
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+
+            document.getElementById("student_record_for_update").innerHTML = response;
+        }
+    });
+}
+
+function updateStudentdata(id) {
 
 
-   var  batch = document.getElementById('ubatch').value;
-    var  eligible = document.getElementById('eligible').value;
-   var  status = document.getElementById('ustatus').value;
-   var  lock = document.getElementById('ulocked').value;
-   var  classroll = document.getElementById('classroll').value;
+    var batch = document.getElementById('ubatch').value;
+    var eligible = document.getElementById('eligible').value;
+    var status = document.getElementById('ustatus').value;
+    var lock = document.getElementById('ulocked').value;
+    var classroll = document.getElementById('classroll').value;
     var uniroll = document.getElementById('uniroll').value;
 
-        var Collegechange = document.getElementById('Collegechange').value;
-            var coursechange = document.getElementById('coursechange').value;
-  
+    var Collegechange = document.getElementById('Collegechange').value;
+    var coursechange = document.getElementById('coursechange').value;
 
-   var code=220;   
- 
-   var  spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,batch:batch,status:status,lock:lock,id:id,classroll:classroll,uniroll:uniroll,eligible:eligible,
-               coursechange:coursechange,Collegechange:Collegechange
 
-            },
-            success:function(response) 
-            {
+    var code = 220;
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            batch: batch,
+            status: status,
+            lock: lock,
+            id: id,
+            classroll: classroll,
+            uniroll: uniroll,
+            eligible: eligible,
+            coursechange: coursechange,
+            Collegechange: Collegechange
+
+        },
+        success: function(response) {
             //  console.log(response);
-               spinner.style.display='none';
-                if (response==1) {
-                           SuccessToast('Successfully Updated');
-                           
-                          }
-                          else
-                          {
-                           ErrorToast('Something went worng','bg-danger' );
-                          }
-              
+            spinner.style.display = 'none';
+            if (response == 1) {
+                SuccessToast('Successfully Updated');
+
+            } else {
+                ErrorToast('Something went worng', 'bg-danger');
             }
-         });
- }
- 
- function student_search1()
-   {
-     
-      var code=323;
-      var code_access = '<?php echo $code_access; ?>';
-      var rollNo= document.getElementById("student_roll_no1").value;
-         var option = 1;
-       
+
+        }
+    });
+}
+
+function student_search1() {
+
+    var code = 323;
+    var code_access = '<?php echo $code_access; ?>';
+    var rollNo = document.getElementById("student_roll_no1").value;
+    var option = 1;
+
     //   alert(rollNo);
 
-      if (rollNo!='') 
-      {
-          var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo,option:option,code_access:code_access
+    if (rollNo != '') {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: "action.php ",
+            type: "POST",
+            data: {
+                code: code,
+                rollNo: rollNo,
+                option: option,
+                code_access: code_access
             },
-            success:function(response) 
-            {
-            //   console.log(response);
-               spinner.style.display='none';
-               document.getElementById("student_search_recordold").innerHTML =response;
+            success: function(response) {
+                //   console.log(response);
+                spinner.style.display = 'none';
+                document.getElementById("student_search_recordold").innerHTML = response;
             }
-         });
-      }
-      else
-      {
-         // alert("Please Enter the Roll No.");
-         document.getElementById("student_search_recordold").innerHTML ='Enter Roll No';
-      }
-   } 
-   function  movefee(nid)
-{
-  var code=324; 
-   
-      var oldid= document.getElementById("oldid").value;
+        });
+    } else {
+        // alert("Please Enter the Roll No.");
+        document.getElementById("student_search_recordold").innerHTML = 'Enter Roll No';
+    }
+}
+
+function movefee(nid) {
+    var code = 324;
+
+    var oldid = document.getElementById("oldid").value;
 
 
-     
-          var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,oldid:oldid,nid:nid
-            },
-            success:function(response) 
-            {
-               //console.log(response);
-               spinner.style.display='none';
-               SuccessToast('Successfully Moved');
-               
-            }
-         });
-      
-    
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            oldid: oldid,
+            nid: nid
+        },
+        success: function(response) {
+            //console.log(response);
+            spinner.style.display = 'none';
+            SuccessToast('Successfully Moved');
+
+        }
+    });
+
+
 
 
 }
 
-function changecourse(id)
-   {
-    
-      var code=322;
-          
-      var  spinner= document.getElementById("ajax-loader");
-      spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,IDNo:id
-            },
-            success:function(response) 
-            {
-               
-               spinner.style.display='none';
+function changecourse(id) {
 
-               document.getElementById("student_record_for_update").innerHTML =response;
-            }
-         });
-   }
-   function copyToClipboard(element) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val($(element).text()).select();
-  document.execCommand("copy");
-  $temp.remove();
-  SuccessToast('Copied');
+    var code = 322;
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            IDNo: id
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+
+            document.getElementById("student_record_for_update").innerHTML = response;
+        }
+    });
+}
+
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+    SuccessToast('Copied');
 }
 </script>
-<div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-<div class="modal-dialog modal-lg" role="document" >
-      <div class="modal-content"  >
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body" id='student_record_for_update' style="text-align:center">
-          
- </div>
-  <div class="card-body" id="student_search_recordold" style="font-size:12px;">
-               
-              
+<div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id='student_record_for_update' style="text-align:center">
+
+            </div>
+            <div class="card-body" id="student_search_recordold" style="font-size:12px;">
+
+
             </div>
 
-</div>
-</div>
+        </div>
+    </div>
 </div>
 
 
@@ -510,10 +506,10 @@ function changecourse(id)
             </div>
             <div class="modal-body" id='updateRecord'>
             </div>
-            
-                
-                
-          
+
+
+
+
         </div>
     </div>
 </div>
@@ -526,12 +522,14 @@ function changecourse(id)
         <div class="col-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Search Student  </h3>
+                    <h3 class="card-title">Search Student </h3>
                     <div class="card-tools">
 
                     </div>
                 </div>
                 <div class="card-body p-2">
+                    <form action="export.php" method="post">
+                        <input type="hidden" value="39" name="exportCode">
                         <div class="col-lg-12">
                             <label>College Name</label>
                             <select name="CollegeName" id='CollegeName1' onchange="fetchcourse1(this.value);"
@@ -552,7 +550,7 @@ function changecourse(id)
                         </div>
                         <div class="col-lg-12">
                             <label>Department</label>
-                            <select id="Course1" name="Course1" class="form-control" required>
+                            <select id="Course1" name="Course1" class="form-control" >
                                 <option value=''>Select Course</option>
                             </select>
                         </div>
@@ -562,52 +560,52 @@ function changecourse(id)
                             <div class="form-group">
                                 <label>Batch</label>
 
-                                <select id="Batch" class="form-control" required>
-                        <option value="">Batch</option>
-                        <?php 
+                                <select id="Batch" name="Batch" class="form-control" >
+                                    <option value="">Batch</option>
+                                    <?php 
                               for($i=2011;$i<=2030;$i++)
                                  {?>
-                        <option value="<?=$i?>"><?=$i?></option>
-                        <?php }
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
                                   ?>
-                    </select>
+                                </select>
                             </div>
                         </div>
-                        
+
                         <div class="col-lg-12" style="text-align: ;">
-                                <label>Select Session</label>
-                                <br>
-                                <select id="session1" class="btn btn-default">
+                            <label>Select Session</label>
+                            <br>
+                            <select id="session1" name="session1" class="btn btn-default">
                                 <option value=''></option>
-                                    <?php 
+                                <?php 
                                         for($s='2015';$s<='2030';$s++)
                                         {
                                         ?>
-                                                                            <option value='<?=$s;?>'><?=$s;?></option>
-                                                                            <?php }?>
-                                                                        </select>
-                                                                        <select id="session2" class="btn btn-default">
-                                                                        <option value=''></option>
-                                                                            <?php 
+                                <option value='<?=$s;?>'><?=$s;?></option>
+                                <?php }?>
+                            </select>
+                            <select id="session2" name="session2" class="btn btn-default">
+                                <option value=''></option>
+                                <?php 
                                         for($s1='16';$s1<='31';$s1++)
                                         {
                                         ?>
-                                    <option value='<?=$s1;?>'><?=$s1;?></option>
-                                    <?php }?>
-                                </select>
-                                <select id="session3" class="btn btn-default">
-                                    <option value=''></option>
-                                    <option value='A'>A</option>
-                                    <option value='J'>J</option>
-                                </select>
-                            </div>
-                          
+                                <option value='<?=$s1;?>'><?=$s1;?></option>
+                                <?php }?>
+                            </select>
+                            <select id="session3" name="session3" class="btn btn-default">
+                                <option value=''></option>
+                                <option value='A'>A</option>
+                                <option value='J'>J</option>
+                            </select>
+                        </div>
+
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
                                 <label>Status </label>
                                 <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                <select class="form-control" id="Status">
-                                  
+                                <select class="form-control" id="Status" name="Status">
+
                                     <option value="">Select</option>
                                     <option value="1">Active</option>
                                     <option value="0">DeActive</option>
@@ -616,64 +614,78 @@ function changecourse(id)
                         </div>
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
-                                <label>Action </label><br>
-                                <button type="button" class="btn btn-success" onclick="searchStudentCollegeWise();">Search</button>
+                                <label>Eligibility </label>
+                                <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                <select class="form-control" id="Eligibility" name="Eligibility">
+
+                                    <option value="">Select</option>
+                                    <option value="0">Not Eligible</option>
+                                    <option value="1">Eligible</option>
+                                </select>
                             </div>
                         </div>
-
-
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-lg-10">
-                <div class="card card-outline">
-
-                    <div class="card-header">
-
-                        <button type="button" onclick="exportEmployee();" class="btn btn-success btn-sm ">
-                            <i class="fa fa-file-excel"></i>
-                        </button>
-
-
-                        <span style="float:right;">
-                            <button class="btn btn-sm ">
-                                <input type="search" onblur="search_all_employee_emp_name(this.value);"
-                                    class="form-control form-control-sm" name="emp_name" id="emp_name"
-                                    placeholder="Search here">
-                            </button>
-                            <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
-                                Search
-                            </button>
-                        </span>
-                        <input type="hidden" id="CollegeID_Set">
-
-
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <form action="action_g.php" method="post" enctype="multipart/form-data">
-                            <div class="table-responsive" id="show_record1" style="height:auto;">
-                                <!-- Your table to display employee records goes here -->
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Action </label><br>
+                                <button type="button" class="btn btn-success"
+                                    onclick="searchStudentCollegeWise();">Search</button>
+                                <button type="submit"  class="btn btn-success  float-right ">
+                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
+                                </button>
                             </div>
-                            <div class="table-responsive" id="show_record" style="height:auto;">
-                                <!-- Your table to display employee records goes here -->
-                            </div>
-                        </form>
-                        <!-- /.mail-box-messages -->
-                    </div>
-                    <!-- /.card-body -->
+                        </div>
+                    </form>
 
-
-
-                    <!-- Additional footer content if needed -->
                 </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
-
         <!-- /.col -->
+        <div class="col-lg-10">
+            <div class="card card-outline">
+
+                <div class="card-header">
+
+
+
+
+                    <span style="float:right;">
+                        <button class="btn btn-sm ">
+                            <input type="search" onblur="search_all_employee_emp_name(this.value);"
+                                class="form-control form-control-sm" name="emp_name" id="emp_name"
+                                placeholder="Search here">
+                        </button>
+                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                            Search
+                        </button>
+                    </span>
+                    <input type="hidden" id="CollegeID_Set">
+
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <form action="action_g.php" method="post" enctype="multipart/form-data">
+                        <div class="table-responsive" id="show_record1" style="height:auto;">
+                            <!-- Your table to display employee records goes here -->
+                        </div>
+                        <div class="table-responsive" id="show_record" style="height:auto;">
+                            <!-- Your table to display employee records goes here -->
+                        </div>
+                    </form>
+                    <!-- /.mail-box-messages -->
+                </div>
+                <!-- /.card-body -->
+
+
+
+                <!-- Additional footer content if needed -->
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
     </div>
     <!-- /.row -->
 </section>

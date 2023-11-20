@@ -3716,6 +3716,121 @@ $SrNo=1;
     $fileName="Smart card ";
 }
 
+else if($exportCode==39)
+{
+    $CollegeID=$_POST['CollegeName'];
+    $CourseID=$_POST['Course1'];
+    $Batch=$_POST['Batch'];
+    $session1=$_POST['session1'];$session2=$_POST['session2'];$session3=$_POST['session3'];
+    if($session1!='')
+    {
+    $Session=$session1.'-'.$session2.'-'.$session3;
+    }
+    else{
+        $Session="";
+    }
+    $Status=$_POST['Status'];
+    $Eligibility=$_POST['Eligibility'];
+   
+
+$SrNo=1;
+  $exportstudy="<table class='table' border='1'>
+        <thead>            
+    <tr>
+    <th>SrNo</th>
+    <th>IDNo </th>
+    <th>ClassRoll No </th>
+    <th>UniRoll No </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Mother Name </th>
+    <th>College </th>
+    <th>Course </th>
+    <th>Batch </th>
+    <th>Eligible </th>
+    <th>Remarks </th>
+    </tr>
+        </thead>";
+
+
+        $SrNo=1;
+        $query = "SELECT * FROM Admissions WHERE 1 = 1";
+  
+        if ($CollegeID != '') {
+            $query .= " AND CollegeID='$CollegeID'";
+        }
+        
+        if ($CourseID != '') {
+            $query .= " AND CourseID ='$CourseID'";
+        }
+        
+        if ($Batch != '') {
+            $query .= " AND Batch='$Batch'";
+        }
+        
+        if ($Status != '') {
+            $query .= " AND Status='$Status'";
+        }
+        
+        if ($Session != '') {
+            $query .= " AND Session='$Session'";
+        }
+        if ($Eligibility != '') {
+            $query .= " AND Eligibility='$Eligibility'";
+        }
+         $result = sqlsrv_query($conntest,$query);
+         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+            
+            $IDNo=$row['IDNo'];
+            $ClassRollNo=$row['ClassRollNo'];
+            $UniRollNo=$row['UniRollNo'];
+            $StudentName=$row['StudentName'];
+            $FatherName=$row['FatherName'];
+            $MotherName=$row['MotherName'];
+            $CollegeName=$row['CollegeName'];
+            $Course=$row['Course'];
+            $Batch=$row['Batch'];
+            $Ereason=$row['EligibilityReason'];
+            if($row['Eligibility']==1)
+            {
+
+                $Eligibility="Eligible";
+                $clr="";
+            }
+            else if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+            {
+
+                $Eligibility="Provisional Eligible";
+                $clr="yellow";
+            }
+            else{
+                $Eligibility="Not Eligible";
+                $clr="red";
+                
+            }
+        
+         $exportstudy.="<tr style='background-color:".$clr.";'>
+         <td>{$SrNo}</td>
+         <td>{$IDNo}</td>
+         <td>{$ClassRollNo}</td>
+         <td>{$UniRollNo}</td>
+         <td>{$StudentName}</td>
+         <td>{$FatherName}</td>
+         <td>{$MotherName}</td>
+         <td>{$CollegeName}</td>
+         <td>{$Course}</td>
+         <td>{$Batch}</td>
+         <td>{$Eligibility}</td>     
+         <td>{$Ereason}</td>     
+     </tr>";
+     $SrNo++;
+         } 
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Report ";
+}
+
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);

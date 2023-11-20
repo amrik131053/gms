@@ -3902,7 +3902,7 @@ else { ?>
                                         <div class="form-group">
                                             <label>Date of Joining</label>
                                             <input type="date" class="form-control" name="joiningDate"
-                                                value="<?php echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));?>">
+                                                value="<?php if($row1['DateOfJoining']!=''){ echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));}?>">
                                         </div>
                                     </div>
 
@@ -17560,24 +17560,14 @@ elseif($code==267) //update student
                                     <div class="col-lg-3">
                                         <label>College Name</label>
                                         <select name="CollegeName" id='CollegeName' onchange="fetchcourse(this.value);"
-                                            class="form-control" readonly>
+                                            class="form-control" >
                                             <option value="<?=$row1['CollegeID'];?>"><?=$row1['CollegeName'];?></option>
-                                            <?php
-                                            $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-                                                $stmt2 = sqlsrv_query($conntest,$sql);
-                                                while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-                                                {   
-                                                    $college = $row['CollegeName']; 
-                                                    $CollegeID = $row['CollegeID'];
-                                                    ?>
-                                            <option value="<?=$CollegeID;?>"><?=$college;?></option>
-                                            <?php }
-                                            ?>
+                                           
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label>Course</label>
-                                        <select id="Course" name="Course" class="form-control" readonly>
+                                        <select id="Course" name="Course" class="form-control" >
                                             <option value="<?=$row1['CourseID'];?>"><?=$row1['Course'];?></option>
                                         </select>
                                     </div>
@@ -17586,12 +17576,12 @@ elseif($code==267) //update student
                                         <input type="text" name="batch" class="form-control"
                                             value="<?=$row1['Batch'];?>" readonly>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <label>Status </label>
-                                        <select class="form-control" name="employmentStatus">
+                                        <select class="form-control" name="employmentStatus" style="border: 2px solid <?php if($row1['Status']=='1'){echo 'green';}else{ echo 'red';};?>">
                                             <?php if ($row1['Status']==1) {?>
                                             <option value="<?=$row1['Status'];?>"
-                                                style="background-color:green !important;"><b>Active</b>
+                                                ><b>Active</b>
                                             </option>
                                             <?php }else{
                                         ?>
@@ -17602,18 +17592,18 @@ elseif($code==267) //update student
                                             <option value="0">DeActive</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <label>Lock</label>
-                                        <select class="form-control" name='ulocked'>
+                                        <select class="form-control" name='ulocked' style="border: 2px solid <?php if($Locked=='0'){echo 'green';}else{ echo 'red';};?>">
                                             <option value="<?=$Locked;?>">
                                                 <?php if ($Locked==1)  {echo "Lock";}else { echo "Unlock";}?></option>
-                                            <option value="0">Unlock</option>
+                                            <option value="0" >Unlock</option>
                                             <option value="1">Lock</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <label>Eligibility</label>
-                                        <select class="form-control" name='eligible'>
+                                        <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1'){echo 'green';}else{ echo 'red';};?>">
                                             <option value="<?=$Eligibility;?>">
                                                 <?php if ($Eligibility>0)  {echo $Reason." Eligible";} else{echo "Not Eligible";} ?>
                                             </option>
@@ -17855,6 +17845,7 @@ elseif($code==270)  // search student
     $CourseID = $_POST['Course'];
     $Batch = $_POST['Batch'];
     $Status = $_POST['Status'];
+    $Eligibility = $_POST['Eligibility'];
 ?>
             <table class="table " id="example">
                 <thead>
@@ -17877,37 +17868,30 @@ elseif($code==270)  // search student
                 <tbody>
                     <?php 
       $sr=1;
-if($CollegeID!='' && $CourseID!='' && $Batch!='' && $Status!='' && $Session!='')
-{
-     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID' and  Batch='$Batch' and Status='$Status' and Session='$Session' ";
+      $query = "SELECT * FROM Admissions WHERE 1 = 1";
 
-}elseif ($CollegeID!='' && $CourseID!='' && $Batch!='' ) {
-     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID' and  Batch='$Batch' ";
-    
-}
-elseif ($CollegeID!='' && $CourseID!='') {
-     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and  CourseID ='$CourseID'  ";
-    
-}
-elseif ($CollegeID!='' && $CourseID=='' && $Batch=='' && $Status=='' && $Session!='') {
-    
-     $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and Session='$Session'  ";
-    
-}elseif($CollegeID!='' && $CourseID=='' && $Batch=='' && $Status!='' && $Session!='')
-{
-    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID' and Status='$Status' and Session='$Session' ";
-}elseif($CollegeID!='' && $CourseID=='' && $Batch!='' && $Status!='' && $Session!='')
-{
-    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID'  and  Batch='$Batch' and Status='$Status' and Session='$Session' ";
-}
-elseif($CollegeID!='' && $CourseID!='' && $Batch!='' && $Status!='' && $Session=='')
-{
-    $query = "SELECT * FROM Admissions  Where CollegeID='$CollegeID'  and  Batch='$Batch' and Status='$Status'  ";
-}
-else
-{
-      $query = " ";
-}
+      if ($CollegeID != '') {
+          $query .= " AND CollegeID='$CollegeID'";
+      }
+      
+      if ($CourseID != '') {
+          $query .= " AND CourseID ='$CourseID'";
+      }
+      
+      if ($Batch != '') {
+          $query .= " AND Batch='$Batch'";
+      }
+      
+      if ($Status != '') {
+          $query .= " AND Status='$Status'";
+      }
+      
+      if ($Session != '') {
+          $query .= " AND Session='$Session'";
+      }
+      if ($Eligibility != '') {
+          $query .= " AND Eligibility='$Eligibility'";
+      }
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {

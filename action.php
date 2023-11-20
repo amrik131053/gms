@@ -11358,7 +11358,7 @@ $validUpto=$validUpto->format('d-M-Y');
                 </div>
                 <div class="col-lg-1 col-sm-1">
 <?php 
-  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601 || $EmployeeID==170601) { ?>
+  if($EmployeeID==131053 ||$EmployeeID==121031 || $EmployeeID==170601 || $EmployeeID==170976) { ?>
 
 
   <?php $resultp = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
@@ -13275,7 +13275,7 @@ $IDNo= $_POST['IDNo'];
     $Status = $row['Status'];
     $Locked = $row['Locked'];
      $Eligibility = $row['Eligibility'];
-     $Reason = $row['Reason'];
+     $Reason = $row['EligibilityReason'];
     $validUpto='NA';
     $password= $row['Password'];
           }
@@ -13535,7 +13535,7 @@ $update_uprun=sqlsrv_query($conntest,$upuser);
 
 
 
-  $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',Reason='$provisional' where IDNo='$id'";
+  $update_student="UPDATE Admissions SET Batch='$batch',Status='$status',Locked='$lock',UniRollNo='$uniroll',ClassRollNo='$classroll',Eligibility='$eligible',CollegeID='$Collegechange',CollegeName='$CollegeName',CourseID='$coursechange',Course='$Course',EligibilityReason='$provisional' where IDNo='$id'";
    $update_run=sqlsrv_query($conntest,$update_student);
 
 
