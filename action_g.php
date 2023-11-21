@@ -17322,14 +17322,25 @@ elseif($code==266)  // search student
                   
                   if ($role_id==2) 
                   {                                 
-               ?><button class="btn btn-warning btn-xs" type="button" data-toggle="modal"
-                        onclick="StudentUpdatedata(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
-                        style="text-align:right"><i class="fa fa fa-edit"></i></button>
-
+               ?>
                     <button class="btn btn-danger btn-xs" data-toggle="modal" type="button"
                         onclick="changecourse(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
                         style="text-align:right"><i class="fa fa fa-arrow-right"></i></button>
-                        <?php }?>
+
+                        <?php $resultp = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='".$row['IDNo']."'";
+  $stmtp = sqlsrv_query($conntest,$resultp, array(), array( "Scrollable" => 'static' ));  
+
+$row_count = sqlsrv_num_rows($stmtp);
+if($row_count>0)
+   {
+    ?><button class="btn btn-warning btn-xs" type="button" data-toggle="modal"
+    onclick="StudentUpdatedata(<?=$row['IDNo'];?>)" data-target="#Updatestudentmodal"
+    style="text-align:right"><i class="fa fa fa-edit"></i></button><?php 
+   }else
+   {
+    ?><button class="btn btn-danger btn-xs"   onclick="Studentsignup(<?=$row['IDNo'];?>,'<?=$row['CollegeID'];?>')" style="text-align:right"><i class="fa fa fa-plus"></i></button><?php 
+   }
+     }?>
                 </td>
                 <td>
 
@@ -17374,7 +17385,7 @@ elseif($code==267) //update student
     $code_access = $_POST['code_access'];
   $DateOfBirth="01-01-1900";
   $empID=$_POST['empID'];
-  $query = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$empID'";
+  $query = "SELECT  * FROM Admissions   where IDNo='$empID'";
   $result = sqlsrv_query($conntest,$query);
   if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   {
@@ -17385,7 +17396,6 @@ elseif($code==267) //update student
      $Eligibility = $row1['Eligibility'];
      $Reason = $row1['Reason'];
     $validUpto='NA';
-    $password= $row1['Password'];
 ?>
 
     <div class="row">
@@ -17453,11 +17463,16 @@ elseif($code==267) //update student
                                         </select>
                                     </div>
                                     <div class="col-12 col-lg-3">
+                                        <label>Aadhaar No</label>
+                                        <input type="number" class="form-control" name="aadharNo"
+                                            placeholder="Enter Aadhar No" value="">
+                                    </div>
+                                    <div class="col-12 col-lg-2">
                                         <label>Image</label>
                                         <input type="file" class="form-control-file" name="photo" name="photo">
 
                                     </div>
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-12 col-lg-2">
                                         <label>Upload Signature</label>
                                         <input type="file" class="form-control-file" name="signature">
 

@@ -229,6 +229,29 @@ function fetch_district1(state_id) {
 }
 
 
+function Studentsignup(id,college)
+   {
+     
+      var code=308;
+          
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id,college:college
+            },
+            success:function(response) 
+            {
+               //console.log(response);
+               spinner.style.display='none';
+              student_search();
+            }
+         });
+      }
 
 
 
