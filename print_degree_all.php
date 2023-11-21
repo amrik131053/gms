@@ -520,12 +520,29 @@ $ms1="<strike>Mr.</strike>";    // code...
  
  $CGPA = number_format($CGPA,2);
   
-            
- echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+if($Type!='certificate')
+{
+echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirements for the award of ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course."</b> with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
-                ?></i>
+
+}else
+{
+echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+ having completed the requirements for the award of ".$Type." and having passed 
+ the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
+ <b> ".$course."</b> with <b>CGPA ".$CGPA."</b> on a scale of <b>10</b> in regular mode.";
+
+}
+            
+ 
+                ?>
+
+
+
+
+             </i>
              
           </div>
           <div style="height: 3px;"></div>
@@ -1033,13 +1050,27 @@ $ms1="<strike>Mr.</strike>";    // code...
  }
  
 
-  
-            
- echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+
+if($Type!='certificate')
+{
+echo $ms1."/".$ms."<b> ".$name."dd </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirements for the award of  ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course." (".$Stream.") "."</b> with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
-                ?></i>
+
+}else
+{
+ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+ having completed the requirements for the award of  ".$Type." and having passed 
+ the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
+ ".$course." (".$Stream.") "."</b> with <b>CGPA ".$CGPA."</b> on a scale of <b>10</b> in regular mode.";
+              
+
+}
+  ?>
+   
+            
+</i>
              
           </div>
           <div style="height: 3px;"></div>
