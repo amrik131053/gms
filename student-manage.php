@@ -14,7 +14,7 @@ function uploadPhotoStudent(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            // console.log(response);
+            console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Updated');
                 updateStudent(empID) 
@@ -537,12 +537,10 @@ function copyToClipboard(element) {
     </div>
 </div>
 
-
-
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-3 col-sm-12 col-md-12 col-xs-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Search Student </h3>
@@ -664,7 +662,7 @@ function copyToClipboard(element) {
             </div>
         </div>
         <!-- /.col -->
-        <div class="col-lg-10">
+        <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12">
             <div class="card card-outline">
 
                 <div class="card-header">

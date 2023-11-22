@@ -17268,8 +17268,8 @@ elseif($code==266)  // search student
                 <th>SrNo</th>
                 <th>Image</th>
                 <th>IDNo</th>
-                <th>ClassRollNo</th>
-                <th>UniRollNo</th>
+                <th>ClassRoll/UniRollNo</th>
+                <!-- <th>UniRollNo</th> -->
                 <th>Name</th>
                 <th>FatherName</th>
                 <th>College</th>
@@ -17304,8 +17304,8 @@ elseif($code==266)  // search student
                 <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
                 </td>
                 <td><?=$row['IDNo'];?></td>
-                <td><?=$row['ClassRollNo'];?></td>
-                <td><?=$row['UniRollNo'];?></td>
+                <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                <!-- <td></td> -->
                 <td><?=$row['StudentName'];?></td>
                 <td><?=$row['FatherName'];?></td>
                 <td><?=$row['CollegeName'];?></td>
@@ -17313,8 +17313,8 @@ elseif($code==266)  // search student
                 
                        
                        
-                <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                </td>
+                <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
+                        </td>
                 <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
@@ -17422,27 +17422,27 @@ elseif($code==267) //update student
                                 <!-- /.login-logo -->
                                 <div class="row">
                                     
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Name</label>
                                         <input type="text" class="form-control" name="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
                                     </div>
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Father's Name</label>
                                         <input type="text" class="form-control" name="fatherName"
                                             placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
                                     </div>
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Mother's Name</label>
                                         <input type="text" class="form-control" name="motherName"
                                             placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
                                     </div>
-                                    <div class="col-12 col-lg-2">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Date of Birth</label>
                                         <input type="date" class="form-control" name="dob"
                                             value="<?php if($DateOfBirth!=''){echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
                                     </div>
-                                    <div class="col-12 col-lg-2">
+                                    <div class="col-md-12 col-lg-2">
                                         <label>Gender</label>
                                         <select class="form-control" name="gender">
                                             <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
@@ -17452,7 +17452,7 @@ elseif($code==267) //update student
                                             <option>Other</option>
                                         </select>
                                     </div>
-                                    <div class="col-12 col-lg-2">
+                                    <div class="col-md-12 col-lg-2">
                                         <label>Category</label>
                                         <select class="form-control" name="category">
                                             <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?></option>
@@ -17462,17 +17462,17 @@ elseif($code==267) //update student
                                             <option>General</option>
                                         </select>
                                     </div>
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Aadhaar No</label>
                                         <input type="number" class="form-control" name="aadharNo"
-                                            placeholder="Enter Aadhar No" value="">
+                                            placeholder="Enter Aadhaar No" value="">
                                     </div>
-                                    <div class="col-12 col-lg-2">
+                                    <div class="col-md-12 col-lg-3">
                                         <label>Image</label>
                                         <input type="file" class="form-control-file" name="photo" name="photo">
 
                                     </div>
-                                    <div class="col-12 col-lg-2">
+                                    <div class="col-md-12 col-lg-2 ">
                                         <label>Upload Signature</label>
                                         <input type="file" class="form-control-file" name="signature">
 
@@ -17481,53 +17481,61 @@ elseif($code==267) //update student
                             </div>
                             <div class="tab-pane" id="contact">
                                 <div class="row">
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <label>Personal Email ID</label>
                                         <input type="email" class="form-control" name="personalEmail"
                                             placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <label>Official Email ID</label>
                                         <input type="email" class="form-control" name="officialEmail"
                                             placeholder="Enter official email" value="<?=$row1['OfficialEmailID'];?>">
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <label>Mobile Number</label>
                                         <input type="text" class="form-control" name="mobileNumber"
                                             placeholder="Enter mobile number" value="<?=$row1['StudentMobileNo'];?>">
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <label>WhatsApp Number</label>
                                         <input type="text" class="form-control" name="whatsappNumber"
                                             placeholder="Enter WhatsApp number" value="<?=$row1['StudentMobileNo'];?>">
                                     </div>
-                                    <!-- <div class="col-lg-3 col-12" style="display:none;">
+                                    <!-- <div class="col-lg-3 col-md-12" style="display:none;">
                                         <label>Address Line 1</label> -->
                                         <input type="hidden" class="form-control" name="addressLine1"
                                             placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
                                     <!-- </div> -->
-                                    <!-- <div class="col-lg-3 col-12" style="display:none;">
+                                    <!-- <div class="col-lg-3 col-md-12" style="display:none;">
                                         <label>Address Line 2</label> -->
                                         <input type="hidden" class="form-control" name="addressLine2"
                                             placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
                                     <!-- </div> -->
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-md-12">
                                         <label>Permanent Address</label>
                                         <textarea  class="form-control" name="permanentAddress"
                                             placeholder="Enter permanent address"
                                             ><?=$row1['PermanentAddress'];?></textarea>
                                     </div>
-                                    <div class="col-lg-6 col-12">
+                                    <div class="col-lg-6 col-md-12">
                                         <label>Correspondence Address</label>
                                         <textarea  class="form-control" name="correspondenceAddress"
                                             placeholder="Enter correspondence address"
                                             ><?=$row1['CorrespondanceAddress'];?></textarea>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <label>Nationality</label>
-                                        <select class="form-control" id="Nationality_1" name="Nationality_1"
+                                        <select class="form-control" id="Nationality_1" name="Nationality_1">
+                                            <option value="Indian">Indian</option>
+                                            <option value="NRI">NRI</option>
+                                          
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>Country</label>
+                                        <select class="form-control" id="Country_1" name="Country_1"
                                             onchange="fetch_state1(this.value);">
-                                            <option value="<?=$row1['Nationality'];?>"><?=$row1['Nationality'];?>
+                                            <option value="<?=$row1['country'];?>"><?=$row1['country'];?>
                                             </option>
                                             <option value="">Country</option>
                                             <?php 
@@ -17540,7 +17548,7 @@ elseif($code==267) //update student
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <label>State</label>
                                         <select class="form-control" id="State_1" name="State_1"
                                             onchange="fetch_district1(this.value);">
@@ -17552,6 +17560,16 @@ elseif($code==267) //update student
                                         <select class="form-control" id="District_1" name="District_1">
                                             <option value="<?=$row1['District'];?>"><?=$row1['District'];?></option>
                                         </select>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label>Post Office</label>
+                                        <input type="text" class="form-control" name="postOffice"
+                                            placeholder="Post Office" value="">
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label>Pin Code</label>
+                                        <input type="number" class="form-control" name="pinCode"
+                                            placeholder="Pin Code" value="">
                                     </div>
                                 </div>
                             </div>
@@ -17590,6 +17608,42 @@ elseif($code==267) //update student
                                         <label>Batch</label>
                                         <input type="text" name="batch" class="form-control"
                                             value="<?=$row1['Batch'];?>" readonly>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <label>Session</label>
+                                        <input type="text" name="session" class="form-control"
+                                            value="<?=$row1['Session'];?>" readonly>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <label>Registration No</label>
+                                        <input type="text" name="registrationNo" class="form-control"
+                                            value="<?=$row1['RegistrationNo'];?>" readonly>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <label>Admission Date</label>
+                                        <input type="date-time" name="admissionDate" class="form-control"
+                                            value="<?=$row1['AdmissionDate']->format('Y-m-d h:i:s');?>" readonly>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <label>Fee Category</label>
+                                        <input type="text" name="feeCategory" class="form-control"
+                                            value="<?=$row1['FeeCategory'];?>" readonly>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <label>Lateral Entry</label>
+                                        <select class="form-control" name="lateral">
+                                            <?php if ($row1['LateralEntry']=='Yes') {?>
+                                            <option value="<?=$row1['LateralEntry'];?>"
+                                                ><b>Yes</b>
+                                            </option>
+                                            <?php }else{
+                                        ?>
+                                            <option value="<?=$row1['LateralEntry'];?>">No</option>
+                                            <?php }
+                                        ?>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Status </label>
@@ -17727,15 +17781,15 @@ if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
     }
 
    $employmentStatus = $_POST["employmentStatus"];
-   $NationalityID = $_POST["Nationality_1"];
+   $NationalityID = $_POST["Country_1"];
    $get_country="SELECT * FROM countries where id='$NationalityID' ";
    $get_country_run=mysqli_query($conn,$get_country);
    if($row=mysqli_fetch_array($get_country_run))
    {
-    $NationalityName=$row['name'];
+    $Ncountry_1Name=$row['name'];
     }
     else{
-        $NationalityName=$NationalityID;
+        $Ncountry_1Name=$NationalityID;
     }
    $districtID = $_POST["District_1"];
    $sql = "SELECT  id,name FROM cities WHERE id='$districtID' order by name ASC";
@@ -17762,7 +17816,16 @@ $DistrictName=$row4['name'];
    $ulocked =$_POST["ulocked"]; 
    $eligible =$_POST["eligible"]; 
 
-
+   $aadharNo =$_POST["aadharNo"]; 
+   $Nationality_1 =$_POST["Nationality_1"]; 
+   $postOffice =$_POST["postOffice"]; 
+   $pinCode =$_POST["pinCode"]; 
+   $session =$_POST["session"]; 
+   $registrationNo =$_POST["registrationNo"]; 
+   $admissionDate =$_POST["admissionDate"]; 
+   $feeCategory =$_POST["feeCategory"]; 
+   $lateral =$_POST["lateral"]; 
+   
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
    if ($photo) {
@@ -17809,16 +17872,28 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "CorrespondanceAddress = '$correspondenceAddress', ";
    $query .= "CollegeName = '$CollegeName', ";
    $query .= "CollegeID = '$CollegeID', ";
-   $query .= "Nationality = '$NationalityName', ";
+   $query .= "Nationality = '$Nationality_1', ";
    $query .= "District = '$DistrictName', ";
    $query .= "State = '$StateName', ";
    $query .= "Eligibility = '$eligible', ";
    $query .= "Locked = '$ulocked', ";
    $query .= "ClassRollNo = '$classRollNo', ";
    $query .= "UniRollNo = '$uniRollNo', ";
+   $query .= "AadhaarNo = '$aadharNo', ";
+   $query .= "country = '$Ncountry_1Name', ";
+   $query .= "PO = '$postOffice', ";
+   $query .= "PIN = '$pinCode', ";
+   $query .= "Session = '$session', ";
+   $query .= "RegistrationNo = '$registrationNo', ";
+   $query .= "AdmissionDate = '$admissionDate', ";
+   $query .= "FeeCategory = '$feeCategory', ";
+   $query .= "LateralEntry = '$lateral', ";
    $query .= "Status = '$employmentStatus' ";
    $query .= "WHERE IDNo = '$loginId'";
-    $query;
+
+
+
+   $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
       echo "1";
@@ -17869,8 +17944,8 @@ elseif($code==270)  // search student
                         <th>Image</th>
                         <th>Session</th>
                         <th>IDNo</th>
-                        <th>ClassRollNo</th>
-                        <th>UniRollNo</th>
+                        <th>ClassRoll/UniRollNo</th>
+                        <!-- <th>UniRollNo</th> -->
                         <th>Name</th>
                         <th>FatherName</th>
                         <th>College</th>
@@ -17928,13 +18003,13 @@ elseif($code==270)  // search student
                         </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
-                        <td><?=$row['ClassRollNo'];?></td>
-                        <td><?=$row['UniRollNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                        <!-- <td><?=$row['UniRollNo'];?></td> -->
                         <td><?=$row['StudentName'];?></td>
                         <td><?=$row['FatherName'];?></td>
                         <td><?=$row['CollegeName'];?></td>
                         <td><?=$row['Course'];?></td>
-                        <td><?php if($row['Status']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
+                        <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
                         </td>
                         <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
