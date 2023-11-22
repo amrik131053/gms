@@ -3539,7 +3539,8 @@ $SrNo=1;
     <tr>
     <th>SrNo</th>
     <th>IDNo </th>
-    <th>RollNo </th>
+    <th>Class RollNo </th>
+    <th> Uni RollNo </th>
     <th>Name </th>
     <th>Father Name </th>
     <th>Colege Name</th>
@@ -3559,9 +3560,11 @@ $FatherName=$row['FatherName'];
 $CollegeName=$row['CollegeName'];
 $Course=$row['Course'];
 $UniRollNo=$row['UniRollNo'];
+$ClassRollNo=$row['ClassRollNo'];
  $exportstudy.="<tr>
                 <td>{$SrNo}</td>
                 <td>{$IDNo}</td>
+                 <td>{$ClassRollNo}</td>
                 <td>{$UniRollNo}</td>
                 <td>{$Name}</td>
                  <td>{$FatherName}</td>
