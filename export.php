@@ -3890,9 +3890,6 @@ $sql_openq = sqlsrv_query($conntest,$sql_open);
 $SubjectsNew[]=$row_subject['SubjectCode'] ;
                 $SubjectNamesNew[]=$row_subject['SubjectName'] ;
                 $SubjectTypesNew[]=$row_subject['SubjectType'] ;
-
-$subcount++;
-
 }
 
 $Subjects=array_merge($Subjects,$SubjectsNew);
@@ -3934,7 +3931,7 @@ $subCount1=count($Subjects);
     <th>Name </th>
    ";
 foreach ($Subjects as $key => $SubjectsCode) {
-    $exportstudy.="<th >".$SubjectNames[$key].$SubjectsCode." </th>";
+    $exportstudy.="<th >".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
 }
   $exportstudy.="</tr>  
         </thead>";
