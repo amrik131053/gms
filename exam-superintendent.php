@@ -153,7 +153,7 @@ for($i=1;$i<=12;$i++)
                                 &nbsp;
                                 &nbsp;
                                 &nbsp;
-                                <button class="btn btn-danger btn-sm " onclick="PrintAttendanceSheet()"><i
+                                <button class="btn btn-danger btn-sm " onclick="exportAttendancePdf()"><i
                                         class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
                                         &nbsp;
                                         
@@ -218,9 +218,10 @@ function exportCutListExcel() {
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '') {
-        window.location.href = "export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination;
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
     } else {
         alert("Select ");
     }
@@ -235,9 +236,27 @@ function exportCutListPdf() {
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '') {
-        window.location.href = "export-cutlist-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+        window.open("export-cutlist-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination;
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+function exportAttendancePdf() {
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export-attendance-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+            "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
     } else {
         alert("Select ");
     }
