@@ -17276,7 +17276,7 @@ elseif($code==266)  // search student
                 <th>Course</th>
                 <th>Status</th>
                 <th>Edit</th>
-                <th>ID Card</th>
+                <th>Print</th>
             </tr>
         </thead>
         <tbody>
@@ -17914,7 +17914,11 @@ elseif($code=='269')
 $College=$_POST['College'];
 
 
-  $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+ $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
+
+//$sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+
+
 
 $stmt = sqlsrv_query($conntest,$sql);  
 echo "<option value=''>Course</option>";

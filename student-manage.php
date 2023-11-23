@@ -157,7 +157,7 @@ function fetchcourse1() {
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                console.log(data);
+                //console.log(data);
                 $("#Course1").html("");
                 $("#Course1").html(data);
             }
@@ -300,7 +300,7 @@ function printEmpIDCard(id) {
     var code = 2;
     if (id != '') {
         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
-        window.open("printSmartCardStudent.php?code=" + code + "&id=" + id, '_blank');
+        window.open("print-admission-from.php?code=" + code + "&IDNo=" + id, '_blank');
     } else {
         alert("Select ");
     }
@@ -557,7 +557,7 @@ function copyToClipboard(element) {
                                 class="form-control" required>
                                 <option value=''>Select Faculty</option>
                                 <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
@@ -647,11 +647,12 @@ function copyToClipboard(element) {
                         </div>
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
-                                <label>Action </label><br>
+                                <br>
                                 <button type="button" class="btn btn-success"
                                     onclick="searchStudentCollegeWise();">Search</button>
-                                <button type="submit"  class="btn btn-success  float-right ">
-                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
+
+                                <?php if($role_id!='20'){?><button type="submit"  class="btn btn-success  float-right ">
+                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i><?php }?>
                                 </button>
                             </div>
                         </div>

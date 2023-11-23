@@ -3757,7 +3757,7 @@ $SrNo=1;
 
 
         $SrNo=1;
-        $query = "SELECT * FROM Admissions WHERE 1 = 1";
+       echo $query = "SELECT * FROM Admissions WHERE 1 = 1";
   
         if ($CollegeID != '') {
             $query .= " AND CollegeID='$CollegeID'";
@@ -3795,6 +3795,7 @@ $SrNo=1;
             $Course=$row['Course'];
             $Batch=$row['Batch'];
             $Ereason=$row['EligibilityReason'];
+
             if($row['Eligibility']==1)
             {
 
@@ -3812,8 +3813,8 @@ $SrNo=1;
                 $clr="red";
                 
             }
-         }
-         $exportstudy.="<tr style='background-color:".$clr.";'>
+
+$exportstudy.="<tr style='background-color:".$clr.";'>
          <td>{$SrNo}</td>
          <td>{$IDNo}</td>
          <td>{$ClassRollNo}</td>
@@ -3827,7 +3828,11 @@ $SrNo=1;
          <td>{$Eligibility}</td>     
          <td>{$Ereason}</td>     
      </tr>";
-     $SrNo++;
+
+$SrNo++;
+         }
+         
+     
          
     $exportstudy.="</table>";
     echo $exportstudy;

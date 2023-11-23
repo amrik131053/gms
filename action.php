@@ -5809,8 +5809,13 @@ if($count>0)
    $College=$_POST['College'];
    
    
-    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
-   
+    //$sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
+
+
+   $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
+
+
+
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -7930,7 +7935,12 @@ elseif ($code==125)
     ?>
     <option value="">Select Course</option>
     <?php
-    $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CollegeID='$collegeId'  ORDER BY Course ";
+   // $sqlCourse = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE CollegeID='$collegeId'  ORDER BY Course ";
+
+$sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)order by Course ASC";
+
+
+
     $resultCourse = sqlsrv_query($conntest,$sqlCourse);
     while($rowCourse = sqlsrv_fetch_array($resultCourse, SQLSRV_FETCH_ASSOC) )
     {
