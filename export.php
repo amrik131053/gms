@@ -3897,16 +3897,6 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-
-
-
-
-
-
-
-
-
-
 $subCount=count($Subjects)+4;
 $subCount1=count($Subjects);
 
@@ -3970,19 +3960,6 @@ foreach ($Subjects as $key => $SubjectsCode) {
                            }
                         }
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         // print_r($Examid);
                         $SrNo=1;

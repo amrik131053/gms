@@ -73,7 +73,7 @@ $this->MultiCell(200,6,$CourseName,'0','C');
 
        $this->SetFont('Arial','B',10);
        $this->SetX(50,12);
-      $this->MultiCell(200,6,'Attendance Sheet Examination('.$Examination.')',0,'C');
+      $this->MultiCell(200,6,'Cutlist Examination('.$Examination.')',0,'C');
   if($Group!='NA')
   {
 $this->SetFont('Arial','B',10);
@@ -216,7 +216,6 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                  $Snap[] =$row['Snap'];
                  $Gender[] =$row['Sex'];           
  }
-
                 // print_r($ExternalExam);
 $i=0;
 $totalStudent = count($IDNos);
@@ -231,7 +230,6 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
         $x += 35; 
-
     }
     $pdf->SetFont('Arial', 'b', 10);
     $pdf->SetXY(8, 50);
@@ -287,7 +285,6 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           else{
               $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
             }
-            
         }
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
@@ -297,81 +294,10 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(28.6,14,"",1,0,'C',0);
-        if($subcount<2)
-        {
-           
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            
-           
-
-        }
-        else if($subcount<3)
-        {
-            
-
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            
-           
-        }
-        else if($subcount<4)
-        {
-            
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            
-            
-        }
-        else if($subcount<5)
-        {
-            
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            
-        } 
-        elseif($subcount<6)
-        {
-            
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
-            
-           
-        }
-        else if($subcount<7)
-        {
-           
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
-            
-        }
-        else 
-        {
-           
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
-            
-        }
-  
  
         $y = $y + 14;
                 }
-                // print_r($ExternalExam);
-      
-      
+         
 }
 
 if($subcount>7)
@@ -445,6 +371,19 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
             }
             
         }
+
+        // foreach ($Examid as $key => $examID) {
+        //     foreach ($Subjects as $key => $SubjectsCode) {
+           
+        //   $list_sql_examsubject = "SELECT ExternalExam FROM ExamFormSubject WHERE Examid='$examID' ANd  SubjectCode='$SubjectsCode' ";
+        //  $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+        //                 while( $row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+        //                    {
+                        
+        //                    $ExternalExam[]=$row_exam['ExternalExam'];
+        //                    }
+        //                 }
+        //                 }
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
@@ -454,12 +393,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(28.6,14,"",1,0,'C',0);
 
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+        
     
 
         $y = $y + 14;
@@ -550,13 +484,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
 
       
-           
-            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
-            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+
         
 
         $y = $y + 14;
