@@ -101,13 +101,9 @@ $this->MultiCell(35,6,'Class Roll No / Uni RollNo',0,'C');
 $this->Line(54,21,54,38);
 $this->SetXY(37,21);
 $this->SetXY(55,21);
-$this->SetFont('Arial','b',6);
-$this->MultiCell(10,6,'Image',0,'C');
-$this->SetFont('Arial','b',8);
 $this->SetXY(65,23);
-$this->Line(64,21,64,38);  //image
-$this->MultiCell(20,6,'Signature',0,'C');
-$this->Line(85.4,21,85.4,38);
+$this->MultiCell(20,6,'Name',0,'C');
+$this->Line(94,21,94,38);
 $this->SetFont('Arial','b',8);
 
  $this->Line(120.8,21,120.8,38);  //subject name 1
@@ -224,78 +220,47 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->AddPage('L');
     $pdf->SetFont('Arial', 'b', 10);
     $x = 87;
-    for ($subIndex = 0; $subIndex < 6; $subIndex++) {
-        $pdf->SetXY($x, 23);
+    for ($subIndex = 0; $subIndex < 12; $subIndex++) {
+        $pdf->SetXY($x+7, 23);
         $pdf->SetFont('Arial', 'b', 6);
-        $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
+        $pdf->MultiCell(15, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],1, 'C');
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
         $x += 35; 
     }
     $pdf->SetFont('Arial', 'b', 10);
     $pdf->SetXY(8, 50);
-    for ($i = $p * 10,$y=38; $i < min(($p + 1) * 10, $totalStudent); $i++) {
+    for ($i = $p * 30,$y=38; $i < min(($p + 1) * 30, $totalStudent); $i++) {
         $pdf->SetXY(8, $y);
         $pdf->SetFont('Times', '', 10);
-        $pdf->Cell(11, 14, $i+1, 1, 0, 'C', 0);
-        $pdf->SetFont('Times','b',8);
+        $pdf->Cell(11, 5, $i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',7);
         $pdf->SetXY(19,$y);
         $smal =strtolower($StudentNames[$i]);
-      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i],0,'C');
       $pdf->SetXY(19,$y);
-      $pdf->Cell(35,14,"",1,0,'C',0);
+      $pdf->Cell(35,5,"",1,0,'C',0);
+      $pdf->SetFont('Times','b',7);
+      $pdf->MultiCell(35,5,ucwords($smal),0,'C');
         $pdf->SetXY(35,$y);
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
- 
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
-      
-                }    
       $pdf->SetFont('Times','',10);
-      $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'){
-      
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
-          }
-          else{
-              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
-          }
-
-      }
-      if($extensionSign!='webp'){
-      
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-        }
-        $pdf->Cell(21.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
+      $pdf->Cell(40,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
+        $pdf->Cell(16.4,5,"",1,0,'C',0);
         
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(28.6,14,"",1,0,'C',0);
  
-        $y = $y + 14;
+        $y = $y + 5;
                 }
          
 }
@@ -312,7 +277,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
-        $x += 35; 
+        $x += 19; 
       
     }
     $pdf->SetFont('Arial', 'b', 10);
@@ -331,46 +296,11 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
  
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
-      
+    
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'){
-      
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
-          }
-          else{
-              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
-          }
 
-      }
-      if($extensionSign!='webp'){
-      
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-            
-        }
 
         // foreach ($Examid as $key => $examID) {
         //     foreach ($Subjects as $key => $SubjectsCode) {
@@ -400,7 +330,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }
                 // print_r($ExternalExam);
             }   
-}
+// }
 
 if($subcount>13)
 {   
