@@ -3735,10 +3735,30 @@ else if($exportCode==39)
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
    
-
+    $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
+    $list_cllegename = sqlsrv_query($conntest,$collegename);
+                      
+                  
+                    if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                       {
+    
+                       // print_r($row);
+                    $CollegeName=$row_college['CollegeName'] ;
+                    $CourseName=$row_college['Course'] ;
+                    
+            }
 $SrNo=1;
-  $exportstudy="<table class='table' border='1'>
-        <thead>            
+$subCount=12;
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>  
+<tr>
+";
+
+$exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
+</tr><tr>";
+$exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&nbsp;&nbsp;".$Batch."</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style='text-align:center;'>  Course:&nbsp;&nbsp;".$CourseName."</b></th>        
+</tr>
+          
     <tr>
     <th>SrNo</th>
     <th>IDNo </th>
@@ -3760,11 +3780,11 @@ $SrNo=1;
        echo $query = "SELECT * FROM Admissions WHERE 1 = 1";
   
         if ($CollegeID != '') {
-            $query .= " AND CollegeID='$CollegeID'";
+           echo $query .= " AND CollegeID='$CollegeID'";
         }
         
         if ($CourseID != '') {
-            $query .= " AND CourseID ='$CourseID'";
+           echo $query .= " AND CourseID ='$CourseID'";
         }
         
         if ($Batch != '') {
@@ -3814,7 +3834,10 @@ $SrNo=1;
                 
             }
 
-$exportstudy.="<tr style='background-color:".$clr.";'>
+
+         
+         $exportstudy.="<tr style='background-color:".$clr.";'>
+
          <td>{$SrNo}</td>
          <td>{$IDNo}</td>
          <td>{$ClassRollNo}</td>
@@ -3829,11 +3852,11 @@ $exportstudy.="<tr style='background-color:".$clr.";'>
          <td>{$Ereason}</td>     
      </tr>";
 
+
 $SrNo++;
          }
          
-     
-         
+
     $exportstudy.="</table>";
     echo $exportstudy;
     $fileName="Student Report ";
@@ -3981,10 +4004,10 @@ foreach ($Subjects as $key => $SubjectsCode) {
         $SrNo++;
         }
 
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName="Cutlist EXamination ".$Examination;
          } 
-    $exportstudy.="</table>";
-    echo $exportstudy;
-    $fileName="Student Report ";
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
