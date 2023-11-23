@@ -6,21 +6,13 @@ $output = '';
 $ctime = date("d-m-Y");
 $nowtime = strtotime($ctime);
 
-
-  $College = "65";
-  $Course = "128";
-  $Batch = "2023";
-  $Semester = "1";
-  $Type = "Regular";
-  $Group = "NA";
-  $Examination = "December 2023";
-  // $College = $_POST['College'];
-  // $Coursei = $_POST['Course'];
-  // $Batch = $_POST['Batch'];
-  // $Semester = $_POST['Semester'];
-  // $Type = $_POST['Type'];
-  // $Group = $_POST['Group'];
-  // $Examination = $_POST['Examination'];
+  $College = $_GET['CollegeId'];
+  $Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+  $Type = $_GET['Type'];
+  $Group = $_GET['Group'];
+  $Examination = $_GET['Examination'];
 
   $collegename="SELECT CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
 $list_cllegename = sqlsrv_query($conntest,$collegename);

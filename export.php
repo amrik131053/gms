@@ -236,19 +236,19 @@ elseif ($exportCode == 5)
         $article_Name=$article_data['ArticleName'];
      }
      ?>
-    <table border="1">
-        <tr>
-            <th>Sr. No.</th> 
-            <th>Block</th>
-            <th>Room Name</th>
-            <th>Room Type</th>
-            <th>Room No</th>
-            <th>Floor</th>
-            <th>Article</th>
-            <th>Count</th>
-            <th>Employee ID</th>
-            <th>Employee Name</th>
-        </tr>
+ <table border="1">
+     <tr>
+         <th>Sr. No.</th>
+         <th>Block</th>
+         <th>Room Name</th>
+         <th>Room Type</th>
+         <th>Room No</th>
+         <th>Floor</th>
+         <th>Article</th>
+         <th>Count</th>
+         <th>Employee ID</th>
+         <th>Employee Name</th>
+     </tr>
      <?php
     // echo 'Sr No' . "\t" . 'Block' . "\t" . 'Room Name' . "\t" . 'Room No' . "\t" . 'Floor' . "\t" . 'Article' . "\t" . 'Count' ."\t" . 'Employee ID' ."\t" . 'Employee Name' . "\n";
     $building_num = 0;
@@ -303,25 +303,25 @@ elseif ($exportCode == 5)
         {$building_num++;
            
            ?>
-           <tr>
-            <td><?=$building_num?></td>
-            <td><?=$building_row['Bname']?></td>
-            <td><?=$building_row['rnm_RoomName']?></td>
-            <td><?=$building_row['RoomType'];?></td>
-            <td><?=$building_row['lmRoomNo']?></td>
-            <td><?=$FloorName?></td>
-            <td><?=$article_Name?></td>
-            <td><?=$location_num?></td>
-            <td><?=$building_row['location_owner']?></td>
-            <td><?=$userName?></td>
-        </tr>
-           <?php 
+     <tr>
+         <td><?=$building_num?></td>
+         <td><?=$building_row['Bname']?></td>
+         <td><?=$building_row['rnm_RoomName']?></td>
+         <td><?=$building_row['RoomType'];?></td>
+         <td><?=$building_row['lmRoomNo']?></td>
+         <td><?=$FloorName?></td>
+         <td><?=$article_Name?></td>
+         <td><?=$location_num?></td>
+         <td><?=$building_row['location_owner']?></td>
+         <td><?=$userName?></td>
+     </tr>
+     <?php 
            // echo $building_num . "\t" . $Block . "\t" .  $room_Name . "\t" . $roomNo. "\t" . $FloorName . "\t" . $article_Name . "\t" . $location_num ."\t" . $locationOwner ."\t" . $EmpName .  "\n";
         }
     }
     ?>
-</table>
-    <?php
+ </table>
+ <?php
 }
 
 elseif ($exportCode == 6)
@@ -3833,9 +3833,177 @@ $SrNo=1;
     echo $exportstudy;
     $fileName="Student Report ";
 }
+else if($exportCode==40)
+{
+    $College=$_GET['CollegeId'];
+$Course=$_GET['Course'];
+$Batch=$_GET['Batch'];
+$Semester=$_GET['Semester'];
+$Type=$_GET['Type'];
+$Group=$_GET['Group'];
+$Examination=$_GET['Examination'];
+$SrNo=1;
+$Subjects=array();
+$SubjectNames=array();
+$SubjectTypes=array();
+$InternalExam=array();
+$ExternalExam=array();
+$SubjectsNew=array();
+$SubjectNamesNew=array();
+$SubjectTypesNew=array();
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
+$list_Subjects = sqlsrv_query($conntest,$subjects_sql);
+                 
+             if($list_Subjects === false)
+               {
+              die( print_r( sqlsrv_errors(), true) );
+              }
+               while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
+                  {
 
+                  // print_r($row);
+               $Subjects[]=$row_subject['SubjectCode'] ;
+               $SubjectNames[]=$row_subject['SubjectName'] ;
+               $SubjectTypes[]=$row_subject['SubjectType'] ;
+}
+$collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
+$list_cllegename = sqlsrv_query($conntest,$collegename);
+                  
+              
+                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                   {
+
+                   // print_r($row);
+                $CollegeName=$row_college['CollegeName'] ;
+                $CourseName=$row_college['Course'] ;
+                
+        }
+
+$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+
+$sql_openq = sqlsrv_query($conntest,$sql_open);
+         
+                if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
+                   {
+
+$SubjectsNew[]=$row_subject['SubjectCode'] ;
+                $SubjectNamesNew[]=$row_subject['SubjectName'] ;
+                $SubjectTypesNew[]=$row_subject['SubjectType'] ;
+}
+
+$Subjects=array_merge($Subjects,$SubjectsNew);
+$SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
+$SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
+
+
+
+
+
+
+
+
+
+
+
+
+$subCount=count($Subjects)+4;
+$subCount1=count($Subjects);
+
+
+
+  $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+        <thead>  
+        <tr>
+       ";
+
+ $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
+    </tr><tr>";
+    $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
+    </tr>
+    <tr>";
+    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Cutlist Examination (".$Examination.")</b></th>         
+    </tr>
+    <tr>
+    <th>SrNo</th>
+    <th>ClassRoll No </th>
+    <th>UniRoll No</th>
+    <th>Name </th>
+   ";
+foreach ($Subjects as $key => $SubjectsCode) {
+    $exportstudy.="<th >".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
+}
+  $exportstudy.="</tr>  
+        </thead>";
+        $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+        FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+        
+        
+                $j=0;
+               
+               
+                        $list_result = sqlsrv_query($conntest,$list_sql);
+                            $count = 1;
+                      if($list_result === false)
+                        {
+                       die( print_r( sqlsrv_errors(), true) );
+                       }
+                        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                           {
+                           // print_r($row);
+                        $IDNos[]=$row['IDNo'];
+                        $UnirollNos[]=$row['UniRollNo'];
+                        $ClassRollNos[]=$row['ClassRollNo'];
+                         $Examid[]=$row['ID'];
+                         $StudentNames[] =$row['StudentName'];     
+          $j++;
+         }
+         foreach ($Examid as $key => $examID) {
+            foreach ($Subjects as $key => $SubjectsCode) {
+           
+          $list_sql_examsubject = "SELECT ExternalExam FROM ExamFormSubject WHERE Examid='$examID' ANd  SubjectCode='$SubjectsCode' ";
+         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                        while( $row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                           {
+                        
+                           $ExternalExam[]=$row_exam['ExternalExam'];
+                           }
+                        }
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // print_r($Examid);
+                        $SrNo=1;
+        foreach ($IDNos as $key => $IDNostudent) {
+         $exportstudy.="<tr>
+         <td>{$SrNo}</td>
+         <td>{$ClassRollNos[$key]}</th>
+         <th>{$UnirollNos[$key]}</td>
+         <td>{$StudentNames[$key]}</td>";
+         foreach ($Subjects as $key => $SubjectsCode) {
+            $exportstudy.="<td style='text-align:center;'>{$ExternalExam[$key]} </td>";
+        }
+        $exportstudy.="</tr>";
+        $SrNo++;
+        }
+
+         } 
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Report ";
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
-
