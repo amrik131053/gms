@@ -3752,7 +3752,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=12;
+$subCount=17;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -3763,7 +3763,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$Colleg
 $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&nbsp;&nbsp;".$Batch."</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style='text-align:center;'>  Course:&nbsp;&nbsp;".$CourseName."</b></th>        
 </tr>
           
-    <tr>
+    <tr style='background-color:black; color:white;'>
     <th>SrNo</th>
     <th>IDNo </th>
     <th>ClassRoll No </th>
@@ -3775,7 +3775,12 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Course </th>
     <th>Batch </th>
     <th>Eligible </th>
+    <th>Country </th>
+    <th>State </th>
+    <th>District </th>
+    <th>Nationality </th>
     <th>Remarks </th>
+    <th>Status </th>
     </tr>
         </thead>";
 
@@ -3819,28 +3824,44 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Course=$row['Course'];
             $Batch=$row['Batch'];
             $Ereason=$row['EligibilityReason'];
+            $Country=$row['country'];
+            $State=$row['State'];
+            $District=$row['District'];
+            $Nationality=$row['Nationality'];
+            $Refrence=$row['FeeWaiverScheme'];
 
             if($row['Eligibility']==1)
             {
 
                 $Eligibility="Eligible";
-                $clr="";
+                $clr="green";
             }
             else if($row['EligibilityReason']!='' && $row['Eligibility']==1)
             {
 
                 $Eligibility="Provisional Eligible";
-                $clr="yellow";
+                $clr="blue";
             }
             else{
                 $Eligibility="Not Eligible";
-                $clr="red";
+                $clr="yellow";
                 
+            }
+            if($row['Status']==1)
+            {
+
+                $status="Active";
+                $clr1="green";
+            }
+            else{
+                $status="Left";
+                $clr1="red";
             }
 
 
+
          
-         $exportstudy.="<tr style='background-color:".$clr.";'>
+         $exportstudy.="<tr >
 
          <td>{$SrNo}</td>
          <td>{$IDNo}</td>
@@ -3852,8 +3873,13 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$CollegeName}</td>
          <td>{$Course}</td>
          <td>{$Batch}</td>
-         <td>{$Eligibility}</td>     
+         <td style='background-color:".$clr.";'>{$Eligibility}</td>     
+         <td>{$Country}</td>     
+         <td>{$State}</td>     
+         <td>{$District}</td>     
+         <td>{$Nationality}</td>     
          <td>{$Ereason}</td>     
+         <td style='background-color:".$clr1.";'>{$status}</td>     
      </tr>";
 
 
