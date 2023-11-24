@@ -77,7 +77,7 @@ $this->MultiCell(200,6,$CourseName,'0','C');
   {
 $this->SetFont('Arial','B',10);
  $this->SetXY(210,4);
-      $this->Cell(123,6,$grp,0,1);
+      $this->Cell(123,6,$Group,0,1);
 }
 $this->SetXY(10,17);
 $this->Write(0,'Batch : ');
