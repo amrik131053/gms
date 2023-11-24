@@ -297,6 +297,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(28.6,14,"",1,0,'C',0);
+        
         if($subcount<2)
         {
            
@@ -365,11 +366,23 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
             $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
             
         }
-  
- 
+        
+        
         $y = $y + 14;
-                }
-                // print_r($ExternalExam);
+    }
+
+    
+    $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
       
       
 }
@@ -465,6 +478,17 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $y = $y + 14;
                 }
                 // print_r($ExternalExam);
+                $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
             }   
 }
 
@@ -561,6 +585,17 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
         $y = $y + 14;
                 }
+                $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
                 // print_r($ExternalExam);
             }   
 }
