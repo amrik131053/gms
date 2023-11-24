@@ -17410,7 +17410,15 @@ elseif($code==267) //update student
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
+                       <!--  <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
+                        </li> -->
+                        <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a>
                         </li>
                     </ul>
                 </div>
@@ -17457,16 +17465,49 @@ elseif($code==267) //update student
                                         <label>Category</label>
                                         <select class="form-control" name="category">
                                             <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?></option>
-                                            <option>SC</option>
-                                            <option>ST</option>
-                                            <option>OBC</option>
-                                            <option>General</option>
+                                            <option value="SC">SC</option>
+                                            <option value="ST">ST</option>
+                                            <option value="OBC">OBC</option>
+                                            <option value="General">General</option>
+                                             
+
                                         </select>
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Aadhaar No</label>
                                         <input type="number" class="form-control" name="aadharNo"
-                                            placeholder="Enter Aadhaar No" value="">
+                                            placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                    </div>
+
+
+                                     <div class="col-md-12 col-lg-2">
+                                        <label>Blood Group</label>
+                                        <select class="form-control" name="bloodgroup">
+                                            <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
+                                            <option value="A +ve">A +Ve</option>
+                                             <option value="A -ve">A -Ve</option>
+                                             <option value="AB +ve">AB +Ve</option>
+                                             <option value="AB -ve">AB -Ve</option>
+                                             <option value="B +ve">B +Ve</option>
+                                             <option value="B -ve">B -Ve</option>
+                                             <option value="O +ve">O +Ve</option>
+                                             <option value="O -ve">O -Ve</option>
+                                             <option value="NA">NA</option>
+                                            
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 col-lg-3">
+                                        <label>Religion</label>
+                                       <select class="form-control" name="religion">
+                                        <option value="<?= $row1['Religion'];?>"><?=$row1['Religion'];?></option>
+                                            <option value="SIKH">SIKH</option>
+                                             <option value="HINDU">HINDU</option>
+                                             <option value="MUSLIM">MUSLIM</option>
+                                              <option value="CHRISTIAN">CHRISTIAN</option>
+                                               <option value="CHRISTIAN">CHRISTIAN</option>
+                                               <option value="JAIN">JAIN</option>
+                                               <option value="BUDDHISTS">BUDDHISTS</option>
+                                           </select>
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Image</label>
@@ -17478,6 +17519,11 @@ elseif($code==267) //update student
                                         <input type="file" class="form-control-file" name="signature">
 
                                     </div>
+
+
+
+
+
                                 </div>
                             </div>
                             <div class="tab-pane" id="contact">
@@ -17642,8 +17688,7 @@ elseif($code==267) //update student
                                             <option value="<?=$row1['LateralEntry'];?>">No</option>
                                             <?php }
                                         ?>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
+                                            
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
@@ -17682,6 +17727,41 @@ elseif($code==267) //update student
                                             <option value="2">Provisional Eligible</option>
                                         </select>
                                     </div>
+
+
+                                      <div class="col-lg-2 col-12">
+                                        <label>Mode of Admission</label>
+                                        <select class="form-control" name="lateral">
+                                              <option value="<?=$row1['Quota'];?>"
+                                                ><b><?=$row1['Quota'];?></b>
+                                            </option>
+                                            <option value="Through Counseling"
+                                                >Through Counseling
+                                            </option>
+                                            <option value="Management"
+                                                >Management
+                                            </option>
+                                        
+                                            
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-lg-3 col-12">
+                                        <label>Scholarship</label>
+                        <select class="form-control" name="scholaship">
+                                  <option value="<?=$row1['ScolarShip'];?>"><b><?=$row1['ScolarShip'];?></b>
+                                            </option>
+                                           
+                                          
+                                        
+                                            <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
+                                        <option value="Early Bird scholarship">Early Bird scholarship</option><option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option><option value="Orphan Student scholarship">Orphan Student scholarship</option><option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option><option value="Old Student Scholarship policy">Old Student Scholarship policy</option><option value="Not Applicable">Not Applicable</option>
+                                            
+                                        </select>
+                                    </div>
+
+
                                 </div>
                             </div>
 
@@ -17722,6 +17802,167 @@ elseif($code==267) //update student
                                     }
                                     // print_r($aa);        ?>
                             </div>
+
+   <div class="tab-pane" id="special">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                       <textarea  class="form-control" readonly><?=$row1['CommentsDetail'];?></textarea>
+                                    </div>
+                                </div>
+
+                                <?php                   
+                                    //}
+                                    // print_r($aa);        ?>
+                            </div>
+
+
+
+<div class="tab-pane" id="documents">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table  table-bordered">
+                                            
+                                            <tr>
+                                                <td><b>Documents</b></td>
+                                                <td><b>Status</b></td>
+                                                
+
+                                                 <?php $sql = "select  * from  DocumentStatus where IDNo='".$row1['IDNo']."'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+{
+$dicrequired= $row7['DocumentsRequired'];
+$docstatus= $row7['Status'];
+    ?>                                        
+                                              <tr>  <td><?=$dicrequired;?></td>
+                                                <td><select class="form-control">
+                                                    <?php if($docstatus!='')
+                                                    {?>
+<option value="<?= $docstatus;?>"> <?=$docstatus;?></option>
+                                                    <?php }?>
+
+                                                    
+                                                    <option value="NA">NA</option>
+                                                    <option value="Original Submitted">Original Submitted</option>
+                                                    <option  value="Photocopy Submitted">Photocopy Submitted</option>
+                                                    <option value="Pending">Pending</option>
+
+                                                </select>
+                                                </td>
+                                                
+                                            </tr>
+                                            <?php 
+                                                }?>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                
+                                    
+                            </div>
+
+
+
+
+<div class="tab-pane" id="fee">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table  table-bordered">
+                                            
+<?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='".$row1['IDNo']."'";
+
+$stmt8 = sqlsrv_query($conntest,$sqlww);
+while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+{
+    
+    $tdebit=$rowww['totaldebit'];
+$tcredit=$rowww['totalcredit'];
+
+  }
+ 
+  $amount=$tdebit-$tcredit;
+    ?>                                  
+
+  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
+<td colspan="2"></td>
+    <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
+    </tr>
+
+
+                                            <tr>
+                                                <td><b>Date</b></td>
+                                                <td><b>Receipt No</b></td>
+                                                <td><b>Particulars</b></td>
+                                                <td><b>Reamrks</b></td>
+                                                <td><b>Debit</b></td>
+                                                <td><b>Credit</b></td>
+                                                <td><b>Remarks</b></td>
+
+                                                
+
+                                                 <?php $sql8 = "select  * from  Ledger where IDNo='".$row1['IDNo']."' order by DateEntry DESC";
+$stmt8 = sqlsrv_query($conntest,$sql8);
+while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+{
+
+    ?>                                        
+                                             
+                                           <tr>  <td><?= $row8['DateEntry']->format('d-m-Y h:i:s');?>   </td><td><?= $row8['ReceiptNo'];;?></td>
+                                            <td style="width: 300px"><?= $row8['Particulars'];;?></td>
+
+                                            <td><?= $row8['LedgerName'];?>   </td><td><?= $row8['Debit'];;?></td><td><?= $row8['Credit'];;?></td><td><?= $row8['Remarks'];;?></td>
+                                               </tr> 
+                                          
+                                            <?php 
+                                                }?>
+
+
+
+<?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='".$row1['IDNo']."'";
+
+$stmt8 = sqlsrv_query($conntest,$sqlww);
+while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+{
+    
+    $tdebit=$rowww['totaldebit'];
+$tcredit=$rowww['totalcredit'];
+
+  }
+ 
+  $amount=$tdebit-$tcredit;
+    ?>                                  
+
+  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
+<td colspan="2"></td>
+    <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
+    </tr>  
+     </table>
+                                </div>
+                                </div>
+
+                                
+                                    
+                            </div>
+
+
+   <div class="tab-pane" id="reference">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                     
+                                    </div>
+                                </div>
+
+                                    
+                            </div>
+
+
+
+
+
+
+
+
+
                         </div>
                       <br>
    
