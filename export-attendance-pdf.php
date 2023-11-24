@@ -194,7 +194,7 @@ $Subjects[$subcount]=$row_subject['SubjectCode'] ;
                 $SubjectTypes[$subcount]=$row_subject['SubjectType'] ;
 $subcount++;
 }
-for($as=$subcount;$as<12;$as++)
+for($as=$subcount;$as<7;$as++)
 {
    $Subjects[$as]='';
    $SubjectNames[$as]='';
@@ -405,6 +405,16 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
 if($subcount>7)
 {
+
+    
+
+    for($as=$subcount;$as<12;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
 for ($p = 0; $p < $totalStudent / 10; $p++) {
     
     $pdf->AddPage('L');
@@ -510,6 +520,13 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
 if($subcount>13)
 {   
+    for($as=$subcount;$as<18;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
 for ($p = 0; $p < $totalStudent / 10; $p++) {
     
     $pdf->AddPage('L');

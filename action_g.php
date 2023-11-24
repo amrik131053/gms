@@ -17348,8 +17348,8 @@ if($row_count>0)
                     <?php 
                     
     
-                     if ($role_id==2) 
-                     {                                 
+                    //  if ($role_id==2) 
+                    //  {                                 
                  
 $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
 
@@ -17365,7 +17365,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                     <!-- <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i> -->
 
-<?php }?>
+<?php// }?>
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 
