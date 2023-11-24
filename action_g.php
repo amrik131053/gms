@@ -17362,11 +17362,12 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                       $color="red";
                     }  
 ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <!-- <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i> -->
 
 <?php }?>
-
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 
                 </td>
             </tr>
