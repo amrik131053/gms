@@ -17720,7 +17720,7 @@ elseif($code==267) //update student
                                         <label>Eligibility</label>
                                         <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1'){echo 'green';}else{ echo 'red';};?>">
                                             <option value="<?=$Eligibility;?>">
-                                                <?php if ($Eligibility>0)  {echo $Reason." Eligible";} else{echo "Not Eligible";} ?>
+                                                <?php if ($Eligibility>0)  {echo "Eligible";} else{echo "Not Eligible";} ?>
                                             </option>
                                             <option value="1">Eligible</option>
                                             <option value="0">Not Eligible</option>
