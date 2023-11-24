@@ -13,33 +13,33 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                        <div class="col-lg-12 col-md-12 col-sm-13">
-                            <select name="College" id='College' onchange="courseByCollege(this.value)"
-                                class="form-control" required="">
-                                <option value=''>Select Course</option>
-                                <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
-     $college = $row1['CollegeName']; 
-     $CollegeID = $row1['CollegeID'];
-    ?>
-                                <option value="<?=$CollegeID;?>"><?= $college;?></option>
-                                <?php    }
+                            <div class="col-lg-12 col-md-12 col-sm-13">
+                                <select name="College" id='College' onchange="courseByCollege(this.value)"
+                                    class="form-control" required="">
+                                    <option value=''>Select Course</option>
+                                    <?php
+                                    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                        $college = $row1['CollegeName']; 
+                                        $CollegeID = $row1['CollegeID'];
+                                        ?>
+                                                                        <option value="<?=$CollegeID;?>"><?= $college;?></option>
+                                                                        <?php    }
 
-?>
-                            </select>
-         </div>
-         <div class="col-lg-12 col-md-12 col-sm-13">
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-13">
 
 
-                            <label>Course</label>
-                            <select name="Course" id="Course" class="form-control">
-                                <option value=''>Select Course</option>
+                                <label>Course</label>
+                                <select name="Course" id="Course" class="form-control">
+                                    <option value=''>Select Course</option>
 
-                            </select>
-         </div>
+                                </select>
+                            </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-3">
 
@@ -51,11 +51,11 @@
                                 <select name="batch" class="form-control" id="Batch" required="">
                                     <option value="">Batch</option>
                                     <?php 
-for($i=2013;$i<=2030;$i++)
-{?>
-                                    <option value="<?=$i?>"><?=$i?></option>
-                                    <?php }
-            ?>
+                                    for($i=2013;$i<=2030;$i++)
+                                    {?>
+                                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                                        <?php }
+                                                ?>
 
                                 </select>
 
@@ -66,11 +66,11 @@ for($i=2013;$i<=2030;$i++)
                                 <select id='Semester' class="form-control" required="">
                                     <option value="">Sem</option>
                                     <?php 
-for($i=1;$i<=12;$i++)
-{?>
-                                    <option value="<?=$i?>"><?=$i?></option>
-                                    <?php }
-            ?>
+                                    for($i=1;$i<=12;$i++)
+                                    {?>
+                                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                                        <?php }
+                                                ?>
 
                                 </select>
 
@@ -96,19 +96,19 @@ for($i=1;$i<=12;$i++)
                                 <select id="Group" class="form-control" required="">
                                     <option value="">Group</option>
                                     <?php
-   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
+                                            $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+                                                    $stmt2 = sqlsrv_query($conntest,$sql);
+                                                while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                                    {
 
-       
-     $Sgroup = $row1['Sgroup']; 
-     
-    ?>
+                                                
+                                                $Sgroup = $row1['Sgroup']; 
+                                                
+                                                ?>
                                     <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
                                     <?php    }
 
-?>
+                                                            ?>
 
 
                                 </select>
@@ -119,19 +119,19 @@ for($i=1;$i<=12;$i++)
                                 <select id="Examination" class="form-control" required="">
                                     <option value="">Examination</option>
                                     <?php
-   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
+                                    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
 
-       
-     $Sgroup = $row1['Examination']; 
-     
-    ?>
-                                    <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
-                                    <?php    }
+                                        
+                                        $Sgroup = $row1['Examination']; 
+                                        
+                                        ?>
+                                                                        <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                                                        <?php    }
 
-?>
+                                    ?>
 
 
                                 </select>
@@ -141,27 +141,147 @@ for($i=1;$i<=12;$i++)
                             <div class="col-lg-12 col-md-12 col-sm-13">
                                 <div class="form-group-xs  ">
                                     <br>
-                            <div class="row ">
+                                    <div class="row ">
 
-                                <div class="col-lg-5 col-md-12 col-sm-13">
-                                <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
-                                        class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
-                                        &nbsp;
-         </div>
-         <div class="col-lg-3 col-md-12 col-sm-13">
-                                <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
-                                        class="fa fa-file-excel">&nbsp;Cut List</i></button>  
-                                        &nbsp;
-         </div>  <div class="col-lg-4 col-md-12 col-sm-13">
-                                <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
-                                        class="fa fa-file-pdf">&nbsp;Cut List</i></button>
-                                       
-                                        
-                                     </div>
-                                     </div>
-                                     </div>
+                                        <div class="col-lg-5 col-md-12 col-sm-13">
+                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-3 col-md-12 col-sm-13">
+                                            <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
+                                                    class="fa fa-file-excel">&nbsp;Cut List</i></button>
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 col-sm-13">
+                                            <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Cut List</i></button>
+
+
+                                        </div>
                                     </div>
-                                
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3" style="display:none;">
+                <div class="card card-info">
+                    <div class="card-header ">
+                        <h3 class="card-title">Attendance Sheet</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label>Examination</label>
+                                <select id="Examination" class="form-control" required="">
+                                    <option value="">Examination</option>
+                                    <?php
+                                    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+
+                                        
+                                        $Sgroup = $row1['Examination']; 
+                                        
+                                        ?>
+                                                                        <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                                                        <?php    }
+
+                                    ?>
+
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label>SubJect Code</label>
+                                <Input type="text"  class="form-control subject_code"  name="subject_code" id="subject_code"  required="" />
+
+                            </div>
+                           
+                            <div class="col-lg-12 col-md-12 col-sm-13">
+
+
+                                <label>Course</label>
+                                <select name="Course" id="Course" class="form-control" onchange="selectSubName(this.value);">
+                        <option value=''>Select Course</option>
+                     </select>
+                            </div>
+
+                           
+
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <label> Semester</label>
+                                <select id='Semester' name="Semester" class="form-control" required="">
+                                    <option value="">Sem</option>
+                                    <?php 
+                                    for($i=1;$i<=12;$i++)
+                                    {?>
+                                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                                        <?php }
+                                                ?>
+
+                                </select>
+
+                            </div>
+                            
+
+
+
+                            <div class="col-lg-6    col-md-4 col-sm-3">
+                                <label>Subject</label>
+                                <select name="subName" id="subName" class="form-control">
+                        <option value=''>Select Subject</option>
+                     </select>
+
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <label>Type</label>
+                                <select id="Type" class="form-control" required="">
+                                    <option value="">Select</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Reappear">Reappear</option>
+                                    <option value="Additional">Additional</option>
+                                    <option value="Improvement">Improvement</option>
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-13">
+                                <div class="form-group-xs  ">
+                                    <br>
+                                    <div class="row ">
+
+                                        <div class="col-lg-5 col-md-12 col-sm-13">
+                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-3 col-md-12 col-sm-13">
+                                            <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
+                                                    class="fa fa-file-excel">&nbsp;Cut List</i></button>
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 col-sm-13">
+                                            <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Cut List</i></button>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>
@@ -203,6 +323,120 @@ for($i=1;$i<=12;$i++)
 <!-- Modal -->
 
 <script>
+
+
+
+
+
+$(document).ready(function(){
+   
+   $(document).on('keydown','.subject_code', function() {
+
+       // Initialize jQuery UI autocomplete
+       $("#subject_code").autocomplete({
+             source: function( request, response ) {
+           $.ajax({
+     
+           url: "action.php",
+             type: 'post',
+             dataType: "json",
+             data: {
+                 search: request.term,code:116
+             },
+             success: function( data ) {
+                 response( data );
+                 console.log(data);
+             },
+             error: function (error) {
+             // console.log(error);
+              }
+           });
+         },
+         select: function (event, ui) {
+           $(this).val(ui.item.label); // display the selected text
+           var subject_code = ui.item.value; // selected value
+
+                   
+         return false;
+         }
+       });
+   });
+ });
+
+
+ $(function() { 
+   $("#subject_code").blur(function(e) {
+     e.preventDefault();
+   
+     var subject_code = $("#subject_code").val();
+     var code = "117";
+         $.ajax({
+         url:'action.php',
+         data:{subject_code:subject_code,code:code},
+         type:'POST',
+         success:function(data){
+             if(data != "")
+             {
+                 $("#Course").html("");
+                 $("#Course").html(data);
+                 console.log(data);
+             }
+   
+         }
+       });
+
+    //      var code='151';
+    //      $.ajax({
+    //      url:'action.php',
+    //      data:{subject_code:subject_code,code:code},
+    //      type:'POST',
+    //      success:function(data){
+    //          if(data != "")
+    //          {
+    //              $("#Batch").html("");
+    //              $("#Batch").html(data);
+    //              // console.log(data);
+    //          }
+   
+    //      }
+    //    });
+
+         var code='152';
+         $.ajax({
+         url:'action.php',
+         data:{subject_code:subject_code,code:code},
+         type:'POST',
+         success:function(data){
+             if(data != "")
+             {
+                 $("#Semester").html("");
+                 $("#Semester").html(data);
+                 // console.log(data);
+             }
+   
+         }
+       });
+
+   });
+   });
+   function selectSubName(course)
+   {
+      var subCode=document.getElementById("subject_code").value;
+      // alert(subCode);
+      var code=118;
+      $.ajax({
+         url:'action.php',
+         type:'POST',
+         data:{
+            code:code,subCode:subCode,course:course
+         },
+         success: function(response) 
+         {
+            //console.log(response);
+            document.getElementById("subName").innerHTML=response;
+         }
+      });
+   }
 function exportCutListExcel() {
     var exportCode = 40;
     var College = document.getElementById('College').value;
@@ -239,6 +473,7 @@ function exportCutListPdf() {
         alert("Select ");
     }
 }
+
 function exportAttendancePdf() {
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
