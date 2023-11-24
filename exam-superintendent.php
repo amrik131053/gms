@@ -13,6 +13,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-13">
                             <select name="College" id='College' onchange="courseByCollege(this.value)"
                                 class="form-control" required="">
                                 <option value=''>Select Course</option>
@@ -29,7 +30,8 @@
 
 ?>
                             </select>
-
+         </div>
+         <div class="col-lg-12 col-md-12 col-sm-13">
 
 
                             <label>Course</label>
@@ -37,7 +39,7 @@
                                 <option value=''>Select Course</option>
 
                             </select>
-
+         </div>
 
                             <div class="col-lg-4 col-md-4 col-sm-3">
 
@@ -136,35 +138,28 @@ for($i=1;$i<=12;$i++)
 
                             </div>
 
+                            <div class="col-lg-12 col-md-12 col-sm-13">
+                                <div class="form-group-xs  ">
+                                    <br>
+                            <div class="row ">
 
-                            <div class="form-group ">
-                                
-                                </br>
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                <button class="btn btn-danger btn-sm " onclick="exportAttendancePdf()"><i
+                                <div class="col-lg-5 col-md-12 col-sm-13">
+                                <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
                                         class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
                                         &nbsp;
-                                        
-                                <button class="btn btn-success btn-sm  " onclick="exportCutListExcel()"><i
+         </div>
+         <div class="col-lg-3 col-md-12 col-sm-13">
+                                <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
                                         class="fa fa-file-excel">&nbsp;Cut List</i></button>  
                                         &nbsp;
-                                        
-                                <button class="btn btn-danger  btn-sm " onclick="exportCutListPdf()"><i
+         </div>  <div class="col-lg-4 col-md-12 col-sm-13">
+                                <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
                                         class="fa fa-file-pdf">&nbsp;Cut List</i></button>
-                                        &nbsp;
+                                       
                                         
+                                     </div>
+                                     </div>
+                                     </div>
                                     </div>
                                 
 
