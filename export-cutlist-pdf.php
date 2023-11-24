@@ -73,7 +73,11 @@ $College = $GLOBALS['College'];
   $Type = $GLOBALS['Type'];
   $Group = $GLOBALS['Group'];
   $Examination = $GLOBALS['Examination'];
-
+  $IDNos=array();
+  $UnirollNos=array();
+  $ClassRollNos=array();
+  $Examid=array();
+  $StudentNames=array();
  
  if($Semester==1) {$ext='st'; } elseif($Semester==2){ $ext='nd';}
   elseif($Semester==3) {$ext='rd'; } else { $ext='th';}
@@ -272,6 +276,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                    {
 
                    // print_r($row);
+                $IDNos[]=$row['IDNo'];
                 $UnirollNos[]=$row['UniRollNo'];
                 $ClassRollNos[]=$row['ClassRollNo'];
                  $Examid[]=$row['ID'];
@@ -285,8 +290,14 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 
  }
 
-
-
+ if (empty($IDNos)) {
+     $pdf = new FPDF();
+     $pdf->AddPage('L');
+     $pdf->SetXY(10, 100);
+     $pdf->SetFont('Arial', 'B', 16);
+     $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
+ }
+ else{
 
  //print_r($j);
 
@@ -2719,7 +2730,7 @@ $pdf->Cell(19.3,6,$ExternalExam[8],1,0,'C',0);
 
 
 
-
+ }
 
 
 

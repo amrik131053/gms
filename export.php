@@ -3884,6 +3884,11 @@ $ExternalExam=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
+$IDNos=array();
+$UnirollNos=array();
+$ClassRollNos=array();
+$Examid=array();
+$StudentNames=array();
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
@@ -3996,6 +4001,16 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
                         // print_r($Examid);
                         $SrNo=1;
+                        if (empty($IDNos)) {
+                            $exportstudy.="<tr>
+                            <td colspan='4' style='text-align:center;color:red;'><b>!!!!!!!No Record Found!!!!!!!</b></td>";
+                           
+                           $exportstudy.="</tr>";
+                        }  
+                        else
+                        {
+
+                           
         foreach ($IDNos as $key => $IDNostudent) {
          $exportstudy.="<tr>
          <td>{$SrNo}</td>
@@ -4008,7 +4023,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
         $exportstudy.="</tr>";
         $SrNo++;
         }
-
+    }
         $exportstudy.="</table>";
         echo $exportstudy;
         $fileName="Cutlist EXamination ".$Examination;
