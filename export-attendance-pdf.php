@@ -83,7 +83,6 @@ $this->SetXY(10,17);
 $this->Write(0,'Batch : ');
 $this->SetXY(24,15.8);
 $this->MultiCell(80,2.7,$Batch,'0');
-
 $this->SetXY(230,17);
 $this->Write(0,'Semester :');
 $this->SetXY(250,17 );
@@ -229,6 +228,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 $i=0;
 $totalStudent = count($IDNos);
 if (empty($IDNos)) {
+    $pdf = new FPDF();
     $pdf->AddPage('L');
     $pdf->SetXY(10, 100);
     $pdf->SetFont('Arial', 'B', 16);
