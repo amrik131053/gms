@@ -1,9 +1,29 @@
 <?php 
+session_start();
 require('fpdf/fpdf.php');
 ini_set('max_execution_time', '0');
 date_default_timezone_set("Asia/Kolkata");  
+
+if(!(ISSET($_SESSION['usr']))) 
+{?>
+
+
+
+<script type="text/javascript">
+   // window.location.href="index.php";
+</script>
+<?php 
+}
+else{
+
+   $EmployeeID= $_SESSION['usr'];
    include "connection/connection.php";
+
+
+
 $univ_rollno=$_GET['IDNo'];
+
+
 
  
   // $univ_rollno  ='9618231922';
@@ -19,7 +39,7 @@ class CustomPDF extends FPDF {
         // Page number
         // $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
         $this->SetY(-12);
-        // $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS'], 0, 0, 'R');
+         $this->Cell(0, 10, 'Printed By ' .$GLOBALS['EmployeeID'], 0, 0, 'R');
     }   
 } 
 $pdf = new CustomPDF();
@@ -82,7 +102,7 @@ $y=20;
 
 $pdf->SetFont('times', 'B', 20);
 $pdf->SetXY(10,20);
- $pdf->multicell(190, 5,"Guru Kashi Univerisity",0,'C');
+ $pdf->multicell(190, 5,"Guru Kashi University",0,'C');
 $pdf->SetXY(10,25);
 $pdf->SetFont('times', 'B', 12);
 
@@ -109,7 +129,7 @@ $pdf->MultiCell(20, 24,"", 1, '');
 
 $pdf->SetXY(10,$Z);
 $pdf->SetFont('Arial', '', 9);
-$pdf->MultiCell(80, 8,"Class RollNo   :  ".$ClassRollNo, 1, 'l');
+$pdf->MultiCell(80, 8,"Class RollNo   :   ".$ClassRollNo, 1, 'l');
 $pdf->SetXY(90,$Z);
 $pdf->MultiCell(90, 8,"IDNo          :  ".$IDNo, 1, 'l');
 
@@ -138,9 +158,9 @@ else
 $mydob='';
 }
 $pdf->SetXY(10,62);
-$pdf->MultiCell(80, 8, "Date of Birth    :  ".$mydob, 1, 'l');
+$pdf->MultiCell(80, 8,"Date of Birth    :  ".$mydob, 1, 'l');
 $pdf->SetXY(90,62);
-$pdf->MultiCell(50, 8, "Gender               :  ".$Gender, 1, 'l');
+$pdf->MultiCell(50, 8,"Gender         :  ".$Gender, 1, 'l');
 
 $pdf->SetXY(140,62);
 $pdf->MultiCell(60, 8, "Blood Group   :  ".$BllodGroup, 1, 'l');
@@ -148,62 +168,62 @@ $pdf->MultiCell(60, 8, "Blood Group   :  ".$BllodGroup, 1, 'l');
 
 
 $pdf->SetXY(10,70);
-$pdf->MultiCell(190, 8, "College :  ".$college, 1, 'l');
+$pdf->MultiCell(190, 8, "College            :  ".$college, 1, 'l');
 
 $pdf->SetXY(10,78);
 $pdf->MultiCell(190, 8, "Course             :    ".$course, 1, 'l');
 
 
 $pdf->SetXY(10,86);
-$pdf->MultiCell(80, 8, "Batch              :    ".$batch, 1, 'l');
+$pdf->MultiCell(80, 8, "Batch               :    ".$batch, 1, 'l');
 
 $pdf->SetXY(90,86);
-$pdf->MultiCell(110, 8, "Lateral Entry             :    ".$LEET, 1, 'l');
+$pdf->MultiCell(110, 8, "Lateral Entry     :    ".$LEET, 1, 'l');
 
 
 
 
 $pdf->SetXY(10,94);
-$pdf->MultiCell(190, 8, "Email              :    ".$email, 1, 'l');
-
+$pdf->MultiCell(190, 8, "Email               :    ".$email, 1, 'l');
+  
 
 $pdf->SetXY(10,102);
-$pdf->MultiCell(80, 8, "Aadhar       :  ".$aadhaar , 1, 'l');
+$pdf->MultiCell(80, 8, "Aadhar             :  ".$aadhaar , 1, 'l');
 $pdf->SetXY(90,102);
-$pdf->MultiCell(110, 8, "Mobile                 :    ".$mobile, 1, 'l');
+$pdf->MultiCell(110, 8, "Mobile        :    ".$mobile, 1, 'l');
 
 
 
 $pdf->SetXY(10,110);
-$pdf->MultiCell(80, 8, "Category         :    ".$category, 1, 'l');
+$pdf->MultiCell(80, 8, "Category          :    ".$category, 1, 'l');
 
 $pdf->SetXY(90,110);
 $pdf->MultiCell(110, 8, "Religion      :    ".$religion, 1, 'l');
 
 
 $pdf->SetXY(10,118);
-$pdf->MultiCell(80, 8, "Student Type   :    ".$studenttype, 1, 'l');
+$pdf->MultiCell(80, 8, "Student Type    :    ".$studenttype, 1, 'l');
 
 $pdf->SetXY(90,118);
-$pdf->MultiCell(110, 8, "Nationality:    ".$Nationality, 1, 'l');
+$pdf->MultiCell(110, 8, "Nationality   :    ".$Nationality, 1, 'l');
 
 $pdf->SetXY(10,126);
-$pdf->MultiCell(190, 8, "Permanent Address:    ".$paddress, 1, 'l');
+$pdf->MultiCell(190, 8, "Permanent Address  :    ".$paddress, 1, 'l');
 
 $pdf->SetXY(10,134);
-$pdf->MultiCell(190, 8, "Correspondence Address:    ".$caddress, 1, 'l');
+$pdf->MultiCell(190, 8, "Correspondence Address  :    ".$caddress, 1, 'l');
 
 $pdf->SetXY(10,142);
-$pdf->MultiCell(80, 8, "Country:    ".$Country, 1, 'l');
+$pdf->MultiCell(80, 8, "Country             :    ".$Country, 1, 'l');
 
 $pdf->SetXY(90,142);
-$pdf->MultiCell(110, 8, "State:    ".$State, 1, 'l');
+$pdf->MultiCell(110, 8, "State           :    ".$State, 1, 'l');
 
 $pdf->SetXY(10,150);
-$pdf->MultiCell(80, 8, "District:    ".$District, 1, 'l');
-
+$pdf->MultiCell(80, 8, "District               :    ".$District, 1, 'l');
+  
 $pdf->SetXY(90,150);
-$pdf->MultiCell(110, 8, "Pin code:    ".$Pin, 1, 'l');
+$pdf->MultiCell(110, 8, "Pin code      :    ".$Pin, 1, 'l');
 
 
 
@@ -248,10 +268,16 @@ $docstatus= $row7['Status'];
     $srno++;
     $y=$y+8;
 }
+if($srno<2)
+{
+$pdf->SetXY(10,$y);
+$pdf->multicell(190,8,"No Documents Submitted", 1,'C');
+
+}
 $pdf->SetFont('Arial', '', 10);
 $YBottom=$pdf->GETY()+5;
 $pdf->SetXY(10,$YBottom+5);
-$pdf->multicell(190, 5,"I here by certify that all perticulars stated in this form are true to the best of my knowledge & belief. I shall be responsible for any information entered incorrectly by me.",0,'L');
+$pdf->multicell(190, 5,"I here by certify that all particulars stated in this form are true to the best of my knowledge & belief. I shall be responsible for any information entered incorrectly by me.",0,'L');
 
 $YBottom=$pdf->GETY();
 $pdf->SetXY(10,$YBottom+10);
@@ -272,3 +298,5 @@ $pdf->multicell(190,5,"Date of Admission : ".$mydoa,0,'L');
 
 
 $pdf->Output();
+
+}
