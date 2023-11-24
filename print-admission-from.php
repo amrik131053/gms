@@ -120,10 +120,11 @@ $pic = 'data://text/plain;base64,' . base64_encode($img);
 $info = getimagesize($pic);
 $extension = explode('/', mime_content_type($pic))[1];
 
-$Z=30;
+
 
 $pdf-> Image($pic,180,30.8,20,21,$extension);
 }
+$Z=30;
 $pdf->SetXY(180,$Z);
 $pdf->MultiCell(20, 24,"", 1, '');
 
