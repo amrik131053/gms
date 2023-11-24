@@ -3725,9 +3725,13 @@ else if($exportCode==39)
     $CourseID=$_POST['Course1'];
     $Batch=$_POST['Batch'];
     $session1=$_POST['session1'];$session2=$_POST['session2'];$session3=$_POST['session3'];
-    if($session1!='')
+    if($session1!='' &&$session3!='' &&$session2!='')
     {
     $Session=$session1.'-'.$session2.'-'.$session3;
+    }
+    elseif($session1!=''&&$session2!='')
+    {
+       $Session=$session1.'-'.$session2; 
     }
     else{
         $Session="";
@@ -3777,14 +3781,14 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
 
 
         $SrNo=1;
-       echo $query = "SELECT * FROM Admissions WHERE 1 = 1";
+        $query = "SELECT * FROM Admissions WHERE 1 = 1";
   
         if ($CollegeID != '') {
-           echo $query .= " AND CollegeID='$CollegeID'";
+            $query .= " AND CollegeID='$CollegeID'";
         }
         
         if ($CourseID != '') {
-           echo $query .= " AND CourseID ='$CourseID'";
+            $query .= " AND CourseID ='$CourseID'";
         }
         
         if ($Batch != '') {
@@ -3861,6 +3865,7 @@ $SrNo++;
     echo $exportstudy;
     $fileName="Student Report ";
 }
+
 else if($exportCode==40)
 {
     $College=$_GET['CollegeId'];
@@ -3952,7 +3957,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th >".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
 }
   $exportstudy.="</tr>  
-        </thead>";
+        </thead>"; 
         $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
         FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
