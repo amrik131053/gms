@@ -16,8 +16,7 @@ $nowtime = strtotime($ctime);
 
   $collegename="SELECT CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
 $list_cllegename = sqlsrv_query($conntest,$collegename);
-                  
-              
+                       
                 if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
                    {
 
@@ -159,6 +158,15 @@ $pdf->AliasNbPages();
 $SubjectCodeExam= array();
 $InternalExam= array();
  $ExternalExam= array();
+ $IDNos=array();
+ $SubjectNames=array();
+$SubjectTypes=array();
+$UnirollNos=array();
+$ClassRollNos=array();
+$Examid=array();
+$StudentNames=array();
+$Snap=array();
+$Gender=array();
 $conntest = $GLOBALS['conntest'];
  $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' and SubjectType='T'";
 $subcount=0;
@@ -220,7 +228,13 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                 // print_r($ExternalExam);
 $i=0;
 $totalStudent = count($IDNos);
-
+if (empty($IDNos)) {
+    $pdf->AddPage('L');
+    $pdf->SetXY(10, 100);
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
+}
+else{
 for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->AddPage('L');
     $pdf->SetFont('Arial', 'b', 10);
@@ -258,12 +272,12 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
       $data = file_get_contents($imageUrl);
       $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
       $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
+       $extensionSign = explode('/', mime_content_type($base64))[1];
       
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'){
+      if($extension!='webp' && $extension!='pdf'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
@@ -276,10 +290,12 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp'){
-      
+      if($extensionSign!='webp' && $extensionSign!='pdf'){
+        
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
+      }
+      else
+      {
           if($Gender[$i]=='Male')
           {
               $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
@@ -432,11 +448,11 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'){
+      if($extension!='webp'  && $extension!='pdf'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
-          if($Gender[$i]=='Male')
+          if($Gender[$i]=='Male' )
           {
               $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
           }
@@ -445,7 +461,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp'){
+      if($extensionSign!='webp'  && $extensionSign!='pdf'){
       
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
       }else{
@@ -537,7 +553,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'){
+      if($extension!='webp' && $extension!='pdf'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
@@ -550,10 +566,11 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp'){
+      if($extensionSign!='webp' && $extensionSign!='pdf'){
       
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
       }else{
+       
           if($Gender[$i]=='Male')
           {
               $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
@@ -598,6 +615,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
                 // print_r($ExternalExam);
             }   
+}
 }
 $pdf->Output();
   ?>
