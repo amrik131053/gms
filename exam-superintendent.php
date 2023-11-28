@@ -14,6 +14,7 @@
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-lg-12 col-md-12 col-sm-13">
+                                <label>College</label>
                                 <select name="College" id='College' onchange="courseByCollege(this.value)"
                                     class="form-control" required="">
                                     <option value=''>Select Course</option>
