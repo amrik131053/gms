@@ -12714,8 +12714,6 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CollegeID=$row6['CollegeID'];
           }
 
-          if($role_id=='2')
-          {
 ?>
 
 
@@ -12896,11 +12894,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
          ?>
 </table>
 </div>
-<?php }
-else{
-   
-}
-?>
+
 
 
 
