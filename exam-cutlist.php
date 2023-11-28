@@ -1,0 +1,249 @@
+<?php 
+   include "header.php";   
+   ?>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <!-- Button trigger modal -->
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card card-info">
+                    <div class="card-header ">
+                        <h3 class="card-title">Cut List</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                <label>College</label>
+                                <select name="College" id='College' onchange="courseByCollege(this.value)"
+                                    class="form-control" required="">
+                                    <option value=''>Select Course</option>
+                                    <?php
+                                    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                        $college = $row1['CollegeName']; 
+                                        $CollegeID = $row1['CollegeID'];
+                                        ?>
+                                    <option value="<?=$CollegeID;?>"><?= $college;?></option>
+                                    <?php    }
+
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+
+
+                                <label>Course</label>
+                                <select name="Course" id="Course" class="form-control">
+                                    <option value=''>Select Course</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12">
+
+
+
+
+
+                                <label>Batch</label>
+                                <select name="batch" class="form-control" id="Batch" required="">
+                                    <option value="">Batch</option>
+                                    <?php 
+                                    for($i=2013;$i<=2030;$i++)
+                                    {?>
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
+                                                ?>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label> Semester</label>
+                                <select id='Semester' class="form-control" required="">
+                                    <option value="">Sem</option>
+                                    <?php 
+                                    for($i=1;$i<=12;$i++)
+                                    {?>
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
+                                                ?>
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                <label>Type</label>
+                                <select id="Type" class="form-control" required="">
+                                    <option value="">Select</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Reappear">Reappear</option>
+                                    <option value="Additional">Additional</option>
+                                    <option value="Improvement">Improvement</option>
+
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                <label>Group</label>
+                                <select id="Group" class="form-control" required="">
+                                    <option value="">Group</option>
+                                    <?php
+                                            $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+                                                    $stmt2 = sqlsrv_query($conntest,$sql);
+                                                while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                                    {
+
+                                                
+                                                $Sgroup = $row1['Sgroup']; 
+                                                
+                                                ?>
+                                    <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                    <?php    }
+
+                                                            ?>
+
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                <label>Examination</label>
+                                <select id="Examination" class="form-control" required="">
+                                    <option value="">Examination</option>
+                                    <?php
+                                    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+
+                                        
+                                        $Sgroup = $row1['Examination']; 
+                                        
+                                        ?>
+                                    <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                    <?php    }
+
+                                    ?>
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-13">
+                                <label>Action</label><br>
+                                <button class="btn btn-danger " onclick="fetchCutList()">Search</button>
+                                &nbsp;
+                            </div>
+
+
+                        </div>
+                        <div class="" id="show_record"></div>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+
+
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+</section>
+<p id="ajax-loader"></p>
+
+<!-- Modal -->
+
+<script>
+function fetchCutList() {
+    var sub_data = 2;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+
+    if (College != '') {
+        var code = '202';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                code: code,
+                College: College,
+                Course: Course,
+                Batch: Batch,
+                Semester: Semester,
+                Type: Type,
+                Group: Group,
+                Examination: Examination,sub_data:sub_data
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                document.getElementById("show_record").innerHTML = data;
+
+            }
+        });
+    } else {
+        ErrorToast('Please Select College', 'bg-warning');
+    }
+}
+function edit_stu(id) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+    var code = 204;
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+            document.getElementById("edit_stu").innerHTML = response;
+
+        }
+    });
+
+}
+</script>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="edit_stu">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+
+ include "footer.php";  ?>

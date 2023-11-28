@@ -4055,6 +4055,113 @@ foreach ($Subjects as $key => $SubjectsCode) {
         $fileName="Cutlist EXamination ".$Examination;
          } 
 
+
+
+         else if($exportCode==41)
+         {
+            $ExaminationFatch=$_GET['ExaminationFatch'];
+            $subject_code=$_GET['subject_code'];
+            $CourseFatch=$_GET['CourseFatch'];
+            $subName=$_GET['subName'];
+            $SemesterFatch=$_GET['SemesterFatch'];
+            $TypeFatch=$_GET['TypeFatch'];
+         $SrNo=1;
+         $subCount=14;
+         $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+         <thead>  
+         <tr>
+         ";
+         
+         $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CourseFatch."</b></th>         
+         </tr><tr>";
+         $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Subject Code:&nbsp;&nbsp;".$subject_code."</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style='text-align:center;'>  Subject Name:&nbsp;&nbsp;".$subName."</b></th>        
+         </tr>
+                   
+             <tr >
+             <th style='background-color:black; color:white;'>SrNo</th>
+             <th style='background-color:black; color:white;'>IDNo </th>
+             <th style='background-color:black; color:white;'>ClassRoll No </th>
+             <th style='background-color:black; color:white;'>UniRoll No </th>
+             <th style='background-color:black; color:white;'>Name </th>
+             <th style='background-color:black; color:white;'>Father Name </th>
+             <th style='background-color:black; color:white;'>Mother Name </th>
+             <th style='background-color:black; color:white;'>Subject Code </th>
+             <th style='background-color:black; color:white;'>Subject Name </th>
+             <th style='background-color:black; color:white;'>Course </th>
+             <th style='background-color:black; color:white;'>Semester </th>
+             <th style='background-color:black; color:white;'>Batch </th>
+             <th style='background-color:black; color:white;'>Type </th>
+             <th style='background-color:black; color:white;'>Examination </th>
+          
+             </tr>
+             
+
+
+
+
+                 </thead>";
+         
+         
+               
+                 $SrNo=1;
+                 $sql_open="SELECT *,ExamFormSubject.Course as CourseName,ExamFormSubject.CollegeName as College, ExamFormSubject.Batch as BatchS from ExamFormSubject inner join Admissions ON Admissions.IDNo=ExamFormSubject.IDNo  where 
+                 ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND ExamFormSubject.Examination='$ExaminationFatch'";
+               
+                  $result = sqlsrv_query($conntest,$sql_open);
+                  while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+                  {
+                     
+                     $IDNo=$row['IDNo'];
+                     $ClassRollNo=$row['ClassRollNo'];
+                     $UniRollNo=$row['UniRollNo'];
+                     $StudentName=$row['StudentName'];
+                     $FatherName=$row['FatherName'];
+                     $MotherName=$row['MotherName'];
+                    //  $CollegeName=$row['CollegeName'];
+                     $Course=$row['Course'];
+                     $Batch=$row['Batch'];
+                     $Ereason=$row['EligibilityReason'];
+                     $Country=$row['country'];
+                     $State=$row['State'];
+                     $District=$row['District'];
+                     $Nationality=$row['Nationality'];
+                     $Refrence=$row['FeeWaiverScheme'];
+         
+                   
+         
+         
+         
+                  
+                  $exportstudy.="<tr >
+         
+                  <td>{$SrNo}</td>
+                  <td>{$IDNo}</td>
+                  <td>{$ClassRollNo}</td>
+                  <td>{$UniRollNo}</td>
+                  <td>{$StudentName}</td>
+                  <td>{$FatherName}</td>
+                  <td>{$MotherName}</td>
+                  <td>{$subject_code}</td>
+                  <td>{$subName}</td>
+                  <td>{$Course}</td>
+                  <td>{$SemesterFatch}</td>
+                  <td>{$Batch}</td>
+                  <td>{$TypeFatch}</td>
+                  <td>{$ExaminationFatch}</td>
+                  
+
+              </tr>";
+         
+         
+         $SrNo++;
+                  }
+            
+         
+             $exportstudy.="</table>";
+             echo $exportstudy;
+             $fileName="Strength Calculator Report ";
+         }
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

@@ -277,7 +277,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp' && $extension!='pdf'){
+      if($extension!='webp' && $extension!='pdf' && $extension!='zip'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
@@ -290,7 +290,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp' && $extensionSign!='pdf'){
+      if($extensionSign!='webp' && $extensionSign!='pdf' && $extensionSign!='zip'){
         
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
       }
@@ -458,7 +458,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'  && $extension!='pdf'){
+      if($extension!='webp'  && $extension!='pdf' && $extension!='zip'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
@@ -471,7 +471,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp'  && $extensionSign!='pdf'){
+      if($extensionSign!='webp'  && $extensionSign!='pdf' && $extensionSign!='zip'){
       
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
       }else{
@@ -570,7 +570,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
                 }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp' && $extension!='pdf'){
+      if($extension!='webp' && $extension!='pdf' && $extension!='zip'){
       
           $pdf-> Image($pic,55,$y+2,8,8,$extension);
       }else{
@@ -583,7 +583,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
 
       }
-      if($extensionSign!='webp' && $extensionSign!='pdf'){
+      if($extensionSign!='webp' && $extensionSign!='pdf' && $extensionSign!='zip'){
       
           $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
       }else{
