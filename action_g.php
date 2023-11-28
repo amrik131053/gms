@@ -18066,7 +18066,28 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
             </table>
             <?php 
 }
+  elseif($code==271)
+   {
+$ExaminationFatch=$_POST['ExaminationFatch'];
+$subject_code=$_POST['subject_code'];
+$CourseFatchtext=$_POST['CourseFatchtext'];
+$subName=$_POST['subName'];
+$SemesterFatch=$_POST['SemesterFatch'];
+$TypeFatch=$_POST['TypeFatch'];
 
+$sql_open="SELECT count(*) as countA from ExamFormSubject  where 
+Course='$CourseFatchtext'ANd Type='$TypeFatch' ANd ExternalExam='Y' 
+ANd SubjectCode='$subject_code' ANd SemesterID='$SemesterFatch' AND Examination='$ExaminationFatch'";
+
+ $countFilup=sqlsrv_query($conntest,$sql_open,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+  $count=sqlsrv_num_rows($countFilup);
+  if($row=sqlsrv_fetch_array($countFilup))
+  {
+    echo $row['countA'].' Exam Filled';
+  }
+
+
+   }
    else
    {
    

@@ -9,7 +9,7 @@
             <div class="col-lg-4 col-md-4 col-sm-3">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Attendance Sheet</h3>
+                        <h3 class="card-title">Cut List</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -171,16 +171,16 @@
                 <!-- /.card -->
 
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-3" style="display:none;">
+            <div class="col-lg-4 col-md-4 col-sm-3" style="">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Attendance Sheet</h3>
+                        <h3 class="card-title">Strength Calculator</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                                 <label>Examination</label>
-                                <select id="Examination" class="form-control" required="">
+                                <select id="ExaminationFatch" name="ExaminationFatch" class="form-control" required="">
                                     <option value="">Examination</option>
                                     <?php
                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
@@ -211,27 +211,14 @@
 
 
                                 <label>Course</label>
-                                <select name="Course" id="Course" class="form-control" onchange="selectSubName(this.value);">
-                        <option value=''>Select Course</option>
+                                <select name="CourseFatch" id="CourseFatch" class="form-control" onchange="selectSubName(this.value);">
+                        <!-- <option value=''>Select Course</option> -->
                      </select>
                             </div>
 
                            
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <label> Semester</label>
-                                <select id='Semester' name="Semester" class="form-control" required="">
-                                    <option value="">Sem</option>
-                                    <?php 
-                                    for($i=1;$i<=12;$i++)
-                                    {?>
-                                                                        <option value="<?=$i?>"><?=$i?></option>
-                                                                        <?php }
-                                                ?>
-
-                                </select>
-
-                            </div>
+                          
                             
 
 
@@ -244,8 +231,22 @@
 
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12">
+                                <label> Semester</label>
+                                <select id='SemesterFatch' name="SemesterFatch" class="form-control" required="">
+                                    <option value="">Sem</option>
+                                    <?php 
+                                    for($i=1;$i<=12;$i++)
+                                    {?>
+                                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                                        <?php }
+                                                ?>
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
                                 <label>Type</label>
-                                <select id="Type" class="form-control" required="">
+                                <select id="TypeFatch" name="TypeFatch" class="form-control" required="">
                                     <option value="">Select</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Reappear">Reappear</option>
@@ -262,22 +263,18 @@
                                     <br>
                                     <div class="row ">
 
-                                        <div class="col-lg-5 col-md-12 col-sm-13">
-                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
+                                       
+                                        <div class="col-lg-8 col-md-12 col-sm-13">
+                                            <button class="btn btn-success btn-xs  " onclick="exportCalculatorExcel()"><i
+                                                    class="fa fa-file-excel">&nbsp;Download</i></button>
                                             &nbsp;
+                                            <button class="btn btn-warning btn-xs  " onclick="calculateResult()">&nbsp;Calculate</button>
                                         </div>
-                                        <div class="col-lg-3 col-md-12 col-sm-13">
-                                            <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
-                                                    class="fa fa-file-excel">&nbsp;Cut List</i></button>
-                                            &nbsp;
-                                        </div>
+                                       
                                         <div class="col-lg-4 col-md-12 col-sm-13">
-                                            <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Cut List</i></button>
-
-
+                                        <p id="CalculateResult" style='font-size:20px; color:green;'></p>
                                         </div>
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -377,29 +374,13 @@ $(document).ready(function(){
          success:function(data){
              if(data != "")
              {
-                 $("#Course").html("");
-                 $("#Course").html(data);
-                 console.log(data);
+                 $("#CourseFatch").html("");
+                 $("#CourseFatch").html(data);
+                //  console.log(data);
              }
    
          }
        });
-
-    //      var code='151';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{subject_code:subject_code,code:code},
-    //      type:'POST',
-    //      success:function(data){
-    //          if(data != "")
-    //          {
-    //              $("#Batch").html("");
-    //              $("#Batch").html(data);
-    //              // console.log(data);
-    //          }
-   
-    //      }
-    //    });
 
          var code='152';
          $.ajax({
@@ -434,6 +415,31 @@ $(document).ready(function(){
          {
             //console.log(response);
             document.getElementById("subName").innerHTML=response;
+         }
+      });
+   }
+   function calculateResult()
+   {
+    var ExaminationFatch = document.getElementById('ExaminationFatch').value;
+    var subject_code = document.getElementById('subject_code').value;
+    var CourseFatch = document.getElementById('CourseFatch');
+    var CourseFatchtext = CourseFatch.options[CourseFatch.selectedIndex].innerHTML;
+    var subName = document.getElementById('subName').value;
+    var SemesterFatch = document.getElementById('SemesterFatch').value;
+    var TypeFatch = document.getElementById('TypeFatch').value;
+      var code=271;
+      $.ajax({
+         url:'action_g.php',
+         type:'POST',
+         data:{
+            code:code,ExaminationFatch:ExaminationFatch,subject_code:subject_code,
+            CourseFatchtext:CourseFatchtext,subName:subName,SemesterFatch:SemesterFatch,
+TypeFatch:TypeFatch,
+         },
+         success: function(response) 
+         {
+            console.log(response);
+            document.getElementById("CalculateResult").innerHTML=response;
          }
       });
    }
@@ -486,6 +492,24 @@ function exportAttendancePdf() {
         window.open("export-attendance-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+function exportCalculatorExcel() {
+    var exportCode=41;
+    var ExaminationFatch = document.getElementById('ExaminationFatch').value;
+    var subject_code = document.getElementById('subject_code').value;
+    var CourseFatch = document.getElementById('CourseFatch');
+    var CourseFatchtext = CourseFatch.options[CourseFatch.selectedIndex].innerHTML;
+    var subName = document.getElementById('subName').value;
+    var SemesterFatch = document.getElementById('SemesterFatch').value;
+    var TypeFatch = document.getElementById('TypeFatch').value;
+    if (ExaminationFatch != '') {
+        window.open("export.php?exportCode=" + exportCode +"&ExaminationFatch=" + ExaminationFatch + "&subject_code=" + subject_code + "&CourseFatch=" + CourseFatchtext +
+            "&subName=" + subName + "&SemesterFatch=" +
+            SemesterFatch + "&TypeFatch=" + TypeFatch, '_blank');
 
     } else {
         alert("Select ");
