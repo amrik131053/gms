@@ -18329,6 +18329,84 @@ ANd SubjectCode='$subject_code' ANd SemesterID='$SemesterFatch' AND Examination=
 
 
    }
+  elseif($code==272)
+   {
+
+?>
+
+ <table class="table " id="example">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Date</th>
+                        <th>Result No</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>N/R</th>
+                        <th>Examination</th>
+                        <th>Type</th>
+                        <th>Batch</th>
+                        <th>Sheet Type</th>
+                        <th>Action</th>
+                       
+                    </tr>
+                </thead>
+                <tbody><?php 
+$college=$_POST['college'];
+$course=$_POST['course'];
+$batch=$_POST['batch'];
+$sem=$_POST['sem'];
+$sr=1;
+
+$query = "SELECT * FROM GResults WHERE 1 = 1";
+
+      if ($college != '') {
+          $query .= " AND collegeid='$college'";
+      }
+      
+      if ($course != '') {
+          $query .= " AND courseid ='$course'";
+      }
+      
+      if ($batch != '') {
+          $query .= " AND batch='$batch'";
+      }
+      
+      if ($sem != '') {
+          $query .= " AND semid='$sem'";
+      }
+
+$stmt2 = sqlsrv_query($conntest,$query);
+while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+ {   
+    ?>
+     <tr>
+                        <td><?=$sr;?></td>
+                        <td><?php if($row['declare_date']!=''){$row['declare_date']->format('d-m-Y');}?></td>
+                        <td><?=$row['resultno'];?></td>
+                        <td><?=$row['course'];?></td>
+                        <td><?=$row['semid'];?></td>
+                        <td><?=$row['NR'];?></td>
+                        <td><?=$row['examination'];?></td>
+                        <td><?=$row['type'];?></td>
+                        <td><?=$row['batch'];?></td>
+                        <td><?=$row['sheet_type'];?></td>
+                        <td><a href="http://erp.gku.ac.in:86/<?=str_replace('', '~',$row['resultfile']);?>" target="_blank"><button class="btn"><i class="fa fa-download"></i></button></a></td>
+                    </tr>
+                </thead>
+ <?php 
+$sr++;
+
+}
+// print_r($aa);
+ ?>
+ </tbody>
+ </table>
+ <?php 
+
+
+
+   }
    else
    {
    
