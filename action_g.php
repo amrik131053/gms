@@ -18391,7 +18391,7 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                         <td><?=$row['type'];?></td>
                         <td><?=$row['batch'];?></td>
                         <td><?=$row['sheet_type'];?></td>
-                        <td><a href="http://erp.gku.ac.in:86/<?=str_replace('', '~',$row['resultfile']);?>" target="_blank"><button class="btn"><i class="fa fa-download"></i></button></a></td>
+                        <td><a href="http://erp.gku.ac.in:86/<?=str_replace('~', '',$row['resultfile']);?>" target="_blank"><button class="btn btn-success btn-xs"><i class="fa fa-download">&nbsp;&nbsp;Download</i></button></a></td>
                     </tr>
                 </thead>
  <?php 

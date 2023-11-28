@@ -99,10 +99,12 @@ for($i=1;$i<=12;$i++)
      </div>
        
 </section>
-
+<p id="ajax-loader"></p>
 
 <script>
 function search_record() {
+    var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
     var college = document.getElementById('College').value;
     var course = document.getElementById('Course').value;
     var batch = document.getElementById('Batch').value;
@@ -121,6 +123,7 @@ function search_record() {
         },
         type: 'POST',
         success: function(data) {
+            spinner.style.display = 'none';
             document.getElementById("show_record").innerHTML = data;
 
         }

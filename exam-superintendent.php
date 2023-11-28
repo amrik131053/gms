@@ -438,7 +438,7 @@ TypeFatch:TypeFatch,
          },
          success: function(response) 
          {
-            console.log(response);
+            // console.log(response);
             document.getElementById("CalculateResult").innerHTML=response;
          }
       });
