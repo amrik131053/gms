@@ -6683,10 +6683,20 @@ if($count>0)
     $SubjectTypei = $rowin1['SubjectType']; 
    
    }
-    
-   
-   echo $insersub= "Insert into ExamFormSubject(IDNo,Examid,CollegeName,Course,Batch,SemesterID,Semester,Examination,SubjectName,SubjectCode,SubjectType,Status,InternalExam,ExternalExam,Type,SubmitFormDate)Values('$IDNoi','$Examid','$CollegeNamei','$Coursei','$Batchi','$Semesteridi','$Semesteri','$Examinationi','$SubjectNamei','$SubjectCodei','$SubjectTypei','0','Y','Y','$Typei','$FormDatei')";
-     $stmtinsert = sqlsrv_query($conntest,$insersub);     
+  
+ 
+$insersub= "Insert into ExamFormSubject (IDNo,Examid,CollegeName,Course,Batch,SemesterID,Semester,Examination,SubjectName,SubjectCode,SubjectType,Status,InternalExam,ExternalExam,Type,SubmitFormDate) Values
+('$IDNoi','$Examid','$CollegeNamei','$Coursei','$Batchi','$Semesteridi','$Semesteri','$Examinationi','$SubjectNamei','$SubjectCodei','$SubjectTypei','0','Y','Y','$Typei','$FormDatei')";
+
+ $stmtinsert = sqlsrv_query($conntest,$insersub);    
+
+ $desc= "Subject Added ".$SubjectNamei." (".$SubjectCodei.") "." (".$SubjectTypei.")".$Examinationi." Semester: ".$Semesteridi."  Batch : ".$Batchi;
+
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNoi','$desc','$EmployeeID','$timeStamp')";
+
+ $update_query=mysqli_query($conn,$update1);
+
+
    if($stmtinsert === false) {
    
    die( print_r( sqlsrv_errors(), true) );
@@ -8487,21 +8497,15 @@ elseif ($code==135)
                 <td>
 
                   <?php
-                if ($EmployeeID=='131053' && $data1>0) 
+                if ($data1>0) 
                     {
                     
                     ?>
-                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper(<?=$qid;?>)" ><?=$qid;?>                                
+                    <i class="fa fa-trash text-danger fa-2x" onclick="dltPaper('<?=$qid;?>','<?=$subjectCode?>')"> &nbsp; <?=$qid;?>                                
               </i>
                     <?php 
                     }
-                    else if($data1>0)
-                    {
-                     ?>
-                    <i class="fa text-danger fa-2x"  > <?= $qid;?></i>
-                    <?php
-                     
-                    }
+                   
                     ?>
                   
                 </td>
@@ -11608,8 +11612,17 @@ else
    elseif($code==189)
    {  
       $Q_id=$_POST['id'];
+      $SubjectCode=$_POST['SubjectCode'];
       $get_image="DELETE  FROM question_paper WHERE id='$Q_id'";
+
       $get_run=mysqli_query($conn,$get_image);
+
+$desc= "Delte Question  Paper ID:".$Q_id;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$SubjectCode','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
                                
    }
 
@@ -12483,7 +12496,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
 
  if($Status==-1)
                 {
-                  echo "Fee<br>pending";
+                  echo "Forward to Registration";
 
                 }
                 elseif($Status==0)
@@ -12491,12 +12504,12 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                   echo "Draft";
                 }elseif($Status==1)
                 {
-                  echo 'Forward<br>to<br>dean';
+                  echo 'Forward<br>to<br>Department';
                 }
 
                 elseif($Status==2)
                 {
-                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
                 }
                  elseif($Status==3)
                 {
@@ -12539,18 +12552,18 @@ elseif($Status==8)
               </td>
   <td> 
  <Select id='<?=$row['ID'];?>_status'  class="form-control" style="width: 100px;">
-                <option value="-1">Fee pending</option>
-                <option value="0">Draft</option>
+                <option value="-1">Forward to Registration</option>
+                <option value="0">Forward to Dean/Department</option>
                 <option value="4">Forward to Account</option>
                 <option value="5">Forward to Examination Branch</option>
                 <option value="8">Accepted</option>
               </Select>
-        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
+        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update('<?=$row['ID'];?>','<?=$row['IDNo'];?>');">
           </td>
           <td>
             
 
-<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i>
+<i class="fa fa-trash fa-md" onclick="delexam('<?=$row['ID'];?>','<?=$row['IDNo'];?>','<?=$row['Semesterid'];?>',',<?=$row['Examination'];?>','<?=$row['Type'];?>')" style="color:red"></i>
 
 
             </td>
@@ -12581,8 +12594,13 @@ elseif($Status==8)
 
   $handle = fopen($file, 'r');
   $c = 0;
+
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
+
+   if($c>0)
+
+   {
   $univ_rollno = $filesop[0];
 
    if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
@@ -12619,7 +12637,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          }
        $receipt_date=   date("Y-m-d");
 
- $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
+ echo $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
 
    VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
 
@@ -12650,14 +12668,14 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
       $total= $SubjectType[$a];
       if($sub_code!='')
       {
-       $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
+      echo  $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
           VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
       $stmt2 = sqlsrv_query($conntest,$query1);
       }
        }
 
 }
-}
+
           if($stmt2==true)
           {
             echo "1";
@@ -12666,10 +12684,13 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
           {
             echo "0";
           }
+       }
+          $c++;
+
    }
 
 
-
+}
    elseif($code==204)
    {
   $id = $_POST['id'];
@@ -12722,7 +12743,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <table class="table table-bordered"  border="1">
  <tr style="border: 1px black solid" height="30" >
  <td style="padding-left: 10px"><b>Rollno: </b></td>
- <td> <?php echo $UniRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+
+ <input type="hidden" value="<?=$IDNo;?>" name="" id='userid'>
+ <td> <?php echo $UniRollNo;?>/<?php echo $ClassRollNo;?>  &nbsp;(<?=$IDNo;?>)</td>
  <td colspan="1"><b>Name:</b> </td>
  <td colspan="4"><?=$name;?></td>
  <td rowspan="3" colspan="2" style="border:0">
@@ -12814,8 +12837,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
   <th width="8%">Int</th>
   <th width="8%">Ext</th>
   <th width="8%">Type</th>
-  <th width="7%">Int Marks</th>
-  <th width="7%">Ext Marks</th>
+  <!-- <th width="7%">Int Marks</th>
+  <th width="7%">Ext Marks</th> -->
   <th width="7%">Action</th>
 </tr>
 
@@ -12866,12 +12889,11 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
       <option value="O">O</option>
      </select>
   </td>
-  <td><input type="text"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
+  <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
     
-  </td>
-  <td><input type="text"  class="form-control"  style="width:" value="<?php echo $row7['extmarks']; ?>" id="<?=$row7['ID'];?>_extmarks">
-    
-  </td>
+  
+  <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['extmarks']; ?>" id="<?=$row7['ID'];?>_extmarks">
+  
        <td>
   <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> <br>
 <br>
@@ -12983,12 +13005,24 @@ else
  else  if($code==208)
 {
        $id =$_POST['id'];  
+       $userid =$_POST['userid'];  
        $examination=$_POST['examination'];
        $type=$_POST["type"];
         $sgroup=$_POST["sgroup"];
        $sq="Update ExamForm set Type='$type',Examination='$examination',SGroup='$sgroup' Where ID='$id'";
 
+
+
         $sq1="Update ExamFormSubject set Type='$type',Examination='$examination' Where examid='$id'"; 
+
+
+$desc= "UPDATE ExamForm set Type:".$type." , Examination:".$examination." , SGroup:".$sgroup;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
 
  $list = sqlsrv_query($conntest,$sq1);
 
@@ -13041,7 +13075,18 @@ elseif($code==210)
        $subname =$_POST['subname'];
         $subcode =$_POST['subcode'];
         $subtype =$_POST['subtype'];
+         $userid =$_POST['userid']; 
+
       $sq="Update ExamFormSubject set ExternalExam='$Ext',InternalExam='$Int',intmarks='$Intm', extmarks='$Extm',SubjectName='$subname',SubjectCode='$subcode',SubjectType='$subtype' Where ID='$id'"; 
+
+
+
+ $desc= "ExternalExam:".$Ext." , InternalExam: ".$Int." SubjectName=".$subname." ,SubjectCode=".$subcode." ,SubjectType=".$subtype;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
      $list = sqlsrv_query($conntest,$sq);
       if ($list==true )
     {
@@ -13056,10 +13101,25 @@ elseif($code==211)
 {
     $rdate =$_POST['receipt_date'];
     $rno =$_POST['receipt_no'];
+    $userid =$_POST['userid'];  
     $id =$_POST['id'];
     $sq="Update ExamForm set ReceiptNo='$rno',ReceiptDate='$rdate' Where ID='$id'"; 
     $list = sqlsrv_query($conntest,$sq);
+
+
+
+    $desc= "UPDATE ExamForm set ReceiptNo:".$rno." , ReceiptDate:".$rdate;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
+
+
        if ($list==true )
+
+
        { 
          echo "1";
        }
@@ -13071,10 +13131,31 @@ elseif($code==211)
 elseif($code==212)
 {
     $id=$_POST['id'];
+    $userid =$_POST['userid']; 
+      $Semester=$_POST['Sem'];
+        $Examination =$_POST['Examination'];
+ $Type =$_POST['Type'];
+
       $sq1="Delete FROM ExamForm  Where ID='$id'"; 
+
     $list1 = sqlsrv_query($conntest,$sq1);
+
       $sq2="Delete FROM ExamFormSubject  Where examid='$id'"; 
+
       $list2 = sqlsrv_query($conntest,$sq2);
+
+  $desc= "Delete Examination Form   : " .$Examination." Semester : ".$Semester." Type :".$Type ;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
+
+
+
+
+
+
    if($list1==true and $list2==true)
        {
          echo "1";
@@ -13087,10 +13168,22 @@ elseif($code==212)
 elseif($code==213)
 {
     $id = $_POST['id'];
+    $userid =$_POST['IDNo']; 
     $status = $_POST['status'];
+    
+
     $receipt_date=   date("Y-m-d");
+
      $sq="Update ExamForm set Status='$status',AccountantVerificationDate='$receipt_date',DepartmentVerifiedDate='$receipt_date',DeanVerifiedDate='$receipt_date',ExaminationVerifiedDate='$receipt_date' Where ID='$id'"; 
      $list2 = sqlsrv_query($conntest,$sq);
+
+
+  $desc= "Examination Form Status :  ".$status;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
+
    if ($list2==true)
        {
          echo "1";
@@ -13099,6 +13192,9 @@ elseif($code==213)
        {
          echo "0";
        }
+
+
+
 }
 
 
@@ -18102,10 +18198,20 @@ $del_run = mysqli_query($conn, $query1);
    {
 
 $id_s=$_POST['id'];
+$userid=$_POST['userid'];
+$subjectcode=$_POST['subcode'];
+$subjectname=$_POST['subname'];
 
 $query1="Delete from ExamFormSubject where ID='$id_s'";
 
 $stmt2 = sqlsrv_query($conntest,$query1);
+
+
+$desc= "Delete Subject  ".$subjectname."  Subject Code ".$subjectcode;
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=mysqli_query($conn,$update1);
 
 if( $stmt2  === false) {
 
@@ -18115,6 +18221,7 @@ else
 {
    echo "1";
 }
+
 }
 
 

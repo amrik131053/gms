@@ -186,14 +186,14 @@
 
         // body...
     }
-    function dltPaper(id)
+    function dltPaper(id,SubjectCode)
     {
         var code=189;
         $.ajax({
             url:'action.php',
             type:'post',
             data:{
-                code:code,id:id
+                code:code,id:id,SubjectCode:SubjectCode
             },
             success: function(response)
             {

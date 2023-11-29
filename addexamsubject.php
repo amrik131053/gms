@@ -55,6 +55,7 @@ function sub_code_int_ext_type_update(id)
          // alert(id);
         var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
+      var userid = document.getElementById('userid').value;
          var subcode=document.getElementById(id+"_subcode").value;
          var subname=document.getElementById(id+"_subname").value;
          var int=document.getElementById(id+"_Int").value;
@@ -68,7 +69,7 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype
+                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype,userid:userid
               },
               success: function(response) 
               {
@@ -101,6 +102,7 @@ function sub_code_int_ext_type_update(id)
           spinner.style.display='block';
          var rdate=document.getElementById("asreceipt_date").value;
        var rno=document.getElementById("asreceipt_no").value;
+        var userid = document.getElementById('userid').value;
       
          var code=211;
          // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
@@ -108,7 +110,7 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,receipt_date:rdate,receipt_no:rno
+                 code:code,id:id,receipt_date:rdate,receipt_no:rno,userid:userid
               },
               success: function(response) 
               {
@@ -139,6 +141,7 @@ function sub_code_int_ext_type_update(id)
        var type=document.getElementById('type_').value;
        var examination=document.getElementById('examination_').value;
         var sgroup=document.getElementById('sgroup_').value;
+         var userid = document.getElementById('userid').value;
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(type+' '+examination);
@@ -147,7 +150,7 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,
+                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,userid:userid
               },
               success: function(response) 
               {
@@ -180,17 +183,20 @@ function sub_code_int_ext_type_update(id)
            {
       var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
+      var userid = document.getElementById('userid').value;
+       var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
      
      var code=310;
            $.ajax({
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,
+                 code:code,id:id,userid:userid,subname:subname,subcode:subcode
               },
               success: function(response) 
               {
-               
+               console.log(response);
                spinner.style.display='none';
                   if (response=='1')
                            {
