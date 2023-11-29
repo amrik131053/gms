@@ -246,6 +246,22 @@
 
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12">
+                               
+                                <label>Batch</label>
+                                <select id='BatchFatch' name="BatchFatch" class="form-control" >
+                              
+                                    <option value="">Batch</option>
+                                    <?php 
+                                    for($i=2013;$i<=2030;$i++)
+                                    {?>
+                                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                                        <?php }
+                                                ?>
+
+                                </select>
+
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
                                 <label>Type</label>
                                 <select id="TypeFatch" name="TypeFatch" class="form-control" required="">
                                     <option value="">Select</option>
@@ -391,8 +407,8 @@ $(document).ready(function(){
          success:function(data){
              if(data != "")
              {
-                 $("#Semester").html("");
-                 $("#Semester").html(data);
+                 $("#SemesterFatch").html("");
+                 $("#SemesterFatch").html(data);
                  // console.log(data);
              }
    
@@ -428,13 +444,14 @@ $(document).ready(function(){
     var subName = document.getElementById('subName').value;
     var SemesterFatch = document.getElementById('SemesterFatch').value;
     var TypeFatch = document.getElementById('TypeFatch').value;
+    var BatchFatch = document.getElementById('BatchFatch').value;
       var code=271;
       $.ajax({
          url:'action_g.php',
          type:'POST',
          data:{
             code:code,ExaminationFatch:ExaminationFatch,subject_code:subject_code,
-            CourseFatchtext:CourseFatchtext,subName:subName,SemesterFatch:SemesterFatch,
+            CourseFatchtext:CourseFatchtext,subName:subName,SemesterFatch:SemesterFatch,BatchFatch:BatchFatch,
 TypeFatch:TypeFatch,
          },
          success: function(response) 
@@ -507,10 +524,11 @@ function exportCalculatorExcel() {
     var subName = document.getElementById('subName').value;
     var SemesterFatch = document.getElementById('SemesterFatch').value;
     var TypeFatch = document.getElementById('TypeFatch').value;
+    var BatchFatch = document.getElementById('BatchFatch').value;
     if (ExaminationFatch != '') {
         window.open("export.php?exportCode=" + exportCode +"&ExaminationFatch=" + ExaminationFatch + "&subject_code=" + subject_code + "&CourseFatch=" + CourseFatchtext +
             "&subName=" + subName + "&SemesterFatch=" +
-            SemesterFatch + "&TypeFatch=" + TypeFatch, '_blank');
+            SemesterFatch + "&TypeFatch=" + TypeFatch+"&BatchFatch="+BatchFatch, '_blank');
 
     } else {
         alert("Select ");
