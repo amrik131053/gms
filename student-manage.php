@@ -208,10 +208,12 @@ function fetch_state1(country_id) {
 }
 
 function fetch_district1(state_id) {
-    var code = '161';
+    var code = '271';
+    alert(state_id);
     $.ajax({
         url: 'action_g.php',
         data: {
+
             state_id: state_id,
             code: code
         },

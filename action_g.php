@@ -17580,17 +17580,18 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-2">
                                         <label>Country</label>
-                                        <select class="form-control" id="Country_1" name="Country_1"
-                                            onchange="fetch_state1(this.value);">
+                                        <select class="form-control" id="Country_1" name="Country_1" >
+
+                                           <!-- onchange="fetch_state1(this.value);"-->
                                             <option value="<?=$row1['country'];?>"><?=$row1['country'];?>
                                             </option>
-                                            <option value="">Country</option>
-                                            <?php 
-                                            $get_country="SELECT * FROM countries ";
-                                                        $get_country_run=mysqli_query($conn,$get_country);
-                                                        while($row=mysqli_fetch_array($get_country_run))
-                                                        {?>
-                                            <option value="<?=$row['id'];?>"><?=$row['name'];?></option>
+                                                                                       <?php 
+                                            $get_country="SELECT * FROM MasterCountry";
+                                                $get_country_run=sqlsrv_query($conntest,$get_country);
+                                                 while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
+
+                                                  {?>
+                                            <option value="<?=$row['Country'];?>"><?=$row['Country'];?></option>
                                             <?php }
                                             ?>
                                         </select>
@@ -17600,6 +17601,17 @@ elseif($code==267) //update student
                                         <select class="form-control" id="State_1" name="State_1"
                                             onchange="fetch_district1(this.value);">
                                             <option value="<?=$row1['State'];?>"><?=$row1['State'];?></option>
+
+
+                                            <?php 
+                                            $get_country="SELECT * FROM MasterState";
+                                                $get_country_run=sqlsrv_query($conntest,$get_country);
+                                                 while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
+
+                                                  {?>
+                                            <option value="<?=$row['State'];?>"><?=$row['State'];?></option>
+                                            <?php }
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="col-lg-2">
@@ -17991,21 +18003,22 @@ $tcredit=$rowww['totalcredit'];
 elseif($code==268)
 {
    $loginId = $_POST["loginId"];
-   $classRollNo = $_POST["classRollNo"];
-   $uniRollNo = $_POST["uniRollNo"];
    $name = $_POST["StudentName"];
    $fatherName = $_POST["fatherName"];
    $motherName = $_POST["motherName"];
    $CourseID = $_POST["Course"];
-   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
-   $stmt = sqlsrv_query($conntest,$sql);  
-if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-   {
-  $CourseName=$row6["Course"];
-   }
    $dob = $_POST["dob"];
    $gender = $_POST["gender"];
    $category = $_POST["category"];
+   $adhaar =$_POST["aadharNo"];
+   $BloodGroup =$_POST["bloodgroup"];
+   $Religion =$_POST["religion"];
+
+   $classRollNo = $_POST["classRollNo"];
+   $uniRollNo = $_POST["uniRollNo"];
+
+   
+
    $personalEmail = $_POST["personalEmail"];
    $officialEmail = $_POST["officialEmail"];
    $mobileNumber = $_POST["mobileNumber"];
@@ -18015,25 +18028,34 @@ if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
    $CollegeID = $_POST["CollegeName"];
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where MasterCourseCodes.CollegeID='$CollegeID'";
+
+
+   
+   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+   $stmt = sqlsrv_query($conntest,$sql);  
+if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   {
+  $CourseName=$row6["Course"];
+   }
+
+
+   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName from MasterCourseCodes   where MasterCourseCodes.CollegeID='$CollegeID'";
    $stmt2 = sqlsrv_query($conntest,$sql);
    if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
     {   
       $CollegeName = $row['CollegeName']; 
     }
 
+
    $employmentStatus = $_POST["employmentStatus"];
-   $NationalityID = $_POST["Country_1"];
-   $get_country="SELECT * FROM countries where id='$NationalityID' ";
-   $get_country_run=mysqli_query($conn,$get_country);
-   if($row=mysqli_fetch_array($get_country_run))
-   {
-    $Ncountry_1Name=$row['name'];
-    }
-    else{
-        $Ncountry_1Name=$NationalityID;
-    }
+
+   $CountryID = $_POST["Country_1"];
+
    $districtID = $_POST["District_1"];
+
+
+
+
    $sql = "SELECT  id,name FROM cities WHERE id='$districtID' order by name ASC";
    $stmt = mysqli_query($conn,$sql); 
    if($row4 = mysqli_fetch_array($stmt) )
@@ -18059,6 +18081,7 @@ $DistrictName=$row4['name'];
    $eligible =$_POST["eligible"]; 
 
    $aadharNo =$_POST["aadharNo"]; 
+
    $Nationality_1 =$_POST["Nationality_1"]; 
    $postOffice =$_POST["postOffice"]; 
    $pinCode =$_POST["pinCode"]; 
@@ -18306,6 +18329,25 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                 </tbody>
             </table>
             <?php 
+}else if($code=='271')
+{
+
+$state_id=$_POST['state_id'];
+  $sql = "SELECT  DISTINCT District FROM MasterDistrict WHERE State='$state_id' order by District ASC";
+
+     $get_country_run=sqlsrv_query($conntest,$sql);
+            while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
+
+                                                  {?>
+                                            <option value="<?=$row['District'];?>"><?=$row['District'];?></option>
+                                            <?php }
+                                            
+
+
+ 
+
+
+
 }
   elseif($code==271)
    {

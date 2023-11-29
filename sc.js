@@ -159,8 +159,8 @@ $("#Department").html(data);
 
 function add_subject_examform()
 {
-  var students=document.getElementsByClassName('checkbox');
-  var subjects=document.getElementsByClassName('newSubject');
+var students=document.getElementsByClassName('checkbox');
+var subjects=document.getElementsByClassName('newSubject');
 var len_student= students.length; 
 var len_subject= subjects.length;
 
@@ -200,7 +200,7 @@ var len_subject= subjects.length;
          success:function(data) {
             spinner.style.display='none';
             // console.log(data);
-            alert('Inserted Successfully.')
+            alert('Inserted Successfully.') 
                                 }      
 });
 }

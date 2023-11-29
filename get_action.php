@@ -3925,7 +3925,7 @@ $Batch=$_GET['batch'];
 
 <input type="hidden" value="<?=$sem;?>" name="sem">
 
- <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+ <input type="text" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
 
      </tr>
 
@@ -3967,7 +3967,7 @@ $Batch=$_GET['batch'];
   $allow=0;
 
 
- $practicle="SELECT  a.UniRollNo,a.IDNo,a.StudentName,SubjectName,SubjectCode,InternalExam,ExternalExam FROM Admissions a inner join  ExamForm   ef  on a.IDNo = ef.IDNo
+ $practicle="SELECT  a.ClassRollNo,a.UniRollNo,a.IDNo,a.StudentName,SubjectName,SubjectCode,InternalExam,ExternalExam FROM Admissions a inner join  ExamForm   ef  on a.IDNo = ef.IDNo
 inner join ExamFormSubject  efs on ef.ID=efs.Examid 
 where a.CollegeID='$CollegeID'ANd a.CourseID='$CourseID' AND ef.Batch='$Batch' ANd ef.SemesterID
 ='$sem' ANd ef.Examination='$exam' ANd SGroup='$group' ANd SubjectCode='$subjectcode' ANd efs.ExternalExam like'%Y%' order by a.UniRollNo ASC";
@@ -3983,8 +3983,8 @@ $count=1;
                 <?= $count++;?>
               </td>
                  <td>
-                  <input type="hidden" name="unirollno[]" value="<?=$p_row['UniRollNo'];?>" class="unirollnos">
-                 <?=  $UnirollNo=$p_row['UniRollNo'];?>
+                  <input type="hidden" name="unirollno[]" value="<?=$p_row['ClassRollNo'];?>" class="unirollnos">
+                 <?=  $UnirollNo=$p_row['UniRollNo'];?>/<?=  $UnirollNo=$p_row['ClassRollNo'];?>
               </td>
 
               <td>
@@ -4052,7 +4052,7 @@ if($row_count>0)
                               <option value="<?=$p;?>"><?=$p;?></option>
                            <?php }?>
                            </select> </td>
-                           <td><input type="text" style="width:60px" value="<?= $m_row['Updateby'];?>" id='internalupdatedby'> </td>
+                           <td><input type="text" style="width:60px" value="<?= $updateby;?>" id='internalupdatedby'> </td>
 
 
                            <td style='text-align:center;width: 10px'>
@@ -4085,7 +4085,7 @@ if($row_count>0)
             else
             {
 ?>
-               <td style="background-color: red">  <input type='hidden'  name="ids[]" value=""  id="ids" class='IdNos'>
+               <td style="background-color: red">  <input type='text'  name="ids[]" value=""  id="ids" class='IdNos'>
                            <select id='Pmarks'  class="pmarksids">
                               
                               <option value="">Select</option>
@@ -4121,7 +4121,7 @@ if($row_count>0)
                               <option value="<?=$p;?>"><?=$p;?></option>
                            <?php }?>
                            </select> </td>
-                           <td><input type="text" style="width:60px" value="<?= $updateby;?>" id='internalupdatedby'> </td>
+                           <td><input type="text" style="width:60px" value="" id='internalupdatedby'> </td>
 
 
                            <td style='text-align:center;width: 30px'>

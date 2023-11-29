@@ -252,7 +252,7 @@ ini_set('max_execution_time', '0');
 
             <div class="col-lg-12">
 
-                <input type="hidden" name="code" value="203">
+               
                 <div class="card-body">
 
 
@@ -457,9 +457,10 @@ for($i=1;$i<=12;$i++)
 
 </html>
 <script type="text/javascript">
-function status_update(id) {
+function status_update(id,IDNo) {
     var status = document.getElementById(id + '_status').value;
     // alert(status);
+   // alert(IDNo);
     var r = confirm("Do you really want to Change");
     if (r == true) {
 
@@ -472,7 +473,7 @@ function status_update(id) {
             type: 'POST',
             data: {
                 code: code,
-                id: id,
+                id: id,IDNo:IDNo,
                 status: status
             },
             success: function(response) {
@@ -489,21 +490,22 @@ function status_update(id) {
     }
 }
 
-function delexam(id) {
+function delexam(id,IDNo,Sem,Examination,Type) {
     var r = confirm("Do you really want to Delete ");
     if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
+        //  var userid = document.getElementById('userid').value;
         var code = 212;
         $.ajax({
             url: 'action.php',
             type: 'POST',
             data: {
-                code: code,
+                code: code,userid:IDNo,Sem:Sem,Examination:Examination,Type:Type,
                 id: id
             },
             success: function(response) {
-                console.log(response);
+               // console.log(response);
                 spinner.style.display = 'none';
                 search_exam_form();
                 Search_exam_student1();
@@ -549,9 +551,11 @@ function exam_type_update(id) {
     var r = confirm("Do you really want to Change");
     if (r == true) {
         var type = document.getElementById('type_').value;
+
+
+        var userid = document.getElementById('userid').value;
         var examination = document.getElementById('examination_').value;
         var sgroup = document.getElementById('sgroup_').value;
-
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         // alert(type+' '+examination);
@@ -563,7 +567,7 @@ function exam_type_update(id) {
                 code: code,
                 id: id,
                 examination: examination,
-                type: type,
+                type: type,userid:userid,
                 sgroup: sgroup,
             },
             success: function(response) {
@@ -638,6 +642,7 @@ function sub_code_int_ext_type_update(id) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var subcode = document.getElementById(id + "_subcode").value;
+        var userid = document.getElementById('userid').value;
         var subname = document.getElementById(id + "_subname").value;
         var int = document.getElementById(id + "_Int").value;
         var ext = document.getElementById(id + "_Ext").value;
@@ -653,7 +658,7 @@ function sub_code_int_ext_type_update(id) {
                 code: code,
                 id: id,
                 subcode: subcode,
-                subname: subname,
+                subname: subname,userid:userid,
                 Int: int,
                 Ext: ext,
                 Intm: intm,
@@ -680,12 +685,12 @@ function sub_code_int_ext_type_update(id) {
 function receipt_date_no_update(id) {
     var r = confirm("Do you really want to Change");
     if (r == true) {
-        // alert(id);
+         //alert(id);
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var rdate = document.getElementById("asreceipt_date").value;
         var rno = document.getElementById("asreceipt_no").value;
-
+        var userid = document.getElementById('userid').value;
         var code = 211;
         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
         $.ajax({
@@ -694,11 +699,11 @@ function receipt_date_no_update(id) {
             data: {
                 code: code,
                 id: id,
-                receipt_date: rdate,
+                receipt_date: rdate,userid:userid,
                 receipt_no: rno
             },
             success: function(response) {
-                // console.log(response);
+                 //console.log(response);
                 spinner.style.display = 'none';
                 if (response == '1') {
                     SuccessToast('Successfully Updated');
@@ -736,6 +741,7 @@ function Search_exam_student1() {
     var Type = document.getElementById("Type").value;
     var Group = document.getElementById("Group").value;
     var Examination = document.getElementById("Examination").value;
+     var userid = document.getElementById('userid').value;
 
     if (Batch != '' && Semester != '' && College != '' && Course != '' && Type != '' && Group != '' && Examination !=
         '') {
@@ -773,42 +779,50 @@ function Search_exam_student1() {
 
 
 
-function Delete_sub_code_int_ext_type_update(id, nid) {
-    var r = confirm("Do you really want to Delete");
-    if (r == true) {
+ function Delete_sub_code_int_ext_type_update(id,nid)
+    {
+         var r = confirm("Do you really want to Delete");
+          if(r == true) 
+           {
 
-        var r = confirm("it is going to Delete");
-        if (r == true) {
-            var spinner = document.getElementById("ajax-loader");
-            spinner.style.display = 'block';
+     var r = confirm("it is going to Delete");
+          if(r == true) 
+           {
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+      var userid = document.getElementById('userid').value;
+       var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
+     
+     var code=310;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,userid:userid,subname:subname,subcode:subcode
+              },
+              success: function(response) 
+              {
+               //console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully deleted');
+                           Search_exam_student();
+                          
 
-            var code = 310;
-            $.ajax({
-                url: 'action.php',
-                type: 'POST',
-                data: {
-                    code: code,
-                    id: id,
-                },
-                success: function(response) {
-
-                    spinner.style.display = 'none';
-                    if (response == '1') {
-                        SuccessToast('Successfully deleted');
-
-                        search_exam_form();
-                        Search_exam_student1();
-
-                        edit_stu(nid);
+                           edit_stu(nid);
 
 
-                    } else {
-                        ErrorToast('Input Wrong ', 'bg-danger');
-                    }
-
-                }
-            });
-        }
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+   }
     }
-}
 </script>
