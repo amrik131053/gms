@@ -501,8 +501,7 @@ function delexam(id,IDNo,Sem,Examination,Type) {
             url: 'action.php',
             type: 'POST',
             data: {
-                code: code,userid:IDNo,Sem:Sem,Examination:Examination,Type:Type,
-                id: id
+                code: code,userid:IDNo,Sem:Sem,Examination:Examination,Type:Type,id: id
             },
             success: function(response) {
                // console.log(response);
@@ -604,8 +603,10 @@ $(document).ready(function(e) { // image upload form submit
                 if (data == '1') {
                     SuccessToast('Successfully Uploaded');
                     $('#exampleModal_upload').modal('hide');
-                    search_exam_form();
+                    //search_exam_form();
+
                 } else {
+
                     ErrorToast('Invalid CSV File ', 'bg-danger');
                 }
             },
