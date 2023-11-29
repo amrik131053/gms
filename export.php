@@ -4065,6 +4065,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
             $subName=$_GET['subName'];
             $SemesterFatch=$_GET['SemesterFatch'];
             $TypeFatch=$_GET['TypeFatch'];
+            $BatchFatch=$_GET['BatchFatch'];
          $SrNo=1;
          $subCount=14;
          $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
@@ -4105,7 +4106,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
                
                  $SrNo=1;
                  $sql_open="SELECT *,ExamFormSubject.Course as CourseName,ExamFormSubject.CollegeName as College, ExamFormSubject.Batch as BatchS from ExamFormSubject inner join Admissions ON Admissions.IDNo=ExamFormSubject.IDNo  where 
-                 ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND ExamFormSubject.Examination='$ExaminationFatch'";
+                 ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND ExamFormSubject.Examination='$ExaminationFatch' AND ExamFormSubject.Batch='$BatchFatch'";
                
                   $result = sqlsrv_query($conntest,$sql_open);
                   while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )

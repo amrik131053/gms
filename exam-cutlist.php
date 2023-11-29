@@ -223,6 +223,40 @@ function edit_stu(id) {
     });
 
 }
+
+function sub_code_int_ext_type_update(id,fid) {
+    var r = confirm("Do you really want to Change");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var ext = document.getElementById(id + "_Ext").value;
+        var code = 275;
+        // alert(ext+' '+id);
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                id: id,
+                Ext: ext
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == '1') {
+                    SuccessToast('Successfully Updated');
+                    edit_stu(fid);
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+
+    }
+}
+
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">
