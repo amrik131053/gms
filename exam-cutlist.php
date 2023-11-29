@@ -147,7 +147,7 @@
 
 
                         </div>
-                        <div class="" id="show_record"></div>
+                        <div class="table table-responsive" id="show_record"></div>
                     </div>
                     <!-- /.card-footer -->
                 </div>
