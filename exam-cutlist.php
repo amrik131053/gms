@@ -178,9 +178,9 @@ function fetchCutList() {
         spinner.style.display = 'block';
 
     if (College != '') {
-        var code = '202';
+        var code = '273';
         $.ajax({
-            url: 'action.php',
+            url: 'action_g.php',
             data: {
                 code: code,
                 College: College,
@@ -206,9 +206,9 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 204;
+    var code = 274;
     $.ajax({
-        url: 'action.php',
+        url: 'action_g.php',
         type: 'POST',
         data: {
             code: code,

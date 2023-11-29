@@ -167,7 +167,7 @@ $StudentNames=array();
 $Snap=array();
 $Gender=array();
 $conntest = $GLOBALS['conntest'];
- $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' and SubjectType='T'";
+ $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' and (SubjectType='T' or SubjectType='TP')";
 $subcount=0;
  $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                   

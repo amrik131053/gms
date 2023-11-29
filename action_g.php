@@ -18449,6 +18449,490 @@ $sr++;
 
 
    }
+
+   elseif ($code==273) 
+   {
+
+$College = $_POST['College'];
+$Course = $_POST['Course'];
+  $Batch = $_POST['Batch'];
+  $Semester = $_POST['Semester'];
+  $Type = $_POST['Type'];
+    $Group = $_POST['Group'];
+        $Examination = $_POST['Examination'];
+
+
+$list_sql = "SELECT   Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
+
+?>
+
+<table class="table table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ID</th>
+                                        <th>Uni Roll No</th>
+                                        <th>Name</th>
+                                        <th>Course</th>
+                                        <th>Sem</th>
+                                        <th>Batch</th>
+                                        <th>Examination</th>
+                                        <th>Type</th>
+                                        <th>Group</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Update</th> 
+                                        <th >Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+<?php
+                $list_result = sqlsrv_query($conntest,$list_sql);
+                    $count = 1;
+               if($list_result === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
+                while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                   {
+                $Status= $row['Status'];
+                $issueDate=$row['SubmitFormDate'];
+                ?>
+                <tr>
+                <td><?= $count++;?></td>
+                <td><?= $row['ID']?></td>
+                
+                <td>
+                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+             </td>
+             <td>
+             <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
+                   </td>
+      <?php
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                echo "<td>".$row['Batch']."</td>";
+                echo "<td>".$row['Examination']."</td>";
+                     if($row['ReceiptDate']!='')
+                     {
+                       $rdate=$row['ReceiptDate']->format('Y-m-d');
+                     }
+                     else 
+                     {
+                     $rdate='';
+                     }
+?>
+               <td>
+                <?=$row['Type'];?></td>
+                <td><?= $row['SGroup'];?></td>
+
+                <td  style="width:100px"><center><?php 
+
+ if($Status==-1)
+                {
+                  echo "Fee<br>pending";
+
+                }
+                elseif($Status==0)
+                {
+                  echo "Draft";
+                }elseif($Status==1)
+                {
+                  echo 'Forward<br>to<br>dean';
+                }
+
+                elseif($Status==2)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+                }
+                 elseif($Status==3)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+                }
+
+ elseif($Status==4)
+                {
+                  echo 'Forward <br>to<br> Account';
+                }
+ elseif($Status==5)
+                {
+                  echo 'Forward <br>to<br> Examination<br> Branch';
+                }
+
+ elseif($Status==6)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+                }
+      elseif($Status==7)
+                {
+                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+                }           
+
+elseif($Status==8)
+                {
+                  echo "<b style='color:green'>Accepted</b>";
+                }   ?>        
+</center>
+               </td>
+                
+               <td> <?php if($issueDate!='')
+               {
+               echo $t= $issueDate->format('Y-m-d'); 
+
+               }else{ 
+
+               }?>
+
+              </td>
+  <td> 
+ <Select id='<?=$row['ID'];?>_status'  class="form-control" style="width: 100px;">
+                <option value="-1">Fee pending</option>
+                <option value="0">Draft</option>
+                <option value="4">Forward to Account</option>
+                <option value="5">Forward to Examination Branch</option>
+                <option value="8">Accepted</option>
+              </Select>
+        <input type="button" value="Update" class="btn btn-warning btn-xs" onclick="status_update(<?=$row['ID'];?>);">
+          </td>
+          <td>
+            
+
+<i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i>
+
+
+            </td>
+               </tr>
+           <?php 
+            }?>
+
+            </tbody>
+        </table>
+            <?php
+   
+}
+
+elseif($code==274)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
+             $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
+             $receipt_date=$row5['ReceiptDate'];
+             $receipt_no=$row5['ReceiptNo'];
+             $formid=$row5['ID'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+            $aa[]=$row5;
+            $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y');
+            $DeanVerifiedDate=$row5['DeanVerifiedDate']->format('d-m-Y');
+            $AccountantVerificationDate=$row5['AccountantVerificationDate']->format('d-m-Y');
+            $ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y');
+            $RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y');
+            $Status=$row5['Status'];
+       }
+    //    print_r($aa);
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+
+?>
+
+
+
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  border="1">
+ <tr style="border: 1px black solid" height="30" >
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+ <td> <?php echo $UniRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td colspan="1"><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+ <td rowspan="3" colspan="2" style="border:0">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+             </td>
+ </tr>
+ <tr style="border: 1px black solid"height="30">
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td colspan="1"><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+ </tr>
+ <tr style="border: 1px black solid"height="30"  >
+   <td style="padding-left: 10px"><b>Examination :</b></td>
+   <td colspan="1">
+   <?=$examination;?>
+
+
+
+      <?php ?>
+         
+
+      </td>
+
+   <td><b>Type:</b></td>
+   <td colspan="3">
+   <?=$type;?><br>
+  
+   <?=$sgroup;?></td>
+
+<br>
+              
+
+
+
+      
+   </td>
+
+   <td colspan="1"></td>
+ </tr>
+ 
+</table>
+<table class="table table-striped" border="1">
+<tr>
+   <th>SrNo</th>
+  <th>Subject Name</th>
+  <th width="12%">Subject Code</th>
+  <th width="8%">Apearing</th>
+  <!-- <th width="8%">Ext</th> -->
+  <th width="8%">Type</th>
+
+</tr>
+
+
+<?php 
+
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
+$list_resultamrik = sqlsrv_query($conntest,$amrik);  
+if($list_resultamrik === false) 
+{
+    die( print_r( sqlsrv_errors(), true) );
+}
+$sr=0;
+while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+         { $sr++;
+            ?>
+
+         <tr>
+            <td width="10"><?=$sr;?></td>
+            <?php if($examinationss<>$row7['Examination'])
+            {               $color="#ed040491";      }else $color='';
+  ?>
+  <td colspan="1" style="background-color: <?=$color;?>">
+  <?= $row7['SubjectName'];?>
+
+</td>
+   <td colspan="1"><?=$row7['SubjectCode'];?>
+   </td>
+
+  <td>
+  <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" >  
+      <option><?php echo $row7['ExternalExam'];?></option>
+    <option value="Y">Y</option>
+    <option value="N">N</option>
+  </select>
+  </td>
+  <td>
+  <?=$row7['SubjectType'];?>
+  </td>
+  
+
+<p id="resuccess"></p>
+
+
+</tr>
+
+
+
+         <?php }
+         ?>
+         <tr>
+    <td colspan="5">I have read all the regulations and it's amendments in regard to examination. I found myself eligible to appear in
+         examination. In case university declare me ineligible due
+         to any wrong information submitted in examination form by me, i shall be responsible for its consequences.</td>
+</tr>
+<tr>
+    <td colspan="2">Candidate Sign</td>
+    <td colspan="3">Date    <?=$FormSubmitDate;?>  </td>
+</tr>
+<!-- <tr>
+    <td colspan="5">Student particulars i.e. Photo,Signature,Subjects and Subject Codes for Examination December 2023 is verfied on 04/07/2023 .</td>
+</tr> -->
+<!-- <tr>
+    <th colspan="2">Date :  <?=$DeanVerifiedDate;?>   </th>
+    <th colspan="3">Signature of Class Coordinator
+  </th>
+</tr> -->
+<tr>
+    <td colspan="5">Certified that the Candidate has completed the prescribed course of study and fulfilled all the conditions laid down in the regulations for the examination and is eligible to appear in the examination as a regular student of Guru Kashi University. 
+        The candidate bears a good moral character and particulars filled by him/her are correct.</td>
+</tr>
+<tr>
+    <th colspan="2">Head of Department <br>Date :  <?=$DeanVerifiedDate;?>   </th>
+    <th colspan="3">Signature of the Principal / Dean <br><?=$DeanVerifiedDate;?>
+  </th>
+</tr>
+
+
+
+
+<?php 
+if($RegistraionVerifDate!="" && $Status!='')
+{
+//   echo "<b style='color:green'>Accepted</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">RegistraionVerifDate</p></td>
+</tr><?php 
+}
+if($DeanVerifiedDate!="" && $Status!='3')
+{
+//   echo "<b style='color:green'>Accepted</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">DeanVerifiedDate</p></td>
+</tr><?php 
+}
+if($AccountantVerificationDate!="" && $Status!='4')
+{
+//   echo "<b style='color:green'>Accepted</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Account</p></td>
+</tr><?php 
+}
+if($ExaminationVerifiedDate!="" && $Status!='7')
+{
+//   echo "<b style='color:green'>Accepted</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">ExaminationVerifiedDate</p></td>
+</tr><?php 
+}
+
+if($Status==-1)
+{
+  echo "Fee<br>pending";
+
+}
+elseif($Status==0)
+{
+//   echo "Draft";
+  ?><tr>
+
+  <td colspan="5"><p class="text-center">Draft</p></td>
+</tr><?php 
+}elseif($Status==1)
+{
+//   echo 'Forward<br>to<br>dean';
+?><tr>
+
+<td colspan="5"><p class="text-center">forward to Department</p></td>
+</tr><?php 
+}
+
+elseif($Status==2)
+{
+//   echo "<b style='color:red'>Rejected<br>By<br>Department</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Reject by Department</p></td>
+</tr><?php 
+}
+ elseif($Status==3)
+{
+//   echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Reject by Dean</p></td>
+</tr><?php 
+}
+
+elseif($Status==4)
+{
+//   echo 'Forward <br>to<br> Account';
+?><tr>
+
+<td colspan="5"><p class="text-center">Forward to Account</p></td>
+</tr><?php 
+}
+elseif($Status==5)
+{
+//   echo 'Forward <br>to<br> Examination<br> Branch';
+?><tr>
+
+<td colspan="5"><p class="text-center">forward to Exam Branch</p></td>
+</tr><?php 
+}
+
+elseif($Status==6)
+{
+//   echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Reject by Account</p></td>
+</tr><?php 
+}
+elseif($Status==7)
+{
+//   echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Reject by Exam Branch</p></td>
+</tr><?php 
+}           
+
+elseif($Status==8)
+{
+//   echo "<b style='color:green'>Accepted</b>";
+?><tr>
+
+<td colspan="5"><p class="text-center">Accpeted</p></td>
+</tr><?php 
+}
+
+?>
+
+</table>
+</div>
+
+
+
+<!-- AccountantVerificationDate
+ExaminationVerifiedDate
+RegistraionVerifDate -->
+
+
+
+         <?php 
+   }
    else
    {
    
