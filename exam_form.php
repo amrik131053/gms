@@ -501,8 +501,7 @@ function delexam(id,IDNo,Sem,Examination,Type) {
             url: 'action.php',
             type: 'POST',
             data: {
-                code: code,userid:IDNo,Sem:Sem,Examination:Examination,Type:Type,
-                id: id
+                code: code,userid:IDNo,Sem:Sem,Examination:Examination,Type:Type,id: id
             },
             success: function(response) {
                // console.log(response);
@@ -604,8 +603,10 @@ $(document).ready(function(e) { // image upload form submit
                 if (data == '1') {
                     SuccessToast('Successfully Uploaded');
                     $('#exampleModal_upload').modal('hide');
-                    search_exam_form();
+                    //search_exam_form();
+
                 } else {
+
                     ErrorToast('Invalid CSV File ', 'bg-danger');
                 }
             },
@@ -720,16 +721,6 @@ function receipt_date_no_update(id) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 function Search_exam_student1() {
 
     var code = 202;
@@ -741,7 +732,7 @@ function Search_exam_student1() {
     var Type = document.getElementById("Type").value;
     var Group = document.getElementById("Group").value;
     var Examination = document.getElementById("Examination").value;
-     var userid = document.getElementById('userid').value;
+     //var userid = document.getElementById('userid').value;
 
     if (Batch != '' && Semester != '' && College != '' && Course != '' && Type != '' && Group != '' && Examination !=
         '') {
@@ -749,9 +740,6 @@ function Search_exam_student1() {
         //x.style.display = "block";
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-
-
-
 
         $.ajax({
             url: 'action.php',
@@ -824,5 +812,5 @@ function Search_exam_student1() {
            });
        }
    }
-    }
+ }
 </script>
