@@ -120,7 +120,7 @@
                                 <select id="Examination" class="form-control" required="">
                                     <option value="">Examination</option>
                                     <?php
-                                    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
