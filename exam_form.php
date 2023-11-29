@@ -721,16 +721,6 @@ function receipt_date_no_update(id) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 function Search_exam_student1() {
 
     var code = 202;
@@ -750,9 +740,6 @@ function Search_exam_student1() {
         //x.style.display = "block";
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-
-
-
 
         $.ajax({
             url: 'action.php',
@@ -825,5 +812,5 @@ function Search_exam_student1() {
            });
        }
    }
-    }
+ }
 </script>

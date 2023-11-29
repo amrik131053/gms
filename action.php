@@ -12585,15 +12585,16 @@ elseif($Status==8)
 
    elseif($code==203)
    {
-        $type=$_POST['type']; 
-         $sem=$_POST['sem']; 
-  echo $examination=$_POST['month'];
+   $type=$_POST['type']; 
+   $sem=$_POST['sem']; 
+   $examination=$_POST['month'];
    $Status=$_POST['Status'];
   $file = $_FILES['file_exl']['tmp_name'];
 
 
   $handle = fopen($file,'r');
-  $c = 0;
+
+  $c=0;
 
   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
   {
@@ -12611,7 +12612,7 @@ unset($subject);
 unset($SubjectCode);
 unset($SubjectType);
 
-echo $sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno'";
+ $sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
 
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -12639,7 +12640,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
        $receipt_date=   date("Y-m-d");
 
- echo  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
+   $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
 
    VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
 
@@ -12647,7 +12648,8 @@ $stmt = sqlsrv_query($conntest,$query);
 if( $stmt === false) {
     die( print_r( sqlsrv_errors(), true) );
 }
-else{
+else
+{
  $sql_limit = "SELECT TOP 1 * FROM ExamForm ORDER BY Id DESC";
 $stmt1 = sqlsrv_query($conntest,$sql_limit);
 
@@ -12672,7 +12674,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
       {
 
 
-    echo   $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
+      $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
           VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
       $stmt2 = sqlsrv_query($conntest,$query1);
 
@@ -12681,7 +12683,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
       }
        }
 
-}
+     }
 
           if($stmt2==true)
           {
@@ -12692,7 +12694,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
             echo "0";
           }
        
-          $c++;
+      
 
 
      $desc= "Add  ExamForm by admin  set Type:".$type." , Examination: ".$examination." , Status: ".$Status."IDNo : ".$IDNo." Semester :".$sem;
@@ -12701,6 +12703,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
 $update_query=mysqli_query($conn,$update1);
      }
+         $c++;
 
    }
 
