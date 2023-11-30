@@ -489,7 +489,7 @@ function exportCutListPdf() {
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '') {
-        window.open("export-cutlist-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+        window.open("export-cutlist-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 
