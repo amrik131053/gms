@@ -8075,11 +8075,10 @@ $sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCours
             <td><?=$showQuestionData['type_name']?></td>
             <td><?=$showQuestionData['category_name']?></td>
             <td><?=$showQuestionData['Batch']?></td>
-              <td><?=$showQuestionData['Semester']?></td>
-       <!--      <td><?=$CourseName;?></td> -->
+            <td><?=$showQuestionData['Semester']?></td>
+       <!-- <td><?=$CourseName;?></td> -->
             <td><?=$SubjectName;?></td>
             <td><?=$showQuestionData['SubjectCode']?></td>
-          
             <td>    <?php   
                                             if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                             { 
@@ -8094,7 +8093,7 @@ $sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCours
 
                                              &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-trash" onclick="delete_question(<?=$showQuestionData['Id']?>);"></i>
                                    <?php  }
-                                  ?></td>
+                                ?></td>
          </tr>
          <?php 
             $srno++;
@@ -8637,14 +8636,14 @@ else
             {
                $unit=rand(1,2);
             }
-            elseif ($type=='1' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
-             elseif ($type=='2' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
+            // elseif ($type=='1' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
+            //  elseif ($type=='2' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
 
             if($unit>4)
             {
@@ -8652,7 +8651,7 @@ else
             }
             else
             {
-               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8669,7 +8668,7 @@ else
          }    
           //print_r($questionArray);
 
-        $countarray=count($questionArray);
+      $countarray=count($questionArray);
 
 
  if(!array_unique($questionArray))
