@@ -3738,8 +3738,14 @@ else if($exportCode==39)
     }
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
-   
+   if($CourseID!='')
+   {
     $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
+   }
+   else{
+    $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ";
+   
+   }
     $list_cllegename = sqlsrv_query($conntest,$collegename);
                       
                   
@@ -3748,7 +3754,14 @@ else if($exportCode==39)
     
                        // print_r($row);
                     $CollegeName=$row_college['CollegeName'] ;
+                    if($CourseID!='')
+                    {
                     $CourseName=$row_college['Course'] ;
+                    }
+                    else{
+                        $CourseName="All" ;
+
+                    }
                     
             }
 $SrNo=1;
