@@ -18329,26 +18329,8 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                 </tbody>
             </table>
             <?php 
-}else if($code=='271')
-{
-
-$state_id=$_POST['state_id'];
-  $sql = "SELECT  DISTINCT District FROM MasterDistrict WHERE State='$state_id' order by District ASC";
-
-     $get_country_run=sqlsrv_query($conntest,$sql);
-            while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
-
-                                                  {?>
-                                            <option value="<?=$row['District'];?>"><?=$row['District'];?></option>
-                                            <?php }
-                                            
-
-
- 
-
-
-
 }
+
   elseif($code==271)
    {
 $ExaminationFatch=$_POST['ExaminationFatch'];
@@ -18677,11 +18659,11 @@ elseif($code==274)
             $RegisterRejectReason=$row5['RegistraionRejectedReason'];
 
 
-            if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y'); }else {$FormSubmitDate="";}
+            if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
             if($row5['DeanVerifiedDate']!=''){$DeanVerifiedDate=$row5['DeanVerifiedDate']->format('d-m-Y');}else{$DeanVerifiedDate="";}
-            if($row5['AccountantVerificationDate']!=''){ $AccountantVerificationDate=$row5['AccountantVerificationDate']->format('d-m-Y');}else{ $AccountantVerificationDate="";}
-            if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y');}else{$ExaminationVerifiedDate="";}
-            if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y');}else{$RegistraionVerifDate="";}
+            if($row5['AccountantVerificationDate']!=''){ $AccountantVerificationDate=$row5['AccountantVerificationDate']->format('d-m-Y H:i:s');}else{ $AccountantVerificationDate="";}
+            if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y H:i:s');}else{$ExaminationVerifiedDate="";}
+            if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
 
 
             if($row5['RejectedDate']!=''){$RejectedDate=$row5['RejectedDate']->format('d-m-Y H:i:s');}else{$RejectedDate="";}
@@ -18716,14 +18698,14 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
  <div class="card-body table-responsive ">
 
-<table class="table table-bordered"  border="1">
+ <table class="table table-bordered"  border="1">
  <tr style="border: 1px black solid" height="30" >
  <td style="padding-left: 10px"><b>Rollno: </b></td>
  <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
  <td ><b>Name:</b> </td>
  <td colspan="2"><?=$name;?></td>
  <td  rowspan="3"  style="border:0">
-<?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr style="border: 1px black solid"height="30">
@@ -18741,10 +18723,6 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <?=$type;?></td>
    </tr>
  </table>
-
-
-
-
 
 <table class="table table-striped" border="1">
 <tr>
@@ -18792,7 +18770,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
         ?>
   <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" onchange="sub_code_int_ext_type_update(<?=$row7['ID'];?>,<?=$formid;?>);">  
-      <option><?php echo $row7['ExternalExam'];?>s</option>
+      <option><?php echo $row7['ExternalExam'];?></option>
     <option value="Y">Y</option>
     <option value="N">N</option>
   </select>
@@ -18811,16 +18789,14 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
 
          <?php }
-         ?>
+         ?></table>
+         <table class="table">
          <tr>
     <td colspan="5">I have read all the regulations and it's amendments in regard to examination. I found myself eligible to appear in
          examination. In case university declare me ineligible due
-         to any wrong information submitted in examination form by me, i shall be responsible for its consequences.</td>
+         to any wrong information submitted in examination form by me, i shall be responsible for its consequences.<br><br><p style="text-align:left;float:left">Candidate Sign</p><p style="float:right">Date    <?=$FormSubmitDate;?></p></td>
 </tr>
-<tr>
-    <td colspan="2">Candidate Sign</td>
-    <td colspan="3">Date    <?=$FormSubmitDate;?>  </td>
-</tr>
+
 
 <?php if($Status==-1)
 {?>
@@ -18832,8 +18808,10 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 else if($Status>-1 && $Status!='22') 
 {?>
 <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 15px;"><h5>Candidate Form is Succeefully verified by Registration brnach</h5></td>
+    <td colspan="5" style="color: green;font-size: px;"><h6>Candidate Form is Succeefully verified by Registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
 </tr>
+
+
 <?php 
 }
 else if ($Status==22){
@@ -18852,16 +18830,22 @@ else if ($Status==22){
 
 <?php if($Status==0)
 {?>
-    <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Department</h4></td>
-</tr>
+    
 
+<td colspan="5" style="text-align:right">
+    <button type="submit" id="type" onclick="verify(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+</td>
+</tr>
 <?php }?>
 
 <?php if($Status>0 && $Status==1)
 {?>
     <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Dean</h4></td>
+    <td colspan="5" style="text-align:left">
+        Student particulars i.e. Photo,Signature,Subjects and Subject Codes for Examination April 2022 is verfied on 30/11/2023 .<br>
+        <p style="text-align:right">
+    <button type="submit"  id="type" onclick="lock(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p>
+</td>
 </tr>
 
 <?php }?>
@@ -18882,21 +18866,7 @@ else if ($Status==22){
 
 <tr>
 
-<td colspan="5">
-<?php if($Status==0)
-{
-    ?>
-    <button type="submit" id="type" onclick="ffff(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success ">Forward </button>
-    <?php
-    }
-    else if($Status==1)
-    {
-    ?>
-<button type="submit" id="type" onclick="ffff(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success ">Lock </button>
-<?php
 
-}?>
-</td>
 </tr>
 </table>
 </div>
@@ -18921,6 +18891,32 @@ else if ($Status==22){
     echo "0";
     }
 }
+else if($code=='276')
+{
+
+$state_id=$_POST['state_id'];
+
+
+  $sql = "SELECT  DISTINCT District FROM MasterDistrict WHERE State='$state_id' order by District ASC";
+
+     $get_country_run=sqlsrv_query($conntest,$sql);
+            while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
+
+                                                  {?>
+                                            <option value="<?=$row['District'];?>"><?=$row['District'];?></option>
+                                            <?php }
+                                            
+
+
+ 
+
+
+
+}
+
+
+
+
    else
    {
    
