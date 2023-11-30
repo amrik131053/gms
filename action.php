@@ -8636,14 +8636,14 @@ else
             {
                $unit=rand(1,2);
             }
-            elseif ($type=='1' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
-             elseif ($type=='2' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
+            // elseif ($type=='1' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
+            //  elseif ($type=='2' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
 
             if($unit>4)
             {
@@ -8651,7 +8651,7 @@ else
             }
             else
             {
-               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8666,12 +8666,12 @@ else
                    
          
          }    
-          print_r($questionArray);
+          //print_r($questionArray);
 
-        $countarray=count($questionArray);
+      $countarray=count($questionArray);
 
 
- if(array_unique($questionArray))
+ if(!array_unique($questionArray))
 {
     echo 'Please Regenerate';
     print_r($questionArray);
