@@ -393,7 +393,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
-    $pdf->Cell(20.4,2,$subcount."",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
@@ -446,14 +446,14 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
       $info = getimagesize($pic);
       $extension = explode('/', mime_content_type($pic))[1];
       $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
+      if($imageUrl!='')
+      {
       $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
       $data = file_get_contents($imageUrl);
       $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
       $infoSign = getimagesize($base64);
       $extensionSign = explode('/', mime_content_type($base64))[1];
-      
-                }    
+      }    
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
       if($extension!='webp'  && $extension!='pdf' && $extension!='zip'){

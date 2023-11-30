@@ -3738,8 +3738,14 @@ else if($exportCode==39)
     }
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
-   
+   if($CourseID!='')
+   {
     $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
+   }
+   else{
+    $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ";
+   
+   }
     $list_cllegename = sqlsrv_query($conntest,$collegename);
                       
                   
@@ -3748,7 +3754,14 @@ else if($exportCode==39)
     
                        // print_r($row);
                     $CollegeName=$row_college['CollegeName'] ;
+                    if($CourseID!='')
+                    {
                     $CourseName=$row_college['Course'] ;
+                    }
+                    else{
+                        $CourseName="All" ;
+
+                    }
                     
             }
 $SrNo=1;
@@ -4017,11 +4030,15 @@ foreach ($Subjects as $key => $SubjectsCode) {
            
           $list_sql_examsubject = "SELECT ExternalExam FROM ExamFormSubject WHERE Examid='$examID' ANd  SubjectCode='$SubjectsCode' ";
          $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                        while( $row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-                           {
-                        
-                           $ExternalExam[]=$row_exam['ExternalExam'];
-                           }
+         if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+         {
+           $ExternalExam[]= $row_exam['ExternalExam'];
+         }
+         else 
+         {
+           $ExternalExam[]= "";
+         }
+                           
                         }
                         }
 
@@ -4043,8 +4060,8 @@ foreach ($Subjects as $key => $SubjectsCode) {
          <td>{$ClassRollNos[$key]}</th>
          <th>{$UnirollNos[$key]}</td>
          <td>{$StudentNames[$key]}</td>";
-         foreach ($Subjects as $key => $SubjectsCode) {
-            $exportstudy.="<td style='text-align:center;'>{$ExternalExam[$key]} </td>";
+         foreach ($Subjects as $key1 => $SubjectsCode) {
+            $exportstudy.="<td style='text-align:center;'>{$ExternalExam[$key1]} </td>";
         }
         $exportstudy.="</tr>";
         $SrNo++;
