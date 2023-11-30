@@ -18852,6 +18852,9 @@ else if ($Status==22){
 <?php if($Status>1 && $Status!='2' && $Status!='3' &&$Status!='22')
 { ?>
 <tr>
+    <td colspan="5" style="text-align:left">
+        Student particulars i.e. Photo,Signature,Subjects and Subject Codes for Examination April 2022 is verfied on 30/11/2023 .</td>
+        
     <td colspan="5">Certified that the Candidate has completed the prescribed course of study and fulfilled all the conditions laid down in the regulations for the examination and is eligible to appear in the examination as a regular student of Guru Kashi University. 
         The candidate bears a good moral character and particulars filled by him/her are correct.</td>
 </tr>
