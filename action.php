@@ -8075,11 +8075,10 @@ $sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCours
             <td><?=$showQuestionData['type_name']?></td>
             <td><?=$showQuestionData['category_name']?></td>
             <td><?=$showQuestionData['Batch']?></td>
-              <td><?=$showQuestionData['Semester']?></td>
-       <!--      <td><?=$CourseName;?></td> -->
+            <td><?=$showQuestionData['Semester']?></td>
+       <!-- <td><?=$CourseName;?></td> -->
             <td><?=$SubjectName;?></td>
             <td><?=$showQuestionData['SubjectCode']?></td>
-          
             <td>    <?php   
                                             if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
                                             { 
@@ -8094,7 +8093,7 @@ $sqlCourse = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCours
 
                                              &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-trash" onclick="delete_question(<?=$showQuestionData['Id']?>);"></i>
                                    <?php  }
-                                  ?></td>
+                                ?></td>
          </tr>
          <?php 
             $srno++;
@@ -8667,12 +8666,12 @@ else
                    
          
          }    
-          //print_r($questionArray);
+          print_r($questionArray);
 
         $countarray=count($questionArray);
 
 
- if(!array_unique($questionArray))
+ if(array_unique($questionArray))
 {
     echo 'Please Regenerate';
     print_r($questionArray);

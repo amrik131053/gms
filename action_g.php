@@ -18571,7 +18571,12 @@ elseif($Status==8)
 
  if($Status==-1)
                 {
-                  echo "<b>Fee pending</b>";
+                  echo "<b>Forward to Registration Branch</b>";
+
+                }
+                 if($Status==22)
+                {
+                  echo "<b>Rejected By Registration Branch</b>";
 
                 }
                 elseif($Status==0)
@@ -18579,7 +18584,7 @@ elseif($Status==8)
                   echo "<b>Draft</b>";
                 }elseif($Status==1)
                 {
-                  echo '<b>Forward to dean</b>';
+                  echo '<b>Forward to Dean</b>';
                 }
 
                 elseif($Status==2)
@@ -18669,12 +18674,20 @@ elseif($code==274)
             $DeanRejectReason=$row5['DeanRejectReason'];
             $AccountantRejectReason=$row5['AccountantRejectReason'];
             $ExaminationRejectReason=$row5['ExaminationRejectReason'];
-            $RegisterRejectReason=$row5['RegisterRejectReason'];
+            $RegisterRejectReason=$row5['RegistraionRejectedReason'];
+
+
             if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y'); }else {$FormSubmitDate="";}
             if($row5['DeanVerifiedDate']!=''){$DeanVerifiedDate=$row5['DeanVerifiedDate']->format('d-m-Y');}else{$DeanVerifiedDate="";}
             if($row5['AccountantVerificationDate']!=''){ $AccountantVerificationDate=$row5['AccountantVerificationDate']->format('d-m-Y');}else{ $AccountantVerificationDate="";}
             if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y');}else{$ExaminationVerifiedDate="";}
             if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y');}else{$RegistraionVerifDate="";}
+
+
+            if($row5['RejectedDate']!=''){$RejectedDate=$row5['RejectedDate']->format('d-m-Y H:i:s');}else{$RejectedDate="";}
+
+
+
             $Status=$row5['Status'];
        }
  $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
@@ -18702,52 +18715,37 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 
  <div class="card-body table-responsive ">
+
 <table class="table table-bordered"  border="1">
  <tr style="border: 1px black solid" height="30" >
  <td style="padding-left: 10px"><b>Rollno: </b></td>
- <td> <?php echo $UniRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
- <td colspan="1"><b>Name:</b> </td>
- <td colspan="4"><?=$name;?></td>
- <td rowspan="3" colspan="2" style="border:0">
-                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
-             </td>
+ <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td ><b>Name:</b> </td>
+ <td colspan="2"><?=$name;?></td>
+ <td  rowspan="3"  style="border:0">
+<?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ </td>
  </tr>
  <tr style="border: 1px black solid"height="30">
    <td style="padding-left: 10px"><b>College:</b></td>
-   <td colspan="1"><?php echo $college;?></td>
+   <td ><?php echo $college;?></td>
    <td><b>Course:</b></td>
-   <td colspan="4"><?=$course;?></td>
+   <td colspan="3"><?=$course;?></td>
  </tr>
- <tr style="border: 1px black solid"height="30"  >
+ <tr style="border: 1px black solid"height="30" >
    <td style="padding-left: 10px"><b>Examination :</b></td>
-   <td colspan="1">
-   <?=$examination;?>
-
-
-
-      <?php ?>
-         
-
-      </td>
-
+   <td  colspan="2">
+   <?=$examination;?> </td>
    <td><b>Type:</b></td>
    <td colspan="3">
-   <?=$type;?><br>
-  
-   <?=$sgroup;?></td>
-
-<br>
-              
+   <?=$type;?></td>
+   </tr>
+ </table>
 
 
 
-      
-   </td>
 
-   <td colspan="1"></td>
- </tr>
- 
-</table>
+
 <table class="table table-striped" border="1">
 <tr>
    <th>SrNo</th>
@@ -18785,15 +18783,21 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
    </td>
 
   <td>
-    <?php if($Status>3){
+    <?php
+    if($Status>1){
+
  echo $row7['ExternalExam'];
-    } else{?>
+    }
+     else{
+
+        ?>
   <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" onchange="sub_code_int_ext_type_update(<?=$row7['ID'];?>,<?=$formid;?>);">  
-      <option><?php echo $row7['ExternalExam'];?></option>
+      <option><?php echo $row7['ExternalExam'];?>s</option>
     <option value="Y">Y</option>
     <option value="N">N</option>
   </select>
- <?php }?>
+ <?php }
+ ?>
   </td>
   <td>
   <?=$row7['SubjectType'];?>
@@ -18817,6 +18821,52 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     <td colspan="2">Candidate Sign</td>
     <td colspan="3">Date    <?=$FormSubmitDate;?>  </td>
 </tr>
+
+<?php if($Status==-1)
+{?>
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Registration Branch</h4></td>
+</tr>
+
+<?php }
+else if($Status>-1 && $Status!='22') 
+{?>
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 15px;"><h5>Candidate Form is Succeefully verified by Registration brnach</h5></td>
+</tr>
+<?php 
+}
+else if ($Status==22){
+
+?>
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6>Rejected By Registration Branch due to  <?= $RegisterRejectReason ;?> on Dated <?= $RejectedDate;?></h6></td>
+</tr>
+
+<?php
+
+
+}
+
+?>
+
+<?php if($Status==0)
+{?>
+    <tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Department</h4></td>
+</tr>
+
+<?php }?>
+
+<?php if($Status>0 && $Status==1)
+{?>
+    <tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Dean</h4></td>
+</tr>
+
+<?php }?>
+<?php if($Status>1 && $Status!='2' && $Status!='3' &&$Status!='22')
+{ ?>
 <tr>
     <td colspan="5">Certified that the Candidate has completed the prescribed course of study and fulfilled all the conditions laid down in the regulations for the examination and is eligible to appear in the examination as a regular student of Guru Kashi University. 
         The candidate bears a good moral character and particulars filled by him/her are correct.</td>
@@ -18826,148 +18876,10 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     <th colspan="3">Signature of the Principal / Dean <br><?=$DeanVerifiedDate;?>
   </th>
 </tr>
-
-<?php 
-if($RegistraionVerifDate!="" && $RegisterRejectReason=='')
-{
-?><tr>
-
-<td colspan="5"><p class="text-center text-success">RegistraionVerifDate</p></td>
-</tr><?php 
-}
-else{
-    ?><tr>
-
-<td colspan="5"><p class="text-center text-danger">RegistraionVerifDate</p></td>
-</tr><?php 
-}
-if($DeanVerifiedDate!="" && $DeanRejectReason=='' )
-{
-?><tr>
-
-<td colspan="5"><p class="text-center text-success">DeanVerifiedDate</p></td>
-</tr><?php 
-}
-else{
-    ?><tr>
-
-<td colspan="5"><p class="text-center text-danger">Dean</p></td>
-</tr><?php 
-}
-if($AccountantVerificationDate!=""  && $AccountantRejectReason==''  )
-{
-?><tr>
-
-<td colspan="5"><p class="text-center text-success">Account</p></td>
-</tr><?php 
-}
-else{
-    ?><tr>
-
-<td colspan="5"><p class="text-center text-danger">Account</p></td>
-</tr><?php 
-}
-if($ExaminationVerifiedDate!="" && $ExaminationRejectReason=='')
-{
-?><tr>
-
-<td colspan="5"><p class="text-center text-success">ExaminationVerifiedDate</p></td>
-</tr><?php 
-}else{
-    ?><tr>
-
-<td colspan="5"><p class="text-center text-danger">Exam</p></td>
-</tr><?php 
-}
+<?php } ?>
 
 
-if($Status==-1)
-                {
-                 
-                  ?><tr>
 
-<td colspan="5"><p class="text-center ">Fee pending</p></td>
-</tr><?php 
-
-                }
-                elseif($Status==0)
-                {
-                 
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Draft</p></td>
-                  </tr><?php 
-                  
-                }elseif($Status==1)
-                {
-                 
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Forward to dean</p></td>
-                  </tr><?php 
-                }
-
-                elseif($Status==2)
-                {
-                  
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Rejected By Department</p></td>
-                  </tr><?php 
-                }
-                 elseif($Status==3)
-                {
-                  
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Rejected By Dean</p></td>
-                  </tr><?php 
-                }
-
- elseif($Status==4)
-                {
-                 
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Forward to Account</p></td>
-                  </tr><?php 
-                }
- elseif($Status==5)
-                {
-           
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Forward to Examination Branch</p></td>
-                  </tr><?php 
-                }
-
- elseif($Status==6)
-                {
-                
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Rejected By Accountant</p></td>
-                  </tr><?php 
-                }
-      elseif($Status==7)
-                {
-                 
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Rejected_By Examination Branch</p></td>
-                  </tr><?php 
-                }           
-
-elseif($Status==8)
-                {
-                 
-                  ?><tr>
-
-                  <td colspan="5"><p class="text-center ">Accepted</p></td>
-                  </tr><?php 
-                } 
-
-?>
 <tr>
 
 <td colspan="5">
