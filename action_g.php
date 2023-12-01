@@ -18370,17 +18370,15 @@ $SemesterFatch=$_POST['SemesterFatch'];
 $TypeFatch=$_POST['TypeFatch'];
 $BatchFatch=$_POST['BatchFatch'];
 
-$sql_open="SELECT count(*) as countA from ExamFormSubject  where 
-Course='$CourseFatchtext'ANd Type='$TypeFatch' ANd ExternalExam='Y' 
-ANd SubjectCode='$subject_code' ANd SemesterID='$SemesterFatch' AND Examination='$ExaminationFatch' and Batch='$BatchFatch'";
-
- $countFilup=sqlsrv_query($conntest,$sql_open,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-  $count=sqlsrv_num_rows($countFilup);
-  if($row=sqlsrv_fetch_array($countFilup))
+ $sql_open="SELECT count(*) as countA  from ExamFormSubject INNER JOIN ExamForm On ExamForm.ID=ExamFormSubject.Examid  where 
+ExamFormSubject.Course='$CourseFatchtext'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' 
+ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND 
+ExamFormSubject.Examination='$ExaminationFatch' and ExamFormSubject.Batch='$BatchFatch' and ExamForm.Status='8'";
+ $countFilup=sqlsrv_query($conntest,$sql_open);
+  if($row=sqlsrv_fetch_array($countFilup,SQLSRV_FETCH_ASSOC))
   {
     echo $row['countA'].' Exam Filled';
   }
-
 
    }
   elseif($code==272)

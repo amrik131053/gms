@@ -120,21 +120,22 @@ $this->Line(8,21,291,21);
 
 //Sr No left line 
 $this->Line(8,21,8,42);
-$this->SetXY(8,23);
-$this->Cell(10,6,'Sr No',0,0,'C',0);
-$this->Line(19,21,19,42);
- $this->SetXY(19,21);
+$this->SetXY(7,23);
+// $this->Cell(10,6,'Sr No',0,0,'C',0);
+$this->MultiCell(9,6,'Sr No',0,'C');
+$this->Line(15,21,15,42);
+ $this->SetXY(15,21);
 
 $this->MultiCell(35,6,'Class Roll No / Uni RollNo',0,'C');
 
-$this->Line(54,21,54,38);
+$this->Line(50,21,50,38);
 
 $this->SetXY(37,21);
 
 //$this->MultiCell(21,6,'Uni RollNo',0,'C');
 
 //$this->Line(58,21,58,38);
-$this->SetXY(58,21);
+$this->SetXY(55 ,21);
 
 $this->MultiCell(20,6,'Name',0,'C');
 
@@ -305,18 +306,18 @@ if (empty($IDNos)) {
     for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
         $pdf->SetXY(8, $y);
         $pdf->SetFont('Times', '', 10);
-        $pdf->Cell(11   , 6, $i+1, 1, 0, 'C', 0);
+        $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
         $pdf->SetFont('Times','b',8);
-        $pdf->SetXY(19,$y);
+        $pdf->SetXY(15,$y);
         $smal =strtolower($StudentNames[$i]);
       $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
 
-      $pdf->SetXY(19,$y);
+      $pdf->SetXY(15,$y);
       $pdf->Cell(35,6,"",1,0,'C',0);
-      $pdf->Cell(25,6,"",1,0,'C',0);
-      $pdf->SetXY(54,$y);
-      $pdf->SetFont('Times','b',8);
-      $pdf->MultiCell(25,3,ucwords($smal),0,'l');
+      $pdf->Cell(29,6,"",1,0,'C',0);
+      $pdf->SetXY(50,$y);
+      $pdf->SetFont('Times','b',6);
+      $pdf->MultiCell(29,3,ucwords($smal),0,'l');
         $pdf->SetXY(35,$y);
         $pdf->SetFont('Times','B',8);
         $pdf->SetXY(79,$y);
@@ -351,7 +352,7 @@ if (empty($IDNos)) {
     }
 }
 // echo $subcount;
-if($subcount>10)
+if($subcount>11)
 {   
     for($as=$subcount;$as<22;$as++)
 {
@@ -376,23 +377,23 @@ $pdf->SetXY(8, 30);
 $r=79;
 $g=38;
 for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-    $pdf->SetXY(8, $y);
-    $pdf->SetFont('Times', '', 10);
-    $pdf->Cell(11   , 6, $i+1, 1, 0, 'C', 0);
-    $pdf->SetFont('Times','b',8);
-    $pdf->SetXY(19,$y);
-    $smal =strtolower($StudentNames[$i]);
-  $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
-
-  $pdf->SetXY(19,$y);
-  $pdf->Cell(35,6,"",1,0,'C',0);
-  $pdf->Cell(25,6,"",1,0,'C',0);
-  $pdf->SetXY(54,$y);
+  $pdf->SetXY(8, $y);
+  $pdf->SetFont('Times', '', 10);
+  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
   $pdf->SetFont('Times','b',8);
-  $pdf->MultiCell(25,3,ucwords($smal),0,'l');
-    $pdf->SetXY(35,$y);
-    $pdf->SetFont('Times','B',8);
-    $pdf->SetXY(79,$y);
+  $pdf->SetXY(15,$y);
+  $smal =strtolower($StudentNames[$i]);
+$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+$pdf->SetXY(15,$y);
+$pdf->Cell(35,6,"",1,0,'C',0);
+$pdf->Cell(29,6,"",1,0,'C',0);
+$pdf->SetXY(50,$y);
+$pdf->SetFont('Times','b',6);
+$pdf->MultiCell(29,3,ucwords($smal),0,'l');
+  $pdf->SetXY(35,$y);
+  $pdf->SetFont('Times','B',8);
+  $pdf->SetXY(79,$y);
     
     for($sub=0;$sub<12;$sub++)
     {
@@ -426,7 +427,7 @@ for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
 
 
 
-if($subcount>21)
+if($subcount>22)
 {   
     for($as=$subcount;$as<33;$as++)
 {
@@ -452,23 +453,23 @@ $r=79;
 $g=38;
 
 for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-    $pdf->SetXY(8, $y);
-    $pdf->SetFont('Times', '', 10);
-    $pdf->Cell(11   , 6, $i+1, 1, 0, 'C', 0);
-    $pdf->SetFont('Times','b',8);
-    $pdf->SetXY(19,$y);
-    $smal =strtolower($StudentNames[$i]);
-  $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
-
-  $pdf->SetXY(19,$y);
-  $pdf->Cell(35,6,"",1,0,'C',0);
-  $pdf->Cell(25,6,"",1,0,'C',0);
-  $pdf->SetXY(54,$y);
+  $pdf->SetXY(8, $y);
+  $pdf->SetFont('Times', '', 10);
+  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
   $pdf->SetFont('Times','b',8);
-  $pdf->MultiCell(25,3,ucwords($smal),0,'l');
-    $pdf->SetXY(35,$y);
-    $pdf->SetFont('Times','B',8);
-    $pdf->SetXY(79,$y);
+  $pdf->SetXY(15,$y);
+  $smal =strtolower($StudentNames[$i]);
+$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+$pdf->SetXY(15,$y);
+$pdf->Cell(35,6,"",1,0,'C',0);
+$pdf->Cell(29,6,"",1,0,'C',0);
+$pdf->SetXY(50,$y);
+$pdf->SetFont('Times','b',6);
+$pdf->MultiCell(29,3,ucwords($smal),0,'l');
+  $pdf->SetXY(35,$y);
+  $pdf->SetFont('Times','B',8);
+  $pdf->SetXY(79,$y);
  
     for($sub=0;$sub<12;$sub++)
     {
@@ -500,7 +501,7 @@ for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
 
 }
 
-if($subcount>32)
+if($subcount>33)
 {   
     for($as=$subcount;$as<44;$as++)
 {
@@ -525,23 +526,23 @@ $pdf->SetXY(8, 30);
 $r=79;
 $g=38;
 for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-    $pdf->SetXY(8, $y);
-    $pdf->SetFont('Times', '', 10);
-    $pdf->Cell(11   , 6, $i+1, 1, 0, 'C', 0);
-    $pdf->SetFont('Times','b',8);
-    $pdf->SetXY(19,$y);
-    $smal =strtolower($StudentNames[$i]);
-  $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
-
-  $pdf->SetXY(19,$y);
-  $pdf->Cell(35,6,"",1,0,'C',0);
-  $pdf->Cell(25,6,"",1,0,'C',0);
-  $pdf->SetXY(54,$y);
+  $pdf->SetXY(8, $y);
+  $pdf->SetFont('Times', '', 10);
+  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
   $pdf->SetFont('Times','b',8);
-  $pdf->MultiCell(25,3,ucwords($smal),0,'l');
-    $pdf->SetXY(35,$y);
-    $pdf->SetFont('Times','B',8);
-    $pdf->SetXY(79,$y);
+  $pdf->SetXY(15,$y);
+  $smal =strtolower($StudentNames[$i]);
+$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+$pdf->SetXY(15,$y);
+$pdf->Cell(35,6,"",1,0,'C',0);
+$pdf->Cell(29,6,"",1,0,'C',0);
+$pdf->SetXY(50,$y);
+$pdf->SetFont('Times','b',6);
+$pdf->MultiCell(29,3,ucwords($smal),0,'l');
+  $pdf->SetXY(35,$y);
+  $pdf->SetFont('Times','B',8);
+  $pdf->SetXY(79,$y);
   
     for($sub=0;$sub<12;$sub++)
     {
