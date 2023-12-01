@@ -8674,7 +8674,7 @@ else
  if(!array_unique($questionArray))
 {
     echo 'Please Regenerate';
-    print_r($questionArray);
+   // print_r($questionArray);
 }
 else
 {
