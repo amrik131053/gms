@@ -4122,8 +4122,14 @@ foreach ($Subjects as $key => $SubjectsCode) {
          
                
                  $SrNo=1;
-                 $sql_open="SELECT *,ExamFormSubject.Course as CourseName,ExamFormSubject.CollegeName as College, ExamFormSubject.Batch as BatchS from ExamFormSubject inner join Admissions ON Admissions.IDNo=ExamFormSubject.IDNo  where 
-                 ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND ExamFormSubject.Examination='$ExaminationFatch' AND ExamFormSubject.Batch='$BatchFatch'";
+                //  $sql_open="SELECT *,ExamFormSubject.Course as CourseName,ExamFormSubject.CollegeName as College, ExamFormSubject.Batch as BatchS from ExamFormSubject inner join Admissions ON Admissions.IDNo=ExamFormSubject.IDNo  where 
+                //  ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND ExamFormSubject.Examination='$ExaminationFatch' AND ExamFormSubject.Batch='$BatchFatch'";
+               $sql_open="SELECT *,ExamFormSubject.Course as CourseName,ExamFormSubject.CollegeName as College, ExamFormSubject.Batch as BatchS  from ExamFormSubject INNER JOIN ExamForm On ExamForm.ID=ExamFormSubject.Examid inner join Admissions On Admissions.IDNo=ExamFormSubject.IDNo where 
+               ExamFormSubject.Course='$CourseFatch'ANd ExamFormSubject.Type='$TypeFatch' ANd ExamFormSubject.ExternalExam='Y' 
+               ANd ExamFormSubject.SubjectCode='$subject_code' ANd ExamFormSubject.SemesterID='$SemesterFatch' AND 
+               ExamFormSubject.Examination='$ExaminationFatch' and ExamFormSubject.Batch='$BatchFatch' and ExamForm.Status='8'";
+
+
                
                   $result = sqlsrv_query($conntest,$sql_open);
                   while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )

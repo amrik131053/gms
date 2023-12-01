@@ -266,6 +266,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
       $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
       $info = getimagesize($pic);
       $extension = explode('/', mime_content_type($pic))[1];
+      
       $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
       if($imageUrl!=''){
       $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
