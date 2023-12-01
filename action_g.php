@@ -13329,7 +13329,7 @@ else
                                                 }
                               
 
-                                                if($row['SanctionId']==$row['AuthorityId'])
+                                                if($row['SanctionId']==$row['AuthorityId'] && $row['SanctionId']!='0' && $row['AuthorityId']!='0')
                                                 {
                                                     $checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
                                                     $checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
@@ -13366,6 +13366,15 @@ else
     
                                                         }
 
+                                                }
+                                                elseif($row['SanctionId']=='0' && $row['AuthorityId']=='0')
+                                                {
+                                                    ?>
+                                                    <li class="nav-item">
+                                                        <a href='#' class="nav-link leaveViewColor"> <b> By HR Department </b>
+                                                            &nbsp;</b>
+                                                        </a>
+                                                    </li><?php  
                                                 }
                                                 else
                                                 {
@@ -14239,7 +14248,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                         <?php }
    
 
-if($row['SanctionId']==$row['AuthorityId'])
+if($row['SanctionId']==$row['AuthorityId'] &&  $row['SanctionId']!='0' &&  $row['AuthorityId']!='0')
 {
     $checkIfleavepending="SELECT * FROM ApplyLeaveGKU Where  Id='$id' and SanctionRemarks!=''";
     $checkIfleavependingRun=sqlsrv_query($conntest,$checkIfleavepending);
@@ -14276,6 +14285,15 @@ if($row['SanctionId']==$row['AuthorityId'])
 
         }
 
+}
+else if($row['SanctionId']=='0' && $row['AuthorityId']=='0')
+{
+    ?>
+    <li class="nav-item">
+        <a href='#' class="nav-link leaveViewColor"> <b> By HR Department </b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+        </a>
+    </li><?php 
 }
 else
 {
@@ -14725,7 +14743,12 @@ $leaveReason=str_replace("'","`",$_POST['leaveReason']);
 $ApplyDate=date('Y-m-d');
 
 $DateChnageRemarks='Leave applied from '.$leaveStartDate.' to '.$leaveEndDate.' due to ';
-$leaveReason=$DateChnageRemarks.' '.$leaveReason;
+$leaveReasonUser=$DateChnageRemarks.' '.$leaveReason;
+
+$DateChnageRemarksHR='Leave applied from '.$leaveStartDate.' to '.$leaveEndDate.' due to ';
+$leaveReasonHR=$DateChnageRemarksHR.' '.$leaveReason.' By HR Department';
+
+
 $sql_att23="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and StartDate='$leaveStartDate' and EndDate='$leaveEndDate' and Status!='Approved' and Status!='Reject' ";  
 $stmt=sqlsrv_query($conntest,$sql_att23,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifLeaveExist=sqlsrv_num_rows($stmt);
@@ -14783,10 +14806,20 @@ else
  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 
      ftp_close($conn_id);
+
+     if( $status!='Approved')
+     {
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
-  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReason','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+     }
+else{
+     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
+ VALUES('$EmpID','$LeaveType'
+  ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name')";
+  $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+}
 
   //for notifications------------------------------
   if( $status!='Approved')
