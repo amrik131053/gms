@@ -18687,13 +18687,21 @@ elseif($code==274)
 
 
             if($row5['SubmitFormDate']!=''){ $FormSubmitDate=$row5['SubmitFormDate']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
-            if($row5['DeanVerifiedDate']!=''){$DeanVerifiedDate=$row5['DeanVerifiedDate']->format('d-m-Y');}else{$DeanVerifiedDate="";}
+
+             if($row5['DepartmentVerifiedDate']!=''){$DepartmentVerifiedDate=$row5['DepartmentVerifiedDate']->format('d-m-Y H:i:s');}else{$DepartmentVerifiedDate="";}
+
+            if($row5['DeanVerifiedDate']!=''){$DeanVerifiedDate=$row5['DeanVerifiedDate']->format('d-m-Y H:i:s');}else{$DeanVerifiedDate="";}
+
             if($row5['AccountantVerificationDate']!=''){ $AccountantVerificationDate=$row5['AccountantVerificationDate']->format('d-m-Y H:i:s');}else{ $AccountantVerificationDate="";}
+
             if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y H:i:s');}else{$ExaminationVerifiedDate="";}
+
             if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
 
 
             if($row5['RejectedDate']!=''){$RejectedDate=$row5['RejectedDate']->format('d-m-Y H:i:s');}else{$RejectedDate="";}
+
+              if($row5['AccountRejectDate']!=''){$AccountRejectDate=$row5['AccountRejectDate']->format('d-m-Y H:i:s');}else{$AccountRejectDate="";}
 
 
 
@@ -18723,35 +18731,41 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 
 
- <div class="card-body table-responsive ">
+ <div class="card-body table-responsive">
 
- <table class="table table-bordered"  border="1">
- <tr style="border: 1px black solid" height="30" >
+ <table class="table"  style="border:1px solid black">
+ <tr>
  <td style="padding-left: 10px"><b>Rollno: </b></td>
+
  <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
  <td ><b>Name:</b> </td>
- <td colspan="2"><?=$name;?></td>
- <td  rowspan="3"  style="border:0">
+ <td colspan="4"><?=$name;?></td>
+
+ <td  rowspan="3" >
  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
- <tr style="border: 1px black solid"height="30">
+ <tr>
    <td style="padding-left: 10px"><b>College:</b></td>
    <td ><?php echo $college;?></td>
    <td><b>Course:</b></td>
-   <td colspan="3"><?=$course;?></td>
+   <td colspan="4"><?=$course;?></td>
  </tr>
- <tr style="border: 1px black solid"height="30" >
+ <tr >
    <td style="padding-left: 10px"><b>Examination :</b></td>
-   <td  colspan="2">
+   <td  colspan="1">
    <?=$examination;?> </td>
-   <td><b>Type:</b></td>
-   <td colspan="3">
+   <td colspan="1"><b>Type:</b></td>
+   <td colspan="4">
    <?=$type;?></td>
    </tr>
  </table>
 
-<table class="table table-striped" border="1">
+
+
+
+<br>
+<table class="table table-striped"  style="border:1px solid black">
 <tr>
    <th>SrNo</th>
   <th>Subject Name</th>
@@ -18817,25 +18831,40 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
          <?php }
          ?></table>
-         <table class="table">
-         <tr>
-    <td colspan="5">I have read all the regulations and it's amendments in regard to examination. I found myself eligible to appear in
-         examination. In case university declare me ineligible due
-         to any wrong information submitted in examination form by me, i shall be responsible for its consequences.<br><br><p style="text-align:left;float:left">Candidate Sign</p><p style="float:right">Date    <?=$FormSubmitDate;?></p></td>
+         <table class="table"  style="border:1px solid black">
+
+            <tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;"> <b>Form Submission Detail(By Student)</b></p>
+
+    <h6>Form is  Submitted  by the student on Dated :  <?=$FormSubmitDate;?></h6> </td>
 </tr>
+
+
+
+         
 
 
 <?php if($Status==-1)
 {?>
 <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h4>Forward to Registration Branch</h4></td>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;">
+
+
+
+        <h4>Forward to Registration Branch</h4></td>
 </tr>
 
 <?php }
 else if($Status>-1 && $Status!='22') 
 {?>
 <tr>
-    <td colspan="5" style="color: green;font-size: px;"><h6>Candidate Form is Succeefully verified by Registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;"> <b>Form Verification Detail(By Registration Branch)</b></p>
+
+    <h6>Form is successfully verified by registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
 </tr>
 
 
@@ -18845,7 +18874,11 @@ else if ($Status==22){
 
 ?>
 <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6>Rejected By Registration Branch due to  <?= $RegisterRejectReason ;?> on Dated <?= $RejectedDate;?></h6></td>
+    <td colspan="5">
+
+ <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Registration Branch)</b></p>
+
+        <h6>Rejected By Registration Branch due to  <?= $RegisterRejectReason ;?> on Dated <?= $RejectedDate;?></h6></td>
 </tr>
 
 <?php
@@ -18868,10 +18901,19 @@ else if ($Status==22){
 <?php if($Status>0 && $Status==1)
 {?>
     <tr>
-    <td colspan="5" style="text-align:left">
-        Student particulars i.e. Photo,Signature,Subjects and Subject Codes for Examination April 2022 is verfied on 30/11/2023 .<br>
+    <td colspan="5">
+<p style="color: red;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+
+
+      Examination cum Registraion  form for Examination <?=$examination;?> is verfied on  <?=$DepartmentVerifiedDate;?>.<br><br>
+     
+    <p style="text-align:left;float:left">Signature of Class Cordinator </p><p style="float:right">Date :<?=$DeanVerifiedDate;?></p>
+   
+   <?php if($Status==1)
+{?>
+<br><br><hr>
         <p style="text-align:right">
-    <button type="submit"  id="type" onclick="lock(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p>
+    <button type="submit"  id="type" onclick="lock(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
 </td>
 </tr>
 
@@ -18879,25 +18921,131 @@ else if ($Status==22){
 <?php if($Status>1 && $Status!='2' && $Status!='3' &&$Status!='22')
 { ?>
 <tr>
-    <td colspan="5" style="text-align:left">
-        Student particulars i.e. Photo,Signature,Subjects and Subject Codes for Examination April 2022 is verfied on 30/11/2023 .</td>
+       <td colspan="5">
+<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+
+
+      Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u> <?=$DepartmentVerifiedDate;?></u></b>.
+   
         
-    <td colspan="5">Certified that the Candidate has completed the prescribed course of study and fulfilled all the conditions laid down in the regulations for the examination and is eligible to appear in the examination as a regular student of Guru Kashi University. 
-        The candidate bears a good moral character and particulars filled by him/her are correct.</td>
+</td>
+  
+    </tr>
+
+    <tr>    
+
+
+        <td colspan="5">
+<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Dean)</b></p>
+
+
+ Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u>  <?=$DeanVerifiedDate;?></u></b>.
+   
+        
+</td>
+   
 </tr>
-<tr>
-    <th colspan="2">Head of Department <br>Date :  <?=$DeanVerifiedDate;?>   </th>
-    <th colspan="3">Signature of the Principal / Dean <br><?=$DeanVerifiedDate;?>
-  </th>
-</tr>
+
+
 <?php } ?>
 
+<?php if($Status==4)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6><b>Forward to Account</b></h6></td>
+</tr>
+
+
+<?php }?>
+
+<?php 
+if($Status==6)
+{ ?>
+
+<tr>
+    <td colspan="5" style="text-align: center;font-size: 16px;">
+
+
+       <p style="color: red;"> <b>Form Rejected Detail(By Accounts)</b></p>
+
+
+
+        <h6 style="text-align:left">Form Rejected  due to <u><?=$AccountantRejectReason;?></u> on Dated <u><?=$AccountRejectDate ;?></u> </h6></td>
+</tr>
+
+
+<?php 
+}
+
+if($Status>4 &&$Status!='6')
+{ ?>
 
 
 <tr>
 
+    <td colspan="5" style=";text-align: left;font-size: 16px;">
 
+           <p style="color: green;text-align: center;"> <b>Form Verify  Detail(By Accounts)</b></p>
+
+
+
+           <h6 style="text-align:left" >Verified by account on Dated <?=$AccountantVerificationDate ;?> </h6></td>
 </tr>
+
+
+<?php }?>
+
+
+
+
+
+<?php if($Status==5)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6>Forward to Exmination </h6></td>
+</tr>
+
+
+<?php }?>
+<?php if($Status==7)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;">
+
+
+
+         <p style="color: red;"> <b>Form Rejected Detail(By Examination)</b></p>
+
+
+         <h6>Rejected by exmination branch</h6>
+
+
+     </td>
+</tr>
+
+
+<?php }?>
+
+<?php if($Status>5 && $Status!=7&& $Status!=6)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: green;text-align: center;font-size: 16px;"><h6>
+
+       <b> Examination form is successfully accepted on Dated <u><?=$ExaminationVerifiedDate;?></u> </b>.
+
+
+
+
+    </h6></td>
+</tr>
+
+
+<?php }?>
+
 </table>
 </div>
 

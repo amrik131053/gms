@@ -119,8 +119,9 @@
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
-                                  $CGPA = number_format($CGPA, 2);
-                                            $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                  $CGPA = number_format($CGPA,2);
+                                    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
                                             $ecc = 'L';
@@ -182,7 +183,7 @@
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                        having completed the requirements for the award of  Diploma and having passed the prescribed
-                        examination held in <b>".$Examination."</b>, has been conferred with the<b> ".$course."</b> 
+                        examination held in <b>".$Examination."</b>, has been conferred the<b> ".$course."</b> 
                          with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                     </div>
                     <div style="height: 3px;"></div>
@@ -1404,7 +1405,7 @@ else{
                                ?>
                            <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                            having completed the requirements for the award of  Diploma and having passed the prescribed
-                            examination held in <b>".$Examination."</b>, has been conferred with the<b> ".$course."</b> 
+                            examination held in <b>".$Examination."</b>, has been conferred the<b> ".$course."</b> 
                              with <b>CGPA ".$CGPA."</b> on scale of <b>10</b> in regular mode.";?></i>
                         </div>
                         <div style="height: 3px;"></div>
@@ -1768,7 +1769,7 @@ else{
                                ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                           student of <b>".$CollegeName."</b>, having completed the requirements for the award of this ".$Type." and having passed the prescribed
-                            examination held in <b>".$Examination."</b>   has been conferred  the ".$Type." of<b> ".$course."</b> 
+                            examination held in <b>".$Examination."</b>   has been conferred the ".$Type." of<b> ".$course."</b> 
                             of this University in the discipline of <b>".$Stream."</b> with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
                         </div>
                         <div style="height: 3px;"></div>
