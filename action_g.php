@@ -15550,19 +15550,15 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             </span>
                         </div>
 
-                        <div class="col-lg-12" widht="100"> <label>Start Date</label><input type="date"
-                                id="StartDateChange" class="form-control"
-                                value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>">
+
+                        <div class="col-lg-12" widht="100"> <label>Start Date</label>
+                        <input type="date"id="StartDateChange" class="form-control"value="<?php echo date("Y-m-d", strtotime($StartDate->format("Y-m-d")));?>" min="<?php echo date("Y-m-d"); ?>">
                         </div>
-                        <div class="col-lg-12"><label>End Date</label><input type="date" id="EndDateChange"
-                                class="form-control"
-                                value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>"></div>
+                        <div class="col-lg-12"><label>End Date</label>
+                        <input type="date" id="EndDateChange" class="form-control" value="<?php echo date("Y-m-d", strtotime($EndDate->format("Y-m-d")));?>" min="<?php echo date("Y-m-d"); ?>"></div>
                         <li class="nav-item">
                             <a href="#" class="nav-link leaveViewColor">
-                                <b> Apply Date
-
-
-                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
+                                <b> Apply Date &nbsp;&nbsp;&nbsp;</b><?php echo $row['ApplyDate']->format("d-m-Y h:i:s A");?>
                             </a>
                         </li>
                         <li class="nav-item">
