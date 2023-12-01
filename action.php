@@ -20399,6 +20399,8 @@ $exit_date = date('d-M-Y');
 elseif($code==346)
 {
 
+
+
 $mobile=$_POST['mobile_e'];
 $name=$_POST['e_name'];
 $address=$_POST['address'];
@@ -20432,6 +20434,31 @@ echo "1";
 else {
 echo "0";
   }
+}
+
+
+
+elseif($code==347)
+{
+ $college = $_POST['college'];
+ 
+  $sql = "SELECT  certificate from certificate WHERE id='$college'";
+
+ 
+$i=1;
+$result = mysqli_query($conn, $sql);
+
+while($row=mysqli_fetch_array($result))
+
+{
+
+?>
+<img class="custom" src="http://gurukashiuniversity.co.in/data-server/VAC/<?=$row['certificate'];?>" height="200" width="350" name="" required >
+
+
+<?php
+  $i++; 
+}
 }
 
 
