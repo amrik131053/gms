@@ -16,10 +16,11 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>College</label>
                                 <select name="College" id='College' onchange="courseByCollege(this.value)"
-                                    class="form-control" required="">
-                                    <option value=''>Select Course</option>
+                                    class="form-control" >
+                                    <option value=''>Select College</option>
                                     <?php
-                                    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+
+                                    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where UserAccessLevel.IDNo='$EmployeeID'";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
@@ -33,8 +34,6 @@
                                 </select>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
-
-
                                 <label>Course</label>
                                 <select name="Course" id="Course" class="form-control">
                                     <option value=''>Select Course</option>
@@ -43,14 +42,9 @@
                             </div>
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
-
-
-
-
-
                                 <label>Batch</label>
-                                <select name="batch" class="form-control" id="Batch" required="">
-                                    <option value="">Batch</option>
+                                <select name="batch" class="form-control" id="Batch" >
+                                    <option value="">Select</option>
                                     <?php 
                                     for($i=2013;$i<=2030;$i++)
                                     {?>
@@ -64,8 +58,8 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label> Semester</label>
-                                <select id='Semester' class="form-control" required="">
-                                    <option value="">Sem</option>
+                                <select id='Semester' class="form-control" >
+                                    <option value="">Select</option>
                                     <?php 
                                     for($i=1;$i<=12;$i++)
                                     {?>
@@ -78,7 +72,7 @@
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Type</label>
-                                <select id="Type" class="form-control" required="">
+                                <select id="Type" class="form-control" >
                                     <option value="">Select</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Reappear">Reappear</option>
@@ -92,10 +86,10 @@
 
 
 
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Group</label>
-                                <select id="Group" class="form-control" required="">
-                                    <option value="">Group</option>
+                                <select id="Group" class="form-control" >
+                                    <option value="">Select</option>
                                     <?php
                                             $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
                                                     $stmt2 = sqlsrv_query($conntest,$sql);
@@ -110,15 +104,13 @@
                                     <?php    }
 
                                                             ?>
-
-
                                 </select>
 
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Examination</label>
-                                <select id="Examination" class="form-control" required="">
-                                    <option value="">Examination</option>
+                                <select id="Examination" class="form-control" >
+                                    <option value="">Select</option>
                                     <?php
                                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
@@ -139,11 +131,19 @@
 
                             </div>
 
-                            <div class="col-lg-1 col-md-1 col-sm-13">
+                            <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label>Action</label><br>
-                                <button class="btn btn-danger " onclick="fetchCutList()">Search</button>
-                                &nbsp;
+                                <button class="btn btn-danger " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-success " onclick="exportCutListExcel()"><i
+                                                    class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-danger " onclick="exportCutListPdf()"><i
+                                                    class="fa fa-file-pdf"></i></button>
                             </div>
+                            <!-- <div class="col-lg-1 col-md-1 col-sm-13">
+                                <label>&nbsp;</label><br>
+                               
+                                
+                            </div> -->
 
 
                         </div>
@@ -257,6 +257,105 @@ function sub_code_int_ext_type_update(id,fid) {
     }
 }
 
+
+
+function exportCutListExcel() {
+    var exportCode = 40;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+
+function exportCutListPdf() {
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export-cutlist-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+            "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+
+
+
+function verify(ExamFromID)
+ {
+    var r = confirm("Do you really want to Verifiy");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 280;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                if (response == '1') {
+                    SuccessToast('Successfully Verify');
+                    edit_stu(ExamFromID);
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+    }
+}
+function lock(ExamFromID)
+ {
+    var r = confirm("Do you really want to Verifiy");
+    if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 281;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                console.log(response);
+                if (response == '1') {
+                    
+                    SuccessToast('Successfully Locked');
+                    edit_stu(ExamFromID);
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+    }
+}
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">

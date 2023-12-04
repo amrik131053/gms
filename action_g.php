@@ -18259,6 +18259,7 @@ echo " <option value='other'>Other</option>";
 
 elseif($code==270)  // search student 
 {
+    $StudentName = $_POST['StudentName'];
     $Session = $_POST['Session'];
     $CollegeID = $_POST['CollegeName'];
     $CourseID = $_POST['Course'];
@@ -18311,6 +18312,9 @@ elseif($code==270)  // search student
       if ($Eligibility != '') {
           $query .= " AND Eligibility='$Eligibility'";
       }
+      if ($StudentName != '') {
+        $query .= " AND StudentName like '%$StudentName%'";
+    }
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -18884,7 +18888,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
 
 
-        <h4>Forward to Registration Branch</h4></td>
+        <p style="color: red;text-align: center;font-size: 16px;"><b>Forward to Registration Branch</b></p></td>
 </tr>
 
 <?php }
@@ -18893,7 +18897,7 @@ else if($Status>-1 && $Status!='22')
 <tr>
 
     <td colspan="5">
-    <p style="color: green;text-align: center;"> <b>Form Verification Detail(By Registration Branch)</b></p>
+    <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Registration Branch)</b></p>
 
     <h6>Form is successfully verified by registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
 </tr>
@@ -18905,7 +18909,7 @@ else if ($Status==22){
 
 ?>
 <tr>
-    <td colspan="5">
+    <td colspan="5" style='font-size: 16px;'>
 
  <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Registration Branch)</b></p>
 
@@ -18923,8 +18927,8 @@ else if ($Status==22){
 {?>
     
 
-<td colspan="5" style="text-align:right">
-    <button type="submit" id="type" onclick="verify(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+<td colspan="5" style="text-align:right; font-size: 16px;">
+    <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 </td>
 </tr>
 <?php }?>
@@ -18933,7 +18937,7 @@ else if ($Status==22){
 {?>
     <tr>
     <td colspan="5">
-<p style="color: red;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+<p style="color: red;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
 
 
       Examination cum Registraion  form for Examination <?=$examination;?> is verfied on  <?=$DepartmentVerifiedDate;?>.<br><br>
@@ -18943,8 +18947,8 @@ else if ($Status==22){
    <?php if($Status==1)
 {?>
 <br><br><hr>
-        <p style="text-align:right">
-    <button type="submit"  id="type" onclick="lock(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
+        <p style="text-align:right;font-size: 16px;">
+    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
 </td>
 </tr>
 
@@ -18953,7 +18957,7 @@ else if ($Status==22){
 { ?>
 <tr>
        <td colspan="5">
-<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+<p style="color:green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
 
 
       Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u> <?=$DepartmentVerifiedDate;?></u></b>.
@@ -18967,7 +18971,7 @@ else if ($Status==22){
 
 
         <td colspan="5">
-<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Dean)</b></p>
+<p style="color:green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Dean)</b></p>
 
 
  Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u>  <?=$DeanVerifiedDate;?></u></b>.
@@ -19150,7 +19154,7 @@ else if($code=='278')
 {
     $ApplicationType=$_POST['ApplicationName'];
     $EmpIDs=$_POST['empid'];
-   echo  $deleteRole="DELETE from UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType'";
+     $deleteRole="DELETE from UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType'";
     $deleteRoleRun=sqlsrv_query($conntest,$deleteRole);
     if ($deleteRoleRun==true) 
     {
@@ -19165,7 +19169,7 @@ else if($code=='279')
 {
     $ApplicationType=$_POST['ApplicationName'];
     $EmpIDs=$_POST['empid'];
-   echo  $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+     $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
@@ -19176,6 +19180,36 @@ else{
 }
 
 }
+else if($code=='280')
+{
+    $ExamFromID=$_POST['ExamFromID'];
+     $getDefalutMenu="UPDATE  ExamForm  SET DepartmentVerifiedDate='$timeStampS',Status='1' Where ID='$ExamFromID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+
+}
+else if($code=='281')
+{
+    $ExamFromID=$_POST['ExamFromID'];
+   echo   $getDefalutMenu="UPDATE  ExamForm  SET DeanVerifiedDate='$timeStampS',Status='4' Where ID='$ExamFromID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
+
    else
    {
    

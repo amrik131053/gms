@@ -88,7 +88,9 @@ function searchStudentCollegeWise() {
     } else {
         var Session = "";
     }
+    var StudentName = document.getElementById('StudentName1').value;
     var CollegeName = document.getElementById('CollegeName1').value;
+
     var Course = document.getElementById('Course1').value;
     var Batch = document.getElementById('Batch').value;
     var Status = document.getElementById('Status').value;
@@ -107,6 +109,7 @@ function searchStudentCollegeWise() {
                 Course: Course,
                 Batch: Batch,
                 Eligibility: Eligibility,
+                StudentName: StudentName,
                 Status: Status
             },
             success: function(response) {
@@ -256,25 +259,22 @@ function Studentsignup(id,college)
       }
 
 
+      
+      function showDivName() {
+            var displayDiv = document.getElementById('unhide');
+            var button = document.getElementById('expand');
+            var studentNameInput = document.getElementById('StudentName1');
 
+            var displayValue = (displayDiv.style.display === "block") ? "none" : "block";
+            button.innerHTML = (displayValue === "block") ? "Search without name" : "Search by name";
 
+            if (displayValue === "none") {
+                studentNameInput.value = "";
+            }
 
-// function exportEmployee() {
-//     var exportCode = 20;
-
-//     var CollegeId = document.getElementById('CollegeID_Set').value;
-
-//     if (CollegeId != '') {
-
-//         window.location.href = "export.php?exportCode=" + exportCode + "&CollegeId=" + CollegeId;
-//     } else {
-//         alert("Select ");
-//     }
-
-
-// }
-
-
+            displayDiv.style.display = displayValue;
+        }
+    
 function search() {
     var code = 327;
 
@@ -547,13 +547,18 @@ function copyToClipboard(element) {
                 <div class="card-header">
                     <h3 class="card-title">Search Student </h3>
                     <div class="card-tools">
-
+                    <button id="expand" class="btn btn-success btn-xs" name="expand" onclick="showDivName();">Search by name</button>
                     </div>
                 </div>
                 <div class="card-body p-2">
                     <form action="export.php" method="post">
                         <input type="hidden" value="39" name="exportCode">
+                        <div class="col-lg-12" id="unhide" style="display:none;">
+        <label>Name</label>
+        <input type="text" class="form-control" name="StudentName1" id="StudentName1" placeholder="Enter Student Name like..">
+    </div>
                         <div class="col-lg-12">
+                            
                             <label>College Name</label>
                             <select name="CollegeName" id='CollegeName1' onchange="fetchcourse1(this.value);"
                                 class="form-control" required>
@@ -675,7 +680,7 @@ function copyToClipboard(element) {
 
                     <span style="float:right;">
                         <button class="btn btn-sm ">
-                            <input type="search" onblur="search_all_employee_emp_name(this.value);"
+                            <input type="search" 
                                 class="form-control form-control-sm" name="emp_name" id="emp_name"
                                 placeholder="Search here">
                         </button>
