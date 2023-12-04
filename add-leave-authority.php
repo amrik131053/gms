@@ -578,7 +578,7 @@ function lmsDeleteRole(empid)
             code: code,empid:empid
          },
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -1474,6 +1474,92 @@ function printfourthCard(id) {
             alert("Select ");
          }
       
+}
+
+
+function showErpRole(id) {
+var ApplicationType = document.getElementById('ApplicationType').value;
+alert(id);
+var code = '277';
+$.ajax({
+    url: 'action_g.php',
+    data: {
+        ApplicationType: ApplicationType,empid:id,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+      // console.log(data);
+      document.getElementById('onchnageErpRoleshow').innerHTML=data;
+    }
+});
+
+}
+
+
+function deleteRoleAll(empid,ApplicationName) 
+{
+   var a=confirm('Are you sure you want to delete role of  '+empid+' Application Name '+ApplicationName);
+   // alert(id);
+   if (a==true) {
+      var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 278;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,empid:empid,ApplicationName:ApplicationName
+         },
+         success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               update_emp_record(empid);
+               SuccessToast('Role Deleted Successfully');
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+ 
+}
+function resetPassword(empid,ApplicationName) 
+{
+   var a=confirm('Are you sure you want to Reset Password of  '+empid+' Application Name '+ApplicationName);
+   // alert(id);
+   if (a==true) {
+      var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 279;
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: {
+            code: code,empid:empid,ApplicationName:ApplicationName
+         },
+         success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               update_emp_record(empid);
+               SuccessToast('Password Reset Successfully  Reset');
+               
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
+ 
 }
    </script>
  <!-- Content Wrapper. Contains page content -->

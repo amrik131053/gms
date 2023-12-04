@@ -4102,14 +4102,44 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 
                                         <table class="table  table-bordered">
                                             <tr>
-                                                <th colspan="7">
+                                                <th colspan="8">
                                                     <center> ERP PERMISSIONS</center>
                                                 </th>
+                                            </tr>
+                                            <tr >
+                                                <td colspan="8">
+                                                <select class="form-control" id="ApplicationType" onchange="showErpRole(<?=$emp_id;?>);">
+                                                        <option value="">Select</option>
+                                                        <?php 
+$getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+                                                        <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
+                                                            <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
+
+
+                                                        <?php 
+}?>
+                                                </td>
+</tr>
+<tr id="onchnageErpRoleshow">
+                                                
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+
+                                                <td colspan="2"></td>
                                             </tr>
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
                                                 <th>Password</th>
+                                                <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
                                                 <th>Delete</th>
@@ -4126,6 +4156,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td><?=$getUserMasterRunRow['UserName'];?></td>
                                                 <td><?=$getUserMasterRunRow['Password'];?></td>
+                                                <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>
                                                     <select class="form-control" id="LoginType">
                                                         <option value="<?=$getUserMasterRunRow['LoginType'];?>">
@@ -19091,10 +19122,60 @@ $state_id=$_POST['state_id'];
 
 
 }
+else if($code=='277')
+{
+    $ApplicationType=$_POST['ApplicationType'];
+    $EmpIDs=$_POST['empid'];
+$getDefalutMenu="SELECT  * FROM UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRunRowm=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+  <td><?=$getDefalutMenuRunRowm['UserMasterID'];?></td>
+    <td><?=$getDefalutMenuRunRowm['UserName'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['Password'];?></td>
 
+    <td colspan=""><?=$getDefalutMenuRunRowm['ApplicationName'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['LoginType'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['RightsLevel'];?></td>
+    <td colspan="2"><button type="button" class="btn btn-danger btn-xs"
+                                                        onclick="deleteRoleAll('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');"><i
+                                                            class="fa fa-trash text-white"></i></button><button type="button" class="btn btn-success btn-xs"
+                                                        onclick="resetPassword('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');" style='float:right;'> Reset Password</button></td>
+                                          
+   <?php 
+}
+}
+else if($code=='278')
+{
+    $ApplicationType=$_POST['ApplicationName'];
+    $EmpIDs=$_POST['empid'];
+   echo  $deleteRole="DELETE from UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType'";
+    $deleteRoleRun=sqlsrv_query($conntest,$deleteRole);
+    if ($deleteRoleRun==true) 
+    {
+    echo "1";
+    }
+    else
+    {
+    echo "0";
+    }
+}
+else if($code=='279')
+{
+    $ApplicationType=$_POST['ApplicationName'];
+    $EmpIDs=$_POST['empid'];
+   echo  $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
 
-
-
+}
    else
    {
    
