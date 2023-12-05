@@ -14948,14 +14948,24 @@ elseif($code==227)
     elseif($code==228)
 {
    
+
+
+
    
-    $staff=" SELECT  * FROM   LeaveBalances WHERE  IDNo NOT IN (SELECT IDNo FROM Staff)";
+    $staff="SELECT IDNo from Staff where IDNo NOT IN(Select Employee_Id from LeaveBalances)";
     $stmt=sqlsrv_query($conntest,$staff,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-    $emp_count=sqlsrv_num_rows($stmt);
-    while($row=sqlsrv_fetch_array($stmt)){
-$aa[]=$row;
+    while($row=sqlsrv_fetch_array($stmt))
+    {
+   $employeeId=$row['IDNo'];
+    $updateLeaveBalance="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','0','1') ";
+sqlsrv_query($conntest,$updateLeaveBalance);
+
+
     }
-    print_r($aa);
+
+
+
+
 
     }
 

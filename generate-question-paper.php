@@ -152,7 +152,7 @@
     }
     function generateQuestionPaper(SubjectCode,Semester,CourseID,examName) 
     {
-        var code=138;
+        var code=138; 
         var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
         // alert(SubjectCode+' '+Semester+' '+CourseID+' '+examName);
@@ -167,8 +167,8 @@
                 // location.reload(true);
                 searchSubjectCode(examName,SubjectCode,CourseID);
                 document.getElementById("table_load").innerHTML='';
-                document.getElementById('subject_code').value='';
-                document.getElementById('courseName').value='';
+               // document.getElementById('subject_code').value='';
+                //document.getElementById('courseName').value='';
             spinner.style.display='none';
                  console.log(response);
             if (response=='Successfully Generated') 

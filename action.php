@@ -8467,36 +8467,50 @@ elseif ($code==135)
                 <!-- <td><?=$data['session_name']?></td> -->
                 <td>
 
-
+<table>
                   <?php
-                     $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
+                   $checkGenerateQry="Select * from question_paper where session='$current_session' and exam='$examName' and subject_code='$subjectCode' and course='$courseId' and semester=".$data['Semester']." and status='0'";
                     $checkGenerateRes=mysqli_query($conn,$checkGenerateQry);
-                    if ($data1=mysqli_fetch_array($checkGenerateRes)) 
+                    while ($data1=mysqli_fetch_array($checkGenerateRes)) 
                     {
                      $qid=$data1['id'];
-                     $data1=1;
+                     $data2=1;
+                    $print= $data1['generated_on'];
+                   
                         ?>
+<tr>
+<td>
                     <form action="print-paper.php" method="post" target="_blank">
                         <input type="hidden" name="paperId" value="<?=$qid;?>">
                     <!-- <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
-                        <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" ></i></button>
-                    </form>
-                    <?php 
-                    }                    
-                    else
-                    {
-                     $data1=0;
+                        
+                        <button type="submit" class="btn-outline-warning btn" aria-labelledby="dLabel"> <i class="fa fa-print text-info fa-2x" style="border-radius: 10px" >
 
-                    ?>
-                     <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+                          <?php echo  $print;?>   
+
+                        </i>
+
+                     
+
+
+                     </button>
+                    </form>
+
+                  
+                                                     
+              </i>
+
                     <?php 
-                    }
+                                       
                     ?>
+                    <br>
+                     
+                
                 </td>
                 <td>
 
                   <?php
-                if ($data1>0) 
+                if ($data2>0) 
                     {
                     
                     ?>
@@ -8509,9 +8523,14 @@ elseif ($code==135)
                   
                 </td>
 
-                 
+               
                 
             </tr>
+         <?php }?>
+         </table>
+ <button class="btn btn-xs btn-success"   style="border-radius: 50px; font-size: 16px;" onclick="generateQuestionPaper('<?=$subjectCode?>','<?=$Semester?>','<?=$courseId?>','<?=$examName?>')">Generate</button>
+
+         </td></tr>
                 <?php
             }
         ?>

@@ -23,9 +23,10 @@
                     &nbsp;
                     &nbsp;
                     &nbsp;
-                    
+                   
                   </div>
-                  <!-- <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i class="fa fa-retweet" aria-hidden="true"></i></button> -->
+
+                  <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i class="fa fa-retweet" aria-hidden="true"></i></button>
       <input type="hidden" id="CollegeID_Set">
       <div class="card-tools">
         <div class="input-group ">
@@ -35,7 +36,7 @@
   
           <input type="search" class="form-control form-control-sm" name="emp_name" id="empid" placeholder="Emp ID Here">
           <div class="input-group-append">
-            <button type="button" onclick="search_leave_employee();" class="btn btn-success btn-sm">
+            <button type="button" onclick="search_leave_employee();" class="btn btn-success btn-sm">3
               <i class="fa fa-search"></i>
             </button>
             <!-- &nbsp;
@@ -140,26 +141,29 @@ function editRow(button) {
 
 
     load_leave_data();
-// function empSyncFromStaffToLeave()
-//           {
-//          var code=228;
-//          var spinner=document.getElementById('ajax-loader');
-//          spinner.style.display='block';
-//          $.ajax({
-//             url:'action_g.php',
-//             type:'POST',
-//             data:{
-//                code:code,
-//                   },
-//             success: function(response) 
-//             {
-//                console.log(response);
-//                spinner.style.display='none';
+function empSyncFromStaffToLeave()
+          {
+         var code=228;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,
+                  },
+            success: function(response) 
+            {
+              // console.log(response);
+               spinner.style.display='none';
 
-//             }
-//          });
+                   SuccessToast('Data synchronization successfully');
 
-//      }
+            }
+         });
+
+     }
+
 function load_leave_data()
           {
          var code=203;
