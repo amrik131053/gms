@@ -4102,14 +4102,44 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 
                                         <table class="table  table-bordered">
                                             <tr>
-                                                <th colspan="7">
+                                                <th colspan="8">
                                                     <center> ERP PERMISSIONS</center>
                                                 </th>
+                                            </tr>
+                                            <tr >
+                                                <td colspan="8">
+                                                <select class="form-control" id="ApplicationType" onchange="showErpRole(<?=$emp_id;?>);">
+                                                        <option value="">Select</option>
+                                                        <?php 
+$getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+                                                        <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
+                                                            <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
+
+
+                                                        <?php 
+}?>
+                                                </td>
+</tr>
+<tr id="onchnageErpRoleshow">
+                                                
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+
+                                                <td colspan="2"></td>
                                             </tr>
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
                                                 <th>Password</th>
+                                                <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
                                                 <th>Delete</th>
@@ -4126,6 +4156,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td><?=$getUserMasterRunRow['UserName'];?></td>
                                                 <td><?=$getUserMasterRunRow['Password'];?></td>
+                                                <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>
                                                     <select class="form-control" id="LoginType">
                                                         <option value="<?=$getUserMasterRunRow['LoginType'];?>">
@@ -18233,6 +18264,7 @@ echo " <option value='other'>Other</option>";
 
 elseif($code==270)  // search student 
 {
+    $StudentName = $_POST['StudentName'];
     $Session = $_POST['Session'];
     $CollegeID = $_POST['CollegeName'];
     $CourseID = $_POST['Course'];
@@ -18285,6 +18317,9 @@ elseif($code==270)  // search student
       if ($Eligibility != '') {
           $query .= " AND Eligibility='$Eligibility'";
       }
+      if ($StudentName != '') {
+        $query .= " AND StudentName like '%$StudentName%'";
+    }
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -18858,7 +18893,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 
 
 
-        <h4>Forward to Registration Branch</h4></td>
+        <p style="color: red;text-align: center;font-size: 16px;"><b>Forward to Registration Branch</b></p></td>
 </tr>
 
 <?php }
@@ -18867,7 +18902,7 @@ else if($Status>-1 && $Status!='22')
 <tr>
 
     <td colspan="5">
-    <p style="color: green;text-align: center;"> <b>Form Verification Detail(By Registration Branch)</b></p>
+    <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Registration Branch)</b></p>
 
     <h6>Form is successfully verified by registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
 </tr>
@@ -18879,7 +18914,7 @@ else if ($Status==22){
 
 ?>
 <tr>
-    <td colspan="5">
+    <td colspan="5" style='font-size: 16px;'>
 
  <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Registration Branch)</b></p>
 
@@ -18897,8 +18932,8 @@ else if ($Status==22){
 {?>
     
 
-<td colspan="5" style="text-align:right">
-    <button type="submit" id="type" onclick="verify(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+<td colspan="5" style="text-align:right; font-size: 16px;">
+    <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 </td>
 </tr>
 <?php }?>
@@ -18907,7 +18942,7 @@ else if ($Status==22){
 {?>
     <tr>
     <td colspan="5">
-<p style="color: red;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+<p style="color: red;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
 
 
       Examination cum Registraion  form for Examination <?=$examination;?> is verfied on  <?=$DepartmentVerifiedDate;?>.<br><br>
@@ -18917,8 +18952,8 @@ else if ($Status==22){
    <?php if($Status==1)
 {?>
 <br><br><hr>
-        <p style="text-align:right">
-    <button type="submit"  id="type" onclick="lock(<?=$row7['ID'];?>,<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
+        <p style="text-align:right;font-size: 16px;">
+    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
 </td>
 </tr>
 
@@ -18927,7 +18962,7 @@ else if ($Status==22){
 { ?>
 <tr>
        <td colspan="5">
-<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Department)</b></p>
+<p style="color:green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
 
 
       Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u> <?=$DepartmentVerifiedDate;?></u></b>.
@@ -18941,7 +18976,7 @@ else if ($Status==22){
 
 
         <td colspan="5">
-<p style="color:green;text-align: center;"> <b>Form Verification Detail(By Dean)</b></p>
+<p style="color:green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Dean)</b></p>
 
 
  Examination cum Registraion  form for Examination<b> <u><?=$examination;?></u></b> is verfied on <b><u>  <?=$DeanVerifiedDate;?></u></b>.
@@ -19096,9 +19131,89 @@ $state_id=$_POST['state_id'];
 
 
 }
+else if($code=='277')
+{
+    $ApplicationType=$_POST['ApplicationType'];
+    $EmpIDs=$_POST['empid'];
+$getDefalutMenu="SELECT  * FROM UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRunRowm=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+  <td><?=$getDefalutMenuRunRowm['UserMasterID'];?></td>
+    <td><?=$getDefalutMenuRunRowm['UserName'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['Password'];?></td>
 
+    <td colspan=""><?=$getDefalutMenuRunRowm['ApplicationName'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['LoginType'];?></td>
+    <td colspan=""><?=$getDefalutMenuRunRowm['RightsLevel'];?></td>
+    <td colspan="2"><button type="button" class="btn btn-danger btn-xs"
+                                                        onclick="deleteRoleAll('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');"><i
+                                                            class="fa fa-trash text-white"></i></button><button type="button" class="btn btn-success btn-xs"
+                                                        onclick="resetPassword('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');" style='float:right;'> Reset Password</button></td>
+                                          
+   <?php 
+}
+}
+else if($code=='278')
+{
+    $ApplicationType=$_POST['ApplicationName'];
+    $EmpIDs=$_POST['empid'];
+     $deleteRole="DELETE from UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType'";
+    $deleteRoleRun=sqlsrv_query($conntest,$deleteRole);
+    if ($deleteRoleRun==true) 
+    {
+    echo "1";
+    }
+    else
+    {
+    echo "0";
+    }
+}
+else if($code=='279')
+{
+    $ApplicationType=$_POST['ApplicationName'];
+    $EmpIDs=$_POST['empid'];
+     $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
 
+}
+else if($code=='280')
+{
+    $ExamFromID=$_POST['ExamFromID'];
+     $getDefalutMenu="UPDATE  ExamForm  SET DepartmentVerifiedDate='$timeStampS',Status='1' Where ID='$ExamFromID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
 
+}
+else if($code=='281')
+{
+    $ExamFromID=$_POST['ExamFromID'];
+   echo   $getDefalutMenu="UPDATE  ExamForm  SET DeanVerifiedDate='$timeStampS',Status='4' Where ID='$ExamFromID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
 
    else
    {
