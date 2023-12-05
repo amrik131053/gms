@@ -143,7 +143,7 @@ while($row=mysqli_fetch_array($result))
 
 
                                 <button class="btn btn-success" onclick="search();">Search</button>
-                                  <button class="btn btn-success" onclick="signature();">Sigature</button>
+                                  <!-- <button class="btn btn-success" onclick="signature();">Signature</button> -->
 </div>
 
 </div>
@@ -187,6 +187,49 @@ function search()
 
 
 }
+
+
+
+function signature()
+{
+
+ var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+      var college = document.getElementById('College').value;
+      var course=document.getElementById('Course').value;
+      var batch=document.getElementById('Batch').value;
+
+     var code='348';
+            $.ajax({
+            url:'action.php',
+            data:{college:college,code:code,course:course,batch:batch},
+            type:'POST',
+              success:function(data){
+                
+                if(data != "")
+                {
+                  console.log(data);
+                   spinner.style.display='none';
+                    $("#show_data").html("");
+                    $("#show_data").html(data);
+                }
+            }
+          });
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

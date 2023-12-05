@@ -20499,6 +20499,43 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
 
 }
 
+elseif($code==349)
+{
+ $CollegeID= $_POST['college'];
+  $CourseID = $_POST['course'];
+   $Batch = $_POST['batch'];
+   $Status = 1;
+   $Eligibility=1;
+ 
+ $sr=1;
+
+$aa=array();
+?>
+<table class="table">
+   <tr><th></th> <th>Student Name</th><th>Father Name</th><th> Course</th>
+         <th>Batch</th><th>Download</th></tr>
+<?php  
+$query = "SELECT * FROM  VACertificateSignature  Inner  ";
+   
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+                
+       ?><tr><td><?= $row['UniRollNo'];?></td> <td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['Course'];?></td>
+         <td><?= $row['Batch'];?></td><td>
+           <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form></td>
+         </tr>
+         
+<?php
+}?>
+
+</table>
+
+<?php 
+//print_r($aa);
+
+}
 
  else
 {
