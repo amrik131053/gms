@@ -10,8 +10,19 @@
       <div class="col-lg-3 col-md-3 col-sm-3">
          <div class="card card-info">
             <div class="card-header ">
-               <h3 class="card-title">Upload Data</h3>   
+
+<div class="row">
+<!-- Button trigger modal -->
+
+
+     
+
+              <div class="col-lg-3"> <h3 class="card-title">Upload</h3>  </div><div class="col-lg-4">   <button   class="btn btn-warning btn-xs" data-toggle="modal" data-target="#exampleModalLong">Upload Signature</button>  </div> <div class="col-lg-1">
+                                <a href="formats/examform.csv" class="btn btn-warning btn-xs ">Format</a>
+                            </div>
+                         </div>
             </div>
+
             <div class="card-body"><form action="#" method="post" enctype="multipart/form-data">  
                <div class="form-group row">
                  
@@ -78,8 +89,12 @@ while($row=mysqli_fetch_array($result))
            </div>
 
 
-            <div class="row" style="padding-top: 10px;padding-left: 20px;"><div class="col-lg-3">
+            <div class="row" style="padding-top: 10px;padding-left: 20px;">
+
+               <div class="col-lg-3">
             <!-- /.card-header -->
+
+
                    <select name="College" id='College' onchange="courseByCollege(this.value)"
                                     class="form-control" required="">
 
@@ -127,12 +142,13 @@ while($row=mysqli_fetch_array($result))
 <div class="col-lg-3">                   
 
 
-                                <button class="btn btn-success">Search</button>
+                                <button class="btn btn-success" onclick="search();">Search</button>
+                                  <button class="btn btn-success" onclick="signature();">Sigature</button>
 </div>
 
 </div>
             <div class="card-body table-responsive">
-             
+             <div id='show_data'></div>
             </div>
             <!-- /.card -->
          </div>
@@ -143,6 +159,41 @@ while($row=mysqli_fetch_array($result))
 </section>
 
 <script>
+function search()
+{
+
+ var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+      var college = document.getElementById('College').value;
+      var course=document.getElementById('Course').value;
+      var batch=document.getElementById('Batch').value;
+
+     var code='348';
+            $.ajax({
+            url:'action.php',
+            data:{college:college,code:code,course:course,batch:batch},
+            type:'POST',
+              success:function(data){
+                
+                if(data != "")
+                {
+                  console.log(data);
+                   spinner.style.display='none';
+                    $("#show_data").html("");
+                    $("#show_data").html(data);
+                }
+            }
+          });
+
+
+}
+
+
+
+
+
+
+
   var spinner = $('#loader');
      $(function() { 
       $("#cert").change(function(e) {
@@ -176,7 +227,7 @@ if(isset($_POST["Import"]))
   $file = $_FILES['file_exl']['tmp_name'];
   $handle = fopen($file, 'r');
   $c = 0;
-  $timeStamp=date('Y-m-d H-i');
+  $timeStamp=date('Y-m-d H:i:s.v');
   $session=$_POST['session'];
   $certificateid =$_POST['cert'];
   $Vcoursename =$_POST['Vcoursename'];
@@ -194,17 +245,157 @@ if(isset($_POST["Import"]))
         $IDNo= $row['IDNo'];
       }
 
-      $sql1 = "INSERT INTO vac(IDNo,CertificateId,VCourseName,Session,UploadedBy,UploadDate) VALUES ('$IDNo','$certificateid','$Vcoursename','$session','$EmployeeID','$timeStamp')";
-      $sql = mysqli_query($conn,$sql1);
+  $sql1 = "INSERT INTO ValueAddedCertificate(IDNo,CertificateId,VCourseName,Session,UploadBy,UploadDate) VALUES ('$IDNo','$certificateid','$Vcoursename','$session','$EmployeeID','$timeStamp')";
+    $stmt1 = sqlsrv_query($conntest, $sql1);
      }
     }
    $c = $c + 1;
    }
 }
-  ?>
+
   
+if(isset($_POST["UploadSignature"]))
+{ 
+
+$CollegeID= $_POST['college_sign'];
+$CourseID = $_POST['course_sign'];
+$Batch = $_POST['batch_sign'];
+$Session = $_POST['session_sign'];
+
+
+ $head = $_FILES["headsign"]["name"];
+
+ $dean = $_FILES["deansign"]["name"];
+  
+   if ($head) {
+      $headTmp = $_FILES["headsign"]["tmp_name"];
+      $deanTmp = $_FILES["deansign"]["tmp_name"]; 
+
+      $head_data = file_get_contents($headTmp);
+
+      $dean_data = file_get_contents($deanTmp);
+
+
+   $upimage = "INSERT into VACertificateSignature (CollegeID,CourseID,Batch,Session,DeanSignature,HeadSignature)    Values(?,?,?,?,?,?)";
+
+$params = array($CollegeID,$CourseID,$Batch,$Session,$dean_data,$head_data);
+
+sqlsrv_query($conntest,$upimage,$params);
+
+    
+
+}
+
+}
+?>
 
 <p id="ajax-loader"></p>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form action="" method="POST" enctype="multipart/form-data">
+      <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="exampleModalLongTitle">Upload Signautre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="color: black;">
+         <p style="color:red"><b>Signature dimensions must be  width 200 px  height  80 px.</b></p>
+           <p style="color:red"><b>image must be  in (.png) format.</b></p>
+         <div class="row"> 
+
+            <div class="col-lg-2"> 
+ <label>Session</label>    
+                <select id='Session' name='session_sign' class="form-control" required="">                                 
+                <option value=''>Select Session</option>                          
+                <option value='2018-19'>2018-19</option>
+                <option value='2019-20'>2019-20</option>
+                <option value='2020-21'>2020-21</option>
+                <option value='2021-22'>2021-22</option>
+                <option value='2022-23'>2022-23</option>
+                <option value='2023-24'>2023-24</option>
+                </select></div>
+
+
+   <div class="col-lg-3">
+            <!-- /.card-header -->
+
+ <label>College</label> 
+                   <select name="college_sign" id='College_1' onchange="courseByCollege1(this.value)"
+                                    class="form-control" required="">
+
+                <option value=''>Select College</option>
+                  <?php
+
+     $sql="SELECT DISTINCT MasterCourseCodes.CollegeName, MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where UserAccessLevel.IDNo=$EmployeeID";
+
+
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+  $college = $row1['CollegeName']; 
+ 
+    ?>
+<option  value="<?= $row1['CollegeID'];?>"><?= $row1['CollegeName'];?>&nbsp;(<?= $row1['CollegeID'];?>)</option>
+<?php    }
+?>
+              </select>
+
+           </div>
+           <div class="col-lg-3">
+                  <label>Course</label> 
+                                <select name="course_sign" id="Course1" class="form-control" required>
+                                    <option value=''>Select Course</option>
+
+                                </select>
+</div>
+           <div class="col-lg-3">
+            <label>Batch</label>             
+                                <select name="batch_sign" class="form-control" id="Batch_1" required="">
+                                    <option value="">Batch</option>
+                                    <?php 
+                                    for($i=2018;$i<=2024;$i++)
+                                    {?>
+                                    <option value="<?=$i?>"><?=$i?></option>
+                                    <?php }
+                                                ?>
+
+                                </select>
+</div>
+
+ <div class="col-lg-3">        
+ <label>Dean Signature</label>    
+                               <input type="file" name="deansign" class="form-control" required>
+</div>
+
+ <div class="col-lg-3">
+ <label>Head Signature</label>             
+                               <input type="file" name="headsign" class="form-control" required>
+</div>
+
+
+
+
+
+             </div>
+                                
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name="UploadSignature">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <!-- Modal -->
 

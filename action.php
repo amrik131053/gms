@@ -20461,6 +20461,44 @@ while($row=mysqli_fetch_array($result))
 }
 }
 
+elseif($code==348)
+{
+ $CollegeID= $_POST['college'];
+  $CourseID = $_POST['course'];
+   $Batch = $_POST['batch'];
+   $Status = 1;
+   $Eligibility=1;
+ 
+ $sr=1;
+
+$aa=array();
+?>
+<table class="table">
+   <tr><th>Uni Roll No</th> <th>Student Name</th><th>Father Name</th><th> Course</th>
+         <th>Batch</th><th>Download</th></tr>
+<?php  
+$query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FROM  ValueAddedCertificate as vac Inner Join   Admissions  on Admissions.IDNo=vac.IDNo WHERE  CollegeID='$CollegeID'      ANd       CourseID ='$CourseID'AND  Batch='$Batch'ANd Status='$Status'AND Eligibility='$Eligibility'";
+   
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+                
+       ?><tr><td><?= $row['UniRollNo'];?></td> <td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['Course'];?></td>
+         <td><?= $row['Batch'];?></td><td>
+           <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form></td>
+         </tr>
+         
+<?php
+}?>
+
+</table>
+
+<?php 
+//print_r($aa);
+
+}
+
 
  else
 {

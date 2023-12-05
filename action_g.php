@@ -13891,7 +13891,7 @@ elseif($code==217)
                 <?php 
     $Sr=1;
     
-    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
@@ -13965,7 +13965,7 @@ elseif($code==218)
                 <?php 
     $Sr=1;
     
-    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status='Approved' order by  ApplyLeaveGKU.Id DESC "; 
+    $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status='Approved' order by  ApplyLeaveGKU.Id DESC "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
@@ -14030,7 +14030,7 @@ elseif($code==219)
                 <?php 
         $Sr=1;
         
-        $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+        $getAllleaves="SELECT top 100 *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND Staff.IDNo='$EmployeeID' and ApplyLeaveGKU.Status='Reject' order by  ApplyLeaveGKU.Id DESC "; 
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
         while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
         { 
@@ -14961,20 +14961,20 @@ $aa[]=$row;
               
             if($ifLEaveRow1['AuthorityId']!=$EmployeeID && $ifLEaveRow1['SanctionId']==$EmployeeID)
             {
-               $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
+               $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
             }
             elseif($ifLEaveRow1['SanctionId']!=$EmployeeID && $ifLEaveRow1['AuthorityId']==$EmployeeID)
             {
-                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveSanctionAuthority='$EmployeeID' and ApplyLeaveGKU.Status='Pending To Authority'  and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC ";
+                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND LeaveSanctionAuthority='$EmployeeID' and ApplyLeaveGKU.Status='Pending To Authority'  and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC ";
             }
             elseif($ifLEaveRow1['SanctionId']==$ifLEaveRow1['AuthorityId'])
             {
-                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
             else
             {
-                 $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To VC' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+                 $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To VC' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
         
@@ -15083,7 +15083,7 @@ if ($monthdown<1) {?>
         }
         if($Emp_Designation=='Vice Chancellor')
         {
-        $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND   ApplyLeaveGKU.Status='Pending To VC' order by  ApplyLeaveGKU.Id DESC "; 
+        $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND   ApplyLeaveGKU.Status='Pending To VC' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
     while($row=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run,SQLSRV_FETCH_ASSOC))
     {   
@@ -15168,7 +15168,7 @@ if ($monthdown<1) {?>
                         <?php 
         $Sr=1;
 
-                  $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID' ) and    ApplyLeaveGKU.Status='Approved' order by  ApplyLeaveGKU.Id DESC "; 
+                  $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID' ) and    ApplyLeaveGKU.Status='Approved' order by  ApplyLeaveGKU.Id DESC "; 
                 
    
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -15261,7 +15261,7 @@ if ($monthdown<1) {?>
 
         if($Emp_Designation=='Vice Chancellor')
         {
-        $ifLeaveCheckWhenAuth1="SELECT  top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND   ApplyLeaveGKU.Status='Approved' and HRRemarks!='' order by  ApplyLeaveGKU.Id DESC "; 
+        $ifLeaveCheckWhenAuth1="SELECT  top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND   ApplyLeaveGKU.Status='Approved' and HRRemarks!='' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
     while($row=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run,SQLSRV_FETCH_ASSOC))
     {   
@@ -15344,7 +15344,7 @@ if ($monthdown<1) {?>
                         <?php 
         $Sr=1;
       
-        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
                 
      
@@ -15786,7 +15786,7 @@ elseif($code==233)
                             <?php 
         $Sr=1;
        
-        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending to VC' order by  ApplyLeaveGKU.StartDate DESC "; 
+        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending to VC' order by  ApplyLeaveGKU.StartDate DESC "; 
                 
         
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -18136,10 +18136,15 @@ sqlsrv_query($conntest, $upimage, $params);
    }
    if ($signature) {
       $signatureTmp = $_FILES["signature"]["tmp_name"];
+
   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
+
        $SignatureImageName=$loginId.".PNG";
    ftp_put($conn_id, "Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+
    $file_data1 = file_get_contents($signatureTmp);
+
+
    $upimage1 = "UPDATE Admissions SET Signature = ? WHERE IDNo = ?";
    $params1 = array($file_data1, $loginId);
    sqlsrv_query($conntest, $upimage1, $params1);

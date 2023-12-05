@@ -135,6 +135,29 @@ $("#Course").html(data);
 });
 
 }
+
+function courseByCollege1(College) 
+{  
+    // alert(College);
+var code='90';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+    // console.log(data);
+$("#Course1").html("");
+$("#Course1").html(data);
+}
+}
+});
+
+}
+
+
+
 function collegeByDepartment(College) 
 {  
      

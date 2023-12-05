@@ -3,42 +3,37 @@ session_start();
 include 'connection/connection.php';
 
 
-   //$reg_id = $_POST["id"];
+   $reg_id = $_POST["id"];
 
 
- $reg_id = 5;
 
+$dean='';
+$head='';
 
-  $get_details = "SELECT * from vac  WHERE id= '$reg_id'";
-  $result = mysqli_query($conn,$get_details);
+  $get_details = "SELECT * from ValueAddedCertificate  WHERE id= '$reg_id'";
+  $stmt1 = sqlsrv_query($conntest,$get_details);
 
-    while($row = mysqli_fetch_array($result)){
-      
+      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+      {
       $reg_id= $row['IDNo'];
-      
-       $vcourse = $row['VCourseName'];
-   
+      $vcourse = $row['VCourseName'];
       $cid = $row['CertificateId'];
-       $session = $row['Session'];
-
-
-
-    }
-
-
-
+      $session = $row['Session'];
+      }
  
 $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
-
-
       $stmt1 = sqlsrv_query($conntest,$result1);
       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
       {
         $IDNo= $row['IDNo'];
          $name = $row['StudentName'];
          $ClassRollNo= $row['ClassRollNo'];
+          $CollegeID = $row['CollegeID'];
+         $CourseID= $row['CourseID'];
          $univ_rollno= $row['UniRollNo'];
          $father_name = $row['FatherName'];
+
+         $Batch = $row['Batch'];
 
 
          $email = $row['EmailID'];
@@ -51,6 +46,19 @@ $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
 
 
 }
+
+ $signature ="SELECT *  FROM VACertificateSignature where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd Session='$session'";
+
+$stmt1 = sqlsrv_query($conntest,$signature);
+
+      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+      {
+      $dean= $row['DeanSignature'];
+      $head = $row['HeadSignature'];
+      
+      }
+
+
   
 
 
@@ -118,7 +126,8 @@ $pdf->AddPage($layout);
 
  $pdf->Image('http://gurukashiuniversity.co.in/data-server/VAC/'.$certificates,0,0,$width,$height);
 
- $pdf->SetFont('Times','',$font_sr);
+ $pdf->SetFont('Arial','',$font_sr);
+
  $pdf->SetXY($srno_w,$srno_h);
 $pdf->Cell(60,5,$session ,'','L');
 $pdf->SetXY(25,5);
@@ -126,30 +135,68 @@ $pdf->SetXY(25,5);
 
  $aa=135;
  $pdf->SetTextColor(0,0,0);
-$pdf->SetFont('Times','',$font_n);
+
+$pdf->SetFont('Arial','',$font_n);
+
  $pdf->SetXY($name_h,$name_w);
 $pdf->Cell(60,5,$name,'','C');
  $pdf->SetTextColor(0,0,0);
 
 
-//$pdf->SetFont('Times','BI',$font_f);
-$pdf->SetFont('Times','',$font_f);
+//$pdf->SetFont('Arial','BI',$font_f);
+$pdf->SetFont('Arial','',$font_f);
 $pdf->SetXY($fname_h,$fname_w);
 $pdf->Cell(60,5,$father_name,'','L');
 
-$pdf->SetFont('Times','',$font_r);
+$pdf->SetFont('Arial','',$font_r);
 $pdf->SetXY($univ_rollno_h,$univ_rollno_w);
 $pdf->Cell(60,5, $univ_rollno,'','L');
 
 
 
-$pdf->SetFont('Times','',$font_clg);
+$pdf->SetFont('Arial','',$font_clg);
 $pdf->SetXY($college_h,$college_w);
 $pdf->Cell(100,20,$college,'','L');
 
-$pdf->SetXY($vcourse_h,$vcourse_w);$pdf->SetFont('Times','',$font_c);
+
+
+
+$pdf->SetXY($vcourse_h,$vcourse_w);
+
+$pdf->SetFont('Arial','',$font_c);
 $pdf->Cell(60,5,$vcourse,'','L');
 
+
+if($dean!='')
+{
+
+
+ $pic = 'data:image/jpeg;base64,'.base64_encode($dean);
+
+$info = getimagesize($pic);
+
+ $extension = explode('/', mime_content_type($pic))[1];
+
+
+$pdf-> Image($pic,30,170.8,40,13,$extension);
+
+}
+
+
+if($head!='')
+{
+
+
+ //$pic = 'data:image/jpeg;base64,'.base64_encode($head);
+
+$info = getimagesize($pic);
+
+ $extension = explode('/', mime_content_type($pic))[1];
+
+
+$pdf-> Image($pic,170,170.8,40,13,$extension);
+
+}
 
 
 
