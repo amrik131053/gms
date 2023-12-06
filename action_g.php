@@ -14728,6 +14728,7 @@ $status="Pending to Sanction";
 
 $LeaveType=$_POST['LeaveType']; // like Casual/Comansantry
 
+
 $getLeaveBlance="SELECT Balance FROM  LeaveBalances where  Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
 $getLeaveBlanceRun=sqlsrv_query($conntest,$getLeaveBlance);
 if($getLeaveBlanceRow= sqlsrv_fetch_array($getLeaveBlanceRun, SQLSRV_FETCH_ASSOC))
@@ -14757,6 +14758,24 @@ else
     $leaveStartDate=$_POST['leaveStartDate']; //  start date when full leave  
     $leaveEndDate=$_POST['leaveEndDate']; // end date  when full leave 
 }
+
+
+ $CurrentYear=date('Y');
+
+ $ApplyYear = date('Y',strtotime($leaveStartDate));
+
+if($ApplyYear<=$CurrentYear)
+{
+
+}
+else
+{
+    $LeaveType=4;
+
+}
+
+
+
 $file_name = $_FILES['leaveFile']['name'];
 $file_tmp = $_FILES['leaveFile']['tmp_name'];
 $type = $_FILES['leaveFile']['type'];
@@ -14817,6 +14836,7 @@ if($LeaveType<3 && $LeaveBlance<$dummyVal)
 {
 echo "5"; //leave balance not equeal
 }
+
 else
 {                 
  $string = bin2hex(openssl_random_pseudo_bytes(4));
@@ -14838,25 +14858,40 @@ else
 
      ftp_close($conn_id);
 
+
+
+
+
      if( $status!='Approved')
      {
+
+
+
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+
+
      }
 else{
+
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
 }
 
   //for notifications------------------------------
   if( $status!='Approved')
   {
+
   $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$Recommend', '$EmployeeID', 'Leave pending to approve', ' ', 'attendence-calendar.php', '$timeStamp', '0')";
   mysqli_query($conn,$Notification1);
+
+
   }
 //   ----------------------------------------------
                 if($InsertLeaveRun==true)

@@ -766,7 +766,7 @@ function leaveSubmit(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            // console.log(response);
+            console.log(response);
             if (response == 1) {
                 SuccessToast('Leave submit successfully');
                 pendingLeaves();
