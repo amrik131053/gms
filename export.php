@@ -4186,6 +4186,274 @@ foreach ($Subjects as $key => $SubjectsCode) {
              $fileName="Strength Calculator Report ";
          }
 
+
+         else if($exportCode==42)
+         {
+             $College=$_GET['CollegeId'];
+         $Course=$_GET['Course'];
+         $Semester=$_GET['Semester'];
+         $Type=$_GET['Type'];
+         $Examination=$_GET['Examination'];
+         $Status=$_GET['Status'];               
+         $SrNo=1;
+         $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+         <thead>  
+         <tr>
+         ";
+         $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
+             <th style='background-color:black; color:white;'>College Name</th>
+             <th style='background-color:black; color:white;'>Course</th>
+             <th style='background-color:black; color:white;'>Student Name</th>
+             <th style='background-color:black; color:white;'>Gender</th>
+             <th style='background-color:black; color:white;'>Category</th>
+             <th style='background-color:black; color:white;'>Class Roll No</th>
+             <th style='background-color:black; color:white;'>UniRollno</th>
+             <th style='background-color:black; color:white;'>Father Name</th>
+             <th style='background-color:black; color:white;'>Mother Name</th>
+             <th style='background-color:black; color:white;'>EmailID</th>
+             <th style='background-color:black; color:white;'>Student Mobile No</th>
+             <th style='background-color:black; color:white;'>City</th>
+             <th style='background-color:black; color:white;'>State</th>
+             <th style='background-color:black; color:white;'>PIN</th>
+             <th style='background-color:black; color:white;'>Semester</th>
+             <th style='background-color:black; color:white;'>Regidtration Date</th>
+             <th style='background-color:black; color:white;'>Registraion Rejected Reason</th>
+             <th style='background-color:black; color:white;'>Examination</th>
+             <th style='background-color:black; color:white;'>Accountant Reject Reason</th>
+             <th style='background-color:black; color:white;'>Register Verified Date</th>
+             <th style='background-color:black; color:white;'>Accountant Verification Date</th>
+             <th style='background-color:black; color:white;'>Eligibility</th>
+             <th style='background-color:black; color:white;'>Registration Status</th>";
+             $exportstudy.="</tr></thead>";             
+             $list_sql = "SELECT *,ExamForm.Status as ExamStatus
+             FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+             where 1=1";
+              if ($College != '') 
+              {
+             $list_sql.=" AND ExamForm.CollegeID='$College' ";
+              }
+              if ($Course != '') {
+             $list_sql.="AND ExamForm.CourseID='$Course'  ";
+              }
+              if ($Type != '') {
+             $list_sql.="AND ExamForm.Type='$Type' ";
+              }
+              if ($Semester != '') {
+             $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
+              }
+              if ($Examination != '') {
+              $list_sql.=" AND ExamForm.Examination='$Examination' ";
+              }
+             if ($Status != '') {
+             if ($Status== '0') {
+              $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22') ";
+              }
+              else
+              {  
+             $list_sql.=" AND ExamForm.Status='$Status' ";
+              }
+             }
+              if ($Status=='') 
+              {
+             $list_sql.=" AND (ExamForm.Status='0' or ExamForm.Status='-1' or ExamForm.Status='22') ";
+              }
+             $list_sql.=" ORDER BY ExamForm.Status"; 
+                                 $list_result = sqlsrv_query($conntest,$list_sql);
+                                 while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                                    {
+                                    // $aa=$row;
+                                 $IDNo=$row['IDNo'];
+                                 $CollegeName=$row['CollegeName'];
+                                 $Course=$row['Course'];
+                                 $StudentName=$row['StudentName'];
+                                 $Gender=$row['Sex'];
+                                 $Category=$row['Category'];
+                                 $ClassRollNo=$row['ClassRollNo'];
+                                 $UniRollno=$row['UniRollNo'];
+                                 $FatherName=$row['FatherName'];
+                                 $MotherName=$row['MotherName'];
+                                 $EmailID=$row['EmailID'];
+                                 $StudentMobileNo=$row['StudentMobileNo'];
+                                 $City=$row['City'];
+                                 $State=$row['State'];
+                                 $PIN=$row['PIN'];
+                                 $Semester=$row['Semester'];                           
+                                 $Examination=$row['Examination'];
+                                //  $Eligibility=$row['Eligibility'];
+                                 $RegistrationStatus=$row['ExamStatus'];
+                                 if($row['Eligibility']==1)
+                                 {
+                     
+                                     $Eligibility="Eligible";
+                                     $clr="green";
+                                 }
+                                 else if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+                                 {
+                     
+                                     $Eligibility="Provisional Eligible";
+                                     $clr="blue";
+                                 }
+                                 else{
+                                     $Eligibility="Not Eligible";
+                                     $clr="yellow";
+                                     
+                                 }
+
+
+                                 
+if($RegistrationStatus==-1)
+{
+  $Status="Pending";
+  $trColor="";
+
+}
+ if($RegistrationStatus==22)
+{
+  $Status="Rejected By Registration Branch";
+  $trColor="#FDB9AB";
+
+}
+elseif($RegistrationStatus==0)
+{
+  $Status="Forward to Department";
+  $trColor="#CEEDB6";
+}
+elseif($RegistrationStatus==1)
+{
+  $Status="Forward to Dean";
+  $trColor="#F3ED8F";
+}
+
+elseif($RegistrationStatus==2)
+{
+  $Status="Rejected By Department";
+}
+ elseif($RegistrationStatus==3)
+{
+  $Status="Rejected By Dean";
+  $trColor="#FFC6C1";
+}
+
+elseif($RegistrationStatus==4)
+{
+  $Status="Forward to Account";
+  $trColor="#9FCAF7";
+}
+elseif($RegistrationStatus==5)
+{
+  $Status="Forward to Examination Branch";
+  $trColor="#9FCAF7";
+}
+
+elseif($RegistrationStatus==6)
+{
+  $Status="Rejected By Accountant";
+  $trColor="#FFC6C1";
+}
+elseif($RegistrationStatus==7)
+{
+  $Status="Rejected_By Examination Branch";
+  $trColor="#FFC6C1";
+}           
+
+elseif($RegistrationStatus==8)
+{
+   $Status="Accepted";
+   $trColor="#CEEDB6";
+} 
+
+
+
+
+                                 if($row['DeanVerifiedDate']!=''){
+
+                                     $DeanVerifiedDate=$row['DeanVerifiedDate']->format('Y-m-d h:i:s.v');
+                                 }else{
+                                    $DeanVerifiedDate="";
+                                 }
+                                 if($row['AccountantVerificationDate']!=''){
+
+                                   
+                                    $AccountantVerificationDate=$row['AccountantVerificationDate']->format('Y-m-d h:i:s.v');
+                                }else{
+                                   $AccountantVerificationDate="";
+                                }
+
+                                if($row['ExaminationVerifiedDate']!=''){
+
+                                   
+                                    $ExaminationVerifiedDate=$row['ExaminationVerifiedDate']->format('Y-m-d h:i:s.v');
+                                }else{
+                                   $ExaminationVerifiedDate="";
+                                }
+                                if($row['RegistraionVerifDate']!=''){
+
+                                    $RegistraionVerifDate=$row['RegistraionVerifDate']->format('Y-m-d h:i:s.v');
+                                    
+                                }else{
+                                   $RegistraionVerifDate="";
+                                }
+                                
+                                   
+                                    $DepartmentRejectReason=$row['DepartmentRejectReason'];
+                                    $DeanRejectReason=$row['DeanRejectReason'];
+                                    $AccountantRejectReason=$row['AccountantRejectReason'];
+                                    $ExaminationRejectReason=$row['ExaminationRejectReason'];
+                                    $RegistraionRejectedReason=$row['RegistraionRejectedReason'];
+                                    $RegisterRejectReason=$row['RegisterRejectReason'];
+                                 
+       
+                                 $exportstudy.="<tr >
+                                 
+                                 <td style='background:{$trColor}'>{$IDNo}</td>
+                                 <td style='background:{$trColor}'>{$CollegeName}</td>
+                                 <td style='background:{$trColor}'>{$Course}</td>
+                                 <td style='background:{$trColor}'>{$StudentName}</td>
+                                 <td style='background:{$trColor}'>{$Gender}</td>
+                                 <td style='background:{$trColor}'>{$Category}</td>
+                                 <td style='background:{$trColor}'>{$ClassRollNo}</td>
+                                 <td style='background:{$trColor}'>{$UniRollno}</td>
+                                 <td style='background:{$trColor}'>{$FatherName}</td>
+                                 <td style='background:{$trColor}'>{$MotherName}</td>
+                                 <td style='background:{$trColor}'>{$EmailID}</td>
+                                 <td style='background:{$trColor}'>{$StudentMobileNo}</td>
+                                 <td style='background:{$trColor}'>{$City}</td>
+                                 <td style='background:{$trColor}'>{$State}</td>
+                                 <td style='background:{$trColor}'>{$PIN}</td>
+                                 <td style='background:{$trColor}'>{$Semester}</td>
+                                 <td style='background:{$trColor}'>{$RegistraionVerifDate}</td>
+                                 <td style='background:{$trColor}'>{$RegistraionRejectedReason}</td>
+                                 <td style='background:{$trColor}'>{$Examination}</td>
+                                 <td style='background:{$trColor}'>{$AccountantRejectReason}</td>
+                                 <td style='background:{$trColor}'>{$RegisterRejectReason}</td>
+                                 <td style='background:{$trColor}'>{$AccountantVerificationDate}</td>
+                                 <td style='background:{$clr}'>{$Eligibility}</td>
+                                 <td style='background:{$trColor}'>{$Status}</td>
+                                 
+                                 
+               
+                             </tr>";
+                 $SrNo++;
+                                    }
+                 $exportstudy.="</table>";
+                 echo $exportstudy;
+                 $fileName="Student Registration Report ".$Examination;
+                  } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
