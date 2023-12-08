@@ -149,7 +149,7 @@
                                 <select id="Status" class="form-control" >
                                     <option value="">All</option>
                                     <option value="-1">Pending</option>
-                                    <option value="0">verified</option>
+                                    <option value="0">Verified</option>
                                     <option value="22">Rejected</option>
                                 </select>
 
