@@ -19639,7 +19639,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    </tr>
    <tr>
    <td colspan="10" style="text-align:right; font-size: 16px;">
-   <?php if($Status=='-1'){?>
+   <?php if($Status=='-1'){?> 
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
     <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
     <?php }?>

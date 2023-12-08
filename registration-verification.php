@@ -228,7 +228,7 @@ var len_student= verifiy.length;
          type:'POST',
          success:function(data) {
             spinner.style.display='none';
-            console.log(data);
+            // console.log(data);
             if (data==1) 
             {
                 SuccessToast('Successfully Verified');
@@ -471,7 +471,7 @@ function pendingCount()
                 Examination: Examination
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 document.getElementById("pendingCount").innerHTML = response;
 
             }
@@ -500,7 +500,7 @@ function rejectCount()
                 Examination: Examination
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 document.getElementById("rejectCount").innerHTML = response;
 
             }
@@ -529,7 +529,7 @@ function verifiedCount()
                 Examination: Examination
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 document.getElementById("verifiedCount").innerHTML = response;
 
             }
