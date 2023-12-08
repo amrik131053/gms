@@ -15818,6 +15818,16 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
         }
+        else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $Emp_Designation=='Vice Chancellor')
+        {
+          ?>
+
+<button class="btn btn-success"
+                                onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
+                           <button class="btn btn-danger"
+                               onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
+                           <?php
+       }
         else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime>2 && $row['Status']=='Pending to Authority'  && $Emp_Designation!='Vice Chancellor')
         {
           ?>
@@ -15830,6 +15840,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
        }
         else if($row['Status']=='Pending to VC' && $Emp_Designation=='Vice Chancellor')
         {
+             
           ?>
 
                             <button class="btn btn-success"
