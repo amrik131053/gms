@@ -17805,8 +17805,16 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Admission Date</label>
+
+                                        <?php  if($row1['AdmissionDate']!='') {
+                                            $Doa=$row1['AdmissionDate']->format('Y-m-d h:i:s');
+                                        }
+                                        else{
+                                            $Doa='';
+
+                                        }?>
                                         <input type="date-time" name="admissionDate" class="form-control"
-                                            value="<?=$row1['AdmissionDate']->format('Y-m-d h:i:s');?>" readonly>
+                                            value="<?=$Doa;?>" readonly>
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Fee Category</label>
