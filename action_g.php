@@ -48,6 +48,15 @@ window.location.href = "index.php";
          // echo "inter net off";
       }
 
+
+      $getCurrentExamination="SELECT * FROM ExamDate";
+      $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+      if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+      {
+
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+      }
+
       $getRole = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
       if($row=mysqli_fetch_array($getRole)) 
       {
@@ -19203,7 +19212,7 @@ if($getDefalutMenuRunRowm=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASS
 else if($code=='278')
 {
     $ApplicationType=$_POST['ApplicationName'];
-    $EmpIDs=$_POST['empid'];
+     $EmpIDs=$_POST['empid'];
      $deleteRole="DELETE from UserMaster  Where UserName='$EmpIDs' and ApplicationName='$ApplicationType'";
     $deleteRoleRun=sqlsrv_query($conntest,$deleteRole);
     if ($deleteRoleRun==true) 
@@ -19323,9 +19332,12 @@ else{
 
 
 ?>
+
+
 <table class="table table-bordered" id="example">
                              <thead>
                                  <tr>
+                                    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
                                      <th>#</th>
                                      <th>Uni Roll No</th>
                                      <th>Name</th>
@@ -19406,6 +19418,7 @@ elseif($Status==8)
              }
              ?>
              <tr style="background-color:<?=$trColor;?>">
+             <td><?php if($Status=='-1'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
              <td><?= $count++;?></td>
            
              
@@ -19488,6 +19501,9 @@ if($Status==8)
             </tr>
         <?php 
          }?>
+         <tr>
+            <td colspan="8"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
+         </tr>
 
          </tbody>
      </table>
@@ -19616,7 +19632,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
     <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
     <?php }?>
-    <?php if($Status>=0 && $Status!=22){?>
+    <?php if($Status==0 && $Status!=22){?>
         <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
         <?php }?>
         <?php if($Status==22){?>
@@ -19646,9 +19662,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    {
        echo "0";
    }
-   
    }
-
    else if($code==285)
    {
        $ExamFromID=$_POST['ExamFromID'];
@@ -19663,7 +19677,6 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    {
        echo "0";
    }
-   
    }
    else if($code==286)
    {
@@ -19673,6 +19686,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     $Type = isset($_POST['Type']) ? $_POST['Type'] : '';
     $Status = isset($_POST['Status']) ? $_POST['Status'] : '';
     $Examination = isset($_POST['Examination']) ? $_POST['Examination'] : '';
+
+
+
     $list_sql = "SELECT COUNT(*) as Count
                  FROM ExamForm
                  INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
@@ -19696,11 +19712,20 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     if ($Examination !== '') {
         $list_sql .= " AND ExamForm.Examination = '$Examination'";
     }
-    
+    if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+
         $list_sql .= " AND  ExamForm.Status = '-1'";
+
+
+
+
+
+
     $getDefaultMenuRun = sqlsrv_query($conntest, $list_sql);
     if ($row = sqlsrv_fetch_array($getDefaultMenuRun, SQLSRV_FETCH_ASSOC)) {
-        echo $row['Count'];
+        echo $row['Count'].' Pending';
     } 
     else 
     {
@@ -19740,11 +19765,15 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     if ($Examination !== '') {
         $list_sql .= " AND ExamForm.Examination = '$Examination'";
     }
+    if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+
     
         $list_sql .= " AND  ExamForm.Status = '22'";
     $getDefaultMenuRun = sqlsrv_query($conntest, $list_sql);
     if ($row = sqlsrv_fetch_array($getDefaultMenuRun, SQLSRV_FETCH_ASSOC)) {
-        echo $row['Count'];
+        echo $row['Count'].' Rejeted';
     } 
     else 
     {
@@ -19784,11 +19813,15 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     if ($Examination !== '') {
         $list_sql .= " AND ExamForm.Examination = '$Examination'";
     }
+    if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+
     
         $list_sql .= " AND  ExamForm.Status >= '0' AND  ExamForm.Status!= '22' ";
     $getDefaultMenuRun = sqlsrv_query($conntest, $list_sql);
     if ($row = sqlsrv_fetch_array($getDefaultMenuRun, SQLSRV_FETCH_ASSOC)) {
-        echo $row['Count'];
+        echo $row['Count'].' Verified';
     } 
     else 
     {
@@ -19797,6 +19830,23 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     
 
    }
+   elseif($code==289)
+   {
+     $ids=$_POST['subjectIDs'];
+     foreach($ids as $key => $id)
+     {
+           $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0' Where ID='$id'";
+           $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
+     }
+     if ($getDefalutMenuRun==true) {
+        echo "1";
+     }
+     else
+     {
+        echo "0";
+     }
+  
+   } 
    else
    {
    

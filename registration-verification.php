@@ -9,10 +9,13 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header ">
+                        <span class="mr-2"> <button class="btn btn-primary btn-sm " id="pendingCount"> </button> </span>
+                        <span class="mr-2"> <button class="btn btn-danger btn-sm " id="rejectCount"> </button> </span>
+                        <span> <button class="btn btn-success btn-sm " id="verifiedCount"> </button> </span>
                         <!-- <h3 class="card-title">Cut List</h3> -->
-                        <button class="btn btn-primary btn-sm " id="pendingCount">1 </button>
+                        <!-- <button class="btn btn-primary btn-sm " id="pendingCount">1 </button>
                         <button class="btn btn-danger btn-sm " id="rejectCount">1 </button>
-                        <button class="btn btn-success btn-sm " id="verifiedCount">1 </button>
+                        <button class="btn btn-success btn-sm " id="verifiedCount">1 </button> -->
                         <span style="float:right;">
       <button class="btn btn-sm ">
          <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Search RollNo">
@@ -194,6 +197,90 @@
 <!-- Modal -->
 
 <script>
+
+
+
+function verifyAll()
+{
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=289;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+     }
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    alert('Select atleast one Subject');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Verified');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+
+
+
+function verifiy_select()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+}
+
 function fetchCutList() {
     var sub_data = 2;
     var College = document.getElementById('College').value;
