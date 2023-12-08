@@ -649,7 +649,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->AddPage('L');
     $pdf->SetFont('Arial', 'b', 10);
     $x = 87;
-    for ($subIndex = 12; $subIndex < 18; $subIndex++) {
+    for ($subIndex = 18; $subIndex < 24; $subIndex++) {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
