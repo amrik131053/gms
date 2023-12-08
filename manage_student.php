@@ -1,5 +1,5 @@
 <?php 
-   include "header.php";   
+   include "header.php";    
    ?>
 <section class="content">
    <div class="container-fluid">
@@ -494,10 +494,10 @@ function  movefee(nid)
       if (rollNo!='') 
       {
           var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
+           spinner.style.display='block';
          $.ajax(
          {
-            url:"action.php ",
+            url:"action.php",
             type:"POST",
             data:
             {
@@ -506,7 +506,7 @@ function  movefee(nid)
             success:function(response) 
             {
                spinner.style.display='none';
-                document.getElementById("student_search_recordold").innerHTML ='';
+               document.getElementById("student_search_recordold").innerHTML ='';
                document.getElementById("student_search_record").innerHTML =response;
             }
          });
@@ -755,7 +755,7 @@ function abcidreset(id)
    
 
 
- 
+ alert("id");
      
 
 var code='325';

@@ -6694,8 +6694,8 @@ $insersub= "Insert into ExamFormSubject (IDNo,Examid,CollegeName,Course,Batch,Se
 
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNoi','$desc','$EmployeeID','$timeStamp')";
 
- $update_query=mysqli_query($conn,$update1);
-
+// $update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
    if($stmtinsert === false) {
    
@@ -11107,8 +11107,8 @@ $incharge_mobile=$_POST['incharge_mobile'];
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
-
+//$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
 
     }
@@ -11158,8 +11158,8 @@ $update_query=mysqli_query($conn,$update1);
                      $desc= "UPDATE Admissions set  Eligibility :".$status."ClassRollNo".$class_rollno;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
                   }
                   $c = $c + 1;
                }
@@ -11201,8 +11201,8 @@ elseif($code==185)
                 $desc= "UPDATE Admissions set  RegistrationNo :".$status."UniRollNo".$class_rollno;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
                   }
                     $c = $c + 1;
                     
@@ -11243,8 +11243,8 @@ elseif($code==186)
  $desc= "UPDATE Admissions set  ABCID :".$status."UniRollNo".$class_rollno;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
                 }
                     $c = $c + 1;
@@ -11266,8 +11266,7 @@ elseif($code=='187')
         $code_access=$_POST['code_access'];
 
   if ($code_access=='000' || $code_access=='100' || $code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110'||  $code_access=='111') 
-    {                                 
-
+{                                 
  $univ_rollno=$_POST['rollNo'];
 
 $type=$_POST['option'];
@@ -11311,7 +11310,7 @@ $row_count = sqlsrv_num_rows($stmt1);
     $Status = $row['Status'];
     $Locked=$row['Locked'];
     $Eligibility = $row['Eligibility'];
-        $Reason = $row['Reason'];
+    $Reason = $row['Reason'];
     $validUpto=$row['ValidUpTo'];
       $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
       $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
@@ -11638,8 +11637,8 @@ else
 $desc= "Delte Question  Paper ID:".$Q_id;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$SubjectCode','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
                                
    }
@@ -11672,8 +11671,8 @@ echo "1";
 $desc= "UPDATE Admissions SET Batch:".$Batch;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1); 
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1); 
 }
 else
 {
@@ -12718,8 +12717,8 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
      $desc= "Add  ExamForm by admin  set Type:".$type." , Examination: ".$examination." , Status: ".$Status."IDNo : ".$IDNo." Semester :".$sem;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
      }
          $c++;
 
@@ -13056,8 +13055,9 @@ $desc= "UPDATE ExamForm set Type:".$type." , Examination:".$examination." , SGro
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
+$update_query=sqlsrv_query($conntest,$update1);
 
 
  $list = sqlsrv_query($conntest,$sq1);
@@ -13121,7 +13121,10 @@ elseif($code==210)
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+//$update_query=mysqli_query($conn,$update1);
 
      $list = sqlsrv_query($conntest,$sq);
       if ($list==true )
@@ -13147,8 +13150,8 @@ elseif($code==211)
     $desc= "UPDATE ExamForm set ReceiptNo:".$rno." , ReceiptDate:".$rdate;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
 
 
@@ -13184,9 +13187,9 @@ elseif($code==212)
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
-
+$update_query=sqlsrv_query($conntest,$update1);
 
 
 
@@ -13217,8 +13220,8 @@ elseif($code==213)
   $desc= "Examination Form Status :  ".$status;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
    if ($list2==true)
        {
@@ -13405,7 +13408,7 @@ $disti1=$disti."Locked";
    {                                
   
 $IDNo= $_POST['IDNo'];
-   $result1 = "SELECT  * FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
+   $result1 = "SELECT  *,Admissions.CollegeName as clgname FROM Admissions INNER JOIN UserMaster on Admissions.IDNO=UserMaster.UserName  where Admissions.IDNo='$IDNo'";
      $stmt1 = sqlsrv_query($conntest,$result1);
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC))
    {     
@@ -13421,7 +13424,7 @@ $IDNo= $_POST['IDNo'];
     $email = $row['EmailID'];
     $phone = $row['StudentMobileNo'];
     $Batch = $row['Batch'];
-    $college = $row['CollegeName'];
+ $college = $row['clgname'];
     $RegistrationNo = $row['RegistrationNo'];
     $abcid = $row['ABCID'];
     $Status = $row['Status'];
@@ -13467,7 +13470,7 @@ $IDNo= $_POST['IDNo'];
               <div class="card-footer p-0" style="text-align: left;">
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                     <li class="nav-link"><b>Father Name</b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
                   </li>
                 
                   <li class="nav-item">
@@ -13505,7 +13508,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
       <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;
 
  <select  name="College" id='Collegechange' onchange="fetchcourse(this.value);" class="btn-xs" required>
-                <option  value="<?= $CollegeID;?>"><?= $college; ?>(<?=$CollegeID;?>)</option>
+                <option  value="<?= $CollegeID;?>"><?=$college;?>(<?=$CollegeID;?>)</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
@@ -13526,7 +13529,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                      <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;
 
 
-<select  name="" id='coursechange'  class="btn-xs" required>
+<select   id='coursechange'  class="btn-xs" required>
                 <option  value="<?= $CourseID;?>"><?= $Course;?>&nbsp;<b>(<?= $CourseID;?>)</option>
 
   <?php 
@@ -13704,9 +13707,9 @@ $desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
-
+$update_query=sqlsrv_query($conntest,$update1);
 
 
 
@@ -13848,7 +13851,8 @@ elseif($code==231)
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
 
-$update_query=mysqli_query($conn,$update1);
+//$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
       
    }
    else
@@ -13871,8 +13875,8 @@ elseif($code==232)
          $desc= "UPDATE User Master SET ABC ID Reset";
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
       
    }
@@ -17620,8 +17624,8 @@ elseif($code==301)
 $desc= "UPDATE Admissions SET Status:".$status.",Course:".$Course.",Reason:".$reason;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$class_rollno','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
 
 
@@ -18246,8 +18250,8 @@ $stmt2 = sqlsrv_query($conntest,$query1);
 $desc= "Delete Subject  ".$subjectname."  Subject Code ".$subjectcode;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 
 if( $stmt2  === false) {
 
@@ -20555,6 +20559,38 @@ $query = "SELECT * FROM  VACertificateSignature  Inner  ";
 //print_r($aa);
 
 }
+
+elseif($code==350)
+{
+ $id= $_POST['id'];
+  $idno= $_POST['idno'];
+   $srno = $_POST['srno'];
+  
+ 
+ 
+ $query = "UPDATE DocumentStatus SET Status='$id' where SerialNo='$srno' ANd IDNo='$idno'";
+
+
+
+
+
+if($re=sqlsrv_query($conntest,$query))
+{
+
+    if ($re === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+}
+   echo "1";
+}
+else
+{
+   echo "0";
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+}
+}
+
 
  else
 {

@@ -14,7 +14,7 @@ function uploadPhotoStudent(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            // console.log(response);
+             console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Updated');
                 updateStudent(empID) 
@@ -29,6 +29,33 @@ function uploadPhotoStudent(form) {
             console.log(error);
         }
     });
+}
+
+function  UpdateDocumentStatus(id,srno,idno)
+{
+     var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 350;
+        $.ajax({
+            url: 'action.php',
+            type: 'POST',
+            data: {
+                code: code,
+               idno:idno,srno:srno,
+                id:id,
+            },
+            success: function(response) {
+                console.log(response);
+                spinner.style.display = 'none'; if (response == 1) {
+                SuccessToast('Successfully Updated');
+
+            } else {
+                ErrorToast('Something went worng', 'bg-danger');
+            }
+       
+
+            }
+        });
 }
 
 function search_all_employee_emp_name(emp_name) {
@@ -402,6 +429,30 @@ function updateStudentdata(id) {
     });
 }
 
+
+    function fetchcourse(id)
+{   
+   
+
+
+     
+
+var code='325';
+$.ajax({
+url:'action.php',
+data:{College:id,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+     
+$("#coursechange").html("");
+$("#coursechange").html(data);
+}
+}
+});
+
+}
 function student_search1() {
 
     var code = 323;

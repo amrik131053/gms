@@ -36,7 +36,7 @@
   
           <input type="search" class="form-control form-control-sm" name="emp_name" id="empid" placeholder="Emp ID Here">
           <div class="input-group-append">
-            <button type="button" onclick="search_leave_employee();" class="btn btn-success btn-sm">3
+            <button type="button" onclick="search_leave_employee();" class="btn btn-success btn-sm">
               <i class="fa fa-search"></i>
             </button>
             <!-- &nbsp;
