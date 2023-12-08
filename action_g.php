@@ -9098,8 +9098,8 @@ if ($insert_record_run==true)
      $desc= "UPDATE Admissions SET Gender".$Gender;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
-
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
+//$update_query=mysqli_query($conn,$update1);
 }
 else
 {
@@ -17747,13 +17747,13 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-2 col-sm-12">
                                         <label>Post Office</label>
-                                        <input type="text" class="form-control" name="postOffice"
-                                            placeholder="Post Office" value="">
+                                        <input type="text" class="form-control" name="postOffice"  
+                                            placeholder="Post Office" value="<?=$row1['PO'];?>">
                                     </div>
                                     <div class="col-lg-2 col-sm-12">
                                         <label>Pin Code</label>
-                                        <input type="number" class="form-control" name="pinCode"
-                                            placeholder="Pin Code" value="">
+                                        <input type="number" class="form-control" name="pinCode" 
+                                            placeholder="Pin Code" value="<?=$row1['PIN'];?>">
                                     </div>
                                 </div>
                             </div>
@@ -17837,27 +17837,33 @@ elseif($code==267) //update student
                                             </option>
                                             <?php }else{
                                         ?>
-                                            <option value="<?=$row1['Status'];?>">DeActive</option>
+                                            <option value="<?=$row1['Status'];?>">Left</option>
                                             <?php }
                                         ?>
                                             <option value="1">Active</option>
-                                            <option value="0">DeActive</option>
+                                            <option value="0">Left</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Lock</label>
                                         <select class="form-control" name='ulocked' style="border: 2px solid <?php if($Locked=='0'){echo 'green';}else{ echo 'red';};?>">
                                             <option value="<?=$Locked;?>">
-                                                <?php if ($Locked==1)  {echo "Lock";}else { echo "Unlock";}?></option>
+                                                <?php if ($Locked==1)  {echo "Locked";}else { echo "Unlocked";}?></option>
                                             <option value="0" >Unlock</option>
                                             <option value="1">Lock</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Eligibility</label>
-                                        <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1'){echo 'green';}else{ echo 'red';};?>">
+                                        <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1' && $row1['EligibilityReason']==''){echo 'green';}
+                                        else if($row1['EligibilityReason']!='')
+                                            {echo'#300fe5';
+                                    }else{ echo 'red';}?>">
+
+
                                             <option value="<?=$Eligibility;?>">
-                                                <?php if ($Eligibility>0)  {echo "Eligible";} else{echo "Not Eligible";} ?>
+                                                <?php if ($Eligibility>0)  {echo $row1['EligibilityReason']; echo " Eligible";
+                                            } else{echo "Not Eligible";} ?>
                                             </option>
                                             <option value="1">Eligible</option>
                                             <option value="0">Not Eligible</option>
@@ -17868,7 +17874,7 @@ elseif($code==267) //update student
 
                                       <div class="col-lg-2 col-12">
                                         <label>Mode of Admission</label>
-                                        <select class="form-control" name="lateral">
+                                        <select class="form-control" name="modeofadmission">
                                               <option value="<?=$row1['Quota'];?>"
                                                 ><b><?=$row1['Quota'];?></b>
                                             </option>
@@ -17878,8 +17884,7 @@ elseif($code==267) //update student
                                             <option value="Management"
                                                 >Management
                                             </option>
-                                        
-                                            
+                                                                                
                                         </select>
                                     </div>
 
@@ -17913,7 +17918,7 @@ elseif($code==267) //update student
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <td>IDNO</td>
+                                                <td>IDNo</td>
                                                 <td>Status</td>
                                                 <td>Date</td>
                                             </tr>
@@ -17970,9 +17975,10 @@ while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {
 $dicrequired= $row7['DocumentsRequired'];
 $docstatus= $row7['Status'];
+$SerialNo= $row7['SerialNo'];
     ?>                                        
                                               <tr>  <td><?=$dicrequired;?></td>
-                                                <td><select class="form-control">
+                                                <td><select class="form-control" onchange="UpdateDocumentStatus(this.value,<?=$SerialNo;?>,<?=$row1['IDNo'];?>)">
                                                     <?php if($docstatus!='')
                                                     {?>
 <option value="<?= $docstatus;?>"> <?=$docstatus;?></option>
@@ -18131,19 +18137,16 @@ elseif($code==268)
    $name = $_POST["StudentName"];
    $fatherName = $_POST["fatherName"];
    $motherName = $_POST["motherName"];
-   $CourseID = $_POST["Course"];
    $dob = $_POST["dob"];
    $gender = $_POST["gender"];
-   $category = $_POST["category"];
+   $category = $_POST["category"]; 
    $adhaar =$_POST["aadharNo"];
    $BloodGroup =$_POST["bloodgroup"];
    $Religion =$_POST["religion"];
+   $photo = $_FILES["photo"]["name"];
+   $signature = $_FILES["signature"]["name"];
 
-   $classRollNo = $_POST["classRollNo"];
-   $uniRollNo = $_POST["uniRollNo"];
-
-   
-
+//Tab contact
    $personalEmail = $_POST["personalEmail"];
    $officialEmail = $_POST["officialEmail"];
    $mobileNumber = $_POST["mobileNumber"];
@@ -18152,72 +18155,69 @@ elseif($code==268)
    $addressLine2 = $_POST["addressLine2"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   $CollegeID = $_POST["CollegeName"];
-
-
-   
-   $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
-   $stmt = sqlsrv_query($conntest,$sql);  
-if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-   {
-  $CourseName=$row6["Course"];
-   }
-
-
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName from MasterCourseCodes   where MasterCourseCodes.CollegeID='$CollegeID'";
-   $stmt2 = sqlsrv_query($conntest,$sql);
-   if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-    {   
-      $CollegeName = $row['CollegeName']; 
-    }
-
-
-   $employmentStatus = $_POST["employmentStatus"];
-
-   $CountryID = $_POST["Country_1"];
-
-   $districtID = $_POST["District_1"];
-
-
-
-
-   $sql = "SELECT  id,name FROM cities WHERE id='$districtID' order by name ASC";
-   $stmt = mysqli_query($conn,$sql); 
-   if($row4 = mysqli_fetch_array($stmt) )
-   {
-$DistrictName=$row4['name'];
-     }else{
-        $DistrictName=$districtID;
-     }
-
-   $stateID = $_POST["State_1"]; 
-   $sql = "SELECT  Id,name FROM states WHERE Id='$stateID' order by name ASC";
-   $stmt = mysqli_query($conn,$sql);  
-          if($row3 = mysqli_fetch_array($stmt) )
-      {
-        $StateName=$row3['name'];
-      }
-      else{
-        $StateName=$stateID;
-      }
-   $batch = $_POST["batch"]; 
-
-   $ulocked =$_POST["ulocked"]; 
-   $eligible =$_POST["eligible"]; 
-
-   $aadharNo =$_POST["aadharNo"]; 
-
    $Nationality_1 =$_POST["Nationality_1"]; 
+   $CountryID = $_POST["Country_1"];
+   $districtID = $_POST["District_1"];
+   $State = $_POST["State_1"];
    $postOffice =$_POST["postOffice"]; 
    $pinCode =$_POST["pinCode"]; 
-   $session =$_POST["session"]; 
-   $registrationNo =$_POST["registrationNo"]; 
-   $admissionDate =$_POST["admissionDate"]; 
-   $feeCategory =$_POST["feeCategory"]; 
-   $lateral =$_POST["lateral"]; 
+
+//Course Tab
+    $employmentStatus = $_POST["employmentStatus"];
+    $ulocked =$_POST["ulocked"]; 
+    $eligible =$_POST["eligible"]; 
+    $modeofadmission =$_POST["modeofadmission"]; 
+    $scholaship =$_POST["scholaship"]; 
+
+$provisional='';
+
+if($eligible>1)
+{
+   $eligible=1;
+   $provisional='Provisional';
+}
+     
+//    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
+//    $stmt = sqlsrv_query($conntest,$sql);  
+// if($row6 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+//    {
+//   $CourseName=$row6["Course"];
+//    }
+
+
+//    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName from MasterCourseCodes   where MasterCourseCodes.CollegeID='$CollegeID'";
+//    $stmt2 = sqlsrv_query($conntest,$sql);
+//    if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+//     {   
+//       $CollegeName = $row['CollegeName']; 
+//     }
+
+
    
-   $photo = $_FILES["photo"]["name"];
-   $signature = $_FILES["signature"]["name"];
+
+
+
+
+//    $sql = "SELECT  id,name FROM cities WHERE id='$districtID' order by name ASC";
+//    $stmt = mysqli_query($conn,$sql); 
+//    if($row4 = mysqli_fetch_array($stmt) )
+//    {
+// $DistrictName=$row4['name'];
+//      }else{
+//         $DistrictName=$districtID;
+//      }
+
+   // $stateID = $_POST["State_1"]; 
+   // $sql = "SELECT  Id,name FROM states WHERE Id='$stateID' order by name ASC";
+   // $stmt = mysqli_query($conn,$sql);  
+   //        if($row3 = mysqli_fetch_array($stmt) )
+   //    {
+   //      $StateName=$row3['name'];
+   //    }
+   //    else{
+   //      $StateName=$stateID;
+   //    }
+   
    if ($photo) {
       $photoTmp = $_FILES["photo"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
@@ -18230,6 +18230,7 @@ $DistrictName=$row4['name'];
 $params = array($file_data, $loginId);
 sqlsrv_query($conntest, $upimage, $params);
    }
+
    if ($signature) {
       $signatureTmp = $_FILES["signature"]["tmp_name"];
 
@@ -18248,50 +18249,67 @@ sqlsrv_query($conntest, $upimage, $params);
 
 
    $query = "UPDATE Admissions SET ";
-   $query .= "StudentName = '$name', ";
-   $query .= "FatherName = '$fatherName', ";
-   $query .= "MotherName = '$motherName', ";
-   $query .= "CourseID = '$CourseID', ";
-   $query .= "Course = '$CourseName', ";
-   $query .= "DOB = '$dob', ";
-   $query .= "Sex = '$gender', ";
-   $query .= "Batch = '$batch', ";
-   $query .= "Category = '$category', ";
-   $query .= "EmailID = '$personalEmail', ";
-   $query .= "OfficialEmailID = '$officialEmail', ";
-   $query .= "StudentMobileNo = '$mobileNumber', ";
-   $query .= "FatherMobileNo = '$whatsappNumber', ";
-   $query .= "AddressLine1 = '$addressLine1', ";
-   $query .= "AddressLine2 = '$addressLine2', ";
-   $query .= "PermanentAddress = '$permanentAddress', ";
-   $query .= "CorrespondanceAddress = '$correspondenceAddress', ";
-   $query .= "CollegeName = '$CollegeName', ";
-   $query .= "CollegeID = '$CollegeID', ";
-   $query .= "Nationality = '$Nationality_1', ";
-   $query .= "District = '$DistrictName', ";
-   $query .= "State = '$StateName', ";
-   $query .= "Eligibility = '$eligible', ";
-   $query .= "Locked = '$ulocked', ";
-   $query .= "ClassRollNo = '$classRollNo', ";
-   $query .= "UniRollNo = '$uniRollNo', ";
-   $query .= "AadhaarNo = '$aadharNo', ";
-   $query .= "country = '$Ncountry_1Name', ";
-   $query .= "PO = '$postOffice', ";
-   $query .= "PIN = '$pinCode', ";
-   $query .= "Session = '$session', ";
-   $query .= "RegistrationNo = '$registrationNo', ";
-   $query .= "AdmissionDate = '$admissionDate', ";
-   $query .= "FeeCategory = '$feeCategory', ";
-   $query .= "LateralEntry = '$lateral', ";
-   $query .= "Status = '$employmentStatus' ";
-   $query .= "WHERE IDNo = '$loginId'";
+   $query .= "StudentName ='$name', ";
+   $query .= "FatherName ='$fatherName', ";
+   $query .= "MotherName ='$motherName', ";
+   $query .= "DOB ='$dob', ";
+   $query .= "Sex ='$gender', ";
+   $query .= "Category ='$category', ";
+   $query .= "BloodGroup ='$BloodGroup', ";
+   $query .= "AadhaarNo ='$adhaar', ";
+   $query .= "Religion ='$Religion', ";
+ 
+ // contact
+
+   $query .= "EmailID ='$personalEmail', ";
+   $query .= "OfficialEmailID ='$officialEmail', ";
+   $query .= "StudentMobileNo ='$mobileNumber', ";
+   $query .= "FatherMobileNo ='$whatsappNumber', ";
+   $query .= "AddressLine1 ='$addressLine1', ";
+   $query .= "AddressLine2 ='$addressLine2', ";
+   $query .= "PermanentAddress ='$permanentAddress', ";
+   $query .= "CorrespondanceAddress ='$correspondenceAddress', ";
+   $query .= "Nationality ='$Nationality_1', ";
+    $query .= "country ='$CountryID', ";
+   $query .= "District ='$districtID', ";
+   $query .= "State ='$State', ";
+   $query .= "PO ='$postOffice', ";
+   $query .= "PIN ='$pinCode', ";
+   $query .= "Status ='$employmentStatus', ";
+   $query .= "Eligibility ='$eligible', ";
+   $query .= "Locked ='$ulocked', ";
+   $query .= "Quota ='$modeofadmission', ";
+   $query .= "ScolarShip ='$scholaship',";
+   $query .= "EligibilityReason='$provisional'";
+   $query .= "WHERE IDNo ='$loginId'";
 
 
 
-   $query;
+ $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
       echo "1";
+
+
+
+
+//$desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.",Eligibility:".$eligible.",Reason:".$provisional;
+
+
+  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScolarShip :".$scholaship;
+
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+ if ($update_query === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+}
+
+
+
    }
    else
    {
