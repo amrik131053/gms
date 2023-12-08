@@ -6,7 +6,7 @@
    <div class="row">
       <!-- left column -->
       <!-- Button trigger modal -->
-      <div class="col-lg-3 col-md-3 col-sm-3">
+      <div class="col-lg-4 col-md-4 col-sm-4">
          <div class="card card-info">
             <form id="eligibility_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -72,40 +72,11 @@
             <!-- /.card-footer -->
          </div>
          <!-- /.card -->
-         <div class="card card-info">
-            <form id="university_upload" action="action.php" method="post" enctype="multipart/form-data">
-            <div class="card-header ">
-               <h3 class="card-title">University RollNo </h3>
-                <button type="button" class="btn btn-success btn-xs" style="float: right;">
-             <a href="formats/university.csv" style="color:white;"> Format</a>
-               </button>
-            </div>
-             <div class="card-body">
-               <div class="form-group row">
-                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
-                  <div class="col-lg-12">
-               
-                    <input type="hidden" name="code" value="183">
-                    <input type="hidden" name="code_access" value="<?=$code_access;?>">
-                     <input type="file" name="file_exl" class="form-control">
-                  </div>
-               </div>
-            </div>
-             <div class="card-footer">
-                <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
-                                          {
-            ?>
-               <button type="submit" class="btn btn-info">Submit</button>
-            <?php }?>
-
-            </div>
-            </form>
-            <!-- /.card-footer -->
-         </div>
+        
       </div>
 
 
-      <div class="col-lg-3 col-md-3 col-sm-3">
+      <div class="col-lg-4 col-md-4 col-sm-4">
          <div class="card card-info">
               <form id="abc_upload" action="action.php" method="post" enctype="multipart/form-data">
             <div class="card-header ">
@@ -182,14 +153,44 @@ input[type=radio]:checked + label {
             <!-- /.card-footer -->
          </div>
       </div>
-         <div class="col-lg-4 col-md-4 col-sm-3" >
-         <div class="card card-info">
-            <div class="card-header " >
+  <div class="col-lg-4 col-md-4 col-sm-3" >
+          <div class="card card-info">
+            <form id="university_upload" action="action.php" method="post" enctype="multipart/form-data">
+            <div class="card-header ">
+               <h3 class="card-title">University RollNo </h3>
+                <button type="button" class="btn btn-success btn-xs" style="float: right;">
+             <a href="formats/university.csv" style="color:white;"> Format</a>
+               </button>
+            </div>
+             <div class="card-body">
+               <div class="form-group row">
+                  <label required="" class="col-sm-3 col-lg-12 col-md-12  col-form-label">File</label>
+                  <div class="col-lg-12">
+               
+                    <input type="hidden" name="code" value="183">
+                    <input type="hidden" name="code_access" value="<?=$code_access;?>">
+                     <input type="file" name="file_exl" class="form-control">
+                  </div>
+               </div>
+            </div>
+             <div class="card-footer">
+                <?php  if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
+                                          {
+            ?>
+               <button type="submit" class="btn btn-info">Submit</button>
+            <?php }?>
+
+            </div>
+            </form>
+            <!-- /.card-footer -->
+         </div></div>
+      <!--   <div class="card card-info"> -->
+            <!-- <div class="card-header " > -->
                <!-- <h3 class="card-title">Eligibility</h3> -->
               <!--  <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#exampleModal" style="float: right;">
                <i class="fa fa-plus" aria-hidden="true"></i>
                </button> -->
-                <div class="btn-group input-group-sm" style="text-align:center;">
+              <!--   <div class="btn-group input-group-sm" style="text-align:center;">
                        <input type="radio"  id="ossm" class="ossm" value='1' name="option" hidden="" required="" checked="">  
 
 
@@ -222,13 +223,13 @@ input[type=radio]:checked + label {
             
            
           
-            <!-- /.card-footer -->
-         </div>
-         <!-- /.card -->
+         
+         </div> -->
+        
      
-      </div>
+      <!-- </div> -->
       <!-- /.row -->
-   </div>
+   <!-- </div> -->
    <!-- /.container-fluid -->
 </section>
 <div class="modal fade" id="Updatestudentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
