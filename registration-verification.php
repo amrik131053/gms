@@ -228,7 +228,7 @@ var len_student= verifiy.length;
          type:'POST',
          success:function(data) {
             spinner.style.display='none';
-            // console.log(data);
+            console.log(data);
             if (data==1) 
             {
                 SuccessToast('Successfully Verified');
