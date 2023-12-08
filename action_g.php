@@ -19665,6 +19665,11 @@ $stmt1 = sqlsrv_query($conntest,$sql);
        $ExamFromID=$_POST['ExamFromID'];
         $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+   $desc= "UPDATE  ExamForm  SET Status: Verified,RegistraionVerifDate: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('Exam ID: $ExamFromID','$desc','$EmployeeID','$timeStamp')";
+$update_query=mysqli_query($conn,$update1);
+
    if($getDefalutMenuRun==true)
    {
        echo "1";
@@ -19680,6 +19685,12 @@ $stmt1 = sqlsrv_query($conntest,$sql);
        $remark=$_POST['remark'];
         $getDefalutMenu="UPDATE  ExamForm  SET RegistraionRejectedReason='$remark',Status='22' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
+   $desc= "UPDATE  ExamForm  SET Status: Rejected,RegistraionRejectedReason: ".$remark;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('Exam ID: $ExamFromID','$desc','$EmployeeID','$timeStamp')";
+$update_query=mysqli_query($conn,$update1);
+
+
    if($getDefalutMenuRun==true)
    {
        echo "1";
@@ -19848,6 +19859,10 @@ $stmt1 = sqlsrv_query($conntest,$sql);
      {
            $getDefalutMenu="UPDATE  ExamForm  SET RegistraionVerifDate='$timeStampS',Status='0' Where ID='$id'";
            $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
+
+           $desc= "UPDATE  ExamForm  SET Status: Verified,RegistraionVerifDate: ".$timeStampS;
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('Exam ID: $id','$desc','$EmployeeID','$timeStamp')";
+$update_query=mysqli_query($conn,$update1);
      }
      if ($getDefalutMenuRun==true) {
         echo "1";
