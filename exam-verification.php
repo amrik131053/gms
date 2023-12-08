@@ -148,9 +148,9 @@
                                 <label>Status</label>
                                 <select id="Status" class="form-control" >
                                     <option value="">All</option>
-                                    <option value="-1">Pending</option>
-                                    <option value="0">verified</option>
-                                    <option value="22">Rejected</option>
+                                    <option value="5">Pending</option>
+                                    <option value="8">verified</option>
+                                    <option value="7">Rejected</option>
                                 </select>
 
                             </div>
@@ -158,7 +158,7 @@
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label>Action</label><br>
                                 <button class="btn btn-danger " onclick="fetchCutList();"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <button class="btn btn-success " onclick="exportCutListExcel()"><i
+                                <button class="btn btn-success " onclick="exportExamForm()"><i
                                                     class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
                                 <!-- <button class="btn btn-danger " onclick="exportCutListPdf()"><i
                                 class="fa fa-file-pdf"></i></button> -->
@@ -216,7 +216,8 @@ var len_student= verifiy.length;
      }
   if((typeof  subjectIDs[0]== 'undefined'))
   {
-    alert('Select atleast one Subject');
+    // alert('');
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
   }
   else
   {
@@ -291,7 +292,7 @@ function fetchCutList() {
     var Status = document.getElementById('Status').value;
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '282';
+        var code = '290';
         $.ajax({
             url: 'action_g.php',
             data: {
@@ -322,7 +323,7 @@ function searchStudentOnRollNo() {
     var rollNo = document.getElementById('rollNo').value;
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '282';
+        var code = '290';
         $.ajax({
             url: 'action_g.php',
             data: {
@@ -344,7 +345,7 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 283;
+    var code = 291;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -363,8 +364,8 @@ function edit_stu(id) {
 }
 
 
-function exportCutListExcel() {
-    var exportCode = 42;
+function exportExamForm() {
+    var exportCode = 43;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     // var Batch = document.getElementById('Batch').value;
@@ -389,7 +390,7 @@ function verify(ExamFromID)
     if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 284;
+        var code = 292;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -422,7 +423,7 @@ function reject(ExamFromID) {
     if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 285;
+        var code = 293;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -456,7 +457,7 @@ function pendingCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 286;
+        var code = 294;
         // alert(code);
         $.ajax({
             url: 'action_g.php',
@@ -485,7 +486,7 @@ function rejectCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 287;
+        var code = 295;
         // alert(code);
         $.ajax({
             url: 'action_g.php',
@@ -514,7 +515,7 @@ function verifiedCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 288;
+        var code = 296;
         // alert(code);
         $.ajax({
             url: 'action_g.php',

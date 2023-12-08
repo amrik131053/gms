@@ -216,7 +216,7 @@ var len_student= verifiy.length;
      }
   if((typeof  subjectIDs[0]== 'undefined'))
   {
-    alert('Select atleast one Subject');
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
   }
   else
   {
