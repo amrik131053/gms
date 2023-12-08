@@ -19371,6 +19371,8 @@ else{
                                      <th>Uni Roll No</th>
                                      <th>Name</th>
                                      <th>Father Name</th>
+                                     <th>Examination</th>
+                                     <th>Semester</th>
                                      <th>Date</th>
                                      <th>Status</th>
                                      <th >Action</th>
@@ -19457,9 +19459,9 @@ elseif($Status==8)
           <td>
           <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
                 </td>
-          <td>
-         <?=$row['FatherName'];?>
-                </td>
+          <td><?=$row['FatherName'];?></td>
+          <td><?=$row['Examination'];?></td>
+          <td><?=$row['Semesterid'];?></td>
                 <td> <?php 
             echo $issueDate;?>
 
@@ -19531,7 +19533,7 @@ if($Status==8)
         <?php 
          }?>
          <tr>
-            <td colspan="8"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
+            <td colspan="10"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
          </tr>
 
          </tbody>
@@ -19556,6 +19558,7 @@ elseif($code==283)
              $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
+             $Semester=$row5['Semester'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -19652,10 +19655,107 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <td>
    <?=$examination;?> </td>
    <td><b>Type:</b></td>
-   <td colspan="7">
+   <td colspan="4">
    <?=$type;?> </td>
+   <td><b>Sem:</b></td>
+   <td colspan="3">
+   <?=$Semester;?> </td>
    </tr>
    <tr>
+        </table>
+        <table class="table table-striped"  style="border:1px solid black">
+<tr>
+   <th>SrNo</th>
+  <th>Examination</th>
+  <th width="">Semester</th>
+  <th width="">Type</th>
+  <th width="">Batch</th>
+  <th width="8%">Status</th>
+
+</tr>
+
+
+<?php 
+
+ $exam = "SELECT * FROM ExamForm where IDNo='$IDNo' and Status!='-1' order by Semesterid DESC";  
+$list_resultexam = sqlsrv_query($conntest,$exam);  
+$sr=0;
+while($row7 = sqlsrv_fetch_array($list_resultexam, SQLSRV_FETCH_ASSOC) )
+         { 
+            
+            $sr++;
+            ?>
+
+         <tr>
+            <td width="10"><?=$sr;?></td>
+  <td><?= $row7['Examination'];?></td>
+  <td><?= $row7['Semester'];?></td>
+  <td><?= $row7['Type'];?></td>
+  <td><?= $row7['Batch'];?></td>
+  <td><?php 
+  if($row7['Status']==-1)
+  {
+    echo "<b>Pending</b>";
+
+  }
+   if($row7['Status']==22)
+  {
+    echo "<b>Rejected By Registration Branch</b>";
+
+  }
+  elseif($row7['Status']==0)
+  {
+    echo "<b>Forward to Department</b>";
+  }elseif($row7['Status']==1)
+  {
+    echo '<b>Forward to Dean</b>';
+  }
+
+  elseif($row7['Status']==2)
+  {
+    echo "<b style='color:red'>Rejected By Department</b>";
+  }
+   elseif($row7['Status']==3)
+  {
+    echo "<b style='color:red'>Rejected By Dean</b>";
+  }
+
+elseif($row7['Status']==4)
+  {
+    echo '<b>Forward to Account</b>';
+  }
+elseif($row7['Status']==5)
+  {
+    echo '<b>Forward to Examination Branch</b>';
+  }
+
+elseif($row7['Status']==6)
+  {
+    echo "<b style='color:red'>Rejected By Accountant</b>";
+  }
+elseif($row7['Status']==7)
+  {
+    echo "<b style='color:red'>Rejected_By Examination Branch</b>";
+  }           
+
+elseif($row7['Status']==8)
+  {
+    echo "<b style='color:green'>Accepted</b>";
+  } ?></td>
+
+
+<!-- <p id="resuccess"></p> -->
+
+
+</tr>
+
+
+
+         <?php }
+         ?>
+<tr>
+
+
    <td colspan="10" style="text-align:right; font-size: 16px;">
    <?php if($Status=='-1'){?> 
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
@@ -19978,6 +20078,8 @@ else{
                                      <th>Uni Roll No</th>
                                      <th>Name</th>
                                      <th>Father Name</th>
+                                     <th>Examination</th>
+                                     <th>Semester</th>
                                      <th>Date</th>
                                      <th>Status</th>
                                      <th >Action</th>
@@ -20067,6 +20169,12 @@ elseif($Status==8)
           <td>
          <?=$row['FatherName'];?>
                 </td>
+          <td>
+         <?=$row['Examination'];?>
+                </td>
+          <td>
+         <?=$row['Type'];?>
+                </td>
                 <td> <?php 
             echo $issueDate;?>
 
@@ -20138,7 +20246,7 @@ if($Status==8)
         <?php 
          }?>
          <tr>
-            <td colspan="8"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
+            <td colspan="10"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
          </tr>
 
          </tbody>
@@ -20162,6 +20270,7 @@ elseif($code==291)
              $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
+             $Semester=$row5['Semester'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -20258,10 +20367,105 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <td>
    <?=$examination;?> </td>
    <td><b>Type:</b></td>
-   <td colspan="7">
+   <td colspan="4">
    <?=$type;?> </td>
+   <td><b>Sem:</b></td>
+   <td colspan="3">
+   <?=$Semester;?> </td>
    </tr>
    <tr>
+        </table>
+        <table class="table table-striped"  style="border:1px solid black">
+<tr>
+   <th>SrNo</th>
+  <th>Examination</th>
+  <th width="">Semester</th>
+  <th width="">Type</th>
+  <th width="">Batch</th>
+  <th width="8%">Status</th>
+
+</tr>
+
+
+<?php 
+
+ $exam = "SELECT * FROM ExamForm where IDNo='$IDNo' and Status!='5' order by Semesterid DESC";  
+$list_resultexam = sqlsrv_query($conntest,$exam);  
+$sr=0;
+while($row7 = sqlsrv_fetch_array($list_resultexam, SQLSRV_FETCH_ASSOC) )
+         { 
+            
+            $sr++;
+            ?>
+
+         <tr>
+            <td width="10"><?=$sr;?></td>
+  <td><?= $row7['Examination'];?></td>
+  <td><?= $row7['Semester'];?></td>
+  <td><?= $row7['Type'];?></td>
+  <td><?= $row7['Batch'];?></td>
+  <td><?php 
+  if($row7['Status']==-1)
+  {
+    echo "<b>Pending</b>";
+
+  }
+   if($row7['Status']==22)
+  {
+    echo "<b>Rejected By Registration Branch</b>";
+
+  }
+  elseif($row7['Status']==0)
+  {
+    echo "<b>Forward to Department</b>";
+  }elseif($row7['Status']==1)
+  {
+    echo '<b>Forward to Dean</b>';
+  }
+
+  elseif($row7['Status']==2)
+  {
+    echo "<b style='color:red'>Rejected By Department</b>";
+  }
+   elseif($row7['Status']==3)
+  {
+    echo "<b style='color:red'>Rejected By Dean</b>";
+  }
+
+elseif($row7['Status']==4)
+  {
+    echo '<b>Forward to Account</b>';
+  }
+elseif($row7['Status']==5)
+  {
+    echo '<b>Forward to Examination Branch</b>';
+  }
+
+elseif($row7['Status']==6)
+  {
+    echo "<b style='color:red'>Rejected By Accountant</b>";
+  }
+elseif($row7['Status']==7)
+  {
+    echo "<b style='color:red'>Rejected_By Examination Branch</b>";
+  }           
+
+elseif($row7['Status']==8)
+  {
+    echo "<b style='color:green'>Accepted</b>";
+  } ?></td>
+
+
+<!-- <p id="resuccess"></p> -->
+
+
+</tr>
+
+
+
+         <?php }
+         ?>
+
    <td colspan="10" style="text-align:right; font-size: 16px;">
    <?php if($Status==5){?> 
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
