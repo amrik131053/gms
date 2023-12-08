@@ -278,8 +278,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 
 
  $i=0;
-// $totalStudent = 3;
-$totalStudent = count($IDNos);
+$totalStudent = 3;
+// $totalStudent = count($IDNos);
 if (empty($IDNos)) {
     $pdf = new FPDF();
     $pdf->AddPage('L');
@@ -332,10 +332,10 @@ if (empty($IDNos)) {
                           }
                           else 
                           {
-                            $ExternalExam[]= "";
+                            $ExternalExam[]= "N";
                           }
           }
-        //   print_r($ExternalExam);
+          // print_r($ExternalExam);
         //   echo "<br>";
 
         for ($subIndex = 0;  $subIndex< 11; $subIndex++)
@@ -395,7 +395,7 @@ $pdf->MultiCell(29,3,ucwords($smal),0,'l');
   $pdf->SetFont('Times','B',8);
   $pdf->SetXY(79,$y);
     
-    for($sub=0;$sub<12;$sub++)
+    for($sub=11;$sub<22;$sub++)
     {
     $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
     $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
@@ -405,7 +405,7 @@ $pdf->MultiCell(29,3,ucwords($smal),0,'l');
                           }
                           else 
                           {
-                            $ExternalExam[]= "";
+                            $ExternalExam[]= "N";
                           }
                     }
                     for ($subIndex = 11;  $subIndex< 22; $subIndex++)
@@ -471,7 +471,7 @@ $pdf->MultiCell(29,3,ucwords($smal),0,'l');
   $pdf->SetFont('Times','B',8);
   $pdf->SetXY(79,$y);
  
-    for($sub=0;$sub<12;$sub++)
+    for($sub=22;$sub<33;$sub++)
     {
     $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
     $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
@@ -544,7 +544,7 @@ $pdf->MultiCell(29,3,ucwords($smal),0,'l');
   $pdf->SetFont('Times','B',8);
   $pdf->SetXY(79,$y);
   
-    for($sub=0;$sub<12;$sub++)
+    for($sub=33;$sub<44;$sub++)
     {
     $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
     $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
