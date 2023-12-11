@@ -20499,7 +20499,7 @@ elseif($row7['Status']==8)
    else if($code==292)
    {
        $ExamFromID=$_POST['ExamFromID'];
-      echo   $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$ExamFromID'";
+         $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
@@ -20707,7 +20707,7 @@ $update_query=mysqli_query($conn,$update1);
      $ids=$_POST['subjectIDs'];
      foreach($ids as $key => $id)
      {
-          echo "<br>".$getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$id'";
+          $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$id'";
            $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
         $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$id'";
         $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
