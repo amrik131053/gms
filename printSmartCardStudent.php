@@ -51,7 +51,7 @@ if($code==1)
     $result = sqlsrv_query($conntest,$sql);
     if($row=sqlsrv_fetch_array($result))
     {
-         $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."' ";
+         $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."'  and Batch='".$row['Batch']."' ";
         $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
         if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
         {
@@ -60,6 +60,9 @@ if($code==1)
             $CourseShortName=$rowgetCourseDetails['CourseShortName'];
             $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         }
+
+
+        
         $name= $row['StudentName'];
         $pdf->SetFont('Arial','',10);
         $pdf->SetTextColor(255,255,255);

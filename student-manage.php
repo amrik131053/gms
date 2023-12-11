@@ -335,6 +335,28 @@ function printEmpIDCard(id) {
     }
 
 }
+function printSmartCardForStudent(id) 
+{
+    var code = 248;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id
+        },
+        success: function(response) {
+            // console.log(response);
+            if (response == '1') {
+                window.open("printSmartCardStudent.php?id=" + id+"&code="+1, '_blank');
+                searchStudentForIDcard();
+            } else {
+                ErrorToast(response, 'bg-warning');
+            }
+
+        }
+    });
+}
 
 function StudentUpdatedata(id) {
 

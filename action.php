@@ -13698,7 +13698,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                   </li> 
                   <li class="nav-link"><b>ID Card</b> :&nbsp;&nbsp;&nbsp;
    
-<?php echo $printed_status; ?>   
+<?php echo $printed_status; ?>                &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <button class="btn btn-success" onclick="printSmartCardForStudent(<?=$IDNo;?>);">Re print </button>
 
                  
 
