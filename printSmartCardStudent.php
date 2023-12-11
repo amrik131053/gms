@@ -61,8 +61,8 @@ if($code==1)
             $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         }
 
-
-        
+if($CourseShortName)
+{
         $name= $row['StudentName'];
         $pdf->SetFont('Arial','',10);
         $pdf->SetTextColor(255,255,255);
@@ -184,8 +184,9 @@ $up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
 
 $up1="UPDATE SmartCardDetails SET Status='Printed',PrintDate='$date' WHERE IDNO='$empid' ";
  sqlsrv_query($conntest,$up1);
- $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
-  sqlsrv_query($conntest,$up11);
+ // $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
+ //  sqlsrv_query($conntest,$up11);
+}
 }
 }
 elseif($code==2)
