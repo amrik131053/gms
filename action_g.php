@@ -17535,8 +17535,8 @@ elseif($code==267) //update student
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
                         </li>
-                       <!--  <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
-                        </li> -->
+                      <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>

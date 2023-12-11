@@ -11314,6 +11314,7 @@ $row_count = sqlsrv_num_rows($stmt1);
     $Eligibility = $row['Eligibility'];
     $Reason = $row['Reason'];
     $validUpto=$row['ValidUpTo'];
+
       $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
       $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
    if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
@@ -13436,6 +13437,58 @@ $IDNo= $_POST['IDNo'];
     $validUpto='NA';
     $password= $row['Password'];
           }
+
+
+                $check_student_idcard="SELECT * FROM SmartCardDetails Where IDNO='$IDNo'";
+      $check_student_idcard_run=sqlsrv_query($conntest,$check_student_idcard);
+   if($row_check=sqlsrv_fetch_array($check_student_idcard_run,SQLSRV_FETCH_ASSOC))
+   {
+      if($row_check['PrintDate']!='')
+      {
+      $PrintDate1=$row_check['PrintDate'];
+
+      $PrintDate=$PrintDate1->format('d-M-Y  h:s:A');
+      }
+
+      else{ 
+        $PrintDate=""; 
+      }
+
+      if($row_check['ApplyDate']!='')
+      {
+         $ApplyDate1=$row_check['ApplyDate'];
+         $ApplyDate=$ApplyDate1->format('d-M-Y  h:s:A');
+      }
+      else
+      {
+$ApplyDate="";
+      }
+      if($row_check['status']=='Printed')
+      {
+         // $printed_status="<b class='text-success'>Printed</b>";
+         $printed_status="<img src='dist/img/emoji-yes.png' width='50'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$PrintDate;
+      }
+      else if($row_check['status']=='Applied')
+      {
+         $printed_status="<img src='dist/img/emoji-no.GIF' width='60'>";
+         $printed_status.='&nbsp;&nbsp;&nbsp;&nbsp;'.$ApplyDate;
+         // $printed_status="Applied";
+      }
+
+      else if($row_check['status']=='Rejected')
+      {
+         $printed_status="<b class='text-danger'>Rejected</b>";
+      }
+       else if($row_check['status']=='Verified')
+      {
+         $printed_status="<b class='text-danger'>Verified</b>";
+      }
+   }
+   else{
+      $printed_status="NA";
+   }
+   
 ?>
 
 
@@ -13642,7 +13695,17 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
 
 
-                  </li>                                  
+                  </li> 
+                  <li class="nav-link"><b>ID Card</b> :&nbsp;&nbsp;&nbsp;
+   
+<?php echo $printed_status; ?>                &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <button class="btn btn-success" onclick="printSmartCardForStudent(<?=$IDNo;?>);">Re print </button>
+
+                 
+
+
+
+                  </li>
+
                 </ul>
               </div>
             </div>  </div>   
