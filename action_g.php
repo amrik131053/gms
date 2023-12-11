@@ -20491,7 +20491,7 @@ elseif($row7['Status']==8)
    else if($code==292)
    {
        $ExamFromID=$_POST['ExamFromID'];
-        $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$ExamFromID'";
+      echo   $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
@@ -20699,7 +20699,7 @@ $update_query=mysqli_query($conn,$update1);
      $ids=$_POST['subjectIDs'];
      foreach($ids as $key => $id)
      {
-           $getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$id'";
+          echo "<br>".$getDefalutMenu="UPDATE  ExamForm  SET ExaminationVerifiedDate='$timeStampS',Status='8' Where ID='$id'";
            $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
         $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$id'";
         $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
@@ -20718,6 +20718,34 @@ $update_query=mysqli_query($conn,$update1);
         echo "0";
      }
   
+   }
+   elseif($code==298)
+   {
+    $count=array(); 
+      $Batch=$_POST['Batch'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' ";
+   $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
+
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' ";
+    $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
+  
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' ";
+     $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
+
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' ";
+     $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
+
+
+      $count[0]=$TotalAdmission;
+      $count[1]=$TotalActive;
+      $count[2]=$TotalLeft;
+      $count[3]=$TotalEligibility;
+    echo json_encode($count);
+   
    }
 
 
