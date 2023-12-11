@@ -82,7 +82,7 @@ while($row=mysqli_fetch_array($result))
          <!-- /.card -->
        
       </div>
-      <div class="col-lg-8 col-md-8 col-sm-12">
+      <div class="col-lg-9 col-md-9 col-sm-12">
          <div class="card card-info">
             <div class="card-header ">
              <h3 class="card-title">Print Certificate</h3>
@@ -143,7 +143,7 @@ while($row=mysqli_fetch_array($result))
 
 
                                 <button class="btn btn-success" onclick="search();">Search</button>
-                                  <!-- <button class="btn btn-success" onclick="signature();">Signature</button> -->
+                              <button class="btn btn-success" onclick="signature();">Signature</button> 
 </div>
 
 </div>
@@ -177,7 +177,7 @@ function search()
                 
                 if(data != "")
                 {
-                  console.log(data);
+                  // console.log(data);
                    spinner.style.display='none';
                     $("#show_data").html("");
                     $("#show_data").html(data);
@@ -199,7 +199,7 @@ function signature()
       var course=document.getElementById('Course').value;
       var batch=document.getElementById('Batch').value;
 
-     var code='348';
+     var code='349';
             $.ajax({
             url:'action.php',
             data:{college:college,code:code,course:course,batch:batch},
@@ -208,7 +208,7 @@ function signature()
                 
                 if(data != "")
                 {
-                  console.log(data);
+                  // console.log(data);
                    spinner.style.display='none';
                     $("#show_data").html("");
                     $("#show_data").html(data);
@@ -262,6 +262,176 @@ function signature()
           });
     });
   });
+
+
+
+  function verifiy_select()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+}
+
+function deleteAllChecked()
+{
+  var r = confirm("Do you really want to Delete");
+    if (r == true) {
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=313;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+     }
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    // alert('');
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{certificateID:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Deleted');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+else{
+
+}
+}
+function deleteSignAll()
+{
+  var r = confirm("Do you really want to Delete");
+    if (r == true) {
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=314;
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+     }
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    // alert('');
+    ErrorToast(' Select atleast one ' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{certificateID:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Deleted');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+else{
+
+}
+}
+
+function deleteSignSingle(id)
+{
+var r = confirm("Do you really want to Delete");
+    if (r == true) {
+var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+         var code="315";
+  $.ajax({
+         url:'action_g.php',
+         data:{certificateID:id,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Deleted');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+    }
+    else{
+
+    }
+  }
 </script>
 <?php 
 
@@ -332,7 +502,6 @@ sqlsrv_query($conntest,$upimage,$params);
 }
 ?>
 
-<p id="ajax-loader"></p>
 
 
 <!-- Modal -->
@@ -442,7 +611,7 @@ sqlsrv_query($conntest,$upimage,$params);
 
 <!-- Modal -->
 
-
+<p id="ajax-loader"></p>
 <?php
 
 
