@@ -154,6 +154,7 @@
     {
         var code=138; 
         var spinner=document.getElementById("ajax-loader");
+        alert(examName);
             spinner.style.display='block';
         // alert(SubjectCode+' '+Semester+' '+CourseID+' '+examName);
         $.ajax({
@@ -164,6 +165,7 @@
             },
             success: function(response)
             {
+
                 // location.reload(true);
                 searchSubjectCode(examName,SubjectCode,CourseID);
                 document.getElementById("table_load").innerHTML='';

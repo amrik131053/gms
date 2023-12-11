@@ -8606,14 +8606,16 @@ elseif ($code==138)
       $flag=1;
 
    }
-    elseif($examName=='5')
+  
+ elseif($examName=='6')
    {
-
-      // for special mst
-  $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
+   // for reappear 70 marks
+  $questionCountQry="Select * from question_generate_count where  unit='6' ";
       $flag=1;
 
    }
+
+
    else
    {
       $flag=0;
@@ -8666,11 +8668,11 @@ else
 
             if($unit>4)
             {
-          $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+        echo   $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
             }
             else
             {
-               $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+              $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8685,7 +8687,7 @@ else
                    
          
          }    
-          //print_r($questionArray);
+          print_r($questionArray);
 
       $countarray=count($questionArray);
 
@@ -8715,7 +8717,7 @@ $gene=1;
     {
 $gene=1;
     } 
-      elseif($examName==5 && $countarray==16)
+      elseif($examName==6 && $countarray==30)
     {
 $gene=1;
     } 
