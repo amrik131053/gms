@@ -20544,7 +20544,7 @@ while($row=mysqli_fetch_array($result))
 {
 
 ?>
-<img class="custom" src="http://gurukashiuniversity.co.in/data-server/VAC/<?=$row['certificate'];?>" height="200" width="350" name="" required >
+<img class="custom" src="http://gurukashiuniversity.co.in/data-server/VAC/<?=$row['certificate'];?>" height="190" width="280" name="" required >
 
 
 <?php
@@ -20565,8 +20565,16 @@ elseif($code==348)
 $aa=array();
 ?>
 <table class="table">
-   <tr><th>Uni Roll No</th> <th>Student Name</th><th>Father Name</th><th> Course</th>
-         <th>Batch</th><th>Download</th></tr>
+   <tr>
+   <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
+      <th>Uni Roll No</th> 
+     
+      <th>Student Name</th>
+       <th>Father Name</th>
+       <th> Course</th>
+       <th>Batch</th>
+      <th>Download</th>
+      </tr>
 <?php  
 $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FROM  ValueAddedCertificate as vac Inner Join   Admissions  on Admissions.IDNo=vac.IDNo WHERE  CollegeID='$CollegeID'      ANd       CourseID ='$CourseID'AND  Batch='$Batch'ANd Status='$Status'AND Eligibility='$Eligibility'";
    
@@ -20575,14 +20583,25 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
                 
-       ?><tr><td><?= $row['UniRollNo'];?></td> <td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['Course'];?></td>
+       ?>
+       <tr>
+         <td><input type="checkbox" class="checkbox v_check" value="<?=$row['vid'];?>"></td>
+         <td><?=$row['UniRollNo'];?></td>
+          <td><?=$row['StudentName'];?></td>
+          <td><?=$row['FatherName'];?></td>
+          <td><?=$row['Course'];?></td>
          <td><?= $row['Batch'];?></td><td>
            <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form></td>
          </tr>
          
+         
 <?php
 }?>
-
+<tr>
+            <td colspan="8">
+               <button class="btn" style="float:right" onclick="deleteAllChecked();"><i class="fa fa-trash text-danger"></i></button>
+            </td>
+       </tr>
 </table>
 
 <?php 
@@ -20592,40 +20611,69 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
 
 elseif($code==349)
 {
- $CollegeID= $_POST['college'];
-  $CourseID = $_POST['course'];
-   $Batch = $_POST['batch'];
-   $Status = 1;
-   $Eligibility=1;
- 
- $sr=1;
-
-$aa=array();
-?>
-<table class="table">
-   <tr><th></th> <th>Student Name</th><th>Father Name</th><th> Course</th>
-         <th>Batch</th><th>Download</th></tr>
-<?php  
-$query = "SELECT * FROM  VACertificateSignature  Inner  ";
+   $CollegeID= $_POST['college'];
+   $CourseID = $_POST['course'];
+    $Batch = $_POST['batch'];
    
-
-       $result = sqlsrv_query($conntest,$query);
-       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-       {
-                
-       ?><tr><td><?= $row['UniRollNo'];?></td> <td><?= $row['StudentName'];?></td><td><?= $row['FatherName'];?></td><td><?= $row['Course'];?></td>
-         <td><?= $row['Batch'];?></td><td>
-           <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form></td>
-         </tr>
+ ?>
+ <table class="table">
+    <tr>
+    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
+       
+        <th>Certificate ID</th>
+        <th>College Name</th>
+        <th> Course</th>
+        <th>Batch</th>
+       <th>Dean</th>
+       <th>Head</th>
+       <th>Action</th>
+       </tr>
+ <?php  
+  $query = "SELECT  * ,VACertificateSignature.Id as CID from VACertificateSignature inner join MasterCourseCodes  ON VACertificateSignature.CourseID=MasterCourseCodes.CourseID
+  WHERE  VACertificateSignature.CollegeID='$CollegeID' AND  VACertificateSignature.CourseID ='$CourseID' AND VACertificateSignature.Batch='$Batch'  ";
+    
+ 
+        $result = sqlsrv_query($conntest,$query);
+        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+        {
+         $img= $row['DeanSignature'];
+         $pic = 'data://text/plain;base64,' . base64_encode($img);    
+         $head= $row['HeadSignature'];
+         $headS = 'data://text/plain;base64,' . base64_encode($head);    
+        ?>
+        <tr>
+          <td><input type="checkbox" class="checkbox v_check" value="<?=$row['CID'];?>"></td>
          
-<?php
-}?>
+           <td><?=$row['CID'];?></td>
+           <td><?=$row['CollegeName'];?></td>
+           <td><?=$row['Course'];?></td>
+          <td><?= $row['Batch'];?></td>
+          <td>
+            <img src="<?=$pic;?>" width="70" height="50">
+           </td>
+          <td>
+            <img src="<?=$headS;?>" width="70" height="50">
+           </td>
+           <td>
+                <button class="btn" style="float:right" onclick="deleteSignSingle(<?=$row['CID'];?>);"><i class="fa fa-trash text-danger"></i></button>
+               
+             </td>
+          </tr>
 
-</table>
-
-<?php 
-//print_r($aa);
-
+          
+          
+ <?php
+ }?>
+ <tr>
+          <td colspan="7">
+          <button class="btn" style="float:left" onclick="deleteAllChecked();"><i class="fa fa-trash text-danger"></i></button>
+          </td>   
+        </tr>
+ </table>
+ 
+ <?php 
+ //print_r($aa);
+ 
 }
 
 elseif($code==350)
