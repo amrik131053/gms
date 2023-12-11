@@ -20620,7 +20620,7 @@ elseif($code==349)
     <tr>
     <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
        
-        <th>Certificate ID</th>
+        
         <th>College Name</th>
         <th> Course</th>
         <th>Batch</th>
@@ -20629,25 +20629,41 @@ elseif($code==349)
        <th>Action</th>
        </tr>
  <?php  
-  $query = "SELECT  * ,VACertificateSignature.Id as CID from VACertificateSignature inner join MasterCourseCodes  ON VACertificateSignature.CourseID=MasterCourseCodes.CourseID
-  WHERE  VACertificateSignature.CollegeID='$CollegeID' AND  VACertificateSignature.CourseID ='$CourseID' AND VACertificateSignature.Batch='$Batch'  ";
-    
- 
-        $result = sqlsrv_query($conntest,$query);
-        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+
+ $query ="SELECT  *  from VACertificateSignature where CollegeID='$CollegeID' AND  CourseID ='$CourseID' AND Batch='$Batch' ";
+   
+
+   $result = sqlsrv_query($conntest,$query);
+
+ while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
         {
-         $img= $row['DeanSignature'];
+
+$img= $row['DeanSignature'];
          $pic = 'data://text/plain;base64,' . base64_encode($img);    
          $head= $row['HeadSignature'];
          $headS = 'data://text/plain;base64,' . base64_encode($head);    
-        ?>
+
+
+$CollegeID=$row['CollegeID'];
+$CourseID=$row['CourseID'];
+$Batch=$row['Batch'];
+
+   $query2 = "SELECT  Course,CollegeName from  MasterCourseCodes    WHERE  CollegeID='$CollegeID' AND  CourseID ='$CourseID' AND Batch='$Batch' ";
+             $result2 = sqlsrv_query($conntest,$query2);
+      if($row1 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+        {
+          $collegename=$row1['CollegeName'];
+         $course=$row1['Course'];
+        
+         }
+?>
         <tr>
-          <td><input type="checkbox" class="checkbox v_check" value="<?=$row['CID'];?>"></td>
+          <td><input type="checkbox" class="checkbox v_check" value="<?=$row['Id'];?>"></td>
          
-           <td><?=$row['CID'];?></td>
-           <td><?=$row['CollegeName'];?></td>
-           <td><?=$row['Course'];?></td>
-          <td><?= $row['Batch'];?></td>
+          
+           <td><?= $collegename;?></td>
+           <td><?=$course;?></td>
+          <td><?= $Batch;?></td>
           <td>
             <img src="<?=$pic;?>" width="70" height="50">
            </td>
@@ -20655,7 +20671,7 @@ elseif($code==349)
             <img src="<?=$headS;?>" width="70" height="50">
            </td>
            <td>
-                <button class="btn" style="float:right" onclick="deleteSignSingle(<?=$row['CID'];?>);"><i class="fa fa-trash text-danger"></i></button>
+                <button class="btn"  onclick="deleteSignSingle(<?=$row['Id'];?>);"><i class="fa fa-trash text-danger"></i></button>
                
              </td>
           </tr>

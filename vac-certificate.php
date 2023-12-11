@@ -319,6 +319,7 @@ var len_student= verifiy.length;
   if((typeof  subjectIDs[0]== 'undefined'))
   {
     // alert('');
+
     ErrorToast(' Select atleast one Student' ,'bg-warning');
   }
   else
@@ -335,7 +336,10 @@ var len_student= verifiy.length;
             if (data==1) 
             {
                 SuccessToast('Successfully Deleted');
-            //    search_study_scheme();
+            
+
+
+               search();
             }
             else
             {
