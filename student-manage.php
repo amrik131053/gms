@@ -109,10 +109,17 @@ function searchStudentCollegeWise() {
     var session1 = document.getElementById('session1').value;
     var session2 = document.getElementById('session2').value;
     var session3 = document.getElementById('session3').value;
-    if (session1 != '' && session2 != '') {
+    if (session1 != '' && session2 != '' && session3!='') {
 
-        var Session = session1 + '-' + session2 + '-' + session3
-    } else {
+
+        var Session = session1 + '-' + session2 + '-' + session3;
+    } 
+    else if(session1 != '' && session2 != '')
+    {
+ var Session = session1 + '-' + session2 ;
+    }
+else
+     {
         var Session = "";
     }
     var StudentName = document.getElementById('StudentName1').value;
@@ -140,6 +147,7 @@ function searchStudentCollegeWise() {
                 Status: Status
             },
             success: function(response) {
+                console.log(response);
                 spinner.style.display = 'none';
                 document.getElementById("show_record1").innerHTML = response;
                 document.getElementById('show_record').innerHTML = "";

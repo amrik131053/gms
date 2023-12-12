@@ -18418,6 +18418,7 @@ elseif($code==270)  // search student
       if ($StudentName != '') {
         $query .= " AND StudentName like '%$StudentName%'";
     }
+    echo $query;
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
