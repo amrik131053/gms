@@ -57,7 +57,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a  href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('','');" style="float:right;" ><b style="color:white!important">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a  href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         
                         <!-- /.info-box-content -->
@@ -93,7 +93,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','');" style="float:right;" ><b style="color:white!important">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
@@ -133,7 +133,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','1');" style="float:right;" ><b style="color:white!important">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','1');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
@@ -164,7 +164,7 @@
                             <span class="progress-description">
                                 &nbsp;
                             </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','0');" style="float:right;" ><b style="color:white!important">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
+                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','0');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
                         </div>
                         <!-- /.info-box-content -->
                         <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
