@@ -1,25 +1,24 @@
 <?php
-// Load the image
-$originalImage = imagecreatefrompng('D:/sig/6111011025.png');
-
-// Get the image dimensions
-$width = imagesx($originalImage);
-$height = imagesy($originalImage);
+// Load the signature image
+$signaturePath = 'D:/sig/sign.jpg';
+$signature = imagecreatefromjpeg($signaturePath);
 
 // Create a new image with a transparent background
-$newImage = imagecreatetruecolor($width, $height);
-$transparency = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
-imagefill($newImage, 0, 0, $transparency);
-imagesavealpha($newImage, true);
+$width = imagesx($signature);
+$height = imagesy($signature);
+$transparentSignature = imagecreatetruecolor($width, $height);
+$transparencyColor = imagecolorallocatealpha($transparentSignature, 0, 51, 0, 102);
+imagefill($transparentSignature, 0, 0, $transparencyColor);
+imagesavealpha($transparentSignature, true);
 
-// Copy the original image to the new image with transparency
-imagecopy($newImage, $originalImage, 0, 0, 0, 0, $width, $height);
+// Copy the signature onto the transparent background
+imagecopy($transparentSignature, $signature, 0, 0, 0, 0, $width, $height);
 
-// Output the image (you can save it to a file or send it to the browser)
+// Output the image (you can also save it to a file or send it to the browser)
 header('Content-Type: image/png');
-imagepng($newImage);
+imagepng($transparentSignature);
 
-// Free up memory by destroying the images
-imagedestroy($originalImage);
-imagedestroy($newImage);
+// Free up memory
+imagedestroy($signature);
+imagedestroy($transparentSignature);
 ?>

@@ -437,7 +437,7 @@ var spinner=document.getElementById("ajax-loader");
     else{
 
     }
-  }
+  } 
 </script>
 <?php 
 
