@@ -45,6 +45,11 @@ $code=$_GET['code'];
 $empid=$_GET['id'];
 if($code==1)
 {
+
+$eprint=$_GET['print'];
+
+
+
     $pdf-> Image('dist\img\GKUIDCARDLogo.png',4,2,45,13);
     $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
     inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$empid'  ";
@@ -179,11 +184,38 @@ if($CourseShortName)
 
 $date=date('Y-m-d H:i:s');
 
-$up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
+$up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid'";
  sqlsrv_query($conntest,$up);
+ 
+ if($eprint>0)
 
-$up1="UPDATE SmartCardDetails SET Status='Printed',PrintDate='$date' WHERE IDNO='$empid' ";
+{
+
+    $up1="UPDATE SmartCardDetails SET Status='Printed',RePrint='$eprint' WHERE IDNO='$empid' ";
+
+    sqlsrv_query($conntest,$up1);
+
+    $desc= "ID Card Reprint";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$empid','$desc','$EmployeeID','$timeStamp')";
+
+
+$update_query=sqlsrv_query($conntest,$update1);
+
+}
+else
+{
+ $up1="UPDATE SmartCardDetails SET Status='Printed',PrintDate='$date' WHERE IDNO='$empid' ";
  sqlsrv_query($conntest,$up1);
+  $desc= "ID Card Print";
+
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$empid','$desc','$EmployeeID','$timeStamp')";
+
+
+$update_query=sqlsrv_query($conntest,$update1);
+}
+
+
  // $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
  //  sqlsrv_query($conntest,$up11);
 }

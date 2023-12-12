@@ -16609,6 +16609,7 @@ echo "1";
 elseif($code==248)
 {
    $id=$_POST['id'];
+
    $sql="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails 
    inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO  where SmartCardDetails.IDNo='$id'  ";
    $result = sqlsrv_query($conntest,$sql);
@@ -17940,7 +17941,13 @@ elseif($code==267) //update student
                                             <tr>
                                                 <td><?=$getUseridcardRow['IDNO'];?></td>
                                                 <td><?=$getUseridcardRow['status'];?></td>
-                                                <td><?=$getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');?></td>
+                                                <td> 
+                                                    <?php if($getUseridcardRow['PrintDate']!='')
+                                                    {echo  $getUseridcardRow['PrintDate']->format('d-m-Y h:i:s A');
+                                                }?>
+
+
+                                                    </td>
                                             </tr>
                                             <?php 
                                                 }?>
