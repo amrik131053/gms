@@ -13701,9 +13701,25 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                   </li> 
                   <li class="nav-link"><b>ID Card</b> :&nbsp;&nbsp;&nbsp;
    
-<?php echo $printed_status; ?>                &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <button class="btn btn-success" onclick="printSmartCardForStudent(<?=$IDNo;?>);">Re print </button>
 
-                 
+
+<?php  if($printed_status!='NA')
+{
+
+echo $printed_status;
+?>
+&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <button class="btn btn-warning btn-xs" onclick="reprintSmartCardForStudent(<?=$IDNo;?>);">Re print </button>
+<?php }
+else
+{
+?>
+<button class="btn btn-danger btn-xs" onclick="generateSmartCardForStudent(<?=$IDNo;?>);">Generate </button>  
+<?php }
+
+  
+
+?>  
+
 
 
 
@@ -20707,6 +20723,29 @@ elseif($code==350)
 
 
 if($re=sqlsrv_query($conntest,$query))
+{
+
+    if ($re === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+}
+   echo "1";
+}
+else
+{
+   echo "0";
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+}
+}
+
+elseif($code==351)
+{
+ $id= $_POST['id'];
+   
+ $inserIDCard ="INSERT INTO  SmartCardDetails(IDNO,status)values($id,'Printed')";
+ 
+if($re=sqlsrv_query($conntest,$inserIDCard))
 {
 
     if ($re === false) {

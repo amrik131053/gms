@@ -338,6 +338,7 @@ function printEmpIDCard(id) {
 function printSmartCardForStudent(id) 
 {
     var code = 248;
+        var print = 0;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -348,7 +349,7 @@ function printSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == '1') {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+1, '_blank');
+                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
@@ -358,6 +359,29 @@ function printSmartCardForStudent(id)
     });
 }
 
+function reprintSmartCardForStudent(id) 
+{
+    var code = 248;
+     var print = 1;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id
+        },
+        success: function(response) {
+            // console.log(response);
+            if (response == '1') {
+                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+1, '_blank');
+                searchStudentForIDcard();
+            } else {
+                ErrorToast(response, 'bg-warning');
+            }
+
+        }
+    });
+}
 function StudentUpdatedata(id) {
 
     var code = 219;
@@ -559,6 +583,46 @@ function changecourse(id) {
         }
     });
 }
+
+
+
+
+
+
+function generateSmartCardForStudent(id) 
+{
+    alert(id);
+    var code = 351;
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id
+        },
+        success: function(response) {
+             //console.log(response);
+            if (response == '1') {
+                
+                SuccessToast('Successfuly Generated');
+
+            }
+
+             else {
+                ErrorToast(response, 'bg-warning');
+            }
+
+        }
+    });
+}
+
+
+
+
+
+
+
+
 
 function copyToClipboard(element) {
     var $temp = $("<input>");
