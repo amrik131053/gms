@@ -20681,10 +20681,10 @@ $Batch=$row['Batch'];
            <td><?=$course;?></td>
           <td><?= $Batch;?></td>
           <td>
-            <img src="<?=$pic;?>" width="70" height="50">
+            <img src="<?=$pic;?>" width="70" height="50" style="border:1px solid ">
            </td>
           <td>
-            <img src="<?=$headS;?>" width="70" height="50">
+            <img src="<?=$headS;?>" width="70" height="50" style="border:1px solid ">
            </td>
            <td>
                 <button class="btn"  onclick="deleteSignSingle(<?=$row['Id'];?>);"><i class="fa fa-trash text-danger"></i></button>
