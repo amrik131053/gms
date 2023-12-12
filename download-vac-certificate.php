@@ -187,7 +187,7 @@ if($head!='')
 {
 
 
- //$pic = 'data:image/jpeg;base64,'.base64_encode($head);
+ $pic = 'data:image/jpeg;base64,'.base64_encode($head);
 
 $info = getimagesize($pic);
 

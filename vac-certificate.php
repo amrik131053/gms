@@ -390,6 +390,7 @@ var len_student= verifiy.length;
             {
                 SuccessToast('Successfully Deleted');
             //    search_study_scheme();
+            signature();
             }
             else
             {
@@ -423,6 +424,7 @@ var spinner=document.getElementById("ajax-loader");
             {
                 SuccessToast('Successfully Deleted');
             //    search_study_scheme();
+            signature();
             }
             else
             {
@@ -468,6 +470,9 @@ if(isset($_POST["Import"]))
     }
    $c = $c + 1;
    }
+   ?>
+<script>alert('Successfully inserted Total: '+<?php echo $c ?>);window.location.href = 'vac-certificate.php';</script>
+   <?php 
 }
 
   
@@ -484,7 +489,7 @@ $Session = $_POST['session_sign'];
 
  $dean = $_FILES["deansign"]["name"];
   
-   if ($head) {
+   if ($head!='' && $dean!='') {
       $headTmp = $_FILES["headsign"]["tmp_name"];
       $deanTmp = $_FILES["deansign"]["tmp_name"]; 
 
@@ -497,8 +502,21 @@ $Session = $_POST['session_sign'];
 
 $params = array($CollegeID,$CourseID,$Batch,$Session,$dean_data,$head_data);
 
-sqlsrv_query($conntest,$upimage,$params);
-
+$ss=sqlsrv_query($conntest,$upimage,$params);
+if($ss==true)
+{
+  ?>
+  <script>alert('Successfully Uploaded');
+window.location.href = 'vac-certificate.php';
+</script>
+     <?php 
+}
+else
+{
+  ?>
+  <script>alert('Not Uploaded');window.location.href = 'vac-certificate.php';</script>
+     <?php 
+}
     
 
 }
