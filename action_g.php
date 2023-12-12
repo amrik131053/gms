@@ -20739,19 +20739,19 @@ $update_query=sqlsrv_query($conntest,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $Lateral=$_POST['Lateral'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' and LateralEntry='$Lateral' ";
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' and LateralEntry='$Lateral' and CourseID!='188' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1'and LateralEntry='$Lateral' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1'and LateralEntry='$Lateral' and CourseID!='188'";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1'and LateralEntry='$Lateral' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1'and LateralEntry='$Lateral'and CourseID!='188' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1'and LateralEntry='$Lateral' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1'and LateralEntry='$Lateral'and CourseID!='188' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20887,19 +20887,19 @@ $update_query=sqlsrv_query($conntest,$update1);
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
      $Lateral=$_POST['Lateral'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' and CourseID!='188' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
