@@ -19800,7 +19800,7 @@ elseif($row7['Status']==8)
 
    $desc= "UPDATE  ExamForm  SET Status: Verified,RegistraionVerifDate: ".$timeStampS;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
@@ -19824,7 +19824,7 @@ $update_query=mysqli_query($conn,$update1);
    }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,RegistraionRejectedReason: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
 
    if($getDefalutMenuRun==true)
@@ -20002,7 +20002,7 @@ $update_query=mysqli_query($conn,$update1);
         }
            $desc= "UPDATE  ExamForm  SET Status: Verified,RegistraionVerifDate: ".$timeStampS;
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
      }
      if ($getDefalutMenuRun==true) {
         echo "1";
@@ -20510,7 +20510,7 @@ elseif($row7['Status']==8)
 
    $desc= "UPDATE  ExamForm  SET Status: Verified,ExaminationVerifiedDate: ".$timeStampS;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
@@ -20535,7 +20535,7 @@ $update_query=mysqli_query($conn,$update1);
    }
    $desc= "UPDATE  ExamForm  SET Status: Rejected,ExaminationRejectReason: ".$remark;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
 
 
    if($getDefalutMenuRun==true)
@@ -20716,7 +20716,7 @@ $update_query=mysqli_query($conn,$update1);
         }
            $desc= "UPDATE  ExamForm  SET Status: Verified,ExaminationVerifiedDate: ".$timeStampS;
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
      }
      if ($getDefalutMenuRun==true) {
         echo "1";
@@ -20731,19 +20731,20 @@ $update_query=mysqli_query($conn,$update1);
    {
     $count=array(); 
    $Batch=$_POST['Batch'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' ";
+   $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1'and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1'and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1'and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20759,19 +20760,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+   $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID'and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID'and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID'and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20789,19 +20791,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+   $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20817,19 +20820,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+   $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20846,19 +20850,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+   $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20874,19 +20879,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20902,19 +20908,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20930,19 +20937,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20958,19 +20966,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -20986,19 +20995,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21014,19 +21024,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21042,19 +21053,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21070,19 +21082,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21099,19 +21112,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21127,19 +21141,20 @@ $update_query=mysqli_query($conn,$update1);
     $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' ";
+     $Lateral=$_POST['Lateral'];
+   $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
 
-    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' ";
+    $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' ";
+     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
 
-      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' ";
+      $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
@@ -21162,7 +21177,7 @@ $update_query=mysqli_query($conn,$update1);
 
            $desc= "DELETE  ValueAddedCertificate Certificate ID : ".$id."  DELETED by ".$EmployeeID;
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
      }
      if ($getDefalutMenuRun==true) {
         echo "1";
@@ -21183,7 +21198,7 @@ $update_query=mysqli_query($conn,$update1);
 
            $desc= "DELETE  ValueAddedCertificate Sign ID : ".$id."  DELETED by ".$EmployeeID;
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
      }
      if ($getDefalutMenuRun==true) {
         echo "1";
@@ -21204,7 +21219,7 @@ $update_query=mysqli_query($conn,$update1);
 
            $desc= "DELETE  ValueAddedCertificate Sign ID : ".$ids."  DELETED by ".$EmployeeID;
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$ids','$desc','$EmployeeID','$timeStamp')";
-$update_query=mysqli_query($conn,$update1);
+$update_query=sqlsrv_query($conntest,$update1);
      
      if ($getDefalutMenuRun==true) {
         echo "1";
