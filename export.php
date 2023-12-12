@@ -5018,7 +5018,9 @@ elseif($RegistrationStatus==8)
                                                                                  $Batch=$_GET['Batch'];
                                                                                  $Eligible=$_GET['Eligible'];
                                                                                  $Status=$_GET['Status']; 
-                                                                                 $Lateral=$_GET['Lateral'];               
+                                                                                 $Lateral=$_GET['Lateral'];  
+                                                                                 $CollegeName="";
+                                                                                 $Course="";             
                                                                                  $SrNo=1;
                                                                                  $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
                                                                                  <thead>  
@@ -5117,7 +5119,9 @@ elseif($RegistrationStatus==8)
                    $Batch=$_GET['Batch'];
                    $Eligible=$_GET['Eligible'];
                    $Status=$_GET['Status'];               
-                   $Lateral=$_GET['Lateral'];               
+                   $Lateral=$_GET['Lateral'];  
+                   $CollegeName="";
+                   $Course="";              
                    $SrNo=1;
                    if($Status=='' && $Eligible=='')
                    {
