@@ -147,6 +147,8 @@
                                         <div class="col-lg-5 col-md-12 col-sm-13">
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>
+                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button>
                                             &nbsp;
                                         </div>
                                         <div class="col-lg-3 col-md-12 col-sm-13">
@@ -508,6 +510,23 @@ function exportAttendancePdf() {
     var Examination = document.getElementById('Examination').value;
     if (College != '') {
         window.open("export-attendance-pdf.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+            "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+function exportAttendancePdfWithoutIMage() {
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export-attendance-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 

@@ -19,8 +19,11 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
                        
                 if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
                    {
-                $CollegeName=$row_college['CollegeName'];
-                $CourseName=$row_college['Course'];   
+
+                   // print_r($row);
+                $CollegeName=$row_college['CollegeName'] ;
+                $CourseName=$row_college['Course'] ;
+                
         }
 require_once('fpdf/fpdf.php');
 class PDF extends FPDF
@@ -259,51 +262,25 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY(35,$y);
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
- 
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-       $extensionSign = explode('/', mime_content_type($base64))[1];
-      
-                }    
+   
       $pdf->SetFont('Times','',10);
       $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp' && $extension!='pdf' && $extension!='zip')
-      {
+    
       
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male')
+        if($Gender[$i]=='Male')
           {
               $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
           }
           else{
               $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
           }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
 
-      }
-      if($extensionSign!='webp' && $extensionSign!='pdf' && $extensionSign!='zip'){
-        
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }
-      else
-      {
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-            
-        }
+
+
+
+
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
@@ -440,46 +417,19 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
  
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!='')
-      {
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
-      }    
-      $pdf->SetFont('Times','',10);
-      $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp'  && $extension!='pdf' && $extension!='zip'){
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
       
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male' )
+        
+        if($Gender[$i]=='Male')
           {
               $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
           }
           else{
               $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
           }
-
-      }
-      if($extensionSign!='webp'  && $extensionSign!='pdf' && $extensionSign!='zip'){
-      
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-            
-        }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
@@ -552,47 +502,7 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
  
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
-      
-                }    
-      $pdf->SetFont('Times','',10);
-      $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp' && $extension!='pdf' && $extension!='zip'){
-      
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
-          }
-          else{
-              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
-          }
-
-      }
-      if($extensionSign!='webp' && $extensionSign!='pdf' && $extensionSign!='zip'){
-      
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
-       
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-            
-        }
+      $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
@@ -670,47 +580,19 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
  
-      $pic = 'data://text/plain;base64,' . base64_encode($Snap[$i]);
-      $info = getimagesize($pic);
-      $extension = explode('/', mime_content_type($pic))[1];
-      $imageUrl = 'http://10.0.10.11/images/signature/'.$IDNos[$i].'.PNG';
-      if($imageUrl!=''){
-      $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
-      $data = file_get_contents($imageUrl);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      $infoSign = getimagesize($base64);
-      $extensionSign = explode('/', mime_content_type($base64))[1];
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
       
-                }    
-      $pdf->SetFont('Times','',10);
-      $pdf->Cell(10,14,"",1,0,'C',0);
-      if($extension!='webp' && $extension!='pdf' && $extension!='zip'){
-      
-          $pdf-> Image($pic,55,$y+2,8,8,$extension);
-      }else{
-          if($Gender[$i]=='Male')
+        
+        if($Gender[$i]=='Male')
           {
               $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
           }
           else{
               $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
           }
-
-      }
-      if($extensionSign!='webp' && $extensionSign!='pdf' && $extensionSign!='zip'){
-      
-          $pdf-> Image($base64,65,$y+2,19,8,$extensionSign);
-      }else{
-       
-          if($Gender[$i]=='Male')
-          {
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-          }
-          else{
-              $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
-            }
-            
-        }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
