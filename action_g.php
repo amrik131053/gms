@@ -17409,7 +17409,12 @@ elseif($code==266)  // search student
             <?php 
       $sr=1;
 
-       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       //$query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+
+      $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo='131053'";
+
+
+
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -18418,7 +18423,7 @@ elseif($code==270)  // search student
       if ($StudentName != '') {
         $query .= " AND StudentName like '%$StudentName%'";
     }
-    
+
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {

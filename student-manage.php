@@ -833,6 +833,7 @@ function copyToClipboard(element) {
                             Search
                         </button>
                     </span>
+
                     <input type="hidden" id="CollegeID_Set">
 
 
