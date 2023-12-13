@@ -3785,6 +3785,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Father Name </th>
     <th>Mother Name </th>
     <th>Mobile No </th>
+    <th>EmailID </th>
     <th>College </th>
     <th>Course </th>
     <th>Batch </th>
@@ -3835,6 +3836,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $FatherName=$row['FatherName'];
             $MotherName=$row['MotherName'];
             $StudentMobileNo=$row['StudentMobileNo'];
+            $EmailID=$row['EmailID'];
             $CollegeName=$row['CollegeName'];
             $Course=$row['Course'];
             $Batch=$row['Batch'];
@@ -3886,6 +3888,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$FatherName}</td>
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
+         <td>{$EmailID}</td>
          <td>{$CollegeName}</td>
          <td>{$Course}</td>
          <td>{$Batch}</td>
