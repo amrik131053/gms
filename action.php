@@ -20762,6 +20762,79 @@ else
 }
 }
 
+  else if($code==352)
+   {
+?>
+
+  <div class="card-body ">
+    <div class="card-header ">
+<center><h6>Correct Attendance</h6></center>
+
+</div>
+<br>
+<form action="action.php" method="post">
+<div class="row">
+    
+
+    <div class="col-lg-3">
+       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+
+    <input type="text" name="EmpID"  value="" onblur="empdatashow(this.value)"  class="form-control">
+    <span id="employee_name_show"></span>
+
+    <input type="hidden" name="code" value="353">
+</div>
+
+          
+              
+               
+               <div class="col-lg-3" id="SingleDate">
+               <label>Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="datetime-local" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d H:i:s');?>" >
+                </div>
+              
+              
+            
+               
+               <div class="col-lg-3">
+             <br>
+               <input type="button" onclick="CorrectionSubmit(this.form);" name="leaveButtonSubmit" class="btn btn-success" value="Submit">
+                </div>
+</div>
+</form>
+</div>
+
+
+<?php 
+
+
+   }
+    elseif($code==353)
+ {
+ $log=$_POST['leaveDate'];
+
+ $ApplyYear = date('Y',strtotime($log));
+
+ $ApplyMonth = date('m',strtotime($log));
+
+ $emp_id=$_POST['EmpID'];
+
+ $as='DeviceLogs_'.$ApplyMonth.'_'.$ApplyYear;
+
+ $query="INSERT INTO $as(DownloadDate,DeviceId,Direction,UserId,LogDate,C1,C4,C5,WorkCode,UpdateFlag)
+ VALUES ('$log','16','','$emp_id','$log','out','255','84','','')";
+ $stmt = sqlsrv_query($conn91,$query);
+
+ $query="INSERT INTO DeviceLogsAll(LogDateTime,DeviceShortName,LogDirection,EmpCode,SerialNo)
+ VALUES ('$log','202','','$emp_id','OIN7010057010800775')";
+
+ $stmt = sqlsrv_query($conntest,$query);
+
+echo "1";
+
+ }
+
+
 
  else
 {

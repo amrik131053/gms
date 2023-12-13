@@ -17409,7 +17409,12 @@ elseif($code==266)  // search student
             <?php 
       $sr=1;
 
-       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       //$query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+
+      $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
+
+
+
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -18391,34 +18396,42 @@ elseif($code==270)  // search student
                 <tbody>
                     <?php 
       $sr=1;
-      $query = "SELECT * FROM Admissions WHERE 1 = 1";
+
+   // $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
+
+      $query = "SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID   WHERE 1 = 1";
 
       if ($CollegeID != '') {
-          $query .= " AND CollegeID='$CollegeID'";
+          $query .= " AND Admissions.CollegeID='$CollegeID'";
       }
       
       if ($CourseID != '') {
-          $query .= " AND CourseID ='$CourseID'";
+          $query .= " AND Admissions.CourseID ='$CourseID'";
       }
       
       if ($Batch != '') {
-          $query .= " AND Batch='$Batch'";
+          $query .= " AND Admissions.Batch='$Batch'";
       }
       
       if ($Status != '') {
-          $query .= " AND Status='$Status'";
+          $query .= " AND Admissions.Status='$Status'";
       }
       
       if ($Session != '') {
-          $query .= " AND Session='$Session'";
+          $query .= " AND Admissions.Session='$Session'";
       }
       if ($Eligibility != '') {
-          $query .= " AND Eligibility='$Eligibility'";
+          $query .= " AND Admissions.Eligibility='$Eligibility'";
       }
       if ($StudentName != '') {
-        $query .= " AND StudentName like '%$StudentName%'";
+        $query .= " AND Admissions.StudentName like '%$StudentName%'";
     }
-    
+    if ($StudentName != '') {
+    $query .= "AND UserAccessLevel.IDNo='$EmployeeID'";
+
+    }
+   // echo  $query;
+
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {

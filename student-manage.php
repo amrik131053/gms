@@ -106,22 +106,22 @@ function search_all_employee() {
 }
 
 function searchStudentCollegeWise() {
-    var session1 = document.getElementById('session1').value;
-    var session2 = document.getElementById('session2').value;
-    var session3 = document.getElementById('session3').value;
-    if (session1 != '' && session2 != '' && session3!='') {
+    var Session = document.getElementById('session1').value;
+    // var session2 = document.getElementById('session2').value;
+    // var session3 = document.getElementById('session3').value;
+    // if (session1 != '' && session2 != '' && session3!='') {
 
 
-        var Session = session1 + '-' + session2 + '-' + session3;
-    } 
-    else if(session1 != '' && session2 != '')
-    {
- var Session = session1 + '-' + session2 ;
-    }
-else
-     {
-        var Session = "";
-    }
+    //     var Session = session1 + '-' + session2 + '-' + session3;
+    // } 
+//     else if(session1 != '' && session2 != '')
+//     {
+//  var Session = session1 + '-' + session2 ;
+//     }
+// else
+//      {
+//         var Session = "";
+//     }
     var StudentName = document.getElementById('StudentName1').value;
     var CollegeName = document.getElementById('CollegeName1').value;
 
@@ -154,6 +154,10 @@ else
 
             }
         });
+    }
+    else
+    {
+        ErrorToast("Select College","bg-warning");
     }
 }
 
@@ -746,31 +750,26 @@ function copyToClipboard(element) {
                         </div>
 
                         <div class="col-lg-12" style="text-align: ;">
-                            <label>Select Session</label>
+                            <label>Session</label>
                             <br>
-                            <select id="session1" name="session1" class="btn btn-default">
-                                <option value=''></option>
-                                <?php 
-                                        for($s='2015';$s<='2030';$s++)
-                                        {
-                                        ?>
-                                <option value='<?=$s;?>'><?=$s;?></option>
-                                <?php }?>
+                            <select id="session1" name="session1" class="form-control">
+                                <option value=''>Select Session </option>
+                      <?php         
+
+ $sql="SELECT DISTINCT Session from Admissions ORDER By Session Desc";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $session = $row['Session']; 
+                        
+                        ?>
+                                <option value="<?=$session;?>"><?=$session;?></option>
+                                <?php }
+                        ?>
+
+                              
                             </select>
-                            <select id="session2" name="session2" class="btn btn-default">
-                                <option value=''></option>
-                                <?php 
-                                        for($s1='16';$s1<='31';$s1++)
-                                        {
-                                        ?>
-                                <option value='<?=$s1;?>'><?=$s1;?></option>
-                                <?php }?>
-                            </select>
-                            <select id="session3" name="session3" class="btn btn-default">
-                                <option value=''></option>
-                                <option value='A'>A</option>
-                                <option value='J'>J</option>
-                            </select>
+                           
                         </div>
 
                         <div class="col-lg-12 col-12">
@@ -833,6 +832,7 @@ function copyToClipboard(element) {
                             Search
                         </button>
                     </span>
+
                     <input type="hidden" id="CollegeID_Set">
 
 

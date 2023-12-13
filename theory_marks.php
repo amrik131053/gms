@@ -41,7 +41,6 @@ function uncheckall()
           <!-- left column -->
           <div class="col-lg-2 col-md-4 col-sm-3">
 
-
    <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
@@ -50,8 +49,7 @@ function uncheckall()
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
-
-       
+   
      $college = $row1['CollegeName']; 
      $CollegeID = $row1['CollegeID'];
     ?>

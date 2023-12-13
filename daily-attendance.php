@@ -27,6 +27,11 @@
                <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 10px solid;" onclick="holiday();bg(this.id);"> Holiday </a> 
                <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 10px solid;" onclick="Concession();bg(this.id);">Concession</a> 
                <a class="btn" id="btn6" style="background-color:#223260; color: white; border: 10px solid;" onclick="ApplyLeave();bg(this.id);">Apply Leave</a> 
+
+
+ <?php if($role_id==2){?>
+               <a class="btn" id="btn7" style="background-color:#223260; color: white; border: 10px solid;" onclick="CorrectAttendance();bg(this.id);">Correct Attendance</a> 
+                <?php }?>
              
 </div>
 </div>
@@ -156,6 +161,29 @@ function ApplyLeave()
          });
 }
 
+function CorrectAttendance()
+{ 
+
+   var code=352;
+         var spinner=document.getElementById('ajax-loader');
+        
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("card").innerHTML=response;
+               document.getElementById("table_load").innerHTML="";
+            }
+         });
+}
+
+
 
 function fetch_leave_Balance(id){
  
@@ -219,6 +247,47 @@ function cocessionSubmit(form) {
         
     });
 }
+
+function CorrectionSubmit(form) {
+
+
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Correction submit successfully');
+                               
+                
+            }
+           
+             else
+              {
+                ErrorToast('Please try after sometime.','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+        
+    });
+}
+
+
+
+
+
+
+
+
+
+
 
  function empdatashow(id){ 
    var code=186;
