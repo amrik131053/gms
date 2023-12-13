@@ -17409,9 +17409,9 @@ elseif($code==266)  // search student
             <?php 
       $sr=1;
 
-       //$query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
 
-      $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
+    //   $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
 
 
 
@@ -18374,6 +18374,7 @@ elseif($code==270)  // search student
     $Batch = $_POST['Batch'];
     $Status = $_POST['Status'];
     $Eligibility = $_POST['Eligibility'];
+    $LateralEntry = $_POST['LateralEntry'];
 ?>
             <table class="table " id="example">
                 <thead>
@@ -18399,38 +18400,43 @@ elseif($code==270)  // search student
 
    // $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
 
-      $query = "SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID   WHERE 1 = 1";
+    //   $query = "SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CollegeID = UserAccessLevel.CollegeID   WHERE 1 = 1";
+      $query = "SELECT  *  from Admissions  WHERE 1 = 1";
 
       if ($CollegeID != '') {
-          $query .= " AND Admissions.CollegeID='$CollegeID'";
+          $query .= " AND  CollegeID='$CollegeID'";
       }
       
       if ($CourseID != '') {
-          $query .= " AND Admissions.CourseID ='$CourseID'";
+          $query .= " AND  CourseID ='$CourseID'";
       }
       
       if ($Batch != '') {
-          $query .= " AND Admissions.Batch='$Batch'";
+          $query .= " AND  Batch='$Batch'";
       }
       
       if ($Status != '') {
-          $query .= " AND Admissions.Status='$Status'";
+          $query .= " AND  Status='$Status'";
       }
       
       if ($Session != '') {
-          $query .= " AND Admissions.Session='$Session'";
+          $query .= " AND  Session='$Session'";
       }
       if ($Eligibility != '') {
-          $query .= " AND Admissions.Eligibility='$Eligibility'";
+          $query .= " AND  Eligibility='$Eligibility'";
       }
       if ($StudentName != '') {
-        $query .= " AND Admissions.StudentName like '%$StudentName%'";
+        $query .= " AND  StudentName like '%$StudentName%'";
     }
-    if ($StudentName != '') {
-    $query .= "AND UserAccessLevel.IDNo='$EmployeeID'";
+    // if ($StudentName != '') {
+    // $query .= "AND UserAccessLevel.IDNo='$EmployeeID'";
 
+    // }
+    if ($LateralEntry != '') {
+    $query .= "AND  LateralEntry='$LateralEntry'";
     }
-   // echo  $query;
+
+//    echo  $query;
 
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )

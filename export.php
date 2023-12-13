@@ -3738,6 +3738,7 @@ else if($exportCode==39)
     }
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
+    $LateralEntry=$_POST['Lateral'];
    if($CourseID!='')
    {
     $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
@@ -3824,6 +3825,9 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
         }
         if ($Eligibility != '') {
             $query .= " AND Eligibility='$Eligibility'";
+        }
+        if ($LateralEntry != '') {
+            $query .= " AND LateralEntry='$LateralEntry'";
         }
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
