@@ -181,10 +181,8 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
         subject_str.push(subjects[i].value);
         }
      }
-       
-
-
-         for(i=0;i<len_subject;i++)
+            
+                for(i=0;i<len_subject;i++)
         {
          var a=subject_str[i];
 
@@ -222,7 +220,6 @@ loadCollegeCount(a,Batch,Lateral);
         });
     }
 
-    
 
   
     </script>

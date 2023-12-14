@@ -46,7 +46,9 @@ $empid=$_GET['id'];
 if($code==1)
 {
 
+
 $eprint=$_GET['print'];
+
 
 
 
