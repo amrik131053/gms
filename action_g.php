@@ -18005,47 +18005,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 <div class="tab-pane" id="documents">
                                 <div class="row">
                                     <div class="col-lg-12">
- <table class="table  table-bordered">
-                                            
-                                            <tr>
-                                                <td><b>Documents</b></td>
-                                                <td><b>Status</b></td>
-
-  <?php 
-  echo $sql = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID'" ;
-$stmt1 = sqlsrv_query($conntest,$sql);
-while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-{
-echo $dicrequired= $row7['SerialNo'];
-$docstatus= $row7['DocumentsRequired'];
-?>
-
-<tr>  <td><?=$docstatus;?></td>
-                                                <td>
-
-                                                    <select class="form-control" onchange="UpdateDocumentStatus(this.value,<?=$SerialNo;?>,<?=$row1['IDNo'];?>)">
-                                                    <?php if($docstatus!='')
-                                                    {?>
-<option value="<?= $docstatus;?>"> <?=$docstatus;?></option>
-                                                    <?php }?>
-
-                                                    
-                                                    <option value="NA">NA</option>
-                                                    <option value="Original Submitted">Original Submitted</option>
-                                                    <option  value="Photocopy Submitted">Photocopy Submitted</option>
-                                                    <option value="Pending">Pending</option>
-
-                                                </select>
-                                                </td>
-                                                
-                                            </tr><?php
-
-
-
-
-
-}
-    ?>    
+   
 
                                         <table class="table  table-bordered">
                                             
@@ -18371,7 +18331,7 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "PermanentAddress ='$permanentAddress', ";
    $query .= "CorrespondanceAddress ='$correspondenceAddress', ";
    $query .= "Nationality ='$Nationality_1', ";
-    $query .= "country ='$CountryID', ";
+   $query .= "country ='$CountryID', ";
    $query .= "District ='$districtID', ";
    $query .= "State ='$State', ";
    $query .= "PO ='$postOffice', ";
@@ -21186,6 +21146,51 @@ elseif($code=='301')
  
    
    }
+
+elseif($code==304) 
+   {
+$idno=$_POST['idno'];
+
+ $sql = "select  * from  DocumentStatus where IDNo='$idno'";
+
+$get_documents_run=sqlsrv_query($conntest,$sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+    $documentyes=sqlsrv_num_rows($get_documents_run);
+
+if($documentyes>0)
+{
+
+
+}
+else
+{
+ $getcollegeid="SELECT CollegeID,StudentName from Admissions where IDNo='$idno'";
+$stmt1 = sqlsrv_query($conntest,$getcollegeid);
+
+while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+{
+$CollegeID= $row7['CollegeID'];
+$StudentName= $row7['StudentName'];
+}
+
+ $sqldr = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID' order by SerialNo" ;
+
+$stmt1dr = sqlsrv_query($conntest,$sqldr);
+while($row8 = sqlsrv_fetch_array($stmt1dr, SQLSRV_FETCH_ASSOC) )
+{
+
+ $serial_no= $row8['SerialNo'];
+$dicrequire= $row8['DocumentsRequired'];
+
+
+$Insert="INSERT into DocumentStatus(IDNo,StudentName,SerialNo,Documentsrequired,Status)Values('$idno','$StudentName','$serial_no','$dicrequire','NA')";
+
+$stmt1 = sqlsrv_query($conntest,$Insert);
+//die( print_r( sqlsrv_errors(), true) );
+ }
+
+}
+}
    elseif($code==313)
    {
      $ids=$_POST['certificateID'];

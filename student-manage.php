@@ -202,6 +202,8 @@ function updateStudent(empID) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code_access = '<?php echo $code_access; ?>';
+
+syncdocuments(empID);
     var code = 267;
     $.ajax({
         url: 'action_g.php',
@@ -526,10 +528,7 @@ function updateStudentdata(id) {
 
     function fetchcourse(id)
 {   
-   
-
-
-     
+       
 
 var code='325';
 $.ajax({
@@ -634,12 +633,36 @@ function changecourse(id) {
 
 
 
+function syncdocuments(idno)
+{
 
+
+   
+
+ var code = 304;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            idno:idno
+        },
+        success: function(response) {
+
+            console.log(response);
+           
+
+        }
+    });
+
+
+
+}
 
 
 function generateSmartCardForStudent(id) 
 {
-    alert(id);
+    //alert(id);
     var code = 351;
     $.ajax({
         url: 'action.php',
