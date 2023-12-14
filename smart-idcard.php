@@ -110,7 +110,7 @@ if(valodation>0)
 {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 245;
+        var code = 245; 
         $.ajax({
             url: "action_g.php ",
             type: "POST",
@@ -254,7 +254,8 @@ function printSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == '1') {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+1, '_blank');
+                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
+
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
@@ -269,7 +270,7 @@ function printSingleSmartCardForStudent(id)
     var code = 248;
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
+        type: 'POST', 
         data: {
             code: code,
             id: id
@@ -277,7 +278,7 @@ function printSingleSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == '1') {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+2, '_blank');
+                window.open("printSmartCardStudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
