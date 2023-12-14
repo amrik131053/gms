@@ -17,7 +17,7 @@
                     <?php }
                                   ?>
                 </select>
- 
+
                                  </div>
                                  <div class="col-lg-6">
                                  <select id="Lateral" class="form-control form-control-range" onchange="loadDashboard();">
@@ -33,169 +33,24 @@
                                  </div>
             </div>
             <br>
-            <div class="row">
 
-
-
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-info shadow-lg">
-                        <span class="info-box-icon" id="TotalStudentCount">
-
-                          <div class="spinner-border" role="status">
-
-                                </div> 
-                               
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Total Student</span>
-                            <!-- <span class="info-box-number">Book Issued  </span> -->
-
-                            <div class="progress">
-
-                                <div class="progress-bar" style="width: 100%;"></div>
-                            </div>
-                            <span class="progress-description">
-                                &nbsp;
-                            </span>
-                            <a  href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
-                        </div>
-                        
-                        <!-- /.info-box-content -->
-                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
-                                style='color:white;'>
-                                <i class="fa fa-download fa-lg" onclick="exportTotalScordingToStatus('','');"></i></button>
-                        </a>
-                        
-                    </div>
-                    
-                    <!-- /.info-box -->
-                </div>
-
-
-
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-primary shadow-lg">
-                        <span class="info-box-icon" id="TotalActiveCount">
-                            <div class="text-center" id="div-loader" >
-                                                            
-                            </div>
-                             <div class="spinner-border" role="status" id="spiner_a">
-                                </div>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Active</span>
-                            <!-- <span class="info-box-number">Book Issued  </span> -->
-
-                            <div class="progress">
-
-                                <div class="progress-bar" style="width: 100%;"></div>
-                            </div>
-                            <span class="progress-description">
-                                &nbsp;
-                            </span>
-                        <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
-                        </div>
-                        <!-- /.info-box-content -->
-                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
-                                style='color:white;'>
-                                <i class="fa fa-download fa-lg" onclick="exportTotalScordingToStatus('1','');"></i></button>
-                        </a>
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-
-
-
-
-                <!-- ./col -->
-
-
-
-
-
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-success shadow-lg">
-                        <span class="info-box-icon" id="TotalEligibleCount">
-                           
-
-                            <div class="spinner-border" role="status">
-                                </div>
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Eligible</span>
-                            <!-- <span class="info-box-number">Book Issued  </span> -->
-
-                            <div class="progress">
-
-                                <div class="progress-bar" style="width: 100%;"></div>
-                            </div>
-                            <span class="progress-description">
-                                &nbsp;
-                            </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','1');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
-                        </div>
-                        <!-- /.info-box-content -->
-                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
-                                style='color:white;'>
-                                <i class="fa fa-download fa-lg" onclick="exportTotalScordingToStatus('1','1');"></i></button>
-                        </a>
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-warning shadow-lg">
-                       <span class="info-box-icon" id="TotalNotEligible">
-                           
-                          
-
-                                <div class="spinner-border" role="status">
-
-                              
-                            </div>
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Not Eligible</span>
-                            <!-- <span class="info-box-number">Book Issued  </span> -->
-
-                            <div class="progress">
-
-                                <div class="progress-bar" style="width: 100%;"></div>
-                            </div>
-                            <span class="progress-description">
-                                &nbsp;
-                            </span>
-                            <a href="#" class="small-box-footer" onclick="exportTotalScordingToStatusSummary('1','0');" style="float:right;" ><b style="color:white!important;font-size:14px;">Download Summary</b> <i class="fa fa-download fa-sm" style="color:white!important"></i></a>
-                        </div>
-                        <!-- /.info-box-content -->
-                        <a href="#" class="small-box-footer"><button type="submit" class="btn btn-sm "
-                                style='color:white;'>
-                                <i class="fa fa-download fa-lg" onclick="exportTotalScordingToStatus('1','0');"></i></button>
-                        </a>
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-            </div>
 
             <!-- <h3 class="mt-4 mb-4">Social Widgets</h3> -->
             <!-- ----------------------------------------------------------------------------------- -->
             <div class="row">
 
 
-                <?php      $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID WHERE MasterCourseCodes.CollegeID!='76' AND MasterCourseCodes.CollegeID!='77' AND MasterCourseCodes.CollegeID!='70'";
+                <?php      $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID WHERE MasterCourseCodes.CollegeID!='76' AND MasterCourseCodes.CollegeID!='77' AND MasterCourseCodes.CollegeID!='70' AND IDNo='$EmployeeID' order By CollegeID Asc";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
                         $college = $row1['CollegeName']; 
                         $CollegeID = $row1['CollegeID'];
 ?>
-<input type='hidden' name='check[]' id='check' value='<?=$CollegeID;?>' class='checkbox' checked >
+   <input type='hidden' name='check[]' id='check' value='<?=$CollegeID;?>' class='checkbox' checked >
+
                         
+
                 <div class="col-md-3">
                     <div class="card card-widget widget-user-2 shadow-lg">
                         <div class="card-header info-box  shadow-lg">
@@ -313,10 +168,9 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
       $('#div-loader').show();
         var Batch = document.getElementById("Batch").value;
         var Lateral = document.getElementById("Lateral").value;
-           var subjects=document.getElementsByClassName('checkbox');
+        var subjects=document.getElementsByClassName('checkbox');
         var len_subject= subjects.length;
-
-  //document.getElementById("TotalStudentCount").innerHTML ="";
+  
 
  var subject_str=[];
     
@@ -327,44 +181,19 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
         subject_str.push(subjects[i].value);
         }
      }
-            
-                for(i=0;i<len_subject;i++)
+       
+
+
+         for(i=0;i<len_subject;i++)
         {
          var a=subject_str[i];
 
 loadCollegeCount(a,Batch,Lateral);
   }
-
-        var code = 298;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'post',
-            data: {
-                code: code,
-                Batch: Batch,
-                Lateral: Lateral
-            },
-            success: function(response) {
-                console.log(response);
-              $('#div-loader').hide();
-                var data = JSON.parse(response);
-                document.getElementById("TotalStudentCount").textContent = data[0];
-                document.getElementById("TotalActiveCount").textContent = data[1];
-                document.getElementById("TotalNotEligible").textContent = data[2];
-                document.getElementById("TotalEligibleCount").textContent = data[3];
-
-
-               
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-            }
-        });
-
-
-
+    
     }
 
+  
 
 
     function loadCollegeCount(CollegeID, Batch,Lateral) {
@@ -394,6 +223,8 @@ loadCollegeCount(a,Batch,Lateral);
     }
 
     
+
+  
     </script>
 
     <?php
