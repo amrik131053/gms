@@ -16,7 +16,7 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>College</label>
                                 <select name="College" id='College' onchange="courseByCollege(this.value)"
-                                    class="form-control" >
+                                    class="form-control form-control-sm" >
                                     <option value=''>Select College</option>
                                     <?php
 
@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Course</label>
-                                <select name="Course" id="Course" class="form-control">
+                                <select name="Course" id="Course" class="form-control form-control-sm">
                                     <option value=''>Select Course</option>
 
                                 </select>
@@ -43,7 +43,7 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Batch</label>
-                                <select name="batch" class="form-control" id="Batch" >
+                                <select name="batch" class="form-control form-control-sm" id="Batch" >
                                     <option value="">Select</option>
                                     <?php 
                                     for($i=2013;$i<=2030;$i++)
@@ -58,7 +58,7 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label> Semester</label>
-                                <select id='Semester' class="form-control" >
+                                <select id='Semester' class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php 
                                     for($i=1;$i<=12;$i++)
@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Type</label>
-                                <select id="Type" class="form-control" >
+                                <select id="Type" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Reappear">Reappear</option>
@@ -88,7 +88,7 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Group</label>
-                                <select id="Group" class="form-control" >
+                                <select id="Group" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php
                                             $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
@@ -109,7 +109,7 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Examination</label>
-                                <select id="Examination" class="form-control" >
+                                <select id="Examination" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php
                                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
@@ -132,11 +132,11 @@
                             </div>
 
                             <div class="col-lg-2 col-md-2 col-sm-13">
-                                <label>Action</label><br>
-                                <button class="btn btn-danger " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <button class="btn btn-success " onclick="exportCutListExcel()"><i
+                                <label class="" style="font-size:14px;">Action</label><br>
+                                <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
                                                     class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
-                                <button class="btn btn-danger " onclick="exportCutListPdf()"><i
+                                <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
                                                     class="fa fa-file-pdf"></i></button>
                             </div>
                             <!-- <div class="col-lg-1 col-md-1 col-sm-13">
@@ -149,6 +149,13 @@
                         </div>
                         <div class="table table-responsive" id="show_record"></div>
                     </div>
+                    <div class="row ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="mr-2"><i class="fa fa-stop " aria-hidden="true" style="color:#D0EDFF;"></i> Pending</span>
+                        <span class="mr-2"><i class="fa fa-stop text-danger" aria-hidden="true"></i> Rejected</span>
+                        <span class="mr-2"><i class="fa fa-stop" aria-hidden="true" style="color:#F3ED8F;"></i> Forward to dean</span>
+                        <span class="mr-2"><i class="fa fa-stop" aria-hidden="true" style="color:#9FC9EB;"></i> Forward to account</span>
+    <span ><i class="fa fa-stop text-success" aria-hidden="true"></i> Accepted</span>
+</div>&nbsp;
                     <!-- /.card-footer -->
                 </div>
                 <!-- /.card -->
@@ -174,10 +181,10 @@ function fetchCutList() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
-    var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-
+    
     if (College != '') {
+        var spinner = document.getElementById("ajax-loader");
+            spinner.style.display = 'block';
         var code = '273';
         $.ajax({
             url: 'action_g.php',
