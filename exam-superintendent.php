@@ -145,10 +145,12 @@
                                     <div class="row ">
 
                                         <div class="col-lg-5 col-md-12 col-sm-13">
-                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br>
+                                            <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br> -->
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button>
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br>
+                                            <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button> -->
                                             &nbsp;
                                         </div>
                                         <div class="col-lg-3 col-md-12 col-sm-13">
