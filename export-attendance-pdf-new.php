@@ -243,7 +243,10 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
         $x += 35; 
 
     }
@@ -369,12 +372,81 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
-    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+    if($subcount<2)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+       
+
+    }
+    else if($subcount<3)
+    {
+        
+
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<4)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+
+        
+    }
+    else if($subcount<5)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+
+    } 
+    elseif($subcount<6)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<7)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
+    else 
+    {
+       
+      $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
       
       
 }
@@ -397,7 +469,10 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
         $x += 35; 
       
     }
@@ -439,12 +514,74 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         $pdf->Cell(28.6,14,"",1,0,'C',0);
 
+        if($subcount<8)
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            
+           
+
+        }
+        else if($subcount<9)
+        {
+            
+
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<10)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            
+            
+        }
+        else if($subcount<11)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            
+        } 
+        elseif($subcount<12)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<13)
+        {
+           
             $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
+        else 
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
     
 
         $y = $y + 14;
@@ -455,12 +592,81 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
-    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+    if($subcount<8)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+       
+
+    }
+    else if($subcount<9)
+    {
+        
+
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<10)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+
+        
+    }
+    else if($subcount<11)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+
+    } 
+    elseif($subcount<12)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<13)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
+    else 
+    {
+       
+      $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
             }   
 }
 
@@ -482,7 +688,10 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
         $x += 35; 
       
     }
@@ -501,8 +710,19 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY(35,$y);
         $pdf->SetFont('Times','B',6);
         $pdf->SetXY(54,$y);
- 
-      $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
+      
+        
+        if($Gender[$i]=='Male')
+          {
+              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+          }
+          else{
+              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
+          }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
         $pdf->Cell(21.4,14,"",1,0,'C',0);
         $pdf->Cell(35.4,14,"",1,0,'C',0);
         
@@ -515,12 +735,74 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
       
            
+        if($subcount<14)
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            
+           
+
+        }
+        else if($subcount<15)
+        {
+            
+
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<16)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            
+            
+        }
+        else if($subcount<17)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            
+        } 
+        elseif($subcount<18)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<19)
+        {
+           
             $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
+        else 
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
         
 
         $y = $y + 14;
@@ -530,12 +812,81 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
-    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
-    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+    if($subcount<14)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+       
+
+    }
+    else if($subcount<15)
+    {
+        
+
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<16)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+
+        
+    }
+    else if($subcount<17)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+
+    } 
+    elseif($subcount<18)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<19)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
+    else 
+    {
+       
+      $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+        
+    }
                 // print_r($ExternalExam);
             }   
 }
@@ -560,7 +911,10 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
         $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
         $x += 35; 
       
     }
@@ -605,12 +959,74 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
       
            
+        if($subcount<20)
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            
+           
+
+        }
+        else if($subcount<21)
+        {
+            
+
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<22)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            
+            
+        }
+        else if($subcount<23)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            
+        } 
+        elseif($subcount<24)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<25)
+        {
+           
             $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
             $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
+        else 
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
         
 
         $y = $y + 14;
@@ -620,13 +1036,83 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
     $pdf->Cell(20.4,2,"",0,0,'C',0);
-    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+   
+                // print_r($ExternalExam);
+                if($subcount<20)
+                {
+                   
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
     $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
-                // print_r($ExternalExam);
+                    
+                   
+        
+                }
+                else if($subcount<21)
+                {
+                    
+        
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+   
+                    
+                   
+                }
+                else if($subcount<22)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+   
+                    
+                }
+                else if($subcount<23)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+   
+                } 
+                elseif($subcount<24)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+   
+                    
+                   
+                }
+                else if($subcount<25)
+                {
+                   
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+                    
+                }
+                else 
+                {
+                   
+                  $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',124,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+                    
+                }
             }   
 }
 }

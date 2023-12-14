@@ -3738,6 +3738,7 @@ else if($exportCode==39)
     }
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
+    $LateralEntry=$_POST['Lateral'];
    if($CourseID!='')
    {
     $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
@@ -3785,6 +3786,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Father Name </th>
     <th>Mother Name </th>
     <th>Mobile No </th>
+    <th>Category </th>
     <th>EmailID </th>
     <th>College </th>
     <th>Course </th>
@@ -3825,6 +3827,9 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
         if ($Eligibility != '') {
             $query .= " AND Eligibility='$Eligibility'";
         }
+        if ($LateralEntry != '') {
+            $query .= " AND LateralEntry='$LateralEntry'";
+        }
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
          {
@@ -3846,6 +3851,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $District=$row['District'];
             $Nationality=$row['Nationality'];
             $Refrence=$row['FeeWaiverScheme'];
+            $Category=$row['Category'];
 
             if($row['Eligibility']==1)
             {
@@ -3888,6 +3894,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$FatherName}</td>
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
+         <td>{$Category}</td>
          <td>{$EmailID}</td>
          <td>{$CollegeName}</td>
          <td>{$Course}</td>

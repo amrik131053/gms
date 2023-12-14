@@ -129,6 +129,7 @@ function searchStudentCollegeWise() {
     var Batch = document.getElementById('Batch').value;
     var Status = document.getElementById('Status').value;
     var Eligibility = document.getElementById('Eligibility').value;
+    var Lateral = document.getElementById('Lateral').value;
     if (CollegeName != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
@@ -143,6 +144,7 @@ function searchStudentCollegeWise() {
                 Course: Course,
                 Batch: Batch,
                 Eligibility: Eligibility,
+                LateralEntry: Lateral,
                 StudentName: StudentName,
                 Status: Status
             },
@@ -734,7 +736,7 @@ function copyToClipboard(element) {
 
 
                         <div class="col-lg-12 col-12">
-                            <div class="form-group">
+                           
                                 <label>Batch</label>
 
                                 <select id="Batch" name="Batch" class="form-control" >
@@ -746,12 +748,13 @@ function copyToClipboard(element) {
                                     <?php }
                                   ?>
                                 </select>
-                            </div>
+                           
                         </div>
-
-                        <div class="col-lg-12" style="text-align: ;">
+<div class="container">
+<div class="row">
+                        <div class="col-lg-6" >
                             <label>Session</label>
-                            <br>
+                           
                             <select id="session1" name="session1" class="form-control">
                                 <option value=''>Select Session </option>
                       <?php         
@@ -771,6 +774,20 @@ function copyToClipboard(element) {
                             </select>
                            
                         </div>
+                        <div class="col-lg-6" >
+                            <label>Lateral</label>
+                           
+                            <select id="Lateral" name="Lateral" class="form-control">
+                              
+                                <option value='No'>No </option>
+                                <option value='Yes'>Yes </option>
+                      
+                              
+                            </select>
+                           
+                        </div>
+                      </div>
+                      </div>
 
                         <div class="col-lg-12 col-12">
                             <div class="form-group">

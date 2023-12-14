@@ -30,7 +30,7 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>College</label>
                                 <select name="College" id='College' onchange="courseByCollege(this.value)"
-                                    class="form-control" >
+                                    class="form-control form-control-sm" >
                                     <option value=''>Select College</option>
                                     <?php
 
@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Course</label>
-                                <select name="Course" id="Course" class="form-control">
+                                <select name="Course" id="Course" class="form-control form-control-sm">
                                     <option value=''>Select Course</option>
 
                                 </select>
@@ -72,7 +72,7 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label> Semester</label>
-                                <select id='Semester' class="form-control" >
+                                <select id='Semester' class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php 
                                     for($i=1;$i<=12;$i++)
@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Type</label>
-                                <select id="Type" class="form-control" >
+                                <select id="Type" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Reappear">Reappear</option>
@@ -123,7 +123,7 @@
                             </div> -->
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Examination</label>
-                                <select id="Examination" class="form-control" >
+                                <select id="Examination" class="form-control form-control-sm" >
                                     <option value="">Select</option>
                                     <?php
                                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
@@ -146,7 +146,7 @@
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Status</label>
-                                <select id="Status" class="form-control" >
+                                <select id="Status" class="form-control form-control-sm" >
                                     <option value="">All</option>
                                     <option value="5">Pending</option>
                                     <option value="8">Verified</option>
@@ -157,8 +157,8 @@
 
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label>Action</label><br>
-                                <button class="btn btn-danger " onclick="fetchCutList();"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <button class="btn btn-success " onclick="exportExamForm()"><i
+                                <button class="btn btn-danger btn-sm " onclick="fetchCutList();"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-success btn-sm " onclick="exportExamForm()"><i
                                                     class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
                                 <!-- <button class="btn btn-danger " onclick="exportCutListPdf()"><i
                                 class="fa fa-file-pdf"></i></button> -->

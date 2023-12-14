@@ -74,9 +74,9 @@ $pdf->SetFont('Times', 'b', 15);
 $pdf->Multicell(205,10, 'Student Smart Card ',0,'C');
 $pdf->SetFont('Times', 'b', 10);
 if ($statusForIdCard != '' && $fromDateForIdCard != '' && $toDateFromIdCard != '') {
-    $GetSmartCardDetails = "SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
+     $GetSmartCardDetails = "SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' and SmartCardDetails.RePrint is NULL order by Admissions.Course ASC  ";
 } else {
-    $GetSmartCardDetails = "SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where  SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
+     $GetSmartCardDetails = "SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where  SmartCardDetails.status='$statusForIdCard' and SmartCardDetails.RePrint is NULL order by Admissions.Course ASC  ";
 }
 $GetSmartCardDetailsRun = sqlsrv_query($conntest, $GetSmartCardDetails);
 
