@@ -31,6 +31,40 @@ function uploadPhotoStudent(form) {
     });
 }
 
+function abcidreset(id)
+ {
+   if (confirm("Really want to Reset ABCID") == true) {
+ 
+   var code=232;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('ABCID Cleared');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         }); 
+ }
+
+
+}
 function  UpdateDocumentStatus(id,srno,idno)
 {
      var spinner = document.getElementById("ajax-loader");

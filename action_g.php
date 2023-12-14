@@ -17523,11 +17523,13 @@ elseif($code==267) //update student
   if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   {
     $DateOfBirth=$row1['DOB']; 
+    $CollegeID=$row1['CollegeID']; 
      $RegistrationNo = $row1['RegistrationNo'];
     $abcid = $row1['ABCID'];
     $Locked = $row1['Locked'];
      $Eligibility = $row1['Eligibility'];
      $Reason = $row1['Reason'];
+     $Batch=$row1['Batch'];  
     $validUpto='NA';
 ?>
 
@@ -17797,9 +17799,29 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <label>Batch</label>
-                                        <input type="text" name="batch" class="form-control"
-                                            value="<?=$row1['Batch'];?>" readonly>
+
+
+<select  name="batch" class="form-control">
+
+    <option value="<?= $Batch;?>"> <?= $Batch;?></option>
+
+
+<?php
+for($i=$Batch-5;$i<$Batch+5;$i++)
+{
+    ?>
+<option value="<?=$i;?>"><?=$i;?></option>
+
+<?php 
+}                     ?>
+</select>
+
+
+
+
                                     </div>
+
+
                                     <div class="col-lg-3 col-12">
                                         <label>Session</label>
                                         <input type="text" name="session" class="form-control"
@@ -17983,6 +18005,48 @@ elseif($code==267) //update student
 <div class="tab-pane" id="documents">
                                 <div class="row">
                                     <div class="col-lg-12">
+ <table class="table  table-bordered">
+                                            
+                                            <tr>
+                                                <td><b>Documents</b></td>
+                                                <td><b>Status</b></td>
+
+  <?php 
+  echo $sql = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID'" ;
+$stmt1 = sqlsrv_query($conntest,$sql);
+while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+{
+echo $dicrequired= $row7['SerialNo'];
+$docstatus= $row7['DocumentsRequired'];
+?>
+
+<tr>  <td><?=$docstatus;?></td>
+                                                <td>
+
+                                                    <select class="form-control" onchange="UpdateDocumentStatus(this.value,<?=$SerialNo;?>,<?=$row1['IDNo'];?>)">
+                                                    <?php if($docstatus!='')
+                                                    {?>
+<option value="<?= $docstatus;?>"> <?=$docstatus;?></option>
+                                                    <?php }?>
+
+                                                    
+                                                    <option value="NA">NA</option>
+                                                    <option value="Original Submitted">Original Submitted</option>
+                                                    <option  value="Photocopy Submitted">Photocopy Submitted</option>
+                                                    <option value="Pending">Pending</option>
+
+                                                </select>
+                                                </td>
+                                                
+                                            </tr><?php
+
+
+
+
+
+}
+    ?>    
+
                                         <table class="table  table-bordered">
                                             
                                             <tr>
@@ -18015,9 +18079,24 @@ $SerialNo= $row7['SerialNo'];
                                                 </td>
                                                 
                                             </tr>
+
+
+
                                             <?php 
                                                 }?>
+
+
+
+
+
+
                                         </table>
+
+
+
+
+
+
                                     </div>
                                 </div>
 
@@ -18189,6 +18268,7 @@ elseif($code==268)
     $eligible =$_POST["eligible"]; 
     $modeofadmission =$_POST["modeofadmission"]; 
     $scholaship =$_POST["scholaship"]; 
+    $batch =$_POST["batch"]; 
 
 $provisional='';
 
@@ -18297,6 +18377,7 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "PO ='$postOffice', ";
    $query .= "PIN ='$pinCode', ";
    $query .= "Status ='$employmentStatus', ";
+   $query .= "Batch='$batch', ";   
    $query .= "Eligibility ='$eligible', ";
    $query .= "Locked ='$ulocked', ";
    $query .= "Quota ='$modeofadmission', ";
