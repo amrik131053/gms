@@ -14289,7 +14289,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
            <div class="row">
               <div class="col-lg-3">
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
                  <option value=''>Select Course</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -14306,13 +14306,13 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-3">
                  <label>Course</label>
-                  <select  id="Course" class="form-control">
+                  <select  id="Course" class="form-control form-control-sm">
                      <option value=''>Select Course</option>
                  </select>
               </div>
               <div class="col-lg-3">
                  <label>Batch</label>
-                   <select id="batch"  class="form-control">
+                   <select id="batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -14324,7 +14324,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-3">
                  <label>Semester</label>
-                      <select   id='semester' class="form-control">
+                      <select   id='semester' class="form-control form-control-sm">
                        <option value="">Sem</option>
                      <?php 
                         for($i=1;$i<=20;$i++)
@@ -14339,16 +14339,16 @@ $stmt2 = sqlsrv_query($conntest,$sql);
              <div class="row">
               <div class="col-lg-3">
                 <label>Subject Name</label>
-                <input type="text" id="subject_name" class="form-control">
+                <input type="text" id="subject_name" class="form-control form-control-sm">
               </div>
               <div class="col-lg-3">
                  <label>Subject Code</label>
-                <input type="text" id="subject_code" class="form-control">
+                <input type="text" id="subject_code" class="form-control form-control-sm">
 
               </div>
               <div class="col-lg-3">
                  <label>Subject Type</label>
-                 <select class="form-control" id="subject_type">
+                 <select class="form-control form-control-sm" id="subject_type">
                     <option value="">Select</option>
                     <option value="T">Theory</option>
                     <option value="P">Practical</option>
@@ -14358,7 +14358,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-3">
                  <label>Subject Group</label>
-                    <select id="subject_group" class="form-control" required="">
+                    <select id="subject_group" class="form-control form-control-sm" required="">
                         <option value="">Group</option>
                        <?php
                            $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
@@ -14377,17 +14377,17 @@ $stmt2 = sqlsrv_query($conntest,$sql);
             
               <div class="col-lg-3">
                 <label>Int. Max Marks</label>
-                <input type="number"  id="int_marks" class="form-control">
+                <input type="number"  id="int_marks" class="form-control form-control-sm">
 
               </div>
               <div class="col-lg-3">
                  <label>Ext. Max Marks</label>
-                <input type="number" id="ext_marks" class="form-control">
+                <input type="number" id="ext_marks" class="form-control form-control-sm">
 
               </div>
               <div class="col-lg-3">
                  <label>Elective</label>
-                 <select class="form-control" id="elective">
+                 <select class="form-control form-control-sm" id="elective">
                    
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
@@ -14395,29 +14395,29 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-3">
                  <label>Lecture</label>
-                <input type="text" id="lecture" class="form-control">
+                <input type="text" id="lecture" class="form-control form-control-sm">
 
               </div>
            </div>
         <div class="row">
               <div class="col-lg-3">
                 <label>Practical</label>
-                <input type="text" id="practical" class="form-control">
+                <input type="text" id="practical" class="form-control form-control-sm">
               </div>
               <div class="col-lg-3">
                  <label>Tutorials</label>
-                <input type="text" id="tutorials" class="form-control">
+                <input type="text" id="tutorials" class="form-control form-control-sm">
               </div>
               <div class="col-lg-3">
                  <label>No OF Credits</label>
-                <input type="text" id="credits" class="form-control">
+                <input type="text" id="credits" class="form-control form-control-sm">
               </div>
               <div class="col-lg-3">
               </div>
            </div><br>
         <div class="row text-center">
          
-           <button class="btn btn-success" onclick="add_submit();">Submit</button>
+           <button class="btn btn-success btn-sm" onclick="add_submit();">Submit</button>
         
         </div>
 
@@ -14425,7 +14425,11 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 }
  elseif($code==226)
    {
-     ?>
+    $code_access=$_POST['code_access'];
+      if ($code_access!='000') 
+               { 
+                  ?>
+  
         <div class="card">
         <center>
          <h5>
@@ -14433,10 +14437,11 @@ $stmt2 = sqlsrv_query($conntest,$sql);
         </h5>
         </center>
         </div>
+        <?php }?>
            <div class="row">
               <div class="col-lg-3">
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
                  <option value=''>Select Course</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -14453,13 +14458,13 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-2">
                  <label>Course</label>
-                  <select  id="Course" class="form-control">
+                  <select  id="Course" class="form-control form-control-sm">
                      <option value=''>Select Course</option>
                  </select>
               </div>
               <div class="col-lg-2">
                  <label>Batch</label>
-                   <select id="batch"  class="form-control">
+                   <select id="batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -14471,7 +14476,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-3">
                  <label>Semester</label>
-                      <select   id='semester' class="form-control">
+                      <select   id='semester' class="form-control form-control-sm">
                        <option value="">Sem</option>
                      <?php 
                         for($i=1;$i<=20;$i++)
@@ -14483,7 +14488,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
               </div>
               <div class="col-lg-2">
                  <label>Action</label><br>
-                 <button onclick="search_study_scheme();" class="btn btn-success">Search</button>
+                 <button onclick="search_study_scheme();" class="btn btn-success btn-sm">Search</button>
               </div>
             
             </div>
@@ -14629,7 +14634,7 @@ elseif($code==228)
            <div class="row">
               <div class="col-lg-6">
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
                  <option value=''>Select</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -14646,20 +14651,20 @@ elseif($code==228)
               </div>
                <div class="col-lg-6">
                  <label>Course</label>
-                  <select  id="Course" onchange="onchange_sem();"  class="form-control">
+                  <select  id="Course" onchange="onchange_sem();"  class="form-control form-control-sm">
                      <option value=''>Select</option>
                  </select>
               </div>
               <div class="col-lg-3">
                  <label> From Semester</label>
-                      <select   id='from_semester' onchange="onchange_batch();" class="form-control">
+                      <select   id='from_semester' onchange="onchange_batch();" class="form-control form-control-sm">
                        <option value="">Select</option>
                   
             </select>
               </div>
                <div class="col-lg-3">
                  <label> To Semester</label>
-                      <select   id='to_semester' class="form-control">
+                      <select   id='to_semester' class="form-control form-control-sm">
                                              <option value="">Batch</option>
 
                      <?php 
@@ -14673,7 +14678,7 @@ elseif($code==228)
              
               <div class="col-lg-3">
                  <label>From Batch</label>
-                   <select id="from_batch"  class="form-control">
+                   <select id="from_batch"  class="form-control form-control-sm">
                                               <option value="">Batch</option>
 
                           
@@ -14681,7 +14686,7 @@ elseif($code==228)
               </div> 
               <div class="col-lg-3">
                  <label> To Batch</label>
-                   <select id="to_batch"  class="form-control">
+                   <select id="to_batch"  class="form-control form-control-sm">
                                               <option value="">Batch</option>
 
                           <?php 
@@ -14695,7 +14700,7 @@ elseif($code==228)
               <div class="col-lg-2">
                  <!-- <label>Action</label> -->
                   <br>
-                 <button onclick="move_study_scheme();" class="btn btn-success">Move</button>
+                 <button onclick="move_study_scheme();" class="btn btn-success btn-sm">Move</button>
               </div>
             
             </div>
@@ -14722,7 +14727,7 @@ elseif($code==229)
            <div class="row">
               <div class="col-lg-6">
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
+                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
                  <option value=''>Select Course</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -14739,13 +14744,13 @@ elseif($code==229)
               </div>
                <div class="col-lg-6">
                  <label>Course</label>
-                  <select  id="Course" onchange="onchange_sem();"  class="form-control">
+                  <select  id="Course" onchange="onchange_sem();"  class="form-control form-control-sm">
                      <option value=''>Select Course</option>
                  </select>
               </div>
               <div class="col-lg-3">
                  <label> From Semester</label>
-                      <select   id='from_semester' onchange="onchange_batch();" class="form-control">
+                      <select   id='from_semester' onchange="onchange_batch();" class="form-control form-control-sm">
                        <option value="">Select</option>
                 
             </select>
@@ -14754,7 +14759,7 @@ elseif($code==229)
              
               <div class="col-lg-3">
                  <label>From Batch</label>
-                   <select id="from_batch"  class="form-control">
+                   <select id="from_batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                        
                  </select>
@@ -14762,7 +14767,7 @@ elseif($code==229)
             
               <div class="col-lg-3">
                  <label> To Sem</label>
-                   <select id="to_semester"  class="form-control">
+                   <select id="to_semester"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                           <?php 
                               for($i=1;$i<=15;$i++)
@@ -14773,7 +14778,7 @@ elseif($code==229)
                  </select>
               </div><div class="col-lg-3">
                  <label> To Batch</label>
-                   <select id="to_batch"  class="form-control">
+                   <select id="to_batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -14786,7 +14791,7 @@ elseif($code==229)
               <div class="col-lg-2">
                  <!-- <label>Action</label> -->
                   <br>
-                 <button onclick="copy_study_scheme();" class="btn btn-success">Move</button>
+                 <button onclick="copy_study_scheme();" class="btn btn-success btn-sm">Move</button>
               </div>
             
             </div>
@@ -14813,7 +14818,7 @@ elseif($code==230)
                 <div class="col-lg-3">
                  
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control form-control-sm" required>
                  <option value=''>Select Faculty</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
@@ -14830,7 +14835,7 @@ elseif($code==230)
               </div>
                <div class="col-lg-2">
                  <label>Department</label>
-                  <select  id="Department" name="Department" class="form-control"  onchange="fetchcourse()" required>
+                  <select  id="Department" name="Department" class="form-control form-control-sm"  onchange="fetchcourse()" required>
                      <option value=''>Select Department</option>
                  </select>
               </div>  
@@ -14838,7 +14843,7 @@ elseif($code==230)
 
               <div class="col-lg-2">
                  <label>Course</label>
-                  <select  id="Course" name="Course" class="form-control" required >
+                  <select  id="Course" name="Course" class="form-control form-control-sm" required >
                      <option value=''>Select Course</option>
                  </select>
               </div>
@@ -14850,7 +14855,7 @@ elseif($code==230)
 
               <div class="col-lg-1">
                  <label>Batch</label>
-                   <select id="batch"  class="form-control">
+                   <select id="batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -14862,7 +14867,7 @@ elseif($code==230)
               </div>
               <div class="col-lg-1">
                  <label>Semester</label>
-                      <select   id='semester' class="form-control">
+                      <select   id='semester' class="form-control form-control-sm">
                        <option value="">Sem</option>
                      <?php 
                         for($i=1;$i<=14;$i++)
@@ -14874,7 +14879,7 @@ elseif($code==230)
               </div>
               <div class="col-lg-2">
                  <label>Action</label><br>
-                 <button onclick="update_study_scheme_search();" class="btn btn-success">Search</button>
+                 <button onclick="update_study_scheme_search();" class="btn btn-success btn-sm">Search</button>
               </div>
             
             </div>
