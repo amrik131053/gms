@@ -222,13 +222,101 @@ function update_study_scheme_search() {
     });
 
 }
+function submit_rolelms(id)
+{
 
-function addRoleLMS() {
-    var code = 225;
+var code=303; 
+var role_id= document.getElementById("roleID").value;
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+role_new:role_id,emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+if(response==1)
+{
+   addRoleLMS();
+  
+  SuccessToast('Successfully Asssined');
+}
+// else if(response==2)
+// {
+
+
+//   ErrorToast('already Assigned','bg-warning');
+// }
+else
+{
+  ErrorToast('Try Again','bg-danger');
+}
+},
+error:function(){
+}
+});
+} 
+
+function del_rolerr(id)
+{
+    var a=confirm('Are you sure you want to delete Role '+id);;
+if (a==true) {
+var code=302;  
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+   emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+  if(response==1)
+  {
+   searchEmp();
+   addRoleLMS();
+    SuccessToast('Successfully Delete');
+  }
+  else
+  {
+    ErrorToast('Try Again','bg-danger');
+  }
+      },
+error:function(){
+// alert("error");
+}
+});
+}
+else
+{
+
+}
+} 
+
+function searchEmp() {
+    var code = 301;
+    var empID = document.getElementById('empID').value;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
-        url: 'action.php',
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            empid: empID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("emp-data").innerHTML = response;
+        }
+    });
+}
+
+function addRoleLMS() {
+    var code = 300;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
         type: 'POST',
         data: {
             code: code
