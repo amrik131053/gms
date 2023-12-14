@@ -12,7 +12,7 @@ window.location.href = 'index.php';
    else
    {
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   //$timeStamp=date('Y-m-d H-i-s');
+   $CurrentExaminationGetDate=date('d-m-Y');
    
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -55,6 +55,7 @@ window.location.href = "index.php";
       {
 
 $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
       }
 
       $getRole = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
@@ -18630,19 +18631,54 @@ $Course = $_POST['Course'];
         $Examination = $_POST['Examination'];
 
 
-$list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
+// $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
+//  ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
+//  ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+// FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where
+
+
+
+$list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
+ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
+ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE 1 = 1";
+if($College!=''){
+    $list_sql.= "AND ExamForm.CollegeID='$College' ";
+ }
+ if($Course!=''){
+ $list_sql.= "AND ExamForm.CourseID='$Course'";
+ }
+ if($Batch!=''){
+ $list_sql.= "AND ExamForm.Batch='$Batch' ";
+ }
+ if($Type!=''){
+$list_sql.= "AND ExamForm.Type='$Type' ";
+ }
+ if($Group!=''){
+$list_sql.= "AND ExamForm.Sgroup='$Group'";
+ }
+ if($Semester!=''){
+  $list_sql.= "ANd ExamForm.SemesterID='$Semester' ";
+ }
+ if($Examination!=''){
+  $list_sql.= "ANd ExamForm.Examination='$Examination'"; 
+ }
+  $list_sql.= "ORDER BY ExamForm.Status ASC";
 
 ?>
 
 <table class="table table-bordered" id="example">
                                 <thead>
-                                    <tr>
+                                    <tr style='font-size:14px;'>
                                         <th>#</th>
                                         <th>Uni Roll No</th>
                                         <th>Name</th>
                                         <th>Father Name</th>
-                                        <th>Date</th>
+                                        <th>Semester</th>
+                                        <th>Batch</th>
+                                        <th>Examination</th>
+                                        <th>Type</th>
+                                        <th>Submit Date</th>
                                         <th>Status</th>
                                         <th >Action</th>
                                     </tr>
@@ -18693,7 +18729,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
  elseif($Status==4)
                 {
                   
-                  $trColor="#9FCAF7";
+                  $trColor="#9FC9EB";
                 }
  elseif($Status==5)
                 {
@@ -18717,7 +18753,7 @@ elseif($Status==8)
                     $trColor="#CEEDB6";
                 }
                 ?>
-                <tr style="background-color:<?=$trColor;?>">
+                <tr style="background-color:<?=$trColor;?>;font-size:14px;">
                 <td><?= $count++;?></td>
               
                 
@@ -18728,7 +18764,15 @@ elseif($Status==8)
              <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
                    </td>
              <td>
-            <?=$row['FatherName'];?>
+            <?=$row['FatherName'];?></td>
+            <td>
+            <?=$row['Semesterid'];?></td>
+            <td>
+            <?=$row['Batch'];?></td>
+            <td>
+            <?=$row['Examination'];?></td>
+            <td>
+            <?=$row['Type'];?>
                    </td>
                    <td> <?php 
                echo $issueDate;?>
@@ -18884,7 +18928,21 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
           }
-
+          $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' ";
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+      $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('d-m-Y');
+      $CurrentExaminationType=$getCurrentExamination_row['Type'];
+      $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+          
+      // echo "<br>".$CurrentExamination.'='.$examination;
+      // echo "<br>".$CurrentExaminationLastDate.'='.$CurrentExaminationGetDate;
+      // echo "<br>".$CurrentExaminationType.' Department';
+      // echo "<br>".$CurrentExaminationExamType.'='.$type;
+          }
 ?>
 
 
@@ -18967,6 +19025,8 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     }
      else{
 
+        if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
+{ 
         ?>
   <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" onchange="sub_code_int_ext_type_update(<?=$row7['ID'];?>,<?=$formid;?>);">  
       <option><?php echo $row7['ExternalExam'];?></option>
@@ -18974,6 +19034,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     <option value="N">N</option>
   </select>
  <?php }
+     }
  ?>
   </td>
   <td>
@@ -19046,16 +19107,23 @@ else if ($Status==22){
 
 ?>
 
-<?php if($Status==0)
-{?>
+<?php
+
+if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
+{ 
+    ?>
     
 
 <td colspan="5" style="text-align:right; font-size: 16px;">
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 </td>
-</tr>
-<?php }?>
+<?php }
 
+
+
+?>
+
+</tr>
 <?php if($Status>0 && $Status==1)
 {?>
     <tr>
@@ -19067,8 +19135,8 @@ else if ($Status==22){
      
     <p style="text-align:left;float:left">Signature of Class Cordinator </p><p style="float:right">Date :<?=$DeanVerifiedDate;?></p>
    
-   <?php if($Status==1)
-{?>
+   <?php if($Status==1 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
+{ ?>
 <br><br><hr>
         <p style="text-align:right;font-size: 16px;">
     <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Lock</button></p><?php };?>
@@ -19400,7 +19468,7 @@ else{
 
 <table class="table table-bordered" id="example">
                              <thead>
-                                 <tr>
+                                 <tr style="font-size:14px;">
                                     <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
                                      <th>#</th>
                                      <th>Uni Roll No</th>
@@ -19483,7 +19551,7 @@ elseif($Status==8)
                  $trColor="#CEEDB6";
              }
              ?>
-             <tr style="background-color:<?=$trColor;?>">
+             <tr style="background-color:<?=$trColor;?>;font-size:14px;">
              <td><?php if($Status=='-1'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
              <td><?= $count++;?></td>
            
@@ -20107,13 +20175,15 @@ else{
 
 <table class="table table-bordered" id="example">
                              <thead>
-                                 <tr>
+                                 <tr style="font-size:14px;">
                                     <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
                                      <th>#</th>
                                      <th>Uni Roll No</th>
                                      <th>Name</th>
                                      <th>Father Name</th>
+                                     <th>Course</th>
                                      <th>Examination</th>
+                                     <th>Type</th>
                                      <th>Semester</th>
                                      <th>Date</th>
                                      <th>Status</th>
@@ -20190,7 +20260,7 @@ elseif($Status==8)
                  $trColor="#CEEDB6";
              }
              ?>
-             <tr style="background-color:<?=$trColor;?>">
+             <tr style="background-color:<?=$trColor;?>;font-size:14px;">
              <td><?php if($Status=='5'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
              <td><?= $count++;?></td>
            
@@ -20205,10 +20275,16 @@ elseif($Status==8)
          <?=$row['FatherName'];?>
                 </td>
           <td>
+         <?=$row['Course'];?>
+                </td>
+          <td>
          <?=$row['Examination'];?>
                 </td>
           <td>
          <?=$row['Type'];?>
+                </td>
+          <td>
+         <?=$row['Semesterid'];?>
                 </td>
                 <td> <?php 
             echo $issueDate;?>
@@ -20281,7 +20357,7 @@ if($Status==8)
         <?php 
          }?>
          <tr>
-            <td colspan="10"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
+            <td colspan="13"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Verify</button></td>
          </tr>
 
          </tbody>
