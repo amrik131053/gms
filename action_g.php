@@ -20969,9 +20969,223 @@ $update_query=sqlsrv_query($conntest,$update1);
    
    }
 
+   elseif($code==300)
+   {
+   
+     
+                  ?>
+  
+        <div class="card">
+        <center>
+         <h5>
+         <b>Assign Role</b>
+        </h5>
+        </center>
+        </div>
+     
+           <div class="row">
+           <div class="col-lg-6">
+                   <div class="card-header">
+                    Search Employee
+<span style="float:right;">
+<button class="btn btn-xs ">
+         <input type="search"  class="form-control form-control-sm" name="rollNo" id="empID" placeholder="Emp ID">
+      </button>
+            <button type="button" onclick="searchEmp();" class="btn btn-success btn-sm">
+              Search
+            </button></span>
+                  </div>
+                  <div class="row">
+                  <div class="col-lg-12">
+    <br>
+                
+            <div id="emp-data"></div>
+   </div>
+   </div>
+
+   </div>
+           <div class="col-lg-6">
+                   <div class="card-header">
+                   All Assigned Role
+                  </div>
+                  <div id="card card-body">
+                  <div class="table-responsive" style="">
+<table class="table">
+  <?php  
+  $sr=1;
+     $presult = mysqli_query($conn,"SELECT user.user_id,user.emp_id,user.role_id,user.name,role_name.role_name from user inner join role_name ON user.role_id=role_name.id WHERE  user.role_id='16'");
+     $name = $emp_id = "";
+     while($row=mysqli_fetch_array($presult))
+     {
+         $id = $row['user_id'];
+         $emp_id = $row['emp_id'];
+         $name = $row['name'];
+         $role_name = $row['role_name'];
+      ?>
+  <tr>
+     <th><b style='color:#a62532;'><?=$sr;?></b></th>
+     <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)</b></th>
+     <input type="hidden" name="" value="<?=$id;?>">
+     <td><?=$role_name;?></td>
+     <th><input type="button" class="btn btn-danger btn-xs" onclick="del_rolerr(<?=$emp_id;?>)" value="Delete"></th>
+  </tr>
+  <?php 
+  $sr++;
+     }
+     ?>
+</table>
+</div>
+                  </div>
+   </div>
+
+   </div>
+             
+             
+            
+            </div>
+          
 
 
+  <?php  
+}
 
+elseif($code=='301')
+   {
+   $empid=$_POST['empid'];
+   $result1 = "SELECT  * FROM Staff where IDNo='$empid' and JobStatus='1' ";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+   
+    $IDNo= $row['IDNo'];
+    
+    $img= $row['Snap'];
+   
+    $name = $row['Name'];
+    $father_name = $row['FatherName'];
+    $course = $row['Department'];
+    $email = $row['EmailID'];
+    $jobstatus = $row['JobStatus'];
+    $batch = $row['Designation'];
+    $college = $row['CollegeName'];
+   
+  
+   ?>
+   
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header card-header">
+                <div class="widget-user-image">
+                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
+                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li> -->
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Designation</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Department</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li><li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b class="text-danger">
+                      
+                     
+                </b></li>
+                  </li>
+                  <li class="nav-link"><b class="text-danger">
+                      
+                  <select class="form-control" name="role" id="roleID">
+                       
+                        <?php 
+                           $get_role="SELECT * FROM role_name where id='16'";
+                           $get_run=mysqli_query($conn,$get_role);
+                           while ($get_row=mysqli_fetch_array($get_run))
+                            {?>
+                        <option value='<?=$get_row['id'];?>'><?=$get_row['role_name'];?> (<?=$get_row['id'];?>)</option>
+                        ";
+                        <?php }
+                           ?>
+                     </select>
+                      </b></li>
+                      <div class="row" style="margin-left:10px;margin-top:10px;">
+                      <button class="btn btn-success btn-sm" onclick="submit_rolelms('<?=$empid;?>');"> Submit</button>
+                            </div>
+                        <br></ul>
+                
+              </div>
+            </div>
+         
+   <?Php
+}   
+   
+   }
+
+   elseif($code==302) 
+   {
+   
+   $emp_id=$_POST['emp_id'];
+   $del="UPDATE user SET role_id='11' WHERE emp_id='$emp_id' and role_id='16'";
+   $del_run=mysqli_query($conn,$del);
+   if ($del_run) {
+
+      echo "1";
+    }
+   else
+   {
+       echo "0";
+   }
+   }
+
+   elseif($code==303) 
+   {
+   $role_id=$_POST['role_new'];
+   $emp_id=$_POST['emp_id'];
+   $userQry="SELECT * FROM user WHERE emp_id = '$emp_id'";
+   $userRes=mysqli_query($conn,$userQry);
+   if (mysqli_num_rows($userRes)<1) 
+   {      
+   $staff="SELECT * FROM Staff Where IDNo='$emp_id' ";
+   $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   {
+   $IDNo=$row_staff['IDNo'];
+   $Name=$row_staff['Name'];
+   $Clg=$row_staff['CollegeName'];
+   $dept=$row_staff['Department'];
+   $Desi=$row_staff['Designation'];
+   $contact=$row_staff['ContactNo'];
+   $email=$row_staff['EmailID'];
+   mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
+   }
+   } 
+ 
+   $insert="UPDATE user SET role_id='$role_id' WHERE emp_id='$emp_id'  and (role_id='0' or role_id='11') and role_id!='16'";
+   $insert_run=mysqli_query($conn,$insert);
+   if ($insert_run==true)
+    {
+   echo "1";
+   }
+   else
+   {
+     echo "0";
+   }
+ 
+   
+   }
    elseif($code==313)
    {
      $ids=$_POST['certificateID'];

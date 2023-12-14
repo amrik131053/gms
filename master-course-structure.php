@@ -10,6 +10,14 @@
             <div class="col-lg-12 col-md-4 col-sm-12">
             <div class=" card-header">
             Study Scheme
+            <!-- <span style="float:right;">
+      <button class="btn btn-xs ">
+         <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Emp ID">
+      </button>
+            <button type="button" onclick="addlmsRole();" class="btn btn-success btn-sm">
+              Search
+            </button>
+      </span> -->
 </div>
                 <div class="card-body card">
                 <?php 
@@ -32,6 +40,8 @@
                         <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> -->
                         <a class="btn btn-sm" id="btn5" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="Update();bg(this.id);"> Update </a>
+                        <a class="btn btn-sm" id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
 
                               
                             
@@ -212,7 +222,111 @@ function update_study_scheme_search() {
     });
 
 }
+function submit_rolelms(id)
+{
 
+var code=303; 
+var role_id= document.getElementById("roleID").value;
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+role_new:role_id,emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+if(response==1)
+{
+   addRoleLMS();
+  
+  SuccessToast('Successfully Asssined');
+}
+// else if(response==2)
+// {
+
+
+//   ErrorToast('already Assigned','bg-warning');
+// }
+else
+{
+  ErrorToast('Try Again','bg-danger');
+}
+},
+error:function(){
+}
+});
+} 
+
+function del_rolerr(id)
+{
+    var a=confirm('Are you sure you want to delete Role '+id);;
+if (a==true) {
+var code=302;  
+$.ajax({
+url:"action_g.php ",
+type:"POST",
+data:{
+   emp_id:id,code:code,
+},
+success:function(response) {
+   // console.log(response);
+  if(response==1)
+  {
+   searchEmp();
+   addRoleLMS();
+    SuccessToast('Successfully Delete');
+  }
+  else
+  {
+    ErrorToast('Try Again','bg-danger');
+  }
+      },
+error:function(){
+// alert("error");
+}
+});
+}
+else
+{
+
+}
+} 
+
+function searchEmp() {
+    var code = 301;
+    var empID = document.getElementById('empID').value;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            empid: empID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("emp-data").innerHTML = response;
+        }
+    });
+}
+
+function addRoleLMS() {
+    var code = 300;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
 function Add() {
     var code = 225;
     var spinner = document.getElementById('ajax-loader');

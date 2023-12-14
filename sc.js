@@ -1275,7 +1275,7 @@ if(response==1)
 else if(response==2)
 {
   emp_role(); 
-  ErrorToast('already Assigned','bg-waning');
+  ErrorToast('already Assigned','bg-warning');
 }
 else
 {
