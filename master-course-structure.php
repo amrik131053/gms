@@ -10,6 +10,14 @@
             <div class="col-lg-12 col-md-4 col-sm-12">
             <div class=" card-header">
             Study Scheme
+            <!-- <span style="float:right;">
+      <button class="btn btn-xs ">
+         <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Emp ID">
+      </button>
+            <button type="button" onclick="addlmsRole();" class="btn btn-success btn-sm">
+              Search
+            </button>
+      </span> -->
 </div>
                 <div class="card-body card">
                 <?php 
@@ -32,6 +40,8 @@
                         <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> -->
                         <a class="btn btn-sm" id="btn5" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="Update();bg(this.id);"> Update </a>
+                        <a class="btn btn-sm" id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
 
                               
                             
@@ -213,6 +223,22 @@ function update_study_scheme_search() {
 
 }
 
+function addRoleLMS() {
+    var code = 225;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
 function Add() {
     var code = 225;
     var spinner = document.getElementById('ajax-loader');
