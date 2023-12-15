@@ -12928,6 +12928,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
       <option value="P">P</option>
       <option value="TP">TP</option>
       <option value="O">O</option>
+      <option value="M">M</option>
      </select>
   </td>
   <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
@@ -12994,14 +12995,14 @@ $ecat=$_POST['ecat'];
 if($ecat=='ESE')
 {
 $ecat='MoocLocked';
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
 }
 else
 {
   $ecat=$ecat."Locked"; 
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
 }
  
-
- echo $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
