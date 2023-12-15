@@ -104,7 +104,7 @@ for($s1='16';$s1<='31';$s1++)
                             
                             <div class="col-lg-2" id="typeCourseDiv" style=" display:none;">
                                 <label> Course Name</label>
-                               <input type="text"  id="Course3" class="form-control">
+                               <input type="text"  id="CourseNew" class="form-control">
                             </div>
                            
                             <div class="col-lg-2" style="text-align: left;">
@@ -147,7 +147,7 @@ for($s1='16';$s1<='31';$s1++)
                                 <label>Duration</label>
                                
                                 <br>
-                                <select name="session1" class="btn btn-default">
+                                <select name="duration1" class="btn btn-default">
                                     <option value=''>Y</option>
                                     <?php 
 for($s='1';$s<='10';$s++)
@@ -156,7 +156,7 @@ for($s='1';$s<='10';$s++)
                                     <option value='<?=$s;?>'><?=$s;?></option>
                                     <?php }?>
                                 </select>
-                                <select name="session2" class="btn btn-default">
+                                <select name="duration2" class="btn btn-default">
                                 <option value=''>M</option>
                                     <?php 
 for($s1='0';$s1<='6';$s1++)
@@ -184,7 +184,7 @@ for($s1='0';$s1<='6';$s1++)
                         </div>
                         <div class="card-footer">
                             
-                            <input type="button" name="" class="btn btn-success" value="Add" style="float:right;">
+                            <input type="button" name="" class="btn btn-success" value="Add" onclick="addSeriesAndNewCourse();" style="float:right;">
                     </div>
                     </div>
                 </div>
@@ -492,6 +492,113 @@ function submit_record() {
 
     if (Name != '' && FatherName != '' && Gender != '' && CollegeName != '' && Department != '' && Course != '' &&
         session != '' && duration != '' && Consultant != '' && months != '')
+
+    {
+        var code = 133;
+        var data = {
+            Name: Name,
+            FatherName: FatherName,
+            months: months,
+            // MotherName: MotherName,
+            Gender: Gender,
+            // MobileNo: MobileNo,
+            CollegeName: CollegeName,
+            Department: Department,
+            Course: Course,
+            // Batch: Batch,
+            PinCode: PinCode,
+            Nationality: Nationality,
+            State: State,
+            District: District,
+            Consultant: Consultant,
+            Lateral: Lateral,
+            duration: duration,
+            session: session,
+            AdharCardNo: AdharCardNo,
+            PassportNo: PassportNo,
+            code: code
+        };
+
+        // Send the AJAX request
+        $.ajax({
+            url: 'action_g.php',
+            data: data,
+            type: 'POST',
+            success: function(response) {
+                // console.log(response); // Log the response for debugging
+                // alert('Data submitted successfully!');
+                if (response == 1) {
+                    SuccessToast('Data submitted successfully');
+                } else if (response == 2) {
+                    ErrorToast('ID Proof Already Exist', 'bg-warning');
+                } else {
+                    ErrorToast('Try  after some time', 'bg-danger');
+
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                // alert('An error occurred while submitting data. Please try again.');
+            }
+        });
+    } else {
+        ErrorToast('All Input Required', 'bg-warning');
+    }
+}
+
+function addSeriesAndNewCourse() {
+
+var session1=document.getElementById('session1').value;
+var session2=document.getElementById('session2').value;
+var session3=document.getElementById('session3').value;
+
+    if (session1 != '' && session2 != '' && session3!='') 
+    {
+        var Session = session1 + '-' + session2 + '-' + session3;
+    } 
+    else if(session1 != '' && session2 != '')
+    {
+        var Session = session1 + '-' + session2 ;
+    }
+    else
+     {
+        var Session = "";
+    }
+
+var College3=document.getElementById('College3').value;
+var Department3=document.getElementById('Department3').value;
+var Course3=document.getElementById('Course3').value;
+if(Course3!='other')
+{
+    var Course=document.getElementById('Course3').value;
+}
+else{
+
+    var CourseNew=document.getElementById('CourseNew').value;
+}
+var Batch3=document.getElementById('Batch3').value;
+var FirstRollNo=document.getElementById('FirstRollNo').value;
+var LastRollNo=document.getElementById('LastRollNo').value;
+var ValidUpTo=document.getElementById('ValidUpTo').value;
+var LateralEntry=document.getElementById('LateralEntry').value;
+var duration1=document.getElementById('duration1').value;
+var duration2=document.getElementById('duration2').value;
+if(duration1!='' && duration2!='')
+{
+    var duration=duration1+''+duration2;
+}
+else if(duration1!='')
+{
+    var duration=duration1;
+}
+else
+{
+    var duration="";
+}
+var CourseType=document.getElementById('CourseType').value;
+   
+
+    if (College3!='' &&Department3!='' &&Batch3!='' &&FirstRollNo!='' &&LastRollNo!='' &&ValidUpTo!='' &&LateralEntry!='' &&CourseType)
 
     {
         var code = 133;

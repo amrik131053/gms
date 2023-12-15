@@ -20928,7 +20928,7 @@ $update_query=sqlsrv_query($conntest,$update1);
                    All Assigned Role
                   </div>
                   <div id="card card-body">
-                  <div class="table-responsive" style="">
+                  <div class="table-responsive" style="height:500px;">
 <table class="table">
   <?php  
   $sr=1;
