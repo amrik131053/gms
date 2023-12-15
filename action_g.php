@@ -8362,6 +8362,7 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
     $duration=$row_collegecourse_name['Duration'];
     
+    
 
 }
 
