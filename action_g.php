@@ -21105,6 +21105,73 @@ elseif($code=='301')
  
    
    }
+
+
+   elseif($code==304)
+   {
+
+
+    $Session=$_POST['Session'];
+    $CollegeID=$_POST['College3'];
+    $CourseID=$_POST['Course'];
+    $getCollegeName="SELECT CollegeName FROM MasterCourseCodes Where CollegeID='$CollegeID'";
+    $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
+    if($rowCollegeName=sqlsrv_fetch_array($getCollegeNameRun, SQLSRV_FETCH_ASSOC))
+    {
+        $CollegeName=$rowCollegeName['CollegeName'];
+    }
+    $DepartmentID=$_POST['Department3'];
+    if($_POST['Course']!='other')
+    {
+        $CourseID=$_POST['Course'];
+        $getCourse="SELECT Course FROM MasterCourseCodes Where CourseID='$CourseID'";
+        $getCourseRun=sqlsrv_query($conntest,$getCourse);
+        if($rowCourse=sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
+        {
+            $Course=$rowCourse['Course'];
+        }
+    }
+    else{
+        $getCourse="SELECT MAX(CourseID)as CourseID FROM MasterCourseCodes ";
+        $getCourseRun=sqlsrv_query($conntest,$getCourse);
+        if($rowCourse=sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
+        {
+            $CourseID=$rowCourse['CourseID']+1;
+        }
+        $Course=$_POST['CourseNew'];
+
+    }
+    $Batch=$_POST['Batch3'];
+    $FirstRollNo=$_POST['FirstRollNo'];
+    $LastRollNo=$_POST['LastRollNo'];
+    $ValidUpTo=$_POST['ValidUpTo'];
+    $LateralEntry=$_POST['LateralEntry'];
+    $durationYears=$_POST['durationYears'];
+    $durationMonth=$_POST['durationMonth'];
+    $CourseType=$_POST['CourseType'];
+
+    
+  $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
+ EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths) 
+ VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth');";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
+if ($insert_record_run==true) 
+{
+echo "1";
+}
+else
+{
+echo "0";
+} 
+if ($insert_record_run === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
+   }  
+
+
+
    elseif($code==313)
    {
      $ids=$_POST['certificateID'];

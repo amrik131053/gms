@@ -47,7 +47,7 @@ $data[]=$degree_row;
                             <div class="col-lg-3" style="text-align: ;">
                                 <label>Select Session</label>
                                 <br>
-                                <select name="session1" class="btn btn-default">
+                                <select id="session1" class="btn btn-default">
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -55,7 +55,7 @@ for($s='2015';$s<='2030';$s++)
                                     <option value='<?=$s;?>'><?=$s;?></option>
                                     <?php }?>
                                 </select>
-                                <select name="session2" class="btn btn-default">
+                                <select id="session2" class="btn btn-default">
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
@@ -63,7 +63,7 @@ for($s1='16';$s1<='31';$s1++)
                                     <option value='<?=$s1;?>'><?=$s1;?></option>
                                     <?php }?>
                                 </select>
-                                <select name="session3" class="btn btn-default">
+                                <select id="session3" class="btn btn-default">
                                     <option value=''></option>
                                     <option value='A'>A</option>
                                     <option value='J'>J</option>
@@ -147,7 +147,7 @@ for($s1='16';$s1<='31';$s1++)
                                 <label>Duration</label>
                                
                                 <br>
-                                <select name="duration1" class="btn btn-default">
+                                <select id="duration1" class="btn btn-default">
                                     <option value=''>Y</option>
                                     <?php 
 for($s='1';$s<='10';$s++)
@@ -156,7 +156,7 @@ for($s='1';$s<='10';$s++)
                                     <option value='<?=$s;?>'><?=$s;?></option>
                                     <?php }?>
                                 </select>
-                                <select name="duration2" class="btn btn-default">
+                                <select id="duration2" class="btn btn-default">
                                 <option value=''>M</option>
                                     <?php 
 for($s1='0';$s1<='6';$s1++)
@@ -467,87 +467,7 @@ function edit_record() {
     }
 }
 
-function submit_record() {
-    var Name = document.getElementById('Name').value;
-    var FatherName = document.getElementById('FatherName').value;
-    // var MotherName = document.getElementById('MotherName').value;
-    var Gender = document.getElementById('Gender').value;
-    // var MobileNo = document.getElementById('MobileNo').value;
-    var CollegeName = document.getElementById('CollegeName1').value;
-    var Department = document.getElementById('Department1').value;
-    var Course = document.getElementById('Course1').value;
-    // var Batch = document.getElementById('batch').value;
-    var PinCode = document.getElementById('Pincode').value;
-    var Nationality = document.getElementById('Nationality_').value;
-    var State = document.getElementById('State_').value;
-    var District = document.getElementById('District').value;
-    var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-    var Consultant = document.getElementById('Consultant_').value;
-    var duration = document.getElementById('duration').value;
-    var months = document.getElementById('months').value;
-    var session = document.getElementById('session').value;
-    var AdharCardNo = document.getElementById('AdharCardNo').value;
-    var PassportNo = document.getElementById('PassportNo').value;
-
-
-    if (Name != '' && FatherName != '' && Gender != '' && CollegeName != '' && Department != '' && Course != '' &&
-        session != '' && duration != '' && Consultant != '' && months != '')
-
-    {
-        var code = 133;
-        var data = {
-            Name: Name,
-            FatherName: FatherName,
-            months: months,
-            // MotherName: MotherName,
-            Gender: Gender,
-            // MobileNo: MobileNo,
-            CollegeName: CollegeName,
-            Department: Department,
-            Course: Course,
-            // Batch: Batch,
-            PinCode: PinCode,
-            Nationality: Nationality,
-            State: State,
-            District: District,
-            Consultant: Consultant,
-            Lateral: Lateral,
-            duration: duration,
-            session: session,
-            AdharCardNo: AdharCardNo,
-            PassportNo: PassportNo,
-            code: code
-        };
-
-        // Send the AJAX request
-        $.ajax({
-            url: 'action_g.php',
-            data: data,
-            type: 'POST',
-            success: function(response) {
-                // console.log(response); // Log the response for debugging
-                // alert('Data submitted successfully!');
-                if (response == 1) {
-                    SuccessToast('Data submitted successfully');
-                } else if (response == 2) {
-                    ErrorToast('ID Proof Already Exist', 'bg-warning');
-                } else {
-                    ErrorToast('Try  after some time', 'bg-danger');
-
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                // alert('An error occurred while submitting data. Please try again.');
-            }
-        });
-    } else {
-        ErrorToast('All Input Required', 'bg-warning');
-    }
-}
-
 function addSeriesAndNewCourse() {
-
 var session1=document.getElementById('session1').value;
 var session2=document.getElementById('session2').value;
 var session3=document.getElementById('session3').value;
@@ -567,73 +487,45 @@ var session3=document.getElementById('session3').value;
 
 var College3=document.getElementById('College3').value;
 var Department3=document.getElementById('Department3').value;
-var Course3=document.getElementById('Course3').value;
-if(Course3!='other')
-{
-    var Course=document.getElementById('Course3').value;
-}
-else{
-
-    var CourseNew=document.getElementById('CourseNew').value;
-}
+var Course=document.getElementById('Course3').value;
+var CourseNew=document.getElementById('CourseNew').value;
 var Batch3=document.getElementById('Batch3').value;
 var FirstRollNo=document.getElementById('FirstRollNo').value;
 var LastRollNo=document.getElementById('LastRollNo').value;
 var ValidUpTo=document.getElementById('ValidUpTo').value;
 var LateralEntry=document.getElementById('LateralEntry').value;
-var duration1=document.getElementById('duration1').value;
-var duration2=document.getElementById('duration2').value;
-if(duration1!='' && duration2!='')
-{
-    var duration=duration1+''+duration2;
-}
-else if(duration1!='')
-{
-    var duration=duration1;
-}
-else
-{
-    var duration="";
-}
+var durationYears=document.getElementById('duration1').value;
+var durationMonth=document.getElementById('duration2').value;
+
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if (College3!='' &&Department3!='' &&Batch3!='' &&FirstRollNo!='' &&LastRollNo!='' &&ValidUpTo!='' &&LateralEntry!='' &&CourseType)
+    if (College3!='' &&Department3!='' &&Batch3!='' &&FirstRollNo!='' &&LastRollNo!='' &&ValidUpTo!='' &&LateralEntry!='' &&CourseType && durationYears!='')
 
     {
-        var code = 133;
+        var code = 304;
         var data = {
-            Name: Name,
-            FatherName: FatherName,
-            months: months,
-            // MotherName: MotherName,
-            Gender: Gender,
-            // MobileNo: MobileNo,
-            CollegeName: CollegeName,
-            Department: Department,
-            Course: Course,
-            // Batch: Batch,
-            PinCode: PinCode,
-            Nationality: Nationality,
-            State: State,
-            District: District,
-            Consultant: Consultant,
-            Lateral: Lateral,
-            duration: duration,
-            session: session,
-            AdharCardNo: AdharCardNo,
-            PassportNo: PassportNo,
+            Session:Session,
+College3:College3,
+Department3:Department3,
+Course:Course,
+CourseNew:CourseNew,
+Batch3:Batch3,
+FirstRollNo:FirstRollNo,
+LastRollNo:LastRollNo,
+ValidUpTo:ValidUpTo,
+LateralEntry:LateralEntry,
+durationYears:durationYears,
+durationMonth:durationMonth,
+CourseType:CourseType,
             code: code
         };
-
-        // Send the AJAX request
         $.ajax({
             url: 'action_g.php',
             data: data,
             type: 'POST',
             success: function(response) {
-                // console.log(response); // Log the response for debugging
-                // alert('Data submitted successfully!');
+                console.log(response);
                 if (response == 1) {
                     SuccessToast('Data submitted successfully');
                 } else if (response == 2) {
