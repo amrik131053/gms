@@ -17991,13 +17991,26 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
    <div class="tab-pane" id="special">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                       <textarea  class="form-control" readonly><?=$row1['CommentsDetail'];?></textarea>
-                                    </div>
+
+<?php 
+if($role_id==2 OR $EmployeeID=='121129')
+    {
+        ?>
+<textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
+<?php }
+else
+    {?>
+
+
+<textarea class="form-control" readonly name='specialcomment'><?= $row1['CommentsDetail'];?></textarea> 
+<?php }?>
+
+
+
+                             </div>
                                 </div>
 
-                                <?php                   
-                                    //}
-                                    // print_r($aa);        ?>
+                              
                             </div>
 
 
@@ -18230,6 +18243,11 @@ elseif($code==268)
     $scholaship =$_POST["scholaship"]; 
     $batch =$_POST["batch"]; 
 
+    $specialcomment =$_POST["specialcomment"]; 
+
+
+
+
 $provisional='';
 
 if($eligible>1)
@@ -18342,7 +18360,8 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "Locked ='$ulocked', ";
    $query .= "Quota ='$modeofadmission', ";
    $query .= "ScolarShip ='$scholaship',";
-   $query .= "EligibilityReason='$provisional'";
+   $query .= "EligibilityReason='$provisional',";
+   $query .= "CommentsDetail='$specialcomment'";
    $query .= "WHERE IDNo ='$loginId'";
 
 
@@ -18358,7 +18377,7 @@ sqlsrv_query($conntest, $upimage, $params);
 //$desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.",Eligibility:".$eligible.",Reason:".$provisional;
 
 
-  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScolarShip :".$scholaship;
+  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScholarShip :".$scholaship."CommentsDetail".$specialcomment."Batch :".$batch;
 
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";

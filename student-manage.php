@@ -31,6 +31,47 @@ function uploadPhotoStudent(form) {
     });
 }
 
+function passwordreset(id)
+ {
+   
+if (confirm("Really want to Reset Password") == true) {
+ 
+
+   var code=231;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Password Reset to 12345678');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         });
+ }
+ else 
+
+{
+  
+}
+  
+}
+
 function abcidreset(id)
  {
    if (confirm("Really want to Reset ABCID") == true) {

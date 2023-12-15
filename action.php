@@ -13547,6 +13547,14 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
 
 
+
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Email</b> :&nbsp;&nbsp;&nbsp;<?= $email; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Mobile</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li>
                    <li class="nav-item">
                      <li class="nav-link"><b>ABC ID</b> :&nbsp;&nbsp;&nbsp;<?php if($abcid!=''){echo $abcid; 
 
@@ -14444,7 +14452,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                  <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
                  <option value=''>Select Course</option>
                   <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID' ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
