@@ -242,7 +242,7 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->multicell(190, 6,"Document Status",0,'C');
 $pdf->SetFont('Arial', '', 9);
 
- $sql = "select  * from  DocumentStatus where IDNo='$IDNo' AND Status IS NOT NULL ";
+ $sql = "select  * from  DocumentStatus where IDNo='$IDNo'  ANd Status!='NA' AND Status IS NOT NULL";
 $stmt1 = sqlsrv_query($conntest,$sql);
 while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {
