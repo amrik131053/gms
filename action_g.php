@@ -17523,11 +17523,13 @@ elseif($code==267) //update student
   if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
   {
     $DateOfBirth=$row1['DOB']; 
+    $CollegeID=$row1['CollegeID']; 
      $RegistrationNo = $row1['RegistrationNo'];
     $abcid = $row1['ABCID'];
     $Locked = $row1['Locked'];
      $Eligibility = $row1['Eligibility'];
      $Reason = $row1['Reason'];
+     $Batch=$row1['Batch'];  
     $validUpto='NA';
 ?>
 
@@ -17797,9 +17799,29 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <label>Batch</label>
-                                        <input type="text" name="batch" class="form-control"
-                                            value="<?=$row1['Batch'];?>" readonly>
+
+
+<select  name="batch" class="form-control">
+
+    <option value="<?= $Batch;?>"> <?= $Batch;?></option>
+
+
+<?php
+for($i=$Batch-5;$i<$Batch+5;$i++)
+{
+    ?>
+<option value="<?=$i;?>"><?=$i;?></option>
+
+<?php 
+}                     ?>
+</select>
+
+
+
+
                                     </div>
+
+
                                     <div class="col-lg-3 col-12">
                                         <label>Session</label>
                                         <input type="text" name="session" class="form-control"
@@ -17969,13 +17991,26 @@ elseif($code==267) //update student
    <div class="tab-pane" id="special">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                       <textarea  class="form-control" readonly><?=$row1['CommentsDetail'];?></textarea>
-                                    </div>
+
+<?php 
+if($role_id==2 OR $EmployeeID=='121129')
+    {
+        ?>
+<textarea class="form-control" name='specialcomment'><?= $row1['CommentsDetail'];?></textarea>
+<?php }
+else
+    {?>
+
+
+<textarea class="form-control" readonly name='specialcomment'><?= $row1['CommentsDetail'];?></textarea> 
+<?php }?>
+
+
+
+                             </div>
                                 </div>
 
-                                <?php                   
-                                    //}
-                                    // print_r($aa);        ?>
+                              
                             </div>
 
 
@@ -17983,6 +18018,8 @@ elseif($code==267) //update student
 <div class="tab-pane" id="documents">
                                 <div class="row">
                                     <div class="col-lg-12">
+   
+
                                         <table class="table  table-bordered">
                                             
                                             <tr>
@@ -18015,9 +18052,24 @@ $SerialNo= $row7['SerialNo'];
                                                 </td>
                                                 
                                             </tr>
+
+
+
                                             <?php 
                                                 }?>
+
+
+
+
+
+
                                         </table>
+
+
+
+
+
+
                                     </div>
                                 </div>
 
@@ -18189,6 +18241,12 @@ elseif($code==268)
     $eligible =$_POST["eligible"]; 
     $modeofadmission =$_POST["modeofadmission"]; 
     $scholaship =$_POST["scholaship"]; 
+    $batch =$_POST["batch"]; 
+
+    $specialcomment =$_POST["specialcomment"]; 
+
+
+
 
 $provisional='';
 
@@ -18291,17 +18349,19 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "PermanentAddress ='$permanentAddress', ";
    $query .= "CorrespondanceAddress ='$correspondenceAddress', ";
    $query .= "Nationality ='$Nationality_1', ";
-    $query .= "country ='$CountryID', ";
+   $query .= "country ='$CountryID', ";
    $query .= "District ='$districtID', ";
    $query .= "State ='$State', ";
    $query .= "PO ='$postOffice', ";
    $query .= "PIN ='$pinCode', ";
    $query .= "Status ='$employmentStatus', ";
+   $query .= "Batch='$batch', ";   
    $query .= "Eligibility ='$eligible', ";
    $query .= "Locked ='$ulocked', ";
    $query .= "Quota ='$modeofadmission', ";
    $query .= "ScolarShip ='$scholaship',";
-   $query .= "EligibilityReason='$provisional'";
+   $query .= "EligibilityReason='$provisional',";
+   $query .= "CommentsDetail='$specialcomment'";
    $query .= "WHERE IDNo ='$loginId'";
 
 
@@ -18317,7 +18377,7 @@ sqlsrv_query($conntest, $upimage, $params);
 //$desc= "UPDATE Admissions SET Batch:".$batch."Status:".$status.",Locked:".$lock.",Eligibility:".$eligible.",Reason:".$provisional;
 
 
-  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScolarShip :".$scholaship;
+  $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScholarShip :".$scholaship."CommentsDetail".$specialcomment."Batch :".$batch;
 
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
@@ -21106,8 +21166,53 @@ elseif($code=='301')
    
    }
 
+   
+elseif($code==304) 
+   {
+$idno=$_POST['idno'];
 
-   elseif($code==304)
+ $sql = "select  * from  DocumentStatus where IDNo='$idno'";
+
+$get_documents_run=sqlsrv_query($conntest,$sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+    $documentyes=sqlsrv_num_rows($get_documents_run);
+
+if($documentyes>0)
+{
+
+
+}
+else
+{
+ $getcollegeid="SELECT CollegeID,StudentName from Admissions where IDNo='$idno'";
+$stmt1 = sqlsrv_query($conntest,$getcollegeid);
+
+while($row7 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+{
+$CollegeID= $row7['CollegeID'];
+$StudentName= $row7['StudentName'];
+}
+
+ $sqldr = "SELECT * FROM MasterDocumentsRequired WHERE CollegeID='$CollegeID' order by SerialNo" ;
+
+$stmt1dr = sqlsrv_query($conntest,$sqldr);
+while($row8 = sqlsrv_fetch_array($stmt1dr, SQLSRV_FETCH_ASSOC) )
+{
+
+ $serial_no= $row8['SerialNo'];
+$dicrequire= $row8['DocumentsRequired'];
+
+
+$Insert="INSERT into DocumentStatus(IDNo,StudentName,SerialNo,Documentsrequired,Status)Values('$idno','$StudentName','$serial_no','$dicrequire','NA')";
+
+$stmt1 = sqlsrv_query($conntest,$Insert);
+//die( print_r( sqlsrv_errors(), true) );
+ }
+
+}
+}
+
+elseif($code==305)
    {
 
 
@@ -21169,7 +21274,6 @@ if ($insert_record_run === false) {
     // echo "0";
 } 
    }  
-
 
 
    elseif($code==313)

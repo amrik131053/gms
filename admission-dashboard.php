@@ -301,15 +301,7 @@ function exportTotalScordingToStatusSummary(Status,Eligible) {
 }
 
 
-
-
-
-
-
-
-
-
-    function loadDashboard() {
+  function loadDashboard() {
       $('#div-loader').show();
         var Batch = document.getElementById("Batch").value;
         var Lateral = document.getElementById("Lateral").value;

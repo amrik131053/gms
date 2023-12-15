@@ -503,7 +503,7 @@ var CourseType=document.getElementById('CourseType').value;
     if (College3!='' &&Department3!='' &&Batch3!='' &&FirstRollNo!='' &&LastRollNo!='' &&ValidUpTo!='' &&LateralEntry!='' &&CourseType && durationYears!='')
 
     {
-        var code = 304;
+        var code = 305;
         var data = {
             Session:Session,
 College3:College3,

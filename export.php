@@ -3724,18 +3724,8 @@ else if($exportCode==39)
     $CollegeID=$_POST['CollegeName'];
     $CourseID=$_POST['Course1'];
     $Batch=$_POST['Batch'];
-    $session1=$_POST['session1'];$session2=$_POST['session2'];$session3=$_POST['session3'];
-    if($session1!='' &&$session3!='' &&$session2!='')
-    {
-    $Session=$session1.'-'.$session2.'-'.$session3;
-    }
-    elseif($session1!=''&&$session2!='')
-    {
-       $Session=$session1.'-'.$session2; 
-    }
-    else{
-        $Session="";
-    }
+    $Session=$_POST['session1'];
+   
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
     $LateralEntry=$_POST['Lateral'];
@@ -3766,7 +3756,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=17;
+$subCount=20;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>

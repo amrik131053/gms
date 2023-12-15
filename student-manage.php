@@ -31,6 +31,81 @@ function uploadPhotoStudent(form) {
     });
 }
 
+function passwordreset(id)
+ {
+   
+if (confirm("Really want to Reset Password") == true) {
+ 
+
+   var code=231;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('Password Reset to 12345678');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         });
+ }
+ else 
+
+{
+  
+}
+  
+}
+
+function abcidreset(id)
+ {
+   if (confirm("Really want to Reset ABCID") == true) {
+ 
+   var code=232;   
+   var  spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,id:id
+            },
+            success:function(response) 
+            {
+             
+               spinner.style.display='none';
+                if (response==1) {
+                           SuccessToast('ABCID Cleared');
+                           
+                          }
+                          else
+                          {
+                           ErrorToast('Something went worng','bg-danger' );
+                          }
+              student_search();
+            }
+         }); 
+ }
+
+
+}
 function  UpdateDocumentStatus(id,srno,idno)
 {
      var spinner = document.getElementById("ajax-loader");
@@ -168,6 +243,8 @@ function updateStudent(empID) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code_access = '<?php echo $code_access; ?>';
+
+syncdocuments(empID);
     var code = 267;
     $.ajax({
         url: 'action_g.php',
@@ -492,10 +569,7 @@ function updateStudentdata(id) {
 
     function fetchcourse(id)
 {   
-   
-
-
-     
+       
 
 var code='325';
 $.ajax({
@@ -600,12 +674,36 @@ function changecourse(id) {
 
 
 
+function syncdocuments(idno)
+{
 
+
+   
+
+ var code = 304;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            idno:idno
+        },
+        success: function(response) {
+
+            console.log(response);
+           
+
+        }
+    });
+
+
+
+}
 
 
 function generateSmartCardForStudent(id) 
 {
-    alert(id);
+    //alert(id);
     var code = 351;
     $.ajax({
         url: 'action.php',
