@@ -500,7 +500,7 @@ var durationMonth=document.getElementById('duration2').value;
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if (College3!='' &&Department3!='' &&Batch3!='' &&FirstRollNo!='' &&LastRollNo!='' &&ValidUpTo!='' &&LateralEntry!='' &&CourseType && durationYears!='')
+    if (College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='')
 
     {
         var code = 305;
