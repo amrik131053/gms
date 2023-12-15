@@ -12995,14 +12995,14 @@ $ecat=$_POST['ecat'];
 if($ecat=='ESE')
 {
 $ecat='MoocLocked';
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL,MOOCattachment='' where ID='$id'";
 }
 else
 {
   $ecat=$ecat."Locked"; 
+  $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
 }
  
-
- echo $list_sqlw= "update ExamFormSubject set $ecat=NULL where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
