@@ -13,6 +13,7 @@ ini_set('max_execution_time', '0');
             <div class="card card-primary ">
                <div class="card-header ">
                 <br>
+                <form action="print-student-receiving.php" method="post" target="_blank">
                <div class="row">
               <div class="col-lg-3">
               
@@ -33,13 +34,13 @@ ini_set('max_execution_time', '0');
               </div>
               <div class="col-lg-2">
                 
-                  <select  id="Course" class="form-control">
+                  <select  name="Course" id="Course" class="form-control">
                      <option value=''>Select Course</option>
                  </select>
               </div>
               <div class="col-lg-2">
                 
-                   <select id="batch"  class="form-control">
+                   <select id="batch" name="Batch"  class="form-control">
                        <option value="">Batch</option>
                           <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -49,7 +50,7 @@ ini_set('max_execution_time', '0');
                                   ?>
                  </select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                
                       <select   id='semester' class="form-control">
                         <option value="">SESSION </option>
@@ -66,13 +67,29 @@ ini_set('max_execution_time', '0');
             
             </select>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
+               
+              <!-- <label>Semester</label> -->
+                    	<select class="form-control" name="no_sem">
+                    		<option>Select</option>
+                    		<?php for($i=1;$i<=10;$i++)
+                    		{?>
+
+                    			<option value="<?=$i;?>"><?=$i;?></option>
+                    		<?php } ?>
+                    	</select>
+              </div>
+              <div class="col-lg-1">
                 
                  <button onclick="SearchReport();" class="btn btn-success">Search</button>
               </div>
-            
+              <div class="col-lg-1">
+                
+                 <button type="submit" class="btn btn-success"><i class="fa fa-print"></i></button>
+              </div>
             </div>
-               </div>
+         </div>
+      </form>
                <div class="card-body">
                 
               
@@ -91,6 +108,9 @@ ini_set('max_execution_time', '0');
    <!-- /.container-fluid -->
 </section>
 <script>
+
+
+
 function SearchReport()
           {
        var code=241;
