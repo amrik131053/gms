@@ -48,7 +48,7 @@ while ($data=mysqli_fetch_array($res))
     $semester=$data['semester'];
     $maxMarks=$data['max_marks'];
     $time =$data['exam_time'];
-    $instruction =$data['instructions'];
+    $instruction =$data['instructionsPDF'];
     $subjectCode=$data['subject_code'];
     $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
                     $resultSubject = sqlsrv_query($conntest,$sqlSubject);
@@ -115,11 +115,14 @@ $pdf->SetAutoPageBreak(true,10);
          $pdf->SetXY(5,40);
          $pdf->multicell(200, 5,"Instructions:",0,'L');
          $pdf->SetXY(5,45);
-         $pdf->multicell(200, 5,"(i) All questions are compulsory from Part I:",0,'L');
+         $result = explode('(', $instruction,4);
+    //   print_r($result);
+         $pdf->multicell(200, 5,$result[1],0,'L');
          $pdf->SetXY(5,50);
-         $pdf->multicell(200, 5,"(ii) All questions are compulsory from Part II:",0,'L');
+         $pdf->multicell(200, 5,$result[2],0,'L');
          $pdf->SetXY(5,55);
-         $pdf->multicell(200, 5,"(iii) Attempt any one question from Part III:",0,'L');
+         $pdf->multicell(200, 5,$result[3],0,'L');
+       
         $pdf->SetXY(10,25);
         $pdf->SetFont('times', 'B', 12);
         
