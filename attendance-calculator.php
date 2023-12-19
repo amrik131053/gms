@@ -50,6 +50,8 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
             $leaveName=$row['Name'];
                $leaveduration=$row['LeaveDuration'];
                    $leavedurationtime=$row['LeaveDurationsTime'];
+                     
+                  
 
            }
 
@@ -100,7 +102,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
 $mydaycount=1;
 $totaldeduction=1;
-
+$shifttimechnage=0;
 
 
  $sql_att234="SELECT * ,
@@ -119,6 +121,7 @@ FROM MadamSingleEmployeeException where StartDate <= '$start' AND
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
             if($row = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
+           $shifttimechnage=1; 
      $fintime1=$row['Intime'];
         $fintime2=$row['Intime1'];
         $fintime3=$row['Intime2'];
@@ -157,6 +160,7 @@ FROM
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
             if($row3 = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
+
        $fintime1=$row3['Intime'];
         $fintime2=$row3['Intime1'];
         $fintime3=$row3['Intime2'];
@@ -170,14 +174,13 @@ $stmt4 = sqlsrv_query($conntest,$sql_att234);
         $fouttime4=$row3['Outtime3'];
         $fouttime5=$row3['Intime'];
 
-
+ $shifttimechnage=1; 
         
             }
 
 else
 {
-  $sql_att235="SELECT * FROM        
- MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
+  $sql_att235="SELECT * FROM   MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
 
 
 $stmt4 = sqlsrv_query($conntest,$sql_att235);  

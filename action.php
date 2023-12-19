@@ -19862,15 +19862,15 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
              $IDNo=$row_staff['IDNo'];
                   $College=$row_staff['CollegeName'];
 
-?><tr><th style='color:red;' colspan=5>Summary Report</th></tr>
+?><tr><th style='color:red;text-align: center;' colspan=6>Summary Report</th></tr>
 
-<tr><td colspan=2>Employee ID</td><td colspan=3 style='text-align:left'><?=$IDNo;?></td></tr>
-<tr><td colspan=2>Name</td><td colspan=3><?= $Name;?></td></tr>
-<tr><td colspan=2>Department</td ><td colspan=3><?= $Department;?></td></tr>
+<tr><td colspan=2>Employee ID</td><td colspan=4 style='text-align:left'><?=$IDNo;?></td></tr>
+<tr><td colspan=2>Name</td><td colspan=4><?= $Name;?></td></tr>
+<tr><td colspan=2>Department</td ><td colspan=4><?= $Department;?></td></tr>
 
-<tr><td colspan=2>College Name</td><td colspan=3><?= $CollegeName;?></td></tr>
+<tr><td colspan=2>College Name</td><td colspan=4><?= $CollegeName;?></td></tr>
 
-<tr class="bg-primary"><th>Date</th><th>In time</th><th>Out Time</th><th>Leave</th><th>Count</th></tr>
+<tr class="bg-primary"><th>Date</th><th>In time</th><th>Out Time</th><th>Leave</th><th>Count</th><th>Shift Time</th></tr>
  <?php
 $srno++;
 for ($at=0;$at<$no_of_dates;$at++)
@@ -19921,6 +19921,16 @@ else
 include 'attendance-calculator.php';
 
 
+   if($shifttimechnage>0)
+{
+    $shiftchnageremarks='Time Exception';
+} 
+else
+{
+    $shiftchnageremarks='';
+}
+
+
 if($HolidayName!='' && $printleave!='')
 {
 
@@ -19955,15 +19965,36 @@ if($row_count_joinab>0)
 }
 else
 {
-  ?><td><?=$print_shift;?></td>
+  ?><td><?=$shiftchnageremarks;?></td>
   <td><?php
 }
 
-if($countday<1){ ?> <b style="color:red"><?php echo  $countday;?></b> <?php }
+if($countday<1){ 
+   $color='red';
+   ?> <b style="color:red"><?php echo  $countday;?></b> <?php }
  else{
+    $color='';
 echo $countday;
+
 }
-?></p></td></tr>
+?></p></td>
+<?php
+ if($shifttimechnage>0)
+{
+   $color='red';
+} 
+else
+{
+ $color='';  
+}
+?>
+<td style="color:<?=$color;?>"><b>
+
+
+<?=$fintime1." to ".$fintime5;?></b>
+
+</td>
+</tr>
 <?php 
 
 $paiddays=$paiddays+$countday;
@@ -19977,15 +20008,15 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?> out of <?=$myenddate?></b></td></tr><?php
+  ?><tr><td colspan=4 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?> out of <?=$myenddate?></b></td></tr><?php
 }
 else
 {
-  ?><tr><td colspan=3 color='red'>Total Paid Days</td><td colspan=2><b>0</b></td></tr><?php
+  ?><tr><td colspan=34 color='red'>Total Paid Days</td><td colspan=2><b>0</b></td></tr><?php
 }
 
 ?>
-<tr><td colspan=5></td></tr>
+
 <?php
 
 }

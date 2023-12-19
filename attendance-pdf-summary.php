@@ -145,12 +145,23 @@ $row_count_join=0;
 
 include 'attendance-calculator.php';
 
+   if($shifttimechnage>0)
+{
+    $shiftchnageremarks='Time Exception';
+} 
+else
+{
+    $shiftchnageremarks='';
+}
+
+
+
 if($HolidayName!='' && $printleave!='')
 {
 
 $pdf->SetXY(80,$y);
 
-$pdf->Cell(75,6,$HolidayName." (".$printleave.")",1,'C');
+$pdf->Cell(75,6,$HolidayName." (".$printleave.")".$shiftchnageremarks,1,'C');
 
 
  
@@ -201,7 +212,7 @@ $pdf->Cell(75,6,"Late joining ",1,'C');
 
 else
 { $pdf->SetXY(80,$y);
-    $pdf->Cell(75,6," ",1,'C');
+    $pdf->Cell(75,6,$shiftchnageremarks,1,'C');
 }
  
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
@@ -228,14 +239,26 @@ else
 }
 
   $pdf->SetXY(154.98,$y);
+
+
+
+
+
 if($countday<1)
 {
     $pdf->SetTextColor(255,0,0);
-}  
+} 
+
+
+
 $pdf->MultiCell(15,6,$countday,1,'C');
 
  $pdf->SetXY(170,$y);
 
+   if($shifttimechnage>0)
+{
+    $pdf->SetTextColor(255,0,0);
+} 
 $pdf->MultiCell(30,6,$fintime1." to ".$fintime5,1,'C');
 
 
