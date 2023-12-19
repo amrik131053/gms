@@ -190,6 +190,8 @@
     }
     function dltPaper(id,SubjectCode)
     {
+        var a=confirm('Are you sure you want to delete  ');
+   if (a==true) {
         var code=189;
         $.ajax({
             url:'action.php',
@@ -206,6 +208,10 @@
             }
         });
     }
+    else{
+        
+    }
+}
     function searchSubjectCode(examName,SubjectCode,courseId) 
     {
         if(examName==0)
