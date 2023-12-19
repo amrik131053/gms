@@ -16723,8 +16723,8 @@ else
                                         data-target="#exampleModalCenter2" style="color:green;"></i>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
 
-                                    <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal"
-                                        data-target="#view_assign_stock_employee_Modal" style="color:red;"></i>
+                                    <!-- <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal"
+                                        data-target="#view_assign_stock_employee_Modal" style="color:red;"></i> -->
                                 </td>
 
                             </tr>
@@ -17138,6 +17138,15 @@ elseif ($code==259) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
+    $sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='0' ANd ShiftId='$shiftId' order by MasterShift.Id ASC";
+$stmt2 = sqlsrv_query($conntest,$sql);
+if($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+echo "2";
+}
+else
+{
+
      $insertMasterShift="INSERT into MadamShiftTime(ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
     VALUES('$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','0')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
@@ -17148,6 +17157,7 @@ elseif ($code==259) {
     else{
         echo "0";
     }
+}
 }
 elseif ($code==260) {
     $StartDate=$_POST['StartDate'];
@@ -17162,8 +17172,8 @@ elseif ($code==260) {
     $outtime2=$_POST['outtime2'];
     $outtime3=$_POST['outtime3'];
 
-      $insertMasterShift="INSERT into MadamShiftTime(StartDate,EndDate,ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception)
-    VALUES('$StartDate','$EndDate','$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','1')";
+      $insertMasterShift="INSERT into MadamShiftTime(StartDate,EndDate,ShiftId,Intime,Intime1,Intime2,Intime3,Outtime,Outtime1,Outtime2,Outtime3,Exception,UpdatedBy,Updatedon)
+    VALUES('$StartDate','$EndDate','$shiftId','$intime','$intime1','$intime2','$intime3','$outtime','$outtime1','$outtime2','$outtime3','1','$EmployeeID','$timeStampS')";
     $insertMasterShiftRun=sqlsrv_query($conntest,$insertMasterShift);
     if($insertMasterShiftRun==true)
     {
