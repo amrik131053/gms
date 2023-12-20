@@ -48,12 +48,13 @@ from DeviceLogsAll  where LogDateTime Between  '$start_date 00:00:00.000'  AND
 $stmt = sqlsrv_query($conntest,$sql_att);  
            if($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
           {
-            if($row_staff_att['mytime'] === null) //when funch not available
+            if($row_staff_att['mytime'] === null) //when punch not available
             {
 
              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved' ";
   $leaveName='';
-  $leavedurationtime=0;
+  $leavedurationtime='';
+
   $stmt = sqlsrv_query($conntest,$sql_att23);  
               if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
              {
@@ -71,7 +72,7 @@ if($LeaveSchoduleTime==1)
 $printhalf='(SH)';
             } 
 
-             if($row['LeaveDurationsTime']>0)
+             if($row['LeaveDurationsTime']>'0')
               {
                 
                  $leavedurationtime=$row['LeaveDurationsTime'];
@@ -143,6 +144,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
                                {
 
               $Other="Absent";
+
               $data[] = array(
                 'title'         => $Other,
                   'start'         => $start_date,
@@ -185,6 +187,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
               $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved' ";
   $leaveName='';
   $leavedurationtime='';
+  $printhalf='';
   $stmt = sqlsrv_query($conntest,$sql_att23);  
               while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
              {

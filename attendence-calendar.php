@@ -58,7 +58,12 @@ if($laveAuthCount>0)
                     </div>
                 </div>
 
-                <?php } ?>
+                <?php } 
+                else {?>
+                    <div id="table_load_auth_leaves" class="" style="height:auto; font-size:12px;display: none; ">
+                    </div>
+                  
+               <?php }?>
                 <div class=" card card-primary">
                     <div class="btn-group w-100 mb-2">
                         <a class="btn btn-primary" id="btn1"
