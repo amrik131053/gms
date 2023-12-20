@@ -27,7 +27,7 @@ if($row_count_join>0)
              }
 
 }
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
+ $sql_att23="SELECT  Name,ShortName,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
                ELSE StartDate 
@@ -43,6 +43,7 @@ $leaveName='';
 $printleave='';
 $LeaveSchoduleTime='';
 $printhalf='';
+$printShortleave='';
 $leavecount=0;
 $stmt = sqlsrv_query($conntest,$sql_att23);  
             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -50,6 +51,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
             
             $leavetypeid=$row['leavetypes'];
             $leaveName=$row['Name'];
+            $leaveShortName=$row['ShortName'];
             $leaveduration=$row['LeaveDuration'];
             $leavedurationtime=$row['LeaveDurationsTime'];
              $LeaveSchoduleTime=$row['LeaveSchoduleTime'];
@@ -69,14 +71,16 @@ $printhalf='(SH)';
   if($leavedurationtime>0)
 { 
 
-  $printleave= $printleave .' '.$leavedurationtime.' '.$leaveName.$printhalf;
+  $printleave=$printleave.' '.$leavedurationtime.' '.$leaveName.$printhalf;
  
+  $printShortleave=$printShortleave .' '.$leavedurationtime.' '.$leaveShortName .$printhalf;
 } 
  else
  {
     
  $printleave=$leaveName;
- 
+
+ $printShortleave=$leaveShortName;
 
  }
 
@@ -322,5 +326,11 @@ if($countday<1 && $countday>0)
 {
     //$pdf->SetTextColor(255,0,0);
     $print_shift= $fintime1."  to  ".$fintime5;
+
+
 }
+   if($shifttimechnage>0)
+{
+    $print_shift= $fintime1."  to  ".$fintime5;
+} 
 ?>

@@ -107,7 +107,7 @@ $pdf->SetAutoPageBreak(true,10);
          $pdf->SetXY(5,21);
          $pdf->multicell(200, 5,"Semester: ".$semester.$sem,0,'R');
          $pdf->SetXY(5,26);
-         $pdf->multicell(200, 5,"Subject Code:".$subjectCode,0,'L');
+         $pdf->multicell(200, 5,"Subject Code/Name:".$subjectCode.'/'.$subjectName,0,'L');
          $pdf->SetXY(5,26);
          $pdf->multicell(200, 5,"Maximum Marks: ".$maxMarks,0,'R');
          $pdf->SetXY(5,31);

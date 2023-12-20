@@ -147,7 +147,7 @@ include 'attendance-calculator.php';
 
    if($shifttimechnage>0)
 {
-    $shiftchnageremarks='Time Exception';
+    $shiftchnageremarks=' Time Exception';
 } 
 else
 {
