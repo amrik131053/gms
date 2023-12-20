@@ -21359,6 +21359,99 @@ $update_query=sqlsrv_query($conntest,$update1);
      }
   
    }
+
+
+
+   elseif($code==316)  // search payment
+{
+    $search = $_POST['IDNoRollNO'];
+    $code_access = $_POST['code_access'];
+?>
+    <table class="table " id="example">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>RollNo</th>
+                <th>StudentName</th>
+                <th>FatherName</th>
+                <th>CollegeName</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+      $sr=1;
+    $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       $result = sqlsrv_query($conntest,$query);
+       if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $emp_pic=base64_encode($row1['Snap']);
+        ?>
+         <tr>
+         <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
+         <td><?=$row1['IDNo'];?></td>
+                <td><?=$row1['ClassRollNo'];?><b>/</b><?=$row1['UniRollNo'];?></td>
+                <td><?=$row1['StudentName'];?></td>
+                <td><?=$row1['FatherName'];?></td>
+                <td><?=$row1['CollegeName'];?></td>
+                <td><?=$row1['Course'];?></td>
+            </tr>
+       </tbody>
+       </table>
+       <table class="table " id="example">
+            <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Date</th>
+                <th>Sem</th>
+                <th>Type</th>
+                <th>ReceiptNo</th>
+                <th>TransactionID</th>
+                <th>Ammount</th>
+                
+                <th>Print</th>
+            </tr>
+        </thead><?php
+$IDNo=$row1['IDNo'];
+       }
+       $sql1 = "{CALL SP_DisplayPaymentDetails('$IDNo')}";
+
+      $stmt = sqlsrv_prepare($conntest,$sql1);
+    
+      if (!sqlsrv_execute($stmt)) {
+            echo "Your code is fail!";
+      echo sqlsrv_errors($sql1);
+      die;
+      } 
+       while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+       {
+         ?>
+            <tr>
+                <td><?=$sr;?></td>
+                
+                <td><?=$row['DateEntry'];?></td>
+                <td><?=$row['Semester'];?></td>
+                <td><?=$row['Type'];?></td>
+                <td><?=$row['ReceiptNo'];?></td>
+                <td><?=$row['TransactionID'];?></td>
+                <td><?=$row['Amount'];?></td>
+  
+                <td>
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printReceipt();"></i>
+
+                </td>
+            </tr>
+            <?php $sr++;
+
+      }
+      ?>
+        </tbody>
+    </table>
+    <?php 
+}
+
    else
    {
    
