@@ -69,7 +69,7 @@ $printhalf='(SH)';
   if($leavedurationtime>0)
 { 
 
-  $printleave= $printleave .''.$leavedurationtime.' '.$leaveName.$printhalf;
+  $printleave= $printleave .' '.$leavedurationtime.' '.$leaveName.$printhalf;
  
 } 
  else
