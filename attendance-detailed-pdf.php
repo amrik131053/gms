@@ -23,7 +23,7 @@ class CustomPDF extends FPDF {
         $this->SetFont('Arial', 'I', 8);
         $this->SetTextColor(128);
            $this->SetY(-12);
-        $this->Cell(0, 10, 'CL-Casual,CPL-Compansatory,OD-On Duty,BL-Bus Late,SC-Special Casual,DL-Duty,AC-Academic', 0, 0, 'L');
+        $this->Cell(0, 10, 'CL-Casual,CPL-Compansatory,OD-On Duty,BL-Bus Late,SC-Special Casual,DL-Duty,AC-Academic,SH-Second Half,FH-First Half', 0, 0, 'L');
         $this->SetY(-12);
         $this->Cell(0, 10,'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'].'      Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'R');
         $this->SetY(-12);
