@@ -27,7 +27,7 @@ if($row_count_join>0)
              }
 
 }
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
+ $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
                ELSE StartDate 
@@ -41,25 +41,35 @@ WHERE       StartDate <= '$start' AND
             EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
 $leaveName='';
 $printleave='';
+$LeaveSchoduleTime='';
+$printhalf='';
 $leavecount=0;
 $stmt = sqlsrv_query($conntest,$sql_att23);  
             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             
-           $leavetypeid=$row['leavetypes'];
+            $leavetypeid=$row['leavetypes'];
             $leaveName=$row['Name'];
-               $leaveduration=$row['LeaveDuration'];
-                   $leavedurationtime=$row['LeaveDurationsTime'];
-                     
-                  
+            $leaveduration=$row['LeaveDuration'];
+            $leavedurationtime=$row['LeaveDurationsTime'];
+             $LeaveSchoduleTime=$row['LeaveSchoduleTime'];
+          if($LeaveSchoduleTime==1)
+          {
+            $printhalf='(FH)';
+          } 
+          elseif ($LeaveSchoduleTime==2)
 
-           }
+            {
+$printhalf='(SH)';
+            }            
+           
 
  if($leaveName!='')
  {
   if($leavedurationtime>0)
 { 
-  $printleave=  $leavedurationtime.' '.$leaveName;
+
+  $printleave= $printleave .''.$leavedurationtime.' '.$leaveName.$printhalf;
  
 } 
  else
@@ -75,7 +85,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
   if($leavedurationtime>0)
 { 
-  $leavecount= $leavedurationtime;
+  $leavecount= $leavecount+$leavedurationtime;
  
 } 
  else
@@ -98,7 +108,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
 
 }
-
+}
 
 $mydaycount=1;
 $totaldeduction=1;

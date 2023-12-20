@@ -19920,7 +19920,6 @@ else
 
 include 'attendance-calculator.php';
 
-
    if($shifttimechnage>0)
 {
     $shiftchnageremarks='Time Exception';
@@ -19934,12 +19933,13 @@ else
 if($HolidayName!='' && $printleave!='')
 {
 
-?><td><?= $HolidayName;?> <?=$printleave;?></td><td><?php
-    
+?><td><?= $HolidayName;?> <?=$printleave;?></td>
+<td><?php    
 }
 else if($HolidayName!='' && $printleave=='')
 {
-?><td><?=$HolidayName;?></td><td><?php
+?><td><?=$HolidayName;?></td>
+<td><?php
 }
 else if($HolidayName=='' && $printleave!='')
 {
@@ -19989,7 +19989,6 @@ else
 }
 ?>
 <td style="color:<?=$color;?>"><b>
-
 
 <?=$fintime1." to ".$fintime5;?></b>
 
