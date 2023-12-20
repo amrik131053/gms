@@ -51,23 +51,40 @@ $stmt = sqlsrv_query($conntest,$sql_att);
             if($row_staff_att['mytime'] === null) //when funch not available
             {
 
-              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+             $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved' ";
   $leaveName='';
+  $leavedurationtime=0;
   $stmt = sqlsrv_query($conntest,$sql_att23);  
               if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
              {
+
+
               $leaveName=$row['Name'];
-              if($row['LeaveDurationsTime']!='0')
+              $LeaveSchoduleTime=$row['LeaveSchoduleTime'];
+if($LeaveSchoduleTime==1)
+          {
+            $printhalf='(FH)';
+          } 
+          elseif ($LeaveSchoduleTime==2)
+
+            {
+$printhalf='(SH)';
+            } 
+
+             if($row['LeaveDurationsTime']>0)
               {
-                $leavedurationtime=$row['LeaveDurationsTime'];
+                
+                 $leavedurationtime=$row['LeaveDurationsTime'];
 
               }
+              
               else
               {
                 $leavedurationtime=$row['LeaveDuration'];
+    
 
               }
-                     if($leaveName=='LWS')
+                     if($leavedurationtime==0)
                      {
                       $data[] = array(
                         'title'         => $leaveName,
@@ -112,7 +129,8 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
              else
              {
               
-              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+             $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved' ";
+
               $leaveName='';
               $stmt = sqlsrv_query($conntest,$sql_att23);  
                           if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -144,7 +162,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
         }
             else
             {
-              //when funch available
+                // when funch available
               $InTime=$row_staff_att['mytime']->format('H:i');
               
               $data[] = array(
@@ -164,17 +182,28 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
             }
             else
             {
-              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,
-              CASE  WHEN StartDate < '$start_date' THEN '$start_date' ELSE StartDate  END AS Leave_Start_Date, CASE WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date  FROM   ApplyLeaveGKU   inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id
-  WHERE StartDate <= '$start_date' AND EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved'"; 
+              $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime, CASE  WHEN StartDate < '$start_date' THEN '$start_date'  ELSE StartDate  END AS Leave_Start_Date,CASE  WHEN EndDate > '$start_date' THEN '$start_date' ELSE EndDate  END AS Leave_End_Date FROM  ApplyLeaveGKU  inner join LeaveTypes on ApplyLeaveGKU.LeaveTypeId=LeaveTypes.Id WHERE StartDate <= '$start_date' AND  EndDate >= '$start_date' ANd StaffId='$IDNo' ANd Status='Approved' ";
   $leaveName='';
+  $leavedurationtime='';
   $stmt = sqlsrv_query($conntest,$sql_att23);  
-              if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+              while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
              {
               $leaveName=$row['Name'];
-              if($row['LeaveDurationsTime']!='0')
+              $LeaveSchoduleTime=$row['LeaveSchoduleTime'];
+if($LeaveSchoduleTime==1)
+          {
+            $printhalf='(FH)';
+          } 
+          elseif ($LeaveSchoduleTime==2)
+
+            {
+$printhalf='(SH)';
+            } 
+
+             if($row['LeaveDurationsTime']>0)
               {
-                $leavedurationtime=$row['LeaveDurationsTime'];
+                
+                 $leavedurationtime=$row['LeaveDurationsTime'];
 
               }
               else
@@ -184,7 +213,7 @@ $stmt = sqlsrv_query($conntest,$sql_holiday);
               }
                     //  $Other="Holiday";
                      $data[] = array(
-                      'title'         => $leavedurationtime.':'.$leaveName,
+                      'title'         => $leavedurationtime.':'.$leaveName.$printhalf,
                          'start'         => $start_date,
                          'allDay'        => true,
                          'backgroundColor'=> '#0dcaf0', 

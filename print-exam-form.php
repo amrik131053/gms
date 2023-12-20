@@ -97,7 +97,7 @@ $pdf->MultiCell(80, 6,"Uni Roll No :    ".$UniRollNo, 1, 'l');
 $pdf->SetXY(90,25);
 $pdf->MultiCell(90, 6,"Name :    ".$name, 1, 'l');
 $pdf->SetXY(180,25);
-$pdf->MultiCell(20, 25,"", 1, '');
+$pdf->MultiCell(20, 24,"", 1, '');
 $pdf->SetXY(10,31);
 $pdf->MultiCell(80, 6, "Father Name :    ".$father_name, 1, 'l');
 $pdf->SetXY(90,31);

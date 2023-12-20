@@ -128,7 +128,7 @@ include "header.php";
 
             </div>
         </div>
-    </div>
+    </div> 
 </div>
 <script>
 $(window).on('load', function() {
@@ -276,9 +276,18 @@ if (outtime === "") {
             shiftId:shiftId,intime:intime,intime1:intime1,intime2:intime2,intime3:intime3,outtime:outtime,outtime1:outtime1,outtime2:outtime2,outtime3:outtime3
         },
         success: function(response) {
-            showTimingShift();
-            spinner.style.display = 'none';
+           
+            //spinner.style.display = 'none';
+
+            if(response==2)
+            {
+                ErrorToast('Already Exist', 'bg-warning'); 
+            }
+            else
+            {
             SuccessToast('Successfully Added');
+        }
+ showTimingShift();
         }
     });
 }

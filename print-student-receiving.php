@@ -53,7 +53,7 @@ $pdf->SetFont('times', 'B', 12);
 $pdf->SetXY(10,12);
 // $pdf->multicell(190, 5,"Guru Kashi Univerisity",0,'C');
 $pdf->SetXY(10,18);
-$pdf->multicell(190, 5,"Registration Form()",0,'C');
+$pdf->multicell(190, 5,"Origional Document Receiving Form",0,'C');
 $pdf->SetTextColor(150,0,0);
 $pdf->MultiCell(190,8,"  ", 0, 'C');
 $pdf->SetTextColor(0,0,0);

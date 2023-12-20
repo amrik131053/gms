@@ -27,7 +27,7 @@ if($row_count_join>0)
              }
 
 }
- $sql_att23="SELECT  Name,LeaveDuration,LeaveDurationsTime,LeaveTypes.Id as leavetypes,
+ $sql_att23="SELECT  Name,ShortName,LeaveDuration,LeaveDurationsTime,LeaveSchoduleTime,LeaveTypes.Id as leavetypes,
             CASE 
                WHEN StartDate < '$start' THEN '$start'
                ELSE StartDate 
@@ -41,30 +41,46 @@ WHERE       StartDate <= '$start' AND
             EndDate >= '$start' ANd StaffId='$IDNo' ANd Status='Approved'"; 
 $leaveName='';
 $printleave='';
+$LeaveSchoduleTime='';
+$printhalf='';
+$printShortleave='';
 $leavecount=0;
 $stmt = sqlsrv_query($conntest,$sql_att23);  
             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             
-           $leavetypeid=$row['leavetypes'];
+            $leavetypeid=$row['leavetypes'];
             $leaveName=$row['Name'];
-               $leaveduration=$row['LeaveDuration'];
-                   $leavedurationtime=$row['LeaveDurationsTime'];
+            $leaveShortName=$row['ShortName'];
+            $leaveduration=$row['LeaveDuration'];
+            $leavedurationtime=$row['LeaveDurationsTime'];
+             $LeaveSchoduleTime=$row['LeaveSchoduleTime'];
+          if($LeaveSchoduleTime==1)
+          {
+            $printhalf='(FH)';
+          } 
+          elseif ($LeaveSchoduleTime==2)
 
-           }
+            {
+$printhalf='(SH)';
+            }            
+           
 
  if($leaveName!='')
  {
   if($leavedurationtime>0)
 { 
-  $printleave=  $leavedurationtime.' '.$leaveName;
+
+  $printleave=$printleave.' '.$leavedurationtime.' '.$leaveName.$printhalf;
  
+  $printShortleave=$printShortleave .' '.$leavedurationtime.' '.$leaveShortName .$printhalf;
 } 
  else
  {
     
  $printleave=$leaveName;
- 
+
+ $printShortleave=$leaveShortName;
 
  }
 
@@ -73,7 +89,7 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
   if($leavedurationtime>0)
 { 
-  $leavecount= $leavedurationtime;
+  $leavecount= $leavecount+$leavedurationtime;
  
 } 
  else
@@ -96,11 +112,11 @@ $stmt = sqlsrv_query($conntest,$sql_att23);
 
 
 }
-
+}
 
 $mydaycount=1;
 $totaldeduction=1;
-
+$shifttimechnage=0;
 
 
  $sql_att234="SELECT * ,
@@ -119,6 +135,7 @@ FROM MadamSingleEmployeeException where StartDate <= '$start' AND
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
             if($row = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
+           $shifttimechnage=1; 
      $fintime1=$row['Intime'];
         $fintime2=$row['Intime1'];
         $fintime3=$row['Intime2'];
@@ -157,6 +174,7 @@ FROM
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
             if($row3 = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC) )
            {
+
        $fintime1=$row3['Intime'];
         $fintime2=$row3['Intime1'];
         $fintime3=$row3['Intime2'];
@@ -170,14 +188,13 @@ $stmt4 = sqlsrv_query($conntest,$sql_att234);
         $fouttime4=$row3['Outtime3'];
         $fouttime5=$row3['Intime'];
 
-
+ $shifttimechnage=1; 
         
             }
 
 else
 {
-  $sql_att235="SELECT * FROM        
- MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
+  $sql_att235="SELECT * FROM   MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
 
 
 $stmt4 = sqlsrv_query($conntest,$sql_att235);  
@@ -309,5 +326,11 @@ if($countday<1 && $countday>0)
 {
     //$pdf->SetTextColor(255,0,0);
     $print_shift= $fintime1."  to  ".$fintime5;
+
+
 }
+   if($shifttimechnage>0)
+{
+    $print_shift= $fintime1."  to  ".$fintime5;
+} 
 ?>

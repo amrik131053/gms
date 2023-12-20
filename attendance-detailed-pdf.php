@@ -22,10 +22,12 @@ class CustomPDF extends FPDF {
         // Set font and color for the footer text
         $this->SetFont('Arial', 'I', 8);
         $this->SetTextColor(128);
+           $this->SetY(-12);
+        $this->Cell(0, 10, 'CL-Casual,CPL-Compansatory,OD-On Duty,BL-Bus Late,SC-Special Casual,DL-Duty,AC-Academic,SH-Second Half,FH-First Half', 0, 0, 'L');
         $this->SetY(-12);
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
+        $this->Cell(0, 10,'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'].'      Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'R');
         $this->SetY(-12);
-        $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'], 0, 0, 'R');
+       // $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'], 0, 0, 'R');
     }
       
 }
@@ -158,14 +160,14 @@ $row_count_join=0;
 
 include 'attendance-calculator.php';
 
-
+$pdf->SetFont('Arial', 'B', 6.5);
 
 if($HolidayName!='' && $printleave!='')
 {
 
 $pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(30,$Height,$HolidayName."(".$printleave.")",1,'C'); 
+$pdf->Cell(30,$Height,$HolidayName."(".$printShortleave.")",1,'C'); 
 }
 else if($HolidayName!='' && $printleave=='')
 {
@@ -177,7 +179,7 @@ else if($HolidayName=='' && $printleave!='')
 {
  $pdf->SetXY($X+60,$y+4.6);
 
-$pdf->Cell(30,$Height,$printleave,1,'C');
+$pdf->Cell(30,$Height,$printShortleave,1,'C');
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
@@ -207,7 +209,7 @@ else
     $pdf->Cell(30,$Height,$print_shift,1,'C');
 }
  
-
+$pdf->SetFont('Arial', 'B', 7);
 
   $pdf->SetXY($X+90,$y+4.6);
  
