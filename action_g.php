@@ -12,7 +12,7 @@ window.location.href = 'index.php';
    else
    {
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   $CurrentExaminationGetDate=date('d-m-Y');
+   $CurrentExaminationGetDate=date('Y-m-d');
    
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -18903,7 +18903,11 @@ elseif($Status==8)
 <?php 
 if($Status==8)
 {?>
-<i class="fa fa-print fa-lg text-primary"  onclick="fff(<?= $row['ID'];?>)" ></i>
+<form action="print-exam-form-cutlist.php" method="post" target="_blank">
+    <input type="hidden" name="ID" value="<?=$row['ID'];?>">
+<button type='submit' class="btn btn-sm"><i class="fa fa-print fa-lg text-primary" ></i></button>
+</form>
+
 <?php }?>
 
 
@@ -18995,14 +18999,14 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           {
       
       $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
-      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('d-m-Y');
+      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('Y-m-d');
       $CurrentExaminationType=$getCurrentExamination_row['Type'];
       $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
           
-      // echo "<br>".$CurrentExamination.'='.$examination;
-      // echo "<br>".$CurrentExaminationLastDate.'='.$CurrentExaminationGetDate;
-      // echo "<br>".$CurrentExaminationType.' Department';
-      // echo "<br>".$CurrentExaminationExamType.'='.$type;
+    //   echo "<br>".$CurrentExamination.'='.$examination;
+    //   echo "<br>".$CurrentExaminationLastDate.'='.$CurrentExaminationGetDate;
+    //   echo "<br>".$CurrentExaminationType.' Department';
+    //   echo "<br>".$CurrentExaminationExamType.'='.$type;
           }
 ?>
 
@@ -19078,14 +19082,11 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
    <td colspan="1"><?=$row7['SubjectCode'];?>
    </td>
 
-  <td>
+  <td class="text-center">
     <?php
-    if($Status>1){
-
- echo $row7['ExternalExam'];
-    }
-     else{
-
+    if($Status<8){
+        // echo $Status;
+// echo $CurrentExaminationLastDate.'>='.$CurrentExaminationGetDate;
         if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { 
         ?>
@@ -19095,10 +19096,18 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
     <option value="N">N</option>
   </select>
  <?php }
+ else{
+    echo $row7['ExternalExam'];
+ }
+
+    }
+     else{
+        echo $row7['ExternalExam'];
+
      }
  ?>
   </td>
-  <td>
+  <td class="text-center">
   <?=$row7['SubjectType'];?>
   </td>
 
