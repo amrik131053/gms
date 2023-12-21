@@ -21707,7 +21707,6 @@ $Semester = $_POST['Semester'];
 $Type = $_POST['Type'];
 $Group = $_POST['Group'];
 $Examination = $_POST['Examination'];
- 
 
  
  $list_sql="SELECT * FROM ExamForm INNER JOIN Admissions  ON ExamForm.IDNo = Admissions.IDNo  WHERE ExamForm.Status='0' ";
