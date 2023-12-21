@@ -92,7 +92,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1','');">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'2','');">
                                     <i class="fa fa-download fa-sm text-primary"></i> &nbsp;&nbsp; Provisional Active<span class="float-right badge bg-success"
                                             id="PActive<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
@@ -103,7 +103,7 @@
                                     </a>
                                 </li>
                                  <li class="nav-item">
-                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1','');">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'0','');">
                                     <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Left<span class="float-right badge bg-success"
                                             id="TLeft<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
@@ -114,7 +114,7 @@
                                     </a>
                                 </li>
                                  <li class="nav-item">
-                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1','');">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'3','');">
                                     <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Provisional Left<span class="float-right badge bg-success"
                                             id="PLeft<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
@@ -170,6 +170,8 @@
 
 }
 
+
+
 function exportTotalScordingToCollege(CollegeID,Status,Eligible) {
     var exportCode = 45;
     var Batch = document.getElementById('Batch').value;
@@ -181,7 +183,12 @@ function exportTotalScordingToCollegeSumy(CollegeID,Status,Eligible) {
     var Batch = document.getElementById('Batch').value;
     var Lateral = document.getElementById('Lateral').value;
         window.open("export.php?exportCode=" + exportCode + "&Status=" + Status + "&Batch=" + Batch+ "&Eligible=" + Eligible+ "&Lateral=" + Lateral+ "&CollegeID=" + CollegeID, '_blank');
+
 }
+
+
+
+
 function exportTotalScordingToStatusSummary(Status,Eligible) {
     var exportCode = 47;
     var Batch = document.getElementById('Batch').value;

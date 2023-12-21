@@ -3844,6 +3844,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Refrence=$row['FeeWaiverScheme'];
             $Category=$row['Category'];
 
+
             if($StatusType>0)
             {
                 $StatusType='Provisional';
@@ -4881,6 +4882,23 @@ elseif($RegistrationStatus==8)
                                             $Batch=$_GET['Batch'];
                                             $Eligible=$_GET['Eligible'];
                                             $Status=$_GET['Status'];
+                                            $StatusType='';
+                                            if($Status==2)
+                                            {
+                                                $Status=1;
+                                                $StatusType=1;
+
+                                            }
+                                            if($Status==3)
+                                            {
+
+                                                $Status=0;
+                                                $StatusType=1;
+
+                                            }
+                                            
+
+
                                             $Lateral=$_GET['Lateral'];                
                                             $SrNo=1;
                                             $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
@@ -4925,6 +4943,11 @@ elseif($RegistrationStatus==8)
                                                 $list_sql.=" AND Status='$Status' ";
                                                  
                                                 }
+                                                if ($StatusType != '') {
+                                                
+                                                $list_sql.=" AND StatusType='$StatusType' ";
+                                                 
+                                                }
                                                 if ($Lateral != '') {
                                
                                                     $list_sql.=" AND LateralEntry='$Lateral' ";
@@ -4952,19 +4975,38 @@ elseif($RegistrationStatus==8)
                                                                     $City=$row['City'];
                                                                     $State=$row['State'];
                                                                     $PIN=$row['PIN'];
+
+
+      $StatusType=$row['StatusType'];
+            if($StatusType>0)
+            {
+                $StatusType='Provisional';
+
+            }
+            else
+            {
+                $StatusType='';
+
+            }
+
+
                                                               
-                                                                    if($row['Eligibility']==1)
-                                                                    {
-                                                        
-                                                                        $Eligibility="Eligible";
-                                                                        $clr="green";
-                                                                    }
-                                                                    else if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+
+
+                                                                   
+                                                                   if($row['EligibilityReason']!='' && $row['Eligibility']==1)
                                                                     {
                                                         
                                                                         $Eligibility="Provisional Eligible";
                                                                         $clr="blue";
                                                                     }
+                                                                    else  if($row['Eligibility']==1)
+                                                                    {
+                                                        
+                                                                        $Eligibility="Eligible";
+                                                                        $clr="green";
+                                                                    }
+                                                                   
                                                                     else{
                                                                         $Eligibility="Not Eligible";
                                                                         $clr="yellow";
@@ -4972,11 +5014,11 @@ elseif($RegistrationStatus==8)
                                                                     }
                                                                  if($row['Status']==1)
                                                                  {
-                                                                     $status="Active";
+                                                                     $status=$StatusType." Active";
                                                                  
                                                                      $clr1="green";
                                                                  }else{
-                                                                     $status="Left";
+                                                                     $status=$StatusType." Left";
                                                                      $clr1="red";
                                                                  }
                                                                  
