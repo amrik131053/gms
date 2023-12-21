@@ -82,7 +82,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 {
        include "connection/ftp.php";
 }
- if($code==94 || $code==268)
+ if($code==94 || $code==268 || $code==319 || $code==320)
 {
        include "connection/ftp-erp.php";
 }
@@ -21452,6 +21452,523 @@ $update_query=sqlsrv_query($conntest,$update1);
      }
   
    }
+
+
+
+   elseif($code==316)  // search payment
+{
+    $search = $_POST['IDNoRollNO'];
+    $code_access = $_POST['code_access'];
+?>
+    <table class="table " id="example">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>IDNo</th>
+                <th>RollNo</th>
+                <th>StudentName</th>
+                <th>FatherName</th>
+                <th>CollegeName</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+      $sr=1;
+    $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       $result = sqlsrv_query($conntest,$query);
+       if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $emp_pic=base64_encode($row1['Snap']);
+        ?>
+         <tr>
+         <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
+         <td><?=$row1['IDNo'];?></td>
+                <td><?=$row1['ClassRollNo'];?><b>/</b><?=$row1['UniRollNo'];?></td>
+                <td><?=$row1['StudentName'];?></td>
+                <td><?=$row1['FatherName'];?></td>
+                <td><?=$row1['CollegeName'];?></td>
+                <td><?=$row1['Course'];?></td>
+            </tr>
+       </tbody>
+       </table>
+       <table class="table " id="example">
+            <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Date</th>
+                <th>Sem</th>
+                <th>Type</th>
+                <th>ReceiptNo</th>
+                <th>TransactionID</th>
+                <th>Ammount</th>
+                
+                <th>Print</th>
+            </tr>
+        </thead><?php
+$IDNo=$row1['IDNo'];
+       }
+       $sql1 = "{CALL SP_DisplayPaymentDetails('$IDNo')}";
+
+      $stmt = sqlsrv_prepare($conntest,$sql1);
+    
+      if (!sqlsrv_execute($stmt)) {
+            echo "Your code is fail!";
+      echo sqlsrv_errors($sql1);
+      die;
+      } 
+       while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+       {
+         ?>
+            <tr>
+                <td><?=$sr;?></td>
+                
+                <td><?=$row['DateEntry'];?></td>
+                <td><?=$row['Semester'];?></td>
+                <td><?=$row['Type'];?></td>
+                <td><?=$row['ReceiptNo'];?></td>
+                <td><?=$row['TransactionID'];?></td>
+                <td><?=$row['Amount'];?></td>
+  
+                <td>
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printReceipt();"></i>
+
+                </td>
+            </tr>
+            <?php $sr++;
+
+      }
+      ?>
+        </tbody>
+    </table>
+    <?php 
+}
+elseif($code==317)  
+{?>
+                 <form action="action_g.php" method="post" enctype="multipart/form-data">
+                             <input type="hidden" value="320" name="code">  
+                        <div class="col-lg-12">
+                            <label>Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject">
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Details</label>
+                            <textarea class="form-control" id="details" name="details"></textarea>
+                        </div>
+                        <div class="col-lg-12 col-12">
+                        <label>Attachment</label>
+                           <input type="file" class="form-control" id="fileAtt" name="fileatt">
+                        </div>
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <br>
+                                <button type="button" class="btn btn-success"
+                                    onclick="uploadNotice(this.form);">Upload</button>
+                                </button>
+                            </div>
+                        </div>
+                 </form>
+                  
+
+
+<?php 
+
+}
+elseif($code==318)  
+{
+?>
+  <form action="action_g.php" method="post" enctype="multipart/form-data">
+         <input type="hidden" value="319" name="code">
+                    
+                    <div class="col-lg-12">
+
+                        <label>Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject">
+                    </div>
+                    <div class="col-lg-12">
+                        <label>Details</label>
+                       <textarea  class="form-control" id="details" name="details"></textarea>
+                    </div>
+
+
+                    
+                  
+                   
+                    <div class="col-lg-12 col-12">
+                    <label>Attachment</label>
+                       <input type="file" class="form-control" id="fileAtt" name="fileatt">
+                    </div>
+                    <div class="col-lg-12 col-12">
+                        <div class="form-group">
+                            <br>
+                            <button type="button" class="btn btn-success"
+                                onclick="uploadOfficeOrder(this.form);">Upload</button>
+
+                           
+                            </button>
+                        </div>
+                    </div>
+                    </form>
+              
+<?php 
+}
+elseif($code==319)
+{
+$subject=$_POST['subject'];
+$details=$_POST['details'];
+$photo = $_FILES["fileatt"]["name"];
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+if ($photo) {
+     $photoTmp = $_FILES["fileatt"]["tmp_name"];
+
+     $file_type = str_ireplace("image/", ".", $_FILES['fileatt']['type']);
+ $ImageName=$EmployeeID.'_'.$string.'_'.$photo;
+  ftp_put($conn_id, "Notices/$ImageName", $photoTmp, FTP_BINARY);
+          $upimage = "INSERT into OfficialDocuments (Subject,Contents,FileName, UserID,DateEntry,Status) VALUES('$subject','$details','$ImageName','$EmployeeID','$timeStampS','1')";
+
+
+          $desc=" NoticeBoard Subject='$subject',Contents='$details',FileName='$ImageName', UserID='$EmployeeID',DateEntry='$timeStampS',Status='1'";
+        
+           $update1="insert into logbook(userid,remarks,updatedby,date)Values('OfficialDocuments','$desc','$EmployeeID','$timeStamp')";
+      
+      $update_query=sqlsrv_query($conntest,$update1);
+      
+
+
+if(sqlsrv_query($conntest, $upimage))
+{
+   echo "1";
+  }
+  else{
+    echo "0";
+  }
+}
+}
+elseif($code==320)
+{
+    $subject=$_POST['subject'];
+    $details=$_POST['details'];
+    $photo = $_FILES["fileatt"]["name"];
+    $date=date('Y-m-d');
+    $time=date('h:i:s');
+    $string = bin2hex(openssl_random_pseudo_bytes(4));
+    if ($photo) {
+         $photoTmp = $_FILES["fileatt"]["tmp_name"];
+    
+         $file_type = str_ireplace("image/", ".", $_FILES['fileatt']['type']);
+         $ImageName=$EmployeeID.'_'.$string.'_'.$photo;
+      ftp_put($conn_id, "Notices/$ImageName", $photoTmp, FTP_BINARY);
+              $upimage = "INSERT into NoticeBoard (Subject,NoticeDetail,FileName, Authority,Date,Status) VALUES('$subject','$details','$ImageName','$EmployeeID','$timeStampS','1')";
+          
+          
+              $desc=" NoticeBoard Subject='$subject',NoticeDetail='$details',FileName='$ImageName', Authority='$EmployeeID',Date='$timeStampS',Status='1'";
+                    $update1="insert into logbook(userid,remarks,updatedby,date)Values('NoticeBoard','$desc','$EmployeeID','$timeStamp')";
+               
+               $update_query=sqlsrv_query($conntest,$update1);
+               
+          
+          
+          
+          
+              if(sqlsrv_query($conntest, $upimage))
+            {
+               echo "1";
+              }
+              else{
+                echo "0";
+              }
+            //   if (sqlsrv_query($conntest, $upimage) === false) {
+            //     $errors = sqlsrv_errors();
+            //     echo "Error: " . print_r($errors, true);
+            //     // echo "0";
+            // } 
+      }
+}
+
+elseif($code==321)  
+{
+   
+    $admin=$_POST['isAdmin'];
+   
+?>
+    <table class="table " id="example">
+        <thead>
+            <tr>
+                <th>SrNo</th>
+                <th>Type</th>
+                <th>Subject</th>
+                <th>Details</th>
+                <th>File</th>
+                <th>UploadBy</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+      $sr=1;
+      if($admin=="1")
+      {
+        $query = "SELECT * FROM OfficialDocuments  Where  Status='1' ";
+      }
+      else{
+
+          $query = "SELECT * FROM OfficialDocuments  Where UserID='$EmployeeID' and Status='1' ";
+      }
+       $result = sqlsrv_query($conntest,$query);
+       while($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        ?>
+         <tr style="background:;">
+                <td><?=$sr;?></td>
+                <td>Office Order</td>
+                <td><?=$row1['Subject'];?></td>
+                <td><?=$row1['Contents'];?></td>
+                <td><?=$row1['FileName'];?></td>
+                <td><?=$row1['UserID'];?></td>
+                <td><?php if($row1['DateEntry']!=''){echo $row1['DateEntry']->format('d-m-Y');}else{echo "";}?></td>
+                <td><i class="fa fa-trash text-danger" onclick="deleteNotice(<?=$row1['SerialNo'];?>,'Office');" ></i></td>
+            </tr>
+      
+       
+    <?php 
+    $sr++;
+}
+$sr1=1;
+  if($admin=="1")
+{
+    $query1 = "SELECT * FROM NoticeBoard  Where  Status='1' ";
+}
+else{
+
+    $query1 = "SELECT * FROM NoticeBoard  Where Authority='$EmployeeID' and Status='1' ";
+}
+$result1 = sqlsrv_query($conntest,$query1);
+while($row11 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+{
+ ?>
+  <tr style="background:;">
+         <td><?=$sr1;?></td>
+         <td>Notice</td>
+         <td><?=$row11['Subject'];?></td>
+         <td><?=$row11['NoticeDetail'];?></td>
+         <td><?=$row11['FileName'];?></td>
+         <td><?=$row11['Authority'];?></td>
+         <td><?php if($row11['Date']!=''){echo $row11['Date']->format('d-m-Y');}else{echo "";}?></td>
+         <td><i class="fa fa-trash text-danger" onclick="deleteNotice(<?=$row11['NoticeID'];?>,'Notice');"></i></td>
+     </tr>
+
+
+<?php 
+$sr1++;
+}
+?>
+ </tbody>
+       </table><?php
+}
+
+elseif($code==322)
+{
+    $id=$_POST['id'];
+    $type=$_POST['type'];
+   if($type=='Notice')
+   {
+    $insertHoliday="UPDATE  NoticeBoard  SET Status='0' WHERE NoticeID='$id' and Authority='$EmployeeID'";
+}
+else
+{
+    $insertHoliday="UPDATE  OfficialDocuments  SET Status='0' WHERE SerialNo='$id' and UserID='$EmployeeID'";
+}
+    $insertHolidayRun=sqlsrv_query($conntest,$insertHoliday);
+    if($insertHolidayRun==true)
+      {
+        echo "1";
+      }
+      else{
+        echo "0";
+      }
+
+}
+elseif($code==323)
+{
+$count=array(); 
+$College = $_POST['College'];
+$Course = $_POST['Course'];
+$Batch = $_POST['Batch'];
+$Semester = $_POST['Semester'];
+$Type = $_POST['Type'];
+$Group = $_POST['Group'];
+$Examination = $_POST['Examination'];
+
+ 
+ $list_sql="SELECT * FROM ExamForm INNER JOIN Admissions  ON ExamForm.IDNo = Admissions.IDNo  WHERE ExamForm.Status='0' ";
+ if($College!=''){
+     $list_sql.= "AND ExamForm.CollegeID='$College' ";
+  }
+  if($Course!=''){
+  $list_sql.= "AND ExamForm.CourseID='$Course'";
+  }
+  if($Batch!=''){
+  $list_sql.= "AND ExamForm.Batch='$Batch' ";
+  }
+  if($Type!=''){
+ $list_sql.= "AND ExamForm.Type='$Type' ";
+  }
+  if($Group!=''){
+ $list_sql.= "AND ExamForm.Sgroup='$Group'";
+  }
+  if($Semester!=''){
+   $list_sql.= "ANd ExamForm.SemesterID='$Semester' ";
+  }
+  if($Examination!=''){
+   $list_sql.= "ANd ExamForm.Examination='$Examination'"; 
+  }
+  if ($Examination == '') {
+    $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+}
+   $list_sql.= "   ORDER BY ExamForm.Status ASC";
+ 
+   $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+   $Pending=sqlsrv_num_rows($list_sql_run);
+
+
+
+   $list_sqlRejected="SELECT * FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE (ExamForm.Status='6' or ExamForm.Status='7' or ExamForm.Status='3' or ExamForm.Status='2' or ExamForm.Status='22')";
+   if($College!=''){
+       $list_sqlRejected.= "AND ExamForm.CollegeID='$College' ";
+    }
+    if($Course!=''){
+    $list_sqlRejected.= "AND ExamForm.CourseID='$Course'";
+    }
+    if($Batch!=''){
+    $list_sqlRejected.= "AND ExamForm.Batch='$Batch' ";
+    }
+    if($Type!=''){
+   $list_sqlRejected.= "AND ExamForm.Type='$Type' ";
+    }
+    if($Group!=''){
+   $list_sqlRejected.= "AND ExamForm.Sgroup='$Group'";
+    }
+    if($Semester!=''){
+     $list_sqlRejected.= "ANd ExamForm.SemesterID='$Semester' ";
+    }
+    if($Examination!=''){
+     $list_sqlRejected.= "ANd ExamForm.Examination='$Examination'"; 
+    }
+    if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+     $list_sqlRejected.= "  ORDER BY ExamForm.Status ASC";
+   
+     $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
+  
+
+
+
+     $list_sqlForwardToDean="SELECT * FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE  ExamForm.Status='1'";
+     if($College!=''){
+         $list_sqlForwardToDean.= "AND ExamForm.CollegeID='$College' ";
+      }
+      if($Course!=''){
+      $list_sqlForwardToDean.= "AND ExamForm.CourseID='$Course'";
+      }
+      if($Batch!=''){
+      $list_sqlForwardToDean.= "AND ExamForm.Batch='$Batch' ";
+      }
+      if($Type!=''){
+     $list_sqlForwardToDean.= "AND ExamForm.Type='$Type' ";
+      }
+      if($Group!=''){
+     $list_sqlForwardToDean.= "AND ExamForm.Sgroup='$Group'";
+      }
+      if($Semester!=''){
+       $list_sqlForwardToDean.= "ANd ExamForm.SemesterID='$Semester' ";
+      }
+      if($Examination!=''){
+       $list_sqlForwardToDean.= "ANd ExamForm.Examination='$Examination'"; 
+      }
+      if ($Examination == '') {
+        $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+    }
+       $list_sqlForwardToDean.= "  ORDER BY ExamForm.Status ASC";
+     
+       $list_sqlForwardToDean_run=sqlsrv_query($conntest,$list_sqlForwardToDean,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+       $ForwardToDean=sqlsrv_num_rows($list_sqlForwardToDean_run);
+    
+
+
+       $list_sqlForwardToAccount="SELECT * FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE ExamForm.Status='4' ";
+       if($College!=''){
+           $list_sqlForwardToAccount.= "AND ExamForm.CollegeID='$College' ";
+        }
+        if($Course!=''){
+        $list_sqlForwardToAccount.= "AND ExamForm.CourseID='$Course'";
+        }
+        if($Batch!=''){
+        $list_sqlForwardToAccount.= "AND ExamForm.Batch='$Batch' ";
+        }
+        if($Type!=''){
+       $list_sqlForwardToAccount.= "AND ExamForm.Type='$Type' ";
+        }
+        if($Group!=''){
+       $list_sqlForwardToAccount.= "AND ExamForm.Sgroup='$Group'";
+        }
+        if($Semester!=''){
+         $list_sqlForwardToAccount.= "ANd ExamForm.SemesterID='$Semester' ";
+        }
+        if($Examination!=''){
+         $list_sqlForwardToAccount.= "ANd ExamForm.Examination='$Examination'"; 
+        }
+        if ($Examination == '') {
+            $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+        }
+         $list_sqlForwardToAccount.= "  ORDER BY ExamForm.Status ASC";
+       
+         $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+         $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
+      
+
+
+         $list_sqlAccepted="SELECT * FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  WHERE ExamForm.Status='8' ";
+         if($College!=''){
+             $list_sqlAccepted.= "AND ExamForm.CollegeID='$College' ";
+          }
+          if($Course!=''){
+          $list_sqlAccepted.= "AND ExamForm.CourseID='$Course'";
+          }
+          if($Batch!=''){
+          $list_sqlAccepted.= "AND ExamForm.Batch='$Batch' ";
+          }
+          if($Type!=''){
+         $list_sqlAccepted.= "AND ExamForm.Type='$Type' ";
+          }
+          if($Group!=''){
+         $list_sqlAccepted.= "AND ExamForm.Sgroup='$Group'";
+          }
+          if($Semester!=''){
+           $list_sqlAccepted.= "ANd ExamForm.SemesterID='$Semester' ";
+          }
+          if($Examination!=''){
+           $list_sqlAccepted.= "ANd ExamForm.Examination='$Examination'"; 
+          }
+           $list_sqlAccepted.= "   ORDER BY ExamForm.Status ASC";
+         
+           $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+           $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
+        
+  
+
+
+   $count[0]=$Pending;
+   $count[1]=$Rejeted;
+   $count[2]=$ForwardToDean;
+   $count[3]=$ForwardToAccount;
+   $count[4]=$Accepted;
+ echo json_encode($count);
+
+}
    else
    {
    
