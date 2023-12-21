@@ -9,12 +9,27 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Cut List</h3>
+                    
+                        <span class="mr-2"> <button class="btn btn-primary btn-sm"  style="background-color:#D0EDFF; color:black;" data-toggle="tooltip" ><span class="badge"   id="pendingCount"> </span> Pending</button> </span>
+                        <span class="mr-2"> <button class="btn btn-danger btn-sm"  style="background-color:;" data-toggle="tooltip" > <span class="badge" id="rejectCount"> </span> Rejected</button> </span>
+                        <span class="mr-2"> <button class="btn  btn-sm " style="background-color:#F3ED8F;" data-toggle="tooltip" > <span class="badge" id="Forwardtodean"> </span> Forward to dean</button> </span>
+                        <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#9FC9EB;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Forward to account</button> </span>
+                        <span class="mr-2"> <button class="btn btn-success btn-sm "  style="" data-toggle="tooltip" > <span class="badge" id="Accepted"> </span> Accepted</button> </span>
+
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>College</label>
+                                <?php      $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID WHERE MasterCourseCodes.CollegeID!='76' AND MasterCourseCodes.CollegeID!='77' AND MasterCourseCodes.CollegeID!='70' AND IDNo='$EmployeeID' order By CollegeID Asc";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+?>
+   <input type='hidden' name='check[]' id='check' value='<?=$CollegeID;?>' class='checkbox' checked >
+<?php }?>
                                 <select name="College" id='College' onchange="courseByCollege(this.value)"
                                     class="form-control form-control-sm" >
                                     <option value=''>Select College</option>
@@ -32,6 +47,7 @@
 
                                     ?>
                                 </select>
+                                
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Course</label>
@@ -149,13 +165,7 @@
                         </div>
                         <div class="table table-responsive" id="show_record"></div>
                     </div>
-                    <div class="row ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="mr-2"><i class="fa fa-stop " aria-hidden="true" style="color:#D0EDFF;"></i> Pending</span>
-                        <span class="mr-2"><i class="fa fa-stop text-danger" aria-hidden="true"></i> Rejected</span>
-                        <span class="mr-2"><i class="fa fa-stop" aria-hidden="true" style="color:#F3ED8F;"></i> Forward to dean</span>
-                        <span class="mr-2"><i class="fa fa-stop" aria-hidden="true" style="color:#9FC9EB;"></i> Forward to account</span>
-    <span ><i class="fa fa-stop text-success" aria-hidden="true"></i> Accepted</span>
-</div>&nbsp;
+                   
                     <!-- /.card-footer -->
                 </div>
                 <!-- /.card -->
@@ -172,6 +182,62 @@
 <!-- Modal -->
 
 <script>
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
+
+// cutlistCountDepartment();
+function cutlistCountDepartment() {
+    var code = 323;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'post',
+            data: {
+                code: code,
+                College: College,
+                Course: Course,
+                Batch: Batch,
+                Semester: Semester,
+                Type: Type,
+                Group: Group,
+                Examination: Examination
+            },
+            success: function(response) {
+                // console.log(response);
+                var data = JSON.parse(response);
+                document.getElementById("pendingCount").textContent = data[0];
+                document.getElementById("rejectCount").textContent = data[1];
+                document.getElementById("Forwardtodean").textContent = data[2];
+                document.getElementById("Forwardtoaccount").textContent = data[3];
+                document.getElementById("Accepted").textContent = data[4];
+
+                
+
+
+
+
+               
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+}
+
+
+
+
 function fetchCutList() {
     var sub_data = 2;
     var College = document.getElementById('College').value;
@@ -202,7 +268,7 @@ function fetchCutList() {
             success: function(data) {
                 spinner.style.display = 'none';
                 document.getElementById("show_record").innerHTML = data;
-
+                cutlistCountDepartment();
             }
         });
     } else {
@@ -275,13 +341,14 @@ function exportCutListExcel() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
-    if (College != '') {
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 
     } else {
-        alert("Select ");
+       
+        ErrorToast('All input required','bg-warning');
     }
 }
 
@@ -293,13 +360,13 @@ function exportCutListPdf() {
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
-    if (College != '') {
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
         window.open("export-cutlist-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 
     } else {
-        alert("Select ");
+        ErrorToast('All input required','bg-warning');
     }
 }
 
@@ -375,7 +442,7 @@ function lock(ExamFromID)
                 </button>
             </div>
             <div class="modal-body" id="edit_stu">
-                ...
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
