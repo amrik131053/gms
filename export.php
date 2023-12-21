@@ -3838,36 +3838,52 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Ereason=$row['EligibilityReason'];
             $Country=$row['country'];
             $State=$row['State'];
+             $StatusType=$row['StatusType'];
             $District=$row['District'];
             $Nationality=$row['Nationality'];
             $Refrence=$row['FeeWaiverScheme'];
             $Category=$row['Category'];
 
-            if($row['Eligibility']==1)
+            if($StatusType>0)
             {
+                $StatusType='Provisional';
 
-                $Eligibility="Eligible";
-                $clr="green";
             }
-            else if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+            else
+            {
+                $StatusType='';
+
+            }
+
+
+            if($row['EligibilityReason']!='' && $row['Eligibility']==1)
             {
 
                 $Eligibility="Provisional Eligible";
                 $clr="blue";
+            }
+            else if($row['Eligibility']==1)
+            {
+
+                $Eligibility="Eligible";
+                $clr="green";
             }
             else{
                 $Eligibility="Not Eligible";
                 $clr="yellow";
                 
             }
+
+
             if($row['Status']==1)
             {
 
-                $status="Active";
+                $status=$StatusType." Active";
+
                 $clr1="green";
             }
             else{
-                $status="Left";
+                $status=$StatusType." Left";
                 $clr1="red";
             }
 
@@ -4443,6 +4459,10 @@ elseif($RegistrationStatus==8)
                  $fileName="Student Registration Report ".$Examination;
                   } 
 
+
+
+
+
                   else if($exportCode==43)
                   {
                       $College=$_GET['CollegeId'];
@@ -4696,6 +4716,7 @@ elseif($RegistrationStatus==8)
                           $fileName="Student Exam Form Report ".$Examination;
                            } 
 
+//export  admisisons
   else if($exportCode==44)
                    {
                            $Batch=$_GET['Batch'];

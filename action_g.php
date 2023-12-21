@@ -17542,6 +17542,7 @@ elseif($code==267) //update student
      $Reason = $row1['Reason'];
      $Batch=$row1['Batch'];  
     $validUpto='NA';
+    $statustype= $row1['StatusType'];
 ?>
 
     <div class="row">
@@ -17877,19 +17878,58 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
-                                        <label>Status </label>
+                                        <label>Status  </label>
                                         <select class="form-control" name="employmentStatus" style="border: 2px solid <?php if($row1['Status']=='1'){echo 'green';}else{ echo 'red';};?>">
-                                            <?php if ($row1['Status']==1) {?>
-                                            <option value="<?=$row1['Status'];?>"
-                                                ><b>Active</b>
+                                           
+
+
+                                            <?php 
+                                            if($statustype>0)
+                                                {
+                                                 if($row1['Status']==1)
+                                                   {?>
+                                                 <option value="<?=$row1['Status'];?>"
+                                                ><b>Provisional Active</b>
                                             </option>
-                                            <?php }else{
-                                        ?>
-                                            <option value="<?=$row1['Status'];?>">Left</option>
                                             <?php }
+                                            else
+                                            {
+                                                ?>
+                                                 <option value="<?=$row1['Status'];?>"
+                                                ><b>Provisional Left</b>
+                                            </option>
+                                            <?php
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            
+                                              if($row1['Status']==1)
+                                                   {?>
+                                                 <option value="<?=$row1['Status'];?>"
+                                                ><b> Active</b>
+                                            </option>
+                                            <?php }
+                                            else
+                                            {
+                                                ?>
+                                                 <option value="<?=$row1['Status'];?>"
+                                                ><b>Left</b>
+                                            </option>
+                                            <?php
+
+                                            }
+                                        }
+
+                                
+
+
                                         ?>
                                             <option value="1">Active</option>
                                             <option value="0">Left</option>
+                                            <option value="2">Provisional Active</option>
+                                            <option value="3">Provisional Left</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-12">
@@ -18127,14 +18167,27 @@ $tcredit=$rowww['totalcredit'];
 
                                                 
 
-                                                 <?php $sql8 = "select  * from  Ledger where IDNo='".$row1['IDNo']."' order by DateEntry DESC";
+                                                 <?php  $sql8 = "select  * from  Ledger where IDNo='".$row1['IDNo']."' order by DateEntry DESC";
 $stmt8 = sqlsrv_query($conntest,$sql8);
 while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
 {
 
     ?>                                        
                                              
-                                           <tr>  <td><?= $row8['DateEntry']->format('d-m-Y h:i:s');?>   </td><td><?= $row8['ReceiptNo'];;?></td>
+                                           <tr>  <td>
+                                            <?php
+                                            if($row8['DateEntry']!='')
+                                            {
+
+                                               echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+
+                                       
+                                        }
+                                        ?> 
+
+
+
+                                         </td><td><?= $row8['ReceiptNo'];;?></td>
                                             <td style="width: 300px"><?= $row8['Particulars'];;?></td>
 
                                             <td><?= $row8['LedgerName'];?>   </td><td><?= $row8['Debit'];;?></td><td><?= $row8['Credit'];;?></td><td><?= $row8['Remarks'];;?></td>
@@ -18248,6 +18301,25 @@ elseif($code==268)
 
 //Course Tab
     $employmentStatus = $_POST["employmentStatus"];
+     
+
+     if($employmentStatus>=0 && $employmentStatus<2)
+     {
+        $statustype='';
+     }
+     else if($employmentStatus==2)
+     {
+        $statustype='1';
+        $employmentStatus='1';
+     }
+      else if($employmentStatus==3)
+     {
+        $statustype='1';
+        $employmentStatus='0';
+     }
+     
+
+
     $ulocked =$_POST["ulocked"]; 
     $eligible =$_POST["eligible"]; 
     $modeofadmission =$_POST["modeofadmission"]; 
@@ -18255,12 +18327,8 @@ elseif($code==268)
     $batch =$_POST["batch"]; 
 
     $specialcomment =$_POST["specialcomment"]; 
-
-
-
-
-$provisional='';
-
+    $provisional='';
+    
 if($eligible>1)
 {
    $eligible=1;
@@ -18366,6 +18434,7 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "PO ='$postOffice', ";
    $query .= "PIN ='$pinCode', ";
    $query .= "Status ='$employmentStatus', ";
+   $query .= "StatusType ='$statustype', ";
    $query .= "Batch='$batch', ";   
    $query .= "Eligibility ='$eligible', ";
    $query .= "Locked ='$ulocked', ";
@@ -20952,18 +21021,42 @@ $update_query=sqlsrv_query($conntest,$update1);
     $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
      $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
   
-     $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
-     $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-      $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
+     $getNEligibleTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
+     $getNEligibleTotal_run=sqlsrv_query($conntest,$getNEligibleTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $TotalNEligible=sqlsrv_num_rows($getNEligibleTotal_run);
+
 
       $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
      $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
 
+
+//provisional active
+        $getPActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' ANd StatusType='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
+    $getPActiveTotal_run=sqlsrv_query($conntest,$getPActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $PTotalActive=sqlsrv_num_rows($getPActiveTotal_run);
+
+
+           $getleftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='0'  AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
+    $getleftTotal_run=sqlsrv_query($conntest,$getleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $Totalleft=sqlsrv_num_rows($getleftTotal_run);
+
+
+           $getPleftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='0' ANd StatusType='1' AND CollegeID='$CollegeID' and LateralEntry='$Lateral'and CourseID!='188' ";
+    $getPleftTotal_run=sqlsrv_query($conntest,$getPleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+     $PTotalLeft=sqlsrv_num_rows($getPleftTotal_run);
+
+
       $count[0]=$TotalAdmission;
       $count[1]=$TotalActive;
-      $count[2]=$TotalLeft;
+      $count[2]=$TotalNEligible;
       $count[3]=$TotalEligibility;
+       $count[4]=$PTotalActive;
+        $count[5]=$Totalleft;
+         $count[6]=$PTotalLeft;
+
+
+
     echo json_encode($count);
    
    }
