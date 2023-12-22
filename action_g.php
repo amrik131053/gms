@@ -1,3 +1,4 @@
+
 <?php 
    session_start(); 
    ini_set('max_execution_time', '0');
@@ -82,7 +83,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 {
        include "connection/ftp.php";
 }
- if($code==94 ||  $code==319 || $code==320 ||$code==92 || $code==153 )
+ if($code==94 ||  $code==319 || $code==320 ||$code==92 || $code==153  )
 {
        include "connection/ftp-erp.php";
 }
@@ -18372,9 +18373,8 @@ if($eligible>1)
    
    if ($photo) {
 
-    include "connection/ftp-erp.php";
-
-
+   
+include "connection/ftp-erp.php";
 
       $photoTmp = $_FILES["photo"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
