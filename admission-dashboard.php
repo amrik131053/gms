@@ -49,7 +49,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Student</span>
-                            <!-- <span class="info-box-number">Book Issued  </span> -->
+                            <!-- <span class="info-box-number">Book Issued  </span> --> 
 
                             <div class="progress">
 
@@ -213,7 +213,7 @@
 
                         </div>
                         <div class="card-footer p-0">
-                            <ul class="nav flex-column">
+                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link" onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'','');">
                                     <i class="fa fa-download fa-sm text-info"></i>&nbsp;&nbsp;Total Student <span class="float-right badge bg-info"
@@ -237,6 +237,40 @@
                                 </li>
 
                                 <li class="nav-item">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'2','');">
+                                    <i class="fa fa-download fa-sm text-primary"></i> &nbsp;&nbsp; Provisional Active<span class="float-right badge bg-success"
+                                            id="PActive<?=$CollegeID;?>">
+                                            <div class="text-center" id="div-loader<?=$CollegeID;?>">
+                                                <div class="spinner-border spinner-grow-sm" role="status">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'0','');">
+                                    <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Left<span class="float-right badge bg-success"
+                                            id="TLeft<?=$CollegeID;?>">
+                                            <div class="text-center" id="div-loader<?=$CollegeID;?>">
+                                                <div class="spinner-border spinner-grow-sm" role="status">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'3','');">
+                                    <i class="fa fa-download fa-sm text-danger"></i> &nbsp;&nbsp; Provisional Left<span class="float-right badge bg-success"
+                                            id="PLeft<?=$CollegeID;?>">
+                                            <div class="text-center" id="div-loader<?=$CollegeID;?>">
+                                                <div class="spinner-border spinner-grow-sm" role="status">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1','1');">
                                     <i class="fa fa-download fa-sm text-success"></i> &nbsp;&nbsp; Eligible<span class="float-right badge bg-success"
                                             id="TEligible<?=$CollegeID;?>">
@@ -250,7 +284,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link"  onclick="exportTotalScordingToCollege(<?=$CollegeID;?>,'1','0');">
                                     <i class="fa fa-download fa-sm text-warning"></i>&nbsp;&nbsp;Not Eligible  <span class="float-right badge bg-warning"
-                                            id="TLeft<?=$CollegeID;?>">
+                                            id="TNEligible<?=$CollegeID;?>">
                                             <div class="text-center" id="div-loader<?=$CollegeID;?>">
                                                 <div class="spinner-border spinner-grow-sm" role="status">
                                                 </div>
@@ -337,14 +371,14 @@ loadCollegeCount(a,Batch,Lateral);
                 Lateral: Lateral
             },
             success: function(response) {
-                console.log(response);
+                //console.log(response);
               $('#div-loader').hide();
                 var data = JSON.parse(response);
                 document.getElementById("TotalStudentCount").textContent = data[0];
                 document.getElementById("TotalActiveCount").textContent = data[1];
                 document.getElementById("TotalNotEligible").textContent = data[2];
                 document.getElementById("TotalEligibleCount").textContent = data[3];
-
+                
 
                
             },
@@ -374,10 +408,15 @@ loadCollegeCount(a,Batch,Lateral);
             success: function(response) {
                 // console.log(response);
                 var data = JSON.parse(response);
-                document.getElementById("TSutdent" + CollegeID).textContent = data[0];
+                 document.getElementById("TSutdent" + CollegeID).textContent = data[0];
                 document.getElementById("TActive" + CollegeID).textContent = data[1];
-                document.getElementById("TLeft" + CollegeID).textContent = data[2];
+                document.getElementById("TNEligible" + CollegeID).textContent = data[2];
                 document.getElementById("TEligible" + CollegeID).textContent = data[3];
+
+                   document.getElementById("PActive" + CollegeID).textContent = data[4];
+                document.getElementById("TLeft" + CollegeID).textContent = data[5];
+                document.getElementById("PLeft" + CollegeID).textContent = data[6];
+
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error);

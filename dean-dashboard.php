@@ -235,7 +235,7 @@ loadCollegeCount(a,Batch,Lateral);
   
 
 
-    function loadCollegeCount(CollegeID, Batch,Lateral) {
+    function loadCollegeCount(CollegeID,Batch,Lateral) {
 
         var code = 299;
         $.ajax({

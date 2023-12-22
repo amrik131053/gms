@@ -1,3 +1,4 @@
+
 <?php 
    session_start(); 
    ini_set('max_execution_time', '0');
@@ -82,7 +83,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 {
        include "connection/ftp.php";
 }
- if($code==94 || $code==268 || $code==319 || $code==320)
+ if($code==94 ||  $code==319 || $code==320 ||$code==92 || $code==153  )
 {
        include "connection/ftp-erp.php";
 }
@@ -5981,14 +5982,8 @@ $UniRollNo=$_POST['uni'];
     $characters = '';
    $result = $IDNo;
    $image_name =$result;
-   $ftp_server1 = "10.0.10.11";
-   $ftp_user_name1 = "Gurpreet";
-   $ftp_user_pass1 = "Guri@123";
-   $remote_file1 = "";
-   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
-   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
-   $destdir = 'Students';
-   ftp_chdir($conn_id, "Students/") or die("Could not change directory");
+     $destdir = 'Students';
+   ftp_chdir($conn_id,"Images/Students/") or die("Could not change directory");
    ftp_pasv($conn_id,true);
    file_put_contents($destdir.$image_name.'.PNG',$file_data);
    ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
@@ -6005,7 +6000,12 @@ else
  {
     echo "1";
 }
+
+
  }
+
+
+
  else if($code==93)
  {
    $data=array();
@@ -6085,20 +6085,20 @@ elseif($code==94)
       $panCardTmp = $_FILES["panCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
       $panrImageName="PanCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
+   ftp_put($conn_id, "Images/Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
    }
    if ($aadharCard) {
       $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
       $adharImageName="AadharCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
+   ftp_put($conn_id, "Images/Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
    }
    if ($photo) {
       $photoTmp = $_FILES["photo"]["tmp_name"];
 
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
   $ImageName=$loginId.'.jpg';
-   ftp_put($conn_id, "Staff/$ImageName", $photoTmp, FTP_BINARY);
+   ftp_put($conn_id, "Images/Staff/$ImageName", $photoTmp, FTP_BINARY);
 
     $file_data = file_get_contents($photoTmp);
 
@@ -6110,7 +6110,7 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
       $signatureTmp = $_FILES["signature"]["tmp_name"];
   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
       $SignatureImageName="Signature".$loginId.$file_type;
-   ftp_put($conn_id, "Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+   ftp_put($conn_id, "Images/Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
    }
    $query = "UPDATE Staff SET ";
    $query .= "Name = '$name', ";
@@ -9619,14 +9619,9 @@ echo "1";
       $characters = '';
      $result = $IDNo;
      $image_name =$result;
-     $ftp_server1 = "10.0.10.11";
-     $ftp_user_name1 = "Gurpreet";
-     $ftp_user_pass1 = "Guri@123";
-     $remote_file1 = "";
-     $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
-     $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+     
      $destdir = 'Students';
-     ftp_chdir($conn_id, "Students/") or die("Could not change directory");
+     ftp_chdir($conn_id, "Images/Students/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
      file_put_contents($destdir.$image_name.'.PNG',$file_data);
      ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
@@ -18377,11 +18372,15 @@ if($eligible>1)
    //    }
    
    if ($photo) {
+
+   
+include "connection/ftp-erp.php";
+
       $photoTmp = $_FILES["photo"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
       $file_data = file_get_contents($photoTmp);
    $ImageName=$loginId.".PNG";
-   ftp_put($conn_id, "Students/$ImageName", $photoTmp, FTP_BINARY);
+   ftp_put($conn_id, "Images/Students/$ImageName", $photoTmp, FTP_BINARY);
 
 
         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
@@ -18390,12 +18389,15 @@ sqlsrv_query($conntest, $upimage, $params);
    }
 
    if ($signature) {
+
+    include "connection/ftp-erp.php";
+    
       $signatureTmp = $_FILES["signature"]["tmp_name"];
 
-  $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
+  $file_type = str_ireplace("/image/", ".", $_FILES['signature']['type']);
 
        $SignatureImageName=$loginId.".PNG";
-   ftp_put($conn_id, "Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+   ftp_put($conn_id, "Images/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
 
    $file_data1 = file_get_contents($signatureTmp);
 
@@ -21004,16 +21006,17 @@ $update_query=sqlsrv_query($conntest,$update1);
       $count[1]=$TotalActive;
       $count[2]=$TotalLeft;
       $count[3]=$TotalEligibility;
+
     echo json_encode($count);
    
    }
    elseif($code==299)
    {
-    $count=array(); 
+   $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-     $Lateral=$_POST['Lateral'];
-     
+   $Lateral=$_POST['Lateral'];
+
    $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' and CourseID!='188' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
@@ -21052,9 +21055,9 @@ $update_query=sqlsrv_query($conntest,$update1);
       $count[1]=$TotalActive;
       $count[2]=$TotalNEligible;
       $count[3]=$TotalEligibility;
-       $count[4]=$PTotalActive;
-        $count[5]=$Totalleft;
-         $count[6]=$PTotalLeft;
+      $count[4]=$PTotalActive;
+      $count[5]=$Totalleft;
+      $count[6]=$PTotalLeft;
 
 
 
