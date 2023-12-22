@@ -23,6 +23,14 @@ if($exportCode==19 ||$exportCode==27||$exportCode==28)
        include "connection/connection_web.php"; 
 
    }
+   $getCurrentExamination="SELECT * FROM ExamDate";
+   $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+   if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+   {
+
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
+   }
 if ($exportCode == 0)
 {
     $count = 1;
@@ -5359,8 +5367,169 @@ elseif($RegistrationStatus==8)
                            echo $exportstudy;
                            $fileName=$Batch.' Total '.$fileNameA." Students summary ";
                             } 
-         
+ else if($exportCode==48)
+     {
+        $College = isset($_GET['College']) ? $_GET['College'] : '';
+    $Course = isset($_GET['Course']) ? $_GET['Course'] : '';
+    $Semester = isset($_GET['Semester']) ? $_GET['Semester'] : '';
+    $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
+    $Status = isset($_GET['Status']) ? $_GET['Status'] : '';
+    $Examination = isset($_GET['Examination']) ? $_GET['Examination'] : '';
+            $SrNo=1;
+            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+            <thead>  
+            <tr>
+            ";
+            $SrNo=1;
+            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+            <thead>  
+            <tr>
+            ";
+            $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
+                <th style='background-color:black; color:white;'>College Name</th>
+                <th style='background-color:black; color:white;'>Course</th>
+              
+                <th style='background-color:black; color:white;'>Student Name</th>
+                <th style='background-color:black; color:white;'>Gender</th>
+                <th style='background-color:black; color:white;'>Category</th>
+                <th style='background-color:black; color:white;'>Class Roll No</th>
+                <th style='background-color:black; color:white;'>UniRollno</th>
+                <th style='background-color:black; color:white;'>Father Name</th>
+                <th style='background-color:black; color:white;'>Mother Name</th>
+                <th style='background-color:black; color:white;'>EmailID</th>
+                <th style='background-color:black; color:white;'>Student Mobile No</th>
+              
+                <th style='background-color:black; color:white;'>Status</th>
+                ";
+                $exportstudy.="</tr></thead>";             
+                $list_sql = "SELECT   *,ExamForm.Status as ExamStatus
+                FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+                where Admissions.Status='1' ";
+                 if ($College != '') 
+                 {
+                $list_sql.=" AND ExamForm.CollegeID='$College' ";
+                 }
+                 if ($Course != '') {
+                $list_sql.="AND ExamForm.CourseID='$Course'  ";
+                 }
+                 if ($Type != '') {
+                $list_sql.="AND ExamForm.Type='$Type' ";
+                 }
+                 if ($Semester != '') {
+                $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
+                 }
+                 if ($Examination != '') {
+                 $list_sql.=" AND ExamForm.Examination='$Examination' ";
+                 }
+                if ($Status != '') {
+                if ($Status== '5') {
+                 $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6') ";
+                 }
+                 else{
+                    $list_sql.=" AND ExamForm.Status='$Status' ";
+                 }
+                }
+                 if ($Status=='') 
+                 {
+                $list_sql.=" AND (ExamForm.Status='4' or ExamForm.Status='5' or ExamForm.Status='6') ";
+                 }
+                 if ($Examination == '') {
+                    $list_sql .= " AND ExamForm.Examination = '$CurrentExamination'";
+                }
+                $list_sql.="  ORDER BY ExamForm.Status   ASC"; 
+             
+                                    $list_result = sqlsrv_query($conntest,$list_sql);
+                                    while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                                       {
+                                       // $aa=$row;
+                                    $IDNo=$row['IDNo'];
+                                    $CollegeName=$row['CollegeName'];
+                                    $Course=$row['Course'];
+                                    $StudentName=$row['StudentName'];
+                                    $Gender=$row['Sex'];
+                                    $Category=$row['Category'];
+                                    $ClassRollNo=$row['ClassRollNo'];
+                                    $UniRollno=$row['UniRollNo'];
+                                    $FatherName=$row['FatherName'];
+                                    $MotherName=$row['MotherName'];
+                                    $EmailID=$row['EmailID'];
+                                    $StudentMobileNo=$row['StudentMobileNo'];
+                                    
+                                    $Status=$row['ExamStatus'];
+                                   
+if($Status==-1)
+             {
+               $StatusShow="<b>Pending</b>";
 
+             }
+              if($Status==22)
+             {
+               $StatusShow="<b>Rejected By Registration Branch</b>";
+
+             }
+             elseif($Status==0)
+             {
+               $StatusShow="<b>Forward to Department</b>";
+             }elseif($Status==1)
+             {
+               $StatusShow='<b>Forward to Dean</b>';
+             }
+
+             elseif($Status==2)
+             {
+               $StatusShow="<b style='color:red'>Rejected By Department</b>";
+             }
+              elseif($Status==3)
+             {
+               $StatusShow="<b style='color:red'>Rejected By Dean</b>";
+             }
+
+elseif($Status==4)
+             {
+               $StatusShow='<b>Pending</b>';
+             }
+elseif($Status==5)
+             {
+               $StatusShow='<b>Forward to Examination Branch</b>';
+             }
+
+elseif($Status==6)
+             {
+               $StatusShow="<b style='color:red'>Rejected By Accountant</b>";
+             }
+   elseif($Status==7)
+             {
+               $StatusShow="<b style='color:red'>Rejected_By Examination Branch</b>";
+             }           
+
+elseif($Status==8)
+             {
+               $StatusShow="<b style='color:green'>Accepted</b>";
+             }  
+                                       
+
+
+                                       $exportstudy.=" <tr >
+                                       <td>{$IDNo}</td>
+                                       <td>{$CollegeName}</td>
+                                       <td>{$Course}</td>
+                                       <td>{$StudentName}</td>
+                                       <td>{$Gender}</td>
+                                       <td>{$Category}</td>
+                                       <td>{$ClassRollNo}</td>
+                                       <td>{$UniRollno}</td>
+                                       <td>{$FatherName}</td>
+                                       <td>{$MotherName}</td>
+                                       <td>{$EmailID}</td>
+                                       <td>{$StudentMobileNo}</td>
+                                       <td>{$StatusShow}</td>
+                                       </tr>";
+          }
+
+                    $exportstudy.="</table>";
+                    echo $exportstudy;
+                    $fileName=" Students Exam Form ";
+                     } 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

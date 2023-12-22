@@ -9,9 +9,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <span class="mr-2"> <button class="btn btn-primary btn-sm " id="pendingCount"> </button> </span>
-                        <span class="mr-2"> <button class="btn btn-danger btn-sm " id="rejectCount"> </button> </span>
-                        <span> <button class="btn btn-success btn-sm " id="verifiedCount"> </button> </span>
+                        <span class="mr-2"> <button class="btn btn-primary btn-sm "><span class="badge" id="pendingCount"> </span>Pending </button> </span>
+                        <span class="mr-2"> <button class="btn btn-danger btn-sm "><span class="badge" id="rejectCount"> </span>Rejected </button> </span>
+                        <span> <button class="btn btn-success btn-sm " ><span class="badge"id="verifiedCount"> </span>Verified </button> </span>
                         <!-- <h3 class="card-title">Cut List</h3> -->
                         <!-- <button class="btn btn-primary btn-sm " id="pendingCount">1 </button>
                         <button class="btn btn-danger btn-sm " id="rejectCount">1 </button>

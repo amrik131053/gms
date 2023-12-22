@@ -9,8 +9,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <span class="mr-2"> <button class="btn btn-primary btn-sm "><span class="badge" id="pendingCount"></span> Pending</button> </span>
-                        <span class="mr-2"> <button class="btn btn-danger btn-sm "><span class="badge" id="rejectCount"></span>Rejected </button> </span>
+                        <span class="mr-2"> <button class="btn btn-info btn-sm "><span class="badge" id="currentExamination">Examination</span> </button> </span>
+                        <span class="mr-2"> <button class="btn btn-primary btn-sm "><span class="badge" id="pendingCount"></span>Pending </button> </span>
+                        <span class="mr-2"> <button class="btn btn-danger btn-sm "><span class="badge" id="rejectCount"></span>Rejeted </button> </span>
                         <span> <button class="btn btn-success btn-sm "><span class="badge" id="verifiedCount"> </span>Accepted</button> </span>
                         <span style="float:right;">
       <button class="btn btn-sm ">
@@ -144,9 +145,9 @@
                                 <label>Status</label>
                                 <select id="Status" class="form-control form-control-sm" >
                                     <option value="">All</option>
-                                    <option value="5">Pending</option>
-                                    <option value="8">Verified</option>
-                                    <option value="7">Rejected</option>
+                                    <option value="4">Pending</option>
+                                    <option value="5">Verified</option>
+                                    <option value="6">Rejected</option>
                                 </select>
 
                             </div>
@@ -200,7 +201,7 @@ function verifyAll()
 {
   var verifiy=document.getElementsByClassName('v_check');
 var len_student= verifiy.length; 
-  var code=297;
+  var code=326;
   var subjectIDs=[];  
        
      for(i=0;i<len_student;i++)
@@ -286,9 +287,10 @@ function fetchCutList() {
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
+    // alert(Status);
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '290';
+        var code = '325';
         $.ajax({
             url: 'action_g.php',
             data: {
@@ -305,8 +307,9 @@ function fetchCutList() {
                 spinner.style.display = 'none';
                 document.getElementById("show_record").innerHTML = data;
                 pendingCount();
-                rejectCount();
-                verifiedCount();
+rejectCount();
+verifiedCount();
+setcurrentExamination();
                 
 
             }
@@ -341,7 +344,7 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 291;
+    var code = 327;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -361,22 +364,19 @@ function edit_stu(id) {
 
 
 function exportExamForm() {
-    var exportCode = 43;
+    var exportCode = 48;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
-    // var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
-    var Status = document.getElementById('Status').value;
     var Examination = document.getElementById('Examination').value;
-    if (College != '' || Examination!='' || Status!='' || Type!='' ) {
+    var Status = document.getElementById('Status').value;
+   
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
              "&Semester=" + Semester + "&Type=" +
             Type + "&Status=" + Status + "&Examination=" + Examination, '_blank');
 
-    } else {
-        alert("Select ");
-    }
+   
 }
 
 
@@ -386,7 +386,7 @@ function verify(ExamFromID)
     if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 292;
+        var code = 328;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -411,41 +411,96 @@ function verify(ExamFromID)
     }
 }
 function reject(ExamFromID) {
-    var remark = prompt("Enter remark for rejection:");
-    if (remark === null) {
-        // User clicked Cancel in the prompt
-        return;
+   
+    var remark = document.getElementById("remarkReject").value;
+    let length = remark.length;
+    if(remark!='' && length>5)
+    {
+        var r = confirm("Do you really want to reject?");
+        if (r === true) {
+            
+            var spinner = document.getElementById("ajax-loader");
+            spinner.style.display = 'block';
+            var code = 329;
+            $.ajax({
+                url: 'action_g.php',
+                type: 'POST',
+                data: {
+                    code: code,
+                    remark: remark,
+                    ExamFromID: ExamFromID
+                },
+                success: function(response) {
+                    spinner.style.display = 'none';
+                    if (response === '1') {
+                        SuccessToast('Successfully rejected');
+                        edit_stu(ExamFromID);
+                        fetchCutList();
+                    } else {
+                        ErrorToast('Try Again', 'bg-danger');
+                    }
+                }
+            });
+        }
+    }else{
+        $('#remarkReject').toggleClass("is-invalid");
+        $('#error-reject-textarea').show();
     }
-    var r = confirm("Do you really want to reject");
-    if (r == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 293;
+   
+}
+
+
+
+function examAccountCount() {  // for count show
+    var code = 324;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    var Status = document.getElementById('Status').value;
         $.ajax({
             url: 'action_g.php',
-            type: 'POST',
+            type: 'post',
             data: {
                 code: code,
-                remark: remark,
-                ExamFromID: ExamFromID
+                College: College,
+                Course: Course,
+                Batch: Batch,
+                Semester: Semester,
+                Type: Type,
+                Group: Group,
+                Status: Status,
+                Examination: Examination
             },
             success: function(response) {
-                spinner.style.display = 'none';
-                if (response == '1') {
-                    SuccessToast('Successfully rejected');
-                    edit_stu(ExamFromID);
-                    fetchCutList();
-                } else {
-                    ErrorToast('Try Again', 'bg-danger');
-                }
+                // console.log(response);
+                var data = JSON.parse(response);
+          
+                document.getElementById("pendingCount").textContent = data[0];
+                document.getElementById("rejectCount").textContent = data[1];
+                document.getElementById("verifiedCount").textContent = data[2];
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
             }
         });
-    }
 }
+
+
+
+
+
+
+
+
 
 pendingCount();
 rejectCount();
 verifiedCount();
+setcurrentExamination();
 function pendingCount()
  {
     var College = document.getElementById('College').value;
@@ -454,7 +509,7 @@ function pendingCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 294;
+        var code = 324;
         // alert(code);
         $.ajax({
             url: 'action_g.php',
@@ -483,7 +538,7 @@ function rejectCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 295;
+        var code = 330;
         // alert(code);
         $.ajax({
             url: 'action_g.php',
@@ -512,7 +567,7 @@ function verifiedCount()
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-        var code = 296;
+        var code = 331;
         // alert(code);
         $.ajax({
             url: 'action_g.php',
@@ -533,11 +588,31 @@ function verifiedCount()
             }
         });
     }
+function setcurrentExamination()
+ {
+   
+    var Examination = document.getElementById('Examination').value;
+        var code = 332;
+        // alert(code);
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                Examination: Examination
+            },
+            success: function(response) {
+                // console.log(response);
+                document.getElementById("currentExamination").innerHTML = response;
+
+            }
+        });
+    }
 
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Registration Form</h5>

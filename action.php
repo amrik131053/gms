@@ -8480,7 +8480,15 @@ elseif ($code==135)
                         ?>
 <tr>
 <td>
+   <?php 
+   if (strpos($SubjectName,"hindi")!==false || strpos($SubjectName,"punjabi")!==false)
+  {?>
+                   
+                   <form action="print-paper.php" method="post" target="_blank">
+   <?php }else{?>
+
                     <form action="print-paper-pdf-new.php" method="post" target="_blank">
+                    <?php }?>
                         <input type="hidden" name="paperId" value="<?=$qid;?>">
                     <!-- <span class="bg-info" style="border-radius: 10px">&nbsp;&nbsp;Print&nbsp;&nbsp;</span> -->
                         
