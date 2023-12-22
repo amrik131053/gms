@@ -21004,16 +21004,17 @@ $update_query=sqlsrv_query($conntest,$update1);
       $count[1]=$TotalActive;
       $count[2]=$TotalLeft;
       $count[3]=$TotalEligibility;
+
     echo json_encode($count);
    
    }
    elseif($code==299)
    {
-    $count=array(); 
+   $count=array(); 
    $Batch=$_POST['Batch'];
    $CollegeID=$_POST['CollegeID'];
-     $Lateral=$_POST['Lateral'];
-     
+   $Lateral=$_POST['Lateral'];
+
    $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' AND CollegeID='$CollegeID' and LateralEntry='$Lateral' and CourseID!='188' ";
    $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
@@ -21052,9 +21053,9 @@ $update_query=sqlsrv_query($conntest,$update1);
       $count[1]=$TotalActive;
       $count[2]=$TotalNEligible;
       $count[3]=$TotalEligibility;
-       $count[4]=$PTotalActive;
-        $count[5]=$Totalleft;
-         $count[6]=$PTotalLeft;
+      $count[4]=$PTotalActive;
+      $count[5]=$Totalleft;
+      $count[6]=$PTotalLeft;
 
 
 
