@@ -1054,7 +1054,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
 if($Type!='certificate')
 {
-echo $ms1."/".$ms."<b> ".$name."dd </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
+echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
  having completed the requirements for the award of  ".$Type." and having passed 
  the prescribed examination held in <b>".$Examination."</b>   has been conferred the 
  ".$Type." of <b> ".$course." (".$Stream.") "."</b> with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";
