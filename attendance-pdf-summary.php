@@ -193,7 +193,7 @@ else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 
 if($row_count_joinab>0)
             {
-           $pdf->SetXY(100,$y);
+           $pdf->SetXY(80,$y);
            $pdf->SetTextColor(255,0,0);
 $pdf->Cell(75,6,"Absent",1,'C');
          
