@@ -303,25 +303,7 @@ if ($result->num_rows > 0)
                      </p>
                   </a>
                </li> 
-<?php if ($role_id==13) 
-                  {
-                 ?>
-
-               <li class="nav-item has-treeview menu-open">
-                  <a href="dean-dashboard.php" class="nav-link ">
-                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                     <p>
-                        <!--LMS--> 
-                        Academic Dashboard 
-                        <!-- <i class="right fas fa-angle-left"></i> -->
-                     </p>
-                  </a>
-               </li> 
-   
-
-                 <?php 
-
-              }
+<?php 
               if ($spoc_per<0) 
                   {
                  ?>
