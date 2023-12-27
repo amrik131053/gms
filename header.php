@@ -5,6 +5,15 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 include "connection/connection.php";
 $todaydate=date('Y-m-d');
 $timeStamp=date('Y-m-d H-i');
+$getCurrentExamination="SELECT * FROM ExamDate";
+$getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+{
+
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
+}
+
 if(!(ISSET($_SESSION['usr']))) 
 {?>
 
