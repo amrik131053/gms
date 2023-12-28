@@ -19266,7 +19266,10 @@ if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $
     
 
 <td colspan="5" style="text-align:right; font-size: 16px;">
-    <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Farward to Account</button></p>
+
+    <!-- <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button> -->
 </td>
 <?php }
 
@@ -19279,12 +19282,12 @@ if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $
 {?>
     <tr>
     <td colspan="5">
-<p style="color: red;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
+<p style="color: green;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Department)</b></p>
 
 
       Examination cum Registraion  form for Examination <?=$examination;?> is verfied on  <?=$DepartmentVerifiedDate;?>.<br><br>
      
-    <p style="text-align:left;float:left">Signature of Class Cordinator </p><p style="float:right">Date :<?=$DeanVerifiedDate;?></p>
+    
    
    <?php if($Status==1 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { ?>
@@ -19355,7 +19358,7 @@ if($Status==6)
 <?php 
 }
 
-if($Status>4 &&$Status!='6')
+if($Status>4 &&$Status!='6'&&$Status!='22')
 { ?>
 
 
@@ -19406,7 +19409,7 @@ if($Status>4 &&$Status!='6')
 
 <?php }?>
 
-<?php if($Status>5 && $Status!=7&& $Status!=6)
+<?php if($Status>5 && $Status!=7&& $Status!=6 &&$Status!='22')
 { ?>
 
 <tr>
@@ -19540,7 +19543,7 @@ else
 else if($code=='281')
 {
     $ExamFromID=$_POST['ExamFromID'];
-   echo   $getDefalutMenu="UPDATE  ExamForm  SET DeanVerifiedDate='$timeStampS',Status='4' Where ID='$ExamFromID'";
+      $getDefalutMenu="UPDATE  ExamForm  SET DeanVerifiedDate='$timeStampS',DepartmentVerifiedDate='$timeStampS',Status='4' Where ID='$ExamFromID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {

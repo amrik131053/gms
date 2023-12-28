@@ -379,7 +379,7 @@ function verify(ExamFromID)
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 280;
-        $.ajax({
+        $.ajax({ 
             url: 'action_g.php',
             type: 'POST',
             data: {
@@ -388,9 +388,10 @@ function verify(ExamFromID)
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                if (response == '1') {
+                if (response == 1) {
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);
+                    fetchCutList();
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -417,10 +418,11 @@ function lock(ExamFromID)
             success: function(response) {
                 spinner.style.display = 'none';
                 console.log(response);
-                if (response == '1') {
+                if (response == 1) {
                     
                     SuccessToast('Successfully Locked');
                     edit_stu(ExamFromID);
+                    fetchCutList();
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
