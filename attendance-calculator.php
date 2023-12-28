@@ -84,7 +84,7 @@ $printhalf='(SH)';
 
  }
 
- if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6)
+ if($leavetypeid==1 ||$leavetypeid==2||$leavetypeid==3||$leavetypeid==8 ||$leavetypeid==12||$leavetypeid==7||$leavetypeid==6||$leavetypeid==26)
  {
 
   if($leavedurationtime>0)

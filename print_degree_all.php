@@ -182,9 +182,9 @@
                           
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                       having completed the requirements for the award of  Diploma and having passed the prescribed
+                       having completed the requirements for the award of  diploma and having passed the prescribed
                         examination held in <b>".$Examination."</b>, has been conferred the<b> ".$course."</b> 
-                         with <b>CGPA ".$CGPA."</b> on scale of <b>10</b>.";?></i>
+                         with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b>.";?></i>
                     </div>
                     <div style="height: 3px;"></div>
                     <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
@@ -1404,9 +1404,9 @@ else{
                             
                                ?>
                            <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
-                           having completed the requirements for the award of  Diploma and having passed the prescribed
+                           having completed the requirements for the award of  diploma and having passed the prescribed
                             examination held in <b>".$Examination."</b>, has been conferred the<b> ".$course."</b> 
-                             with <b>CGPA ".$CGPA."</b> on scale of <b>10</b> in regular mode.";?></i>
+                             with <b>CGPA ".$CGPA."</b> on the scale of <b>10</b> in regular mode.";?></i>
                         </div>
                         <div style="height: 3px;"></div>
                         <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>

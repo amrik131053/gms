@@ -96,6 +96,7 @@ function editRow(button) {
         const employeeId = id;
         const leave1 = row.querySelector('[data-field="Leave1"]').textContent;
         const leave2 = row.querySelector('[data-field="Leave2"]').textContent;
+         const leave3 = row.querySelector('[data-field="Leave3"]').textContent;
         const editBtn = row.querySelector('.edit-btn');
         const saveBtn = row.querySelector('.save-btn');
         const cancelBtn = row.querySelector('.cancel-btn');
@@ -114,10 +115,11 @@ function editRow(button) {
                 employeeId: employeeId,
                 leave1: leave1,
                 leave2: leave2,
+                 leave3: leave3,
             },
             success: function(response) {
-            //    console.log(response);
-            SuccessToast('SuccessFully');
+               console.log(response);
+            SuccessToast('Successfully Added');
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
