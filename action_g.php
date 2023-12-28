@@ -22749,16 +22749,32 @@ $update_query=sqlsrv_query($conntest,$update1);
    </thead>
    <tbody>
 <?php 
-    $CourseID=$_POST['CourseID'];
-    // $Batch=$_POST['Batch'];
-    if($_POST['Examination']!='')
-    {
-         $Examination=$_POST['Examination'];
-    }else{
-        $Examination=$CurrentExamination;
+$CourseID = $_POST['CourseID'];
+$Batch = $_POST['Batch'];
+$Semester = $_POST['Semester'];
+$Type = $_POST['Type'];
+if($_POST['Examination']!='')
+{
+     $Examination=$_POST['Examination'];
+}else{
+    $Examination=$CurrentExamination;
 
+}
+    $getCourse="SELECT Distinct ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.CollegeID FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID Where ExamForm.Examination='$Examination' ";
+    if($CourseID!=''){
+        $getCourse.="AND ExamForm.CourseID='$CourseID' ";
     }
-    $getCourse="SELECT Distinct ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.CollegeID FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID Where  ExamForm.CourseID='$CourseID' AND ExamForm.Examination='$Examination' order by ExamForm.Batch ASC ";
+    if($Batch!=''){
+        $getCourse.=" AND ExamForm.Batch='$Batch' ";
+    }
+    if($Semester!=''){
+        $getCourse.="AND ExamForm.SemesterId='$Semester' ";
+    }
+    if($Type!=''){
+        $getCourse.=" AND ExamForm.Type='$Type' ";
+    }
+        $getCourse.="order by ExamForm.Batch ASC ";
+    //    echo $getCourse;
     $getCourseRun=sqlsrv_query($conntest,$getCourse);
     while($rowCourseName = sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
     { 
@@ -22773,8 +22789,6 @@ $update_query=sqlsrv_query($conntest,$update1);
  
     $examFormAccepted_run12=sqlsrv_query($conntest,$examFormAccepted12,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12);
-
-
 
 
      $getToTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
@@ -22966,6 +22980,335 @@ $update_query=sqlsrv_query($conntest,$update1);
     
 
    }
+   elseif($code==337)
+{
+$count=array(); 
+$Batch = $_POST['Batch'];
+$Semester = $_POST['Semester'];
+$Type = $_POST['Type'];
+if($_POST['Examination']!='')
+{
+     $Examination=$_POST['Examination'];
+}else{
+    $Examination=$CurrentExamination;
+
+}
+ $getActiveTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID 
+ 
+  WHERE 
+ 
+  ExamForm.Status='-1'"; 
+   if($Type!='')
+   {
+       $getActiveTotal.="and  ExamForm.Type='$Type' ";
+   }
+   if($Batch!='')
+   {
+       $getActiveTotal.="and  ExamForm.Batch='$Batch' ";
+   }
+   if($Semester!='')
+   {
+       $getActiveTotal.="and  ExamForm.SemesterId='$Semester' ";
+   }
+   if($Examination!='')
+   {
+       $getActiveTotal.="and  ExamForm.Examination='$Examination' ";
+   }
+// ECHO $getActiveTotal;
+  
+$getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Registration=sqlsrv_num_rows($getActiveTotal_run);
+
+$getRegReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='22'";
+ 
+ if($Type!='')
+ {
+     $getRegReject.="and  ExamForm.Type='$Type' ";
+ }
+ if($Batch!='')
+ {
+     $getRegReject.="and  ExamForm.Batch='$Batch' ";
+ }
+ if($Semester!='')
+ {
+     $getRegReject.="and  ExamForm.SemesterId='$Semester' ";
+ }
+ if($Examination!='')
+ {
+     $getRegReject.="and  ExamForm.Examination='$Examination' ";
+ }
+$getRegReject_run=sqlsrv_query($conntest,$getRegReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$RegistrationReject=sqlsrv_num_rows($getRegReject_run);
+$getRegForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status>='0' and ExamForm.Status!='22'";
+  if($Type!='')
+  {
+      $getRegForward.="and  ExamForm.Type='$Type' ";
+  }
+  if($Batch!='')
+  {
+      $getRegForward.="and  ExamForm.Batch='$Batch' ";
+  }
+  if($Semester!='')
+  {
+      $getRegForward.="and  ExamForm.SemesterId='$Semester' ";
+  }
+  if($Examination!='')
+  {
+      $getRegForward.="and  ExamForm.Examination='$Examination' ";
+  }
+ 
+$getRegForward_run=sqlsrv_query($conntest,$getRegForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$RegistrationForward=sqlsrv_num_rows($getRegForward_run);
+
+
+ $getdpPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+  (ExamForm.Status='0' or ExamForm.Status='1') ";
+  if($Type!='')
+  {
+      $getdpPending.="and  ExamForm.Type='$Type' ";
+  }
+  if($Batch!='')
+  {
+      $getdpPending.="and  ExamForm.Batch='$Batch' ";
+  }
+  if($Semester!='')
+  {
+      $getdpPending.="and  ExamForm.SemesterId='$Semester' ";
+  }
+  if($Examination!='')
+  {
+      $getdpPending.="and  ExamForm.Examination='$Examination' ";
+  }
+  
+$getdpPending_run=sqlsrv_query($conntest,$getdpPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Department=sqlsrv_num_rows($getdpPending_run);
+
+
+$getDpReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ (ExamForm.Status='2' or ExamForm.Status='3')  ";
+  if($Type!='')
+  {
+      $getDpReject.="and  ExamForm.Type='$Type' ";
+  }
+  if($Batch!='')
+  {
+      $getDpReject.="and  ExamForm.Batch='$Batch' ";
+  }
+  if($Semester!='')
+  {
+      $getDpReject.="and  ExamForm.SemesterId='$Semester' ";
+  }
+  if($Examination!='')
+  {
+      $getDpReject.="and  ExamForm.Examination='$Examination' ";
+  }
+$getDpReject_run=sqlsrv_query($conntest,$getDpReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$DepartmentReject=sqlsrv_num_rows($getDpReject_run);
+
+
+$getDpForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='4' ";
+   if($Type!='')
+   {
+       $getDpForward.="and  ExamForm.Type='$Type' ";
+   }
+   if($Batch!='')
+   {
+       $getDpForward.="and  ExamForm.Batch='$Batch' ";
+   }
+   if($Semester!='')
+   {
+       $getDpForward.="and  ExamForm.SemesterId='$Semester' ";
+   }
+   if($Examination!='')
+   {
+       $getDpForward.="and  ExamForm.Examination='$Examination' ";
+   }
+
+$getDpForward_run=sqlsrv_query($conntest,$getDpForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$DepartmentForward=sqlsrv_num_rows($getDpForward_run);
+
+$getACPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+   ExamForm.Status='4' ";
+      if($Type!='')
+      {
+          $getACPending.="and  ExamForm.Type='$Type' ";
+      }
+      if($Batch!='')
+      {
+          $getACPending.="and  ExamForm.Batch='$Batch' ";
+      }
+      if($Semester!='')
+      {
+          $getACPending.="and  ExamForm.SemesterId='$Semester' ";
+      }
+      if($Examination!='')
+      {
+          $getACPending.="and  ExamForm.Examination='$Examination' ";
+      }
+$getACPending_run=sqlsrv_query($conntest,$getACPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Account=sqlsrv_num_rows($getACPending_run);
+
+
+$getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='6' ";
+       if($Type!='')
+       {
+           $getACReject.="and  ExamForm.Type='$Type' ";
+       }
+       if($Batch!='')
+       {
+           $getACReject.="and  ExamForm.Batch='$Batch' ";
+       }
+       if($Semester!='')
+       {
+           $getACReject.="and  ExamForm.SemesterId='$Semester' ";
+       }
+       if($Examination!='')
+       {
+           $getACReject.="and  ExamForm.Examination='$Examination' ";
+       }
+$getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$AccountReject=sqlsrv_num_rows($getACReject_run);
+
+
+
+$getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='5' ";
+    if($Type!='')
+    {
+        $getACForward.="and  ExamForm.Type='$Type' ";
+    }
+    if($Batch!='')
+    {
+        $getACForward.="and  ExamForm.Batch='$Batch' ";
+    }
+    if($Semester!='')
+    {
+        $getACForward.="and  ExamForm.SemesterId='$Semester' ";
+    }
+    if($Examination!='')
+    {
+        $getACForward.="and  ExamForm.Examination='$Examination' ";
+    }
+$getACForward_run=sqlsrv_query($conntest,$getACForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$AccountForward=sqlsrv_num_rows($getACForward_run);
+
+
+$getExamPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='5'   ";
+    if($Type!='')
+    {
+        $getExamPending.="and  ExamForm.Type='$Type' ";
+    }
+    if($Batch!='')
+    {
+        $getExamPending.="and  ExamForm.Batch='$Batch' ";
+    }
+    if($Semester!='')
+    {
+        $getExamPending.="and  ExamForm.SemesterId='$Semester' ";
+    }
+    if($Examination!='')
+    {
+        $getExamPending.="and  ExamForm.Examination='$Examination' ";
+    }
+$getExamPending_run=sqlsrv_query($conntest,$getExamPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Examination1=sqlsrv_num_rows($getExamPending_run);
+
+$getExamReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='7'  ";
+     if($Type!='')
+     {
+         $getExamReject.="and  ExamForm.Type='$Type' ";
+     }
+     if($Batch!='')
+     {
+         $getExamReject.="and  ExamForm.Batch='$Batch' ";
+     }
+     if($Semester!='')
+     {
+         $getExamReject.="and  ExamForm.SemesterId='$Semester' ";
+     }
+     if($Examination!='')
+     {
+         $getExamReject.="and  ExamForm.Examination='$Examination' ";
+     }
+$getExamReject_run=sqlsrv_query($conntest,$getExamReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ExaminationReject=sqlsrv_num_rows($getExamReject_run);
+
+
+$getExamForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='8'   ";
+     if($Type!='')
+     {
+         $getExamForward.="and  ExamForm.Type='$Type' ";
+     }
+     if($Batch!='')
+     {
+         $getExamForward.="and  ExamForm.Batch='$Batch' ";
+     }
+     if($Semester!='')
+     {
+         $getExamForward.="and  ExamForm.SemesterId='$Semester' ";
+     }
+     if($Examination!='')
+     {
+         $getExamForward.="and  ExamForm.Examination='$Examination' ";
+     }
+$getExamForward_run=sqlsrv_query($conntest,$getExamForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ExaminationForward=sqlsrv_num_rows($getExamForward_run);
+
+
+$getleftTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ ExamForm.Status='8'    ";
+     if($Type!='')
+     {
+         $getleftTotal.="and  ExamForm.Type='$Type' ";
+     }
+     if($Batch!='')
+     {
+         $getleftTotal.="and  ExamForm.Batch='$Batch' ";
+     }
+     if($Semester!='')
+     {
+         $getleftTotal.="and  ExamForm.SemesterId='$Semester' ";
+     }
+     if($Examination!='')
+     {
+         $getleftTotal.="and  ExamForm.Examination='$Examination' ";
+     }
+$getleftTotal_run=sqlsrv_query($conntest,$getleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Accepeted=sqlsrv_num_rows($getleftTotal_run);
+
+
+
+
+   $count[0]=$Registration;
+   $count[1]=$RegistrationReject;
+   $count[2]=$RegistrationForward;
+
+   $count[3]=$Department;
+   $count[4]=$DepartmentReject;
+   $count[5]=$DepartmentForward;
+   
+   $count[6]=$Account;
+   $count[7]=$AccountReject;
+   $count[8]=$AccountForward;
+
+   $count[9]=$Examination1;
+   $count[10]=$ExaminationReject;
+   $count[11]=$ExaminationForward;
+
+   
+
+
+
+ echo json_encode($count);
+
+}
    else
    {
    
