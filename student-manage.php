@@ -463,7 +463,7 @@ function reprintSmartCardForStudent(id)
         },
         success: function(response) {
             // console.log(response);
-            if (response == '1') {
+            if (response == 1) {
                 window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+1, '_blank');
                 searchStudentForIDcard();
             } else {
