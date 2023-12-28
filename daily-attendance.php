@@ -118,7 +118,7 @@
             }
          });
 }
- function Concession(){ 
+ function Concession(){  
 
    var code=337;
          var spinner=document.getElementById('ajax-loader');
@@ -247,6 +247,47 @@ function cocessionSubmit(form) {
         
     });
 }
+
+
+function cocessionvacaSubmit(form) {
+
+
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Leave submit successfully');
+                               
+                
+            }
+            else if (response == 2)
+             {
+              ErrorToast('one leave already pending to Sanction authority.','bg-warning');
+            }
+            else if (response == 3)
+             {
+              ErrorToast("you can't apply back date leave.",'bg-warning');
+            }
+             else
+              {
+                ErrorToast('Please try after sometime.','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+        
+    });
+}
+
+
 
 function CorrectionSubmit(form) {
 

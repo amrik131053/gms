@@ -20159,7 +20159,7 @@ elseif($code=='336')
 
 </div>
 <br>
-<form action="action.php" method="post">
+<form action="action.php" method="post" >
 <div class="row">
     
 
@@ -20177,7 +20177,7 @@ elseif($code=='336')
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
     <option value="">Select Type</option>
     <?php 
-      $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where (LeaveTypes.Id= '6' OR LeaveTypes.Id='7') "; 
+      $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id='7' "; 
 
 
       $stmt = sqlsrv_query($conntest,$sql_att23);  
@@ -20208,6 +20208,65 @@ elseif($code=='336')
 </form>
 </div>
 
+
+<div class="card-body ">
+    <div class="card-header ">
+<center><h6>Apply Winter Vacation Slot</h6></center><a href="formats/vacation.csv" class="btn btn-primary btn-xs">Format</a>
+
+</div>
+<br>
+
+<form action="action.php" method="post" enctype="multipart/form-data">
+<div class="row">
+    
+
+    <div class="col-lg-3">
+       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+
+    <input type="file" name="winterid"   class="form-control">
+    
+
+    <input type="hidden" name="code" value="354">
+</div>
+
+               <div class="col-lg-2">
+               <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
+               <select class="form-control" name="LeaveType"  id="LeaveType" required>
+    <option value="">Select Type</option>
+    <?php 
+      $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id= '26'  "; 
+
+
+      $stmt = sqlsrv_query($conntest,$sql_att23);  
+                  while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+                 {
+                    ?>
+    <option value="<?=$row['Id'];?>"><?=$row['Name'];?></option>
+    <?php
+     }
+    ?>    
+    </select>
+                </div>
+              
+               
+               <div class="col-lg-2" id="SingleDate">
+               <label>Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="date" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d');?>" >
+                </div><div class="col-lg-2" id="SingleDate">
+               <label>Date<span class="text-danger">&nbsp;*</span></label>
+                   <input type="date" class="form-control" id="leaveendDate" name="leaveendDate" value="<?=date('Y-m-d');?>" >
+                </div>
+              
+              
+            
+               
+               <div class="col-lg-3">
+             <br>
+               <input type="button" onclick="cocessionvacaSubmit(this.form);" name="leaveButtoncSubmit" class="btn btn-success" value="Submit">
+                </div>
+</div>
+</form>
+</div>
 
 <?php 
 
@@ -20887,7 +20946,56 @@ echo "1";
  }
 
 
+ elseif($code==354)
+ {
 
+ $LeaveType=$_POST['LeaveType'];
+ $leaveStartDate=$_POST['leaveDate'];
+
+ $leaveendDate=$_POST['leaveendDate'];
+
+$startTimeStamp = strtotime($leaveStartDate);
+$endTimeStamp = strtotime($leaveendDate);
+$timeDiff = abs($endTimeStamp - $startTimeStamp);
+$numberDays = $timeDiff/86400;  // 86400 seconds in one day
+
+$numberDays = intval($numberDays);
+$coutv=$numberDays+1;
+
+   
+ $file = $_FILES['winterid']['tmp_name'];
+
+  $handle = fopen($file, 'r');
+
+  $c = 0;
+
+  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+  { 
+if($c>0)
+{
+
+  $EmpID=$filesop[0];
+
+
+        
+ $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveendDate','$leaveStartDate','By HR Department','$coutv','0','0','0','0','Approved')";
+  $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+                if($InsertLeaveRun==true)
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                }
+              
+                
+}
+$c++;
+ }
+
+}
  else
 {
 echo "select code";
