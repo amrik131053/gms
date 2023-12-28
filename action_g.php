@@ -13522,6 +13522,7 @@ elseif($code==206)
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
+                                 <th>Winter Vacation</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -13539,6 +13540,7 @@ elseif($code==206)
                     'Name' => $row['Name'],
                     'Leave1' => 0,
                     'Leave2' => 0,
+                    'Leave3' => 0,
                     'IDNo' => $row['IDNo'],
                 ];
             }
@@ -13546,6 +13548,9 @@ elseif($code==206)
                 $employeeData[$employeeId]['Leave1'] = $row['Balance'];
             } elseif ($row['LeaveType_Id'] == '2') {
                 $employeeData[$employeeId]['Leave2'] = $row['Balance'];
+            }
+            elseif ($row['LeaveType_Id'] == '26') {
+                $employeeData[$employeeId]['Leave3'] = $row['Balance'];
             }
         }
         
@@ -13556,6 +13561,7 @@ elseif($code==206)
                                 <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
+                                 <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
                                 <td>
                                     <div class="controls">
                                         <button type="button" class="edit-btn btn btn-primary btn-sm"
@@ -13589,6 +13595,7 @@ elseif($code==206)
                                 <th>Employee</th>
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
+                                 <th>Winter Vacation</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -13611,6 +13618,7 @@ elseif($code==206)
                    'Name' => $row['Name'],
                    'Leave1' => 0,
                    'Leave2' => 0,
+                   'Leave3' => 0,
                    'IDNo' => $row['IDNo'],
                ];
            }
@@ -13619,10 +13627,14 @@ elseif($code==206)
            } elseif ($row['LeaveType_Id'] == '2') {
                $employeeData[$employeeId]['Leave2'] = $row['Balance'];
            }
+           elseif ($row['LeaveType_Id'] == '26') {
+               $employeeData[$employeeId]['Leave3'] = $row['Balance'];
+           }
            else
 {
     $employeeData[$employeeId]['Leave2'] = '0';
     $employeeData[$employeeId]['Leave1'] = "0";
+    $employeeData[$employeeId]['Leave3'] = "0";
 }
        }
        
@@ -13633,6 +13645,7 @@ elseif($code==206)
                                 <td><b>(<?= $data['Name']; ?>)<?= $data['IDNo']; ?></b></td>
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
+                                <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
                                 <td>
                                     <div class="controls">
                                         <button type="button" class="edit-btn btn btn-primary  btn-sm"
@@ -13661,12 +13674,14 @@ elseif($code==206)
 $employeeId=$_POST['employeeId'];
 $leave1=$_POST['leave1'];
 $leave2=$_POST['leave2'];
+$leave3=$_POST['leave3'];
+
 $checkLeaveBlacne="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
  $existrow=sqlsrv_query($conntest,$checkLeaveBlacne,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $countblacne=sqlsrv_num_rows($existrow);
 if($countblacne>0)
 {
-$updateLeaveBalance="UPDATE LeaveBalances SET  Balance='$leave2'WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
+$updateLeaveBalance="UPDATE LeaveBalances SET  Balance='$leave2' WHERE Employee_Id='$employeeId' and LeaveType_Id='2' ";
 sqlsrv_query($conntest,$updateLeaveBalance);
 }
 else
@@ -13690,6 +13705,24 @@ sqlsrv_query($conntest,$updateLeaveBalance1);
 
 
 }
+
+$checkLeaveBlacne3="SELECT * FROM LeaveBalances WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+$existrow3=sqlsrv_query($conntest,$checkLeaveBlacne3,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$countblacne3=sqlsrv_num_rows($existrow3);
+if($countblacne3>0)
+{
+    $updateLeaveBalance1="UPDATE LeaveBalances SET  Balance='$leave3'WHERE Employee_Id='$employeeId' and LeaveType_Id='26' ";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+}
+else
+{
+   $updateLeaveBalance1="INSERT INTO LeaveBalances(Employee_Id,Balance,LeaveType_Id)values('$employeeId','$leave3','26')";
+sqlsrv_query($conntest,$updateLeaveBalance1);
+
+
+}
+
+
  }
 elseif($code==210)
 {
@@ -14573,7 +14606,7 @@ if($Recommend!='0' && $Authority!='0' && $Recommend!=NULL && $Authority!=NULL)
                                 </option>
                                 <?php
      }
-     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2'"; 
+     $sql_att2311="SELECT * FROM LeaveTypes where  Id!='1' and Id!='2' and Id!='26'"; 
      $stmt11 = sqlsrv_query($conntest,$sql_att2311);  
                  while($row11= sqlsrv_fetch_array($stmt11, SQLSRV_FETCH_ASSOC) )
                 {
