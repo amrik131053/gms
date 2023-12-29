@@ -18797,6 +18797,8 @@ $sr++;
    elseif ($code==273) 
    {
 
+    if($_POST['sub_data']!='1')
+{
 $College = $_POST['College'];
 $Course = $_POST['Course'];
   $Batch = $_POST['Batch'];
@@ -18840,6 +18842,16 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
  }
   $list_sql.= "ORDER BY ExamForm.Status ASC";
 
+}
+else{
+    $rollNo = $_POST['rollNo'];
+     $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
+     ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
+     ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'
+     and  Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' order by ExamForm.SemesterId ASC ";
+
+}
 ?>
 
 <table class="table table-bordered" id="example">
@@ -18879,7 +18891,7 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
                 }
                 if($Status==-1)
                 {
-                  $trColor="#D0EDFF";
+                  $trColor="#FED4FC";
 
                 }
                 elseif($Status==0)
@@ -18904,12 +18916,12 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
  elseif($Status==4)
                 {
                   
-                  $trColor="#9FC9EB";
+                  $trColor="#F3ED8F";
                 }
  elseif($Status==5)
                 {
                  
-                  $trColor="#9FCAF7";
+                  $trColor="#99FDEC";
                 }
 
  elseif($Status==6)
@@ -18926,6 +18938,10 @@ $list_sql.= "AND ExamForm.Sgroup='$Group'";
 elseif($Status==8)
                 {
                     $trColor="#CEEDB6";
+                }
+elseif($Status==22)
+                {
+                    $trColor="#FFC6C1";
                 }
                 ?>
                 <tr style="background-color:<?=$trColor;?>;font-size:14px;">
@@ -18957,7 +18973,7 @@ elseif($Status==8)
 
  if($Status==-1)
                 {
-                  echo "<b>Forward to Registration Branch</b>";
+                  echo "<b>Pending at Registration Branch</b>";
 
                 }
                  if($Status==22)

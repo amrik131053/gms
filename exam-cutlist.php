@@ -12,10 +12,17 @@
                     
                         <span class="mr-2"> <button class="btn btn-primary btn-sm"  style="background-color:#D0EDFF; color:black;" data-toggle="tooltip" ><span class="badge"   id="pendingCount"> </span> Pending</button> </span>
                         <span class="mr-2"> <button class="btn btn-danger btn-sm"  style="background-color:;" data-toggle="tooltip" > <span class="badge" id="rejectCount"> </span> Rejected</button> </span>
-                        <span class="mr-2"> <button class="btn  btn-sm " style="background-color:#F3ED8F;" data-toggle="tooltip" > <span class="badge" id="Forwardtodean"> </span> Forward to dean</button> </span>
-                        <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#9FC9EB;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Forward to account</button> </span>
+                        <span class=""> <button class="btn  btn-sm " style="background-color:#F3ED8F; display:none;" data-toggle="tooltip" > <span class="badge" id="Forwardtodean"> </span> Forward to dean</button> </span>
+                        <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#F3ED8F;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Forward to account</button> </span>
                         <span class="mr-2"> <button class="btn btn-success btn-sm "  style="" data-toggle="tooltip" > <span class="badge" id="Accepted"> </span> Accepted</button> </span>
-
+                        <span style="float:right;">
+      <button class="btn btn-sm ">
+         <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Search RollNo">
+      </button>
+            <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
+              Search
+            </button>
+      </span>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -160,6 +167,7 @@
                                
                                 
                             </div> -->
+                            
 
 
                         </div>
@@ -275,6 +283,29 @@ function fetchCutList() {
         ErrorToast('Please Select College', 'bg-warning');
     }
 }
+function searchStudentOnRollNo() {
+    var sub_data = 1;
+    var rollNo = document.getElementById('rollNo').value;
+    var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '273';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                code: code,
+                sub_data: sub_data,
+                rollNo: rollNo
+                
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                document.getElementById("show_record").innerHTML = data;
+
+            }
+        });
+  
+}
 function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -316,7 +347,7 @@ function sub_code_int_ext_type_update(id,fid) {
             success: function(response) {
                 // console.log(response);
                 spinner.style.display = 'none';
-                if (response == '1') {
+                if (response == 1) {
                     SuccessToast('Successfully Updated');
                     edit_stu(fid);
                   

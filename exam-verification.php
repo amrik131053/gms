@@ -397,7 +397,7 @@ function verify(ExamFromID)
             success: function(response) {
                 // console.log(response);
                 spinner.style.display = 'none';
-                if (response == '1') {
+                if (response == 1) {
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);
                     fetchCutList();
@@ -431,7 +431,7 @@ function reject(ExamFromID) {
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                if (response == '1') {
+                if (response == 1) {
                     SuccessToast('Successfully rejected');
                     edit_stu(ExamFromID);
                     fetchCutList();
