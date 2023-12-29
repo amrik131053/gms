@@ -173,7 +173,7 @@ function bg(id) {
 
 function search_study_scheme() {
     var code = 227;
-    
+
     var CollegeID = document.getElementById('College').value;
 
     var Course = document.getElementById('Course').value;
@@ -183,6 +183,8 @@ function search_study_scheme() {
     var semester = document.getElementById('semester').value;
 
     var group = document.getElementById('group').value;
+     var Department = document.getElementById('Department').value;
+    
 
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -195,6 +197,7 @@ function search_study_scheme() {
             Course: Course,
             Batch: batch,
             Group:group,
+            Department:Department,
             Semester: semester
         },
         success: function(response) {
@@ -797,11 +800,12 @@ function verifiy() {
             type: 'POST',
             success: function(data) {
                 spinner.style.display = 'none';
-                // console.log(data);
+                 console.log(data);
                 if (data == 1) {
                     SuccessToast('Successfully Verified');
                     search_study_scheme();
                 } else {
+
                     ErrorToast(' try Again', 'bg-danger');
 
                 }
