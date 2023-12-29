@@ -173,10 +173,17 @@ function bg(id) {
 
 function search_study_scheme() {
     var code = 227;
+    
     var CollegeID = document.getElementById('College').value;
+
     var Course = document.getElementById('Course').value;
+
     var batch = document.getElementById('batch').value;
+
     var semester = document.getElementById('semester').value;
+
+    var group = document.getElementById('group').value;
+
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -187,6 +194,7 @@ function search_study_scheme() {
             CollegeID: CollegeID,
             Course: Course,
             Batch: batch,
+            Group:group,
             Semester: semester
         },
         success: function(response) {
@@ -371,7 +379,7 @@ function fetchcourse() {
 
 }
 
-function Search() {
+function Search() { 
     // $('#'+id).toggleClass("bg-green");
 
     var code = 226;
