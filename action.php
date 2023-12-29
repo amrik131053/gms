@@ -14456,9 +14456,9 @@ $stmt2 = sqlsrv_query($conntest,$sql);
         </div>
         <?php }?>
            <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                 <label>College Name</label>
-                 <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control form-control-sm">
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);;" class="form-control form-control-sm">
                  <option value=''>Select Course</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID' ";
@@ -14473,6 +14473,13 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                         ?>
                </select> 
               </div>
+                <div class="col-lg-2">
+                                    <label>Department</label>
+                                    <select id="Department" name="Department" class="form-control form-control-sm"
+                                        onchange="fetchcourse()" required>
+                                        <option value=''>Select Department</option>
+                                    </select>
+                                </div>
               <div class="col-lg-2">
                  <label>Course</label>
                   <select  id="Course" class="form-control form-control-sm">
@@ -14491,7 +14498,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                                   ?>
                  </select>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
                  <label>Semester</label>
                       <select   id='semester' class="form-control form-control-sm">
                        <option value="">Sem</option>
@@ -14547,6 +14554,8 @@ elseif($code==227)
                   $Batch=$_POST['Batch'];
                   $Semester=$_POST['Semester'];
                   $Group=$_POST['Group'];
+                  $Department=$_POST['Department'];
+                
 ?>
                   <div class="col-lg-6 ">
                   <div class="card-header">
@@ -14566,7 +14575,7 @@ elseif($code==227)
                            </tr>
                      <?php 
 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Sgroup='$Group' and IsVerified='0'";
+                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Departmentid='$Department' and Sgroup='$Group' and IsVerified='0'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -14624,7 +14633,7 @@ elseif($code==227)
                               <th><input type="checkbox"  id="select_all1" onclick="verifiy_select();" ></th>
                            </tr>
                      <?php 
-                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Sgroup='$Group' and IsVerified=1";
+                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'and Departmentid='$Department' and Sgroup='$Group' and IsVerified=1";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_1=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -14993,7 +15002,7 @@ elseif($code==242)
    foreach($ids as $key => $id)
    {
       // echo $id;
-       $verified_study="UPDATE  MasterCourseStructure SET Isverified='1' WHERE SrNo='$id'";
+       $verified_study="UPDATE  MasterCourseStructure SET Isverified='1',VerifyDate='$timeStamp' WHERE SrNo='$id'";
          $verified_study_run=sqlsrv_query($conntest,$verified_study);  
 
    }
