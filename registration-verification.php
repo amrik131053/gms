@@ -289,6 +289,7 @@ function fetchCutList() {
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
+    if (College != '') {
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = '282';
@@ -314,12 +315,17 @@ function fetchCutList() {
 
             }
         });
+    } else {
+        ErrorToast('Please Select College', 'bg-warning');
+    }
   
 }
 
 function searchStudentOnRollNo() {
     var sub_data = 1;
     var rollNo = document.getElementById('rollNo').value;
+
+    if (rollNo != '') {
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = '282';
@@ -338,6 +344,9 @@ function searchStudentOnRollNo() {
 
             }
         });
+    } else {
+        ErrorToast('Please Enter RollNo', 'bg-warning');
+    }
   
 }
 function edit_stu(id) {
@@ -378,7 +387,7 @@ function exportCutListExcel() {
             Type + "&Status=" + Status + "&Examination=" + Examination, '_blank');
 
     } else {
-        alert("Select ");
+        ErrorToast('All Inputs Required ', 'bg-warning');
     }
 }
 
