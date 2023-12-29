@@ -14479,7 +14479,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
                  <label>Batch</label>
                    <select id="batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
@@ -14491,7 +14491,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                                   ?>
                  </select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
                  <label>Semester</label>
                       <select   id='semester' class="form-control form-control-sm">
                        <option value="">Sem</option>
@@ -14503,6 +14503,28 @@ $stmt2 = sqlsrv_query($conntest,$sql);
             ?>
             </select>
               </div>
+
+                <div class="col-lg-2">
+                 <label>Group</label>
+                      <select   id='group' class="form-control form-control-sm">
+                       <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $Sgroup = $row1['Sgroup'];  
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+?>
+            </select>
+              </div>
+
+
+
+
+
               <div class="col-lg-2">
                  <label>Action</label><br>
                  <button onclick="search_study_scheme();" class="btn btn-success btn-sm">Search</button>
@@ -14524,6 +14546,7 @@ elseif($code==227)
                   $Course=$_POST['Course'];
                   $Batch=$_POST['Batch'];
                   $Semester=$_POST['Semester'];
+                  $Group=$_POST['Group'];
 ?>
                   <div class="col-lg-6 ">
                   <div class="card-header">
@@ -14543,7 +14566,7 @@ elseif($code==227)
                            </tr>
                      <?php 
 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified='0'";
+                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Sgroup='$Group' and IsVerified='0'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -14601,7 +14624,7 @@ elseif($code==227)
                               <th><input type="checkbox"  id="select_all1" onclick="verifiy_select();" ></th>
                            </tr>
                      <?php 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and IsVerified=1";
+                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Sgroup='$Group' and IsVerified=1";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_1=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
