@@ -23,7 +23,7 @@ class CustomPDF extends FPDF {
         $this->SetFont('Arial', 'I', 8);
         $this->SetTextColor(128);
            $this->SetY(-12);
-        $this->Cell(0, 10, 'CL-Casual,CPL-Compansatory,OD-On Duty,BL-Bus Late,SC-Special Casual,DL-Duty,AC-Academic,SH-Second Half,FH-First Half', 0, 0, 'L');
+        $this->Cell(0, 10, 'CL-Casual,CPL-Compansatory,OD-On Duty,BL-Bus Late,SC-Special Casual,DL-Duty,AC-Academic,SH-Second Half,FH-First Half,WV-Winter Vacation ', 0, 0, 'L');
         $this->SetY(-12);
         $this->Cell(0, 10,'Printed on ' .$GLOBALS['timeStampS']. ' by '.$GLOBALS['EmployeeID'].'      Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'R');
         $this->SetY(-12);
@@ -68,7 +68,7 @@ $pdf-> Image('dist\img\naac-logo.jpg',260,4,30,10);
 
 
 // $sql_staff="select * from Staff where IDNo='170976'";
-$sql_staff="select Name,Department,CollegeName,IDNo from Staff where IDNo='$emp_codes[$i]'";
+$sql_staff="select Name,Department,CollegeName,IDNo from Staff where IDNo='$emp_codes[$i]' order by IDNo DESC";
 $stmt = sqlsrv_query($conntest,$sql_staff);  
             if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
             {
@@ -114,7 +114,7 @@ for ($at=0;$at<$no_of_dates;$at++)
     $HolidayName='';
 
    $start=$datee[$at];
-  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo'  ";
 
  $pdf->SetXY($X+10,$y+4.6);
 
@@ -183,7 +183,7 @@ $pdf->Cell(30,$Height,$printShortleave,1,'C');
 }
 else if ($HolidayName=='' && $printleave=='' && $intime=='' && $outtime=='' )
 {
-  $joiningdateab="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo'";
+  $joiningdateab="select * from  Staff where DateOfJoining<='$start 00:00:00' AND IDNo='$IDNo' order by IDNo ASC";
  $list_result_joinab = sqlsrv_query($conntest,$joiningdateab, array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 
       $row_count_joinab = sqlsrv_num_rows($list_result_joinab);  
