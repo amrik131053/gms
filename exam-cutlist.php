@@ -286,6 +286,8 @@ function fetchCutList() {
 function searchStudentOnRollNo() {
     var sub_data = 1;
     var rollNo = document.getElementById('rollNo').value;
+    if(rollNo!='')
+    {
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = '273';
@@ -304,6 +306,10 @@ function searchStudentOnRollNo() {
 
             }
         });
+    }
+    else{
+        ErrorToast('Please Enter RollNo', 'bg-warning');
+    }
   
 }
 function edit_stu(id) {
