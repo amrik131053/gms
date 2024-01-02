@@ -12832,6 +12832,30 @@ elseif($code=='198')
                         </select>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label> Shift </label>
+                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                            <select class="form-control" id="shift">
+                                           <?php 
+                                           $get_category="SELECT * FROM MasterShift ";
+                                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                                    {
+                                                ?>
+                                                                                            <option value="<?=$row_categort['Id'];?>">
+                                                                                                <?=$row_categort['ShiftName'];?></option>
+                                                                                            <?php 
+                                                }?>
+                                            </select>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
                 <div class="col-12 col-lg-3">
                     <div class="form-group">
                         <label>Permanent Address</label>
@@ -12900,8 +12924,9 @@ $Doj=$_POST['Doj'];
 $category=$_POST['category'];
 $Permanent=$_POST['Permanent'];
 $Correspondance=$_POST['Correspondance'];
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth');";
+$shift=$_POST['shift'];
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {

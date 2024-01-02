@@ -1401,7 +1401,8 @@ function addEmployee()
        var Doj=document.getElementById('Doj').value;
        var Permanent=document.getElementById('Permanent').value;
        var Correspondance=document.getElementById('Correspondance').value;
-       if (loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
+       var shift=document.getElementById('shift').value;
+       if ( loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
        {
        var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -1410,7 +1411,7 @@ function addEmployee()
                 type:'POST',
                 data:{code:code,loginId:loginId,Name:Name,designation:designation,College3:College3,Department3:Department3,
                   Dob:Dob,Gender:Gender,FatherName:FatherName,Conatct:Conatct,Mobile:Mobile,Email:Email,Doj:Doj,
-                  category:category,Permanent:Permanent,Correspondance:Correspondance},
+                  category:category,Permanent:Permanent,Correspondance:Correspondance,shift:shift},
                 success: function(response) 
                { 
                spinner.style.display='none';
@@ -1435,6 +1436,7 @@ function addEmployee()
        document.getElementById('Doj').value="";
        document.getElementById('Permanent').value="";
        document.getElementById('Correspondance').value="";
+       document.getElementById('shift').value="";
              
                }
          });
