@@ -83,7 +83,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 {
        include "connection/ftp.php";
 }
- if($code==94 ||  $code==319 || $code==320 ||$code==92 || $code==153  )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  )
 {
        include "connection/ftp-erp.php";
 }
@@ -3917,14 +3917,14 @@ else { ?>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Salary Decided</label>
                                             <input type="text" class="form-control" name="salary"
                                                 placeholder="Enter salary" value="<?=$row1['SalaryAtPresent'];?>">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Type of Employment</label>
 
@@ -3938,7 +3938,7 @@ else { ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Status of Employment</label>
                                             <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
@@ -3987,7 +3987,34 @@ else { ?>
                                             </select>
                                         </div>
                                     </div>
-
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Shift</label>
+                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                            <select class="form-control" name="shift">
+                                                <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
+                                                $getshiftRun=sqlsrv_query($conntest,$getShift);
+                                                if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
+           {
+           
+                                                ?>
+                                            <option value="<?=$row_shift['Id'];?>">
+                                                    <?=$row_shift['ShiftName'];?></option>
+                                         <?php
+                                         }  
+                                           $get_category="SELECT * FROM MasterShift ";
+           $get_category_run=sqlsrv_query($conntest,$get_category);
+           while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+           {
+      ?>
+                                                <option value="<?=$row_categort['Id'];?>">
+                                                    <?=$row_categort['ShiftName'];?></option>
+                                                <?php 
+      }?>
+                                            </select>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="col-lg-4 col-12">
                                         <div class="form-group">
@@ -6049,6 +6076,7 @@ elseif($code==94)
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
    $organisationID = $_POST["organisationName"];
+   $shiftID = $_POST["shift"];
 
  $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
                         $get_collegeRun=sqlsrv_query($conntest,$get_college);
@@ -6082,18 +6110,21 @@ elseif($code==94)
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
    if ($panCard) {
+    include "connection/ftp-erp.php";
       $panCardTmp = $_FILES["panCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
       $panrImageName="PanCard_".$loginId.$file_type;
    ftp_put($conn_id, "Images/Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
    }
    if ($aadharCard) {
+    include "connection/ftp-erp.php";
       $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
       $adharImageName="AadharCard_".$loginId.$file_type;
    ftp_put($conn_id, "Images/Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
    }
    if ($photo) {
+    include "connection/ftp-erp.php";
       $photoTmp = $_FILES["photo"]["tmp_name"];
 
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
@@ -6107,6 +6138,7 @@ $params = array($file_data, $loginId);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    }
    if ($signature) {
+    include "connection/ftp-erp.php";
       $signatureTmp = $_FILES["signature"]["tmp_name"];
   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
       $SignatureImageName="Signature".$loginId.$file_type;
@@ -6146,7 +6178,8 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority1', ";
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
-   $query .= "BankIFSC = '$bankIFSC' ";
+   $query .= "BankIFSC = '$bankIFSC', ";
+   $query .= "ShiftID = '$shiftID' ";
    $query .= "WHERE IDNo = '$loginId'";
  $query;
    if(sqlsrv_query($conntest,$query))
@@ -19316,7 +19349,7 @@ if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $
 
 <td colspan="5" style="text-align:right; font-size: 16px;">
 
-    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Farward to Account</button></p>
+    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Forward to Account</button></p>
 
     <!-- <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button> -->
 </td>
