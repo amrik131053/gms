@@ -6,25 +6,25 @@
 
   if($College!=''&& $Department!='')
   {       
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department'";
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' ANd DepartmentID='$Department' order by IDNo ASC";
 
 }
 else if($College!='')
 {
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College'";
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' AND  CollegeID='$College' order by IDNo ASC";
 
 
 
 }
 else
 {
-$sql_a="select Distinct IDNo from Staff  where jobStatus='1'";
+$sql_a="select Distinct IDNo from Staff  where jobStatus='1' order by IDNo ASC";
 
 }
 
 if($College!='')
 {
-	$getCollegeName="Select CollegeName FROM MasterCourseCodes Where  CollegeID='$College'";
+	$getCollegeName="Select CollegeName FROM MasterCourseCodes Where  CollegeID='$College' ";
 $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
 if($getCollegeNameRow=sqlsrv_fetch_array($getCollegeNameRun))
 {
