@@ -48,5 +48,6 @@ $stmt = sqlsrv_query($conntest,$sql_a);
          $emp_codes[]=$row_staff['IDNo'];
           }
 
- $no_of_emp=count($emp_codes);?>
+ $no_of_emp=count($emp_codes);
+ ?>
 

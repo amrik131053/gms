@@ -1,6 +1,16 @@
 <?php 
 $holidaycount=0;
 $print_shift='';
+
+$sql_staff_s="select ShiftID from Staff where IDNo='$IDNo' order by IDNo DESC";
+$stmt = sqlsrv_query($conntest,$sql_staff_s);  
+            if($row_staff_s = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+            {
+          
+             $ShiftID=$row_staff_s['ShiftID'];
+            }  
+
+
 $sql_holiday="Select * from  Holidays where HolidayDate  Between '$start 00:00:00.000' ANd  '$start 23:59:00.000'";
 $stmt = sqlsrv_query($conntest,$sql_holiday);  
             while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -168,7 +178,7 @@ else
             END AS Shift_End_Date       
 FROM        
  MadamShiftTime where StartDate <= '$start' AND
-            EndDate >= '$start' ANd Exception='1' ANd ShiftId='1'"; 
+            EndDate >= '$start' ANd Exception='1' ANd ShiftId='$ShiftID'"; 
 
 
 $stmt4 = sqlsrv_query($conntest,$sql_att234);  
@@ -194,7 +204,7 @@ $stmt4 = sqlsrv_query($conntest,$sql_att234);
 
 else
 {
-  $sql_att235="SELECT * FROM   MadamShiftTime Where ShiftId='1' ANd Exception='0' "; 
+  $sql_att235="SELECT * FROM   MadamShiftTime Where ShiftId='$ShiftID' ANd Exception='0' "; 
 
 
 $stmt4 = sqlsrv_query($conntest,$sql_att235);  
@@ -223,7 +233,8 @@ $stmt4 = sqlsrv_query($conntest,$sql_att235);
 
 }
 
-
+if($leavecount!=1)
+{
 if($intime!='' && $outtime!='' && ($outtime>$intime) )
 {
 
@@ -244,7 +255,7 @@ else if($myin>$fintime3 && $myin<=$fintime4)
 {
     $deducation=0.75;
 }
-else if($myin>$fintime4&& $myin<=$fintime5)
+else if($myin>$fintime4 && $myin<=$fintime5)
 {
    $deducation=1;  
 }
@@ -263,19 +274,20 @@ $deducationo=0;
 
 if($myout>=$fouttime2&& $myout<$fouttime1)
 {
-    $deducationo=0.25;
+
+   $deducationo=0.25;
 }
 else if($myout>=$fouttime3&& $myout<$fouttime2)
 {
-    $deducationo=0.50;
+  $deducationo=0.50;
 }
 
 else if($myout>=$fouttime4&& $myout<$fouttime3)
 {
-    $deducationo=0.75;
+   $deducationo=0.75;
 }
 
-else if($myout>=$fouttime5&& $myout<$fouttime4)
+else if($myout>=$fouttime5 && $myout<$fouttime4)
 {
     $deducationo=1;
 }
@@ -292,14 +304,23 @@ else
 {
   $deducationo=0;  
 }
+
  $totaldeduction=$deducation+$deducationo;
+
+}
+
+
+else
+{
+   $totaldeduction=1;  
+}
 
 }
 else
 {
-  $totaldeduction=1;  
-}
+$leavecount=1;
 
+}
 
 $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
 
