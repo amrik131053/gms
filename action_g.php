@@ -19315,7 +19315,7 @@ if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $
 
 <td colspan="5" style="text-align:right; font-size: 16px;">
 
-    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Farward to Account</button></p>
+    <button type="submit"  id="type" onclick="lock(<?=$formid;?>);" name="update" class="btn btn-success " >Forward to Account</button></p>
 
     <!-- <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button> -->
 </td>
