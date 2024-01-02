@@ -3917,14 +3917,14 @@ else { ?>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Salary Decided</label>
                                             <input type="text" class="form-control" name="salary"
                                                 placeholder="Enter salary" value="<?=$row1['SalaryAtPresent'];?>">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Type of Employment</label>
 
@@ -3938,7 +3938,7 @@ else { ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Status of Employment</label>
                                             <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
@@ -3987,7 +3987,34 @@ else { ?>
                                             </select>
                                         </div>
                                     </div>
-
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Shift</label>
+                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                            <select class="form-control" name="shift">
+                                                <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
+                                                $getshiftRun=sqlsrv_query($conntest,$getShift);
+                                                if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
+           {
+           
+                                                ?>
+                                            <option value="<?=$row_shift['Id'];?>">
+                                                    <?=$row_shift['ShiftName'];?></option>
+                                         <?php
+                                         }  
+                                           $get_category="SELECT * FROM MasterShift ";
+           $get_category_run=sqlsrv_query($conntest,$get_category);
+           while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+           {
+      ?>
+                                                <option value="<?=$row_categort['Id'];?>">
+                                                    <?=$row_categort['ShiftName'];?></option>
+                                                <?php 
+      }?>
+                                            </select>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="col-lg-4 col-12">
                                         <div class="form-group">
@@ -6049,6 +6076,7 @@ elseif($code==94)
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
    $organisationID = $_POST["organisationName"];
+   $shiftID = $_POST["shift"];
 
  $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
                         $get_collegeRun=sqlsrv_query($conntest,$get_college);
@@ -6146,7 +6174,8 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "LeaveSanctionAuthority = '$leaveSanctionAuthority1', ";
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
-   $query .= "BankIFSC = '$bankIFSC' ";
+   $query .= "BankIFSC = '$bankIFSC', ";
+   $query .= "ShiftID = '$shiftID' ";
    $query .= "WHERE IDNo = '$loginId'";
  $query;
    if(sqlsrv_query($conntest,$query))
