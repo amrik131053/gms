@@ -83,7 +83,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 {
        include "connection/ftp.php";
 }
- if($code==94 ||  $code==319 || $code==320 ||$code==92 || $code==153  )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  )
 {
        include "connection/ftp-erp.php";
 }
@@ -6110,18 +6110,21 @@ elseif($code==94)
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
    if ($panCard) {
+    include "connection/ftp-erp.php";
       $panCardTmp = $_FILES["panCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
       $panrImageName="PanCard_".$loginId.$file_type;
    ftp_put($conn_id, "Images/Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
    }
    if ($aadharCard) {
+    include "connection/ftp-erp.php";
       $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
       $adharImageName="AadharCard_".$loginId.$file_type;
    ftp_put($conn_id, "Images/Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
    }
    if ($photo) {
+    include "connection/ftp-erp.php";
       $photoTmp = $_FILES["photo"]["tmp_name"];
 
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
@@ -6135,6 +6138,7 @@ $params = array($file_data, $loginId);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    }
    if ($signature) {
+    include "connection/ftp-erp.php";
       $signatureTmp = $_FILES["signature"]["tmp_name"];
   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
       $SignatureImageName="Signature".$loginId.$file_type;
