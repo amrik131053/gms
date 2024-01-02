@@ -12838,6 +12838,7 @@ elseif($code=='198')
                                             <label> Shift </label>
                                             <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
                                             <select class="form-control" id="shift">
+                                            <option value="">Select</option>
                                            <?php 
                                            $get_category="SELECT * FROM MasterShift ";
                                                     $get_category_run=sqlsrv_query($conntest,$get_category);

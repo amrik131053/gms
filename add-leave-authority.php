@@ -1402,7 +1402,7 @@ function addEmployee()
        var Permanent=document.getElementById('Permanent').value;
        var Correspondance=document.getElementById('Correspondance').value;
        var shift=document.getElementById('shift').value;
-       if ( loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
+       if (shift!='' && loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
        {
        var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
