@@ -19126,6 +19126,7 @@ elseif($code==274)
              $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
+             $Semester=$row5['Semesterid'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -19203,7 +19204,16 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
  <div class="card-body table-responsive">
 
+ <table class="table" style="border:1px solid black" >
+ <tr>
+ <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
+<td colspan="5"><h5><b>Examination: <?=$CurrentExamination;?></b></h5></td>
+<td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
+        </tr>
+        </table>
+        <br>
  <table class="table"  style="border:1px solid black">
+
  <tr>
  <td style="padding-left: 10px"><b>Rollno: </b></td>
 
@@ -19211,7 +19221,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td ><b>Name:</b> </td>
  <td colspan="4"><?=$name;?></td>
 
- <td  rowspan="3" >
+ <td  rowspan="2" >
  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
@@ -19220,14 +19230,15 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <td ><?php echo $college;?></td>
    <td><b>Course:</b></td>
    <td colspan="4"><?=$course;?></td>
- </tr>
- <tr >
-   <td style="padding-left: 10px"><b>Examination :</b></td>
-   <td  colspan="1">
-   <?=$examination;?> </td>
-   <td colspan="1"><b>Type:</b></td>
-   <td colspan="4">
-   <?=$type;?></td>
+</tr>
+<tr >
+    
+   <td  colspan="2"><b>Batch :</b><?=$batch;?> </td>
+   <td  colspan="2"><b>Sem :</b><?=$Semester;?>(<?=$type;?>) </td>
+   <td  colspan="5"><b>SGrpup :</b><?=$sgroup;?></td>
+   
+   
+ 
    </tr>
  </table>
 
