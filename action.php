@@ -12669,11 +12669,12 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          $s_counter++;         
          }
 
-       $receipt_date=   date("Y-m-d");
+       //$receipt_date=   date("Y-m-d ");
+       //$timeStampS
 
    $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
 
-   VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$receipt_date','0','$receipt_date','$receipt_date','$receipt_date','0','$receipt_date','$receipt_date','$semester')";
+   VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','NA','$examination','$Status','$timeStampS','0','$timeStampS','$timeStampS','$timeStampS','0','$timeStampS','$timeStampS','$semester')";
 
 $stmt = sqlsrv_query($conntest,$query);
 if( $stmt === false) {
