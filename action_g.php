@@ -23433,6 +23433,950 @@ $Accepeted=sqlsrv_num_rows($getleftTotal_run);
  echo json_encode($count);
 
 }
+
+
+elseif ($code==338) 
+{
+
+ if($_POST['sub_data']!='1')
+{
+
+     $Session = $_POST['Session'];
+     $Status = $_POST['Status'];
+     if($Status=='All')
+     {
+
+         $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where  Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
+     }
+     else{
+
+         $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='$Status' and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
+     }
+}
+else{
+ $rollNo = $_POST['rollNo'];
+ $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='$Status'
+  and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and
+ (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+
+}
+?>
+
+<table class="table table-bordered" id="example">
+                             <thead>
+                                 <tr style='font-size:14px;'>
+                                 <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" ></th>
+                                     <th>Srno</th>
+                                     <th>Uni Roll No</th>
+                                     <th>Name</th>
+                                     <th>Father Name</th>
+                                     <th>Route</th>
+                                     <th>Spot</th>
+                                     <th>Status</th>
+                                     <th >Action</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+<?php
+             $list_result = sqlsrv_query($conntest,$list_sql);
+                 $count = 1;
+            if($list_result === false)
+             {
+            die( print_r( sqlsrv_errors(), true) );
+            }
+             while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                {
+             $Status= $row['p_status'];
+             if($row['SubmitDate']!='')
+             {
+
+                 $issueDate=$row['SubmitDate']->format('d-m-Y');
+             }
+             else{
+                 $issueDate="";
+             }
+             if($Status==0)
+             {
+               $trColor="#FED4FC";
+
+             }
+             elseif($Status==1)
+             {
+                 $trColor="#D0EDFF";
+             }elseif($Status==2)
+             {
+                 $trColor="#FFC6C1";
+             }
+
+             elseif($Status==3)
+             {
+              
+               $trColor="";
+             }
+              elseif($Status==4)
+             {
+               
+               $trColor="#FFC6C1";
+             }
+
+elseif($Status==5)
+             {
+               
+               $trColor="#F3ED8F";
+             }
+elseif($Status==6)
+             {
+              
+               $trColor="#CEEDB6";
+             }
+
+             ?>
+             <tr style="background-color:<?=$trColor;?>;font-size:14px;">
+             <td><?php if($Status=='6'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
+             <td><?= $count++;?></td>
+           
+             
+             <td>
+             <a href="" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+          </td>
+          <td>
+          <a href="" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
+                </td>
+          <td>
+         <?=$row['FatherName'];?></td>
+         <td>
+         <?=$row['route'];?></td>
+         <td>
+         <?=$row['spot'];?></td>
+        
+         
+             <td ><?php 
+
+if($Status==0)
+             {
+               echo "<b>Pending Receipt No</b>";
+
+             }
+              if($Status==1)
+             {
+               echo "<b>Pending</b>";
+
+             }
+             elseif($Status==2)
+             {
+               echo "<b>Rejected by IT</b>";
+             }elseif($Status==3)
+             {
+               echo '<b>Forward to Account</b>';
+             }
+
+             elseif($Status==4)
+             {
+               echo "<b style='color:red'>Rejected By Account</b>";
+             }
+              elseif($Status==5)
+             {
+               echo "<b>Verified By Account</b>";
+             }
+
+elseif($Status==6)
+             {
+               echo '<b>Printed</b>';
+             }
+   ?>        
+
+            </td>
+             
+           
+
+       <td>
+         
+
+<!-- <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['SerialNo'];?>)" style="color:red"></i> -->
+<i class="fa fa-eye fa-lg" data-toggle="modal"  data-target=".bd-example-modal-xl" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:green"></i>&nbsp;&nbsp;
+<?php 
+if($Status==6)
+{?>
+<form action="print-exam-form-cutlist.php" method="post" target="_blank">
+ <input type="hidden" name="ID" value="<?=$row['SerialNo'];?>">
+<button type='submit' class="btn btn-sm"><i class="fa fa-print fa-lg text-primary" ></i></button>
+</form>
+
+<?php }?>
+
+
+         </td>
+            </tr>
+        <?php 
+         }?>
+ <tr>
+            <td colspan="10"> <button type="submit" id="type" onclick="printAll();" name="update" class="btn btn-success " style="float:right;">Print</button></td>
+         </tr>
+         </tbody>
+     </table>
+         <?php
+
+}
+elseif($code==339)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT * from StudentBusPassGKU inner join TBM_BusRootMaster ON  TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id Where  StudentBusPassGKU.SerialNo='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $receipt_date=$row5['receipt_date'];
+             $acverify_date=$row5['acverify_date'];
+             $print_date=$row5['print_date'];
+             $session=$row5['session'];
+             $SerialNo=$row5['SerialNo'];
+             $amount=$row5['amount'];
+             $spot=$row5['spot'];
+             $RouteName=$row5['RouteName'];
+             $Incharge=$row5['Incharge'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+
+            if($row5['receipt_date']!=''){ $FormSubmitDate=$row5['receipt_date']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+             if($row5['acverify_date']!=''){$acverify_date=$row5['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";}
+            if($row5['print_date']!=''){$print_date=$row5['print_date']->format('d-m-Y H:i:s');}else{$print_date="";}
+            if($row5['SubmitDate']!=''){$SubmitDate=$row5['SubmitDate']->format('d-m-Y H:i:s');}else{$SubmitDate="";}
+
+            $Status=$row5['p_status'];
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+?>
+
+
+
+ <div class="card-body table-responsive">
+
+ <table class="table" style="border:1px solid black" >
+ <tr>
+ <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
+<td colspan="5"><h5><b>Session: <?=$session;?></b></h5></td>
+<td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
+        </tr>
+        </table>
+        <br>
+ <table class="table"  style="border:1px solid black">
+
+ <tr>
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+
+ <td  rowspan="2" >
+ <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ </td>
+ </tr>
+ <tr>
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td ><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+</tr>
+ <tr>
+   <td colspan="4" ><b>Route:</b>&nbsp;&nbsp;<?php echo $RouteName;?></td>
+   <td colspan="4"><b>Spot:</b><?=$spot;?></td>
+</tr>
+ <tr>
+   <td colspan="4"><b>Incharge:</b>&nbsp;&nbsp;<?php echo $Incharge;?></td>
+   <td colspan="4"><b>Ammount:</b>&nbsp;&nbsp;<?=$amount;?></td>
+</tr>
+
+ </table>
+<br>
+
+
+         <table class="table"  style="border:1px solid black">
+
+            <tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;"> <b>Bus Pass Submission Detail(By Student)</b></p>
+
+    <h6>Bus Pass is  Submitted  by the student on Dated :  <?=$SubmitDate;?></h6> </td>
+</tr>
+
+
+
+         
+
+
+<?php
+ if($Status>1 && $Status!='2') 
+{?>
+<tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By IT Department)</b></p>
+
+    <h6>Form is successfully verified by IT Department  on Dated : <?=$print_date;?></h6> </td>
+</tr>
+
+
+<?php 
+}
+else if ($Status==2)
+{
+?>
+<tr>
+    <td colspan="5" style='font-size: 16px;'>
+
+ <p style="color: red;text-align: center;"> <b>Form Reject Detail(By IT Department)</b></p>
+
+        <h6>Rejected By IT Department </h6></td>
+</tr>
+
+<?php
+
+
+}
+
+?>
+
+</tr>
+
+<?php if($Status>3 && $Status!=4)
+{?>
+    <tr>
+    <td colspan="5">
+<p style="color: green;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Account)</b></p>
+
+
+<h6>Pass is successfully verified by Account Department  on Dated : <?=$acverify_date;?></h6> </td>
+     
+</tr>
+
+<?php }?>
+
+
+<?php if($Status==5)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6><b>Forward to IT By Account</b></h6></td>
+</tr>
+
+
+<?php }?>
+
+<?php 
+if($Status==6)
+{ ?>
+
+<tr>
+    <td colspan="5" style="text-align: center;font-size: 16px;">
+
+
+       <p style="color: green;"> <b>Printed</b></p>
+
+
+</tr>
+
+
+<?php 
+}
+
+?>    <tr>
+<?php if($Status==1 )
+{ ?>
+
+<td colspan="5">
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockIT(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <button type="submit"  id="type" onclick="RejectIT(<?=$SerialNo;?>);" name="update" class="btn btn-danger " >Reject</button>
+    </center>
+    <?php
+
+};?>
+
+</td>
+<?php if($Status==3 )
+{ ?>
+
+<td colspan="5">
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <button type="submit"  id="type" onclick="RejectAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <?php };?>
+</center>
+</td>
+</tr>
+
+</table>
+</div>
+
+
+
+
+         <?php 
+   }
+
+   else if($code==340)
+{
+    $ID=$_POST['ID'];
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='3' and itverifydate='$timeStamp' Where SerialNo='$ID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
+else if($code==341)
+{
+    $ID=$_POST['ID'];
+    $remarks=$_POST['remarks'];
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' and itrejectdate='$timeStamp' and itreason='$remarks' Where SerialNo='$ID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
+   else if($code==342)
+{
+    $ID=$_POST['ID'];
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='5' and acverify_date='$timeStamp' Where SerialNo='$ID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
+else if($code==343)
+{
+    $ID=$_POST['ID'];
+    $remarks=$_POST['remarks'];
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' and acrejectdate='$timeStamp' and ac_reason='$remarks' Where SerialNo='$ID'";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+
+}
+
+
+elseif ($code==344) 
+{
+
+ if($_POST['sub_data']!='1')
+{
+
+     $Session = $_POST['Session'];
+$list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='3' and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
+}
+else{
+ $rollNo = $_POST['rollNo'];
+ $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='3'
+  and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and
+ (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+
+}
+?>
+
+<table class="table table-bordered" id="example">
+                             <thead>
+                                 <tr style='font-size:14px;'>
+                                     <th>#</th>
+                                     <th>Uni Roll No</th>
+                                     <th>Name</th>
+                                     <th>Father Name</th>
+                                     <th>Route</th>
+                                     <th>Spot</th>
+                                    
+                                    
+                                     <th>Status</th>
+                                     <th >Action</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+<?php
+             $list_result = sqlsrv_query($conntest,$list_sql);
+                 $count = 1;
+            if($list_result === false)
+             {
+            die( print_r( sqlsrv_errors(), true) );
+            }
+             while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                {
+             $Status= $row['p_status'];
+             if($row['SubmitDate']!='')
+             {
+
+                 $issueDate=$row['SubmitDate']->format('d-m-Y');
+             }
+             else{
+                 $issueDate="";
+             }
+             if($Status==0)
+             {
+               $trColor="#FED4FC";
+
+             }
+             elseif($Status==1)
+             {
+                 $trColor="#D0EDFF";
+             }elseif($Status==2)
+             {
+                 $trColor="#FFC6C1";
+             }
+
+             elseif($Status==3)
+             {
+              
+               $trColor="";
+             }
+              elseif($Status==4)
+             {
+               
+               $trColor="#FFC6C1";
+             }
+
+elseif($Status==5)
+             {
+               
+               $trColor="#F3ED8F";
+             }
+elseif($Status==6)
+             {
+              
+               $trColor="#CEEDB6";
+             }
+
+             ?>
+             <tr style="background-color:<?=$trColor;?>;font-size:14px;">
+             <td><?= $count++;?></td>
+           
+             
+             <td>
+             <a href="" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+          </td>
+          <td>
+          <a href="" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
+                </td>
+          <td>
+         <?=$row['FatherName'];?></td>
+         <td>
+         <?=$row['route'];?></td>
+         <td>
+         <?=$row['spot'];?></td>
+        
+         
+             <td ><?php 
+
+if($Status==0)
+             {
+               echo "<b>Pending Receipt No</b>";
+
+             }
+              if($Status==1)
+             {
+               echo "<b>Pending</b>";
+
+             }
+             elseif($Status==2)
+             {
+               echo "<b>Rejected by IT</b>";
+             }elseif($Status==3)
+             {
+               echo '<b>Forward to Account</b>';
+             }
+
+             elseif($Status==4)
+             {
+               echo "<b style='color:red'>Rejected By Account</b>";
+             }
+              elseif($Status==5)
+             {
+               echo "<b>Verified By Account</b>";
+             }
+
+elseif($Status==6)
+             {
+               echo '<b>Printed</b>';
+             }
+   ?>        
+
+            </td>
+             
+           
+
+       <td>
+         
+
+<!-- <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['SerialNo'];?>)" style="color:red"></i> -->
+<i class="fa fa-eye fa-lg" data-toggle="modal"  data-target=".bd-example-modal-xl" onclick="edit_stu(<?= $row['SerialNo'];?>)" style="color:green"></i>&nbsp;&nbsp;
+<?php 
+if($Status==8)
+{?>
+<form action="print-exam-form-cutlist.php" method="post" target="_blank">
+ <input type="hidden" name="ID" value="<?=$row['SerialNo'];?>">
+<button type='submit' class="btn btn-sm"><i class="fa fa-print fa-lg text-primary" ></i></button>
+</form>
+
+<?php }?>
+
+
+         </td>
+            </tr>
+        <?php 
+         }?>
+
+         </tbody>
+     </table>
+         <?php
+
+}
+
+
+elseif($code==345)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT * from StudentBusPassGKU inner join TBM_BusRootMaster ON  TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id Where  StudentBusPassGKU.SerialNo='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $receipt_date=$row5['receipt_date'];
+             $itreason=$row5['itreason'];
+             $acverify_date=$row5['acverify_date'];
+             $print_date=$row5['print_date'];
+             $session=$row5['session'];
+             $SerialNo=$row5['SerialNo'];
+             $amount=$row5['amount'];
+             $spot=$row5['spot'];
+             $RouteName=$row5['RouteName'];
+             $Incharge=$row5['Incharge'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+
+
+
+            if($row5['receipt_date']!=''){ $FormSubmitDate=$row5['receipt_date']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+
+             if($row5['acverify_date']!=''){$acverify_date=$row5['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";}
+
+            if($row5['print_date']!=''){$print_date=$row5['print_date']->format('d-m-Y H:i:s');}else{$print_date="";}
+            if($row5['SubmitDate']!=''){$SubmitDate=$row5['SubmitDate']->format('d-m-Y H:i:s');}else{$SubmitDate="";}
+            if($row5['itverifydate']!=''){$itverifydate=$row5['itverifydate']->format('d-m-Y H:i:s');}else{$itverifydate="";}
+            if($row5['ac_reason']!=''){$ac_reason=$row5['ac_reason']->format('d-m-Y H:i:s');}else{$ac_reason="";}
+            if($row5['acverify_date']!=''){$acverify_date=$row5['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";}
+            
+            
+    
+        
+
+            $Status=$row5['p_status'];
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+?>
+
+
+
+ <div class="card-body table-responsive">
+
+ <table class="table" style="border:1px solid black" >
+ <tr>
+ <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
+<td colspan="5"><h5><b>Session: <?=$session;?></b></h5></td>
+<td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
+        </tr>
+        </table>
+        <br>
+ <table class="table"  style="border:1px solid black">
+
+ <tr>
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+
+ <td  rowspan="2" >
+ <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ </td>
+ </tr>
+ <tr>
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td ><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+</tr>
+ <tr>
+   <td colspan="4" ><b>Route:</b>&nbsp;&nbsp;<?php echo $RouteName;?></td>
+   <td colspan="4"><b>Spot:</b><?=$spot;?></td>
+</tr>
+ <tr>
+   <td colspan="4"><b>Incharge:</b>&nbsp;&nbsp;<?php echo $Incharge;?></td>
+   <td colspan="4"><b>Ammount:</b>&nbsp;&nbsp;<?=$amount;?></td>
+</tr>
+
+ </table>
+<br>
+
+
+         <table class="table"  style="border:1px solid black">
+
+            <tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;"> <b>Bus Pass Submission Detail(By Student)</b></p>
+
+    <h6>Bus Pass is  Submitted  by the student on Dated :  <?=$SubmitDate;?></h6> </td>
+</tr>
+
+
+
+         
+
+
+<?php
+ if($Status>1 && $Status!='2') 
+{?>
+<tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By IT Department)</b></p>
+
+    <h6>Form is successfully verified by IT Department  on Dated : <?=$itverifydate;?></h6> </td>
+</tr>
+
+
+<?php 
+}
+else if ($Status==2)
+{
+?>
+<tr>
+    <td colspan="5" style='font-size: 16px;'>
+
+ <p style="color: red;text-align: center;"> <b>Form Reject Detail(By IT Department)</b></p>
+
+        <h6>Rejected By IT Department Due to <?=$itreason;?></h6>on: <?=$itverifydate;?></td>
+</tr>
+
+<?php
+
+
+}
+
+?>
+
+</tr>
+
+<?php if($Status>3 && $Status!=4)
+{?>
+    <tr>
+    <td colspan="5">
+<p style="color: green;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Account)</b></p>
+
+
+<h6>Pass is successfully verified by Account Department  on Dated : <?=$acverify_date;?></h6> </td>
+     
+</tr>
+
+<?php }
+
+else if ($Status==2)
+{
+?>
+<tr>
+    <td colspan="5" style='font-size: 16px;'>
+
+ <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Account)</b></p>
+
+        <h6>Rejected By  Account Due to <?=$ac_reason;?></h6>on: <?=$acverify_date;?></td>
+</tr>
+
+<?php
+
+
+}
+if($Status==5)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6><b>Forward to IT By Account</b></h6></td>
+</tr>
+
+
+<?php }?>
+
+<?php 
+if($Status==6)
+{ ?>
+
+<tr>
+    <td colspan="5" style="text-align: center;font-size: 16px;">
+
+
+       <p style="color: green;"> <b>Printed</b></p>
+
+
+</tr>
+
+
+<?php 
+}
+
+?>    <tr>
+<?php if($Status==3 )
+{ ?>
+
+<td colspan="5">
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <button type="submit"  id="type" onclick="RejectAC(<?=$SerialNo;?>);" name="update" class="btn btn-danger " >Reject</button>
+    <?php };?>
+</center>
+</td>
+</tr>
+
+</table>
+</div>
+
+
+
+
+         <?php 
+   }
+   elseif($code==346)
+   {
+   $count=array(); 
+   
+   $Session = $_POST['Session'];
+   
+    $list_sql="SELECT * FROM StudentBusPassGKU  WHERE p_status='1'  ANd session='$Session'";
+      $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $Pending=sqlsrv_num_rows($list_sql_run);
+
+      $list_sqlRejected="SELECT * FROM StudentBusPassGKU  WHERE p_status='2'  ANd session='$Session'";
+        $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+        $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
+
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status='3'  ANd session='$Session' ";
+            $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
+
+            $list_sqlAccepted="SELECT * FROM StudentBusPassGKU  WHERE p_status='6'  ANd session='$Session'";
+              $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+              $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
+        
+   
+      $count[0]=$Pending;
+      $count[1]=$Rejeted;
+      $count[2]=$ForwardToAccount;
+      $count[3]=$Accepted;
+    echo json_encode($count);
+   
+   }
+   elseif($code==347)
+   {
+   $count=array(); 
+   
+   $Session = $_POST['Session'];
+   
+    $list_sql="SELECT * FROM StudentBusPassGKU  WHERE p_status='3'  ANd session='$Session'";
+      $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $Pending=sqlsrv_num_rows($list_sql_run);
+
+      $list_sqlRejected="SELECT * FROM StudentBusPassGKU  WHERE p_status='4'  ANd session='$Session'";
+        $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+        $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
+
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status='5'  ANd session='$Session' ";
+            $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
+
+            // $list_sqlAccepted="SELECT * FROM StudentBusPassGKU  WHERE p_status='6'  ANd session='$Session'";
+            //   $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            //   $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
+        
+   
+      $count[0]=$Pending;
+      $count[1]=$Rejeted;
+      $count[2]=$ForwardToAccount;
+    //   $count[3]=$Accepted;
+    echo json_encode($count);
+   
+   }
    else
    {
    
