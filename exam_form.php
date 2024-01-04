@@ -600,14 +600,21 @@ $(document).ready(function(e) { // image upload form submit
             success: function(data) {
                 console.log(data);
                 spinner.style.display = 'none';
-                if (data == '1') {
+                if (data==1) {
                     SuccessToast('Successfully Uploaded');
                     $('#exampleModal_upload').modal('hide');
                     //search_exam_form();
 
-                } else {
-
+                } 
+                else if(data==0)
+                {
                     ErrorToast('Invalid CSV File ', 'bg-danger');
+                    
+                }
+
+                    else {
+ ErrorToast('Already Exist', 'bg-warning');
+                    
                 }
             },
         });

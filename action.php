@@ -12616,7 +12616,7 @@ elseif($Status==8)
 
    elseif($code==203)
    {
-   $type=$_POST['type']; 
+    $type=$_POST['type']; 
    $sem=$_POST['sem']; 
    $examination=$_POST['month'];
    $Status=$_POST['Status'];
@@ -12631,9 +12631,9 @@ elseif($Status==8)
   {
 
    if($c>0)
-
    {
-  $univ_rollno = $filesop[0];
+
+   $univ_rollno = $filesop[0];
 
    if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
  } elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
@@ -12643,7 +12643,9 @@ unset($subject);
 unset($SubjectCode);
 unset($SubjectType);
 
- $sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno'";
+
+
+$sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where UniRollNo='$univ_rollno' or ClassRollNo='$univ_rollno'";
 $stmt1 = sqlsrv_query($conntest,$sql);
 
         if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -12654,6 +12656,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $college = $row['CollegeName'];
             $CourseID=$row['CourseID'];
             $CollegeID=$row['CollegeID'];
+         
+
           }
 
  $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
@@ -12669,8 +12673,23 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          $s_counter++;         
          }
 
-       //$receipt_date=   date("Y-m-d ");
-       //$timeStampS
+  
+
+ $sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
+
+   $examFormAccepted_run12=sqlsrv_query($conntest,$sqlcheck,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+                        $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12);
+
+
+        if($countExamFormNotApply>0)
+         {
+
+ echo "3";
+
+          }  
+else
+{
 
    $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
 
@@ -12707,7 +12726,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
 
       $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
-          VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$receipt_date','0','$receipt_date','$total','$examination','$semester','$type')";
+          VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$timeStampS','0','$timeStampS','$total','$examination','$semester','$type')";
       $stmt2 = sqlsrv_query($conntest,$query1);
 
 
@@ -12733,13 +12752,15 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
-//$update_query=mysqli_query($conn,$update1);
+
      }
-         $c++;
+         
+
 
    }
+   $c++;
 
-
+}
 }
    elseif($code==204)
    {
