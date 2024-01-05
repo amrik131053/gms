@@ -23446,7 +23446,8 @@ elseif ($code==338)
      if($Status=='All')
      {
 
-         $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where  Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
+         $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where  Admissions.Status='1' and
+          StudentBusPassGKU.Session='$Session' ";
      }
      else{
 
@@ -23511,7 +23512,7 @@ else{
              elseif($Status==3)
              {
               
-               $trColor="";
+               $trColor="#F3ED8F";
              }
               elseif($Status==4)
              {
@@ -23532,7 +23533,7 @@ elseif($Status==6)
 
              ?>
              <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-             <td><?php if($Status=='6'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
+             <td><?php if($Status=='5'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
              <td><?= $count++;?></td>
            
              
@@ -23576,7 +23577,7 @@ if($Status==0)
              }
               elseif($Status==5)
              {
-               echo "<b>Verified By Account</b>";
+               echo "<b>Ready To Printing</b>";
              }
 
 elseif($Status==6)
@@ -23635,6 +23636,9 @@ elseif($code==339)
              $spot=$row5['spot'];
              $RouteName=$row5['RouteName'];
              $Incharge=$row5['Incharge'];
+             $itreason=$row5['itreason'];
+             $ac_reason=$row5['ac_reason'];
+           
              if($receipt_date!='')
              {
               $rdateas=$receipt_date->format('Y-m-d');}
@@ -23644,9 +23648,13 @@ elseif($code==339)
             } 
 
             if($row5['receipt_date']!=''){ $FormSubmitDate=$row5['receipt_date']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+            if($row5['itverifydate']!=''){ $itverifydate=$row5['itverifydate']->format('d-m-Y H:i:s'); }else {$itverifydate="";}
              if($row5['acverify_date']!=''){$acverify_date=$row5['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";}
             if($row5['print_date']!=''){$print_date=$row5['print_date']->format('d-m-Y H:i:s');}else{$print_date="";}
             if($row5['SubmitDate']!=''){$SubmitDate=$row5['SubmitDate']->format('d-m-Y H:i:s');}else{$SubmitDate="";}
+            if($row5['Itrejectdate']!=''){$Itrejectdate=$row5['Itrejectdate']->format('d-m-Y H:i:s');}else{$Itrejectdate="";}
+            if($row5['acrejectdate']!=''){$acrejectdate=$row5['acrejectdate']->format('d-m-Y H:i:s');}else{$acrejectdate="";}
+            
 
             $Status=$row5['p_status'];
        }
@@ -23738,7 +23746,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <td colspan="5">
     <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By IT Department)</b></p>
 
-    <h6>Form is successfully verified by IT Department  on Dated : <?=$print_date;?></h6> </td>
+    <h6>Form is successfully verified by IT Department  on Dated : <?=$itverifydate;?></h6> </td>
 </tr>
 
 
@@ -23752,7 +23760,7 @@ else if ($Status==2)
 
  <p style="color: red;text-align: center;"> <b>Form Reject Detail(By IT Department)</b></p>
 
-        <h6>Rejected By IT Department </h6></td>
+        <h6>Rejected By IT Department due to <b><u><?=$itreason;?></u></b>  on Dated : <?=$Itrejectdate;?></h6></td>
 </tr>
 
 <?php
@@ -23761,8 +23769,6 @@ else if ($Status==2)
 }
 
 ?>
-
-</tr>
 
 <?php if($Status>3 && $Status!=4)
 {?>
@@ -23782,7 +23788,25 @@ else if ($Status==2)
 { ?>
 
 <tr>
-    <td colspan="5" style="color: red;text-align: center;font-size: 16px;"><h6><b>Forward to IT By Account</b></h6></td>
+    <td colspan="5" style="color: green;text-align: center;font-size: 20px;"><h6><b>Ready To Print</b></h6></td>
+</tr>
+
+
+<?php }?>
+<?php if($Status==4)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: red;text-align: center;font-size: 20px;"><h6>Rejected By Account Department due <b><u><?=$ac_reason;?></u></b>  on Dated : <?=$acrejectdate;?></h6></td>
+</tr>
+
+
+<?php }?>
+<?php if($Status==3)
+{ ?>
+
+<tr>
+    <td colspan="5" style="color: blue;text-align: center;font-size: 20px;"><h6><b>Forward to Account Department</b></h6></td>
 </tr>
 
 
@@ -23796,7 +23820,7 @@ if($Status==6)
     <td colspan="5" style="text-align: center;font-size: 16px;">
 
 
-       <p style="color: green;"> <b>Printed</b></p>
+       <p style="color: green; font-size: 20px;"> <b>Printed</b></p>
 
 
 </tr>
@@ -23822,6 +23846,25 @@ if($Status==6)
 };?>
 
 </td>
+
+</tr>
+<tr>
+<?php if($Status==2)
+{ ?>
+
+<td colspan="5">
+<center>
+    <button type="submit"  id="type" onclick="lockIT(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+
+    </center>
+    <?php
+
+};?>
+
+</td>
+
+</tr>
+<tr>
 <?php if($Status==3 )
 { ?>
 
@@ -23830,11 +23873,15 @@ if($Status==6)
     <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
                                     a value minimum 5 characters.</small><br>
 <center>
-    <button type="submit"  id="type" onclick="lockAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
-    <button type="submit"  id="type" onclick="RejectAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
-    <?php };?>
-</center>
+    <!-- <button type="submit"  id="type" onclick="lockIT(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button> -->
+    <button type="submit"  id="type" onclick="RejectIT(<?=$SerialNo;?>);" name="update" class="btn btn-danger " >Reject</button>
+    </center>
+    <?php
+
+};?>
+
 </td>
+
 </tr>
 
 </table>
@@ -23849,7 +23896,7 @@ if($Status==6)
    else if($code==340)
 {
     $ID=$_POST['ID'];
-      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='3' and itverifydate='$timeStamp' Where SerialNo='$ID'";
+       $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='3' , itverifydate='$timeStamp' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
@@ -23858,13 +23905,18 @@ if($getDefalutMenuRun==true)
 else{
     echo "0";
 }
+// if ($getDefalutMenuRun === false) {
+//     $errors = sqlsrv_errors();
+//     echo "Error: " . print_r($errors, true);
+//     // echo "0";
+// } 
 
 }
 else if($code==341)
 {
     $ID=$_POST['ID'];
     $remarks=$_POST['remarks'];
-      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' and itrejectdate='$timeStamp' and itreason='$remarks' Where SerialNo='$ID'";
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='2' , Itrejectdate='$timeStamp' , itreason='$remarks' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
@@ -23878,7 +23930,7 @@ else{
    else if($code==342)
 {
     $ID=$_POST['ID'];
-      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='5' and acverify_date='$timeStamp' Where SerialNo='$ID'";
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='5' , acverify_date='$timeStamp' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
@@ -23893,7 +23945,7 @@ else if($code==343)
 {
     $ID=$_POST['ID'];
     $remarks=$_POST['remarks'];
-      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' and acrejectdate='$timeStamp' and ac_reason='$remarks' Where SerialNo='$ID'";
+      $getDefalutMenu="UPDATE  StudentBusPassGKU  SET p_status='4' , acrejectdate='$timeStamp' , ac_reason='$remarks' Where SerialNo='$ID'";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
@@ -23902,6 +23954,11 @@ if($getDefalutMenuRun==true)
 else{
     echo "0";
 }
+if ($getDefalutMenuRun === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
 
 }
 
@@ -23913,13 +23970,14 @@ elseif ($code==344)
 {
 
      $Session = $_POST['Session'];
-$list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='3' and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
+     $Status = $_POST['Status'];
+$list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='$Status' and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' ";
 }
 else{
  $rollNo = $_POST['rollNo'];
- $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='3'
-  and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and
- (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+ $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where 
+   Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and 
+ (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') and (StudentBusPassGKU.p_status='3'or StudentBusPassGKU.p_status='4' or StudentBusPassGKU.p_status='5') order by StudentBusPassGKU.p_status ASC ";
 
 }
 ?>
@@ -23974,7 +24032,7 @@ else{
              elseif($Status==3)
              {
               
-               $trColor="";
+               $trColor="#D0EDFF";
              }
               elseif($Status==4)
              {
@@ -24090,8 +24148,9 @@ elseif($code==345)
              $IDNo=$row5['IDNo'];
              $receipt_date=$row5['receipt_date'];
              $itreason=$row5['itreason'];
-             $acverify_date=$row5['acverify_date'];
-             $print_date=$row5['print_date'];
+             $ac_reason=$row5['ac_reason'];
+            
+          
              $session=$row5['session'];
              $SerialNo=$row5['SerialNo'];
              $amount=$row5['amount'];
@@ -24115,10 +24174,8 @@ elseif($code==345)
             if($row5['print_date']!=''){$print_date=$row5['print_date']->format('d-m-Y H:i:s');}else{$print_date="";}
             if($row5['SubmitDate']!=''){$SubmitDate=$row5['SubmitDate']->format('d-m-Y H:i:s');}else{$SubmitDate="";}
             if($row5['itverifydate']!=''){$itverifydate=$row5['itverifydate']->format('d-m-Y H:i:s');}else{$itverifydate="";}
-            if($row5['ac_reason']!=''){$ac_reason=$row5['ac_reason']->format('d-m-Y H:i:s');}else{$ac_reason="";}
-            if($row5['acverify_date']!=''){$acverify_date=$row5['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";}
-            
-            
+            if($row5['acrejectdate']!=''){$acrejectdate=$row5['acrejectdate']->format('d-m-Y H:i:s');}else{$acrejectdate="";}
+           
     
         
 
@@ -24251,7 +24308,7 @@ else if ($Status==2)
 
 <?php }
 
-else if ($Status==2)
+else if ($Status==4)
 {
 ?>
 <tr>
@@ -24259,7 +24316,7 @@ else if ($Status==2)
 
  <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Account)</b></p>
 
-        <h6>Rejected By  Account Due to <?=$ac_reason;?></h6>on: <?=$acverify_date;?></td>
+        <h6>Rejected By  Account Due to <b><u><?=$ac_reason;?></u></b>on: <?=$acrejectdate;?></td></h6>
 </tr>
 
 <?php
@@ -24308,7 +24365,21 @@ if($Status==6)
 </center>
 </td>
 </tr>
+<tr>
+<?php if($Status==4 )
+{ ?>
 
+<td colspan="5">
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <!-- <button type="submit"  id="type" onclick="RejectAC(<?=$SerialNo;?>);" name="update" class="btn btn-danger " >Reject</button> -->
+    <?php };?>
+</center>
+</td>
+</tr>
 </table>
 </div>
 

@@ -376,79 +376,7 @@ function RejectIT(ID)
         $('#error-reject-textarea').show();
     }
 }
-function lockAC(ID)
- {
-    var r = confirm("Do you really want to Verifiy");
-    if (r == true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 342;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                ID: ID
-            },
-            success: function(response) {
-                spinner.style.display = 'none';
-                // console.log(response);
-                if (response == 1) {
-                    
-                    SuccessToast('Successfully Verify');
-                    edit_stu(ID);
-                    fetchCutList();
-                  
-                } else {
-                    ErrorToast('Try Again', 'bg-danger');
-                }
 
-            }
-        });
-    }
-}
-function RejectAC(ID)
- {
-    var remark = document.getElementById("remarkReject").value;
-    let length = remark.length;
-    if(remark!='' && length>5)
-    {
-        var r = confirm("Do you really want to reject?");
-        if (r === true) {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = 343;
-        $.ajax({
-            url: 'action_g.php',
-            type: 'POST',
-            data: {
-                code: code,
-                ID: ID,
-                remarks: remark
-            },
-            success: function(response) {
-                spinner.style.display = 'none';
-                // console.log(response);
-                if (response == 1) {
-                    
-                    SuccessToast('Successfully Reject');
-                    edit_stu(ID);
-                    fetchCutList();
-                  
-                } else {
-                    ErrorToast('Try Again', 'bg-danger');
-                }
-
-            
-        }
-    });
-}
-    }
-        else{
-        $('#remarkReject').toggleClass("is-invalid");
-        $('#error-reject-textarea').show();
-    }
-}
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">

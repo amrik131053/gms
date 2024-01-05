@@ -1,6 +1,7 @@
 <?php
    session_start();
    ini_set('max_execution_time', '0');
+   include 'phpqrcode/qrlib.php';
    include 'connection/connection.php';
    $code=$_GET['code'];
    if ($code==1) 
@@ -53,6 +54,7 @@
      while($row=mysqli_fetch_array($result))
    {
    
+
    $img=$row['image'];
    $pdf-> Image('http://10.0.8.10/data-server/ID_Card_images/'.$img,$left+5,$down+14,20,20);
    
@@ -93,7 +95,7 @@
    //$pdf->MultiCell(80,2.1,$row['batch']);
    $pdf->SetXY($left+30,$down+33);
    $pdf->SetFont('Arial','B',8);
-   $pdf->Write(0,'Valid Upto :');
+   $pdf->Write(0,'Valid Upto::');
    
     $newDate = date("d-m-Y", strtotime($row['valid']));
    $pdf->SetXY($left+50,$down+33);
@@ -364,7 +366,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -486,7 +488,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -618,7 +620,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -740,7 +742,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -871,7 +873,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -993,7 +995,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1125,7 +1127,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1247,7 +1249,7 @@ $left=10;
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
@@ -1358,7 +1360,7 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
    $exdate1=$row1['valid'];
 $exdate = date("d-m-Y", strtotime($exdate1));
    $pdf->SetTextColor(255,0,0);
-       $pdf->MultiCell(66,5,"Valid Upto : ".$exdate,'0','C');
+       $pdf->MultiCell(66,5,"Valid Upto:: ".$exdate,'0','C');
    }
    $pdf->SetXY($left,$down+105);
    
@@ -1720,14 +1722,14 @@ while($row=mysqli_fetch_array($result) )
 
 elseif($code==5)
 {
-	$left=10;
+	// $left=10;
    
-  $left1=110;
-   $down=10;
- $down1=5;
-   $down=5;
+  // $left1=110;
+  //  $down=10;
+//  $down1=5;
+  //  $down=5;
    $count=1;
-   $down11=5;
+  //  $down11=5;
    
    $output = ''; 
 $sel=array();
@@ -1741,37 +1743,41 @@ $id=explode(",",$sel);
    $pdf->AddPage('P');
    foreach ($id as $key => $value) {
          $pdf->SetFont('Arial','B',12);
-   
-    $sql="SELECT * FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
-     ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id where StudentBusPassGKU.SerialNo='$value' order by StudentBusPassGKU.SerialNo ASC  ";
+        //  
+    $sql="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+     ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
+      where StudentBusPassGKU.SerialNo='$value' order by StudentBusPassGKU.SerialNo ASC  ";
    $result = sqlsrv_query($conntest,$sql);
     $array = array();
   
      while($row=sqlsrv_fetch_array($result))
    {
-
+    $newDate=$row['expiryDate']->format('d-m-Y');
+    $text = "Name:".$row['StudentName']."\nRollNo:".$row['ClassRollNo']."\nPassNo".md5($row['SerialNo']."\nValid:".$newDate);
+      $path = 'degreeqr/';
+      $file = $path.$row['ClassRollNo'].".png";
+      $ecc = 'L';
+      $pixel_Size = 10;
+      $frame_Size = 10;
+      QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
    	if ($count==1)
    	 {
-$left=10;
-   
-  $left1=110;
-   $down=10;
- $down1=5;
-   $down=5;
-  //  $count=1;
-   $down11=5;
-
-   	 	$pdf-> Image('dist\img\busspass2.jpg',$left,$down,87,52);
+      $left=10;
+      $down=10;
+   	 	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+   	 	$pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
         $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
         $info = getimagesize($pic);
         $extension = explode('/', mime_content_type($pic))[1];
         $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
   
-   
+        $pdf-> Image($file,$left+69,$down+38,16,15);
+        
     $pdf->SetTextColor(159,39,30);
     $pdf->SetXY($left+6,$down+11);
    $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
+   $pdf->Write(0,''.$value);
    $pdf->SetTextColor(0,0,0);
     $pdf->SetXY($left+20,$down+13);
    $pdf->SetFont('Arial','',7);
@@ -1792,7 +1798,6 @@ $left=10;
       $pdf->SetXY($left+20,$down+21);
    $pdf->SetFont('Arial','',7);
     $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
    $pdf->SetXY($left+35,$down+21);
    $pdf->SetFont('Arial','',7);
    $pdf->Write(0,$row['ClassRollNo']);
@@ -1803,56 +1808,50 @@ $left=10;
    
    $pdf->SetXY($left+35,$down+24.5);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
-
+   $pdf->Write(0,$row['CourseShortName']);
 
    $pdf->SetXY($left+20,$down+28);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left+33,$down+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(49,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left+20,$down+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left+31,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left+52,$down+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left+66.5,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left+20,$down+35);
-   $pdf->SetFont('Arial','',7);
    $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left+35,$down+34);
+   $pdf->SetXY($left+33,$down+26.7);
    $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
    $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left+20,$down+38.5);
+  $pdf->SetXY($left+20,$down+31.7);
+  $pdf->SetFont('Arial','',7);
+  $pdf->Write(0,'Mobile  :');
+ 
+   $pdf->SetXY($left+31,$down+30.2);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left+35,$down+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
    $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+
+ $pdf->SetXY($left,$down+35);
+     $pdf->SetFont('Arial','',7);
+   $pdf->Write(0,'Address  :');
+
+   $pdf->SetXY($left+12,$down+33.5);
+   $pdf->SetFont('Arial','',7);
+   $pdf->SetFont('Arial','',7);
+   $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+
+    $pdf->SetXY($left,$down+40.2);
+    $pdf->SetFont('Arial','',7);
+   $pdf->Write(0,'State  :');
+   $pdf->SetXY($left+10,$down+39);
+     $pdf->SetFont('Arial','',7);
+   $pdf->MultiCell(25,3,$row['State'],'0','L');
+   
+   $pdf->SetXY($left+35,$down+39);
+     $pdf->SetFont('Arial','',7);
+   $pdf->MultiCell(15,3,'District    :','0','L');
+   $pdf->SetXY($left+50,$down+39);
+     $pdf->SetFont('Arial','',7);
+   $pdf->MultiCell(36.5,3,$row['District'],'0','L');
 
  $pdf->SetXY($left,$down+43);
    $pdf->SetFont('Arial','',7);
    $pdf->Write(0,'Route Name  :');
    $pdf->SetXY($left+20,$down+41.5);
    $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
    $pdf->MultiCell(43,3,$row['RouteName'],'','L');
 
 
@@ -1861,950 +1860,836 @@ $left=10;
    $pdf->Write(0,'Stopage Name  :');
    $pdf->SetXY($left+22,$down+44.5);
    $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left+50,$down+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-   $pdf->SetXY($left,$down+49);
+   $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+     $newDate=$row['expiryDate']->format('d-m-Y');
+   $pdf->SetXY($left,$down+51.5);
    
    $pdf->SetTextColor(255,255,255);
    $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
+    $pdf->MultiCell(80,3,'Valid Upto: '.$newDate,'','C');
    
    $pdf->SetTextColor(0,0,0);
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		  // $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
+   		  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+   $up1 = sqlsrv_query($conntest,$up);
    	}
    	elseif($count==2 )
    	{
+$left=110;
+$down=10;
+      	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+      $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+      $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+      $info = getimagesize($pic);
+      $extension = explode('/', mime_content_type($pic))[1];
+      $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
 
-   			 	$pdf-> Image('dist\img\busspass2.jpg',$left1,$down1,87,52);
-            $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-            $info = getimagesize($pic);
-            $extension = explode('/', mime_content_type($pic))[1];
-            $pdf-> Image($pic,$left1+2,$down1+13,17.4,20,$extension);
+       $pdf-> Image($file,$left+69,$down+38,16,15);
 
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left1+6,$down1+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left1+20,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left1+35,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left1+20,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left1+40,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left1+20,$down1+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left1+35,$down1+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left1+20,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left1+35,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
+  $pdf->SetTextColor(159,39,30);
+  $pdf->SetXY($left+6,$down+11);
+ $pdf->SetFont('Arial','',10);
+ $pdf->Write(0,''.$value);
+ $pdf->SetTextColor(0,0,0);
+  $pdf->SetXY($left+20,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Name      :');
+ 
+ $pdf->SetXY($left+35,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['StudentName']);
+ 
+  $pdf->SetXY($left+20,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Father Name   :');
+  
+ $pdf->SetXY($left+40,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['FatherName']);
+ 
+    $pdf->SetXY($left+20,$down+21);
+ $pdf->SetFont('Arial','',7);
+  $pdf->Write(0,'Roll No   :');
+ $pdf->SetXY($left+35,$down+21);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['ClassRollNo']);
+ 
+  $pdf->SetXY($left+20,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Course     :');
+ 
+ $pdf->SetXY($left+35,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['CourseShortName']);
 
+ $pdf->SetXY($left+20,$down+28);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Incharge  :');
+ $pdf->SetXY($left+33,$down+26.7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+$pdf->SetXY($left+20,$down+31.7);
+$pdf->SetFont('Arial','',7);
+$pdf->Write(0,'Mobile  :');
 
-   $pdf->SetXY($left1+20,$down1+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left1+33,$down1+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(48,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left1+20,$down1+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left1+31,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
+ $pdf->SetXY($left+31,$down+30.2);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
 
-  $pdf->SetXY($left1+52,$down1+32);
+$pdf->SetXY($left,$down+35);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left1+66.5,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
+ $pdf->Write(0,'Address  :');
 
- $pdf->SetXY($left1+20,$down1+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left1+35,$down1+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+ $pdf->SetXY($left+12,$down+33.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
 
-    $pdf->SetXY($left1+20,$down1+38.5);
+  $pdf->SetXY($left,$down+40.2);
+  $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'State  :');
+ $pdf->SetXY($left+10,$down+39);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left1+35,$down1+37.5);
+ $pdf->MultiCell(25,3,$row['State'],'0','L');
+ 
+ $pdf->SetXY($left+35,$down+39);
    $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+ $pdf->MultiCell(15,3,'District    :','0','L');
+ $pdf->SetXY($left+50,$down+39);
+   $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(36.5,3,$row['District'],'0','L');
 
- $pdf->SetXY($left1,$down1+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left1+20,$down1+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
+$pdf->SetXY($left,$down+43);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Route Name  :');
+ $pdf->SetXY($left+20,$down+41.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['RouteName'],'','L');
 
 
- $pdf->SetXY($left1,$down1+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left1+22,$down1+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left1+50,$down1+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-   $pdf->SetXY($left1,$down1+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left1,$down1);
-    $pdf->MultiCell(80,50,'','','C');
-   
-    //  $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
+$pdf->SetXY($left,$down+46);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Stopage Name  :');
+ $pdf->SetXY($left+22,$down+44.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+   $newDate=$row['expiryDate']->format('d-m-Y');
+ $pdf->SetXY($left,$down+51.5);
+ 
+ $pdf->SetTextColor(255,255,255);
+ $pdf->SetFont('Arial','',9);
+  $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+ 
+ $pdf->SetTextColor(0,0,0);
+ 
+ $pdf->SetXY($left,$down);
+  $pdf->MultiCell(80,50,'','','C');
+      //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+ $up1 = sqlsrv_query($conntest,$up);
 
    	}
 
  	if ($count==3)
    	 {
-$left=10;
-   
-  $left1=110;
-   $down=88;
- $down1=70;
-   $down=70;
-   $down11=5;
-   	 	
-   	 	$pdf-> Image('dist\img\busspass2.jpg',$left,$down,87,52);
-        $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left+6,$down+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left+20,$down+13);
+      $left=10;
+      $down=70;
+      	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+      $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+      $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+      $info = getimagesize($pic);
+      $extension = explode('/', mime_content_type($pic))[1];
+      $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+       $pdf-> Image($file,$left+69,$down+38,16,15);
+  $pdf->SetTextColor(159,39,30);
+  $pdf->SetXY($left+6,$down+11);
+ $pdf->SetFont('Arial','',10);
+ $pdf->Write(0,''.$value);
+ $pdf->SetTextColor(0,0,0);
+  $pdf->SetXY($left+20,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Name      :');
+ 
+ $pdf->SetXY($left+35,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['StudentName']);
+ 
+  $pdf->SetXY($left+20,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Father Name   :');
+  
+ $pdf->SetXY($left+40,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['FatherName']);
+ 
+    $pdf->SetXY($left+20,$down+21);
+ $pdf->SetFont('Arial','',7);
+  $pdf->Write(0,'Roll No   :');
+ $pdf->SetXY($left+35,$down+21);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['ClassRollNo']);
+ 
+  $pdf->SetXY($left+20,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Course     :');
+ 
+ $pdf->SetXY($left+35,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['CourseShortName']);
+
+ $pdf->SetXY($left+20,$down+28);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Incharge  :');
+ $pdf->SetXY($left+33,$down+26.7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+$pdf->SetXY($left+20,$down+31.7);
+$pdf->SetFont('Arial','',7);
+$pdf->Write(0,'Mobile  :');
+
+ $pdf->SetXY($left+31,$down+30.2);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+
+$pdf->SetXY($left,$down+35);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left+35,$down+13);
+ $pdf->Write(0,'Address  :');
+
+ $pdf->SetXY($left+12,$down+33.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+
+  $pdf->SetXY($left,$down+40.2);
+  $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'State  :');
+ $pdf->SetXY($left+10,$down+39);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left+20,$down+17);
+ $pdf->MultiCell(25,3,$row['State'],'0','L');
+ 
+ $pdf->SetXY($left+35,$down+39);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left+40,$down+17);
+ $pdf->MultiCell(15,3,'District    :','0','L');
+ $pdf->SetXY($left+50,$down+39);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left+20,$down+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left+35,$down+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left+20,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left+35,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
+ $pdf->MultiCell(36.5,3,$row['District'],'0','L');
+
+$pdf->SetXY($left,$down+43);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Route Name  :');
+ $pdf->SetXY($left+20,$down+41.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['RouteName'],'','L');
 
 
-    $pdf->SetXY($left+20,$down+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left+33,$down+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(49,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left+20,$down+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left+31,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left+52,$down+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left+66.5,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left+20,$down+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left+35,$down+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left+20,$down+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left+35,$down+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left,$down+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left+20,$down+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
-
-
- $pdf->SetXY($left,$down+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left+22,$down+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left+50,$down+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-  $pdf->SetXY($left,$down+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid UpTo '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left,$down);
-    $pdf->MultiCell(80,50,'','','C');
-   		  // $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
+$pdf->SetXY($left,$down+46);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Stopage Name  :');
+ $pdf->SetXY($left+22,$down+44.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+   $newDate=$row['expiryDate']->format('d-m-Y');
+ $pdf->SetXY($left,$down+51.5);
+ 
+ $pdf->SetTextColor(255,255,255);
+ $pdf->SetFont('Arial','',9);
+  $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+ 
+ $pdf->SetTextColor(0,0,0);
+ 
+ $pdf->SetXY($left,$down);
+  $pdf->MultiCell(80,50,'','','C');
+      //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+ $up1 = sqlsrv_query($conntest,$up);
    	}
    	elseif($count==4 )
    	{
 
-   			$pdf-> Image('dist\img\busspass2.jpg',$left1,$down1,87,52);
-         $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-         $info = getimagesize($pic);
-         $extension = explode('/', mime_content_type($pic))[1];
-         $pdf-> Image($pic,$left1+2,$down1+13,17.4,20,$extension);
- 
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left1+6,$down1+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left1+20,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left1+35,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left1+20,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left1+40,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left1+20,$down1+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left1+35,$down1+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left1+20,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left1+35,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
-
-
-  $pdf->SetXY($left1+20,$down1+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left1+33,$down1+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(48,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left1+20,$down1+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left1+31,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left1+48,$down1+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left1+62.5,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left1+20,$down1+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left1+35,$down1+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left1+20,$down1+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left1+35,$down1+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left1,$down1+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left1+20,$down1+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
-
-
-  $pdf->SetXY($left1,$down1+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left1+22,$down1+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left1+50,$down1+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-   $pdf->SetXY($left1,$down1+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left1,$down1);
-    $pdf->MultiCell(80,50,'','','C');
-    //  $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
-
+      $left=110;
+      $down=70;
+            	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+            $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+            $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+            $info = getimagesize($pic);
+            $extension = explode('/', mime_content_type($pic))[1];
+            $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+             $pdf-> Image($file,$left+69,$down+38,16,15);
+        $pdf->SetTextColor(159,39,30);
+        $pdf->SetXY($left+6,$down+11);
+       $pdf->SetFont('Arial','',10);
+       $pdf->Write(0,''.$value);
+       $pdf->SetTextColor(0,0,0);
+        $pdf->SetXY($left+20,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Name      :');
+       
+       $pdf->SetXY($left+35,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['StudentName']);
+       
+        $pdf->SetXY($left+20,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Father Name   :');
+        
+       $pdf->SetXY($left+40,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['FatherName']);
+       
+          $pdf->SetXY($left+20,$down+21);
+       $pdf->SetFont('Arial','',7);
+        $pdf->Write(0,'Roll No   :');
+       $pdf->SetXY($left+35,$down+21);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['ClassRollNo']);
+       
+        $pdf->SetXY($left+20,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Course     :');
+       
+       $pdf->SetXY($left+35,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['CourseShortName']);
+      
+       $pdf->SetXY($left+20,$down+28);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Incharge  :');
+       $pdf->SetXY($left+33,$down+26.7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+      $pdf->SetXY($left+20,$down+31.7);
+      $pdf->SetFont('Arial','',7);
+      $pdf->Write(0,'Mobile  :');
+      
+       $pdf->SetXY($left+31,$down+30.2);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+      
+      $pdf->SetXY($left,$down+35);
+         $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Address  :');
+      
+       $pdf->SetXY($left+12,$down+33.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+      
+        $pdf->SetXY($left,$down+40.2);
+        $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'State  :');
+       $pdf->SetXY($left+10,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(25,3,$row['State'],'0','L');
+       
+       $pdf->SetXY($left+35,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(15,3,'District    :','0','L');
+       $pdf->SetXY($left+50,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(36.5,3,$row['District'],'0','L');
+      
+      $pdf->SetXY($left,$down+43);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Route Name  :');
+       $pdf->SetXY($left+20,$down+41.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['RouteName'],'','L');
+      
+      
+      $pdf->SetXY($left,$down+46);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Stopage Name  :');
+       $pdf->SetXY($left+22,$down+44.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+         $newDate=$row['expiryDate']->format('d-m-Y');
+       $pdf->SetXY($left,$down+51.5);
+       
+       $pdf->SetTextColor(255,255,255);
+       $pdf->SetFont('Arial','',9);
+        $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+       
+       $pdf->SetTextColor(0,0,0);
+       
+       $pdf->SetXY($left,$down);
+        $pdf->MultiCell(80,50,'','','C');
+            //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up1 = sqlsrv_query($conntest,$up);
    	}
 
 if ($count==5)
    	 {
-$left=10;
-   
-  $left1=110;
-   // $down=88;
- $down1=135;
-   $down=135;
-   $down11=5;
-   	 	
-   	 	$pdf-> Image('dist\img\busspass2.jpg',$left,$down,87,52);
-        $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+      $left=10;
+      $down=135;
+      	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+      $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+      $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+      $info = getimagesize($pic);
+      $extension = explode('/', mime_content_type($pic))[1];
+      $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+       $pdf-> Image($file,$left+69,$down+38,16,15);
+  $pdf->SetTextColor(159,39,30);
+  $pdf->SetXY($left+6,$down+11);
+ $pdf->SetFont('Arial','',10);
+ $pdf->Write(0,''.$value);
+ $pdf->SetTextColor(0,0,0);
+  $pdf->SetXY($left+20,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Name      :');
+ 
+ $pdf->SetXY($left+35,$down+13);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['StudentName']);
+ 
+  $pdf->SetXY($left+20,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Father Name   :');
+  
+ $pdf->SetXY($left+40,$down+17);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['FatherName']);
+ 
+    $pdf->SetXY($left+20,$down+21);
+ $pdf->SetFont('Arial','',7);
+  $pdf->Write(0,'Roll No   :');
+ $pdf->SetXY($left+35,$down+21);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['ClassRollNo']);
+ 
+  $pdf->SetXY($left+20,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Course     :');
+ 
+ $pdf->SetXY($left+35,$down+24.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,$row['CourseShortName']);
 
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left+6,$down+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left+20,$down+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left+35,$down+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left+20,$down+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left+40,$down+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left+20,$down+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left+35,$down+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left+20,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left+35,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
+ $pdf->SetXY($left+20,$down+28);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Incharge  :');
+ $pdf->SetXY($left+33,$down+26.7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+$pdf->SetXY($left+20,$down+31.7);
+$pdf->SetFont('Arial','',7);
+$pdf->Write(0,'Mobile  :');
 
+ $pdf->SetXY($left+31,$down+30.2);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
 
-    $pdf->SetXY($left+20,$down+28);
+$pdf->SetXY($left,$down+35);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left+33,$down+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(49,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left+20,$down+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left+31,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
+ $pdf->Write(0,'Address  :');
 
-  $pdf->SetXY($left+52,$down+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left+66.5,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
+ $pdf->SetXY($left+12,$down+33.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
 
- $pdf->SetXY($left+20,$down+35);
+  $pdf->SetXY($left,$down+40.2);
+  $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'State  :');
+ $pdf->SetXY($left+10,$down+39);
    $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left+35,$down+34);
+ $pdf->MultiCell(25,3,$row['State'],'0','L');
+ 
+ $pdf->SetXY($left+35,$down+39);
    $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+ $pdf->MultiCell(15,3,'District    :','0','L');
+ $pdf->SetXY($left+50,$down+39);
+   $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(36.5,3,$row['District'],'0','L');
 
-    $pdf->SetXY($left+20,$down+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left+35,$down+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left,$down+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left+20,$down+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
+$pdf->SetXY($left,$down+43);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Route Name  :');
+ $pdf->SetXY($left+20,$down+41.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['RouteName'],'','L');
 
 
- $pdf->SetXY($left,$down+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left+22,$down+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left+50,$down+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-  $pdf->SetXY($left,$down+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left,$down);
-    $pdf->MultiCell(80,50,'','','C');
-   		  $up="Update id_card set buspass_status ='1' where id='$value'";
-   $up1 = mysqli_query($conn,$up);
-   	}
-   	elseif($count==6 )
-   	{
-
-   			$pdf-> Image('dist\img\busspass2.jpg',$left1,$down1,87,52);
-         $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-         $info = getimagesize($pic);
-         $extension = explode('/', mime_content_type($pic))[1];
-         $pdf-> Image($pic,$left1+2,$down1+13,17.4,20,$extension);
-
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left1+6,$down1+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left1+20,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left1+35,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left1+20,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left1+40,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left1+20,$down1+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left1+35,$down1+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left1+20,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left1+35,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
-
-
-  $pdf->SetXY($left1+20,$down1+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left1+33,$down1+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(48,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left1+20,$down1+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left1+31,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left1+48,$down1+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left1+62.5,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left1+20,$down1+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left1+35,$down1+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left1+20,$down1+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left1+35,$down1+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left1,$down1+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left1+20,$down1+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
-
-
-  $pdf->SetXY($left1,$down1+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left1+22,$down1+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left1+50,$down1+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-   $pdf->SetXY($left1,$down1+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left1,$down1);
-    $pdf->MultiCell(80,50,'','','C');
-   
-  // $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
+$pdf->SetXY($left,$down+46);
+ $pdf->SetFont('Arial','',7);
+ $pdf->Write(0,'Stopage Name  :');
+ $pdf->SetXY($left+22,$down+44.5);
+ $pdf->SetFont('Arial','',7);
+ $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+   $newDate=$row['expiryDate']->format('d-m-Y');
+ $pdf->SetXY($left,$down+51.5);
+ 
+ $pdf->SetTextColor(255,255,255);
+ $pdf->SetFont('Arial','',9);
+  $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+ 
+ $pdf->SetTextColor(0,0,0);
+ 
+ $pdf->SetXY($left,$down);
+  $pdf->MultiCell(80,50,'','','C');
+      //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+ $up1 = sqlsrv_query($conntest,$up);
    	}
 
 
-if ($count==7)
+if ($count==6)
    	 {
-$left=10;
-   
-  $left1=110;
-   // $down=88;
- $down1=200;
-   $down=200;
-   $down11=5;
-   	 	
-   	 	$pdf-> Image('dist\img\busspass2.jpg',$left,$down,87,52);
-        $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
 
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left+6,$down+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left+20,$down+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left+35,$down+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left+20,$down+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left+40,$down+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left+20,$down+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left+35,$down+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left+20,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left+35,$down+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
-
-
-    $pdf->SetXY($left+20,$down+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left+33,$down+27);
-   $pdf->SetFont('Arial','',6);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(49,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left+20,$down+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left+31,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left+52,$down+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left+66.5,$down+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left+20,$down+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left+35,$down+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left+20,$down+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left+35,$down+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left,$down+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left+20,$down+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
-
-
- $pdf->SetXY($left,$down+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left+22,$down+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left+50,$down+60);
-   // $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$newDate);
-   
-  $pdf->SetXY($left,$down+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left,$down);
-    $pdf->MultiCell(80,50,'','','C');
-   		  // $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
+      $left=110;
+      $down=135;
+            	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+            $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+            $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+            $info = getimagesize($pic);
+            $extension = explode('/', mime_content_type($pic))[1];
+            $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+             $pdf-> Image($file,$left+69,$down+38,16,15);
+        $pdf->SetTextColor(159,39,30);
+        $pdf->SetXY($left+6,$down+11);
+       $pdf->SetFont('Arial','',10);
+       $pdf->Write(0,''.$value);
+       $pdf->SetTextColor(0,0,0);
+        $pdf->SetXY($left+20,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Name      :');
+       
+       $pdf->SetXY($left+35,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['StudentName']);
+       
+        $pdf->SetXY($left+20,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Father Name   :');
+        
+       $pdf->SetXY($left+40,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['FatherName']);
+       
+          $pdf->SetXY($left+20,$down+21);
+       $pdf->SetFont('Arial','',7);
+        $pdf->Write(0,'Roll No   :');
+       $pdf->SetXY($left+35,$down+21);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['ClassRollNo']);
+       
+        $pdf->SetXY($left+20,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Course     :');
+       
+       $pdf->SetXY($left+35,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['CourseShortName']);
+      
+       $pdf->SetXY($left+20,$down+28);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Incharge  :');
+       $pdf->SetXY($left+33,$down+26.7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+      $pdf->SetXY($left+20,$down+31.7);
+      $pdf->SetFont('Arial','',7);
+      $pdf->Write(0,'Mobile  :');
+      
+       $pdf->SetXY($left+31,$down+30.2);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+      
+      $pdf->SetXY($left,$down+35);
+         $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Address  :');
+      
+       $pdf->SetXY($left+12,$down+33.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+      
+        $pdf->SetXY($left,$down+40.2);
+        $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'State  :');
+       $pdf->SetXY($left+10,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(25,3,$row['State'],'0','L');
+       
+       $pdf->SetXY($left+35,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(15,3,'District    :','0','L');
+       $pdf->SetXY($left+50,$down+39);
+         $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(36.5,3,$row['District'],'0','L');
+      
+      $pdf->SetXY($left,$down+43);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Route Name  :');
+       $pdf->SetXY($left+20,$down+41.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['RouteName'],'','L');
+      
+      
+      $pdf->SetXY($left,$down+46);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Stopage Name  :');
+       $pdf->SetXY($left+22,$down+44.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+         $newDate=$row['expiryDate']->format('d-m-Y');
+       $pdf->SetXY($left,$down+51.5);
+       
+       $pdf->SetTextColor(255,255,255);
+       $pdf->SetFont('Arial','',9);
+        $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+       
+       $pdf->SetTextColor(0,0,0);
+       
+       $pdf->SetXY($left,$down);
+        $pdf->MultiCell(80,50,'','','C');
+            //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up1 = sqlsrv_query($conntest,$up);
    	}
-   	elseif($count==8 )
+   	elseif($count==7 )
    	{
-
-   			$pdf-> Image('dist\img\busspass2.jpg',$left1,$down1,87,52);
-         $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-         $info = getimagesize($pic);
-         $extension = explode('/', mime_content_type($pic))[1];
-         $pdf-> Image($pic,$left1+2,$down1+13,17.4,20,$extension);
-
-   $pdf->SetTextColor(159,39,30);
-    $pdf->SetXY($left1+6,$down1+11);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Write(0,'E-'.$value);
-   // $pdf->SetTextColor(255,255,255);
-   $pdf->SetTextColor(0,0,0);
-   
-    $pdf->SetXY($left1+20,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Name      :');
-   
-   $pdf->SetXY($left1+35,$down1+13);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['StudentName']);
-   
-    $pdf->SetXY($left1+20,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Father Name   :');
-    
-   $pdf->SetXY($left1+40,$down1+17);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['FatherName']);
-   
-      $pdf->SetXY($left1+20,$down1+21);
-   $pdf->SetFont('Arial','',7);
-    $pdf->Write(0,'Roll No   :');
-    // $pdf->MultiCell(80,0,'Course :');
-   $pdf->SetXY($left1+35,$down1+21);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['ClassRollNo']);
-   
-    $pdf->SetXY($left1+20,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Course     :');
-   
-   $pdf->SetXY($left1+35,$down1+24.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,$row['Course']);
-   //$pdf->MultiCell(80,2.1,$row['atch']);
-
-
-  $pdf->SetXY($left1+20,$down1+28);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Address  :');
-   $pdf->SetXY($left1+33,$down1+27);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(48,3,ucwords($row['PermanentAddress']),'','L');
-   
-  $pdf->SetXY($left1+20,$down1+31.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'State  :');
-   $pdf->SetXY($left1+31,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['State'],'','L');
-
-  $pdf->SetXY($left1+48,$down1+32);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Pin Code  :');
-   $pdf->SetXY($left1+62.5,$down1+30.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(15,3,$row['PIN'],'','l');
-
- $pdf->SetXY($left1+20,$down1+35);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Incharge  :');
-   $pdf->SetXY($left1+35,$down1+34);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['Incharge'],'','L');
-
-    $pdf->SetXY($left1+20,$down1+38.5);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Mobile  :');
-   $pdf->SetXY($left1+35,$down1+37.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
-
- $pdf->SetXY($left1,$down1+43);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Route Name  :');
-   $pdf->SetXY($left1+20,$down1+41.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['route'],'','L');
-
-
-  $pdf->SetXY($left1,$down1+46);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Write(0,'Stopage Name  :');
-   $pdf->SetXY($left1+22,$down1+44.5);
-   $pdf->SetFont('Arial','',7);
-   // $pdf->Write(0,$row['address']);
-   $pdf->MultiCell(43,3,$row['spot'],'','L');
-
-    // $newDate = date("d-m-Y", strtotime($row['pass_valid']));
-   // $pdf->SetXY($left1+50,$down1+60);
-   // $pdf->SetFont('Arial','',8);
-   // $pdf->Write(0,$newDate);
-   
-   $pdf->SetXY($left1,$down1+49);
-   
-   $pdf->SetTextColor(255,255,255);
-   $pdf->SetFont('Arial','',9);
-    // $pdf->MultiCell(80,3,'Valid Upto '.$newDate,'','C');
-   
-   $pdf->SetTextColor(0,0,0);
-   
-   $pdf->SetXY($left1,$down1);
-    $pdf->MultiCell(80,50,'','','C');
-   
-
-   	}
-
-
-
-    $count++;
-
-      // $up="Update id_card set buspass_status ='1' where id='$value'";
-  //  $up1 = mysqli_query($conn,$up);
-
-   $left=$left;
-   $down=$down+55;
-
-   if($count==9 || $count==17 || $count==25 || $count==33)
-   {
+       
+       $left=10;
+       $down=200;
+       $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+       	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+       $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+       $info = getimagesize($pic);
+       $extension = explode('/', mime_content_type($pic))[1];
+       $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+        $pdf-> Image($file,$left+69,$down+38,16,15);
+       $pdf->SetTextColor(159,39,30);
+       $pdf->SetXY($left+6,$down+11);
+       $pdf->SetFont('Arial','',10);
+       $pdf->Write(0,''.$value);
+       $pdf->SetTextColor(0,0,0);
+       $pdf->SetXY($left+20,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Name      :');
+       
+       $pdf->SetXY($left+35,$down+13);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['StudentName']);
+       
+       $pdf->SetXY($left+20,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Father Name   :');
+       
+       $pdf->SetXY($left+40,$down+17);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['FatherName']);
+       
+       $pdf->SetXY($left+20,$down+21);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Roll No   :');
+       $pdf->SetXY($left+35,$down+21);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['ClassRollNo']);
+       
+       $pdf->SetXY($left+20,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Course     :');
+       
+       $pdf->SetXY($left+35,$down+24.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,$row['CourseShortName']);
+       
+       $pdf->SetXY($left+20,$down+28);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Incharge  :');
+       $pdf->SetXY($left+33,$down+26.7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+       $pdf->SetXY($left+20,$down+31.7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Mobile  :');
+       
+       $pdf->SetXY($left+31,$down+30.2);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+       
+       $pdf->SetXY($left,$down+35);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Address  :');
+       
+       $pdf->SetXY($left+12,$down+33.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+       
+       $pdf->SetXY($left,$down+40.2);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'State  :');
+       $pdf->SetXY($left+10,$down+39);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(25,3,$row['State'],'0','L');
+       
+       $pdf->SetXY($left+35,$down+39);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(15,3,'District    :','0','L');
+       $pdf->SetXY($left+50,$down+39);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(36.5,3,$row['District'],'0','L');
+       
+       $pdf->SetXY($left,$down+43);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Route Name  :');
+       $pdf->SetXY($left+20,$down+41.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['RouteName'],'','L');
+       
+       
+       $pdf->SetXY($left,$down+46);
+       $pdf->SetFont('Arial','',7);
+       $pdf->Write(0,'Stopage Name  :');
+       $pdf->SetXY($left+22,$down+44.5);
+       $pdf->SetFont('Arial','',7);
+       $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+       $newDate=$row['expiryDate']->format('d-m-Y');
+       $pdf->SetXY($left,$down+51.5);
+       
+       $pdf->SetTextColor(255,255,255);
+       $pdf->SetFont('Arial','',9);
+       $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+       
+       $pdf->SetTextColor(0,0,0);
+       
+       $pdf->SetXY($left,$down);
+       $pdf->MultiCell(80,50,'','','C');
+      //  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+        $up1 = sqlsrv_query($conntest,$up);
+       
+      }
+      elseif($count==8 )
+      {
+        $left=110;
+        $down=200;
+        $pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
+   	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
+              	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
+              $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+              $info = getimagesize($pic);
+              $extension = explode('/', mime_content_type($pic))[1];
+              $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+               $pdf-> Image($file,$left+69,$down+38,16,15);
+          $pdf->SetTextColor(159,39,30);
+          $pdf->SetXY($left+6,$down+11);
+         $pdf->SetFont('Arial','',10);
+         $pdf->Write(0,''.$value);
+         $pdf->SetTextColor(0,0,0);
+          $pdf->SetXY($left+20,$down+13);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Name      :');
+         
+         $pdf->SetXY($left+35,$down+13);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,$row['StudentName']);
+         
+          $pdf->SetXY($left+20,$down+17);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Father Name   :');
+          
+         $pdf->SetXY($left+40,$down+17);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,$row['FatherName']);
+         
+            $pdf->SetXY($left+20,$down+21);
+         $pdf->SetFont('Arial','',7);
+          $pdf->Write(0,'Roll No   :');
+         $pdf->SetXY($left+35,$down+21);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,$row['ClassRollNo']);
+         
+          $pdf->SetXY($left+20,$down+24.5);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Course     :');
+         
+         $pdf->SetXY($left+35,$down+24.5);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,$row['CourseShortName']);
+        
+         $pdf->SetXY($left+20,$down+28);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Incharge  :');
+         $pdf->SetXY($left+33,$down+26.7);
+         $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(43,3,$row['Incharge'],'','L');
+        $pdf->SetXY($left+20,$down+31.7);
+        $pdf->SetFont('Arial','',7);
+        $pdf->Write(0,'Mobile  :');
+        
+         $pdf->SetXY($left+31,$down+30.2);
+         $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(43,3,$row['MobileNum'],'','L');
+        
+        $pdf->SetXY($left,$down+35);
+           $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Address  :');
+        
+         $pdf->SetXY($left+12,$down+33.5);
+         $pdf->SetFont('Arial','',7);
+         $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(70,3,ucwords($row['PermanentAddress']),'','L');
+        
+          $pdf->SetXY($left,$down+40.2);
+          $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'State  :');
+         $pdf->SetXY($left+10,$down+39);
+           $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(25,3,$row['State'],'0','L');
+         
+         $pdf->SetXY($left+35,$down+39);
+           $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(15,3,'District    :','0','L');
+         $pdf->SetXY($left+50,$down+39);
+           $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(36.5,3,$row['District'],'0','L');
+        
+        $pdf->SetXY($left,$down+43);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Route Name  :');
+         $pdf->SetXY($left+20,$down+41.5);
+         $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(43,3,$row['RouteName'],'','L');
+        
+        
+        $pdf->SetXY($left,$down+46);
+         $pdf->SetFont('Arial','',7);
+         $pdf->Write(0,'Stopage Name  :');
+         $pdf->SetXY($left+22,$down+44.5);
+         $pdf->SetFont('Arial','',7);
+         $pdf->MultiCell(43,3,$row['SpotName'],'','L');
+           $newDate=$row['expiryDate']->format('d-m-Y');
+         $pdf->SetXY($left,$down+51.5);
+         
+         $pdf->SetTextColor(255,255,255);
+         $pdf->SetFont('Arial','',9);
+          $pdf->MultiCell(80,3,'Valid Upto:'.$newDate,'','C');
+         
+         $pdf->SetTextColor(0,0,0);
+         
+         $pdf->SetXY($left,$down);
+          $pdf->MultiCell(80,50,'','','C');
+               $up="Update StudentBusPassGKU set p_status  ='6' where SerialNo='$value'";
+         $up1 = sqlsrv_query($conntest,$up);
+      
+      }
+      $count++;
+      // $down=$down+55;
+      
+      if($count==9 || $count==17 || $count==25 || $count==33)
+      {
      $left=10;
- $left1=110;
+//  $left1=110;
   $down=10;
-$down1=5;
-  $down=5;
-  $count=0;
-  $down11=5;
+// $down1=5;
+  // $down=5;
+  $count=1;
+  // $down11=5;
   
      $pdf->AddPage('P');
 
