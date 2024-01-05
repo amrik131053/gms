@@ -19186,7 +19186,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CollegeID=$row6['CollegeID'];
           }
           $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' ";
+
           $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+
           if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
           {
       
@@ -19327,7 +19329,7 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
             <tr>
 
     <td colspan="5">
-    <p style="color: green;text-align: center;"> <b>Form Submission Detail(By Student)</b></p>
+    <p style="color: green;text-align: center;"><b>Form Submission Detail(By Student)</b></p>
 
     <h6>Form is  Submitted  by the student on Dated :  <?=$FormSubmitDate;?></h6> </td>
 </tr>
@@ -20440,7 +20442,7 @@ else{
     Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
     ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-    where Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and  Admissions.Status='1' ";
+    where  Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and  Admissions.Status='1' ";
 
 }
 
@@ -22650,14 +22652,38 @@ $stmt1 = sqlsrv_query($conntest,$sql);
                                             </table>
                                             <br>
                                             <center>                               
-   <?php if($Status==4){?> 
+   <?php
+  $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Account' ";
+
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+          
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+      $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+      $CurrentExaminationLastDate=$getCurrentExamination_row['LastDate']->format('Y-m-d');
+      $CurrentExaminationType=$getCurrentExamination_row['Type'];
+      $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+
+          }
+
+
+ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Account' && $CurrentExamination==$examination)
+{ 
+    
+
+
+    if($Status==4){?> 
+
     <!-- <label class='text-danger text-sm'>Reject Remarks</label> -->
     <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
     <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
                                     a value minimum 5 characters.</small><br>
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
     <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
     <?php }?>
+
     <?php if($Status==5 && $Status!=6){?>
         <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
         <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
@@ -22665,9 +22691,17 @@ $stmt1 = sqlsrv_query($conntest,$sql);
         <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
         <?php }?>
         <?php if($Status==6){?>
+<p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
             <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
-            <?php }?>
+            <?php }
 
+        } 
+        else {
+            echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
+        }
+
+    ?>
         </center>
 
 
@@ -22706,8 +22740,9 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
        $ExamFromID=$_POST['ExamFromID'];
        $remark=$_POST['remark'];
-        $getDefalutMenu="UPDATE  ExamForm  SET AccountRejectDate='$remark',Status='6' Where ID='$ExamFromID'";
+     $getDefalutMenu="UPDATE  ExamForm  SET  AccountantRejectReason='$remark',AccountRejectDate='$timeStampS',Status='6' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {

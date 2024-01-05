@@ -252,7 +252,7 @@ function verifiy_select()
             {
                 this.checked = true;
             });
-        }
+        } 
         else 
         {
              $('.v_check').each(function()
@@ -436,7 +436,9 @@ function reject(ExamFromID) {
                 },
                 success: function(response) {
                     spinner.style.display = 'none';
+                    //console.log(response);
                     if (response == 1) {
+
                         SuccessToast('Successfully rejected');
                         edit_stu(ExamFromID);
                         fetchCutList();
