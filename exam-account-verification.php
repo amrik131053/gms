@@ -252,7 +252,7 @@ function verifiy_select()
             {
                 this.checked = true;
             });
-        }
+        } 
         else 
         {
              $('.v_check').each(function()
@@ -386,8 +386,8 @@ function exportExamForm() {
 
 function verify(ExamFromID)
  {
-    var r = confirm("Do you really want to Verifiy");
-    if (r == true) {
+    // var r = confirm("Do you really want to Verifiy");
+    // if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 328;
@@ -412,7 +412,7 @@ function verify(ExamFromID)
 
             }
         });
-    }
+  //  }
 }
 function reject(ExamFromID) {
    
@@ -420,8 +420,8 @@ function reject(ExamFromID) {
     let length = remark.length;
     if(remark!='' && length>5)
     {
-        var r = confirm("Do you really want to reject?");
-        if (r === true) {
+        // var r = confirm("Do you really want to reject?");
+        // if (r === true) {
             
             var spinner = document.getElementById("ajax-loader");
             spinner.style.display = 'block';
@@ -436,7 +436,9 @@ function reject(ExamFromID) {
                 },
                 success: function(response) {
                     spinner.style.display = 'none';
+                    //console.log(response);
                     if (response == 1) {
+
                         SuccessToast('Successfully rejected');
                         edit_stu(ExamFromID);
                         fetchCutList();
@@ -445,7 +447,7 @@ function reject(ExamFromID) {
                     }
                 }
             });
-        }
+        //}
     }else{
         $('#remarkReject').toggleClass("is-invalid");
         $('#error-reject-textarea').show();
