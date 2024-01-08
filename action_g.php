@@ -23656,7 +23656,9 @@ if($Status==6)
 elseif($code==339)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from StudentBusPassGKU inner join TBM_BusRootMaster ON  TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id Where  StudentBusPassGKU.SerialNo='$id'";
+  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+  ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
+   where StudentBusPassGKU.SerialNo='$id' order by StudentBusPassGKU.SerialNo ASC ";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -23667,7 +23669,7 @@ elseif($code==339)
              $print_date=$row5['print_date'];
              $session=$row5['session'];
              $SerialNo=$row5['SerialNo'];
-             $amount=$row5['amount'];
+             $amount=$row5['BusFee'];
              $spot=$row5['spot'];
              $RouteName=$row5['RouteName'];
              $Incharge=$row5['Incharge'];
@@ -23751,7 +23753,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 </tr>
  <tr>
    <td colspan="4"><b>Incharge:</b>&nbsp;&nbsp;<?php echo $Incharge;?></td>
-   <td colspan="4"><b>Ammount:</b>&nbsp;&nbsp;<?=$amount;?></td>
+   <td colspan="4"><b>Bus Fee:</b>&nbsp;&nbsp;<?=$amount;?></td>
 </tr>
 
  </table>
@@ -24175,7 +24177,9 @@ if($Status==8)
 elseif($code==345)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from StudentBusPassGKU inner join TBM_BusRootMaster ON  TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id Where  StudentBusPassGKU.SerialNo='$id'";
+  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+  ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
+   where StudentBusPassGKU.SerialNo='$id' order by StudentBusPassGKU.SerialNo ASC ";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -24189,6 +24193,7 @@ elseif($code==345)
              $session=$row5['session'];
              $SerialNo=$row5['SerialNo'];
              $amount=$row5['amount'];
+             $Fee_amount=$row5['BusFee'];
              $spot=$row5['spot'];
              $RouteName=$row5['RouteName'];
              $Incharge=$row5['Incharge'];
@@ -24274,7 +24279,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 </tr>
  <tr>
    <td colspan="4"><b>Incharge:</b>&nbsp;&nbsp;<?php echo $Incharge;?></td>
-   <td colspan="4"><b>Ammount:</b>&nbsp;&nbsp;<?=$amount;?></td>
+   <!-- <td colspan="2"><b>Paid Amount:</b>&nbsp;&nbsp;<?=$amount;?></td> -->
+   <td colspan="4"><b>Bus Fee:</b>&nbsp;&nbsp;<?=$Fee_amount;?></td>
 </tr>
 
  </table>
@@ -24303,14 +24309,14 @@ $stmt1 = sqlsrv_query($conntest,$sql);
                                             
                                             
                                                                                         <tr >
-                                                                                            <th>Receipt Date</th>
-                                                                                            <th>Receipt No</th>
-                                                                                            <th>Particulars</th>
-                                                                                            <th>LedgerName</th>
-                                                                                            <th>Installment</th>
-                                                                                            <th>Debit</th>
-                                                                                            <th>Credit</th>
-                                                                                            <th>Remarks</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Receipt Date</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Receipt No</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Particulars</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>LedgerName</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Installment</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Debit</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Credit</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'> Remarks</th>
                                             
                                             </tr></thead>
                                             <tbody>      
