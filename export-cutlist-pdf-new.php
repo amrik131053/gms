@@ -247,7 +247,7 @@ for($as=$subcount;$as<12;$as++)
 $extraColom++;
 }
 
-$list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex
+ $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         $j=100;
        
@@ -265,8 +265,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                 $ClassRollNos[]=$row['ClassRollNo'];
                  $Examid[]=$row['ID'];
                  $StudentNames[] =$row['StudentName'];
-                 $Snap[] =$row['Snap'];
-                 $Gender[] =$row['Sex'];           
+                    
+                       
  }
 
 
@@ -278,15 +278,17 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 
 
  $i=0;
-$totalStudent = 3;
-// $totalStudent = count($IDNos);
+$totalStudent =20;
+ //$totalStudent = count($IDNos);
 if (empty($IDNos)) {
     $pdf = new FPDF();
     $pdf->AddPage('L');
     $pdf->SetXY(10, 100);
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
-}else{
+}
+else
+{
 
     for ($p = 0; $p < $totalStudent / 25; $p++) {
         $pdf->AddPage('L');
@@ -303,7 +305,8 @@ if (empty($IDNos)) {
     $pdf->SetXY(8, 30);
     $r=79;
     $g=38;
-    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++)
+     {
         $pdf->SetXY(8, $y);
         $pdf->SetFont('Times', '', 10);
         $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);

@@ -235,7 +235,7 @@ if($lCount>0||$count>0)
                                     <span class="info-box-number"><?=$Examformaccountcr;?></span>
 
                                 </div>
-                                <span><a href=" "><i class="fa fa-eye"
+                                <span><a href="exam-account-verification.php"><i class="fa fa-eye"
                                             style="color:white;"></i></a></span>
                             </div>
                         </div>
