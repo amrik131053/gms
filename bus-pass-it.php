@@ -28,7 +28,26 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Session</label>
                                 <select id="Session" class="form-control form-control-sm" >
-                                    <option value="">Select</option>
+                                <option value="<?php   if(date('m')>6)
+                                    {  
+                                        echo $session='August'.date('Y');
+                                       }
+                                       else
+                                       {
+                                    
+                                        echo$session='Jan' . date('Y');
+                                   }?>"> <?php
+                                    if(date('m')>6)
+                                    {  
+                                        echo $session='August'.date('Y');
+                                       }
+                                       else
+                                       {
+                                    
+                                        echo $session='Jan' . date('Y');
+                                   }
+                                   ?></option>
+                                    
                                     <?php
                                      $sql="SELECT DISTINCT session from StudentBusPassGKU Order by session ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
@@ -91,6 +110,7 @@
 <!-- Modal -->
 
 <script>
+    fetchCutList();
 function printAll()
 {
   var verifiy=document.getElementsByClassName('v_check');

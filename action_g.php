@@ -23491,10 +23491,26 @@ elseif ($code==338)
 }
 else{
  $rollNo = $_POST['rollNo'];
- $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where StudentBusPassGKU.p_status='$Status'
-  and Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and
- (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+   if(date('m')>6)
+                                    {  
+                                         $session='August'.date('Y');
+                                       }
+                                       else
+                                       {
+                                    
+                                        $session='Jan' . date('Y');
+                                   }
 
+
+                                   if($_POST['rollNo'] !=''  && is_numeric($_POST['rollNo'])) 
+                                   {                  
+ $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where  Admissions.Status='1' and StudentBusPassGKU.Session='$session' and
+ (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+                                   }
+                                   else {
+                                    $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where  Admissions.Status='1' and StudentBusPassGKU.Session='$session' and
+                                    ( Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') order by StudentBusPassGKU.p_status ASC ";
+                                   }
 }
 ?>
 
@@ -23558,7 +23574,7 @@ else{
 elseif($Status==5)
              {
                
-               $trColor="#F3ED8F";
+               $trColor="#A9DFBF";
              }
 elseif($Status==6)
              {
@@ -24012,10 +24028,27 @@ $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.I
 }
 else{
  $rollNo = $_POST['rollNo'];
- $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where 
-   Admissions.Status='1' and StudentBusPassGKU.Session='$Session' and 
+ if(date('m')>6)
+ {  
+      $session='August'.date('Y');
+    }
+    else
+    {
+ 
+     $session='Jan' . date('Y');
+}
+if($_POST['rollNo'] !=''  && is_numeric($_POST['rollNo'])) 
+{
+  $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where 
+   Admissions.Status='1' and StudentBusPassGKU.Session='$session' and 
  (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') and (StudentBusPassGKU.p_status='3'or StudentBusPassGKU.p_status='4' or StudentBusPassGKU.p_status='5') order by StudentBusPassGKU.p_status ASC ";
-
+}
+else
+{
+     $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo where 
+    Admissions.Status='1' and StudentBusPassGKU.Session='$session' and 
+  ( Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') and (StudentBusPassGKU.p_status='3'or StudentBusPassGKU.p_status='4' or StudentBusPassGKU.p_status='5') order by StudentBusPassGKU.p_status ASC ";
+}
 }
 ?>
 
@@ -24080,7 +24113,7 @@ else{
 elseif($Status==5)
              {
                
-               $trColor="#F3ED8F";
+               $trColor="#28a745";
              }
 elseif($Status==6)
              {
