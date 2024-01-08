@@ -13,15 +13,15 @@
                         <span class="mr-2"> <button class="btn btn-primary btn-sm"  style="background-color:#D0EDFF; color:black;" data-toggle="tooltip" ><span class="badge"   id="pendingCount"> </span> Pending</button> </span>
                         <span class="mr-2"> <button class="btn btn-danger btn-sm"  style="background-color:;" data-toggle="tooltip" > <span class="badge" id="rejectCount"> </span> Rejected</button> </span>
                         <!-- <span class=""> <button class="btn  btn-sm " style="background-color:#F3ED8F; display:none;" data-toggle="tooltip" > <span class="badge" id="Forwardtodean"> </span> Forward to dean</button> </span> -->
-                        <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#F3ED8F;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Forward to IT</button> </span>
+                        <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#28a745; color:white;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Verified</button> </span>
                         <!-- <span class="mr-2"> <button class="btn btn-success btn-sm "  style="" data-toggle="tooltip" > <span class="badge" id="Accepted"> </span> Accepted</button> </span> -->
                         <span style="float:right;">
-      <!-- <button class="btn btn-sm ">
+      <button class="btn btn-sm ">
          <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Search RollNo">
       </button>
             <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
               Search
-            </button> -->
+            </button>
       </span>
                     </div>
                     <div class="card-body">
@@ -30,7 +30,25 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Session</label>
                                 <select id="Session" class="form-control form-control-sm" >
-                                    <option value="">Select</option>
+                                <option value="<?php   if(date('m')>6)
+                                    {  
+                                        echo $session='August'.date('Y');
+                                       }
+                                       else
+                                       {
+                                    
+                                        echo$session='Jan' . date('Y');
+                                   }?>"> <?php
+                                    if(date('m')>6)
+                                    {  
+                                        echo $session='August'.date('Y');
+                                       }
+                                       else
+                                       {
+                                    
+                                        echo $session='Jan' . date('Y');
+                                   }
+                                   ?></option>
                                     <?php
                                      $sql="SELECT DISTINCT session from StudentBusPassGKU Order by session ASC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
@@ -56,7 +74,7 @@
                                     <!-- <option value="All">All</option> -->
                                     <option value="3">Pending</option>
                                     <option value="4">Rejected</option>
-                                    <option value="5">Forward to IT</option>
+                                    <option value="5">Verified</option>
                                                             
                                 </select>
 
@@ -97,6 +115,7 @@
 <!-- Modal -->
 
 <script>
+fetchCutList();
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -108,34 +127,21 @@ $(function () {
 cutlistCountDepartment();
 function cutlistCountDepartment() {
     var code = 347;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
-    var Examination = document.getElementById('Examination').value;
+    var Session = document.getElementById('Session').value;
         $.ajax({
             url: 'action_g.php',
             type: 'post',
             data: {
                 code: code,
-                College: College,
-                Course: Course,
-                Batch: Batch,
-                Semester: Semester,
-                Type: Type,
-                Group: Group,
-                Examination: Examination
+                Session: Session
             },
             success: function(response) {
-                // console.log(response);
+                console.log(response);
                 var data = JSON.parse(response);
                 document.getElementById("pendingCount").textContent = data[0];
                 document.getElementById("rejectCount").textContent = data[1];
-                // document.getElementById("Forwardtodean").textContent = data[2];
                 document.getElementById("Forwardtoaccount").textContent = data[2];
-                // document.getElementById("Accepted").textContent = data[4];
+                // document.getElementById("Accepted").textContent = data[3];
 
                 
 
