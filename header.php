@@ -96,7 +96,7 @@ if ($result->num_rows > 0)
            header('Location:not_found.php');
        } 
     }
-    $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+    $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         {
@@ -104,6 +104,7 @@ if ($result->num_rows > 0)
    $Emp_Image=$row_staff['Snap'];
     $Emp_Department=$row_staff['Department'];
      $Emp_Designation=$row_staff['Designation'];
+     $Emp_CollegeID=$row_staff['CollegeID'];
     $DateOfJoining=$row_staff['DateOfJoining'];
     $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
         }
