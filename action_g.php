@@ -23672,14 +23672,14 @@ if($Status==6)
 elseif($code==339)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName,StudentBusPassGKU.IDNo as PIDNo FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
   ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
    where StudentBusPassGKU.SerialNo='$id' order by StudentBusPassGKU.SerialNo ASC ";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
-             $IDNo=$row5['IDNo'];
+             $IDNo=$row5['PIDNo'];
              $receipt_date=$row5['receipt_date'];
              $acverify_date=$row5['acverify_date'];
              $print_date=$row5['print_date'];
@@ -23715,7 +23715,7 @@ elseif($code==339)
 $stmt1 = sqlsrv_query($conntest,$sql);
         while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $IDNo= $row6['IDNo'];
+            // $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
             $img= $row6['Snap'];
             $UniRollNo= $row6['UniRollNo'];
@@ -24210,14 +24210,14 @@ if($Status==8)
 elseif($code==345)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+  $list_sqlw5 ="SELECT *,TBM_BusStopageMaster.Spot as SpotName,StudentBusPassGKU.IDNo as PIDNo FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
   ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
    where StudentBusPassGKU.SerialNo='$id' order by StudentBusPassGKU.SerialNo ASC ";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
-             $IDNo=$row5['IDNo'];
+             $IDNo=$row5['PIDNo'];
              $receipt_date=$row5['receipt_date'];
              $itreason=$row5['itreason'];
              $ac_reason=$row5['ac_reason'];
@@ -24258,7 +24258,7 @@ elseif($code==345)
 $stmt1 = sqlsrv_query($conntest,$sql);
         while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
          {
-            $IDNo= $row6['IDNo'];
+            // $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
             $img= $row6['Snap'];
             $UniRollNo= $row6['UniRollNo'];
