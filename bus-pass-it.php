@@ -125,8 +125,17 @@ var len_student= verifiy.length;
             Ids.push(verifiy[i].value);
            
         }
+
     }
-    window.open("print_id_card_pass.php?code=" + code + "&id_array=" +Ids, '_blank');
+   
+    if(Ids=='')
+  {
+    ErrorToast(' Select atleast one' ,'bg-warning');
+  }
+  else{
+
+      window.open("print_id_card_pass.php?code=" + code + "&id_array=" +Ids, '_blank');
+  }
 }
 
 
@@ -265,7 +274,7 @@ function searchStudentOnRollNo() {
 function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-    // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+    // alert(id);
     var code = 339;
     $.ajax({
         url: 'action_g.php',
