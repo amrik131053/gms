@@ -347,19 +347,18 @@ if($lCount>0||$count>0)
 
                                  <div class="info-box-content">
                                     <span class="info-box-text">Bus Pass  Verification  Pending<span>
-                                    <span class="info-box-number"><?=$pass_count;?><a href="bus-pass-it.php">&nbsp; &nbsp;<i class="fa fa-eye"
-                                            style="color:white;"></i></a></span>
+                                    <span class="info-box-number"><?=$pass_count;?></span>
                                   
 
                                 </div>
 
                                  <div class="info-box-content">
                                     <span class="info-box-text">Bus Pass  Print Pending<span>
-                                    <span class="info-box-number"><?=$pass_countp;?>&nbsp;&nbsp;<a href="movement-admin.php"><i class="fa fa-eye"
-                                            style="color:white;"></i></a></span>
+                                    <span class="info-box-number"><?=$pass_countp;?>&nbsp;&nbsp;</span>
 
                                 </div>
-                                
+                                 <span class="info-box-number"><a href="bus-pass-it.php"><i class="fa fa-eye"
+                                            style="color:white;"></i></a></span>
                             </div>
                         </div>
 
