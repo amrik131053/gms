@@ -16,12 +16,12 @@
                         <span class="mr-2"> <button class="btn  btn-sm "  style="background-color:#F3ED8F;" data-toggle="tooltip" > <span class="badge" id="Forwardtoaccount"> </span> Forward to IT</button> </span>
                         <!-- <span class="mr-2"> <button class="btn btn-success btn-sm "  style="" data-toggle="tooltip" > <span class="badge" id="Accepted"> </span> Accepted</button> </span> -->
                         <span style="float:right;">
-      <button class="btn btn-sm ">
+      <!-- <button class="btn btn-sm ">
          <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Search RollNo">
       </button>
             <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
               Search
-            </button>
+            </button> -->
       </span>
                     </div>
                     <div class="card-body">
@@ -50,7 +50,17 @@
                                 </select>
 
                             </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                <label>Status</label>
+                                <select id="Status" class="form-control form-control-sm" >
+                                    <!-- <option value="All">All</option> -->
+                                    <option value="3">Pending</option>
+                                    <option value="4">Rejected</option>
+                                    <option value="5">Forward to IT</option>
+                                                            
+                                </select>
 
+                            </div>
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
@@ -148,6 +158,7 @@ function fetchCutList() {
  
    
     var Session = document.getElementById('Session').value;
+    var Status = document.getElementById('Status').value;
     
     if (Session != '') {
         var spinner = document.getElementById("ajax-loader");
@@ -157,6 +168,7 @@ function fetchCutList() {
             url: 'action_g.php',
             data: {
                 code: code,
+                Status: Status,
                 Session: Session,sub_data:sub_data
             },
             type: 'POST',
@@ -314,7 +326,7 @@ function RejectAC(ID)
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                // console.log(response);
+                console.log(response);
                 if (response == 1) {
                     
                     SuccessToast('Successfully Reject');
@@ -338,7 +350,7 @@ function RejectAC(ID)
 </script>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Bus Pass</h5>
