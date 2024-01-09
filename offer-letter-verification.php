@@ -203,7 +203,7 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                          table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
+                          table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan="1"><select class="form-control" id="yearwise"><option value="1">First</option><option value="2">Second</option><option value="3">Three</option><option value="4">Four</option></select></td><td colspan="1"><button onclick="printYearWiseLAtter();" class="btn btn-success " ><i class="fa fa-print"></i></button > </td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
 
 
 
@@ -382,6 +382,22 @@ table +='<button   class="btn btn-danger btn-xs " >LEFT</button >';
    }
    if (id_array_main.length > 0) {
       window.open('print_offer_letter_second_plan.php?id_array='+id_array_main);
+   } else {
+      ErrorToast('All Input Required', 'bg-warning');
+   }
+}
+         function printYearWiseLAtter() {
+   var id_array = document.getElementsByName('selectedRows[]');
+   var years=document.getElementById('yearwise').value;
+   var len_id = id_array.length;
+   var id_array_main = [];
+   for (i = 0; i < len_id; i++) {
+      if (id_array[i].checked === true) {
+         id_array_main.push(id_array[i].value);
+      }
+   }
+   if (id_array_main.length > 0) {
+      window.open('print_offer_letter_year_wise.php?id_array='+id_array_main+'&years='+years);
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }
