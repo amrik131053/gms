@@ -22668,8 +22668,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
           }
 
 
- if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Account' && $CurrentExamination==$examination)
-{ 
+//  if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Account' && $CurrentExamination==$examination)
+// { 
     
 
 
@@ -22696,10 +22696,10 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
             <?php }
 
-        } 
-        else {
-            echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
-        }
+        // } 
+        // else {
+        //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
+        // }
 
     ?>
         </center>
