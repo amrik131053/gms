@@ -1,151 +1,15 @@
 <?php
 require('fpdf/fpdf.php');
-
-ini_set('max_execution_time', '0');
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
-   function convertToIndianCurrency($billAmount) {
-    $no = round($billAmount);
-    $decimal = round($billAmount - ($no = floor($billAmount)), 2) * 100;    
-    $digits_length = strlen($no);    
-    $i = 0;
-    $str = array();
-    $words = array(
-        0 => '',
-        1 => 'One',
-        2 => 'Two',
-        3 => 'Three',
-        4 => 'Four',
-        5 => 'Five',
-        6 => 'Six',
-        7 => 'Seven',
-        8 => 'Eight',
-        9 => 'Nine',
-        10 => 'Ten',
-        11 => 'Eleven',
-        12 => 'Twelve',
-        13 => 'Thirteen',
-        14 => 'Fourteen',
-        15 => 'Fifteen',
-        16 => 'Sixteen',
-        17 => 'Seventeen',
-        18 => 'Eighteen',
-        19 => 'Nineteen',
-        20 => 'Twenty',
-        30 => 'Thirty',
-        40 => 'Forty',
-        50 => 'Fifty',
-        60 => 'Sixty',
-        70 => 'Seventy',
-        80 => 'Eighty',
-        90 => 'Ninety');
-    $digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore');
-    while ($i < $digits_length) {
-        $divider = ($i == 2) ? 10 : 100;
-        $number = floor($no % $divider);
-        $no = floor($no / $divider);
-        $i += $divider == 10 ? 1 : 2;
-        if ($number) {
-            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
-            $str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
-        } else {
-            $str [] = null;
-        }  
-    }
-    
-    $Rupees = implode(' ', array_reverse($str));
-    $paise = ($decimal) ? "and ". ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  ." Paise" : '';
-    return ($Rupees ?  $Rupees .'Rupees ' : '') . $paise . " Only";
-} 
-class PDF extends FPDF
-{
-  function subWrite($h, $txt, $link='', $subFontSize=12, $subOffset=0)
-{
-  // resize font
-  $subFontSizeold = $this->FontSizePt;
-  $this->SetFontSize($subFontSize);
-  
-  // reposition y
-  $subOffset = ((($subFontSize - $subFontSizeold) / $this->k) * 0.3) + ($subOffset / $this->k);
-  $subX        = $this->x;
-  $subY        = $this->y;
-  $this->SetXY($subX, $subY - $subOffset);
-
-  //Output text
-  $this->Write($h, $txt, $link);
-
-  // restore y position
-  $subX        = $this->x;
-  $subY        = $this->y;
-  $this->SetXY($subX,  $subY + $subOffset);
-
-  // restore font size
-  $this->SetFontSize($subFontSizeold);
-}
-
-   function Header()
-{ 
-// $LocationID  = $GLOBALS['LocationID'];
-
-
-}
 
 
 
+ $id=$_POST['meterReadingId'];
 
-
-function Footer()
-{ 
- $ctime = date("d-m-Y h:i:s A");
- 
-    // Position at 1.5 cm from bottom
-    $this->SetXY(150,-10);
-    // Times italic 8
-    $this->SetFont('Times','I',12
-  );
-    // Page number
-    $this->Cell(0,10,'Printed on '.$ctime,0,0,'C');
-    $this->SetXY(10,-10);
-}
-
-}
-
-$pdf = new PDF();
-
-  $count=0;
-    $totalBill=0;
-    $building=$_GET['id'];
-     $sss="SELECT *  from group_master where Id='$building'";
-     $group=mysqli_query($conn,$sss);
-                  if($data=mysqli_fetch_array($group))
-                  {
-    $ids1=$data['LocationID'];
-                  }
-
-  $ids = explode(",", $ids1);
-  // $pdf = new PDF();
-  $pdf->AddPage();
-foreach ($ids as $key => $value) {
-  $sql="SELECT  IDNo,building_master.Name as bname  from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID  INNer join building_master on building_master.Id=location_master.Block  where location_master.ID='$value'  ";
-
-
-  $res=mysqli_query($conn,$sql);
-  if($data1=mysqli_fetch_array($res))
-  {
-      $ownerTable='';
-      $newDateTable='';
-      $oldDateTable='';
-      $roomName='';
-      
-      $count++;
-      $article_num=$data1['IDNo'];
-      $buildingName=$data1['bname'];
-  }
-
-    // $sql="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where meter_reading.ID='$article_num'";
-    $sql="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block INNER JOIN room_name_master ON room_name_master.ID=location_master.RoomName where article_no='$article_num' ORDER by meter_reading.ID DESC";
+ $sql="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where meter_reading.ID='$id'";
 $res=mysqli_query($conn,$sql);
-if ($data=mysqli_fetch_array($res) )
+while ($data=mysqli_fetch_array($res) )
 {
   $meterLocation=$data['location_id'];
   $currentOwner=$data['current_owner'];
@@ -206,7 +70,7 @@ if ($data=mysqli_fetch_array($res) )
  {
     $result1 = "SELECT  * FROM Admissions where UniRollNo='$currentOwner' or ClassRollNo='$currentOwner' or IDNo='$currentOwner'";
 $stmt1 = sqlsrv_query($conntest,$result1);
-if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {
 
     $IDNo= $row['IDNo'];
@@ -244,14 +108,137 @@ if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 }
 
 
+function convertToIndianCurrency($billAmount) {
+    $no = round($billAmount);
+    $decimal = round($billAmount - ($no = floor($billAmount)), 2) * 100;    
+    $digits_length = strlen($no);    
+    $i = 0;
+    $str = array();
+    $words = array(
+        0 => '',
+        1 => 'One',
+        2 => 'Two',
+        3 => 'Three',
+        4 => 'Four',
+        5 => 'Five',
+        6 => 'Six',
+        7 => 'Seven',
+        8 => 'Eight',
+        9 => 'Nine',
+        10 => 'Ten',
+        11 => 'Eleven',
+        12 => 'Twelve',
+        13 => 'Thirteen',
+        14 => 'Fourteen',
+        15 => 'Fifteen',
+        16 => 'Sixteen',
+        17 => 'Seventeen',
+        18 => 'Eighteen',
+        19 => 'Nineteen',
+        20 => 'Twenty',
+        30 => 'Thirty',
+        40 => 'Forty',
+        50 => 'Fifty',
+        60 => 'Sixty',
+        70 => 'Seventy',
+        80 => 'Eighty',
+        90 => 'Ninety');
+    $digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore');
+    while ($i < $digits_length) {
+        $divider = ($i == 2) ? 10 : 100;
+        $number = floor($no % $divider);
+        $no = floor($no / $divider);
+        $i += $divider == 10 ? 1 : 2;
+        if ($number) {
+            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
+            $str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
+        } else {
+            $str [] = null;
+        }  
+    }
+    
+    $Rupees = implode(' ', array_reverse($str));
+    $paise = ($decimal) ? "and ". ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  ." Paise" : '';
+    return ($Rupees ?  $Rupees .'Rupees ' : '') . $paise . " Only";
+}
 
 $englishBill=convertToIndianCurrency($billAmount);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $d=0;
+ 
+class PDF extends FPDF
+{
+  function subWrite($h, $txt, $link='', $subFontSize=12, $subOffset=0)
+{
+  // resize font
+  $subFontSizeold = $this->FontSizePt;
+  $this->SetFontSize($subFontSize);
+  
+  // reposition y
+  $subOffset = ((($subFontSize - $subFontSizeold) / $this->k) * 0.3) + ($subOffset / $this->k);
+  $subX        = $this->x;
+  $subY        = $this->y;
+  $this->SetXY($subX, $subY - $subOffset);
+
+  //Output text
+  $this->Write($h, $txt, $link);
+
+  // restore y position
+  $subX        = $this->x;
+  $subY        = $this->y;
+  $this->SetXY($subX,  $subY + $subOffset);
+
+  // restore font size
+  $this->SetFontSize($subFontSizeold);
+}
+
+   function Header()
+{ 
+// $LocationID  = $GLOBALS['LocationID'];
 
 
+}
+
+
+
+
+
+function Footer()
+{ 
+ $ctime = date("d-m-Y h:i:s A");
+ 
+    // Position at 1.5 cm from bottom
+    $this->SetXY(150,-10);
+    // Times italic 8
+    $this->SetFont('Times','I',12
+  );
+    // Page number
+    $this->Cell(0,10,'Printed on '.$ctime,0,0,'C');
+    $this->SetXY(10,-10);
+}
+
+}
+
+$pdf = new PDF();
+$pdf->AddPage();
 $pdf->SetFont('Times','b',16);
 $pdf->SetXY(4,10);
 $pdf->Image('https://recruitment.gurukashiuniversity.in/images/logo-blue.png', 11, 11, 40);
@@ -594,9 +581,8 @@ for($i=0,$y=38;$i<$a_count;$i++)
   $srno=1;  
 $pagebottomNumber=3;
 $page_number=0;
-// $pdf = new PDF();
-$pdf->AddPage();
-}
+
+
 
 $pdf->Output();
 ?>

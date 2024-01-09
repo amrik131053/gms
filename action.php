@@ -16920,10 +16920,10 @@ else if($code==284)
                     ?><tr style="text-align: center;"><td><?=$data['GroupName'];?></td>
                      <td>
 
-                     <button class='btn btn-xs' type='submit' style='color:green;' onclick='groupexport(<?=$data['Id'];?>)' ><i class='fa fa-file-excel fa-2x'></i></button></td>
+                     <button class='btn btn-xs' type='submit' style='color:green;' onclick="groupexport(<?=$data['Id'];?>)" ><i class='fa fa-file-excel fa-2x'></i></button></td>
 
 
-                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick='groupexportpdf(<?=$data['Id'];?>)' >
+                     <td> <button class='btn btn-xs' type='submit' style='color:red;' onclick="groupexportpdf(<?=$data['Id'];?>)" >
 
                         <i class="fa fa-file-pdf  fa-2x" aria-hidden="true" ></i></button></td></tr>
                     <?php 
