@@ -124,9 +124,10 @@ $pdf = new PDF();
 
   $ids = explode(",", $ids1);
   // $pdf = new PDF();
-  $pdf->AddPage();
+  // $pdf->AddPage();
 foreach ($ids as $key => $value) {
-  $sql="SELECT  IDNo,building_master.Name as bname  from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID  INNer join building_master on building_master.Id=location_master.Block  where location_master.ID='$value'  ";
+  $pdf->AddPage();
+  $sql="SELECT  IDNo,building_master.Name as bname  from  stock_summary  INNer  join location_master on stock_summary.LocationID = location_master.ID  INNer join building_master on building_master.Id=location_master.Block  where location_master.ID='$value' AND stock_summary.status='2' ANd ArticleCode='34'  ";
 
 
   $res=mysqli_query($conn,$sql);
@@ -595,7 +596,7 @@ for($i=0,$y=38;$i<$a_count;$i++)
 $pagebottomNumber=3;
 $page_number=0;
 // $pdf = new PDF();
-$pdf->AddPage();
+
 }
 
 $pdf->Output();
