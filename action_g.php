@@ -18340,11 +18340,23 @@ $tcredit=$rowww['totalcredit'];
    if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
    {                                 
 
-   ?><br>
+if($Locked>0 && $role_id!='2')
+{?>
+ <button type="button" class="btn btn-danger"
+                               >Locked</button>
+<?php }
+else
+{
+   ?>
+
+   <br>
+
+
                             <button type="button" onclick="uploadPhotoStudent(this.form)" class="btn btn-primary"
                                 id="update_button" style="display:none;">Update</button>
                        
-                        <?php } ?>
+                        <?php }
+                        } ?>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </div>
