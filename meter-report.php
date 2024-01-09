@@ -91,7 +91,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                               </div>
    <div class="col-lg-1">
                                  <div class="input-group-sm">
-                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportDataall()" >Export Aldsfdsfl</button>
+                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportDataall()" >Export</button>
                                  </div>
                               </div>
 
@@ -268,7 +268,8 @@ function groupexportpdf(id)
            
             var group=id;
             
-          window.location.href="group-reading-pdf.php?group="+group;
+          
+          window.open("group-reading-pdf.php?id=" + group, '_blank');
       }
 
 
