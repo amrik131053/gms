@@ -160,10 +160,10 @@
                                
                                 
                                                     &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
-                                                    class="fa fa-file-excel"></i></button> <?php if($EmployeeID=='131053'){?>
+                                                    class="fa fa-file-excel"></i></button> 
                                                        
                                 <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
-                                                    class="fa fa-file-pdf"></i></button><?php }?>
+                                                    class="fa fa-file-pdf"></i></button>
                             </div>
                             <!-- <div class="col-lg-1 col-md-1 col-sm-13">
                                 <label>&nbsp;</label><br>
