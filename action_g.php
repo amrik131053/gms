@@ -24618,7 +24618,7 @@ if($Status==6)
         $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
         $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
 
-          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status='5'  ANd session='$Session' ";
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status>='5'  ANd session='$Session' ";
             $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
 

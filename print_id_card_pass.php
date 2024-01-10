@@ -1872,7 +1872,7 @@ $id=explode(",",$sel);
    
    $pdf->SetXY($left,$down);
     $pdf->MultiCell(80,50,'','','C');
-   		  $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+   		  $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
    $up1 = sqlsrv_query($conntest,$up);
    	}
    	elseif($count==2 )
@@ -1987,7 +1987,7 @@ $pdf->SetXY($left,$down+46);
  
  $pdf->SetXY($left,$down);
   $pdf->MultiCell(80,50,'','','C');
-       $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up="Update StudentBusPassGKU set p_status ='6', print_date='$timeStamp' where SerialNo='$value'";
  $up1 = sqlsrv_query($conntest,$up);
 
    	}
@@ -2102,7 +2102,7 @@ $pdf->SetXY($left,$down+46);
  
  $pdf->SetXY($left,$down);
   $pdf->MultiCell(80,50,'','','C');
-       $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
  $up1 = sqlsrv_query($conntest,$up);
    	}
    	elseif($count==4 )
@@ -2216,7 +2216,7 @@ $pdf->SetXY($left,$down+46);
        
        $pdf->SetXY($left,$down);
         $pdf->MultiCell(80,50,'','','C');
-             $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+             $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
        $up1 = sqlsrv_query($conntest,$up);
    	}
 
@@ -2330,7 +2330,7 @@ $pdf->SetXY($left,$down+46);
  
  $pdf->SetXY($left,$down);
   $pdf->MultiCell(80,50,'','','C');
-       $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
  $up1 = sqlsrv_query($conntest,$up);
    	}
 
@@ -2446,7 +2446,7 @@ if ($count==6)
        
        $pdf->SetXY($left,$down);
         $pdf->MultiCell(80,50,'','','C');
-             $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+             $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
        $up1 = sqlsrv_query($conntest,$up);
    	}
    	elseif($count==7 )
@@ -2560,7 +2560,7 @@ if ($count==6)
        
        $pdf->SetXY($left,$down);
        $pdf->MultiCell(80,50,'','','C');
-       $up="Update StudentBusPassGKU set p_status ='6' where SerialNo='$value'";
+       $up="Update StudentBusPassGKU set p_status ='6' , print_date='$timeStamp' where SerialNo='$value'";
         $up1 = sqlsrv_query($conntest,$up);
        
       }

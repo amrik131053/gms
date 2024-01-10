@@ -44,8 +44,8 @@ if ($exportCode == 0)
     }
     echo "\n";
    if ($officeOwnerID!='') 
-                     {
-                         
+     {
+         
                         $sql=" SELECT *, colleges.name as clg_name , user.name as employee_name, room_name_master.ID as rnm_id,location_master.ID as lm_id,location_master.Floor as Floor_name  FROM location_master left join room_type_master on room_type_master.ID=location_master.Type left join room_name_master on room_name_master.ID=location_master.RoomName left JOIN building_master on building_master.ID=location_master.Block left join colleges on location_master.CollegeID=colleges.ID left join user on location_master.location_owner=user.emp_id WHERE location_master.location_owner='$officeOwnerID'";
                      }
                      else
@@ -5664,126 +5664,264 @@ elseif($Status==8)
                                     echo $exportstudy;
                                     $fileName=$Course." Students Exam Form ";
                                      } 
-                                     else if($exportCode==50)
-                                     {
-                                       
-                                            $SrNo=1;
-                                            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-                                            <thead>  
-                                            <tr>
-                                            ";
-                                            $SrNo=1;
-                                            $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-                                            <thead>  
-                                            <tr>
-                                            ";
-                                            $exportstudy.="
-                                                
-                                                <th style='background-color:black; color:white;'>Course</th>
-                                                <th style='background-color:black; color:white;'>Batch</th>
-                                                <th style='background-color:black; color:white;'>Semester</th>
-                                                <th style='background-color:black; color:white;'>Examination</th>
-                                                <th style='background-color:black; color:white;'>Registration Branch</th>
-                                                <th style='background-color:black; color:white;'>Department </th>
-                                                <th style='background-color:black; color:white;'>Account Branch</th>
-                                                <th style='background-color:black; color:white;'>Examination Branch</th>
-                                                <th style='background-color:black; color:white;'>Accepted</th>
-                                               
-                                               
-                                                ";
-                                                       
-                                                                   
-                                                $CollegeID=$_GET['CollegeID'];
-                                                
-                                                if($_GET['Examination']!='')
-                                                {
-                                                     $Examination=$_GET['Examination'];
-                                                }else{
-                                                    $Examination=$CurrentExamination;
-                                            
-                                                }
-                                                $getCourse="SELECT Distinct ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,MasterCourseCodes.Course,ExamForm.CourseID FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID Where  ExamForm.CollegeID='$CollegeID' AND ExamForm.Examination='$Examination' order by ExamForm.Batch ASC ";
-                                                $getCourseRun=sqlsrv_query($conntest,$getCourse);
-                                                while($rowCourseName = sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
-                                                { 
-                                                    $CourseID=$rowCourseName['CourseID'];
-                                                 $getToTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getToTotal_run=sqlsrv_query($conntest,$getToTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Total=sqlsrv_num_rows($getToTotal_run);
-                                                
-                                                 $getActiveTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='-1' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Registration=sqlsrv_num_rows($getActiveTotal_run);
-                                                
-                                                $getRegReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='22' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getRegReject_run=sqlsrv_query($conntest,$getRegReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $RegistrationReject=sqlsrv_num_rows($getRegReject_run);
-                                                $getRegForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='5'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getRegForward_run=sqlsrv_query($conntest,$getRegForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
-                                               
-                                                 $getdpPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and (ExamForm.Status='0' or ExamForm.Status='1') and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getdpPending_run=sqlsrv_query($conntest,$getdpPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Department=sqlsrv_num_rows($getdpPending_run);
-                                                $getDpReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and (ExamForm.Status='2' or ExamForm.Status='3')  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
-                                                $getDpReject_run=sqlsrv_query($conntest,$getDpReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $DepartmentReject=sqlsrv_num_rows($getDpReject_run);
-                                                $getDpForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='4'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getDpForward_run=sqlsrv_query($conntest,$getDpForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $DepartmentForward=sqlsrv_num_rows($getDpForward_run);
-                                               
-                                                $getACPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='4' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getACPending_run=sqlsrv_query($conntest,$getACPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Account=sqlsrv_num_rows($getACPending_run);
-                                                $getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='6' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $AccountReject=sqlsrv_num_rows($getACReject_run);
-                                                $getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='5' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getACForward_run=sqlsrv_query($conntest,$getACForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $AccountForward=sqlsrv_num_rows($getACForward_run);
-                                            
-                                                $getExamPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='5' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getExamPending_run=sqlsrv_query($conntest,$getExamPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Examination1=sqlsrv_num_rows($getExamPending_run);
-                                            
-                                                $getExamReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='7' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getExamReject_run=sqlsrv_query($conntest,$getExamReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $ExaminationReject=sqlsrv_num_rows($getExamReject_run);
-                                                $getExamForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='8' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getExamForward_run=sqlsrv_query($conntest,$getExamForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $ExaminationForward=sqlsrv_num_rows($getExamForward_run);
-                                            
-                                                $getleftTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='8'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
-                                                $getleftTotal_run=sqlsrv_query($conntest,$getleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                $Accepeted=sqlsrv_num_rows($getleftTotal_run);
+ else if($exportCode==50)
+ {
+   
+        $SrNo=1;
+        $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+        <thead>  
+        <tr>
+        ";
+        $SrNo=1;
+        $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+        <thead>  
+        <tr>
+        ";
+        $exportstudy.="
+            
+            <th style='background-color:black; color:white;'>Course</th>
+            <th style='background-color:black; color:white;'>Batch</th>
+            <th style='background-color:black; color:white;'>Semester</th>
+            <th style='background-color:black; color:white;'>Examination</th>
+            <th style='background-color:black; color:white;'>Registration Branch</th>
+            <th style='background-color:black; color:white;'>Department </th>
+            <th style='background-color:black; color:white;'>Account Branch</th>
+            <th style='background-color:black; color:white;'>Examination Branch</th>
+            <th style='background-color:black; color:white;'>Accepted</th>
+           
+           
+            ";
+                   
+                               
+            $CollegeID=$_GET['CollegeID'];
+            
+            if($_GET['Examination']!='')
+            {
+                 $Examination=$_GET['Examination'];
+            }else{
+                $Examination=$CurrentExamination;
+        
+            }
+            $getCourse="SELECT Distinct ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,MasterCourseCodes.Course,ExamForm.CourseID FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID Where  ExamForm.CollegeID='$CollegeID' AND ExamForm.Examination='$Examination' order by ExamForm.Batch ASC ";
+            $getCourseRun=sqlsrv_query($conntest,$getCourse);
+            while($rowCourseName = sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
+            { 
+                $CourseID=$rowCourseName['CourseID'];
+             $getToTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getToTotal_run=sqlsrv_query($conntest,$getToTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Total=sqlsrv_num_rows($getToTotal_run);
+            
+             $getActiveTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='-1' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Registration=sqlsrv_num_rows($getActiveTotal_run);
+            
+            $getRegReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='22' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getRegReject_run=sqlsrv_query($conntest,$getRegReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $RegistrationReject=sqlsrv_num_rows($getRegReject_run);
+            $getRegForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='5'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getRegForward_run=sqlsrv_query($conntest,$getRegForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
+           
+             $getdpPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and (ExamForm.Status='0' or ExamForm.Status='1') and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getdpPending_run=sqlsrv_query($conntest,$getdpPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Department=sqlsrv_num_rows($getdpPending_run);
+            $getDpReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and (ExamForm.Status='2' or ExamForm.Status='3')  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."' ";
+            $getDpReject_run=sqlsrv_query($conntest,$getDpReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $DepartmentReject=sqlsrv_num_rows($getDpReject_run);
+            $getDpForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='4'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getDpForward_run=sqlsrv_query($conntest,$getDpForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $DepartmentForward=sqlsrv_num_rows($getDpForward_run);
+           
+            $getACPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='4' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getACPending_run=sqlsrv_query($conntest,$getACPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Account=sqlsrv_num_rows($getACPending_run);
+            $getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='6' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $AccountReject=sqlsrv_num_rows($getACReject_run);
+            $getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='5' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getACForward_run=sqlsrv_query($conntest,$getACForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $AccountForward=sqlsrv_num_rows($getACForward_run);
+        
+            $getExamPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='5' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getExamPending_run=sqlsrv_query($conntest,$getExamPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Examination1=sqlsrv_num_rows($getExamPending_run);
+        
+            $getExamReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='7' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getExamReject_run=sqlsrv_query($conntest,$getExamReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $ExaminationReject=sqlsrv_num_rows($getExamReject_run);
+            $getExamForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='8' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getExamForward_run=sqlsrv_query($conntest,$getExamForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $ExaminationForward=sqlsrv_num_rows($getExamForward_run);
+        
+            $getleftTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."' and ExamForm.Status='8'  and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+            $getleftTotal_run=sqlsrv_query($conntest,$getleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $Accepeted=sqlsrv_num_rows($getleftTotal_run);
 
-                                                $Course=$rowCourseName['Course'];
-                                                $Bstch=$rowCourseName['Batch'];
-                                                $sem=$rowCourseName['SemesterId'];
-                                                $RE='<b style="color:blue;">'.$Registration.'</b>/<b style="color:red;">'.$RegistrationReject.'</b>';
-                                                $dep='<b style="color:blue;">'.$Department.'</b>/<b style="color:red;">'.$DepartmentReject.'</b>';
-                                                $AC='<b style="color:blue;">'.$Account.'</b>/<b style="color:red;">'.$AccountReject.'</b>';
-                                                $EE='<b style="color:blue;">'.$Examination1.'</b>/<b style="color:red;">'.$ExaminationReject.'</b>';
-                                                $Accepeted1='<b style="color:green;">'.$Accepeted.'</b>';
-                                                 
+            $Course=$rowCourseName['Course'];
+            $Bstch=$rowCourseName['Batch'];
+            $sem=$rowCourseName['SemesterId'];
+            $RE='<b style="color:blue;">'.$Registration.'</b>/<b style="color:red;">'.$RegistrationReject.'</b>';
+            $dep='<b style="color:blue;">'.$Department.'</b>/<b style="color:red;">'.$DepartmentReject.'</b>';
+            $AC='<b style="color:blue;">'.$Account.'</b>/<b style="color:red;">'.$AccountReject.'</b>';
+            $EE='<b style="color:blue;">'.$Examination1.'</b>/<b style="color:red;">'.$ExaminationReject.'</b>';
+            $Accepeted1='<b style="color:green;">'.$Accepeted.'</b>';
+             
 
-                                                                       $exportstudy.=" <tr >
-                                                                       <td>{$Course}</td>
-                                                                       <td>{$Bstch}</td>
-                                                                       <td>{$sem}</td>
-                                                                       <td>{$Examination}</td>
-                                                                       <td>{$RE}</td>
-                                                                       <td>{$dep}</td>
-                                                                       <td>{$AC}</td>
-                                                                       <td>{$EE}</td>
-                                                                       <td>{$Accepeted1}</td>
-                                                                       </tr>";
-                                          }
+                                   $exportstudy.=" <tr >
+                                   <td>{$Course}</td>
+                                   <td>{$Bstch}</td>
+                                   <td>{$sem}</td>
+                                   <td>{$Examination}</td>
+                                   <td>{$RE}</td>
+                                   <td>{$dep}</td>
+                                   <td>{$AC}</td>
+                                   <td>{$EE}</td>
+                                   <td>{$Accepeted1}</td>
+                                   </tr>";
+      }
 
-                                                    $exportstudy.="</table>";
-                                                    echo $exportstudy;
-                                                    $fileName=" Students Exam Form ";
-                                                     } 
+                $exportstudy.="</table>";
+                echo $exportstudy;
+                $fileName=" Students Exam Form ";
+                 } 
+
+ else if($exportCode==51)
+ {
+    
+    
+ $Session=$_GET['Session'];
+ $Status=$_GET['Status'];
+ 
+ $SrNo=1;
+
+ 
+
+
+ 
+
+ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+         <thead>  
+         <tr>
+        ";
+ 
+  $exportstudy.="
+     <th>SrNo</th>
+     <th>ClassRoll No </th>
+     <th>UniRoll No</th>
+     <th>Name </th>
+     <th>College </th>
+     <th>Course  </th>
+     <th>Batch  </th>
+     <th>Submit Date </th>
+     <th>IT Verify Date </th>";
+     if($Status=='4')
+     {
+        $exportstudy.=" <th>Account Reject Date </th>";
+
+     }
+     elseif($Status==5){
+        $exportstudy.="   <th>Account Verify Date </th>";
+        $exportstudy.="<th>Print Date </th>";
+     }
+     else{
+        
+
+     }
+     
+
+   $exportstudy.="</tr>  
+         </thead>"; 
+ 
+ 
+ 
+ if($Status!='5')
+ {
+    $list_sql="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+    ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
+     where StudentBusPassGKU.p_status='$Status' and StudentBusPassGKU.session='$Session' order by StudentBusPassGKU.SerialNo ASC  ";
+ }
+ else
+ {
+    $list_sql="SELECT *,TBM_BusStopageMaster.Spot as SpotName FROM StudentBusPassGKU left join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo inner join TBM_BusRootMaster
+    ON TBM_BusRootMaster.BusRouteID=StudentBusPassGKU.route_id  inner join TBM_BusStopageMaster ON TBM_BusStopageMaster.StopageID=StudentBusPassGKU.spot_id
+     where StudentBusPassGKU.p_status>='$Status' and StudentBusPassGKU.session='$Session' order by StudentBusPassGKU.SerialNo ASC  ";
+ }
+        
+ $j=0;
+
+
+         $list_result = sqlsrv_query($conntest,$list_sql);
+             $count = 1;
+         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+            {
+            // print_r($row);
+         $IDNos=$row['IDNo'];
+         $UnirollNos=$row['UniRollNo'];
+         $ClassRollNos=$row['ClassRollNo'];
+          $StudentNames =$row['StudentName'];     
+          $College =$row['CollegeID'];     
+          $Course =$row['CourseID'];     
+          $Batch =$row['Batch'];     
+           
+          if($row['acverify_date']!=''){$acverify_date=$row['acverify_date']->format('d-m-Y H:i:s');}else{$acverify_date="";} 
+          if($row['receipt_date']!=''){ $FormSubmitDate=$row['receipt_date']->format('d-m-Y H:i:s'); }else {$FormSubmitDate="";}
+         if($row['print_date']!=''){$print_date=$row['print_date']->format('d-m-Y H:i:s');}else{$print_date="";}
+         if($row['SubmitDate']!=''){$SubmitDate=$row['SubmitDate']->format('d-m-Y H:i:s');}else{$SubmitDate="";}
+         if($row['itverifydate']!=''){$itverifydate=$row['itverifydate']->format('d-m-Y H:i:s');}else{$itverifydate="";}
+         if($row['acrejectdate']!=''){$acrejectdate=$row['acrejectdate']->format('d-m-Y H:i:s');}else{$acrejectdate="";}   
+          $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
+          $list_cllegename = sqlsrv_query($conntest,$collegename);
+            
+                        
+          if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+             {
+          
+             // print_r($row);
+          $CollegeName=$row_college['CollegeName'] ;
+          $CourseName=$row_college['Course'] ;
+          
+                  }
+       $exportstudy.="<tr>
+          <td>{$SrNo}</td>
+          <td>{$ClassRollNos}</th>
+          <th>{$UnirollNos}</td>
+          <td>{$StudentNames}</td>
+          <td>{$CollegeName}</td>
+          <td>{$CourseName}</td>
+          <td>{$Batch}</td>
+          <td>{$FormSubmitDate}</td>
+          <td>{$itverifydate}</td>";
+          if($Status=='4')
+          {
+            $exportstudy.="<td>{$acrejectdate}</td>";
+     
+          }
+          elseif($Status==5){
+            $exportstudy.="<td>{$acverify_date}</td>";
+            $exportstudy.="<td>{$print_date}</td>";
+          }
+          else{
+             
+     
+          }
+         
+          
+
+           $exportstudy.="</tr>";
+            $SrNo++; 
+         }
+ 
+ 
+   
+         $exportstudy.="</table>";
+         echo $exportstudy;
+         $fileName="Bus Pass";
+     }
+
+
+
+
+
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);

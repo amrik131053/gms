@@ -82,8 +82,8 @@
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
-                                                    class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
+                                 <button class="btn btn-success btn-sm " onclick="exportBusPassList()"><i
+                                                    class="fa fa-file-excel"></i></button>&nbsp;&nbsp;<!--
                                 <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
                                                     class="fa fa-file-pdf"></i></button> -->
                             </div>
@@ -136,7 +136,7 @@ function cutlistCountDepartment() {
                 Session: Session
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 var data = JSON.parse(response);
                 document.getElementById("pendingCount").textContent = data[0];
                 document.getElementById("rejectCount").textContent = data[1];
@@ -240,19 +240,13 @@ function edit_stu(id) {
 }
 
 
-function exportCutListExcel() {
-    var exportCode = 40;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
-    var Examination = document.getElementById('Examination').value;
-    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
-        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
-            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+function exportBusPassList() {
+    var exportCode = 51;
+    var Session = document.getElementById('Session').value;
+    var Status = document.getElementById('Status').value;
+    
+    if (Session != '' && Status != '') {
+        window.open("export.php?exportCode=" + exportCode + "&Session=" + Session + "&Status=" + Status);
 
     } else {
        
