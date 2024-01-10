@@ -1753,7 +1753,7 @@ $id=explode(",",$sel);
      while($row=sqlsrv_fetch_array($result))
    {
     $newDate=$row['expiryDate']->format('d-m-Y');
-    $text = "Name:".$row['StudentName']."\nRollNo:".$row['ClassRollNo']."\nPassNo".md5($row['SerialNo']."\nValid:".$newDate);
+    $text = "Name: ".$row['StudentName']."\nRollNo: ".$row['ClassRollNo']."\nPassNo: ".$row['SerialNo']."\nValid: ".$newDate;
       $path = 'degreeqr/';
       $file = $path.$row['ClassRollNo'].".png";
       $ecc = 'L';
