@@ -282,8 +282,8 @@ function exportCutListPdf() {
 
 function lockAC(ID)
  {
-    var r = confirm("Do you really want to Verifiy");
-    if (r == true) {
+    // var r = confirm("Do you really want to Verifiy");
+    // if (r == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 342;
@@ -302,6 +302,7 @@ function lockAC(ID)
                     SuccessToast('Successfully Verify');
                     edit_stu(ID);
                     fetchCutList();
+                    $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -309,7 +310,7 @@ function lockAC(ID)
 
             }
         });
-    }
+    // }
 }
 function RejectAC(ID)
  {
@@ -317,8 +318,8 @@ function RejectAC(ID)
     let length = remark.length;
     if(remark!='' && length>5)
     {
-        var r = confirm("Do you really want to reject?");
-        if (r === true) {
+        // var r = confirm("Do you really want to reject?");
+        // if (r === true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 343;
@@ -338,6 +339,7 @@ function RejectAC(ID)
                     SuccessToast('Successfully Reject');
                     edit_stu(ID);
                     fetchCutList();
+                    $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -346,7 +348,7 @@ function RejectAC(ID)
             
         }
     });
-}
+// }
     }
         else{
         $('#remarkReject').toggleClass("is-invalid");

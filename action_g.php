@@ -23661,8 +23661,9 @@ elseif($Status==6)
 <?php 
 if($Status==6)
 {?>
-<form action="print-exam-form-cutlist.php" method="post" target="_blank">
- <input type="hidden" name="ID" value="<?=$row['SerialNo'];?>">
+<form action="print_id_card_pass.php" method="get" target="_blank">
+ <input type="hidden" name="code" value="5">
+ <input type="hidden" name="id_array" value="<?=$row['SerialNo'];?>">
 <button type='submit' class="btn btn-sm"><i class="fa fa-print fa-lg text-primary" ></i></button>
 </form>
 

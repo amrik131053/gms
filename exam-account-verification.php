@@ -405,6 +405,7 @@ function verify(ExamFromID)
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);
                     fetchCutList();
+                    $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -442,6 +443,7 @@ function reject(ExamFromID) {
                         SuccessToast('Successfully rejected');
                         edit_stu(ExamFromID);
                         fetchCutList();
+                        $('.bd-example-modal-xl').modal('hide');
                     } else {
                         ErrorToast('Try Again', 'bg-danger');
                     }
