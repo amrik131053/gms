@@ -3942,20 +3942,33 @@ $Semester=$_GET['Semester'];
 $Type=$_GET['Type'];
 $Group=$_GET['Group'];
 $Examination=$_GET['Examination'];
+
 $SrNo=1;
 $Subjects=array();
 $SubjectNames=array();
 $SubjectTypes=array();
-$InternalExam=array();
-$ExternalExam=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
-$IDNos=array();
-$UnirollNos=array();
-$ClassRollNos=array();
-$Examid=array();
-$StudentNames=array();
+
+
+
+
+
+$collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
+$list_cllegename = sqlsrv_query($conntest,$collegename);
+                  
+              
+                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                   {
+
+                   // print_r($row);
+                $CollegeName=$row_college['CollegeName'] ;
+                $CourseName=$row_college['Course'] ;
+                
+        }
+
+
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
@@ -3972,18 +3985,7 @@ $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                $SubjectNames[]=$row_subject['SubjectName'] ;
                $SubjectTypes[]=$row_subject['SubjectType'] ;
 }
-$collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
-$list_cllegename = sqlsrv_query($conntest,$collegename);
-                  
-              
-                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
-                   {
 
-                   // print_r($row);
-                $CollegeName=$row_college['CollegeName'] ;
-                $CourseName=$row_college['Course'] ;
-                
-        }
 
 $sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
 
@@ -4005,9 +4007,7 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 $subCount=count($Subjects)+4;
 $subCount1=count($Subjects);
 
-
-
-  $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
         <thead>  
         <tr>
        ";
@@ -4030,8 +4030,12 @@ foreach ($Subjects as $key => $SubjectsCode) {
 }
   $exportstudy.="</tr>  
         </thead>"; 
-        $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
-        FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+
+
+
+
+    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
         
                 $j=0;
@@ -4046,62 +4050,41 @@ foreach ($Subjects as $key => $SubjectsCode) {
                         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                            {
                            // print_r($row);
-                        $IDNos[]=$row['IDNo'];
-                        $UnirollNos[]=$row['UniRollNo'];
-                        $ClassRollNos[]=$row['ClassRollNo'];
-                         $Examid[]=$row['ID'];
-                         $StudentNames[] =$row['StudentName'];     
-          $j++;
-         }
-         foreach ($Examid as $key => $examID) {
-            $ExternalExam=array();
-            foreach ($Subjects as $key => $SubjectsCode) {
-           
-          $list_sql_examsubject = "SELECT ExternalExam FROM ExamFormSubject WHERE Examid='$examID' ANd  SubjectCode='$SubjectsCode' ";
-         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                        $IDNos=$row['IDNo'];
+                        $UnirollNos=$row['UniRollNo'];
+                        $ClassRollNos=$row['ClassRollNo'];
+                         $Examid=$row['ID'];
+                         $StudentNames =$row['StudentName'];     
+     
+      $exportstudy.="<tr>
+         <td>{$SrNo}</td>
+         <td>{$ClassRollNos}</th>
+         <th>{$UnirollNos}</td>
+         <td>{$StudentNames}</td>";
 
-         if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-         {
-           $ExternalExam[]= $row_exam['ExternalExam'];
-         }
-         else 
-         {
-           $ExternalExam[]= "";
-         }
+
+         for($sub=0;$sub<$subCount1;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+                            $ExternalExam=$row_exam['ExternalExam'];
+                           $exportstudy.="<td style='text-align:center;'>{$ExternalExam} </td>"; 
+                          }
+                          
+          }
+          $exportstudy.="</tr>";
                             
                         }
-                        }
 
-              //print_r($ExternalExam);
-                        $SrNo=1;
-                        if (empty($IDNos)) {
-                            $exportstudy.="<tr>
-                            <td colspan='4' style='text-align:center;color:red;'><b>!!!!!!!No Record Found!!!!!!!</b></td>";
-                           
-                           $exportstudy.="</tr>";
-                        }  
-                        else
-                        {
 
-                           
-        foreach ($IDNos as $key => $IDNostudent) {
-         $exportstudy.="<tr>
-         <td>{$SrNo}</td>
-         <td>{$ClassRollNos[$key]}</th>
-         <th>{$UnirollNos[$key]}</td>
-         <td>{$StudentNames[$key]}</td>";
-         foreach ($Subjects as $key1 => $SubjectsCode) {
-            $exportstudy.="<td style='text-align:center;'>{$ExternalExam[$key1]} </td>";
-        }
-        $exportstudy.="</tr>";
-        $SrNo++;
-        }
-    }
+                  
         $exportstudy.="</table>";
         echo $exportstudy;
         $fileName="Cutlist EXamination ".$Examination;
-         } 
-
+    } 
 
 
          else if($exportCode==41)
