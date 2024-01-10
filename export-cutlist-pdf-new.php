@@ -19,7 +19,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
                   
               
                 if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
-                   {
+                   { 
 
                    // print_r($row);
                 $CollegeName=$row_college['CollegeName'] ;
@@ -73,12 +73,8 @@ $College = $GLOBALS['College'];
   $Type = $GLOBALS['Type'];
   $Group = $GLOBALS['Group'];
   $Examination = $GLOBALS['Examination'];
-  $IDNos=array();
-  $UnirollNos=array();
-  $ClassRollNos=array();
-  $Examid=array();
-  $StudentNames=array();
- 
+
+
  if($Semester==1) {$ext='st'; } elseif($Semester==2){ $ext='nd';}
   elseif($Semester==3) {$ext='rd'; } else { $ext='th';}
     /* Move to the right */
@@ -114,7 +110,7 @@ $this->Write(0,'('.$Type.')');
 
 $this->Line(8,21,291,21);
 
-//$this->Line(93,33,292,33);
+$this->Line(93,38,291,38);
 
 
 
@@ -135,7 +131,7 @@ $this->SetXY(37,21);
 //$this->MultiCell(21,6,'Uni RollNo',0,'C');
 
 //$this->Line(58,21,58,38);
-$this->SetXY(55 ,21);
+$this->SetXY(55,21);
 
 $this->MultiCell(20,6,'Name',0,'C');
 
@@ -156,7 +152,7 @@ $this->SetFont('Arial','b',8);
 
 //$this->Line(264.6,21,264.6,42);
 
-$this->Line(291.3,21,291.3,42);
+$this->Line(291.3,21,291.3,38);
 
 }
    
@@ -188,11 +184,17 @@ $this->SetFont('Arial','',6);
 $this->Write(0,'Generated on : '.$ctime.' by ');
 $this->SetXY(120,-4);
 $this->SetFont('Arial','',6);
-$this->Write(0,'(T)  Theory       (P)  Practical      (NA)  Not Applicable      (INT)  Internal      (EXT)  External  ');
+$this->Write(0,'(T)  Theory       (P)  Practical      (NA)  Not Applicable    ');
 
 
 }
 }
+
+
+
+
+
+
 $pdf = new PDF();
 $pdf->SetTitle('Guru Kashi University');
 $pdf->AliasNbPages();
@@ -208,6 +210,8 @@ $Snap=array();
 $Gender=array();
 $Subjects1=array();
 $conntest = $GLOBALS['conntest'];
+
+
  $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ";
   $subcount=0;
  $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
@@ -220,8 +224,11 @@ $conntest = $GLOBALS['conntest'];
                    {
                    // print_r($row);
                 $Subjects[]=$row_subject['SubjectCode'] ;
+
                 $Subjects1[]=$row_subject['SubjectCode'] ;
+
                 $SubjectNames[]=$row_subject['SubjectName'] ;
+
                 $SubjectTypes[]=$row_subject['SubjectType'] ;
             $subcount++;
   }
@@ -232,22 +239,43 @@ $conntest = $GLOBALS['conntest'];
                    {
 
  $Subjects[$subcount]=$row_subject['SubjectCode'] ;
+
  $Subjects1[$subcount]=$row_subject['SubjectCode'] ;
+
                 $SubjectNames[$subcount]=$row_subject['SubjectName'] ;
                 $SubjectTypes[$subcount]=$row_subject['SubjectType'] ;
  $subcount++;
  }
-  $extraColom=0;
- for($as=$subcount;$as<12;$as++)
-  {
-   $Subjects[$as]='';
-   $SubjectNames[$as]='';
-   $SubjectTypes[$as]='';
-   $ExternalExam[$as]='';
- $extraColom++;
- }
 
-   $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
+if($subcount<=11){
+
+    $pageone=$subcount;
+}
+else
+{
+    $pageone =11;}
+
+if($subcount>11 && $subcount<=22)
+{
+   $pagetwo=$subcount;
+}
+else
+{
+   $pagetwo=22; 
+}
+
+if($subcount>22 && $subcount<=33)
+{
+   $pagethree=$subcount;
+}
+else
+{
+   $pagethree=33; 
+}
+
+
+
+  $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         $j=100;
        
@@ -265,21 +293,12 @@ $conntest = $GLOBALS['conntest'];
                 $ClassRollNos[]=$row['ClassRollNo'];
                  $Examid[]=$row['ID'];
                  $StudentNames[] =$row['StudentName'];
-                    
-                       
- }
-
-
-  
-
-   
-
-
-
+                                       
+                  }
 
  $i=0;
- $totalStudent =10;
- //$totalStudent = count($IDNos);
+ //$totalStudent =30;
+ $totalStudent = count($IDNos);
  if (empty($IDNos)) {
     $pdf = new FPDF();
     $pdf->AddPage('L');
@@ -287,25 +306,33 @@ $conntest = $GLOBALS['conntest'];
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
  }
+
+
  else
  {
+//page 1
+    for ($p = 0; $p < $totalStudent / 25; $p++) 
 
-    for ($p = 0; $p < $totalStudent / 25; $p++) {
+    {
         $pdf->AddPage('L');
         $pdf->SetFont('Arial', 'b', 10);
         $x = 79;
-    for ($subIndex = 0;  $subIndex< 11; $subIndex++) {
+        
+        for($key=0;$key<$pageone;$key++)
+        
+         {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
-        $pdf->MultiCell(19, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
+        $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
         $x += 19.3; 
 
     }
+   
     $pdf->SetFont('Arial', 'b', 10);
     $pdf->SetXY(8, 30);
     $r=79;
     $g=38;
-    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++)
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25,$totalStudent); $i++)
      {
         $pdf->SetXY(8, $y);
         $pdf->SetFont('Times', '', 10);
@@ -327,268 +354,205 @@ $conntest = $GLOBALS['conntest'];
 
        $ExternalExam=array();
 
-        for($sub=0;$sub<$subcount;$sub++)
+        for($sub=0;$sub<$pageone;$sub++)
         {
         $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
-                            $ExternalExam[]= $row_exam['ExternalExam'];
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,$row_exam['ExternalExam'],1, 'C');
+            $r += 19.3; 
                           }
                           else 
                           {
-                            $ExternalExam[]= "N";
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,'N' ,1,'C');
+            $r += 19.3; 
                           }
           }
- print_r($ExternalExam);
-   echo "<br>";
 
-        for ($subIndex = 0;  $subIndex< 11; $subIndex++)
-         {
-            $pdf->SetXY($r, $g);
-            $pdf->SetFont('Arial', 'b', 6);
-            $pdf->MultiCell(19.3, 6,$ExternalExam[$subIndex] ,1, 'C');
-            $r += 19.3; 
-        }
+ //print_r($ExternalExam);
+  // echo "<br>";
+
                     
         $y = $y + 6;
         $r=79;
         $g=$g+6; 
     }
-}
-// echo $subcount;
+
+ } 
 
 
+//page-2
+ if($subcount>11)
+ {
+  for ($p = 0; $p < $totalStudent / 25; $p++) 
 
-if($subcount>11)
-{   
-    for($as=$subcount;$as<22;$as++)
-{
-   $Subjects[$as]='';
-   $SubjectNames[$as]='';
-   $SubjectTypes[$as]='';
-   $ExternalExam[$as]='';
-}
-for ($p = 0; $p < $totalStudent / 25; $p++) {
-    $pdf->AddPage('L');
+    {
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', 'b', 10);
+        $x = 79;
+        
+        for($key=$pageone;$key<$pagetwo;$key++)
+        
+         {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
+        $x += 19.3; 
+
+    }
+   
     $pdf->SetFont('Arial', 'b', 10);
-    $x = 79;
-for ($subIndex = 11;  $subIndex< 22; $subIndex++) {
-    $pdf->SetXY($x, 23);
-    $pdf->SetFont('Arial', 'b', 6);
-    $pdf->MultiCell(19, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
-    $x += 19.3; 
+    $pdf->SetXY(8, 30);
+    $r=79;
+    $g=38;
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25,$totalStudent); $i++)
+     {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(15,$y);
+        $smal =strtolower($StudentNames[$i]);
+      $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
 
-}
-$pdf->SetFont('Arial', 'b', 10);
-$pdf->SetXY(8, 30);
-$r=79;
-$g=38;
-for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-  $pdf->SetXY(8, $y);
-  $pdf->SetFont('Times', '', 10);
-  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
-  $pdf->SetFont('Times','b',8);
-  $pdf->SetXY(15,$y);
-  $smal =strtolower($StudentNames[$i]);
-$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+      $pdf->SetXY(15,$y);
+      $pdf->Cell(35,6,"",1,0,'C',0);
+      $pdf->Cell(29,6,"",1,0,'C',0);
+      $pdf->SetXY(50,$y);
+      $pdf->SetFont('Times','b',6);
+      $pdf->MultiCell(29,3,ucwords($smal),0,'l');
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',8);
+        $pdf->SetXY(79,$y);
 
-$pdf->SetXY(15,$y);
-$pdf->Cell(35,6,"",1,0,'C',0);
-$pdf->Cell(29,6,"",1,0,'C',0);
-$pdf->SetXY(50,$y);
-$pdf->SetFont('Times','b',6);
-$pdf->MultiCell(29,3,ucwords($smal),0,'l');
-  $pdf->SetXY(35,$y);
-  $pdf->SetFont('Times','B',8);
-  $pdf->SetXY(79,$y);
-  
-    // for($sub=11;$sub<22;$sub++)
-    // {
-    // $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
-    // $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-    //                if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-    //                       {
-    //                         $ExternalExam[]= $row_exam['ExternalExam'];
-    //                       }
-    //                       else 
-    //                       {
-    //                         $ExternalExam[]= "N";
-    //                       }
-    //                 }
+       $ExternalExam=array();
 
-//print_r($ExternalExam);
+        for($sub=$pageone;$sub<$pagetwo;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,$row_exam['ExternalExam'],1, 'C');
+            $r += 19.3; 
+                          }
+                          else 
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,'N' ,1,'C');
+            $r += 19.3; 
+                          }
+          }
+
+ //print_r($ExternalExam);
   // echo "<br>";
 
-                    for ($subIndex = 11;  $subIndex< 22; $subIndex++)
-         {
-            $pdf->SetXY($r, $g);
-            $pdf->SetFont('Arial', 'b', 6);
-            $pdf->MultiCell(19.3, 6,$ExternalExam[$subIndex] ,1, 'C');
-            $r += 19.3; 
-        }
                     
         $y = $y + 6;
         $r=79;
         $g=$g+6; 
-}
-}
+    }
+
+ } 
 
 }
+//page-3
+ if($subcount>22)
+ {
+  for ($p = 0; $p < $totalStudent / 25; $p++) 
 
-
-
-
-if($subcount>22)
-{   
-    for($as=$subcount;$as<33;$as++)
-{
-   $Subjects[$as]='';
-   $SubjectNames[$as]='';
-   $SubjectTypes[$as]='';
-   $ExternalExam[$as]='';
-}
-for ($p = 0; $p < $totalStudent / 25; $p++) {
-    $pdf->AddPage('L');
-    $pdf->SetFont('Arial', 'b', 10);
-    $x = 79;
-for ($subIndex = 22;  $subIndex< 33; $subIndex++) {
-    $pdf->SetXY($x, 23);
-    $pdf->SetFont('Arial', 'b', 6);
-    $pdf->MultiCell(19, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
-    $x += 19.3; 
-
-}
-$pdf->SetFont('Arial', 'b', 10);
-$pdf->SetXY(8, 30);
-$r=79;
-$g=38;
-
-for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-  $pdf->SetXY(8, $y);
-  $pdf->SetFont('Times', '', 10);
-  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
-  $pdf->SetFont('Times','b',8);
-  $pdf->SetXY(15,$y);
-  $smal =strtolower($StudentNames[$i]);
-$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
-
-$pdf->SetXY(15,$y);
-$pdf->Cell(35,6,"",1,0,'C',0);
-$pdf->Cell(29,6,"",1,0,'C',0);
-$pdf->SetXY(50,$y);
-$pdf->SetFont('Times','b',6);
-$pdf->MultiCell(29,3,ucwords($smal),0,'l');
-  $pdf->SetXY(35,$y);
-  $pdf->SetFont('Times','B',8);
-  $pdf->SetXY(79,$y);
- 
-    for($sub=22;$sub<33;$sub++)
     {
-    $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
-    $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                   if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', 'b', 10);
+        $x = 79;
+        
+        for($key=$pagetwo;$key<$pagethree;$key++)
+        
+         {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
+        $x += 19.3; 
+
+    }
+   
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 30);
+    $r=79;
+    $g=38;
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25,$totalStudent); $i++)
+     {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(15,$y);
+        $smal =strtolower($StudentNames[$i]);
+      $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+      $pdf->SetXY(15,$y);
+      $pdf->Cell(35,6,"",1,0,'C',0);
+      $pdf->Cell(29,6,"",1,0,'C',0);
+      $pdf->SetXY(50,$y);
+      $pdf->SetFont('Times','b',6);
+      $pdf->MultiCell(29,3,ucwords($smal),0,'l');
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',8);
+        $pdf->SetXY(79,$y);
+
+       $ExternalExam=array();
+
+        for($sub=$pageone;$sub<$pagetwo;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
-                            $ExternalExam[]= $row_exam['ExternalExam'];
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,$row_exam['ExternalExam'],1, 'C');
+            $r += 19.3; 
                           }
                           else 
                           {
-                            $ExternalExam[]= "";
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,'N' ,1,'C');
+            $r += 19.3; 
                           }
-                    }
-                    for ($subIndex = 22;  $subIndex< 33; $subIndex++)
-                    {
-                       $pdf->SetXY($r, $g);
-                       $pdf->SetFont('Arial', 'b', 6);
-                       $pdf->MultiCell(19.3, 6,$ExternalExam[$subIndex] ,1, 'C');
-                       $r += 19.3; 
-                   }
-                               
-                  
-                   $r=79;
-                   $g=$g+6;
-    $y = $y + 6;
-}
-}
+          }
 
-}
+ //print_r($ExternalExam);
+  // echo "<br>";
 
-if($subcount>33)
-{   
-    for($as=$subcount;$as<44;$as++)
-{
-   $Subjects[$as]='';
-   $SubjectNames[$as]='';
-   $SubjectTypes[$as]='';
-   $ExternalExam[$as]='';
-}
-for ($p = 0; $p < $totalStudent / 25; $p++) {
-    $pdf->AddPage('L');
-    $pdf->SetFont('Arial', 'b', 10);
-    $x = 79;
-for ($subIndex = 33;  $subIndex< 44; $subIndex++) {
-    $pdf->SetXY($x, 23);
-    $pdf->SetFont('Arial', 'b', 6);
-    $pdf->MultiCell(19, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex],0, 'C');
-    $x += 19.3; 
+                    
+        $y = $y + 6;
+        $r=79;
+        $g=$g+6; 
+    }
 
-}
-$pdf->SetFont('Arial', 'b', 10);
-$pdf->SetXY(8, 30);
-$r=79;
-$g=38;
-for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25, $totalStudent); $i++) {
-  $pdf->SetXY(8, $y);
-  $pdf->SetFont('Times', '', 10);
-  $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
-  $pdf->SetFont('Times','b',8);
-  $pdf->SetXY(15,$y);
-  $smal =strtolower($StudentNames[$i]);
-$pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
-
-$pdf->SetXY(15,$y);
-$pdf->Cell(35,6,"",1,0,'C',0);
-$pdf->Cell(29,6,"",1,0,'C',0);
-$pdf->SetXY(50,$y);
-$pdf->SetFont('Times','b',6);
-$pdf->MultiCell(29,3,ucwords($smal),0,'l');
-  $pdf->SetXY(35,$y);
-  $pdf->SetFont('Times','B',8);
-  $pdf->SetXY(79,$y);
-  
-    for($sub=33;$sub<44;$sub++)
-    {
-    $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
-    $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                   if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-                          {
-                            $ExternalExam[]= $row_exam['ExternalExam'];
-                          }
-                          else 
-                          {
-                            $ExternalExam[]= "";
-                          }
-                    }
-                    for ($subIndex = 33;  $subIndex< 44; $subIndex++)
-                    {
-                       $pdf->SetXY($r, $g);
-                       $pdf->SetFont('Arial', 'b', 6);
-                       $pdf->MultiCell(19.3, 6,$ExternalExam[$subIndex] ,1, 'C');
-                       $r += 19.3; 
-                   }
-                               
-                  
-                   $r=79;
-                   $g=$g+6;
-    $y = $y + 6;
-}
-}
+ } 
 
 }
 
 
 
+
+
+
 }
+
+
+// echo $subcount;
+
 
 $pdf->Output();
   ?>
