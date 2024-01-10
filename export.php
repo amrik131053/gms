@@ -3992,7 +3992,7 @@ $sql_openq = sqlsrv_query($conntest,$sql_open);
                 if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
                    {
 
-$SubjectsNew[]=$row_subject['SubjectCode'] ;
+                $SubjectsNew[]=$row_subject['SubjectCode'] ;
                 $SubjectNamesNew[]=$row_subject['SubjectName'] ;
                 $SubjectTypesNew[]=$row_subject['SubjectType'] ;
 }
@@ -4054,10 +4054,12 @@ foreach ($Subjects as $key => $SubjectsCode) {
           $j++;
          }
          foreach ($Examid as $key => $examID) {
+            $ExternalExam=array();
             foreach ($Subjects as $key => $SubjectsCode) {
            
           $list_sql_examsubject = "SELECT ExternalExam FROM ExamFormSubject WHERE Examid='$examID' ANd  SubjectCode='$SubjectsCode' ";
          $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+
          if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
          {
            $ExternalExam[]= $row_exam['ExternalExam'];
@@ -4066,11 +4068,11 @@ foreach ($Subjects as $key => $SubjectsCode) {
          {
            $ExternalExam[]= "";
          }
-                           
+                            
                         }
                         }
 
-                        // print_r($Examid);
+              //print_r($ExternalExam);
                         $SrNo=1;
                         if (empty($IDNos)) {
                             $exportstudy.="<tr>

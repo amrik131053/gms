@@ -209,7 +209,7 @@ $Gender=array();
 $Subjects1=array();
 $conntest = $GLOBALS['conntest'];
  $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ";
-$subcount=0;
+  $subcount=0;
  $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                   
               if($list_Subjects === false)
@@ -224,31 +224,31 @@ $subcount=0;
                 $SubjectNames[]=$row_subject['SubjectName'] ;
                 $SubjectTypes[]=$row_subject['SubjectType'] ;
             $subcount++;
-}
-$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
-$sql_openq = sqlsrv_query($conntest,$sql_open);
+  }
+   $sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+  $sql_openq = sqlsrv_query($conntest,$sql_open);
          
                 if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
                    {
 
-$Subjects[$subcount]=$row_subject['SubjectCode'] ;
-$Subjects1[$subcount]=$row_subject['SubjectCode'] ;
+ $Subjects[$subcount]=$row_subject['SubjectCode'] ;
+ $Subjects1[$subcount]=$row_subject['SubjectCode'] ;
                 $SubjectNames[$subcount]=$row_subject['SubjectName'] ;
                 $SubjectTypes[$subcount]=$row_subject['SubjectType'] ;
-$subcount++;
-}
-$extraColom=0;
-for($as=$subcount;$as<12;$as++)
-{
+ $subcount++;
+ }
+  $extraColom=0;
+ for($as=$subcount;$as<12;$as++)
+  {
    $Subjects[$as]='';
    $SubjectNames[$as]='';
    $SubjectTypes[$as]='';
    $ExternalExam[$as]='';
-$extraColom++;
-}
+ $extraColom++;
+ }
 
- $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+   $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Sex
+   FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         $j=100;
        
        
@@ -270,7 +270,7 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
  }
 
 
-   $ExternalExam=array();
+  
 
    
 
@@ -278,17 +278,17 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
 
 
  $i=0;
-$totalStudent =20;
+ $totalStudent =10;
  //$totalStudent = count($IDNos);
-if (empty($IDNos)) {
+ if (empty($IDNos)) {
     $pdf = new FPDF();
     $pdf->AddPage('L');
     $pdf->SetXY(10, 100);
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
-}
-else
-{
+ }
+ else
+ {
 
     for ($p = 0; $p < $totalStudent / 25; $p++) {
         $pdf->AddPage('L');
@@ -324,10 +324,12 @@ else
         $pdf->SetXY(35,$y);
         $pdf->SetFont('Times','B',8);
         $pdf->SetXY(79,$y);
-       
-        for($sub=0;$sub<12;$sub++)
+
+       $ExternalExam=array();
+
+        for($sub=0;$sub<$subcount;$sub++)
         {
-        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -338,8 +340,8 @@ else
                             $ExternalExam[]= "N";
                           }
           }
-          // print_r($ExternalExam);
-        //   echo "<br>";
+ print_r($ExternalExam);
+   echo "<br>";
 
         for ($subIndex = 0;  $subIndex< 11; $subIndex++)
          {
@@ -355,6 +357,9 @@ else
     }
 }
 // echo $subcount;
+
+
+
 if($subcount>11)
 {   
     for($as=$subcount;$as<22;$as++)
@@ -397,20 +402,24 @@ $pdf->MultiCell(29,3,ucwords($smal),0,'l');
   $pdf->SetXY(35,$y);
   $pdf->SetFont('Times','B',8);
   $pdf->SetXY(79,$y);
-    
-    for($sub=11;$sub<22;$sub++)
-    {
-    $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
-    $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                   if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-                          {
-                            $ExternalExam[]= $row_exam['ExternalExam'];
-                          }
-                          else 
-                          {
-                            $ExternalExam[]= "N";
-                          }
-                    }
+  
+    // for($sub=11;$sub<22;$sub++)
+    // {
+    // $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd  SubjectCode='$Subjects[$sub]' ";  
+    // $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+    //                if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+    //                       {
+    //                         $ExternalExam[]= $row_exam['ExternalExam'];
+    //                       }
+    //                       else 
+    //                       {
+    //                         $ExternalExam[]= "N";
+    //                       }
+    //                 }
+
+//print_r($ExternalExam);
+  // echo "<br>";
+
                     for ($subIndex = 11;  $subIndex< 22; $subIndex++)
          {
             $pdf->SetXY($r, $g);

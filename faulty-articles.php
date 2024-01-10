@@ -61,7 +61,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                         }
                         else
                         {
-                         $location=" SELECT *,room_master.Floor as FloorName,room_master.RoomNo as RoomName,faulty_track.ID as l_id from faulty_track left join location_master on location_master.ID=faulty_track.location_id left join building_master on building_master.ID=location_master.Block inner join room_master on room_master.RoomNo=location_master.RoomNo INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner join stock_summary on stock_summary.IDNo=faulty_track.article_no inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID Where (building_master.Incharge='$EmployeeID' or building_master.infra_incharge='$EmployeeID' or building_master.electrical_incharge='$EmployeeID' or faulty_track.forwarded_to='$EmployeeID') and  faulty_track.status='1' and faulty_track.direction='Faulty' and category_permissions.employee_id='$EmployeeID' ";
+                       echo  $location=" SELECT *,room_master.Floor as FloorName,room_master.RoomNo as RoomName,faulty_track.ID as l_id from faulty_track left join location_master on location_master.ID=faulty_track.location_id left join building_master on building_master.ID=location_master.Block inner join room_master on room_master.RoomNo=location_master.RoomNo INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner join stock_summary on stock_summary.IDNo=faulty_track.article_no inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID Where (building_master.Incharge='$EmployeeID' or building_master.infra_incharge='$EmployeeID' or building_master.electrical_incharge='$EmployeeID' or faulty_track.forwarded_to='$EmployeeID') and  faulty_track.status='1' and faulty_track.direction='Faulty' and category_permissions.employee_id='$EmployeeID' ";
                         }
                         $location_run=mysqli_query($conn,$location);
                         while ($location_row=mysqli_fetch_array($location_run)) 
@@ -135,10 +135,11 @@ else {
                         ?>
                         <?php
                       if ($permissionCount>0) 
-                      {
+                      {    
                         ?>
                         <td>
                            <div class="input-group" style="max-width: 150px;">
+
                            <select name="assignTo" id="assignTo_<?=$location_row['l_id'];?>" class="form-control" required>
                               <?php 
                               $id11=$location_row['l_id'];
@@ -159,7 +160,7 @@ else {
                                  }
                               }
 
-                              $_drop_staff="SELECT IDNo,Name From Staff where LeaveSanctionAuthority='$EmployeeID' and JobStatus='1'";     
+                            echo   $_drop_staff="SELECT IDNo,Name From Staff where LeaveSanctionAuthority='$EmployeeID' and JobStatus='1'";     
                               $stmt_drop_staff = sqlsrv_query($conntest,$_drop_staff);  
                               while($row_staff_show = sqlsrv_fetch_array($stmt_drop_staff, SQLSRV_FETCH_ASSOC) )
                                    {
