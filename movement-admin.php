@@ -20,7 +20,7 @@
              
 
      <?php 
-    $staff="SELECT * FROM Staff Where LeaveSanctionAuthority='$EmployeeID' ANd JobStatus='1'";
+  $staff="SELECT * FROM Staff Where (LeaveSanctionAuthority='$EmployeeID' OR LeaveRecommendingAuthority='$EmployeeID') ANd JobStatus='1'";
 
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )

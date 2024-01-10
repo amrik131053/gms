@@ -157,10 +157,13 @@
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
-                                                    class="fa fa-file-excel"></i></button>&nbsp;&nbsp;
+                               
+                                
+                                                    &nbsp;&nbsp; <?php if($EmployeeID=='131053'){?>
+                                                        <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
+                                                    class="fa fa-file-excel"></i></button>
                                 <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
-                                                    class="fa fa-file-pdf"></i></button>
+                                                    class="fa fa-file-pdf"></i></button><?php }?>
                             </div>
                             <!-- <div class="col-lg-1 col-md-1 col-sm-13">
                                 <label>&nbsp;</label><br>
