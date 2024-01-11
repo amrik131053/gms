@@ -3302,7 +3302,11 @@ else if($exportCode==32)
 {
 
 
-   $College_ID=$_GET['CollegeID'];
+    $CollegeID=$_GET['CollegeID'];
+    $CourseID=$_GET['Course'];
+    $DepartmentID=$_GET['Department'];
+    $Batch=$_GET['Batch'];
+    
 
 
 $SrNo=1;
@@ -3327,13 +3331,25 @@ $SrNo=1;
         </thead>";
 
 
-      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
-       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
-      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
-    $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
-    while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
-    {
-       
+        $CheckStudyMaterial="SELECT sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+        StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
+        if($CollegeID!='')
+        {
+            $CheckStudyMaterial.="AND sm.collegeid='$CollegeID'";
+        }
+        if($CourseID!='')
+        {
+        $CheckStudyMaterial.="AND sm.Courseid='$CourseID'";
+        }
+        if($Batch!='')
+        {
+        $CheckStudyMaterial.="AND sm.batch='$Batch'";
+        }
+        
+       $CheckStudyMaterial.="group by sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
+     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
+     {
          
        
         $CheckStudyMaterial1="select Course,CollegeName from  

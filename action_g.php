@@ -9843,6 +9843,7 @@ if ($Course !== '') {
 if ($Batch !== '') {
     $baseQuery .= " AND Batch='$Batch'";
 }
+$baseQuery.="order by Batch DESC";
 if ($CollegeName !== '') {
     $degree_run = sqlsrv_query($conntest, $baseQuery);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {
@@ -16540,16 +16541,33 @@ elseif ($code==244)
                     <tbody>
 
                         <?php 
-  $College_ID=$_POST['CollegeID'];
+$CollegeID=$_POST['CollegeID'];
+$CourseID=$_POST['Course'];
+$DepartmentID=$_POST['Department'];
+$Batch=$_POST['Batch'];
+
 $SrNo=1;
-      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
-       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
-      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+      $CheckStudyMaterial="SELECT sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
+       if($CollegeID!='')
+       {
+           $CheckStudyMaterial.="AND sm.collegeid='$CollegeID'";
+       }
+       if($CourseID!='')
+       {
+       $CheckStudyMaterial.="AND sm.Courseid='$CourseID'";
+       }
+       if($Batch!='')
+       {
+       $CheckStudyMaterial.="AND sm.batch='$Batch'";
+       }
+       
+      $CheckStudyMaterial.="group by sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
     {
         $CheckStudyMaterial1="select Course,CollegeName from  
-        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."' and Batch='".$row['batch']."' and SubjectCode='".$row['SubjectCode']."'";
+        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."'";
      $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
      if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
      {
@@ -21525,7 +21543,7 @@ echo "0";
 } 
 if ($insert_record_run === false) {
     $errors = sqlsrv_errors();
-    echo "Error: " . print_r($errors, true);
+    // echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
    }  
