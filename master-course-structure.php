@@ -512,6 +512,7 @@ $(document).ready(function(e) { // image upload form submit
 function add_submit() {
     var CollegeID = document.getElementById('College').value;
     var CourseID = document.getElementById('Course').value;
+    var Department = document.getElementById('Department').value;
     var batch = document.getElementById('batch').value;
     var semester = document.getElementById('semester').value;
     var subject_name = document.getElementById('subject_name').value;
@@ -551,6 +552,7 @@ function add_submit() {
                 lecture: lecture,
                 practical: practical,
                 tutorials: tutorials,
+                Department:Department,
                 credits: credits
             },
             success: function(response) {
