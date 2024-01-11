@@ -9843,6 +9843,7 @@ if ($Course !== '') {
 if ($Batch !== '') {
     $baseQuery .= " AND Batch='$Batch'";
 }
+$baseQuery.="order by Batch DESC";
 if ($CollegeName !== '') {
     $degree_run = sqlsrv_query($conntest, $baseQuery);
     while ($degree_row = sqlsrv_fetch_array($degree_run)) {
@@ -16540,16 +16541,33 @@ elseif ($code==244)
                     <tbody>
 
                         <?php 
-  $College_ID=$_POST['CollegeID'];
+$CollegeID=$_POST['CollegeID'];
+$CourseID=$_POST['Course'];
+$DepartmentID=$_POST['Department'];
+$Batch=$_POST['Batch'];
+
 $SrNo=1;
-      $CheckStudyMaterial="select sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
-       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where sm.collegeid='$College_ID' group by 
-      sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
+      $CheckStudyMaterial="SELECT sm.collegeid,sm.Courseid,sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name,COUNT(*) as nooflect from  
+       StudyMaterial as sm  inner join Staff on sm.Uploadby=Staff.IDNO Where 1=1";
+       if($CollegeID!='')
+       {
+           $CheckStudyMaterial.="AND sm.collegeid='$CollegeID'";
+       }
+       if($CourseID!='')
+       {
+       $CheckStudyMaterial.="AND sm.Courseid='$CourseID'";
+       }
+       if($Batch!='')
+       {
+       $CheckStudyMaterial.="AND sm.batch='$Batch'";
+       }
+       
+      $CheckStudyMaterial.="group by sm.batch,sm.SubjectCode,sm.semid,sm.DocumentType,Staff.IDNo,Staff.Name ,sm.collegeid,sm.Courseid order by IDNo";
     $CheckStudyMaterialRun=sqlsrv_query($conntest,$CheckStudyMaterial);
     while($row=sqlsrv_fetch_array($CheckStudyMaterialRun,SQLSRV_FETCH_ASSOC))
     {
         $CheckStudyMaterial1="select Course,CollegeName from  
-        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."' and Batch='".$row['batch']."' and SubjectCode='".$row['SubjectCode']."'";
+        MasterCourseStructure Where CollegeID='".$row['collegeid']."' and CourseID='".$row['Courseid']."'";
      $CheckStudyMaterialRun1=sqlsrv_query($conntest,$CheckStudyMaterial1);
      if($row1=sqlsrv_fetch_array($CheckStudyMaterialRun1,SQLSRV_FETCH_ASSOC))
      {
@@ -18075,7 +18093,13 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                           
                                         
                                             <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
-                                        <option value="Early Bird scholarship">Early Bird scholarship</option><option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option><option value="Orphan Student scholarship">Orphan Student scholarship</option><option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option><option value="Old Student Scholarship policy">Old Student Scholarship policy</option><option value="Not Applicable">Not Applicable</option>
+                                        <option value="Early Bird scholarship">Early Bird scholarship</option>
+                                        <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
+                                        <option value="Orphan Student scholarship">Orphan Student scholarship</option>
+                                        <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
+                                        <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
+                                        <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
+                                        <option value="Not Applicable">Not Applicable</option>
                                             
                                         </select>
                                     </div>
@@ -21525,7 +21549,7 @@ echo "0";
 } 
 if ($insert_record_run === false) {
     $errors = sqlsrv_errors();
-    echo "Error: " . print_r($errors, true);
+    // echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
    }  
@@ -23661,8 +23685,9 @@ elseif($Status==6)
 <?php 
 if($Status==6)
 {?>
-<form action="print-exam-form-cutlist.php" method="post" target="_blank">
- <input type="hidden" name="ID" value="<?=$row['SerialNo'];?>">
+<form action="print_id_card_pass.php" method="get" target="_blank">
+ <input type="hidden" name="code" value="5">
+ <input type="hidden" name="id_array" value="<?=$row['SerialNo'];?>">
 <button type='submit' class="btn btn-sm"><i class="fa fa-print fa-lg text-primary" ></i></button>
 </form>
 
@@ -24606,9 +24631,7 @@ if($Status==6)
    elseif($code==347)
    {
    $count=array(); 
-   
    $Session = $_POST['Session'];
-   
     $list_sql="SELECT * FROM StudentBusPassGKU  WHERE p_status='3'  ANd session='$Session'";
       $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $Pending=sqlsrv_num_rows($list_sql_run);
@@ -24617,22 +24640,295 @@ if($Status==6)
         $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
         $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
 
-          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status='5'  ANd session='$Session' ";
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status>='5'  ANd session='$Session' ";
             $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
-
-            // $list_sqlAccepted="SELECT * FROM StudentBusPassGKU  WHERE p_status='6'  ANd session='$Session'";
-            //   $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-            //   $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
-        
-   
       $count[0]=$Pending;
       $count[1]=$Rejeted;
       $count[2]=$ForwardToAccount;
-    //   $count[3]=$Accepted;
     echo json_encode($count);
    
    }
+
+   elseif ($code==348) {
+  ?>
+ 
+<div class="card" style="background-color:#223260; color:white;">
+<h6 class="text-center">Student Detail</h6>
+   </div>
+
+<div class="row">
+     <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Nationality</label>
+    <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
+        <option value="">Select</option>
+        <option value="Indian">Indian</option>
+        <option value="NRI">NRI</option>
+        <option value="Nepal">Nepal</option>
+        <option value="Bhutan">Bhutan</option>
+    </select>
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Name</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Father Name</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Mobile No</label>
+ <input type="text" id="mobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" >
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
+ <label>Aadhar Card No</label>
+    <input type="number" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
+ <label>ID No</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
+ <label>Passport No</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+ 
+<div class="col-lg-3 col-md-3 col-sm-12">
+ <label>DOB</label>
+    <input type="date" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Gender</label>
+    <select class="form-control">
+        <option value="">Select</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+ </div>
+<div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Category</label>
+ <select class="form-control" name="category">
+        <option value="">Select</option>
+        <option>SC</option>
+        <option>ST</option>
+        <option>OBC</option>
+        <option>General</option>
+    </select>
+ </div>
+<div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Fee Category</label>
+ <select class="form-control" name="category">
+        <option value="">Select</option>
+        <?php 
+                  $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                  $get_country_run=sqlsrv_query($conntest,$get_country);
+                  while($row_Session=sqlsrv_fetch_array($get_country_run))
+                  {
+                    ?>
+            <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+         <?php }
+                 ?>
+    </select>
+    
+ </div>
+ 
+<div class="col-lg-3 col-md-3 col-sm-12">
+ <label>ScolarShip</label>
+ <select class="form-control" name="scholaship">
+   <option value="">Select</option>
+   <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
+   <option value="Early Bird scholarship">Early Bird scholarship</option>
+   <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
+   <option value="Orphan Student scholarship">Orphan Student scholarship</option>
+   <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
+   <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
+   <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
+   <option value="Not Applicable">Not Applicable</option>      
+   </select>
+ </div>
+<div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Session</label>
+ <select class="form-control" id="Session" onchange="fetchCollege();">
+              <option value="">Select</option>
+              <?php 
+                  $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
+                  $get_country_run=sqlsrv_query($conntest,$get_country);
+                  while($row_Session=sqlsrv_fetch_array($get_country_run))
+                  {?>
+            <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+         <?php }
+
+                 ?>
+                    </select>
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>College Name</label>
+ <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
+        <option value="">Select</option>
+     
+    </select>
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Course</label>
+ <select name="" id="Course" class="form-control" >
+        <option value="">Select</option>
+    </select>
+ </div>
+
+ 
+
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+<label>LateralEntry</label>
+<select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
+<option value="">Select</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Batch</label>
+    <input type="text" id="Batch" class="form-control" readonly>
+ </div>
+                  
+                  <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Comments</label>
+ <textarea name="" id="" cols="1" rows="1" class="form-control"></textarea>
+ </div>
+ <!-- <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>RollNo</label>
+    <input type="text" id="RollNo" class="form-control" readonly>
+ </div> -->
+
+                  </div>
+<!-- ---------------------------------------------------------------------------------- -->
+<br>
+<div class="card" style="background-color:#223260; color:white;">
+<h6 class="text-center">Reference Detail</h6>
+   </div>
+<br>
+<div class="row">
+
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <center>
+ <label><input type="radio" name="refrene" id="">Team</label>
+ <label><input type="radio" name="refrene" id="">Staff</label>
+ <label><input type="radio" name="refrene" id="">Student</label>
+ <label><input type="radio" name="refrene" id="">Consultant</label>
+   </center>
+ </div>
+ 
+</div>
+
+<!-- ---------------------------------------------------------------------------------- -->
+<div class="row">
+
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Team ID</label>
+    <input type="number" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label> Name</label>
+    <input type="date" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Contact No.</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+
+</div>
+<br>
+<div class="card" style="background-color:#223260; color:white;">
+<h6 class="text-center">Fee Detail</h6>
+   </div>
+<br>
+<div class="row">
+
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label>Team ID</label>
+    <input type="number" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+ <label> Name</label>
+    <input type="date" name="" id="" class="form-control">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Contact No.</label>
+    <input type="text" name="" id="" class="form-control">
+ </div>
+
+</div>
+<br>
+<div class="card-footer">
+<center><button class="btn btn-success">Submit</button></center>
+   </div>
+
+<?php
+   }
+   elseif ($code==349) {
+    echo "old";
+   }
+   elseif ($code==350) {
+ $Session=$_REQUEST['Session'];
+    $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID Where Session='$Session' and Isopen='1'";
+           $stmt2 = sqlsrv_query($conntest,$sql);
+           echo "<option value=''>Select</option>";
+      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+          { 
+      $college = $row1['CollegeName']; 
+      $CollegeID = $row1['CollegeID'];
+     ?>
+ <option  value="<?=$CollegeID;?>"><?= $college;?></option>
+ <?php    }
+   }
+   elseif($code==351) 
+{
+$College=$_POST['College'];
+$Session=$_POST['Session'];
+ $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' order by Course ASC";
+$stmt = sqlsrv_query($conntest,$sql);  
+echo "<option value=''>Course</option>";
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
+}
+}
+   elseif($code==352) 
+{
+$College=$_POST['College'];
+$Course=$_POST['Course'];
+$Session=$_POST['Session'];
+$LateralEntry=$_POST['LateralEntry'];
+$sql = "SELECT DISTINCT MasterCourseCodes.Batch FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE  UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' and MasterCourseCodes.CourseID='$Course'";
+$stmt = sqlsrv_query($conntest,$sql);  
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+    if($LateralEntry=='Yes')
+    {
+        echo $row["Batch"]-1;
+        
+    }else{
+        
+        echo $row["Batch"];
+    }
+}
+}
+   elseif($code==353) 
+{
+$College=$_POST['College'];
+$Course=$_POST['Course'];
+$Session=$_POST['Session'];
+
+
+ $sql = "SELECT  MasterCourseCodes.ClassRollNo,MasterCourseCodes.EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$College'";
+$stmt = sqlsrv_query($conntest,$sql);  
+    if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+        if($row["ClassRollNo"]<=$row["EndClassRollNo"])
+        {
+           echo  $ClassRollNo=$row["ClassRollNo"]+1;
+        }
+}
+}
    else
    {
    

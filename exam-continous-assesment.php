@@ -336,7 +336,7 @@ function Search_exam_student1() {
 }
 
 function exportCutListExcel() {
-    var exportCode = 51;
+    var exportCode = 52;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
@@ -356,7 +356,7 @@ function exportCutListExcel() {
 }
 
 function exportCutListExcelgrade() {
-    var exportCode = 52;
+    var exportCode = 53;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;

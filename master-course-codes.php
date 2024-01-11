@@ -44,10 +44,10 @@ $data[]=$degree_row;
                     </div>
                     <div class="card-body collapse">
                         <div class="row">
-                            <div class="col-lg-3" style="text-align: ;">
+                            <div class="col-lg-2" style="text-align: ;">
                                 <label>Select Session</label>
                                 <br>
-                                <select id="session1" class="btn btn-default">
+                                <select id="session1" class="btn btn-default btn-sm">
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -55,7 +55,7 @@ for($s='2015';$s<='2030';$s++)
                                     <option value='<?=$s;?>'><?=$s;?></option>
                                     <?php }?>
                                 </select>
-                                <select id="session2" class="btn btn-default">
+                                <select id="session2" class="btn btn-default btn-sm">
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
@@ -63,15 +63,15 @@ for($s1='16';$s1<='31';$s1++)
                                     <option value='<?=$s1;?>'><?=$s1;?></option>
                                     <?php }?>
                                 </select>
-                                <select id="session3" class="btn btn-default">
+                                <select id="session3" class="btn btn-default btn-sm">
                                     <option value=''></option>
                                     <option value='A'>A</option>
                                     <option value='J'>J</option>
                                 </select>
                             </div>
-                            <div class="col-lg-3" style="text-align: left;">
+                            <div class="col-lg-2" style="text-align: left;">
                                 <label>College Name</label>
-                                <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control"
+                                <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control form-control-sm"
                                     required>
                                     <option value=''>Select Faculty</option>
                                     <?php
@@ -90,26 +90,26 @@ for($s1='16';$s1<='31';$s1++)
                             </div>
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>Department</label>
-                                <select id="Department3" class="form-control" onchange="fetchcourse3()" required>
+                                <select id="Department3" class="form-control form-control-sm" onchange="fetchcourse3()" required>
                                     <option value=''>Select Department</option>
                                    
                                 </select>
                             </div>
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>Course</label>
-                                <select id="Course3" onchange="courseOnChnageOther(this.value);" class="form-control" required>
+                                <select id="Course3" onchange="courseOnChnageOther(this.value);" class="form-control form-control-sm" required>
                                     <option value=''>Select Course</option>
                                 </select>
                             </div>
                             
                             <div class="col-lg-2" id="typeCourseDiv" style=" display:none;">
                                 <label> Course Name</label>
-                               <input type="text"  id="CourseNew" class="form-control">
+                               <input type="text"  id="CourseNew" class="form-control form-control-sm">
                             </div>
                            
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>Batch</label>
-                                <select id="Batch3" class="form-control" required>
+                                <select id="Batch3" class="form-control form-control-sm" required>
                                     <option value="">Batch</option>
                                     <?php 
                               for($i=2013;$i<=2030;$i++)
@@ -121,33 +121,45 @@ for($s1='16';$s1<='31';$s1++)
                             </div>
                        
                        
-                            <div class="col-lg-3" >
+                            <div class="col-lg-2" >
 
                                 <label>First RollNo</label>
-                                <input type="text" id="FirstRollNo" class="form-control">
+                                <input type="text" id="FirstRollNo" class="form-control form-control-sm">
                             </div>
-                            <div class="col-lg-3" style="text-align:;">
+                            <div class="col-lg-2" style="text-align:;">
                                 <label>Last RollNo </label>
-                                <input type="text" id="LastRollNo" class="form-control">
+                                <input type="text" id="LastRollNo" class="form-control form-control-sm">
                             </div>
                             <div class="col-lg-2">
                                 <label>ValidUpto</label>
-                                <input type="date" id="ValidUpTo" class="form-control">
+                                <input type="date" id="ValidUpTo" class="form-control form-control-sm">
                             </div>
                             <div class="col-lg-2">
                                 <label>Lateral Entry</label>
-                                <select id="LateralEntry" name="LateralEntry" class="form-control" required>
+                                <select id="LateralEntry" name="LateralEntry" class="form-control form-control-sm" required>
                                     <option value="No">NO</option>
                                     <option value="Yes">Yes</option>
 
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-2" id="DurationDiv" style=" display:none;">
+                      
+                        
+                <div class="col-lg-2" >
+                    <label>Course Type</label>
+                    <select class="form-control form-control-sm" id="CourseType"
+                       >
+                        <option value="">Select</option>
+                        <option value="UG">UG</option>
+                        <option value="PG">PG</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Ph.D">Ph.D</option>
+                    </select>
+                </div>      <div class="col-lg-2" >
                                 <label>Duration</label>
                                
                                 <br>
-                                <select id="duration1" class="btn btn-default">
+                                <select id="duration1" class="btn btn-default btn-sm">
                                     <option value=''>Y</option>
                                     <?php 
 for($s='1';$s<='10';$s++)
@@ -156,7 +168,7 @@ for($s='1';$s<='10';$s++)
                                     <option value='<?=$s;?>'><?=$s;?></option>
                                     <?php }?>
                                 </select>
-                                <select id="duration2" class="btn btn-default">
+                                <select id="duration2" class="btn btn-default btn-sm">
                                 <option value=''>M</option>
                                     <?php 
 for($s1='0';$s1<='6';$s1++)
@@ -167,24 +179,12 @@ for($s1='0';$s1<='6';$s1++)
                                 </select>
                                
                             </div>
-                        
-                <div class="col-lg-2" id="TypeDiv" style="display:none;">
-                    <label>Course Type</label>
-                    <select class="form-control" id="CourseType"
-                       >
-                        <option value="">Select</option>
-                        <option value="UG">UG</option>
-                        <option value="PG">PG</option>
-                        <option value="Diploma">Diploma</option>
-                        <option value="Ph.D">Ph.D</option>
-                    </select>
-                </div>
                             
                             
                         </div>
                         <div class="card-footer">
                             
-                            <input type="button" name="" class="btn btn-success" value="Add" onclick="addSeriesAndNewCourse();" style="float:right;">
+                            <input type="button" name="" class="btn btn-success" value="Submit" onclick="addSeriesAndNewCourse();" style="float:right;">
                     </div>
                     </div>
                 </div>
@@ -500,7 +500,7 @@ var durationMonth=document.getElementById('duration2').value;
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if (College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='')
+    if (durationYears!='' && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='')
 
     {
         var code = 305;
@@ -525,11 +525,9 @@ CourseType:CourseType,
             data: data,
             type: 'POST',
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 if (response == 1) {
                     SuccessToast('Data submitted successfully');
-                } else if (response == 2) {
-                    ErrorToast('ID Proof Already Exist', 'bg-warning');
                 } else {
                     ErrorToast('Try  after some time', 'bg-danger');
 
