@@ -143,7 +143,7 @@ ini_set('max_execution_time', '0');
                                 </select>
 
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Examination</label>
                                 <select id="Examination" class="form-control form-control-sm" >
                                     <option value="">Select</option>
@@ -167,14 +167,16 @@ ini_set('max_execution_time', '0');
 
                             </div>
 
-                            <div class="col-lg-2 col-md-2 col-sm-13">
+                            <div class="col-lg-3 col-md-3 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="Search_exam_student1()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                               
+                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">Detailed</button> 
                                 
-                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">Detailed</button> 
+                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">Summary</button> 
 
                                                     <button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">Grade</button> 
+
+                                                  
                                                        
                               
                             </div>
@@ -357,6 +359,27 @@ function exportCutListExcel() {
 
 function exportCutListExcelgrade() {
     var exportCode = 53;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+
+
+function exportCutListExcelgradeca() {
+    var exportCode = 54;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
