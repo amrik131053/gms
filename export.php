@@ -7651,11 +7651,19 @@ if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
 
 $smarks=$p+$v+$f;
 $pmarks=$pmarks+$p+$v+$f;
-$pshow=$pshow.'/'.$smarks;
+$pshow=$smarks.'/'.$pshow;
 
 $pcount++;
           }  
 
+if($pcount>5)
+{
+    $pmarks=(int)($pmarks/$pcount)*5;
+}
+else
+{
+   $pmarks=$pmarks; 
+}
  $grade='';
    $gardep=0;
 
