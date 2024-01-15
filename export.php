@@ -6071,7 +6071,9 @@ $exportstudy.="<th colspan=3>Grade Detail
      $gtcerdit=0;
     foreach ($Subjects as $key => $SubjectsCode) {
 
-    $amrikc = "SELECT * FROM MasterCourseStructure where SubjectCode='$SubjectsCode'";  
+   $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' "; 
+
+     
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -6146,6 +6148,18 @@ $nccount=0;
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
                                      $msttotal='';
+                                     if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
 
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
@@ -6193,7 +6207,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($totalFinal<40)
@@ -6271,6 +6285,18 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
                                      $msttotal='';
+                                     if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
 
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
@@ -6318,7 +6344,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($totalFinal<40)
@@ -6436,7 +6462,7 @@ else if($pmarks>=45 &&$pmarks<50)
 }
 else if($pmarks>=40 &&$pmarks<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($pmarks<40)
@@ -6643,7 +6669,9 @@ $exportstudy.="<th colspan=3>Grade Detail
      $gtcerdit=0;
     foreach ($Subjects as $key => $SubjectsCode) {
 
-    $amrikc = "SELECT * FROM MasterCourseStructure where SubjectCode='$SubjectsCode'";  
+  
+
+       $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' "; 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -6719,6 +6747,19 @@ $nccount=0;
                                      $ESe= $row_exam['ESE'];
                                      $msttotal='';
 
+                                     if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
+
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
 if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
@@ -6765,7 +6806,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($totalFinal<40)
@@ -6849,6 +6890,20 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $ESe= $row_exam['ESE'];
                                      $msttotal='';
 
+                                     if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
+
+
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
 if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
@@ -6895,7 +6950,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 
 }
@@ -7015,7 +7070,7 @@ else if($pmarks>=45 &&$pmarks<50)
 }
 else if($pmarks>=40 &&$pmarks<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 
 }
@@ -7224,9 +7279,11 @@ $exportstudy.="<th colspan=3>Grade Detail
     <th></th>
     <th></th>";
      $gtcerdit=0;
+
+
     foreach ($Subjects as $key => $SubjectsCode) {
 
-    $amrikc = "SELECT * FROM MasterCourseStructure where SubjectCode='$SubjectsCode'";  
+    $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -7304,6 +7361,19 @@ $nccount=0;
 
                                      $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
 
+if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
+
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
 if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
@@ -7350,7 +7420,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($totalFinal<40)
@@ -7432,7 +7502,25 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $msttotal='';
                                      $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
 
+
+                                 
+                                 if(is_numeric($mst1))
+                                 {
+                                $mst1=$mst1;
+
+                                 }
+                                 else{$mst1=0;}
+
+                                 if(is_numeric($mst2))    {
+                                    $mst2=$mst2;
+
+                                 }
+                                 else{$mst2=0;}
+
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
+
+
+
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
 if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
 if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
@@ -7478,7 +7566,7 @@ else if($totalFinal>=45 &&$totalFinal<50)
 }
 else if($totalFinal>=40 &&$totalFinal<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($totalFinal<40)
@@ -7602,7 +7690,7 @@ else if($pmarks>=45 &&$pmarks<50)
 }
 else if($pmarks>=40 &&$pmarks<45)
 {
-   $grade="D";
+   $grade="P";
    $gardep=4;
 }
 else if($pmarks<40)

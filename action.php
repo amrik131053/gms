@@ -16270,11 +16270,14 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 </div>
  <div class="col-lg-12 col-md-12" style="text-align:center;"><br>
                            
-                            
+                            <?php // echo "http://erp.gku.ac.in:86/Images/Staff/".$univ_rollno.".jpg" ?>
+
                                  <img src="http://erp.gku.ac.in:86/Images/Staff/<?php echo $univ_rollno;?>.jpg" id="img_u"  height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%" alt="image"/>
                            
-                        </div><br>    
+                        </div><br>   
+
                         <div class="col-md-12"  id="lect_div" style="text-align: center;display:none;"><br>  <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
+
                <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
                   <img src="dummy-user.png" width="50px"  height="50px" wi >
 
@@ -16302,7 +16305,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 
  <div class="col-lg-12 col-md-12">
   <br>
-<input type="submit" id='entrybtn' class="btn btn-primary form-control" ></textarea>
+<input type="submit" id='entrybtn' class="btn btn-primary form-control" value="Upload Photo">
 </div>
 <?php 
    }
@@ -16324,9 +16327,6 @@ elseif ($code==272) //170976
      {
  $link=$_POST['userImageCaptured'];
 
-
- 
-
  
    $characters = '';
 
@@ -16334,22 +16334,25 @@ elseif ($code==272) //170976
 
    $image_name =$result;
   
-      ftp_chdir($conn_id, "Staff/") or die("Could not change directory");
+   ftp_chdir($conn_id, "Images/Staff") or die("Could not change directory");
+
    ftp_pasv($conn_id,true);
+
    file_put_contents($image_name.'.jpg',file_get_contents($link));
 
    ftp_put($conn_id,$image_name.'.jpg',$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+
    ftp_close($conn_id);
 
 
-$img = file_get_contents('http://erp.gku.ac.in:86/Images/Staff/60582.jpg'); 
+$img = file_get_contents('http://erp.gku.ac.in:86/Images/Staff/'.$IdNo.'.jpg'); 
   
 // Encode the image string data into base64 
- $data = base64_encode($img); 
+ //$data = base64_encode($img); 
 
 
    $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($data, $IdNo);
+$params = array($img,$IdNo);
 
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 
@@ -16366,24 +16369,28 @@ $file_tmp = $_FILES['imgage']['tmp_name'];
 $target_dir = "";
 
 
-      
+ include "connection/ftp-erp.php";
+      $photoTmp = $_FILES["imgage"]["tmp_name"];
+
       $file_type = str_ireplace("image/", ".", $_FILES['imgage']['type']);
+ $ImageName=$IdNo.'.jpg';
+   ftp_put($conn_id, "Images/Staff/$ImageName", $photoTmp, FTP_BINARY);
 
-
-  $ImageName=$IdNo.'.jpg';
-    ftp_chdir($conn_id, "Staff") or die("Could not change directory");
-   //ftp_pasv($conn_id,true);
-
-   ftp_put($conn_id,"$ImageName",$file_tmp, FTP_BINARY);
-
-    echo $file_data = file_get_contents($file_tmp);
+    $file_data = file_get_contents($photoTmp);
 
         $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $IdNo);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+$params = array($file_data,$IdNo);
+
+$upimage_run = sqlsrv_query($conntest,$upimage, $params);
+
+
 
 
  $result1 = "UPDATE Staff SET Name='$name',FatherName='$father_name',Designation='$designation',PermanentAddress='$address' WHERE IDNo='$IdNo'";
+
+
+
+
 }
 
 
@@ -21734,6 +21741,154 @@ else if($totalFinal<40)
 
          <?php 
    
+}
+
+else if($code==357)
+{
+
+
+  $allow=0;
+
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+$batch=$_GET['batch']; 
+  $sem = $_GET['sem'];
+  $subject = $_GET['subject'];
+  
+  $ecat = $_GET['DistributionTheory'];
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: center;"> Name </th>
+                         <th style="width:50px;text-align: center;"> Subject </th>
+                   <th style="width:25px;text-align: center;">MST Marks </th>
+                  <th style="width:25px;text-align: center;">Lock </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+$Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $subjectcode = $_GET['subject'];
+  
+  $DistributionTheory = $_GET['DistributionTheory'];
+
+  $exam = $_GET['examination'];
+
+
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+     while($row = sqlsrv_fetch_array($stmt)){
+
+ //$declare= $row['11'];
+
+//print_r($row);
+
+
+
+               
+                  
+?>
+<tr>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'> </td>
+<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+                                            
+               <td><?= $subject;?></td>
+                           <td style='text-align:center;width: 100px'>  <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td>
+                           <td style='text-align:center;width: 30px'>
+
+                            <?php
+
+
+                            if($row['Locked']>0)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+                                <?php 
+
+
+                     }
+                           else {
+                       ?>
+                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                                <?php 
+                           }
+                           ?>
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1;
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+
+<p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  >
+<?php 
+
+
+
+
 }
 
  else

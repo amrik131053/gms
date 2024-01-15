@@ -52,6 +52,9 @@
 
    function student_search()
    {
+   // alert('sdf');
+
+
       var code=271;
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
@@ -421,6 +424,8 @@
             document.getElementById("userImageCaptured").value=data_uri;
                         
             document.getElementById('image_captured').innerHTML = "<img src='"+data_uri+"' width='100%' >";
+
+
         } );
     }
 
