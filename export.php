@@ -7302,7 +7302,7 @@ $exportstudy.="<th colspan=3>Grade Detail
 
     foreach ($Subjects as $key => $SubjectsCode) {
 
-   $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch'AND SemesterID='$Semester' ";  
+  $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch'AND SemesterID='$Semester' ";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
