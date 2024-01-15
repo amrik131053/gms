@@ -6013,8 +6013,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
              if($list_Subjects === false)
@@ -6071,7 +6070,7 @@ $exportstudy.="<th colspan=3>Grade Detail
      $gtcerdit=0;
     foreach ($Subjects as $key => $SubjectsCode) {
 
-   $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' "; 
+   $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ANd SemesterID='$Semester' "; 
 
 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -6265,7 +6264,7 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA</td>";
  $exportstudy.="<td style='text-align:center;'>NA</td>"; 
- $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+
 }
 
 
@@ -6400,7 +6399,7 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA </td>";
  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
-  $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+  
 
 }
 
@@ -6426,7 +6425,16 @@ if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
 $pmarks=$pmarks+$p+$v+$f;
 
 $pcount++;
-          }  
+          } 
+
+       if($pcount>5) 
+       {
+        $pmarks=(int)($pmarks/$pcount)*5;
+       }   
+       else
+       {
+        $pmarks=$pmarks;
+       }
 
  $grade='';
    $gardep=0;
@@ -6672,7 +6680,7 @@ $exportstudy.="<th colspan=3>Grade Detail
 
   
 
-       $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' "; 
+       $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' AND SemesterID='$Semester' "; 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -7024,6 +7032,7 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
     $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
 $pmarks=0;
+$pcount=0;
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 
@@ -7034,8 +7043,17 @@ if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
 $pmarks=$pmarks+$p+$v+$f;
 
 
+$pcount++;
           }  
 
+if($pcount>5)
+{
+    $pmarks=(int)($pmarks/$pcount)*5;
+}
+else
+{
+   $pmarks=$pmarks; 
+}
  $grade='';
    $gardep=0;
 $color='black';
