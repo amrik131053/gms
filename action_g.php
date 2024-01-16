@@ -24670,36 +24670,36 @@ if($Status==6)
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
     <label>Name</label>
-    <input type="text" name="" id="" class="form-control">
+    <input type="text"  id="Name" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Father Name</label>
-    <input type="text" name="" id="" class="form-control">
+    <input type="text"  id="FatherName" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Mobile No</label>
- <input type="text" id="mobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" >
+ <input type="text" id="MobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" >
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
  <label>Aadhar Card No</label>
-    <input type="number" name="" id="" class="form-control">
+    <input type="text"  id="AdharCardNo" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
  <label>ID No</label>
-    <input type="text" name="" id="" class="form-control">
+    <input type="text"  id="IDNumber" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
  <label>Passport No</label>
-    <input type="text" name="" id="" class="form-control">
+    <input type="text"  id="PassportNumber" class="form-control">
  </div>
  
 <div class="col-lg-3 col-md-3 col-sm-12">
  <label>DOB</label>
-    <input type="date" name="" id="" class="form-control">
+    <input type="date"  id="Dob" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Gender</label>
-    <select class="form-control">
+    <select class="form-control" id='Gender'>
         <option value="">Select</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
@@ -24707,7 +24707,7 @@ if($Status==6)
  </div>
 <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Category</label>
- <select class="form-control" name="category">
+ <select class="form-control" id="category">
         <option value="">Select</option>
         <option>SC</option>
         <option>ST</option>
@@ -24717,7 +24717,7 @@ if($Status==6)
  </div>
 <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Fee Category</label>
- <select class="form-control" name="category">
+ <select class="form-control" id="feecategory">
         <option value="">Select</option>
         <?php 
                   $get_country="SELECT DISTINCT Category FROM MasterCategory";
@@ -24733,8 +24733,8 @@ if($Status==6)
  </div>
  
 <div class="col-lg-3 col-md-3 col-sm-12">
- <label>ScolarShip</label>
- <select class="form-control" name="scholaship">
+ <label>Scholarship</label>
+ <select class="form-control" id="scholaship">
    <option value="">Select</option>
    <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
    <option value="Early Bird scholarship">Early Bird scholarship</option>
@@ -24792,7 +24792,7 @@ if($Status==6)
                   
                   <div class="col-lg-3 col-md-3 col-sm-12">
  <label>Comments</label>
- <textarea name="" id="" cols="1" rows="1" class="form-control"></textarea>
+ <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
  </div>
  <!-- <div class="col-lg-3 col-md-3 col-sm-12">
     <label>RollNo</label>
@@ -24808,31 +24808,73 @@ if($Status==6)
 <br>
 <div class="row">
 
-<div class="col-lg-12 col-md-12 col-sm-12">
-    <center>
- <label><input type="radio" name="refrene" id="">Team</label>
- <label><input type="radio" name="refrene" id="">Staff</label>
- <label><input type="radio" name="refrene" id="">Student</label>
- <label><input type="radio" name="refrene" id="">Consultant</label>
-   </center>
+<div class="col-lg-2 col-md-2 col-sm-12">
+   &nbsp;
+                  </div>
+<div class="col-lg-8 col-md-8 col-sm-12">
+
+   <div class="btn-group w-100 mb-1" >
+                        <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
+                            style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
+                        <a class="btn btn-primary btn-xs btnG" id="btn4"
+                            style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="onchnagereff('Student'),bg(this.id);"> Student  </a>
+                        <a class="btn btn-primary btn-xs btnG" id="btn5"
+                            style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant  </a>
+                        <a class="btn btn-primary btn-xs btnG" id="btn6"
+                            style="background-color:#223260; color: white; border: 1px solid;"
+                            onclick="onchnagereff('Team'),bg(this.id);"> Team  </a>
+                            <input type="hidden" id="refvalue" value="Staff">
+                    </div>
  </div>
- 
+ <div class="col-lg-2 col-md-2 col-sm-12">
+ &nbsp;
+                  </div>
 </div>
 
 <!-- ---------------------------------------------------------------------------------- -->
 <div class="row">
 
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Team ID</label>
-    <input type="number" name="" id="" class="form-control">
+ <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="" >
+ <label>IDNo</label>
+    <input type="text"  id="EmIDStaff" class="form-control" onblur="getOnChnageDetails();">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
+ <label>RollNo</label>
+    <input type="text"  id="EmIDStudent" class="form-control" onblur="getOnChnageDetails();">
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
+ <label>Select</label>
+    <select  id="EmIDConsultant" class="form-control" onchange="getOnChnageDetails();">
+    <option value="">Select</option>
+        <?php $get_consultant="SELECT * FROM masterconsultant ";
+                $get_consultantRun=mysqli_query($conn,$get_consultant);
+                while($row=mysqli_fetch_array($get_consultantRun))
+                {
+?>
+<option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+<?php 
+                }
+        ?>
+    </select>
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffTeam" style="display:none;">
+ <label>Team</label>
+    <input type="text"  id="EmIDTeam" class="form-control" onblur="getOnChnageDetails();">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
  <label> Name</label>
-    <input type="date" name="" id="" class="form-control">
+    <input type="text"  id="RefName" class="form-control" readonly>
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
     <label>Contact No.</label>
-    <input type="text" name="" id="" class="form-control">
+    <input type="text"  id="RefContact" class="form-control" readonly>
+ </div>
+ <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Address</label>
+    <input type="text" name="" id="RefAddress" class="form-control" readonly>
  </div>
 
 </div>
@@ -24843,23 +24885,51 @@ if($Status==6)
 <br>
 <div class="row">
 
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Team ID</label>
-    <input type="number" name="" id="" class="form-control">
+ <div class="col-lg-6 col-md-6 col-sm-12">
+ <h4>Total Debit Fee</h4>
+ <label>Semester</label>
+ <select id="SemesterForFee" class="form-control form-control-sm" onchange="getFeeDetails();">
+    <option value="">Select</option>
+    <?php
+        $get_Fee = "SELECT DISTINCT Semester FROM MasterAnnualFee WHERE NOT Semester LIKE '%[0-9]%' order by Semester ASC";
+        $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
+        while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
+    ?>
+        <option value="<?= $rowFee['Semester']; ?>"><?= $rowFee['Semester']; ?></option>
+    <?php
+        }
+    ?>
+</select>
+<label> Fee Particulars</label>
+    <input type="text"  id="feeparticulr" class="form-control form-control-sm">
+    <label>Total Debit</label>
+    <input type="text"  id="feeTotalDebit" class="form-control form-control-sm" readonly>
  </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label> Name</label>
-    <input type="date" name="" id="" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Contact No.</label>
-    <input type="text" name="" id="" class="form-control">
- </div>
+ <div class="col-lg-6 col-md-6 col-sm-12">
+ <h4>Fee Structure</h4>
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th>Head</th>
+        <th>Debit</th>
+    </tr>
+    </thead>
+    <tbody id="feeDetailTable">
+    </tbody>
 
+</table>
+
+    </div>
+
+    <!-- </div> -->
 </div>
 <br>
+<div class="row" id="testingQuery" >
+
+    </div>
+<br>
 <div class="card-footer">
-<center><button class="btn btn-success">Submit</button></center>
+<center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
    </div>
 
 <?php
@@ -24877,7 +24947,7 @@ if($Status==6)
       $college = $row1['CollegeName']; 
       $CollegeID = $row1['CollegeID'];
      ?>
- <option  value="<?=$CollegeID;?>"><?= $college;?></option>
+ <option  value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
  <?php    }
    }
    elseif($code==351) 
@@ -24889,7 +24959,7 @@ $stmt = sqlsrv_query($conntest,$sql);
 echo "<option value=''>Course</option>";
     while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
-echo "<option value='".$row["CourseID"]."'>".$row["Course"]."</option>";
+echo "<option value='".$row["CourseID"]."'>".$row["Course"]."(".$row["CourseID"].")</option>";
 }
 }
    elseif($code==352) 
@@ -24928,6 +24998,220 @@ $stmt = sqlsrv_query($conntest,$sql);
            echo  $ClassRollNo=$row["ClassRollNo"]+1;
         }
 }
+}
+   elseif($code==354) 
+{
+    $Value=array();
+    $IDNo=$_POST['id'];
+    $refrene=$_POST['refrene'];
+    if($refrene=='Staff')
+    {
+    $get_user_details="SELECT Name,MobileNo,CollegeName,PermanentAddress FROM Staff Where IDNo='$IDNo'";
+           $get_user_details_run=sqlsrv_query($conntest,$get_user_details);
+           if ($get_user_details_row=sqlsrv_fetch_array($get_user_details_run,SQLSRV_FETCH_ASSOC))
+            {
+              $Value[0]=$get_user_details_row['Name'];
+              $Value[1]=$get_user_details_row['MobileNo'];
+              $Value[2]=$get_user_details_row['PermanentAddress'];
+            //   $Department=$get_user_details_row['Department'];
+           }
+           else
+           {
+            $Value[0]="";
+            $Value[1]="";
+            $Value[2]="";
+           }
+        }
+        elseif($refrene=='Consultant')
+        {
+             $get_consultant="SELECT * FROM masterconsultant  where ID='$IDNo'";
+            $get_consultantRun=mysqli_query($conn,$get_consultant);
+            if($row=mysqli_fetch_array($get_consultantRun))
+            {
+                $Value[0]=$row['Name'];
+                $Value[1]=$row['Mobile'];
+                $Value[2]=$row['Address'];
+            }
+            else
+            {
+                $Value[0]="";
+                $Value[1]="";
+                $Value[2]="";
+            }
+        }
+        elseif($refrene=='Student')
+        {
+            $get_student_details="SELECT StudentName,StudentMobileNo,PermanentAddress,Sex FROM Admissions where UniRollNo='$IDNo'";
+            $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+            if($row_student=sqlsrv_fetch_array($get_student_details_run))
+            {
+                $Value[0]=$row_student['StudentName'];
+                $Value[1]=$row_student['StudentMobileNo'];
+                $Value[2]=$row_student['PermanentAddress'];
+            }
+            else
+            {
+                $Value[0]="";
+                $Value[1]="";
+                $Value[2]="";
+            }
+        }
+        else
+        {
+           
+                $Value[0]="";
+                $Value[1]="";
+                $Value[2]="";
+            
+        }
+        
+    echo json_encode($Value);
+}
+elseif($code==355) 
+{
+    $Value=array();
+$College=$_POST['College'];
+$Course=$_POST['Course'];
+$Session=$_POST['Session'];
+$FeeCategory=$_POST['FeeCategory'];
+$SemesterForFee=$_POST['SemesterForFee'];
+$Batch=$_POST['Batch'];
+ $sql = "SELECT  DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
+ CourseID='$Course' and CollegeID='$College' and Batch='$Batch' and Semester='$SemesterForFee' ";
+$stmt = sqlsrv_query($conntest,$sql);  
+    if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+    $Value[0]=$row['Head'];
+    $Value[1]=$row['Amount'];
+}
+else{
+    $Value[0]="NA";
+    $Value[1]="NA";
+               
+}
+echo json_encode($Value);
+}
+elseif($code==356) 
+{
+$College=$_POST['College'];
+$Course=$_POST['Course'];
+$Session=$_POST['Session'];
+$FeeCategory=$_POST['FeeCategory'];
+$SemesterForFee=$_POST['SemesterForFee'];
+$Batch=$_POST['Batch'];
+ $sql = "SELECT DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
+ CourseID='$Course' and CollegeID='$College' and Batch='$Batch' and Semester='$SemesterForFee' ";
+$stmt = sqlsrv_query($conntest,$sql);  
+    if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{?>
+<tr>
+    <td><?=$row['Amount'];?></td>
+    <td><?=$row['Head'];?></td>
+</tr>
+<?php 
+}
+}
+elseif($code==357) 
+{
+$Nationality=$_POST['Nationality'];
+$Name=$_POST['Name'];
+$FatherName=$_POST['FatherName'];
+$MobileNumber=$_POST['MobileNumber'];
+$AdharCardNo=$_POST['idproof'];
+$Dob=$_POST['Dob'];
+$Gender=$_POST['Gender'];
+$category=$_POST['category'];
+$feecategory=$_POST['feecategory'];
+$scholaship=$_POST['scholaship'];
+$Session=$_POST['Session'];
+$CollegeID=$_POST['CollegeID'];
+$Course=$_POST['Course'];
+$LateralEntry=$_POST['LateralEntry'];
+$Batch=$_POST['Batch'];
+$Comments=$_POST['Comments'];
+$refvalue=$_POST['refvalue'];
+$EmIDTeam=$_POST['EmID'];
+$RefName=$_POST['RefName'];
+$RefContact=$_POST['RefContact'];
+$RefAddress=$_POST['RefAddress'];
+$SemesterForFee=$_POST['SemesterForFee'];
+$feeparticulr=$_POST['feeparticulr'];
+$feeTotalDebit=$_POST['feeTotalDebit'];
+ $sqlfee = "SELECT DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE CourseID='$Course' and CollegeID='$CollegeID' and Batch='$Batch' and Semester='$SemesterForFee' ";
+$stmtfee = sqlsrv_query($conntest,$sqlfee);  
+   if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
+{
+   $Ammount=$rowfee['Amount'];
+   $Head=$rowfee['Head'];
+}
+   $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+$stmt = sqlsrv_query($conntest,$sql);  
+    if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+{
+        if($row["ClassRollNo"]<=$row["EndClassRollNo"])
+        {
+            $ClassRollNo=$row["ClassRollNo"];
+        }
+}
+$TodayDateAdmissions=date('Y-m-d');
+
+$getIDNosql = "SELECT Top(1)* FROM Admissions order by IDNo DESC";
+$getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
+    if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
+{
+        
+            $IDNo=$getIDNorow["IDNo"]+1;
+        
+}
+$getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNo' ";
+$getIfExiststmt = sqlsrv_query($conntest,$getIfExist);  
+ $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ifexitIDNo=sqlsrv_num_rows($get_card_run);
+if($ifexitIDNo<1)
+{   
+$newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeID,DepartmentId,CourseID)
+ VALUES('$IDNo','$Session','$Batch','$ClassRollNo','$Name','$FatherName','$Dob','$AdharCardNo','$category','$feecategory','$scholaship','$LateralEntry','$TodayDateAdmissions','$CollegeID','','$Course')";
+ $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert);
+ if($newAdmissionInsertRun==true)
+ {
+    $ClassRollNoUpdate=$ClassRollNo+1;
+   $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+    sqlsrv_query($conntest,$sqlG);  
+
+     $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CreateDate)Values('$IDNo','12345678','Student','Web','Campus','$timeStampS')";
+    sqlsrv_query($conntest,$userMaster);
+    ?>
+<div class="col-lg-6">
+
+<label>Student Name</label>
+    <input type="text" value="<?=$Name;?>"  id="StudentNameG" class="form-control form-control-sm" readonly>
+    <label>FatherName</label>
+    <input type="text"   value="<?=$FatherName;?>" id="FatherNameG" class="form-control form-control-sm" readonly>
+    <label>IDNo</label>
+    
+    <input type="text"  value="<?=$IDNo;?>"  id="IDNoG" class="form-control form-control-sm" readonly>
+</div>
+<div class="col-lg-6">
+    <label>ClassRollNo</label>
+    <input type="text"  value="<?=$ClassRollNo;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
+    <label>Session</label>
+    <input type="text"  value="<?=$Session;?>"  id="SessionG" class="form-control form-control-sm" readonly>
+    <label>Batch</label>
+    <input type="text"   value="<?=$Batch;?>" id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+    <?php 
+ }
+ else
+ {
+   echo "1";
+ }
+
+}
+else
+{
+    echo "2"; // IDNo and ClassRollNo already Exist
+}
+
 }
    else
    {

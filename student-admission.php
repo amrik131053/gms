@@ -8,12 +8,12 @@
             <div class="col-lg-12  col-sm-12 col-lg-12">
                 <div class="card card-primary">
                     <div class="btn-group w-100 mb-2">
-                        <a class="btn btn-primary" id="btn1"
+                        <a class="btn btn-primary btn11" id="btn1"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="newAdmission(),bg(this.id);"> New Admission </a>
-                        <a class="btn btn-primary" id="btn2"
+                            onclick="newAdmission(),bg1(this.id);"> New Admission </a>
+                        <a class="btn btn-primary btn11" id="btn2"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="oldAdmission(),bg(this.id);"> Old Admission  </a>
+                            onclick="oldAdmission(),bg1(this.id);"> Old Admission  </a>
                     </div>
                     <div class="card-body" id="admissionForm" style="">
 
@@ -32,12 +32,17 @@
 <script>
 $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
+    $('#btn3').toggleClass("bg-success");
     newAdmission();
 })
 
+function bg1(id) {
+    $('.btn11').removeClass("bg-success");
+    $('#' +id).toggleClass("bg-success");
+}
 function bg(id) {
-    $('.btn').removeClass("bg-success");
-    $('#' + id).toggleClass("bg-success");
+    $('.btnG').removeClass("bg-success");
+    $('#' +id).toggleClass("bg-success");
 }
 
 function newAdmission() 
@@ -91,6 +96,7 @@ function fetchCollege() {
                 $("#CollegeID").html("");
                 $("#CollegeID").html(data);
                 document.getElementById('Batch').value="";
+                clearFeeDetails();
             }
         }
     });
@@ -113,6 +119,7 @@ function fetchcourse() {
                 $("#Course").html("");
                 $("#Course").html(data);
                 document.getElementById('Batch').value="";
+                clearFeeDetails();
             }
         }
     });
@@ -138,28 +145,124 @@ function fatchBatch() {
           
                
             document.getElementById('Batch').value=data;
-            fatchRollNo();
+            // fatchRollNo();
             
         }
     });
 }
-function fatchRollNo() {
+function getOnChnageDetails() {
+    var refrene =  document.getElementById('refvalue').value;
+    var id = document.getElementById('EmID'+refrene).value;
+//    alert(id);
+    var code = 354;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            refrene: refrene,
+            id: id,
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            // console.log(response);
+            var data = JSON.parse(response);
+                document.getElementById("RefName").value = data[0];
+                document.getElementById("RefContact").value = data[1];
+                document.getElementById("RefAddress").value = data[2];
+                
+
+
+            
+        }
+    });
+}
+function clearFeeDetails() {
+    document.getElementById("SemesterForFee").value = "";
+    document.getElementById("feeparticulr").value = "";
+    document.getElementById("feeTotalDebit").value = "";
+    document.getElementById("LateralEntry").value = "";
+    document.getElementById("feeDetailTable").innerHTML = "";
+}
+function getFeeDetails() {
+    var SemesterForFee = document.getElementById('SemesterForFee').value;
     var College = document.getElementById('CollegeID').value;
     var Course = document.getElementById('Course').value;
     var Session = document.getElementById('Session').value;
-    var code = 353;
+    var LateralEntry = document.getElementById('LateralEntry').value;
+    var FeeCategory = document.getElementById('feecategory').value;
+    var Batch = document.getElementById('Batch').value;
+
+   
+    if (College === '') {
+        ErrorToast('Please select a College','bg-warning');
+        return;
+    }
+    if (Course === '') {
+        ErrorToast('Please select a Course','bg-warning');
+        return;
+    }
+    if (LateralEntry === '') {
+        ErrorToast('Please select Lateral Entry status','bg-warning');
+        return;
+    }
+    if (FeeCategory === '') {
+        ErrorToast('Please select a Fee Category','bg-warning');
+        return;
+    }
+    if (SemesterForFee === '') {
+        ErrorToast('Please select a Semester','bg-warning');
+        return;
+    }
+    var code = 355;
     $.ajax({
         url: 'action_g.php',
         data: {
             College: College,
             Course: Course,
             Session: Session,
+            LateralEntry: LateralEntry,
+            FeeCategory: FeeCategory,
+            Batch: Batch,
+            SemesterForFee: SemesterForFee,
             code: code
         },
         type: 'POST',
-        success: function(data) {
-            console.log(data);
-            document.getElementById('RollNo').value=data;
+        success: function(response) {
+            // console.log(response);
+            var data = JSON.parse(response);
+            document.getElementById("feeparticulr").value = data[0];
+            document.getElementById("feeTotalDebit").value = data[1];
+            getFeeDetailsTable();
+        }
+    });
+}
+function getFeeDetailsTable() {
+    var SemesterForFee = document.getElementById('SemesterForFee').value;
+    var College = document.getElementById('CollegeID').value;
+    var Course = document.getElementById('Course').value;
+    var Session = document.getElementById('Session').value;
+    var LateralEntry = document.getElementById('LateralEntry').value;
+    var FeeCategory = document.getElementById('feecategory').value;
+    var Batch = document.getElementById('Batch').value;
+
+    var code = 356;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            College: College,
+            Course: Course,
+            Session: Session,
+            LateralEntry: LateralEntry,
+            FeeCategory: FeeCategory,
+            Batch: Batch,
+            SemesterForFee: SemesterForFee,
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            // console.log(response);
+           
+            document.getElementById("feeDetailTable").innerHTML = response;
             
         }
     });
@@ -182,105 +285,168 @@ function adharPassChnage(id)
     $('#AdharCard').hide();
     $('#IDNoNationlity').hide();
     document.getElementById('IDNoNationlity').value="";
-    document.getElementById('AdharCard').value="";
-
-    }
-    else if(id=='Nepal')
-    {
-        $('#IDNoNationlity').show();
+    document.getElementById('AdharCardNo').value="";
+document.getElementById('PassportNumber').value="";
+document.getElementById('IDNumber').value="";
+    
+}
+else if(id=='Nepal')
+{
+    $('#IDNoNationlity').show();
     $('#AdharCard').hide();
-    document.getElementById('AdharCard').value="";
-
-    }
-    else if(id=='Bhutan')
-    {
-        $('#IDNoNationlity').show();
+    document.getElementById('AdharCardNo').value="";
+    document.getElementById('PassportNumber').value="";
+    
+}
+else if(id=='Bhutan')
+{
+    $('#IDNoNationlity').show();
     $('#AdharCard').hide();
-    document.getElementById('AdharCard').value="";
-
-    }
-
+    document.getElementById('AdharCardNo').value="";
+    document.getElementById('PassportNumber').value="";
+    
 }
 
-function leaveSubmit(form) {
+}
+function onchnagereff(ref) {
+    // alert(ref);
+    document.getElementById('refvalue').value=ref;
+    document.getElementById('EmID'+ref).value="";
+                document.getElementById("RefName").value="";
+                document.getElementById("RefContact").value="";
+                document.getElementById("RefAddress").value="";
+    if(ref=='Staff')
+    {
 
-    var leaveType = form.LeaveType.value;
-    var leaveShort = form.leaveShort.value;
-    var leaveReason = form.leaveReason.value;
-    var leaveFile = form.leaveFile.value;
-    var leaveShift = form.leaveShift.value;
-    var leaveHalfShortRadio = form.leaveHalfShortRadio.value;
-
-    if (leaveType === "") {
-
-        ErrorToast('Please select a Leave Type.', 'bg-warning');
-        return;
+        $('#accordingToReffStaff').show();
+        $('#accordingToReffStudent').hide();
+        $('#accordingToReffConsoultant').hide();
+        $('#accordingToReffTeam').hide();
+       
     }
-    if (leaveHalfShortRadio != 'Full') {
-        if (leaveShort === "") {
-
-            ErrorToast('Please select a Leave Duration.', 'bg-warning');
-            return;
-        }
-        if (leaveShift === "") {
-
-            ErrorToast('Please select a Leave Shift F/S.', 'bg-warning');
-            return;
-        }
+    else if(ref=='Student')
+    {
+        $('#accordingToReffStudent').show();
+        $('#accordingToReffStaff').hide();
+        $('#accordingToReffConsoultant').hide();
+        $('#accordingToReffTeam').hide();
+       
     }
-    if (leaveReason.trim() === "") {
+    else if(ref=='Consultant')
+    {
+        $('#accordingToReffConsoultant').show();
+        $('#accordingToReffStaff').hide();
+        $('#accordingToReffStudent').hide();
+        $('#accordingToReffTeam').hide();
+      
 
-        ErrorToast('Please enter a Leave Reason.', 'bg-warning');
-        return;
+    }
+    else{
+        $('#accordingToReffTeam').show();
+        $('#accordingToReffConsoultant').hide();
+        $('#accordingToReffStaff').hide();
+        $('#accordingToReffStudent').hide();
+       
     }
 
-    if (leaveFile === "") {
 
-        ErrorToast('Please upload an Adjustment File.', 'bg-warning');
-        return;
+}
+function submitNewAdmissions() 
+{
+    var Nationality=document.getElementById('Nationality').value;
+    if (Nationality=='Indian')
+    {
+        var idproof=document.getElementById('AdharCardNo').value;
     }
+else if(Nationality=='NRI')
+    {
+   var idproof=document.getElementById('PassportNumber').value;
+}
+else if(Nationality=='Nepal')
+{
+    var idproof=document.getElementById('IDNumber').value;
+}
+else if(Nationality=='Bhutan')
+{
+    var idproof=document.getElementById('IDNumber').value;
+}
+var Name=document.getElementById('Name').value;
+var FatherName=document.getElementById('FatherName').value;
+var MobileNumber=document.getElementById('MobileNumber').value;
 
-    var submitButton = form.querySelector('input[name="leaveButtonSubmit"]');
-    submitButton.disabled = true;
-    submitButton.value = "Submitting...";
 
-    var formData = new FormData(form);
+
+var Dob=document.getElementById('Dob').value;
+var Gender=document.getElementById('Gender').value;
+var category=document.getElementById('category').value;
+var feecategory=document.getElementById('feecategory').value;
+var scholaship=document.getElementById('scholaship').value;
+var Session=document.getElementById('Session').value;
+var CollegeID=document.getElementById('CollegeID').value;
+var Course=document.getElementById('Course').value;
+var LateralEntry=document.getElementById('LateralEntry').value;
+var Batch=document.getElementById('Batch').value;
+var Comments=document.getElementById('Comments').value;
+var refvalue=document.getElementById('refvalue').value;
+var EmIDTeam=document.getElementById('EmID'+refvalue).value;
+var RefName=document.getElementById('RefName').value;
+var RefContact=document.getElementById('RefContact').value;
+var RefAddress=document.getElementById('RefAddress').value;
+var SemesterForFee=document.getElementById('SemesterForFee').value;
+var feeparticulr=document.getElementById('feeparticulr').value;
+var feeTotalDebit=document.getElementById('feeTotalDebit').value;
+// alert(EmIDTeam);
+var code = 357;
     $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        contentType: false,
-        processData: false,
+        url: 'action_g.php',
+        data: {
+            Nationality:Nationality,
+Name:Name,
+FatherName:FatherName,
+MobileNumber:MobileNumber,
+idproof:idproof,
+Dob:Dob,
+Gender:Gender,
+category:category,
+feecategory:feecategory,
+scholaship:scholaship,
+Session:Session,
+CollegeID:CollegeID,
+Course:Course,
+LateralEntry:LateralEntry,
+Batch:Batch,
+Comments:Comments,
+refvalue:refvalue,
+EmID:EmIDTeam,
+RefName:RefName,
+RefContact:RefContact,
+RefAddress:RefAddress,
+SemesterForFee:SemesterForFee,
+feeparticulr:feeparticulr,
+feeTotalDebit:feeTotalDebit,
+            code: code
+        },
+        type: 'POST',
         success: function(response) {
-            console.log(response);
-            if (response == 1) {
-                SuccessToast('Leave submit successfully');
-                pendingLeaves();
-                document.getElementById("LeaveType").value = "";
-                document.getElementById("leaveShort").value = "";
-                document.getElementById("leaveReason").innerHTML = "";
+            // console.log(response);
+        
+            if(response==2)
+            {
 
-            } else if (response == 2) {
-                ErrorToast('one leave already pending to Sanction authority.', 'bg-warning');
-            } else if (response == 3) {
-                ErrorToast("you can't apply back date leave.", 'bg-warning');
-            } else if (response == 4) {
-                ErrorToast("you con't apply more than one leave same day ", 'bg-warning');
-            } else if (response == 5) {
-                ErrorToast('Can`t apply leave more then balance.', 'bg-warning');
             }
             else{
-                ErrorToast('Please try after sometime.', 'bg-danger');
+                var Name=document.getElementById('Name').value="";
+                var FatherName=document.getElementById('FatherName').value="";
+                var MobileNumber=document.getElementById('MobileNumber').value="";
+                var Dob=document.getElementById('Dob').value="";
+
             }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        },
-        complete: function() {
-            submitButton.disabled = false;
-            submitButton.value = "Submit";
+            
+            
         }
     });
+
+
 }
 </script>
 </body>
