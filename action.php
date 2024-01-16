@@ -16274,7 +16274,8 @@ $stmt2 = sqlsrv_query($conntest,$sql);
 
                                  <img src="http://erp.gku.ac.in:86/Images/Staff/<?php echo $univ_rollno;?>.jpg" id="img_u"  height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%" alt="image"/>
                            
-                        </div><br>   
+                        </div>
+                        <br>   
 
                         <div class="col-md-12"  id="lect_div" style="text-align: center;display:none;"><br>  <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
 
@@ -20794,7 +20795,12 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
           <td><?=$row['FatherName'];?></td>
           <td><?=$row['Course'];?></td>
          <td><?= $row['Batch'];?></td><td>
-           <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form></td>
+           <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form>
+       
+        <form action="mooccertificte.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form>
+
+        
+     </td>
          </tr>
          
          

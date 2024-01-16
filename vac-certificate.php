@@ -159,7 +159,7 @@ while($row=mysqli_fetch_array($result))
 </section>
 
 <script>
-function search()
+function search() 
 {
 
  var spinner=document.getElementById("ajax-loader");
