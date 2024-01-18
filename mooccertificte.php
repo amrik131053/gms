@@ -101,7 +101,7 @@ $font_sr=$row['font_sr'];
   
     require_once('fpdf/fpdf.php');
   require_once('fpdf/fpdi.php');
-
+    require_once('fpdf/forcejustify.php');
 
 
  
@@ -128,9 +128,6 @@ $pdf->AddPage($layout);
 
  $pdf->SetFont('Arial','',$font_sr);
 
- $pdf->SetXY($srno_w,$srno_h);
-$pdf->Cell(60,5,$session ,'','L');
-$pdf->SetXY(25,5);
 
 
  $aa=135;
@@ -143,34 +140,14 @@ $pdf->SetFont('Arial','',$font_n);
  $pdf->SetFont('Arial','',32);
 $pdf->MultiCell(270,5,$name,'','C');
 
- $pdf->SetXY(20,100);
+ $pdf->SetXY(20,105);
  $pdf->SetTextColor(0,0,0);
- $pdf->SetFont('Arial','',20);
-$pdf->MultiCell(270,5,"For successfully completing the online course:",'1','C');
-
-
-//$pdf->SetFont('Arial','BI',$font_f);
-$pdf->SetFont('Arial','',$font_f);
-$pdf->SetXY($fname_h,$fname_w);
-$pdf->Cell(60,5,$father_name,'','L');
-
-$pdf->SetFont('Arial','',$font_r);
-$pdf->SetXY($univ_rollno_h,$univ_rollno_w);
-$pdf->Cell(60,5, $univ_rollno,'','L');
-
-
-
-$pdf->SetFont('Arial','',$font_clg);
-$pdf->SetXY($college_h,$college_w);
-$pdf->Cell(100,20,$college,'','L');
+ $pdf->SetFont('Arial','',18);
+ $pdf->MultiCell(257,12,"in recognition of their dedication, commitment, and successful completion of the online course  Fundamental of Digital Marketing . The duration of course was from August 2023 to  December 2023 with 3 hours a week.",'0','C','0');
 
 
 
 
-$pdf->SetXY($vcourse_h,$vcourse_w);
-
-$pdf->SetFont('Arial','',$font_c);
-$pdf->Cell(60,5,$vcourse,'','L');
 
 
 if($dean!='')
@@ -183,8 +160,14 @@ $info = getimagesize($pic);
 
  $extension = explode('/', mime_content_type($pic))[1];
 
+ $pdf->SetXY(30,185); 
+  $pdf->SetFont('Arial','',14);
 
-$pdf-> Image($pic,30,170.8,40,13,$extension);
+$pdf->MultiCell(80,3,"Course Coordinator" ,'','C');
+
+
+//$pdf-> Image($pic,40,170,40,13,$extension);
+
 
 }
 
@@ -198,11 +181,19 @@ if($head!='')
 $info = getimagesize($pic);
 
  $extension = explode('/', mime_content_type($pic))[1];
+$pdf->SetXY(210,185); 
+  $pdf->SetFont('Arial','',14);
 
+$pdf->MultiCell(80,3,"Director" ,'','C');
 
-$pdf-> Image($pic,170,170.8,40,13,$extension);
+//$pdf-> Image($pic,219,170.8,40,13,$extension);
 
 }
+
+
+
+
+
 
 
 

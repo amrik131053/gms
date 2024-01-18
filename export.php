@@ -7676,7 +7676,7 @@ $pcount++;
 
 if($pcount>5)
 {
-    $pmarks=(int)($pmarks/$pcount)*5;
+    $pmarks=(int)(($pmarks/$pcount)*5);
 }
 else
 {
@@ -7726,11 +7726,7 @@ else if($pmarks<40)
     $gardep=0;
 }
 
-
-
-
-
-                     $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
+$amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
