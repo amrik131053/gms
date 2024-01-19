@@ -286,7 +286,7 @@ function fetchCutList() {
     var Type = document.getElementById('Type').value;
     var Examination = document.getElementById('Examination').value;
     var Status = document.getElementById('Status').value;
-    if (College != '') {
+    if (Examination != '') {
     var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = '290';
@@ -313,7 +313,7 @@ function fetchCutList() {
             }
         });
     } else {
-        ErrorToast('Please Select College', 'bg-warning');
+        ErrorToast('Please Select Examination', 'bg-warning');
     }
   
 }
