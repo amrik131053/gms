@@ -176,6 +176,8 @@ ini_set('max_execution_time', '0');
 
                                                     <button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">Grade</button> 
 
+                                                     <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
+
                                                   
                                                        
                               
@@ -380,6 +382,26 @@ function exportCutListExcelgrade() {
 
 function exportCutListExcelgradeca() {
     var exportCode = 54;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+
+function exportCutListExcelcsv() {
+    var exportCode = 55;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
