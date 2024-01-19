@@ -6041,15 +6041,9 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
         <thead>  
         <tr>
        ";
+include 'resultcopyheader.php';
 
- $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
-    </tr><tr>";
-    $exportstudy.="<th colspan='".$subCount."' > Batch :<b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
-    </tr>
-    <tr>";
-    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th>         
-    </tr>
-    <tr>
+$exportstudy.="<tr>
     <th>SrNo</th>
     <th>ClassRoll No </th>
     <th>UniRoll No</th>
@@ -6347,6 +6341,7 @@ $exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
                         }
 
 
+include 'resultfooter.php';
                   
         $exportstudy.="</table>";
         echo $exportstudy;
@@ -6459,15 +6454,10 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
         <thead>  
         <tr>
        ";
+include'resultcopyheader.php';
 
- $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
-    </tr><tr>";
-    $exportstudy.="<th colspan='".$subCount."' > Batch :<b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
-    </tr>
-    <tr>";
-    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th>         
-    </tr>
-    <tr>
+
+$exportstudy.="<tr>
     <th>SrNo</th>
     <th>ClassRoll No </th>
     <th>UniRoll No</th>
@@ -6479,7 +6469,8 @@ foreach ($Subjects as $key => $SubjectsCode) {
 }
 $exportstudy.="<th colspan=3>Grade Detail
     
-  </th></tr>   <tr>
+  </th></tr>  
+   <tr>
     <th></th>
     <th></th>
     <th></th>
@@ -6760,6 +6751,7 @@ $exportstudy.="<td style='text-align:center'>{$nccount} </td>";
                         }
 
 
+include 'resultfooter.php';
                   
         $exportstudy.="</table>";
         echo $exportstudy;
@@ -6870,19 +6862,13 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
 $subCount=(count($Subjects)*5)+7;
 $subCount1=count($Subjects);
-
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
         <thead>  
         <tr>
        ";
+include 'resultcopyheader.php';
 
- $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
-    </tr><tr>";
-    $exportstudy.="<th colspan='".$subCount."' > Batch :<b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
-    </tr>
-    <tr>";
-    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th>         
-    </tr>
+$exportstudy.="
     <tr>
     <th>SrNo</th>
     <th>ClassRoll No </th>
@@ -7179,7 +7165,7 @@ $exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
 
                         }
 
-
+include 'resultfooter.php';
                   
         $exportstudy.="</table>";
         echo $exportstudy;
@@ -7291,20 +7277,9 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
         <thead>  
         <tr>
        ";
-
- $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
-    </tr><tr>";
-    $exportstudy.="<th colspan='".$subCount."' > Batch :<b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
-    </tr>
-    <tr>";
-    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th>         
-    </tr>
-    <tr>
-    <th>SrNo</th>
+include'resultcopyheader.php';
   
-    <th>UniRoll No</th>
-  
-   ";
+   $exportstudy.="<tr>  <th>SrNo</th> <th>UniRoll No</th>";
 
      $gtcerdit=0;
 
@@ -7402,11 +7377,11 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA </td>";
+$exportstudy.="<td style='text-align:center;'>NA</td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA</td>";
  $exportstudy.="<td style='text-align:center;'>NA</td>"; 
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+ $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 }
 
 
@@ -7431,7 +7406,8 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
 
 include'grade_calculator.php';
 
-
+$exportstudy.="<td style='text-align:center;color:{$color}'></td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'></td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName} </td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode} </td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
@@ -7575,7 +7551,10 @@ else
 
                         }
 
+  
 
+
+ 
                   
         $exportstudy.="</table>";
         echo $exportstudy;
