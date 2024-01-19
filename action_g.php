@@ -12318,7 +12318,7 @@ elseif($code==188)
 {
   $ids=$_POST['subjectIDs'];
 
- print_r($ids);
+//  print_r($ids);
   foreach($ids as $key => $id)
   {
      
@@ -24677,8 +24677,8 @@ if($Status==6)
     <input type="text"  id="FatherName" class="form-control">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Mobile No</label>
- <input type="text" id="MobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" >
+ <label for="MobileNumber">Mobile No</label>
+    <input type="text" id="MobileNumber" class="form-control" name="mobileNumber"  pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" required>
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
  <label>Aadhar Card No</label>
@@ -24794,10 +24794,6 @@ if($Status==6)
  <label>Comments</label>
  <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
  </div>
- <!-- <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>RollNo</label>
-    <input type="text" id="RollNo" class="form-control" readonly>
- </div> -->
 
                   </div>
 <!-- ---------------------------------------------------------------------------------- -->
@@ -24825,8 +24821,9 @@ if($Status==6)
                             onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant  </a>
                         <a class="btn btn-primary btn-xs btnG" id="btn6"
                             style="background-color:#223260; color: white; border: 1px solid;"
-                            onclick="onchnagereff('Team'),bg(this.id);"> Team  </a>
+                            onclick="onchnagereffteam('1'),bg(this.id);"> Team  </a>
                             <input type="hidden" id="refvalue" value="Staff">
+                            <input type="hidden" id="refvalueCount" value="1">
                     </div>
  </div>
  <div class="col-lg-2 col-md-2 col-sm-12">
@@ -24835,19 +24832,21 @@ if($Status==6)
 </div>
 
 <!-- ---------------------------------------------------------------------------------- -->
-<div class="row">
+<div class="row" id="tableTeam">
 
- <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="" >
+                  </div>
+                  <div class="row" style="display:none;" id="tableTeamOhter">
+ <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;" >
  <label>IDNo</label>
-    <input type="text"  id="EmIDStaff" class="form-control" onblur="getOnChnageDetails();">
+    <input type="text"  id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
  <label>RollNo</label>
-    <input type="text"  id="EmIDStudent" class="form-control" onblur="getOnChnageDetails();">
+    <input type="text"  id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
  <label>Select</label>
-    <select  id="EmIDConsultant" class="form-control" onchange="getOnChnageDetails();">
+    <select  id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
     <option value="">Select</option>
         <?php $get_consultant="SELECT * FROM masterconsultant ";
                 $get_consultantRun=mysqli_query($conn,$get_consultant);
@@ -24860,52 +24859,56 @@ if($Status==6)
         ?>
     </select>
  </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffTeam" style="display:none;">
- <label>Team</label>
-    <input type="text"  id="EmIDTeam" class="form-control" onblur="getOnChnageDetails();">
- </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
  <label> Name</label>
-    <input type="text"  id="RefName" class="form-control" readonly>
+    <input type="text"  id="RefName1" class="form-control" readonly>
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
     <label>Contact No.</label>
-    <input type="text"  id="RefContact" class="form-control" readonly>
+    <input type="text"  id="RefContact1" class="form-control" readonly>
  </div>
  <div class="col-lg-3 col-md-3 col-sm-12">
     <label>Address</label>
-    <input type="text" name="" id="RefAddress" class="form-control" readonly>
+    <input type="text" name="" id="RefAddress1"  class="form-control " readonly>
  </div>
-
+ 
+ 
 </div>
 <br>
 <div class="card" style="background-color:#223260; color:white;">
 <h6 class="text-center">Fee Detail</h6>
    </div>
 <br>
+<h4>Total Debit Fee</h4>
 <div class="row">
 
- <div class="col-lg-6 col-md-6 col-sm-12">
- <h4>Total Debit Fee</h4>
+ <div class="col-lg-4 col-md-4 col-sm-12">
  <label>Semester</label>
- <select id="SemesterForFee" class="form-control form-control-sm" onchange="getFeeDetails();">
+ <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
     <option value="">Select</option>
     <?php
-        $get_Fee = "SELECT DISTINCT Semester FROM MasterAnnualFee WHERE NOT Semester LIKE '%[0-9]%' order by Semester ASC";
+        $get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
         $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
+        
         while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
-    ?>
-        <option value="<?= $rowFee['Semester']; ?>"><?= $rowFee['Semester']; ?></option>
-    <?php
+            ?>
+            <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
+            <?php
         }
-    ?>
+        ?>
+        
 </select>
+    </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
 <label> Fee Particulars</label>
-    <input type="text"  id="feeparticulr" class="form-control form-control-sm">
+    <input type="text"  id="feeparticulr" class="form-control " readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
     <label>Total Debit</label>
-    <input type="text"  id="feeTotalDebit" class="form-control form-control-sm" readonly>
+    <input type="text"  id="feeTotalDebit" class="form-control " readonly>
  </div>
- <div class="col-lg-6 col-md-6 col-sm-12">
+    </div>
+ <!-- <div class="col-lg-6 col-md-6 col-sm-12">
  <h4>Fee Structure</h4>
 <table class="table table-sm">
     <thead>
@@ -24919,17 +24922,17 @@ if($Status==6)
 
 </table>
 
-    </div>
+    </div> -->
 
     <!-- </div> -->
 </div>
 <br>
-<div class="row" id="testingQuery" >
 
-    </div>
+
 <br>
 <div class="card-footer">
 <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
+<!-- <center><button class="btn btn-success" onclick="verifyAll();">Submit</button></center> -->
    </div>
 
 <?php
@@ -25059,9 +25062,21 @@ $stmt = sqlsrv_query($conntest,$sql);
         else
         {
            
-                $Value[0]="";
-                $Value[1]="";
-                $Value[2]="";
+            $get_user_details="SELECT Name,MobileNo,CollegeName,PermanentAddress FROM Staff Where IDNo='$IDNo'";
+            $get_user_details_run=sqlsrv_query($conntest,$get_user_details);
+            if ($get_user_details_row=sqlsrv_fetch_array($get_user_details_run,SQLSRV_FETCH_ASSOC))
+             {
+               $Value[0]=$get_user_details_row['Name'];
+               $Value[1]=$get_user_details_row['MobileNo'];
+               $Value[2]=$get_user_details_row['PermanentAddress'];
+             //   $Department=$get_user_details_row['Department'];
+            }
+            else
+            {
+             $Value[0]="";
+             $Value[1]="";
+             $Value[2]="";
+            }
             
         }
         
@@ -25113,6 +25128,8 @@ $stmt = sqlsrv_query($conntest,$sql);
 }
 elseif($code==357) 
 {
+    $ids=$_POST['subjectIDs'];
+// print_r($ids);
 $Nationality=$_POST['Nationality'];
 $Name=$_POST['Name'];
 $FatherName=$_POST['FatherName'];
@@ -25135,16 +25152,29 @@ $RefName=$_POST['RefName'];
 $RefContact=$_POST['RefContact'];
 $RefAddress=$_POST['RefAddress'];
 $SemesterForFee=$_POST['SemesterForFee'];
+$SemesterID=$_POST['SemesterID'];
 $feeparticulr=$_POST['feeparticulr'];
 $feeTotalDebit=$_POST['feeTotalDebit'];
- $sqlfee = "SELECT DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE CourseID='$Course' and CollegeID='$CollegeID' and Batch='$Batch' and Semester='$SemesterForFee' ";
+$sqlG="SELECT DISTINCT CollegeName from MasterCourseCodes  Where CollegeID='$CollegeID' and Isopen='1'";
+$stmtG = sqlsrv_query($conntest,$sqlG);
+if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
+{ 
+$CollegeName=$rowG['CollegeName']; 
+}
+$sqlGG="SELECT DISTINCT Course from MasterCourseCodes  Where CourseID='$Course' and Isopen='1'";
+$stmtGG = sqlsrv_query($conntest,$sqlGG);
+if($rowGG = sqlsrv_fetch_array($stmtGG, SQLSRV_FETCH_ASSOC) )
+{ 
+$CourseName = $rowGG['Course']; 
+}
+$sqlfee = "SELECT DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE CourseID='$Course' and CollegeID='$CollegeID' and Batch='$Batch' and Semester='$SemesterForFee' ";
 $stmtfee = sqlsrv_query($conntest,$sqlfee);  
-   if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
+if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 {
    $Ammount=$rowfee['Amount'];
    $Head=$rowfee['Head'];
 }
-   $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+$sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -25154,64 +25184,521 @@ $stmt = sqlsrv_query($conntest,$sql);
         }
 }
 $TodayDateAdmissions=date('Y-m-d');
-
 $getIDNosql = "SELECT Top(1)* FROM Admissions order by IDNo DESC";
 $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
     if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
-{
-        
-            $IDNo=$getIDNorow["IDNo"]+1;
-        
+{    
+            $IDNo=$getIDNorow["IDNo"]+1;     
 }
-$getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNo' ";
-$getIfExiststmt = sqlsrv_query($conntest,$getIfExist);  
+$getTransactionIDsql = "SELECT Top(1)* FROM Ledger  Where CollegeName='$CollegeName' order by TransactionID DESC";
+$getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);  
+    if($getTransactionIDrow = sqlsrv_fetch_array($getTransactionIDstmt, SQLSRV_FETCH_ASSOC) )
+{    
+            $TransactionID=$getTransactionIDrow["TransactionID"]+1;     
+}
+ $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' "; 
+ $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
+if($ifexitIDNoAdhaar<1)
+{
+  $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNo' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
-{   
-$newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeID,DepartmentId,CourseID)
- VALUES('$IDNo','$Session','$Batch','$ClassRollNo','$Name','$FatherName','$Dob','$AdharCardNo','$category','$feecategory','$scholaship','$LateralEntry','$TodayDateAdmissions','$CollegeID','','$Course')";
+{    
+    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status)
+ VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNo','$Name','$FatherName','$Dob','$AdharCardNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$TodayDateAdmissions','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert);
+
  if($newAdmissionInsertRun==true)
  {
     $ClassRollNoUpdate=$ClassRollNo+1;
-   $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+ $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
     sqlsrv_query($conntest,$sqlG);  
 
      $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CreateDate)Values('$IDNo','12345678','Student','Web','Campus','$timeStampS')";
     sqlsrv_query($conntest,$userMaster);
-    ?>
-<div class="col-lg-6">
-
-<label>Student Name</label>
-    <input type="text" value="<?=$Name;?>"  id="StudentNameG" class="form-control form-control-sm" readonly>
-    <label>FatherName</label>
-    <input type="text"   value="<?=$FatherName;?>" id="FatherNameG" class="form-control form-control-sm" readonly>
-    <label>IDNo</label>
     
-    <input type="text"  value="<?=$IDNo;?>"  id="IDNoG" class="form-control form-control-sm" readonly>
-</div>
-<div class="col-lg-6">
-    <label>ClassRollNo</label>
-    <input type="text"  value="<?=$ClassRollNo;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
-    <label>Session</label>
-    <input type="text"  value="<?=$Session;?>"  id="SessionG" class="form-control form-control-sm" readonly>
-    <label>Batch</label>
-    <input type="text"   value="<?=$Batch;?>" id="BatchG" class="form-control form-control-sm" readonly>
-    </div>
-    <?php 
+    $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
+     values('$Session','$CollegeName','$TodayDateAdmissions','$IDNo','$Name','$FatherName','$CourseName','$Batch','$ClassRollNo','$SemesterForFee','$SemesterID','$Gender','$Head','$Head','$Ammount','Debit','$TransactionID')";
+    sqlsrv_query($conntest,$insertLager);
+
+    if($refvalue=='Team')
+    {
+        
+    foreach($ids as $key => $idRef)
+    {
+     
+        $sqlConsultant="INSERT into  master_consultant_Ref SET StudentIDNo='$IDNo' ,RefIDNo='$idRef',Type='$refvalue' ";
+        mysqli_query($conn,$sqlConsultant);
+    }
+    }
+    else{
+    $sqlConsultant="INSERT into  master_consultant_Ref SET StudentIDNo='$IDNo' ,RefIDNo='$EmIDTeam',Type='$refvalue' ";
+    mysqli_query($conn,$sqlConsultant);
+    }
+  
+     $Value[0]=$IDNo;
+     $Value[1]=$ClassRollNo;
+    echo json_encode($Value);
+
  }
  else
  {
    echo "1";
  }
-
+    }
+    else{
+        echo "2"; // IDNo and ClassRollNo already Exist
+    }
 }
 else
 {
-    echo "2"; // IDNo and ClassRollNo already Exist
+    echo "3"; // Adhaar number already exist
+}
+if ($stmtG === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    echo "0";
+} 
+}
+elseif($code==358)
+{
+    $IDNo=$_POST['IDNo'];
+    // $ClassRollNo=$_POST['ClassRollNo'];
+    $getIDNosql = "SELECT * FROM Admissions Where IDNo='$IDNo' ";
+    $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
+        if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
+    { 
+        
+        $Name=$getIDNorow['StudentName'];
+        $FatherName=$getIDNorow['FatherName'];
+        $IDNo=$getIDNorow['IDNo'];
+        $ClassRollNo=$getIDNorow['ClassRollNo'];
+        $Session=$getIDNorow['Session'];
+        $Batch=$getIDNorow['Batch'];
+        $AdmissionDate=$getIDNorow['AdmissionDate']->format('d-m-Y');
+        $MotherName=$getIDNorow['MotherName'];
+        $Sex=$getIDNorow['Sex'];
+        $DOB=$getIDNorow['DOB']->format('d-m-Y');
+        $StudentMobileNo=$getIDNorow['StudentMobileNo'];
+        $AadhaarNo=$getIDNorow['AadhaarNo'];
+        $CommentsDetail=$getIDNorow['CommentsDetail'];
+        $CollegeID=$getIDNorow['CollegeID'];
+        $CourseID=$getIDNorow['CourseID'];
+        $sqlG="SELECT DISTINCT CollegeName from MasterCourseCodes  Where CollegeID='$CollegeID'";
+$stmtG = sqlsrv_query($conntest,$sqlG);
+if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
+{ 
+$CollegeName=$rowG['CollegeName']; 
+}
+$sqlGG="SELECT DISTINCT Course from MasterCourseCodes  Where CourseID='$CourseID' ";
+$stmtGG = sqlsrv_query($conntest,$sqlGG);
+if($rowGG = sqlsrv_fetch_array($stmtGG, SQLSRV_FETCH_ASSOC) )
+{ 
+$CourseName = $rowGG['Course']; 
 }
 
+ $sqlLedger="SELECT Particulars,Debit from Ledger  Where IDNo='$IDNo' ";
+$stmtLedger = sqlsrv_query($conntest,$sqlLedger);
+if($rowLedger = sqlsrv_fetch_array($stmtLedger, SQLSRV_FETCH_ASSOC) )
+{ 
+$Debit = $rowLedger['Debit']; 
+$LedgerName = $rowLedger['Particulars']; 
+}
+//  $sqlConsultant="SELECT * from master_consultant_Ref  Where StudentIDNo='$IDNo' ";
+// $stmtConsultant = mysqli_query($conn,$sqlConsultant);
+// if($rowConsultant = mysqli_fetch_array($stmtConsultant) )
+// { 
+//     if($rowConsultant['Type']=='Staff')
+//     {
+//         $getIDStaff = "SELECT * FROM Staff Where IDNo='".$rowConsultant['RefIDNo']."'";
+//         $getIDNStaff = sqlsrv_query($conntest,$getIDStaff);  
+//             if($getRefStaff = sqlsrv_fetch_array($getIDNStaff, SQLSRV_FETCH_ASSOC) )
+//         { 
+//             $RefName=$getRefStaff['Name'];
+//             $RefIDNo=$getRefStaff['IDNo'];
+//             $RefAddress=$getRefStaff['PermanentAddress'];
+//             $RefMobile=$getRefStaff['MobileNo'];
+//         }
+//         else{
+//             $RefName="";
+//             $RefIDNo="";
+//             $RefAddress="";
+//             $RefMobile="";
+//         }
+//     }
+//     elseif($rowConsultant['Type']=='Student')
+//     {
+//         if($rowConsultant['RefIDNo'] !=''  && is_numeric($rowConsultant['RefIDNo'])) 
+//         {  
+//          $getIDStudent = "SELECT * FROM Admissions Where (UniRollNo='".$rowConsultant['RefIDNo']."'or ClassRollNo='".$rowConsultant['RefIDNo']."' or IDNo='".$rowConsultant['RefIDNo']."')";
+//     }
+//     else
+//     {
+        
+//          $getIDStudent = "SELECT * FROM Admissions Where (UniRollNo='".$rowConsultant['RefIDNo']."'or ClassRollNo='".$rowConsultant['RefIDNo']."')";
+//         }
+//         $getIDNStudent = sqlsrv_query($conntest,$getIDStudent);  
+//             if($getRefStudent = sqlsrv_fetch_array($getIDNStudent, SQLSRV_FETCH_ASSOC) )
+//         { 
+//             $RefName=$getRefStudent['StudentName'];
+//             $RefIDNo=$getRefStudent['IDNo'];
+//             $RefAddress=$getRefStudent['PermanentAddress'];
+//             $RefMobile=$getRefStudent['StudentMobileNo'];
+//         }
+//         else{
+//             $RefName="";
+//             $RefIDNo="";
+//             $RefAddress="";
+//             $RefMobile="";
+//         }
+//     }
+//     elseif($rowConsultant['Type']=='Consultant')
+//     {
+//         $getIDConsultant = "SELECT * FROM masterconsultant Where ID='".$rowConsultant['RefIDNo']."'";
+//         $getIDNConsultant = mysqli_query($conn,$getIDConsultant);  
+//             if($getRefConsultant = mysqli_fetch_array($getIDNConsultant) )
+//         { 
+//             $RefName=$getRefConsultant['Name'];
+//             $RefIDNo=$getRefConsultant['ID'];
+//             $RefAddress=$getRefConsultant['Address'];
+//             $RefMobile=$getRefConsultant['Mobile'];
+//         }
+//         else{
+//             $RefName="";
+//             $RefIDNo="";
+//             $RefAddress="";
+//             $RefMobile="";
+//         }
+//     }
+//     elseif($rowConsultant['Type']=='Team')
+//     {
+//         $getIDStaff = "SELECT * FROM Staff Where IDNo='".$rowConsultant['RefIDNo']."'";
+//         $getIDNStaff = sqlsrv_query($conntest,$getIDStaff);  
+//             while($getRefStaff = sqlsrv_fetch_array($getIDNStaff, SQLSRV_FETCH_ASSOC) )
+//         { 
+//             $RefName=$getRefStaff['Name'];
+//             $RefIDNo=$getRefStaff['IDNo'];
+//             $RefAddress=$getRefStaff['PermanentAddress'];
+//             $RefMobile=$getRefStaff['MobileNo'];
+//         }
+        
+//     }
+//     // echo "hihihihih";
+// }
+// else{
+//     $RefName="";
+//     $RefIDNo="";
+//     $RefAddress="";
+//     $RefMobile="";
+// }
+
+
+?>
+
+               <div class="col-lg-12">
+<div class="card " style="background-color:#223260; color:white;">
+<h6 class="text-center">Student Details </h6>
+   </div>
+    </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+
+<label>Student Name</label>
+    <input type="text" value="<?=$Name;?>"  id="StudentNameG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Mother Name</label>
+    <input type="text" value="<?=$MotherName;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>FatherName</label>
+        <input type="text" value="<?=$FatherName;?>"   id="FatherNameG" class="form-control form-control-sm" readonly>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+    
+    <label>DOB</label>
+    <input type="text" value="<?=$DOB;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Student Mobile No</label>
+    <input type="text" value="<?=$StudentMobileNo;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Aadhaar No</label>
+    <input type="text" value="<?=$AadhaarNo;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-2 col-md-2 col-sm-12">
+    <label>Gender</label>
+    <input type="text" value="<?=$Sex;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-2 col-md-2 col-sm-12">
+<label>Admission Date</label>
+    <input type="text" value="<?=$AdmissionDate;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-8 col-md-8 col-sm-12">
+<label>Comments</label>
+    <textarea    id="BatchG" class="form-control" readonly> <?php echo $CommentsDetail;?></textarea>
+    </div>
+
+
+    
+    <div class="col-lg-12 col-md-12 col-sm-12">
+    <br>
+    <div class="card " style="background-color:#223260; color:white;">
+<h6 class="text-center">Course  Details </h6>
+   </div>
+   </div>
+   <div class="row">
+   <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>IDNo</label>
+    <input type="text" value="<?=$IDNo;?>"   id="IDNoG" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+   <label>ClassRollNo</label>
+    <input type="text" value="<?=$ClassRollNo;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
+    </div>
+   <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Session</label>
+    <input type="text" value="<?=$Session;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Batch</label>
+    <input type="text" value="<?=$Batch;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-6 col-md-6 col-sm-12">
+    <label>College Name</label>
+    <input type="text" value="<?=$CollegeName;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+<div class="col-lg-6 col-md-6 col-sm-12">
+    <label>Course Name</label>
+    <input type="text" value="<?=$CourseName;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    </div>
+   </div>
+
+   <div class="col-lg-12 col-md-12 col-sm-12">
+    <br>
+    <div class="card " style="background-color:#223260; color:white;">
+<h6 class="text-center">Consultant  Details </h6>
+   </div>
+   </div>
+   <?php
+   $sqlConsultant="SELECT * from master_consultant_Ref  Where StudentIDNo='$IDNo' ";
+   $stmtConsultant = mysqli_query($conn,$sqlConsultant);
+   while($rowConsultant = mysqli_fetch_array($stmtConsultant) )
+   { 
+       if($rowConsultant['Type']=='Staff')
+       {
+           $getIDStaff = "SELECT * FROM Staff Where IDNo='".$rowConsultant['RefIDNo']."'";
+           $getIDNStaff = sqlsrv_query($conntest,$getIDStaff);  
+               if($getRefStaff = sqlsrv_fetch_array($getIDNStaff, SQLSRV_FETCH_ASSOC) )
+           { 
+               $RefName=$getRefStaff['Name'];
+               $RefIDNo=$getRefStaff['IDNo'];
+               $RefAddress=$getRefStaff['PermanentAddress'];
+               $RefMobile=$getRefStaff['MobileNo'];
+           }
+           else{
+               $RefName="";
+               $RefIDNo="";
+               $RefAddress="";
+               $RefMobile="";
+           }
+           ?>
+           <div class="row">
+<div class="col-lg-4 col-md-4 col-sm-12" style='display:none;'>
+ <label>IDNo</label>
+ <input type="text" value="<?=$RefIDNo;?>"   id="" class="form-control form-control-sm" readonly>
+ </div>
+ <div class="col-lg-4 col-md-4 col-sm-12">
+<label>Name</label>
+ <input type="text" value="<?=$RefName;?>"  id="" class="form-control form-control-sm" readonly>
+ </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+ <label>Address</label>
+ <textarea  class="form-control" readonly><?php echo $RefAddress;?></textarea>
+ </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+ <label>RefMobile</label>
+
+ <input type="text" value="<?=$RefMobile;?>"  id="" class="form-control form-control-sm" readonly>
+ </div>
+
+</div><?php 
+       }
+       elseif($rowConsultant['Type']=='Student')
+       {
+           if($rowConsultant['RefIDNo'] !=''  && is_numeric($rowConsultant['RefIDNo'])) 
+           {  
+            $getIDStudent = "SELECT * FROM Admissions Where (UniRollNo='".$rowConsultant['RefIDNo']."'or ClassRollNo='".$rowConsultant['RefIDNo']."' or IDNo='".$rowConsultant['RefIDNo']."')";
+       }
+       else
+       {
+           
+            $getIDStudent = "SELECT * FROM Admissions Where (UniRollNo='".$rowConsultant['RefIDNo']."'or ClassRollNo='".$rowConsultant['RefIDNo']."')";
+           }
+           $getIDNStudent = sqlsrv_query($conntest,$getIDStudent);  
+               if($getRefStudent = sqlsrv_fetch_array($getIDNStudent, SQLSRV_FETCH_ASSOC) )
+           { 
+               $RefName=$getRefStudent['StudentName'];
+               $RefIDNo=$getRefStudent['IDNo'];
+               $RefAddress=$getRefStudent['PermanentAddress'];
+               $RefMobile=$getRefStudent['StudentMobileNo'];
+           }
+           else{
+               $RefName="";
+               $RefIDNo="";
+               $RefAddress="";
+               $RefMobile="";
+           }
+           ?>
+           <div class="row">
+<div class="col-lg-4 col-md-4 col-sm-12" style='display:none;'>
+ <label>IDNo</label>
+ <input type="text" value="<?=$RefIDNo;?>"   id="" class="form-control form-control-sm" readonly>
+ </div>
+ <div class="col-lg-4 col-md-4 col-sm-12">
+<label>Name</label>
+ <input type="text" value="<?=$RefName;?>"  id="" class="form-control form-control-sm" readonly>
+ </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+ <label>Address</label>
+ <textarea  class="form-control" readonly><?php echo $RefAddress;?></textarea>
+ </div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+ <label>RefMobile</label>
+
+ <input type="text" value="<?=$RefMobile;?>"  id="" class="form-control form-control-sm" readonly>
+ </div>
+
+</div><?php 
+       }
+       elseif($rowConsultant['Type']=='Consultant')
+       {
+           $getIDConsultant = "SELECT * FROM masterconsultant Where ID='".$rowConsultant['RefIDNo']."'";
+           $getIDNConsultant = mysqli_query($conn,$getIDConsultant);  
+               if($getRefConsultant = mysqli_fetch_array($getIDNConsultant) )
+           { 
+               $RefName=$getRefConsultant['Name'];
+               $RefIDNo=$getRefConsultant['ID'];
+               $RefAddress=$getRefConsultant['Address'];
+               $RefMobile=$getRefConsultant['Mobile'];
+           }
+           else{
+               $RefName="";
+               $RefIDNo="";
+               $RefAddress="";
+               $RefMobile="";
+           }
+           ?>
+              <div class="row">
+   <div class="col-lg-4 col-md-4 col-sm-12" style='display:none;'>
+    <label>IDNo</label>
+    <input type="text" value="<?=$RefIDNo;?>"   id="" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+   <label>Name</label>
+    <input type="text" value="<?=$RefName;?>"  id="" class="form-control form-control-sm" readonly>
+    </div>
+   <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Address</label>
+    <textarea  class="form-control" readonly><?php echo $RefAddress;?></textarea>
+    </div>
+   <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>RefMobile</label>
+
+    <input type="text" value="<?=$RefMobile;?>"  id="" class="form-control form-control-sm" readonly>
+    </div>
+
+   </div><?php 
+       }
+       elseif($rowConsultant['Type']=='Team')
+       {
+           $getIDStaff = "SELECT * FROM Staff Where IDNo='".$rowConsultant['RefIDNo']."'";
+           $getIDNStaff = sqlsrv_query($conntest,$getIDStaff);  
+               while($getRefStaff = sqlsrv_fetch_array($getIDNStaff, SQLSRV_FETCH_ASSOC) )
+           { 
+               $RefName=$getRefStaff['Name'];
+               $RefIDNo=$getRefStaff['IDNo'];
+               $RefAddress=$getRefStaff['PermanentAddress'];
+               $RefMobile=$getRefStaff['MobileNo'];
+               ?>
+                  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+   <label>Name</label>
+    <input type="text" value="<?=$RefName;?>"  class="form-control " readonly>
+    </div>
+   
+   <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>RefMobile</label>
+
+    <input type="text" value="<?=$RefMobile;?>"  class="form-control " readonly>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Address</label>
+    <textarea  class="form-control" readonly><?php echo $RefAddress;?></textarea>
+    </div>
+
+   </div><?php 
+           }
+           
+       }
+       // echo "hihihihih";
+   }
+  ?>
+
+   <div class="col-lg-12 col-md-12 col-sm-12">
+    <br>
+    <div class="card " style="background-color:#223260; color:white;">
+<h6 class="text-center">Fee  Details </h6>
+   </div>
+   </div>
+   <div class="row">
+
+   <div class="col-lg-6 col-md-6 col-sm-12" style='display:;'>
+    <label>Particular</label>
+    <input type="text" value="<?=$LedgerName;?>"   id="" class="form-control form-control-sm" readonly>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+   <label>Ammount</label>
+    <input type="text" value="<?=$Debit;?>"  id="" class="form-control form-control-sm" readonly>
+    </div>
+  
+
+   </div>
+    <?php }
+}
+elseif($code==360)
+{
+  
+    ?>
+    <table class="table table-hover" style='border:none;'>
+  <tbody id="myList">
+    <tr >
+      <td class="form-group" style="position: relative">
+      <label>ID</label>
+        <input type="text" class="form-control v_check"  id="EmIDTeam1" placeholder="Enter ID" onblur="getOnChnageDetails('1');">
+      </td>
+      <td class="form-group" style="position: relative">
+      <label>Name</label>
+        <input type="text" class="form-control" name="" id="RefName1"  readonly>
+      </td>
+      <td class="form-group" style="position: relative">
+      <label>Contact No</label>
+        <input type="text" class="form-control" name="" id="RefContact1"  readonly>
+      </td>
+      <td class="form-group" style="position: relative">
+      <label>Address</label>
+        <input type="text" class="form-control" name="" id="RefAddress1"  readonly>
+    </td>
+    
+      <td><label>Add</label><br><button  onclick="addRow();" class="btn btn-primary"><i  class="fa fa-plus-circle"></i></button></td>
+    </tr>
+  </tbody>
+  
+    
+
+</table><?php
 }
    else
    {
