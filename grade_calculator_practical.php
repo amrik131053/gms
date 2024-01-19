@@ -1,4 +1,6 @@
-<?php $grade='';
+<?php
+ $color='black';
+ $grade='';
    $gardep=0;
 
 if($pmarks>=90)

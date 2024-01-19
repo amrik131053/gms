@@ -283,7 +283,7 @@ for($i=1;$i<=12;$i++)
         var course = $("#Course").val();
        var batch = $("#Batch").val();
        var sem = $("#Semester").val();  
-          
+           
 
          
         var code='200';
