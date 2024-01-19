@@ -6132,6 +6132,8 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 $totalcredit=0;
 $gradevaluetotal=0;
 $nccount=0;
+
+
          for($sub=0;$sub<$subCountc;$sub++)
         {
         $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' AND ExternalExam='Y'  ";  
@@ -6146,88 +6148,14 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
-                                     if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
-
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
+                                    
 
 
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
+include'grade_calculator.php';
+                               
 
 
-   $grade='';
-   $gardep=0;
 
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$nccount++;
-} 
 $exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
 $exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
@@ -6283,88 +6211,11 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
-                                     if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
+                                     
 
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
+include'grade_calculator.php';
 
 
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
-
-
-   $grade='';
-   $gardep=0;
-
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$nccount++;
-} 
 $exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
 $exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
@@ -6429,58 +6280,16 @@ $pcount++;
 
        if($pcount>5) 
        {
-        $pmarks=(int)($pmarks/$pcount)*5;
+         $pmarks=round((($pmarks/$pcount)*5));
        }   
        else
        {
         $pmarks=$pmarks;
        }
 
- $grade='';
-   $gardep=0;
-
-if($pmarks>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($pmarks>=80 &&$pmarks<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($pmarks>=70 &&$pmarks<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($pmarks>=60 &&$pmarks<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($pmarks>=50 &&$pmarks<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($pmarks>=45 &&$pmarks<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($pmarks>=40 &&$pmarks<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($pmarks<40)
-{
-   $grade="F";
-    $gardep=0;
-}
 
 
+include'grade_calculator_practical.php';
 
 
 
@@ -6754,92 +6563,11 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
+                                   
 
-                                     if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
-
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-
-
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
-
-
-   $grade='';
-   $gardep=0;
-$color='black';
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-    $color='red';
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$nccount++;
-$color='red';
-} 
+ include 'grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
+
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade}</td>"; 
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
 
@@ -6874,8 +6602,8 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 } 
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA</td>";
+$exportstudy.="<td style='text-align:center'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA</td>";
 }
 
 
@@ -6897,93 +6625,9 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
+                                    
 
-                                     if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
-
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-
-
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
-
-
-   $grade='';
-   $gardep=0;
-$color='black';
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-      $color='red';
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$color='red';
-$nccount++;
-} 
+                                     include 'grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>"; 
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep}</td>";
@@ -7016,8 +6660,8 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 }   
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA</td>";
+$exportstudy.="<td style='text-align:center'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA</td>";
 }
 
 }
@@ -7048,58 +6692,15 @@ $pcount++;
 
 if($pcount>5)
 {
-    $pmarks=(int)($pmarks/$pcount)*5;
+    $pmarks=round((($pmarks/$pcount)*5));
 }
 else
 {
    $pmarks=$pmarks; 
 }
- $grade='';
-   $gardep=0;
-$color='black';
-if($pmarks>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($pmarks>=80 &&$pmarks<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($pmarks>=70 &&$pmarks<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($pmarks>=60 &&$pmarks<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($pmarks>=50 &&$pmarks<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($pmarks>=45 &&$pmarks<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($pmarks>=40 &&$pmarks<45)
-{
-   $grade="P";
-   $gardep=4;
 
-}
-else if($pmarks<40)
-{
-   $grade="F";
-    $gardep=0;
-       $nccount++;
-       $color='red';
-}
+ include 'grade_calculator_practical.php';
+
 
 
 
@@ -7144,7 +6745,7 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 
 if($nccount>0)
 {
-$exportstudy.="<td style='text-align:center;color:red'>NC</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>NC</td>";
 
 }
 else
@@ -7164,6 +6765,9 @@ $exportstudy.="<td style='text-align:center'>{$nccount} </td>";
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
+
+
+            
 
 
  else if($exportCode==54)
@@ -7326,7 +6930,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
     
     $exportstudy.="<th>CE1/CE3/Att/mst1/mst2/ese</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
-       $exportstudy.="<th>Total Credit</th><th>SGPA</th><th>Fail Subjects</th></tr> </thead>"; 
+       $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
 
 
 
@@ -7376,96 +6980,12 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
-
-                                     $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
-
-if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
-
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-
-
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
-
-
-   $grade='';
-   $gardep=0;
-
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$nccount++;
-} 
+        include 'grade_calculator.php';                              
 
 $exportstudy.="<td style='text-align:center;'>{$showmarks} </td>";
-$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
-$exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
-$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$totalFinal} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>"; 
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
  $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjects[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
@@ -7518,99 +7038,13 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     $msttotal='';
-                                     $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
+                                     
+                                     include'grade_calculator.php';
 
-
-                                 
-                                 if(is_numeric($mst1))
-                                 {
-                                $mst1=$mst1;
-
-                                 }
-                                 else{$mst1=0;}
-
-                                 if(is_numeric($mst2))    {
-                                    $mst2=$mst2;
-
-                                 }
-                                 else{$mst2=0;}
-
-                              if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
-
-
-
-                               if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
-if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
-if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
-if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-
-
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
-
-
-   $grade='';
-   $gardep=0;
-
-if($totalFinal>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($totalFinal>=70 &&$totalFinal<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($totalFinal>=60 &&$totalFinal<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($totalFinal>=50 &&$totalFinal<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($totalFinal>=45 &&$totalFinal<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($totalFinal>=40 &&$totalFinal<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($totalFinal<40)
-{
-   $grade="F";
-    $gardep=0;
-}
-
-if($ESe=='S')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-}
-if($ESe=='US')
-{
-$totalFinal=$ESe;
-$grade=$ESe;
-$gardep=$ESe;
-$nccount++;
-} 
 $exportstudy.="<td style='text-align:center;'>{$showmarks} </td>";
-$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
-$exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
-$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$totalFinal} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>"; 
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
 
  $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectsNew[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -7635,6 +7069,11 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
     $nccount++;
  }
 }
+else
+{
+
+}
+
 }  
 else
 {
@@ -7676,61 +7115,16 @@ $pcount++;
 
 if($pcount>5)
 {
-    $pmarks=(int)($pmarks/$pcount)*5;
+    $pmarks=round((($pmarks/$pcount)*5));
 }
 else
 {
    $pmarks=$pmarks; 
 }
- $grade='';
-   $gardep=0;
 
-if($pmarks>=90)
-{
-   $grade= "O";
-   $gardep=10;
-}
-else if($pmarks>=80 &&$pmarks<90)
-{
-   $grade="A+";
-   $gardep=9;
-}
-else if($pmarks>=70 &&$pmarks<80)
-{
-   $grade="A";
-   $gardep=8;
-}
-else if($pmarks>=60 &&$pmarks<70)
-{
-   $grade="B+";
-   $gardep=7;
-}
-else if($pmarks>=50 &&$pmarks<60)
-{
-   $grade="B";
-   $gardep=6;
-}
-else if($pmarks>=45 &&$pmarks<50)
-{
-   $grade="C";
-   $gardep=5;
-}
-else if($pmarks>=40 &&$pmarks<45)
-{
-   $grade="P";
-   $gardep=4;
-}
-else if($pmarks<40)
-{
-   $grade="F";
-    $gardep=0;
-}
+include'grade_calculator_practical.php';
 
-
-
-
-
-                     $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
+$amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -7766,11 +7160,12 @@ $exportstudy.="<td style='text-align:center;'>{$credit} </td>";
  $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
 
  $sgpa=$gradevaluetotal/$totalcredit;
+
     $sgpa= number_format($sgpa,2);
 
 if($nccount>0)
 {
-$exportstudy.="<td style='text-align:center;'>NC </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
 
 }
 else
@@ -7790,7 +7185,419 @@ $exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
+
+ else if($exportCode==55)
+{
+    $College=$_GET['CollegeId'];
+$Course=$_GET['Course'];
+$Batch=$_GET['Batch'];
+$Semester=$_GET['Semester'];
+$Type=$_GET['Type'];
+$Group=$_GET['Group'];
+$Examination=$_GET['Examination'];
+$nccount=0;
+$SrNo=1;
+$Subjectsp=array();
+$SubjectNamesp=array();
+$SubjectTypesp=array();
+$Subjects=array();
+$SubjectNames=array();
+$SubjectTypes=array();
+$SubjectsNew=array();
+$SubjectNamesNew=array();
+$SubjectTypesNew=array();
+
+
+
+
+
+$collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
+$list_cllegename = sqlsrv_query($conntest,$collegename);
+                  
+              
+                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                   {
+
+                   // print_r($row);
+                $CollegeName=$row_college['CollegeName'] ;
+                $CourseName=$row_college['Course'] ;
+                
+        }
+
+
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
+$list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
+             if($list_Subjects === false)
+               {
+              die( print_r( sqlsrv_errors(), true) );
+              }
+               while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
+                  {
+
+                  // print_r($row);
+               $Subjects[]=$row_subject['SubjectCode'] ;
+               $SubjectNames[]=$row_subject['SubjectName'] ;
+               $SubjectTypes[]=$row_subject['SubjectType'] ;
+}
+$subCountc=count($Subjects);
+
+$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+
+$sql_openq = sqlsrv_query($conntest,$sql_open);
+         
+                if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
+                   {
+
+                $SubjectsNew[]=$row_subject['SubjectCode'] ;
+                $SubjectNamesNew[]=$row_subject['SubjectName'] ;
+                $SubjectTypesNew[]=$row_subject['SubjectType'] ;
+}
+$subCounto=count($SubjectsNew);
+
+
+$Subjects=array_merge($Subjects,$SubjectsNew);
+$SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
+$SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
+
+
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
+$list_Subjects = sqlsrv_query($conntest,$subjects_sql);
+                 
+             if($list_Subjects === false)
+               {
+              die( print_r( sqlsrv_errors(), true) );
+              }
+               while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
+                  {
+
+                  // print_r($row);
+               $Subjectsp[]=$row_subject['SubjectCode'] ;
+               $SubjectNamesp[]=$row_subject['SubjectName'] ;
+               $SubjectTypesp[]=$row_subject['SubjectType'] ;
+}
+$subCountp=count($Subjectsp);
+
+$Subjects=array_merge($Subjects,$Subjectsp);
+$SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
+$SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
+
+$subCount=(count($Subjects)*5)+4;
+$subCount1=count($Subjects);
+
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+        <thead>  
+        <tr>
+       ";
+
+ $exportstudy.="<th colspan='".$subCount."' ><b style='font-size:22px;'>".$CollegeName."</b></th>         
+    </tr><tr>";
+    $exportstudy.="<th colspan='".$subCount."' > Batch :<b style='text-align:left;'>".$Batch."</b> <b style='text-align:center;'>  Course:".$CourseName."</b><b style='text-align:right;'>   Semester:".$Semester."</b></th>        
+    </tr>
+    <tr>";
+    $exportstudy.="<th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th>         
+    </tr>
+    <tr>
+    <th>SrNo</th>
+  
+    <th>UniRoll No</th>
+  
+   ";
+
+     $gtcerdit=0;
+
+
+    foreach ($Subjects as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+}
+       $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
+
+
+
+
+    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+        
+        
+                $j=0;
+               
+               
+                        $list_result = sqlsrv_query($conntest,$list_sql);
+                            $count = 1;
+                      if($list_result === false)
+                        {
+                       die( print_r( sqlsrv_errors(), true) );
+                       }
+                        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                           {
+                           // print_r($row);
+                        $IDNos=$row['IDNo'];
+                        $UnirollNos=$row['UniRollNo'];
+                        $ClassRollNos=$row['ClassRollNo'];
+                         $Examid=$row['ID'];
+                         $StudentNames =$row['StudentName'];     
+     
+      $exportstudy.="<tr>
+         <td>{$SrNo}</td>
+         <th>{$UnirollNos}</td>
+         ";
+
+$totalcredit=0;
+$gradevaluetotal=0;
+$nccount=0;
+         for($sub=0;$sub<$subCountc;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+                              
+                                     $CE1=$row_exam['CE1'];
+                                      $subjectName=$row_exam['SubjectName'];
+                                      $SubjectCode=$row_exam['SubjectCode'];
+                                     $CE3=$row_exam['CE3'];
+                                     $att=$row_exam['Attendance'];        
+                                     $mst1=$row_exam['MST1']; 
+                                     $mst2= $row_exam['MST2']; 
+                                     $ESe= $row_exam['ESE'];
+                                   
+
+
+include'grade_calculator.php';
+
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
+ $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjects[$sub]'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+       $credit=$row7c['NoOFCredits'];
+            }
+
+$totalcredit=$totalcredit+$credit;
+ $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+
+if($credit>0)
+{
+    if(is_numeric($gardep)){$gardep=$gardep;}else{$gardep=0;}
+ $gradevalue=$gardep*$credit;
+
+ if($gradevalue>0)
+ {
+$gradevaluetotal=$gradevaluetotal+$gradevalue;
+ }
+ else
+ {
+    $nccount++;
+ }
+}
+}     
+
+else
+{
+$exportstudy.="<td style='text-align:center;'>NA </td>";
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center;'>NA</td>";
+ $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+ $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+}
+
+
+}
+ for($sub=0;$sub<$subCounto;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNew[$sub]'  AND ExternalExam='Y' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+                              
+                                     $CE1=$row_exam['CE1'];
+                                     $CE3=$row_exam['CE3'];
+                                      $subjectName=$row_exam['SubjectName'];
+                                      $SubjectCode=$row_exam['SubjectCode'];
+                                     $att=$row_exam['Attendance'];        
+                                     $mst1=$row_exam['MST1']; 
+                                     $mst2= $row_exam['MST2']; 
+                                     $ESe= $row_exam['ESE'];
+                                    
+
+include'grade_calculator.php';
+
+
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
+
+ $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectsNew[$sub]'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7c['NoOFCredits'];
+            }
+
+$totalcredit=$totalcredit+$credit;
+ $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+
+if($credit>0)
+{
+ $gradevalue=$gardep*$credit;
+ if($gradevalue>0)
+ {
+$gradevaluetotal=$gradevaluetotal+$gradevalue;
+ }
+ else
+ {
+    $nccount++;
+ }
+}
+else
+{
+
+
+
+
+}
+
+}  
+else
+{
+$exportstudy.="<td style='text-align:center;'>NA </td>";
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>";
+ $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+ $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+}
+
+
+}
+
+
+
+  for($sub=0;$sub<$subCountp;$sub++)
+        {
+            $pmarks=0;
+        $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
+$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
+$pmarks=0;
+$pcount=0;
+$pshow='';
+$smarks='0';
+while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
+         {
+
+
+if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
+if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
+if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
+
+$smarks=$p+$v+$f;
+$pmarks=$pmarks+$p+$v+$f;
+$pshow=$smarks.'/'.$pshow;
+
+$pcount++;
+          }  
+
+if($pcount>5)
+{
+    $pmarks=round((($pmarks/$pcount)*5));
+}
+else
+{
+   $pmarks=$pmarks; 
+}
+ include'grade_calculator_practical.php';
+
+$amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+             $SubjectCode=$row7c['SubjectCode'];
+             $SubjectName=$row7c['SubjectName'];
+             $credit=$row7c['NoOFCredits'];
+
+
+            }
+
+$totalcredit=$totalcredit+$credit;
+
+
+                           
+                            $exportstudy.="<td style='text-align:center;'>{$SubjectName}</td>"; 
+                           $exportstudy.="<td style='text-align:center;'>{$SubjectCode}</td>"; 
+                           $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
+$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+                           if($credit>0)
+{
+ $gradevalue=$gardep*$credit;
+ if($gradevalue>0)
+ {
+$gradevaluetotal=$gradevaluetotal+$gradevalue;
+ }
+ else
+ {
+    $nccount++;
+ }
+}
+$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+                   
+          }
+
+
+ $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+
+ $sgpa=$gradevaluetotal/$totalcredit;
+    $sgpa= number_format($sgpa,2);
+
+if($nccount>0)
+{
+$exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
+
+}
+else
+ { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
+
+
+
+          $exportstudy.="</tr>";
+                            
+            $SrNo++;    
+
+                        }
+
+
+                  
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
+    } 
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);

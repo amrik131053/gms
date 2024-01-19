@@ -4,22 +4,24 @@ include 'connection/connection.php';
 
 
    $reg_id = $_POST["id"];
-
+//$reg_id='9618215191';
 
 
 $dean='';
 $head='';
+ $score='';
+ $get_details = "SELECT * from vacmooc WHERE IDNo=$reg_id";
+  $result = mysqli_query($conn,$get_details);
 
-  $get_details = "SELECT * from ValueAddedCertificate  WHERE id= '$reg_id'";
-  $stmt1 = sqlsrv_query($conntest,$get_details);
-
-      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+    while($row = mysqli_fetch_array($result))
+      
       {
       $reg_id= $row['IDNo'];
       $vcourse = $row['VCourseName'];
-      $cid = $row['CertificateId'];
-      $session = $row['Session'];
+      $score = $row['Marks'];
+      $type = $row['type'];
       }
+
  
 $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
       $stmt1 = sqlsrv_query($conntest,$result1);
@@ -31,6 +33,7 @@ $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
           $CollegeID = $row['CollegeID'];
          $CourseID= $row['CourseID'];
          $univ_rollno= $row['UniRollNo'];
+          $gender= $row['Sex'];
          $father_name = $row['FatherName'];
 
          $Batch = $row['Batch'];
@@ -47,16 +50,16 @@ $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
 
 }
 
- $signature ="SELECT *  FROM VACertificateSignature where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd Session='$session'";
+//  echo $signature ="SELECT *  FROM VACertificateSignature where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd Session='$session'";
 
-$stmt1 = sqlsrv_query($conntest,$signature);
+// $stmt1 = sqlsrv_query($conntest,$signature);
 
-      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
-      {
-      $dean= $row['DeanSignature'];
-      $head = $row['HeadSignature'];
+//       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+//       {
+//       $dean= $row['DeanSignature'];
+//       $head = $row['HeadSignature'];
       
-      }
+//       }
 
 
   
@@ -64,7 +67,7 @@ $stmt1 = sqlsrv_query($conntest,$signature);
 
 
  
- $sqlwww = "SELECT * FROM certificate where Id='$cid' ";
+ $sqlwww = "SELECT * FROM certificate where Id='112' ";
 
   $result = mysqli_query($conn, $sqlwww);
 
@@ -101,7 +104,7 @@ $font_sr=$row['font_sr'];
   
     require_once('fpdf/fpdf.php');
   require_once('fpdf/fpdi.php');
-
+    require_once('fpdf/forcejustify.php');
 
 
  
@@ -122,87 +125,133 @@ $pdf->AddPage($layout);
 //$pdf->useTemplate($tplIdx);
  
 
- 
+ if($type=='0')
+ {
 
  $pdf->Image('http://gurukashiuniversity.co.in/data-server/as/last.jpg',0,0,$width,$height);
 
  $pdf->SetFont('Arial','',$font_sr);
-
- $pdf->SetXY($srno_w,$srno_h);
-$pdf->Cell(60,5,$session ,'','L');
-$pdf->SetXY(25,5);
 
 
  $aa=135;
  $pdf->SetTextColor(0,0,0);
 
 $pdf->SetFont('Arial','',$font_n);
+ 
 
- $pdf->SetXY(20,90);
+ $pdf->SetXY(20,93);
  $pdf->SetTextColor(231,161,55);
  $pdf->SetFont('Arial','',32);
 $pdf->MultiCell(270,5,$name,'','C');
 
- $pdf->SetXY(20,100);
+ $pdf->SetXY(20,105);
  $pdf->SetTextColor(0,0,0);
- $pdf->SetFont('Arial','',20);
-$pdf->MultiCell(270,5,"For successfully completing the online course:",'1','C');
+ $pdf->SetFont('Arial','',18);
+ if($Gender='Male')
+ {
+  $ss='He';
+ }
+ else
+ {
+  $ss='She';
+ }
+ $pdf->MultiCell(257,12,"in recognition of their dedication, commitment,and successful completion of the online course $vcourse . $ss has scored $score marks out of 100. The duration of course was from August 2023 to December 2023.",'0','C','0');
+
+ $pdf->SetXY(12,185); 
+  $pdf->SetFont('Arial','',14);
+
+$pdf->MultiCell(80,3,"Course Coordinator" ,'','C');
 
 
-//$pdf->SetFont('Arial','BI',$font_f);
-$pdf->SetFont('Arial','',$font_f);
-$pdf->SetXY($fname_h,$fname_w);
-$pdf->Cell(60,5,$father_name,'','L');
+$pdf-> Image('http://gurukashiuniversity.co.in/data-server/as/cc.png',30,170,35,14);
 
-$pdf->SetFont('Arial','',$font_r);
-$pdf->SetXY($univ_rollno_h,$univ_rollno_w);
-$pdf->Cell(60,5, $univ_rollno,'','L');
+//$pic = 'data:image/jpeg;base64,'.base64_encode($head);
 
+//$info = getimagesize($pic);
 
+ //$extension = explode('/', mime_content_type($pic))[1];
+ $pdf->SetXY(210,185); 
+ $pdf->SetFont('Arial','',14);
+ $pdf->MultiCell(80,3,"Director" ,'','C');
 
-$pdf->SetFont('Arial','',$font_clg);
-$pdf->SetXY($college_h,$college_w);
-$pdf->Cell(100,20,$college,'','L');
+$pdf-> Image('http://gurukashiuniversity.co.in/data-server/as/dir.png',240,170.8,35,14);
 
 
-
-
-$pdf->SetXY($vcourse_h,$vcourse_w);
-
-$pdf->SetFont('Arial','',$font_c);
-$pdf->Cell(60,5,$vcourse,'','L');
-
-
-if($dean!='')
+}
+if($type=='1')
 {
 
 
- $pic = 'data:image/jpeg;base64,'.base64_encode($dean);
+ $pdf->Image('http://gurukashiuniversity.co.in/data-server/as/rit.jpg',0,0,$width,$height);
 
-$info = getimagesize($pic);
-
- $extension = explode('/', mime_content_type($pic))[1];
+ $pdf->SetFont('Arial','',$font_sr);
 
 
-$pdf-> Image($pic,30,170.8,40,13,$extension);
+ $aa=135;
+ $pdf->SetTextColor(0,0,0);
+
+$pdf->SetFont('Arial','',$font_n);
+ 
+
+ $pdf->SetXY(20,80);
+ $pdf->SetTextColor(231,161,55);
+ $pdf->SetFont('Arial','',32);
+$pdf->MultiCell(270,5,$name,'','C');
+
+ $pdf->SetXY(20,92);
+ $pdf->SetTextColor(0,0,0);
+ $pdf->SetFont('Arial','',18);
+ if($Gender='Male')
+ {
+  $ss='He';
+ }
+ else
+ {
+  $ss='She';
+ }
+
+ $pdf->MultiCell(257,12,"in recognition of the successful completion of the $vcourse online course.$ss has scored $score marks out of 100. The duration of course was from August 2023 to December 2023.",'0','C','0');
+
+ $pdf->SetXY(12,185); 
+  $pdf->SetFont('Arial','',14);
+
+//$pdf->MultiCell(80,3,"Course Coordinator" ,'','C');
+
+
+$pdf-> Image('http://gurukashiuniversity.co.in/data-server/as/cc.png',65,137,35,14);
+
+//$pic = 'data:image/jpeg;base64,'.base64_encode($head);
+
+//$info = getimagesize($pic);
+
+ //$extension = explode('/', mime_content_type($pic))[1];
+ $pdf->SetXY(210,105); 
+ $pdf->SetFont('Arial','',14);
+// $pdf->MultiCell(80,3,"Director" ,'','C');
+
+$pdf-> Image('http://gurukashiuniversity.co.in/data-server/as/man.png',190,137,35,14);
+
 
 }
 
 
-if($head!='')
-{
 
 
- $pic = 'data:image/jpeg;base64,'.base64_encode($head);
-
-$info = getimagesize($pic);
-
- $extension = explode('/', mime_content_type($pic))[1];
 
 
-$pdf-> Image($pic,170,170.8,40,13,$extension);
+ //$pic = 'data:image/jpeg;base64,'.base64_encode($dean);
 
-}
+//$info = getimagesize($pic);
+
+ //$extension = explode('/', mime_content_type($pic))[1];
+
+
+
+
+
+
+
+
 
 
 

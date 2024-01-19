@@ -20756,6 +20756,8 @@ while($row=mysqli_fetch_array($result))
 }
 }
 
+
+
 elseif($code==348)
 {
  $CollegeID= $_POST['college'];
@@ -20796,9 +20798,10 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
           <td><?=$row['Course'];?></td>
          <td><?= $row['Batch'];?></td><td>
            <form action="download-vac-certificate.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form>
-       
-        
-
+       <?php 
+   if($EmployeeID=='170601')  
+   {?>   <form action="mooccertificte.php"  method="POST" target="_blank" ><input type="hidden" value="<?=$row['vid'];?>" name="id"> <button class="btn btn-warning btn-xs">Download</button></form>
+<?php }?>
 
      </td>
          </tr>
