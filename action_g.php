@@ -24652,583 +24652,557 @@ if($Status==6)
 
    elseif ($code==348) {
   ?>
- 
-<div class="card-header">
-<h6>Student Detail</h6>
-   </div>
-<br>
-<div class="row">
-     <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Nationality</label>
-    <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
-        <option value="">Select</option>
-        <option value="Indian">Indian</option>
-        <option value="NRI">NRI</option>
-        <option value="Nepal">Nepal</option>
-        <option value="Bhutan">Bhutan</option>
-    </select>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Name</label>
-    <input type="text"  id="Name" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Father Name</label>
-    <input type="text"  id="FatherName" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label for="MobileNumber">Mobile No</label>
-    <input type="text" id="MobileNumber" class="form-control" name="mobileNumber"  pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" required>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
- <label>Aadhar Card No</label>
-    <input type="text"  id="AdharCardNo" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
- <label>ID No</label>
-    <input type="text"  id="IDNumber" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
- <label>Passport No</label>
-    <input type="text"  id="PassportNumber" class="form-control">
- </div>
- 
-<div class="col-lg-3 col-md-3 col-sm-12">
- <label>DOB</label>
-    <input type="date"  id="Dob" class="form-control">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Gender</label>
-    <select class="form-control" id='Gender'>
-        <option value="">Select</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
- </div>
-<div class="col-lg-3 col-md-3 col-sm-12">
- <label>Category</label>
- <select class="form-control" id="category">
-        <option value="">Select</option>
-        <option>SC</option>
-        <option>ST</option>
-        <option>OBC</option>
-        <option>General</option>
-    </select>
- </div>
-<div class="col-lg-3 col-md-3 col-sm-12">
- <label>Fee Category</label>
- <select class="form-control" id="feecategory">
-        <option value="">Select</option>
-        <?php 
-                  $get_country="SELECT DISTINCT Category FROM MasterCategory";
-                  $get_country_run=sqlsrv_query($conntest,$get_country);
-                  while($row_Session=sqlsrv_fetch_array($get_country_run))
-                  {
-                    ?>
-            <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
-         <?php }
-                 ?>
-    </select>
-    
- </div>
- 
-<div class="col-lg-3 col-md-3 col-sm-12">
- <label>Scholarship</label>
- <select class="form-control" id="scholaship">
-   <option value="">Select</option>
-   <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
-   <option value="Early Bird scholarship">Early Bird scholarship</option>
-   <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
-   <option value="Orphan Student scholarship">Orphan Student scholarship</option>
-   <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
-   <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
-   <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
-   <option value="Not Applicable">Not Applicable</option>      
-   </select>
- </div>
-<div class="col-lg-3 col-md-3 col-sm-12">
- <label>Session</label>
- <select class="form-control" id="Session" onchange="fetchCollege();">
+    <div class="card-header">
+      <h6>Student Detail</h6>
+      <!-- <span>
+          <button class="btn btn-sm ">
+              <input type="search" class="form-control form-control-sm" name="rollNo" id="rollNo"
+                  placeholder="Search RollNo">
+          </button>
+          <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
+              Search
+          </button>
+      </span> -->
+  </div>
+  <br>
+  <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Nationality</label>
+          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
+              <option value="">Select</option>
+              <option value="Indian">Indian</option>
+              <option value="NRI">NRI</option>
+              <option value="Nepal">Nepal</option>
+              <option value="Bhutan">Bhutan</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Name</label>
+          <input type="text" id="Name" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Father Name</label>
+          <input type="text" id="FatherName" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label for="MobileNumber">Mobile No</label>
+          <input type="text" id="MobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}"
+              title="Enter a valid Indian mobile number" maxlength="10" required>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
+          <label>Aadhar Card No</label>
+          <input type="text" id="AdharCardNo" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
+          <label>ID No</label>
+          <input type="text" id="IDNumber" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
+          <label>Passport No</label>
+          <input type="text" id="PassportNumber" class="form-control">
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>DOB</label>
+          <input type="date" id="Dob" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Gender</label>
+          <select class="form-control" id='Gender'>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Category</label>
+          <select class="form-control" id="category">
+              <option value="">Select</option>
+              <option>SC</option>
+              <option>ST</option>
+              <option>OBC</option>
+
+              <option>General</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Fee Category</label>
+          <select class="form-control" id="feecategory">
               <option value="">Select</option>
               <?php 
-                  $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
-                  $get_country_run=sqlsrv_query($conntest,$get_country);
-                  while($row_Session=sqlsrv_fetch_array($get_country_run))
-                  {?>
-            <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
-         <?php }
-
-                 ?>
-                    </select>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>College Name</label>
- <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
-        <option value="">Select</option>
-     
-    </select>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Course</label>
- <select name="" id="Course" class="form-control" >
-        <option value="">Select</option>
-    </select>
- </div>
-
- 
-
-                  <div class="col-lg-3 col-md-3 col-sm-12">
-<label>LateralEntry</label>
-<select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
-<option value="">Select</option>
-<option value="Yes">Yes</option>
-<option value="No">No</option>
-</select>
-</div>
-                  <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Batch</label>
-    <input type="text" id="Batch" class="form-control" readonly>
- </div>
-                  
-                  <div class="col-lg-3 col-md-3 col-sm-12">
- <label>Comments</label>
- <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
- </div>
-
-                  </div>
-<!-- ---------------------------------------------------------------------------------- -->
-<br>
-<div class="card-header">
-<h6>Reference Detail</h6>
-   </div>
-<br>
-<div class="row">
-
-<div class="col-lg-2 col-md-2 col-sm-12">
-   &nbsp;
-                  </div>
-<div class="col-lg-8 col-md-8 col-sm-12">
-
-   <div class="btn-group w-100 mb-1" >
-                        <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
-                            style="background-color:#223260; color: white; border: 1px solid;"
-                            onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
-                        <a class="btn btn-primary btn-xs btnG" id="btn4"
-                            style="background-color:#223260; color: white; border: 1px solid;"
-                            onclick="onchnagereff('Student'),bg(this.id);"> Student  </a>
-                        <a class="btn btn-primary btn-xs btnG" id="btn5"
-                            style="background-color:#223260; color: white; border: 1px solid;"
-                            onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant  </a>
-                        <a class="btn btn-primary btn-xs btnG" id="btn6"
-                            style="background-color:#223260; color: white; border: 1px solid;"
-                            onclick="onchnagereffteam('1'),bg(this.id);"> Team  </a>
-                            <input type="hidden" id="refvalue" value="Staff">
-                            <input type="hidden" id="refvalueCount" value="1">
-                    </div>
- </div>
- <div class="col-lg-2 col-md-2 col-sm-12">
- &nbsp;
-                  </div>
-</div>
-
-<!-- ---------------------------------------------------------------------------------- -->
-<div class="row" id="tableTeam">
-
-                  </div>
-                  <div class="row" style="display:none;" id="tableTeamOhter">
- <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;" >
- <label>IDNo</label>
-    <input type="text"  id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
- <label>RollNo</label>
-    <input type="text"  id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
- <label>Select</label>
-    <select  id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
-    <option value="">Select</option>
-        <?php $get_consultant="SELECT * FROM masterconsultant ";
-                $get_consultantRun=mysqli_query($conn,$get_consultant);
-                while($row=mysqli_fetch_array($get_consultantRun))
-                {
-?>
-<option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
-<?php 
-                }
-        ?>
-    </select>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
- <label> Name</label>
-    <input type="text"  id="RefName1" class="form-control" readonly>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Contact No.</label>
-    <input type="text"  id="RefContact1" class="form-control" readonly>
- </div>
- <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Address</label>
-    <input type="text" name="" id="RefAddress1"  class="form-control " readonly>
- </div>
- 
- 
-</div>
-<br>
-<div class="card-header">
-<h6>Fee Detail</h6>
-   </div>
-<br>
-<h4>Total Debit Fee</h4>
-<div class="row">
-
- <div class="col-lg-4 col-md-4 col-sm-12">
- <label>Semester</label>
- <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
-    <option value="">Select</option>
-    <?php
-        $get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
-        $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
-        
-        while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
-            ?>
-            <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
-            <?php
-        }
-        ?>
-        
-</select>
-    </div>
-<div class="col-lg-4 col-md-4 col-sm-12">
-<label> Fee Particulars</label>
-    <input type="text"  id="feeparticulr" class="form-control " readonly>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-12">
-    <label>Total Debit</label>
-    <input type="text"  id="feeTotalDebit" class="form-control " readonly>
- </div>
-    </div>
- <!-- <div class="col-lg-6 col-md-6 col-sm-12">
- <h4>Fee Structure</h4>
-<table class="table table-sm">
-    <thead>
-    <tr>
-        <th>Head</th>
-        <th>Debit</th>
-    </tr>
-    </thead>
-    <tbody id="feeDetailTable">
-    </tbody>
-
-</table>
-
-    </div> -->
-
-    <!-- </div> -->
-</div>
-<br>
-
-
-<br>
-<div class="card-footer">
-<center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
-<!-- <center><button class="btn btn-success" onclick="verifyAll();">Submit</button></center> -->
-   </div>
-
-<?php
-   }
-   elseif ($code==349) {
-    ?>
-    <div class="card-header">
-        <!-- <h6>Student Detail</h6> -->
-        <span>
-      <button class="btn btn-sm ">
-         <input type="search"  class="form-control form-control-sm" name="rollNo" id="rollNo" placeholder="Search RollNo">
-      </button>
-            <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
-              Search
-            </button>
-      </span>
-       </div>
-    <br>
-    <div class="row">
-         <div class="col-lg-3 col-md-3 col-sm-12">
-        <label>Nationality</label>
-        <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
-            <option value="">Select</option>
-            <option value="Indian">Indian</option>
-            <option value="NRI">NRI</option>
-            <option value="Nepal">Nepal</option>
-            <option value="Bhutan">Bhutan</option>
-        </select>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-        <label>Name</label>
-        <input type="text"  id="Name" class="form-control">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Father Name</label>
-        <input type="text"  id="FatherName" class="form-control">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label for="MobileNumber">Mobile No</label>
-        <input type="text" id="MobileNumber" class="form-control" name="mobileNumber"  pattern="[789]\d{9}" title="Enter a valid Indian mobile number" maxlength="10" required>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
-     <label>Aadhar Card No</label>
-        <input type="text"  id="AdharCardNo" class="form-control">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
-     <label>ID No</label>
-        <input type="text"  id="IDNumber" class="form-control">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
-     <label>Passport No</label>
-        <input type="text"  id="PassportNumber" class="form-control">
-     </div>
-     
-    <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>DOB</label>
-        <input type="date"  id="Dob" class="form-control">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Gender</label>
-        <select class="form-control" id='Gender'>
-            <option value="">Select</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Category</label>
-     <select class="form-control" id="category">
-            <option value="">Select</option>
-            <option>SC</option>
-            <option>ST</option>
-            <option>OBC</option>
-
-            <option>General</option>
-        </select>
-     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Fee Category</label>
-     <select class="form-control" id="feecategory">
-            <option value="">Select</option>
-            <?php 
                       $get_country="SELECT DISTINCT Category FROM MasterCategory";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {
                         ?>
-                <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
-             <?php }
+              <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+              <?php }
                      ?>
-        </select>
-        
-     </div>
-     
-    <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Scholarship</label>
-     <select class="form-control" id="scholaship">
-       <option value="">Select</option>
-       <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
-       <option value="Early Bird scholarship">Early Bird scholarship</option>
-       <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
-       <option value="Orphan Student scholarship">Orphan Student scholarship</option>
-       <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
-       <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
-       <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
-       <option value="Not Applicable">Not Applicable</option>      
-       </select>
-     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Session</label>
-     <select class="form-control" id="Session" onchange="fetchCollege();">
-                  <option value="">Select</option>
-                  <?php 
+          </select>
+
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Scholarship</label>
+          <select class="form-control" id="scholaship">
+              <option value="">Select</option>
+              <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
+              <option value="Early Bird scholarship">Early Bird scholarship</option>
+              <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
+              <option value="Orphan Student scholarship">Orphan Student scholarship</option>
+              <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
+              <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
+              <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
+              <option value="Not Applicable">Not Applicable</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Session</label>
+          <select class="form-control" id="Session" onchange="fetchCollege();">
+              <option value="">Select</option>
+              <?php 
                       $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {?>
-                <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
-             <?php }
+              <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
     
                      ?>
-                        </select>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>College Name</label>
-     <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
-            <option value="">Select</option>
-         
-        </select>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Course</label>
-     <select name="" id="Course" class="form-control" >
-            <option value="">Select</option>
-        </select>
-     </div>
-    
-     
-    
-                      <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>LateralEntry</label>
-    <select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
-    <option value="">Select</option>
-    <option value="Yes">Yes</option>
-    <option value="No">No</option>
-    </select>
-    </div>
-                      <div class="col-lg-3 col-md-3 col-sm-12">
-        <label>Batch</label>
-        <input type="text" id="Batch" class="form-control" readonly>
-     </div>
-                      
-                      <div class="col-lg-3 col-md-3 col-sm-12">
-     <label>Comments</label>
-     <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
-     </div>
-    
-                      </div>
-    <!-- ---------------------------------------------------------------------------------- -->
-    <br>
-    <div class="card-header">
-    <h6>Reference Detail</h6>
-       </div>
-    <br>
-    <div class="row">
-    
-    <div class="col-lg-2 col-md-2 col-sm-12">
-       &nbsp;
-                      </div>
-    <div class="col-lg-8 col-md-8 col-sm-12">
-    
-       <div class="btn-group w-100 mb-1" >
-                            <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
-                                style="background-color:#223260; color: white; border: 1px solid;"
-                                onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
-                            <a class="btn btn-primary btn-xs btnG" id="btn4"
-                                style="background-color:#223260; color: white; border: 1px solid;"
-                                onclick="onchnagereff('Student'),bg(this.id);"> Student  </a>
-                            <a class="btn btn-primary btn-xs btnG" id="btn5"
-                                style="background-color:#223260; color: white; border: 1px solid;"
-                                onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant  </a>
-                            <a class="btn btn-primary btn-xs btnG" id="btn6"
-                                style="background-color:#223260; color: white; border: 1px solid;"
-                                onclick="onchnagereffteam('1'),bg(this.id);"> Team  </a>
-                                <input type="hidden" id="refvalue" value="Staff">
-                                <input type="hidden" id="refvalueCount" value="1">
-                        </div>
-     </div>
-     <div class="col-lg-2 col-md-2 col-sm-12">
-     &nbsp;
-                      </div>
-    </div>
-    
-    <!-- ---------------------------------------------------------------------------------- -->
-    <div class="row" id="tableTeam">
-    
-                      </div>
-                      <div class="row" style="display:none;" id="tableTeamOhter">
-     <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;" >
-     <label>IDNo</label>
-        <input type="text"  id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
-     <label>RollNo</label>
-        <input type="text"  id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
-     <label>Select</label>
-        <select  id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
-        <option value="">Select</option>
-            <?php $get_consultant="SELECT * FROM masterconsultant ";
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>College Name</label>
+          <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
+              <option value="">Select</option>
+
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Course</label>
+          <select name="" id="Course" class="form-control">
+              <option value="">Select</option>
+          </select>
+      </div>
+
+
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>LateralEntry</label>
+          <select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Batch</label>
+          <input type="text" id="Batch" class="form-control" readonly>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Comments</label>
+          <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
+      </div>
+
+  </div>
+  <!-- ---------------------------------------------------------------------------------- -->
+  <br>
+  <div class="card-header">
+      <h6>Reference Detail</h6>
+  </div>
+  <br>
+  <div class="row">
+
+      <div class="col-lg-2 col-md-2 col-sm-12">
+          &nbsp;
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12">
+
+          <div class="btn-group w-100 mb-1">
+              <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn4"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn5"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn6"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
+              <input type="hidden" id="refvalue" value="Staff">
+              <input type="hidden" id="refvalueCount" value="1">
+          </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12">
+          &nbsp;
+      </div>
+  </div>
+
+  <!-- ---------------------------------------------------------------------------------- -->
+  <div class="row" id="tableTeam">
+
+  </div>
+  <div class="row" style="display:none;" id="tableTeamOhter">
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;">
+          <label>IDNo</label>
+          <input type="text" id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
+          <label>RollNo</label>
+          <input type="text" id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
+          <label>Select</label>
+          <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
+              <option value="">Select</option>
+              <?php $get_consultant="SELECT * FROM masterconsultant ";
                     $get_consultantRun=mysqli_query($conn,$get_consultant);
                     while($row=mysqli_fetch_array($get_consultantRun))
                     {
     ?>
-    <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
-    <?php 
+              <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+              <?php 
                     }
             ?>
-        </select>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-     <label> Name</label>
-        <input type="text"  id="RefName1" class="form-control" readonly>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-        <label>Contact No.</label>
-        <input type="text"  id="RefContact1" class="form-control" readonly>
-     </div>
-     <div class="col-lg-3 col-md-3 col-sm-12">
-        <label>Address</label>
-        <input type="text" name="" id="RefAddress1"  class="form-control " readonly>
-     </div>
-     
-     
-    </div>
-    <br>
-    <div class="card-header">
-    <h6>Fee Detail</h6>
-       </div>
-    <br>
-    <h4>Total Debit Fee</h4>
-    <div class="row">
-    
-     <div class="col-lg-4 col-md-4 col-sm-12">
-     <label>Semester</label>
-     <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
-        <option value="">Select</option>
-        <?php
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label> Name</label>
+          <input type="text" id="RefName1" class="form-control" readonly>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Contact No.</label>
+          <input type="text" id="RefContact1" class="form-control" readonly>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Address</label>
+          <input type="text" name="" id="RefAddress1" class="form-control " readonly>
+      </div>
+
+
+  </div>
+  <br>
+  <div class="card-header">
+      <h6>Fee Detail</h6>
+  </div>
+  <br>
+  <h4>Total Debit Fee</h4>
+  <div class="row">
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label>Semester</label>
+          <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
+              <option value="">Select</option>
+              <?php
             $get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
             $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
             
             while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
                 ?>
-                <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
-                <?php
+              <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
+              <?php
             }
             ?>
+
+          </select>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label> Fee Particulars</label>
+          <input type="text" id="feeparticulr" class="form-control " readonly>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label>Total Debit</label>
+          <input type="text" id="feeTotalDebit" class="form-control " readonly>
+      </div>
+  </div>
+  </div>
+  <br>
+
+
+  <br>
+  <div class="card-footer">
+      <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
+  </div>
+<?php
+   }
+   elseif ($code==349) {
+    ?>
+    <div class="card-header">
+      <span>
+          <button class="btn btn-sm ">
+              <input type="search" class="form-control form-control-sm" name="rollNo" id="rollNo"
+                  placeholder="Search RollNo">
+          </button>
+          <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
+              Search
+          </button>
+      </span>
+  </div>
+  <br>
+  <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Nationality</label>
+          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
+              <option value="">Select</option>
+              <option value="Indian">Indian</option>
+              <option value="NRI">NRI</option>
+              <option value="Nepal">Nepal</option>
+              <option value="Bhutan">Bhutan</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Name</label>
+          <input type="text" id="Name" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Father Name</label>
+          <input type="text" id="FatherName" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label for="MobileNumber">Mobile No</label>
+          <input type="text" id="MobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}"
+              title="Enter a valid Indian mobile number" maxlength="10" required>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
+          <label>Aadhar Card No</label>
+          <input type="text" id="AdharCardNo" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
+          <label>ID No</label>
+          <input type="text" id="IDNumber" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
+          <label>Passport No</label>
+          <input type="text" id="PassportNumber" class="form-control">
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>DOB</label>
+          <input type="date" id="Dob" class="form-control">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Gender</label>
+          <select class="form-control" id='Gender'>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Category</label>
+          <select class="form-control" id="category">
+              <option value="">Select</option>
+              <option>SC</option>
+              <option>ST</option>
+              <option>OBC</option>
+
+              <option>General</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Fee Category</label>
+          <select class="form-control" id="feecategory">
+              <option value="">Select</option>
+              <?php 
+                      $get_country="SELECT DISTINCT Category FROM MasterCategory";
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {
+                        ?>
+              <option value="<?=$row_Session['Category'];?>"><?=$row_Session['Category'];?></option>
+              <?php }
+                     ?>
+          </select>
+
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Scholarship</label>
+          <select class="form-control" id="scholaship">
+              <option value="">Select</option>
+              <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
+              <option value="Early Bird scholarship">Early Bird scholarship</option>
+              <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
+              <option value="Orphan Student scholarship">Orphan Student scholarship</option>
+              <option value="Jan adhar card yojana scholarship">Jan adhar card yojana scholarship</option>
+              <option value="Old Student Scholarship policy">Old Student Scholarship policy</option>
+              <option value="SC Punjab 100% Scholarship">SC Punjab 100% Scholarship</option>
+              <option value="Not Applicable">Not Applicable</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Session</label>
+          <select class="form-control" id="Session" onchange="fetchCollege();">
+              <option value="">Select</option>
+              <?php 
+                      $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+              <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>College Name</label>
+          <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
+              <option value="">Select</option>
+
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Course</label>
+          <select name="" id="Course" class="form-control">
+              <option value="">Select</option>
+          </select>
+      </div>
+
+
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>LateralEntry</label>
+          <select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Batch</label>
+          <input type="text" id="Batch" class="form-control" readonly>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Comments</label>
+          <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
+      </div>
+
+  </div>
+  <!-- ---------------------------------------------------------------------------------- -->
+  <br>
+  <div class="card-header">
+      <h6>Reference Detail</h6>
+  </div>
+  <br>
+  <div class="row">
+
+      <div class="col-lg-2 col-md-2 col-sm-12">
+          &nbsp;
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12">
+
+          <div class="btn-group w-100 mb-1">
+              <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn4"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn5"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
+              <a class="btn btn-primary btn-xs btnG" id="btn6"
+                  style="background-color:#223260; color: white; border: 1px solid;"
+                  onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
+              <input type="hidden" id="refvalue" value="Staff">
+              <input type="hidden" id="refvalueCount" value="1">
+          </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12">
+          &nbsp;
+      </div>
+  </div>
+
+  <!-- ---------------------------------------------------------------------------------- -->
+  <div class="row" id="tableTeam">
+
+  </div>
+  <div class="row" style="display:none;" id="tableTeamOhter">
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;">
+          <label>IDNo</label>
+          <input type="text" id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
+          <label>RollNo</label>
+          <input type="text" id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
+          <label>Select</label>
+          <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
+              <option value="">Select</option>
+              <?php $get_consultant="SELECT * FROM masterconsultant ";
+                    $get_consultantRun=mysqli_query($conn,$get_consultant);
+                    while($row=mysqli_fetch_array($get_consultantRun))
+                    {
+    ?>
+              <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+              <?php 
+                    }
+            ?>
+          </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label> Name</label>
+          <input type="text" id="RefName1" class="form-control" readonly>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Contact No.</label>
+          <input type="text" id="RefContact1" class="form-control" readonly>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Address</label>
+          <input type="text" name="" id="RefAddress1" class="form-control " readonly>
+      </div>
+
+
+  </div>
+  <br>
+  <div class="card-header">
+      <h6>Fee Detail</h6>
+  </div>
+  <br>
+  <h4>Total Debit Fee</h4>
+  <div class="row">
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label>Semester</label>
+          <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
+              <option value="">Select</option>
+              <?php
+            $get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
+            $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
             
-    </select>
-        </div>
-    <div class="col-lg-4 col-md-4 col-sm-12">
-    <label> Fee Particulars</label>
-        <input type="text"  id="feeparticulr" class="form-control " readonly>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
-        <label>Total Debit</label>
-        <input type="text"  id="feeTotalDebit" class="form-control " readonly>
-     </div>
-        </div>
-     <!-- <div class="col-lg-6 col-md-6 col-sm-12">
-     <h4>Fee Structure</h4>
-    <table class="table table-sm">
-        <thead>
-        <tr>
-            <th>Head</th>
-            <th>Debit</th>
-        </tr>
-        </thead>
-        <tbody id="feeDetailTable">
-        </tbody>
-    
-    </table>
-    
-        </div> -->
-    
-        <!-- </div> -->
-    </div>
-    <br>
-    
-    
-    <br>
-    <div class="card-footer">
-    <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
-    <!-- <center><button class="btn btn-success" onclick="verifyAll();">Submit</button></center> -->
-       </div>
+            while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
+                ?>
+              <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
+              <?php
+            }
+            ?>
+
+          </select>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label> Fee Particulars</label>
+          <input type="text" id="feeparticulr" class="form-control " readonly>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <label>Total Debit</label>
+          <input type="text" id="feeTotalDebit" class="form-control " readonly>
+      </div>
+  </div>
+  </div>
+  <br>
+
+
+  <br>
+  <div class="card-footer">
+      <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
+  </div>
     
     <?php
    }
@@ -25420,7 +25394,10 @@ $stmt = sqlsrv_query($conntest,$sql);
 }
 elseif($code==357) 
 {
-    $ids=$_POST['subjectIDs'];
+    if(!empty($_POST['subjectIDs']))
+    {
+        $ids=$_POST['subjectIDs'];
+    }
 // print_r($ids);
 $Nationality=$_POST['Nationality'];
 $Name=$_POST['Name'];
