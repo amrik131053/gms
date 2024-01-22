@@ -1,6 +1,7 @@
 <?php
  $color='black';
  $grade='';
+ $printmark='';
    $gardep=0;
 
 if($pmarks>=90)
@@ -42,6 +43,7 @@ else if($pmarks<40)
 {
    $grade="F";
    $color='red';
+   $printmark=$pmarks;
     $gardep=0;
 }
 

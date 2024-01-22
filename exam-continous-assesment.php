@@ -28,6 +28,7 @@ ini_set('max_execution_time', '0');
 
                             <div class="col-lg-6">
                                
+                               D - Detailed   , S - Summary , G - Grade , C - CSV , M  - Marks
                            
                             </div>
                            
@@ -170,13 +171,14 @@ ini_set('max_execution_time', '0');
                             <div class="col-lg-3 col-md-3 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="Search_exam_student1()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">Detailed</button> 
+                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">Detail</button> 
                                 
                                                     &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">Summary</button> 
 
-                                                    <button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">Grade</button> 
-
+                                                    <button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">G</button> 
                                                      <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
+                                                     <button class="btn btn-success btn-sm " onclick="exportCutListExcelmarks()">M</button> 
+
 
                                                   
                                                        
@@ -402,6 +404,27 @@ function exportCutListExcelgradeca() {
 
 function exportCutListExcelcsv() {
     var exportCode = 55;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+
+
+function exportCutListExcelmarks() {
+    var exportCode = 56;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;

@@ -3755,6 +3755,7 @@ $batch=$_GET['batch'];
                        <th style="width:25px;text-align: center;"> Name </th>
                          <th style="width:50px;text-align: center;"> Subject </th>
                    <th style="width:25px;text-align: center;">MST Marks </th>
+                    <th style="width:25px;text-align: center;">File </th>
                   <th style="width:25px;text-align: center;">Lock </th>
                       
                 </tr>
@@ -3797,13 +3798,47 @@ $Batch=$_GET['batch'];
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?=$row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: center"> <?=$row['UniRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
-               <td><?= $subject;?></td>
+               <td><?= $subject;?>
+             <?php  $iidd=$row['id'];?></td>
                            <td style='text-align:center;width: 100px'>  <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td>
-                           <td style='text-align:center;width: 30px'>
+                            
+                            <td>
+                              <?php
+                              $checkmooc="select MOOCattachment from ExamFormSubject where Id='$iidd'";
+                              $list_result = sqlsrv_query($conntest,$checkmooc);
+                    while($row_staff = sqlsrv_fetch_array( $list_result, SQLSRV_FETCH_ASSOC) )
+     {
+
+$moocattchment=$row_staff['MOOCattachment'];
+     
+     if($moocattchment!='')
+     { ?>
+
+<a href="http://erp.gku.ac.in:86/<?=$moocattchment;?>" target="_blank"><i class="fa fa-eye" style="color: green"></i></a>
+    
+     <?php
+  }
+     else
+     {
+      ?>
+<i class="fa fa-eye-slash" style="color:red"></i>
+     <?php
+     }
+}
+
+
+                               ?>
+                              
+
+                              </td>
+
+
+                              <td style='text-align:center;width: 30px'>
+
 
                             <?php
 
@@ -3813,15 +3848,32 @@ $Batch=$_GET['batch'];
                                
                                ?>
                                <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+
                                 <?php 
 
 
                      }
                            else {
-                       ?>
+
+                              if($EmployeeID=='131053')
+                              {
+
+
+            ?>   <form action="action.php" method="post" enctype="multipart/form-data">
+                 <input type="hidden" name="code" value="358">
+                 <input type="hidden" class="form-control" name='id' value="<?=$row['id'];?>">
+                 <input type="file" class="form-control"  name="moocfile">
+                 <button type="button"  onclick="uploadPhoto(this.form)">
+
+                  <i class="fa fa-upload" ></i></button>
+            </form>
+
+            &nbsp;&nbsp;&nbsp;<?php }?>
+
                                <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
                                 <?php 
-                           }
+                           
+                        }
                            ?>
 
                         </td> </tr>
