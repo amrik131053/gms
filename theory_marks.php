@@ -184,7 +184,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-7 col-md-4 col-sm-3">
+          <div class="col-lg-8 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -206,7 +206,7 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-  <div class="col-lg-5 col-md-5 col-sm-3">
+  <div class="col-lg-4 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -304,7 +304,7 @@ for($i=1;$i<=12;$i++)
           });
     });
   });
-
+ 
 
 function select_mst() 
 { 
@@ -624,11 +624,12 @@ if(typeof  distributiontheory_str[0]== 'undefined')
   {
     ErrorToast('Please select atleast one theory distribution',"bg-danger" );
   }
-  else{   
-
+  else
+  {   
   if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
  {
   alert(distributiontheory_str[0]);
+
  $.ajax({
       url:'action.php',
       type:'post',
@@ -638,7 +639,7 @@ if(typeof  distributiontheory_str[0]== 'undefined')
       success:function(response)
       {
     
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp; of &nbsp;"+examination);
        
       }
     });
@@ -652,12 +653,46 @@ else
 }
 
 
+  function uploadPhoto(form) {
 
+   var formData = new FormData(form);
+      $.ajax({
+
+         url: form.action,
+         type: form.method,
+         data: formData,
+         contentType: false,
+         processData: false,
+         success: function(response) {
+            // console.log(response);
+            if (response==1) 
+            {
+            SuccessToast('Successfully Updated');
+            select_mst(); 
+                }
+             else if(response=='Could not connect to 10.0.10.11')
+                {
+                 ErrorToast('FTP Server Off' ,'bg-warning');
+                }
+               else
+                {
+
+                 }
+         },
+         error: function(xhr, status, error) {
+            console.log(error);
+         }
+      });
+  }
 
 
 
 
 </script>
 
-<div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
     <?php include "footer.php";  ?>

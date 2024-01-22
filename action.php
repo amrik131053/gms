@@ -9088,8 +9088,11 @@ elseif ($code==147)
    ftp_pasv($conn_id,true);
 
    file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
+
    ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+
    ftp_close($conn_id);
+
    $sql="INSERT INTO gate_entry_visitor (meeting_person_id, visitor_name, visitor_mobile, visitor_vehicle_no, visitor_id_proof, visitor_id_proof_no, meeting_purpose, gate_pass_no, entry_time, status, visitor_image) VALUES ('$personmeet_id','$name','$mob','$vehicle','$proof','$id_proof_no','$purpose','$passno','$timeStamp','0','$image_name.jpg')";
    mysqli_query($conn,$sql);
 }
@@ -13458,7 +13461,17 @@ $Examid=array();
  $length =sizeof($Examid);
 
 foreach($_POST['distributiontheory_str'] as $key => $disti) { 
-$disti1=$disti."Locked";
+
+
+if($disti=='ESE')
+{
+$disti1="MoocLocked";
+}
+else
+{
+  $disti1=$disti."Locked"; 
+}
+
  for ($th=0;$th<$length;$th++)
  {
 
@@ -21929,6 +21942,38 @@ $Batch=$_GET['batch'];
 
 }
 
+else if($code==358)
+{
+
+include "connection/ftp-erp.php";
+
+$Id = $_POST["id"];
+
+
+      $file_name = $_FILES['moocfile']['name'];
+      $file_tmp = $_FILES['moocfile']['tmp_name'];
+      $type = $_FILES['moocfile']['type'];
+      $file_data = file_get_contents($file_tmp);
+      $characters = '';
+
+    $image_name ="StdWorkshopFileMooc_".$Id."_".$file_name;
+     
+     $destdir = 'StdWorkshopFile';
+
+     ftp_chdir($conn_id, "StdWorkshopFile/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+     file_put_contents($destdir.$image_name,$file_data);
+
+     ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
+
+   
+   $image_name1='StdWorkshopFile/'.$image_name;
+
+  $query = "UPDATE ExamFormSubject SET MOOCattachment='$image_name1' where ID='$Id'";
+  $stmt = sqlsrv_query($conntest,$query);    
+
+  echo "1";
+}
  else
 {
 echo "select code";

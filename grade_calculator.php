@@ -1,6 +1,6 @@
     <?php  
     $color='black';
-
+$printmark='';
      $msttotal='';
      $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
      if(is_numeric($mst1))
@@ -82,6 +82,7 @@ else if($totalFinal>=40 &&$totalFinal<45)
 else if($totalFinal<40)
 {
    $grade="F";
+   $printmark=$totalFinal;
     $gardep=0;
       $color='red';
      $nccount++;
