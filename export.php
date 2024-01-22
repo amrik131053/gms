@@ -6255,6 +6255,14 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 
   for($sub=0;$sub<$subCountp;$sub++)
         {
+
+
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+
             $pmarks=0;
         $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
@@ -6315,7 +6323,29 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
 }
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
-                   
+        
+
+
+} 
+else
+{
+$exportstudy.="<td style='text-align:center'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA</td>";
+$exportstudy.="<td style='text-align:center'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA</td>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
           }
 
 
@@ -6663,6 +6693,19 @@ $exportstudy.="<td style='text-align:center'>NA</td>";
 
   for($sub=0;$sub<$subCountp;$sub++)
         {
+           
+
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+
+
+
+
+
+
             $pmarks=0;
     $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
@@ -6724,8 +6767,22 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
     $nccount++;
  }
 }
-//$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
-                   
+
+}
+else
+{
+    $exportstudy.="<td style='text-align:center;'>NA </td>";
+    $exportstudy.="<td style='text-align:center;'>NA </td>";  
+}
+
+            
+
+
+
+
+
+
+
           }
 
 
@@ -7075,8 +7132,22 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 
 
 
+
+
+
+
+
   for($sub=0;$sub<$subCountp;$sub++)
         {
+
+
+ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+
+
             $pmarks=0;
         $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
@@ -7116,7 +7187,7 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
-            }
+         }
 
 $totalcredit=$totalcredit+$credit;
 
@@ -7139,8 +7210,38 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
 }
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
-                   
+           
+
+
+
+}
+else
+{
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center;'>NA</td>"; $exportstudy.="<td style='text-align:center;'>NA</td>";
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           }
+
+
+
+
+
 
 
  $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
@@ -7461,6 +7562,11 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 
   for($sub=0;$sub<$subCountp;$sub++)
         {
+
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
             $pmarks=0;
         $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
@@ -7526,7 +7632,20 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
 }
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
-                   
+        
+}  
+else
+{
+$exportstudy.="<td style='text-align:center;'>NA </td>";
+$exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>";
+ $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+}
+
+
+
+
           }
 
 
