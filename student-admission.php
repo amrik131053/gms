@@ -104,6 +104,44 @@ function oldAdmission()
     });
 }
 
+function searchStudentOnRollNo() {
+   
+    var rollNo = document.getElementById('rollNo').value;
+    if(rollNo!='')
+    {
+    var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '361';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                code: code,
+                rollNo: rollNo
+                
+            },
+            type: 'POST',
+            success: function(response) {
+                spinner.style.display = 'none';
+                // console.log(response);
+                var data = JSON.parse(response);
+                document.getElementById("Nationality").value = data[0];
+                document.getElementById("Name").value = data[1];
+                document.getElementById("FatherName").value = data[2];
+                document.getElementById("MobileNumber").value = data[3];
+                document.getElementById("AdharCardNo").value = data[4];
+                document.getElementById("Dob").value = data[5];
+                document.getElementById("Gender").value = data[6];
+                document.getElementById("category").value = data[7];
+            
+            }
+        });
+    }
+    else{
+        ErrorToast('Please Enter RollNo', 'bg-warning');
+    }
+  
+}
+
 function fetchCollege() {
     var Session = document.getElementById('Session').value;
     var code = 350;
@@ -422,6 +460,14 @@ var len_student= verifiy.length;
             subjectIDs.push(verifiy[i].value);
      }
     }
+    else{
+        var subjectIDs=[];
+        var EmIDTeam=document.getElementById('EmID'+refvalue).value;
+        alert(EmIDTeam);
+var RefName=document.getElementById('RefName').value;
+var RefContact=document.getElementById('RefContact').value;
+var RefAddress=document.getElementById('RefAddress').value;
+    }
 // alert(subjectIDs);
 for(i=1;i<len_student+1;i++)
      {
@@ -506,7 +552,7 @@ if (Nationality === '') {
         ErrorToast('Please select a SemesterForFee','bg-warning');
         return;
     }
-    if (validateForm()) {
+  
 
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -544,7 +590,7 @@ var code = 357;
         },
         type: 'POST',
         success: function(response) {
-            // console.log(response);
+            console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -570,7 +616,7 @@ var code = 357;
         }
     });
 }
-} 
+
 // successModal(9618224520);
 function successModal(IDNo) 
 {
