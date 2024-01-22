@@ -82,10 +82,21 @@ if ($code==1)
         $XSet=58;
         $RowsSet=3;
     }
+ 
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(0,0,0);
-    $pdf->Write(3,'Name     :','0','L');
+     $strlen=strlen(trim($row['Name']));
+    if($strlen<=23)
+    {
+        $pdf->Write(3,'Name     :','0','L');
+    }
+    elseif($strlen>23)
+    {
+        $pdf->Write(3,'Name     :','0','L');
+        $XSet=$pdf->GetY()+10;
+    }
+
     $pdf->SetXY(1.1,$XSet-3);
     $pdf->Write(3,'Emp.No :','0','L');
     $pdf->SetXY(1,$XSet+2);
@@ -93,11 +104,18 @@ if ($code==1)
     $pdf->SetXY(0.9,$XSet+7);
     $pdf->Write(3,'Dept.      :','0','L');
     
-
-    
     $pdf->SetXY(14.5,50);
-
+         $strlen=strlen(trim($row['Name']));
+if($strlen<=23)
+{
     $pdf->MultiCell(39,3,trim($row['Name']),'0','L');
+}
+elseif($strlen>23)
+{
+    $pdf->MultiCell(39,3,trim($row['Name']),'0','L');
+    $XSet=$XSet;
+    // $XSet=$pdf->GetY();
+}
     $pdf->SetXY(14.5,$XSet-3);
     $pdf->MultiCell(39,3,$row['IDNo'],'0','L');
     $pdf->SetXY(14.5,$XSet+2);
