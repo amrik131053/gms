@@ -13397,7 +13397,7 @@ else
   $ecat=$ecat."Locked"; 
 }
 
- $list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
+ $list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {

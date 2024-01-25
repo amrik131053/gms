@@ -150,12 +150,14 @@ $pdf->MultiCell(270,5,$name,'','C');
  if($Gender='Male')
  {
   $ss='He';
+  $ss1='his';
  }
  else
  {
   $ss='She';
+  $ss1='her';
  }
- $pdf->MultiCell(257,12,"in recognition of their dedication, commitment,and successful completion of the online course $vcourse . $ss has scored $score marks out of 100. The duration of course was from August 2023 to December 2023.",'0','C','0');
+ $pdf->MultiCell(257,12,"in recognition of $ss1 dedication, commitment,and successful completion of the online course $vcourse . $ss has scored $score marks out of 100. The duration of course was from August 2023 to December 2023.",'0','C','0');
 
  $pdf->SetXY(12,185); 
   $pdf->SetFont('Arial','',14);
