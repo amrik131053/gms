@@ -11067,11 +11067,25 @@ elseif($code==176)
 
 elseif($code==177)
 {
-$id = $_POST['id'];
-
-
-$upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1'  where id='$id '";
-
+    $id = $_POST['id'];
+    $getBatchsql = "SELECT * FROM offer_latter  Where id='$id'";
+    $getBatchsqlRun=mysqli_query($conn,$getBatchsql);
+    if($row=mysqli_fetch_array($getBatchsqlRun))
+    {
+       $Batch=$row['Batch'];
+    }
+    $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+$getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+    if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
+{    
+            $RefString=$getReffrenceNumberrow["RefString"];     
+            $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1;     
+}
+else
+{
+    echo "2";
+}
+ $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$RefString/$Batch/$ReffrenceNumber'  where id='$id '";
 mysqli_query($conn,$upd);
 
 

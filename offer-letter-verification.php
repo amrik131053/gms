@@ -188,7 +188,7 @@ function by_search_studetn() {
                               search: searchQuery // Pass the search query to the server
                            },
                            success: function(data) {
-                               console.log(data);
+                              //  console.log(data);
                               spinner.style.display='none';
                               buildTable(data);
                               updatePagination(page);
@@ -1068,8 +1068,16 @@ url:'action_g.php',
 data:{id:id,code:code},
 type:'POST',
 success:function(data){
+// console.log(data);
+if(data==2)
+{
+   ErrorToast('Set reference number ','bg-warning');
 
-SuccessToast('Generated successfully');
+}
+else{
+
+   SuccessToast('Generated successfully');
+}
 loadData(currentPage);
 
 }
