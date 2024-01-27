@@ -15,9 +15,9 @@
                         <a class="btn btn-primary" id="btn11"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="showCalendar(),bg(this.id);"> Calendar </a>
-                        <a class="btn btn-primary" id="btn22"
+                       <!--close2501  <a class="btn btn-primary" id="btn22"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a>
+                            onclick="showApplyLeave(),bg(this.id);"> Apply Leave </a> close2501-->
                         <a class="btn btn-primary" id="btn33"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="showReport(),bg(this.id);"> Report </a>
@@ -41,7 +41,7 @@ if($laveAuthCount>0)
 ?>
                 <div class=" card card-primary">
                     <div class="btn-group w-100 mb-2">
-                        <a class="btn btn-primary" id="btn111"
+                       <!--close2501  <a class="btn btn-primary" id="btn111"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="pendingLeavesAuth(),bg(this.id);">Pending </a>
                         <a class="btn btn-primary" id="btn222"
@@ -49,7 +49,7 @@ if($laveAuthCount>0)
                             onclick="approvedLeavesAuth(),bg(this.id);"> Approved </a>
                         <a class="btn btn-primary " id="btn333"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a>
+                            onclick="rejectLeavesAuth(),bg(this.id);"> Reject </a> close2501-->
                         <!-- <a class="btn btn-primary " id="btn444" style="background-color:#223260; color: white; border: 5px solid;" onclick="forwardedLeavesAuth(),bg(this.id);"> Forward </a> -->
 
                     </div>
@@ -65,7 +65,7 @@ if($laveAuthCount>0)
                   
                <?php }?>
                 <div class=" card card-primary">
-                    <div class="btn-group w-100 mb-2">
+                   <!--close2501  <div class="btn-group w-100 mb-2">
                         <a class="btn btn-primary" id="btn1"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="pendingLeaves(),bg(this.id);"> Pending </a>
@@ -76,13 +76,13 @@ if($laveAuthCount>0)
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="rejectLeaves(),bg(this.id);"> Rejected </a>
 
-                    </div>
+                    </div> close2501-->
 
                     <div id="table_load" class="table-responsive" style="height:auto; font-size:12px; ">
                     </div>
                     <div class="text-center" id="div-loader">
-                        <div class="spinner-border" role="status">
-                        </div>
+                       <!--   close2501   <div class="spinner-border" role="status">
+                        </div> close2501-->
                     </div>
 
 
@@ -147,9 +147,10 @@ $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     $('#btn11').toggleClass("bg-success");
     $('#btn111').toggleClass("bg-success");
-    pendingLeaves();
-    pendingLeavesAuth();
+   
     showCalendar();
+    // close2501pendingLeaves();
+    //close2501pendingLeavesAuth();
 
 })
 

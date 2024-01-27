@@ -10900,6 +10900,14 @@ elseif ($code==177)
    }
 
 }
+
+
+
+
+
+
+
+
 elseif ($code==178) 
 { 
 $name = $_POST['name'];
@@ -13397,7 +13405,7 @@ else
   $ecat=$ecat."Locked"; 
 }
 
- $list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
+ $list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -21974,6 +21982,48 @@ $Id = $_POST["id"];
 
   echo "1";
 }
+
+  elseif($code==359)
+   {
+     $ids=$_POST['subjectIDs'];
+     foreach($ids as $key => $id)
+     {
+        
+
+   
+    $sql="UPDATE computer_lab_entry set exit_time='$timeStamp', status='1' where id='$id'";
+   $res=mysqli_query($conn,$sql);
+
+     }
+
+
+     if ($res==true)
+      {
+        echo "1";
+     }
+     else
+     {
+        echo "0";
+     }
+  
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  else
 {
 echo "select code";

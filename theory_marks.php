@@ -528,11 +528,11 @@ function unlockpending()
       url:'action.php',
       type:'post',
       data:{
-        examination:examination,ecat:ecat,semester:semester,code:'216'
+        examination:examination,ecat:ecat,semester:semester,code:216
       },
       success:function(response)
       {
-
+console.log(response);
         if(response>0)
         { 
        SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);

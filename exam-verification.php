@@ -276,7 +276,7 @@ function verifiy_select()
         }
     });
  
-}
+} 
 
 function fetchCutList() {
     var sub_data = 2;

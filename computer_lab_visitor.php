@@ -67,6 +67,7 @@ $tz = 'Asia/Kolkata';
            <table class="table  " id="example">  <thead>
               <tr>
                   <th>#</th>
+                  <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class=""></th>
                  <th>Image</th>
                  <th>IDNo</th>
                   <th>Name</th>
@@ -144,6 +145,17 @@ $tz = 'Asia/Kolkata';
                      }
                      ?>
                       <td><?=$count++?></td>
+                       <th>
+                          <?php
+                       if($row["status"] == "1")
+                    {
+                     ?>
+                     <?php }
+                     else {?>
+                        <input type="checkbox" class="checkbox v_check" value="<?=$row['id']?>">
+                     <?php } ?>
+
+                  </th>
                        <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"  alt="User Avatar"></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
@@ -170,10 +182,15 @@ $tz = 'Asia/Kolkata';
 
                       
                   </tr>
+
+
                       <?php
                   }
                 }
             ?>
+              <tr>
+            <td colspan="13"> <button type="submit" id="type" onclick="verifyAll();" name="update" class="btn btn-success " style="float:right;">Check out all</button></td>
+         </tr>
           </tbody>
         </table>
                </div>
@@ -217,6 +234,94 @@ $tz = 'Asia/Kolkata';
          }
          });
    }
+
+
+
+
+
+function verifyAll()
+{
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=359;
+
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+     }
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+     //alert(len_student);
+    ErrorToast(' Select atleast one ' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            //console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Verified');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+}
+
+
+
+   function verifiy_select()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+} 
+
    function assignSystem(id) 
    {
       var systemNo=document.getElementById('systemNumber').value;
