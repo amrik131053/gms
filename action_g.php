@@ -18504,13 +18504,13 @@ if($eligible>1)
    if ($photo) {
 
    
-include "connection/ftp-erp.php";
+//include "connection/ftp-erp.php";
 
       $photoTmp = $_FILES["photo"]["tmp_name"];
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
       $file_data = file_get_contents($photoTmp);
    $ImageName=$loginId.".PNG";
-   ftp_put($conn_id, "Images/Students/$ImageName", $photoTmp, FTP_BINARY);
+   //ftp_put($conn_id, "Images/Students/$ImageName", $photoTmp, FTP_BINARY);
 
 
         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
