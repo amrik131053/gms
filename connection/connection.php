@@ -4,12 +4,14 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $timeStamp=date('Y-m-d H:i:s.v');
    $timeStampS=date('Y-m-d H:i:s');
 
-$serverName = "10.0.8.181"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"Amrik", "PWD"=>"Amrik@123");
+$serverName = "10.0.10.11"; //serverName\instanceName
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect($serverName,$connectionInfo);
+
 
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
+
 // $servername1 = "localhost";
 // $username1 = "bhagi";
 // $password1 = "@Sarbjot@98157";
@@ -35,6 +37,10 @@ if ($conn) {
 
 }
 
+if ($conntest)
+{
+   
+}
 
 
 
