@@ -7687,25 +7687,25 @@ if(mysqli_num_rows($ifcodeexist_run)>0)
             if ($type == 1) {
                 ?>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                         <textarea type="textarea"  class="form-control summer" name="Question<?= $i; ?>" rows="1" required></textarea>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2" style='display:none;'>
                         <label>Answer A</label>
-                        <textarea type="textarea"  class="form-control summer" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionA<?= $i; ?>" rows="1" ></textarea>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2"  style='display:none;'>
                         <label>Answer B</label>
-                        <textarea type="textarea"  class="form-control summer" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionB<?= $i; ?>" rows="1" ></textarea>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2"  style='display:none;'>
                         <label>Answer C</label>
-                        <textarea type="textarea"  class="form-control summer" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionC<?= $i; ?>" rows="1" ></textarea>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2"  style='display:none;'>
                         <label>Answer D</label>
-                        <textarea type="textarea"  class="form-control summer" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
+                        <textarea type="textarea"  class="form-control summer" name="QuestionD<?= $i; ?>" rows="1" ></textarea>
                     </div>
                 </div>
                 <?php
@@ -7737,25 +7737,25 @@ else{
            if ($type == 1) {
                ?>
                <div class="row">
-                   <div class="col-lg-4">
+                   <div class="col-lg-12">
                        <label>Question <?= $i; ?>&nbsp;<span style="color:red;">*</span></label>
                        <textarea type="textarea" class="form-control" name="Question<?= $i; ?>" rows="1" required></textarea>
                    </div>
-                   <div class="col-lg-2">
+                   <div class="col-lg-2"  style='display:none;'>
                        <label>Answer A</label>
-                       <textarea type="textarea" class="form-control" name="QuestionA<?= $i; ?>" rows="1" required></textarea>
+                       <textarea type="textarea" class="form-control" name="QuestionA<?= $i; ?>" rows="1" ></textarea>
                    </div>
-                   <div class="col-lg-2">
+                   <div class="col-lg-2"  style='display:none;'>
                        <label>Answer B</label>
-                       <textarea type="textarea" class="form-control" name="QuestionB<?= $i; ?>" rows="1" required></textarea>
+                       <textarea type="textarea" class="form-control" name="QuestionB<?= $i; ?>" rows="1" ></textarea>
                    </div>
-                   <div class="col-lg-2">
+                   <div class="col-lg-2"  style='display:none;'>
                        <label>Answer C</label>
-                       <textarea type="textarea" class="form-control" name="QuestionC<?= $i; ?>" rows="1" required></textarea>
+                       <textarea type="textarea" class="form-control" name="QuestionC<?= $i; ?>" rows="1" ></textarea>
                    </div>
-                   <div class="col-lg-2">
+                   <div class="col-lg-2"  style='display:none;'>
                        <label>Answer D</label>
-                       <textarea type="textarea" class="form-control" name="QuestionD<?= $i; ?>" rows="1" required></textarea>
+                       <textarea type="textarea" class="form-control" name="QuestionD<?= $i; ?>" rows="1" ></textarea>
                    </div>
                </div>
                <?php
@@ -8300,33 +8300,33 @@ elseif ($code==130)
 }
    elseif($code==131)
    {
-       echo $id=$_POST['id'];
+        $id=$_POST['id'];
        //$type=$_POST['type_id'];
 
-   echo    $sql="SELECT * from question_bank_details WHERE question_id='$id'";
+       $sql="SELECT * from question_bank_details WHERE question_id='$id'";
        $result = mysqli_query($conn,$sql);
        if($row = mysqli_fetch_array($result))
        {
          ?>
             
           <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <label>Question&nbsp;<span style="color:red;">*</span></label>
                     <textarea type="textarea" class="form-control" id="Question" rows="1" ><?php echo $row["Question"];?></textarea>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" style="display:none;">
                     <label>Answer A</label>
                     <textarea type="textarea" class="form-control" id="QuestionA" rows="1" ><?php echo $row["OptionA"];?></textarea>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" style="display:none;">
                     <label>Answer B</label>
                     <textarea type="textarea" class="form-control" id="QuestionB" rows="1" ><?php echo $row["OptionB"];?></textarea>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" style="display:none;">
                     <label>Answer C</label>
                     <textarea type="textarea" class="form-control" id="QuestionC" rows="1" ><?php echo $row["OptionC"];?></textarea>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" style="display:none;">
                     <label>Answer D</label>
                     <textarea type="textarea" class="form-control" id="QuestionD" rows="1" ><?php echo $row["OptionD"];?></textarea>
                 </div>
@@ -19044,10 +19044,37 @@ if ($type == 1) {
         $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
         if ($EmployeeID > 0) {
-  $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+         $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
+         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS');";
+   // $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
             $insQryRun = mysqli_query($conn, $insQry);
-            if ($insQryRun==true) {
-               echo "1";
+            if ($insQryRun===true) {
+               $getQid="SELECT id as qid FROM question_bank ORDER BY id DESC LIMIT 1";
+               $getQidRun=mysqli_query($conn,$getQid);
+               if($getQ=mysqli_fetch_array($getQidRun))
+               {
+                  $QID=$getQ['qid'];
+                   $inQ="INSERT INTO  question_bank_details  (question_id,Question,OptionA,OptionB,OptionC,OptionD) VALUES ('$QID','$question','$optionA','$optionB','$optionC','$optionD')";
+                               $qinRun=mysqli_query($conn,$inQ);
+                               if($qinRun===true)
+                               {
+                                 $CheckQuestionQid="SELECT Question FROM question_bank_details ORDER BY id DESC LIMIT 1";
+                                 $CheckQuestionQidRun=mysqli_query($conn,$CheckQuestionQid);
+                                 if($CheckQuestionQ=mysqli_fetch_array($CheckQuestionQidRun))
+                                 {
+                                    if($CheckQuestionQ['Question']=='' || $CheckQuestionQ['Question']==' ')
+                                    {
+                                       $RollBackQid="DELETE FROM question_bank WHERE id='".$CheckQuestionQ['id']."'";
+                                       mysqli_query($conn,$RollBackQid);
+                                    }
+                                    else
+                                    {
+                                       echo "1";
+                                    }
+                                 }
+
+                               }
+               } 
             }
             else
             {
@@ -19069,11 +19096,38 @@ else {
         $optionC = "";
         $optionD = "";
 
-        if ($EmployeeID > 0) {
-             $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
+        if ($EmployeeID > 0 ) {
+          $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
+         VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS')";
+   // $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
             $insQryRun = mysqli_query($conn, $insQry);
-             if ($insQryRun==true) {
-               echo "1";
+            if ($insQryRun===true) {
+               $getQid="SELECT id as qid FROM question_bank ORDER BY id DESC LIMIT 1";
+               $getQidRun=mysqli_query($conn,$getQid);
+               if($getQ=mysqli_fetch_array($getQidRun))
+               {
+                  $QID=$getQ['qid'];
+                   $inQ="INSERT INTO  question_bank_details  (question_id,Question,OptionA,OptionB,OptionC,OptionD) VALUES ('$QID','$question','$optionA','$optionB','$optionC','$optionD')";
+                               $qinRun=mysqli_query($conn,$inQ);
+                               if($qinRun===true)
+                               {
+                                 $CheckQuestionQid="SELECT Question FROM question_bank_details ORDER BY id DESC LIMIT 1";
+                                 $CheckQuestionQidRun=mysqli_query($conn,$CheckQuestionQid);
+                                 if($CheckQuestionQ=mysqli_fetch_array($CheckQuestionQidRun))
+                                 {
+                                    if($CheckQuestionQ['Question']=='' || $CheckQuestionQ['Question']==' ')
+                                    {
+                                       $RollBackQid="DELETE FROM question_bank WHERE id='".$CheckQuestionQ['id']."'";
+                                       mysqli_query($conn,$RollBackQid);
+                                    }
+                                    else
+                                    {
+                                       echo "1";
+                                    }
+                                 }
+
+                               }
+               } 
             }
             else
             {

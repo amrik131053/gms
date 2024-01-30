@@ -11085,7 +11085,10 @@ else
 {
     echo "2";
 }
- $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$RefString/$Batch/$ReffrenceNumber'  where id='$id '";
+$refff=$RefString.'/'.$Batch.'/'.$ReffrenceNumber;
+ $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$Batch'";
+mysqli_query($conn,$upd1);
+ $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$refff'  where id='$id '";
 mysqli_query($conn,$upd);
 
 
