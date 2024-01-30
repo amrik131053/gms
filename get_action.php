@@ -3187,7 +3187,7 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
        ?>
    <tr>
       <th><b style='color:#a62532;'><?=$sr;?></b></th>
-      <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)</b></th>
+      <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)rrr</b></th>
       <input type="hidden" name="" value="<?=$id;?>">
       <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$emp_id;?>)" value="Delete"></th>
    </tr>

@@ -14733,17 +14733,17 @@ if($Recommend!='0' && $Authority!='0' && $Recommend!=NULL && $Authority!=NULL)
                         <div class="col-lg-12" id="SingleDate">
                             <label>Date<span class="text-danger">&nbsp;*</span></label>
                             <input type="date" class="form-control" id="leaveDate" name="leaveDate"
-                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-15 day"));  ?>'>
                         </div>
                         <div class="col-lg-12" id="StartDate" style="display:none;">
                             <label>Start Date<span class="text-danger">&nbsp;*</span></label>
                             <input type="date" class="form-control" id="leaveStartDate" name="leaveStartDate"
-                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-15 day"));  ?>'>
                         </div>
                         <div class="col-lg-12 " id="EndDate" style="display:none;">
                             <label>End Date<span class="text-danger">&nbsp;*</span></label>
                             <input type="date" class="form-control" id="leaveEndDate" name="leaveEndDate"
-                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-0 day"));  ?>'>
+                                value="<?=date('Y-m-d');?>" min='<?=date("Y-m-d", strtotime("-15 day"));  ?>'>
                         </div>
                         <div class="col-lg-12">
                             <label>Leave Reason<span class="text-danger">&nbsp;*</span></label>
@@ -14939,8 +14939,11 @@ else
 
                         if($ifLeaveExist<1)
                         {
-                if($leaveStartDate>=$ApplyDate || $status=='Approved')
-                {
+                           // close 2501 if($leaveStartDate>=$ApplyDate )
+                
+                //{
+                
+
                 if($leaveShort>0)
                 {   
                     $dummyVal=$leaveShort;  
@@ -14948,7 +14951,8 @@ else
                 else
                 {
                     $dummyVal=$numberDays;
-                }    
+                } 
+
 if($LeaveType<3 && $LeaveBlance<$dummyVal)
 {
 echo "5"; //leave balance not equeal
@@ -14973,7 +14977,7 @@ else
      //file_put_contents(,$file_data);
  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 
-     ftp_close($conn_id);
+ftp_close($conn_id);
 
 
 
@@ -15021,11 +15025,11 @@ else{
                 }
             }
            
-              }
-                else
-                {
-                    echo "3";  //back date leave apply
-                }
+              // }
+              //   else
+              //   {
+              //       echo "3";  //back date leave apply
+              //   }
             }
         else
         {

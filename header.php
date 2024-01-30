@@ -28,6 +28,7 @@ else
 {
 $EmployeeID=$_SESSION['usr'];
 $spoc_per=0;
+
 $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
 $result = $conn_spoc->query($sqlspoc);
 if ($result->num_rows > 0) 
@@ -51,19 +52,39 @@ if ($result->num_rows > 0)
    $r[]= ""; 
    $p[]= ""; 
       $id=""; 
-       $result = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
-       while($row=mysqli_fetch_array($result)) 
-       {
-           $user_id = $row['user_id'];
-           $emp_id = $row['emp_id'];
-           $name = $row['name'];
-           $emp_image = $row['image'];
-           $status = $row['status'];
-           // -------------------------------------
-           $role_id = $row['role_id'];
-           // -------------------------------------
-       }
+
+       // $result = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
+       // while($row=mysqli_fetch_array($result)) 
+       // {
+       //     $user_id = $row['user_id'];
+       //     $emp_id = $row['emp_id'];
+       //     $name = $row['name'];
+       //     $emp_image = $row['image'];
+       //     $status = $row['status'];
+       //     // -------------------------------------
+       //     $role_id = $row['role_id'];
+       //     // -------------------------------------
+       // }
        
+
+ $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID FROM Staff Where IDNo='$EmployeeID'";
+    $stmt = sqlsrv_query($conntest,$staff);  
+   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+        {
+   $Emp_Name=$row_staff['Name'];
+   $Emp_Image=$row_staff['Snap'];
+    $Emp_Department=$row_staff['Department'];
+     $Emp_Designation=$row_staff['Designation'];
+     $Emp_CollegeID=$row_staff['CollegeID'];
+    $DateOfJoining=$row_staff['DateOfJoining'];
+    $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
+    $role_id = $row_staff['RoleID'];
+        }
+
+
+
+
+
    
                  $role_get="SELECT * FROM role WHERE role_id='$role_id'";
            $role_run=mysqli_query($conn,$role_get);
@@ -96,18 +117,7 @@ if ($result->num_rows > 0)
            header('Location:not_found.php');
        } 
     }
-    $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID FROM Staff Where IDNo='$EmployeeID'";
-    $stmt = sqlsrv_query($conntest,$staff);  
-   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-        {
-   $Emp_Name=$row_staff['Name'];
-   $Emp_Image=$row_staff['Snap'];
-    $Emp_Department=$row_staff['Department'];
-     $Emp_Designation=$row_staff['Designation'];
-     $Emp_CollegeID=$row_staff['CollegeID'];
-    $DateOfJoining=$row_staff['DateOfJoining'];
-    $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
-        }
+   
    // ----------------------------------------------------------------------------------------
         $code_access="";
       $sel_per="SELECT * FROM special_permission WHERE  page_id='$id' and emp_id='$EmployeeID'";
@@ -231,7 +241,7 @@ if ($result->num_rows > 0)
 
 
          
-          <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
+          <span class="d-none d-md-inline"><?= $Emp_Name;?>(<?=  $role_id;?>)</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
