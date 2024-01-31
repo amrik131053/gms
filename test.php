@@ -36,9 +36,6 @@ if($list_result === false) {
 }
 
 
-
-    
-
 }
 
 }
