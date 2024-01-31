@@ -241,7 +241,7 @@ if ($result->num_rows > 0)
 
 
          
-          <span class="d-none d-md-inline"><?= $Emp_Name;?>(<?=  $role_id;?>)</span>
+          <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->

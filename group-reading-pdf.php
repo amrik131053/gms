@@ -255,7 +255,8 @@ $d=0;
 
 $pdf->SetFont('Times','b',16);
 $pdf->SetXY(4,10);
-$pdf->Image('https://recruitment.gurukashiuniversity.in/images/logo-blue.png', 11, 11, 40);
+$pdf-> Image('dist\img\new-logo.jpg',10,11,55,10);
+$pdf-> Image('dist\img\naac-logo.jpg',173,11,30,10);
 $pdf->MultiCell(200,18,'',1,'C',False);
 $pdf->SetXY(4,10);
 $pdf->MultiCell(200,9,'Guru Kashi University',0,'C',False);
@@ -263,9 +264,9 @@ $pdf->SetFont('Times','b',12);
 $pdf->SetXY(4,17);
 $pdf->MultiCell(200,9,'(Regd. Office : Electrical Control Room)',0,'C',False);
 
-$pdf->SetXY(4,9);
+$pdf->SetXY(4,19);
 $pdf->SetTextColor(255,0,0);
-$pdf->MultiCell(200,9,'QR No.: '.$article_num,0,'R',False);
+$pdf->MultiCell(200,12,'QR No.: '.$article_num,0,'R',False);
 $pdf->SetTextColor(0,0,0);
 $pdf->SetFont('Times','b',12);
 $pdf->SetXY(4,28);
