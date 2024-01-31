@@ -70,6 +70,7 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $MotherName=$row['MotherName'];
     $Course=$row['Course'];
     $Gender=$row['Gender'];
+    $RefNo=$row['RefNo'];
 $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
 if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
@@ -203,7 +204,7 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // }
 
 $pdf->SetXY(25, 50);
-$pdf->MultiCell(45, 10, 'GKU/ADM/2023/'.$value, 0, 'L');
+$pdf->MultiCell(45, 10, $RefNo, 0, 'L');
 // $pdf->SetXY(10, 60);
 $pdf->SetXY(10, 60);
 $pdf->SetTextColor(0, 0, 0);
@@ -296,6 +297,31 @@ $pdf->MultiCell(190, 8, 'Director Admissions',0, 'R');
 // $pdf->SetXY(85, 1);
 $upd="UPDATE offer_latter SET PrintBySecond='$EmployeeID' where id='$value' ";
 mysqli_query($conn,$upd);
+
+// -----------------------------------------------Ref----------------------------------------------
+$CurrentYear=date('Y');
+$getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$CurrentYear'";
+$getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
+{    
+  $RefString=$getReffrenceNumberrow["RefString"];     
+  $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1;     
+}
+$getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$CurrentYear'";
+$getChecksqlRun1=mysqli_query($conn,$getChecksql1);
+if(mysqli_num_rows($getChecksqlRun1)<1)
+{
+   $upd11="INSERT into  offer_latter_track (LatterID,Year)VALUES('$value','$CurrentYear')";
+  mysqli_query($conn,$upd11);
+
+  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$CurrentYear'";
+  mysqli_query($conn,$upd1);
+
+}
+// ---------------------------------------Ref End-------------------------------------
+
+
+
 }
 $pdf->Output();
 ?>
