@@ -7672,7 +7672,7 @@ $sh = "SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc ;";
 $s = mysqli_query($conn, $sh);
 
 if ($sho = mysqli_fetch_array($s)) {
-     $question_count = $sho['question_count'];
+    $question_count = $sho['question_count'];
      
 }
 $ifcodeexist="SELECT * FROM question_allow where SubjectCode='$subCode'";
@@ -8789,7 +8789,7 @@ elseif ($code==139)
       $res=mysqli_query($conn,$sql);
       if ($data=mysqli_fetch_array($res)) 
       {
-         mysqli_query($conn,"INSERT INTO question_bank_deleted (SubjectCode, CollegeID, Unit, Type, Category, Batch, CourseID, Semester, Question, UpdatedBy, lock_status, Exam_Session, DeletedBy, QuestionID) VALUES ('".$data['SubjectCode']."', '".$data['CollegeID']."', '".$data['Unit']."', '".$data['Type']."', '".$data['Category']."', '".$data['Batch']."', '".$data['CourseID']."', '".$data['Semester']."', '".$data['Question']."', '".$data['UpdatedBy']."', '".$data['lock_status']."', '".$data['Exam_Session']."', '$EmployeeID', '".$data['id']."')");
+         mysqli_query($conn,"INSERT INTO question_bank_deleted (SubjectCode, CollegeID, Unit, Type, Category, Batch, CourseID, Semester, Question, UpdatedBy, lock_status, Exam_Session, DeletedBy, QuestionID) VALUES ('".$data['SubjectCode']."', '".$data['CollegeID']."', '".$data['Unit']."', '".$data['Type']."', '".$data['Category']."', '".$data['Batch']."', '".$data['CourseID']."', '".$data['Semester']."', '".$data['Question']."', '".$data['UpdatedBy']."', '".$data['lock_status']."', '".$data['Exam_Session']."', '$EmployeeID', '$Q_id')");
       $get_image="DELETE  FROM question_bank WHERE id='$Q_id'";
       $get_run=mysqli_query($conn,$get_image);
       }

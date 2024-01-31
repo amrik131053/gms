@@ -77,7 +77,8 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
        }
 
 
-
+$currentMonthString=date('F');
+$currentMonthInt=date('n');
      $code =$_POST['code'];
    if($code==224 ||  $code==168   )
 {
@@ -14782,7 +14783,7 @@ elseif($code==223)
                             <input type="hidden" name="EmployeeId" value='<?=$EmployeeID;?>'>
                             <div class="col-lg-2">
                                 <select placeholder="MM" name="month" class="form-control form-control-sm">
-                                    <option value="" style="display:none;">MM</option>
+                                    <option value="<?=$currentMonthInt;?>"><?=$currentMonthString;?></option>
                                     <option value="1">January</option>
                                     <option value="2">February</option>
                                     <option value="3">March</option>
