@@ -5,7 +5,19 @@ $EmployeeID=$_SESSION['usr'];
 ini_set('max_execution_time', '0');
 
 include 'connection/connection.php';
-
+$staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID FROM Staff Where IDNo='$EmployeeID'";
+$stmt = sqlsrv_query($conntest,$staff);  
+while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+    {
+$Emp_Name=$row_staff['Name'];
+$Emp_Image=$row_staff['Snap'];
+$Emp_Department=$row_staff['Department'];
+ $Emp_Designation=$row_staff['Designation'];
+ $Emp_CollegeID=$row_staff['CollegeID'];
+$DateOfJoining=$row_staff['DateOfJoining'];
+$LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
+$role_id = $row_staff['RoleID'];
+    }
 if( $role_id=='3' ||  $role_id=='2' )
 {
     
