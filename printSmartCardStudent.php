@@ -5,12 +5,7 @@ $EmployeeID=$_SESSION['usr'];
 ini_set('max_execution_time', '0');
 
 include 'connection/connection.php';
-$result = mysqli_query($conn,"SELECT role_id FROM user  where emp_id=$EmployeeID");
-if($row=mysqli_fetch_array($result)) 
-{
-   
-      $role_id = $row['role_id'];
-}
+
 if( $role_id=='3' ||  $role_id=='2' )
 {
     
