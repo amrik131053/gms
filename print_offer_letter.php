@@ -77,7 +77,14 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
-       
+     $Batch=$row['Batch'];
+     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+     $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+         if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
+     {    
+                 $RefString=$getReffrenceNumberrow["RefString1"];     
+                 $RefNo=$getReffrenceNumberrow["RefNumber"]+1;     
+     }
        if($PrintDatew!='')
 
       {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
@@ -181,7 +188,7 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // }
 
 $pdf->SetXY(25, 49);
-$pdf->MultiCell(45, 10, 'GKU/ADMF/2023/'.$value, 0, 'L');
+$pdf->MultiCell(45, 10, $RefString.$Batch.'/'.$RefNo, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);

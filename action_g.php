@@ -21561,6 +21561,10 @@ elseif($code==305)
  EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths) 
  VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
+
+$insert_recordCourses = "INSERT INTO MasterCourses (CollegeName,Course,Batch,SemesterID,Semester) 
+VALUES ('$CollegeName','$Course','$Batch','1','First);";
+sqlsrv_query($conntest, $insert_recordCourses);
 if ($insert_record_run==true) 
 {
 echo "1";

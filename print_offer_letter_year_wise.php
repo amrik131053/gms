@@ -77,7 +77,16 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
-     $RefNo=$row['RefNo'];
+     $Batch=$row['Batch'];
+     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+     $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+         if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
+     {    
+                //  $RefString=$getReffrenceNumberrow["RefString"];     
+                 $RefNo=$getReffrenceNumberrow["RefNumber"]+1;     
+     }
+    $yDeduction=$yearFromUI-1;
+     $yearRef=$Batch+$yDeduction;
        
        if($PrintDatew!='')
 
@@ -182,7 +191,7 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // }
 
 $pdf->SetXY(25, 50);
-$pdf->MultiCell(45, 10, $RefNo, 0, 'L');
+$pdf->MultiCell(45, 10, 'GKU/ADMF/'.$yearRef.'/'.$RefNo, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);
@@ -547,22 +556,23 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 
   // -----------------------------------------------Ref----------------------------------------------
-$CurrentYear=date('Y');
-$getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$CurrentYear'";
+// $CurrentYear=date('Y');
+$getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
 $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
 if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
 {    
-  $RefString=$getReffrenceNumberrow["RefString"];     
+     
   $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1;     
 }
-$getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$CurrentYear'";
+$getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
 $getChecksqlRun1=mysqli_query($conn,$getChecksql1);
 if(mysqli_num_rows($getChecksqlRun1)<1)
 {
-   $upd11="INSERT into  offer_latter_track (LatterID,Year)VALUES('$value','$CurrentYear')";
+  $Ref='GKU/ADMF/'.$yearRef.'/'.$RefNo;
+   $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
   mysqli_query($conn,$upd11);
 
-  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$CurrentYear'";
+  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$Batch'";
   mysqli_query($conn,$upd1);
 
 }
