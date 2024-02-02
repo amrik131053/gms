@@ -84,12 +84,12 @@ if ($row=mysqli_fetch_array($get_student_details_run))
 $getChecksqlRun11=mysqli_query($conn,$getChecksql11);
 if(mysqli_num_rows($getChecksqlRun11)<1)
 {
-     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$year'";
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
                 //  $RefString=$getReffrenceNumberrow["RefString"];     
-                 $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"];         
+                 $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1;         
      }
 }
 else{
@@ -574,7 +574,7 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
   // -----------------------------------------------Ref----------------------------------------------
 // $CurrentYear=date('Y');
-$getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+$getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$year'";
 $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
 if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
 {    
@@ -585,11 +585,11 @@ $getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Y
 $getChecksqlRun1=mysqli_query($conn,$getChecksql1);
 if(mysqli_num_rows($getChecksqlRun1)<1)
 {
-  $Ref='GKU/ADMF/'.$year.'/'.$RefNo;
+  $Ref=$RefNo;
    $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
   mysqli_query($conn,$upd11);
 
-  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$Batch'";
+  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$year'";
   mysqli_query($conn,$upd1);
 
 }
