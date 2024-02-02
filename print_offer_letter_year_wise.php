@@ -551,8 +551,8 @@ $pdf->MultiCell(190, 8, 'Talwandi Sabo',0, 'R');
 
 // $pdf->AddPage('P', 'A4');
 // $pdf->SetXY(85, 1);
-  $upd="UPDATE offer_latter SET PrintByYearWise$yearFromUI='$EmployeeID',YearWise$yearFromUI='$today1' where id='$value' and PrintByYearWise$yearFromUI IS NULL ";
-  $suce=mysqli_query($conn,$upd);
+  // $upd="UPDATE offer_latter SET PrintByYearWise$yearFromUI='$EmployeeID',YearWise$yearFromUI='$today1' where id='$value' and PrintByYearWise$yearFromUI IS NULL ";
+  // $suce=mysqli_query($conn,$upd);
 
 
   // -----------------------------------------------Ref----------------------------------------------
