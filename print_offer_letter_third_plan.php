@@ -71,12 +71,13 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Course=$row['Course'];
     $Gender=$row['Gender'];
     $Batch=$row['Batch'];
+    $RefNo=$row["RefNo"]; 
     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
     $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
         if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
     {    
                 $RefString=$getReffrenceNumberrow["RefString3"];     
-                $RefNo=$getReffrenceNumberrow["RefNumber"]+1;     
+                     
     }
 $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='$Course'";
 $get_course_name_run=sqlsrv_query($conntest,$get_course_name);

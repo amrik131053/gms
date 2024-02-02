@@ -203,7 +203,7 @@ function by_search_studetn() {
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                          table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td></td><td colspan=""> <select class="form-control" id="type"><option value="1">letter head</option><option value="2">Without letter head</option></select> </td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter 1</button >&nbsp;<button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter 2</button >&nbsp;<button onclick="printletterhead3SelectedRows();" class="btn btn-success " >letter 3</button ></td><td colspan="1"><select class="form-control" id="yearwise"><option value="1">First</option><option value="2">Second</option><option value="3">Three</option><option value="4">Four</option></select></td><td colspan="1"><button onclick="printYearWiseLAtter();" class="btn btn-success " ><i class="fa fa-print"></i></button > </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
+                          table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td></td><td colspan=""> <select class="form-control" id="type"><option value="1">letter head</option><option value="2">Without letter head</option></select> </td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter 1</button >&nbsp;<button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter 2</button >&nbsp;<button onclick="printletterhead3SelectedRows();" class="btn btn-success " >letter 3</button ></td><td colspan="1"><select class="form-control" id="yearwise"><option value="2">Second</option><option value="3">Three</option><option value="4">Four</option></select></td><td colspan="1"><button onclick="printYearWiseLAtter();" class="btn btn-success " ><i class="fa fa-print"></i></button > </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
 
 
 
@@ -428,6 +428,7 @@ function printletterhead3SelectedRows() {
    }
 }
          function printYearWiseLAtter() {
+            var type=document.getElementById('type').value;
    var id_array = document.getElementsByName('selectedRows[]');
    var years=document.getElementById('yearwise').value;
    var len_id = id_array.length;
@@ -438,7 +439,7 @@ function printletterhead3SelectedRows() {
       }
    }
    if (id_array_main.length > 0) {
-      window.open('print_offer_letter_year_wise.php?id_array='+id_array_main+'&years='+years);
+      window.open('print_offer_letter_year_wise.php?id_array='+id_array_main+'&years='+years+'&type='+type);
    } else {
       ErrorToast('All Input Required', 'bg-warning');
    }

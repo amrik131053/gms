@@ -78,12 +78,13 @@ if ($row=mysqli_fetch_array($get_student_details_run))
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
      $Batch=$row['Batch'];
+     $RefNo=$row["RefNo"]; 
      $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
                  $RefString=$getReffrenceNumberrow["RefString1"];     
-                 $RefNo=$getReffrenceNumberrow["RefNumber"]+1;     
+                      
      }
        if($PrintDatew!='')
 

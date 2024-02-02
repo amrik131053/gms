@@ -31,6 +31,7 @@ $pdf->AliasNbPages(); // Enable page numbering
  $sel=array();
    $sel=$_GET['id_array'];
    $yearFromUI=$_GET['years'];
+   $typeFromUII=$_GET['type'];
    $course_table[]=5;
     $id=explode(",",$sel);
     $applicables="";
@@ -78,16 +79,27 @@ if ($row=mysqli_fetch_array($get_student_details_run))
      $PrintDate=$row['PrintDate'];
      $PrintDatew=$row['PrintDate'];
      $Batch=$row['Batch'];
+
+     $getChecksql11 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
+$getChecksqlRun11=mysqli_query($conn,$getChecksql11);
+if(mysqli_num_rows($getChecksqlRun11)<1)
+{
      $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
                 //  $RefString=$getReffrenceNumberrow["RefString"];     
-                 $RefNo=$getReffrenceNumberrow["RefNumber"]+1;     
+                 $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"];         
      }
-    $yDeduction=$yearFromUI-1;
-     $yearRef=$Batch+$yDeduction;
-       
+}
+else{
+ if($re=mysqli_fetch_array($getChecksqlRun11))
+ {
+  $RefNo=$re['RefNo'];
+ }
+
+}
+
        if($PrintDatew!='')
 
       {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
@@ -178,7 +190,12 @@ $ms="Ms.";    // code...
    // code...
 
 }
-$pdf->Image('offer_letter.jpeg', 0, 0, 210);
+if($typeFromUII==1)
+{
+}
+else{
+  $pdf->Image('offer_letter.jpeg', 0, 0, 210);
+}
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 50);
 if($PrintDate!='')
@@ -191,7 +208,7 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // }
 
 $pdf->SetXY(25, 50);
-$pdf->MultiCell(45, 10, 'GKU/ADMF/'.$yearRef.'/'.$RefNo, 0, 'L');
+$pdf->MultiCell(45, 10, $RefNo, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);
@@ -568,7 +585,7 @@ $getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Y
 $getChecksqlRun1=mysqli_query($conn,$getChecksql1);
 if(mysqli_num_rows($getChecksqlRun1)<1)
 {
-  $Ref='GKU/ADMF/'.$yearRef.'/'.$RefNo;
+  $Ref='GKU/ADMF/'.$year.'/'.$RefNo;
    $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
   mysqli_query($conn,$upd11);
 
