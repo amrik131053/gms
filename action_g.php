@@ -4214,7 +4214,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
                                                         <?php 
 }?>
-
+</select>
                                                 </td>
                                                 <td>
                                                     <select class="form-control" id="RightsLevel">
@@ -4234,7 +4234,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
                                                         <?php 
 }?>
-
+</select>
                                                 </td>
                                                 <td><button type="button" class="btn btn-danger"
                                                         onclick="deleteRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
@@ -4285,7 +4285,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                 </td>
                                                 <td>
                                                     <select class="form-control" id="RightsLevel">
-                                                        <option value="">Select</option>
+                                                        <option value="2">Select</option>
                                                         <?php 
 $getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
@@ -11223,6 +11223,7 @@ $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
 $countPerms=0;
 while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
 {
+    echo "hhh".$getUserMasterRunRow['RightsLevel'];
 ?>
         <tr>
             <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
@@ -11246,7 +11247,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
                     <?php 
 }?>
-
+</select>
             </td>
             <td>
                 <select class="form-control" id="RightsLevel">
@@ -11266,7 +11267,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
                     <?php 
 }?>
-
+</select>
             </td>
             <td><button class="btn btn-danger"
                     onclick="deleteRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
