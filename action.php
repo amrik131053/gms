@@ -7663,6 +7663,7 @@ $question_count = 0;
 
 $showQuestionQry = "SELECT * FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId'  and SubjectCode='$subCode' and CollegeID='$CollegeID' and Unit='$unit' and Semester='$sem' ORDER BY Id desc ;";
 $showQuestionRun = mysqli_query($conn, $showQuestionQry);
+$totalQuestionUploaded = mysqli_num_rows($showQuestionRun);
 
 while ($showQuestionData = mysqli_fetch_array($showQuestionRun)) {
     $count++;
@@ -7675,15 +7676,17 @@ if ($sho = mysqli_fetch_array($s)) {
     $question_count = $sho['question_count'];
      
 }
+$looptotalQuestionUploaded=$question_count-$totalQuestionUploaded;
 $ifcodeexist="SELECT * FROM question_allow where SubjectCode='$subCode'";
 $ifcodeexist_run=mysqli_query($conn,$ifcodeexist);
 if(mysqli_num_rows($ifcodeexist_run)>0)
 {
-   if ($count<$question_count) {
+   if ($totalQuestionUploaded<=$question_count) {
       ?>
-        <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
+        <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$looptotalQuestionUploaded; ?>">
         <?php
-        for ($i = 1; $i <= $question_count; $i++) {
+        for ($i = 1; $i < $looptotalQuestionUploaded; $i++) {
+
             if ($type == 1) {
                 ?>
                 <div class="row">
@@ -7729,11 +7732,11 @@ if(mysqli_num_rows($ifcodeexist_run)>0)
        }
 }
 else{
-   if ($count<$question_count) {
+   if ($totalQuestionUploaded<$question_count) {
      ?>
-       <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$question_count; ?>">
+       <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$looptotalQuestionUploaded; ?>">
        <?php
-       for ($i = 1; $i <= $question_count; $i++) {
+       for ($i = 1; $i <= $looptotalQuestionUploaded; $i++) {
            if ($type == 1) {
                ?>
                <div class="row">
@@ -19033,10 +19036,11 @@ $s = mysqli_query($conn, $sh);
 if ($sho = mysqli_fetch_array($s)) {
    $question_count = $sho['question_count'];
 }
+$loopquestion_count=$question_count-$count;
 if ($count<$question_count) 
 {
 if ($type == 1) {
-    for ($i = 1; $i <= $question_count; $i++) {
+    for ($i = 1; $i <= $loopquestion_count; $i++) {
          $question = str_replace("'", " ",$_POST['Question' . $i]);
         $optionA = str_replace("'", " ",$_POST['QuestionA' . $i]);
         $optionB = str_replace("'", " ",$_POST['QuestionB' . $i]);
@@ -19089,7 +19093,7 @@ if ($type == 1) {
 } 
 
 else {
-    for ($i = 1; $i <= $question_count; $i++) {
+    for ($i = 1; $i <= $loopquestion_count; $i++) {
         $question = str_replace("'", " ",$_POST['Question' . $i]);
         $optionA = "";
         $optionB = "";
