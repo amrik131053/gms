@@ -4322,18 +4322,19 @@ foreach ($Subjects as $key => $SubjectsCode) {
                                      $Eligibility="Provisional Eligible";
                                      $clr="blue";
                                  }
-                                 else{
+                                 else
+                                 {
                                      $Eligibility="Not Eligible";
                                      $clr="yellow";
                                      
                                  }
 
 
-                                 
+ $trColor="#FFFFFF";                                
 if($RegistrationStatus==-1)
 {
   $Status="Pending";
-  $trColor="";
+  $trColor="#FFFFFF";
 
 }
  if($RegistrationStatus==22)
@@ -4356,6 +4357,7 @@ elseif($RegistrationStatus==1)
 elseif($RegistrationStatus==2)
 {
   $Status="Rejected By Department";
+   $trColor="#ffffff";
 }
  elseif($RegistrationStatus==3)
 {
