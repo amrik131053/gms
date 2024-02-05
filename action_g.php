@@ -21568,7 +21568,7 @@ elseif($code==305)
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 
 $insert_recordCourses = "INSERT INTO MasterCourses (CollegeName,Course,Batch,SemesterID,Semester) 
-VALUES ('$CollegeName','$Course','$Batch','1','First);";
+VALUES ('$CollegeName','$Course','$Batch','1','First');";
 sqlsrv_query($conntest, $insert_recordCourses);
 if ($insert_record_run==true) 
 {
