@@ -2,7 +2,7 @@
     $color='black';
 $printmark='';
      $msttotal='';
-     $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
+     $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe."/".$grace;
      if(is_numeric($mst1))
                                  {
                                 $mst1=$mst1;
@@ -22,9 +22,10 @@ if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
 if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
 if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
 if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
+if(is_numeric($grace)){$fgrace=$grace;}else{$fgrace=0;}
 
 
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;
+   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
 
 
    $grade='';

@@ -11,7 +11,7 @@ $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&
 $conn91 = sqlsrv_connect( $serverName1,$connectionInfo1);
 
 
-$s="select  UserId,LogDate,AttDirection,DeviceId from DeviceLogs_1_2024 where LogDate between '2024-01-26 01:00:00.000' ANd '2024-01-31 23:59:00.000' ";
+$s="select  UserId,LogDate,AttDirection,DeviceId from DeviceLogs_1_2024 where LogDate between '2024-01-19 01:00:00.000' ANd '2024-01-22 23:59:00.000' ";
 
 $ss=sqlsrv_query($conn91,$s);
 while($r=sqlsrv_fetch_array($ss,SQLSRV_FETCH_ASSOC))

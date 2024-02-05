@@ -23218,11 +23218,8 @@ if($_POST['Examination']!='')
     $Examination=$CurrentExamination;
 
 }
- $getActiveTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID 
- 
-  WHERE 
- 
-  ExamForm.Status='-1'"; 
+//Registration pending
+ $getActiveTotal="SELECT Distinct IDNo FROM  ExamForm   WHERE   ExamForm.Status='-1'"; 
    if($Type!='')
    {
        $getActiveTotal.="and  ExamForm.Type='$Type' ";
@@ -23239,12 +23236,13 @@ if($_POST['Examination']!='')
    {
        $getActiveTotal.="and  ExamForm.Examination='$Examination' ";
    }
-// ECHO $getActiveTotal;
+ ECHO $getActiveTotal;
   
 $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $Registration=sqlsrv_num_rows($getActiveTotal_run);
 
-$getRegReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+//Registration reject
+$getRegReject="SELECT Distinct IDNo FROM  ExamForm WHERE 
  ExamForm.Status='22'";
  
  if($Type!='')
@@ -23263,9 +23261,13 @@ $getRegReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm O
  {
      $getRegReject.="and  ExamForm.Examination='$Examination' ";
  }
+
+
 $getRegReject_run=sqlsrv_query($conntest,$getRegReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $RegistrationReject=sqlsrv_num_rows($getRegReject_run);
-$getRegForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ //Registration verified
+
+$getRegForward="SELECT Distinct IDNo FROM  ExamForm  WHERE 
  ExamForm.Status>='0' and ExamForm.Status!='22'";
   if($Type!='')
   {
@@ -23288,7 +23290,9 @@ $getRegForward_run=sqlsrv_query($conntest,$getRegForward,array(), array( "Scroll
 $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
 
 
- $getdpPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ //Department Pending
+
+ $getdpPending="SELECT Distinct IDNo FROM  ExamForm  WHERE 
   (ExamForm.Status='0' or ExamForm.Status='1') ";
   if($Type!='')
   {
@@ -23311,7 +23315,9 @@ $getdpPending_run=sqlsrv_query($conntest,$getdpPending,array(), array( "Scrollab
 $Department=sqlsrv_num_rows($getdpPending_run);
 
 
-$getDpReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+ //Department reject
+
+$getDpReject="SELECT Distinct IDNo FROM  ExamForm WHERE 
  (ExamForm.Status='2' or ExamForm.Status='3')  ";
   if($Type!='')
   {
@@ -23332,9 +23338,10 @@ $getDpReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON
 $getDpReject_run=sqlsrv_query($conntest,$getDpReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $DepartmentReject=sqlsrv_num_rows($getDpReject_run);
 
+ //Department verified 
 
-$getDpForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
- ExamForm.Status='4' ";
+$getDpForward="SELECT Distinct IDNo FROM  ExamForm WHERE 
+ ExamForm.Status>='4' ";
    if($Type!='')
    {
        $getDpForward.="and  ExamForm.Type='$Type' ";
@@ -23355,7 +23362,9 @@ $getDpForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm O
 $getDpForward_run=sqlsrv_query($conntest,$getDpForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $DepartmentForward=sqlsrv_num_rows($getDpForward_run);
 
-$getACPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+// Account Pending
+
+$getACPending="SELECT Distinct IDNo FROM  ExamForm  WHERE 
    ExamForm.Status='4' ";
       if($Type!='')
       {
@@ -23376,8 +23385,9 @@ $getACPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm O
 $getACPending_run=sqlsrv_query($conntest,$getACPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $Account=sqlsrv_num_rows($getACPending_run);
 
+// Account reject
 
-$getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+$getACReject="SELECT Distinct IDNo FROM  ExamForm  WHERE 
  ExamForm.Status='6' ";
        if($Type!='')
        {
@@ -23398,10 +23408,10 @@ $getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON
 $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $AccountReject=sqlsrv_num_rows($getACReject_run);
 
+// Account verified
 
-
-$getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
- ExamForm.Status='5' ";
+$getACForward="SELECT Distinct IDNo FROM  ExamForm  WHERE 
+ ExamForm.Status>='5' ";
     if($Type!='')
     {
         $getACForward.="and  ExamForm.Type='$Type' ";
@@ -23421,8 +23431,9 @@ $getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm O
 $getACForward_run=sqlsrv_query($conntest,$getACForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $AccountForward=sqlsrv_num_rows($getACForward_run);
 
+// Exam pending
 
-$getExamPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+$getExamPending="SELECT Distinct IDNo FROM ExamForm  WHERE 
  ExamForm.Status='5'   ";
     if($Type!='')
     {
@@ -23443,7 +23454,9 @@ $getExamPending="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm
 $getExamPending_run=sqlsrv_query($conntest,$getExamPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $Examination1=sqlsrv_num_rows($getExamPending_run);
 
-$getExamReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+// Exam reject
+
+$getExamReject="SELECT Distinct IDNo FROM  ExamForm  WHERE 
  ExamForm.Status='7'  ";
      if($Type!='')
      {
@@ -23464,8 +23477,9 @@ $getExamReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm 
 $getExamReject_run=sqlsrv_query($conntest,$getExamReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ExaminationReject=sqlsrv_num_rows($getExamReject_run);
 
+// Exam verified
 
-$getExamForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
+$getExamForward="SELECT Distinct IDNo FROM ExamForm  WHERE 
  ExamForm.Status='8'   ";
      if($Type!='')
      {
@@ -23485,30 +23499,6 @@ $getExamForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm
      }
 $getExamForward_run=sqlsrv_query($conntest,$getExamForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ExaminationForward=sqlsrv_num_rows($getExamForward_run);
-
-
-$getleftTotal="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE 
- ExamForm.Status='8'    ";
-     if($Type!='')
-     {
-         $getleftTotal.="and  ExamForm.Type='$Type' ";
-     }
-     if($Batch!='')
-     {
-         $getleftTotal.="and  ExamForm.Batch='$Batch' ";
-     }
-     if($Semester!='')
-     {
-         $getleftTotal.="and  ExamForm.SemesterId='$Semester' ";
-     }
-     if($Examination!='')
-     {
-         $getleftTotal.="and  ExamForm.Examination='$Examination' ";
-     }
-$getleftTotal_run=sqlsrv_query($conntest,$getleftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-$Accepeted=sqlsrv_num_rows($getleftTotal_run);
-
-
 
 
    $count[0]=$Registration;
