@@ -3700,15 +3700,13 @@ else if($code=='43')
 {
 
 
-  $allow=0;
-
+ $allow=0;
  $ucourse = $_GET['course'];
  $college = $_GET['college'];
-$batch=$_GET['batch']; 
-  $sem = $_GET['sem'];
-  $subject = $_GET['subject'];
-  
-  $ecat = $_GET['DistributionTheory'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $subject = $_GET['subject'];
+ $ecat = $_GET['DistributionTheory'];
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -3766,14 +3764,11 @@ $batch=$_GET['batch'];
 
  $CourseID = $_GET['course'];
  $CollegeID = $_GET['college'];
-$Batch=$_GET['batch']; 
-  $semID = $_GET['sem'];
-  $subjectcode = $_GET['subject'];
-  
-  $DistributionTheory = $_GET['DistributionTheory'];
-
-  $exam = $_GET['examination'];
-
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
 
  $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);

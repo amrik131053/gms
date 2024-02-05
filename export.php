@@ -6142,7 +6142,7 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                    
+                                     $grace= $row_exam['Grace'];
 
 
 include'grade_calculator.php';
@@ -6205,7 +6205,7 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     
+                                      $grace= $row_exam['Grace'];
 
 include'grade_calculator.php';
 
@@ -6584,7 +6584,7 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                   
+                                     $grace= $row_exam['Grace'];
 
  include 'grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
@@ -6646,7 +6646,7 @@ $exportstudy.="<td style='text-align:center'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                    
+                                     $grace= $row_exam['Grace'];
 
                                      include 'grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
@@ -6919,10 +6919,7 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
 $subCount=(count($Subjects)*5)+7;
 $subCount1=count($Subjects);
-$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-        <thead>  
-        <tr>
-       ";
+$exportstudy="<table class='table' border='1'>     <thead>         <tr>       ";
 include 'resultcopyheader.php';
 
 $exportstudy.="
@@ -7023,6 +7020,7 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
+                                      $grace= $row_exam['Grace'];
         include 'grade_calculator.php';                              
 
 $exportstudy.="<td style='text-align:center;'>{$showmarks} </td>";
@@ -7081,7 +7079,7 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                     
+                                      $grace= $row_exam['Grace'];
                                      include'grade_calculator.php';
 
 $exportstudy.="<td style='text-align:center;'>{$showmarks} </td>";
@@ -7440,7 +7438,7 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                   
+                                     $grace= $row_exam['Grace'];
 
 
 include'grade_calculator.php';
@@ -7503,7 +7501,7 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                    
+                                      $grace= $row_exam['Grace'];
 
 include'grade_calculator.php';
 
@@ -7782,10 +7780,9 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 $subCount=count($Subjects)+4;
 $subCount1=count($Subjects);
 
-$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+$exportstudy="<table class='table' border='1'>
         <thead>  
-        <tr>
-       ";
+        <tr> ";
 include'resultcopyheader.php';
 
 
@@ -7850,6 +7847,8 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
+                                     $grace= $row_exam['Grace'];
+                                    
                                    
 
  include 'grade_calculator.php';
@@ -7887,7 +7886,7 @@ $exportstudy.="<td style='text-align:center'>NA</td>";
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                    
+                                     $grace= $row_exam['Grace'];
 
                                      include 'grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";

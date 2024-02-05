@@ -128,15 +128,14 @@ for($i=1;$i<=12;$i++)
                 <option value="CE1">CA-1 & CA-2</option>
                 <option value="MST1">MST-1 </option>
                  <!-- <option value="CE2">CE-2</option> -->
-               <option value="MST2">MST-2</option> 
+                <option value="MST2">MST-2</option> 
                 <option value="CE3">CA-3</option>
-                 <option value="ESE">End Semester Exam</option>
-                    <option value="Attendance">Attendance</option>
-
-                
-              </select>
+                <option value="ESE">End Semester Exam</option>
+                <option value="Attendance">Attendance</option>
+                <option value="Grace">Grace</option>
+                          </select>
             </div>
- </div>
+            </div>
 
 
 

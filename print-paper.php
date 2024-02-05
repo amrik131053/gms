@@ -111,7 +111,7 @@ echo  $examName ." (".$sessionnane.")" ;
                  
                   <tr>
                     <th valign="bottom" colspan="2" align="left">
-                      Course/Discipline: <?=$courseName?> 
+                      Program: <?=$courseName?> 
                     </th>
                     
                     <th valign="bottom" align="right">
@@ -173,7 +173,7 @@ echo  $examName ." (".$sessionnane.")" ;
                         <?php
                         $qType=''; 
                         $partCount=0;
-                        $questionCount=1;
+                        $questionCount=0;
                         $mcqCount='a';
                         
                         $qry="Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question from question_paper_details inner join question_bank on question_bank.Id=question_paper_details.question_id inner join question_type on question_type.id=question_bank.Type inner join question_category on question_category.id=question_bank.Category inner join question_bank_details on question_bank.id=question_bank_details.question_id   where question_paper_id='$id' ORDER BY  Type  asc, Category asc";
@@ -190,10 +190,9 @@ echo  $examName ." (".$sessionnane.")" ;
                             $img.= "<div><img src='http://gurukashiuniversity.co.in/data-server/question_images/{$imageData['image']}' height='200px'  ></div>";
                            
                           }
-                          if ($row['Type']!=1) 
-                          {
+                         
                             $questionCount++;
-                          }
+                         
                           
 
                           if ($qType!=$row['Type']) 
@@ -243,7 +242,7 @@ echo  $examName ." (".$sessionnane.")" ;
                                 <?php
                                  if ($row['Type']==1) 
                                   {
-                                    echo "({$mcqCount})";
+                                    //echo "({$mcqCount})";
 
                                   }
                                   ?>
@@ -284,18 +283,21 @@ echo  $examName ." (".$sessionnane.")" ;
 
 
                                  
-                                  <!-- <td><?=$row['Unit']?></td> -->
-                                <?=$row['category_name']?>(<?=$row['Unit']?>)
+                                  <!-- <td><?=$row['Unit']?></td> 
+                                <?=$row['category_name']?>(<?=$row['Unit']?>)-->
                             
                              </th>
                             </tr>
                             
                           <?php
                           $qType=$row['Type'];
+
                           if ($row['Type']==1) 
                           {
                             $mcqCount++;
                           }
+                           $mcqCount++;
+                            
                         }
                         ?>
                         
