@@ -684,6 +684,62 @@ var len_student= verifiy.length;
 
    }
 }
+function deleteCollegeCoursePermissionsAccount(id)
+{
+  
+   var a=confirm('Are you sure you want to delete');
+   if (a==true) {
+  var verifiy=document.getElementsByClassName('v_checkAccount');
+var len_student= verifiy.length; 
+
+  var code=365; //188
+  var subjectIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+       }
+     
+
+
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    alert('Select atleast one ');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{subjectIDs:subjectIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+               searchForDeleteAccount(id);
+                SuccessToast('Successfully Deleted');
+               
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
+   }
+   else
+   {
+
+   }
+}
 function selectForDelete()
 {
         if(document.getElementById("select_all1").checked)
@@ -718,6 +774,40 @@ function selectForDelete()
     });
  
 }
+function selectForDeleteAccount()
+{
+        if(document.getElementById("select_all1Account").checked)
+        {
+            $('.v_checkAccount').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_checkAccount').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_checkAccount').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_checkAccount:checked").length;
+        var b=document.getElementsByClassName("v_checkAccount").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1Account').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1Account').prop('checked',false);
+        }
+    });
+ 
+}
 
 function searchForDelete(id) {
 var College = document.getElementById('CollegeForsearch').value;
@@ -732,6 +822,24 @@ $.ajax({
     success: function(data) {
       // console.log(data);
       document.getElementById('TableAssignedPermissions').innerHTML=data;
+    }
+});
+
+}
+function searchForDeleteAccount(id) {
+var College = document.getElementById('CollegeIDAccount').value;
+var ApplicationType = document.getElementById('ApplicationTypeAccount').value;
+var code = '363'; //190
+$.ajax({
+    url: 'action_g.php',
+    data: {
+        College: College,empid:id,ApplicationType:ApplicationType,
+        code: code
+    },
+    type: 'POST',
+    success: function(data) {
+      // console.log(data);
+      document.getElementById('TableAssignedPermissionsAccount').innerHTML=data;
     }
 });
 
@@ -860,6 +968,40 @@ function addCollegePermissions(empid)
          }
       });
    }
+function addCollegePermissionsAccount(empid) 
+{
+   var CollegeID = document.getElementById("CollegeIDAccount").value;
+   var ApplicationType = document.getElementById("ApplicationTypeAccount").value;
+   // var Course = document.getElementById("Course").value;
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+      var code = 362; // 191
+      $.ajax({
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,empid:empid,CollegeID:CollegeID,ApplicationType:ApplicationType
+         },
+         success: function(response) 
+         {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               // erp_role_drop();
+               SuccessToast('Successfully  Added');
+               update_emp_record(empid);
+               
+            
+            }
+            else
+            {
+               
+            }
+         }
+      });
+   }
    function addCollegePermissionsAccordingToCollegeAdd(empid) 
 {
    var CollegeID = document.getElementById("College3").value;
@@ -904,6 +1046,42 @@ function deleteCollegeCourse(ID,empid)
              
                SuccessToast('Successfully Deleted');
                searchForDelete(empid);
+            }
+            else
+            {
+               ErrorToast('try','bg-danger' );
+            }
+         }
+      });
+   }
+   else
+   {
+
+   }
+}
+function deleteCollegeCourseAccount(ID,empid) 
+{
+   var a=confirm('Are you sure you want to delete');
+  
+   if (a==true) {
+   var spinner = document.getElementById("ajax-loader");
+   spinner.style.display = 'block';
+      var code = 364; ///189
+      $.ajax({ 
+         url: 'action_g.php',
+         type: 'POST',
+         data: 
+         {
+            code: code,ID:ID,empid:empid
+         },
+         success: function(response) 
+         {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+               SuccessToast('Successfully Deleted');
+               searchForDeleteAccount(empid);
             }
             else
             {
@@ -1481,7 +1659,7 @@ function printfourthCard(id) {
 
 function showErpRole(id) {
 var ApplicationType = document.getElementById('ApplicationType').value;
-alert(id);
+// alert(id);
 var code = '277';
 $.ajax({
     url: 'action_g.php',

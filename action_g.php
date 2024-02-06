@@ -3582,8 +3582,12 @@ else { ?>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#permissions"
                                     data-toggle="tab">Permissions</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#assignCollegeAccountPermssions"
+                                    data-toggle="tab">Windows Permissions</a></li>
                             <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
                                     data-toggle="tab">Assign College Course</a></li>
+
+                          
                             <?php 
                                     }?>
                         </ul>
@@ -4608,6 +4612,123 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
                             </div>
 
 
+                            <div class="tab-pane" id="assignCollegeAccountPermssions">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <table class="table  table-bordered">
+                                            <tr>
+
+                                                <th>College</th>
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>Add</th>
+                                                <th>Search</th>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <select id='CollegeIDAccount' onchange="collegeByDepartment(this.value);"
+                                                        class="form-control" required>
+                                                        <option value=''>Select Faculty</option>
+                                                        <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                                        <?php }
+                        ?>
+                                                    </select>
+                                                </td>
+                                                <td> Windows</td>
+                                                <td>
+                                                <select id="ApplicationTypeAccount" class="form-control" required>
+                                                    <option value='Accounts'>Account</option>
+                                                    <option value='Library'>Library</option>
+                                                </select>
+                                                </td>
+                                                <td><button type="button" class="btn btn-success"
+                                                        onclick="addCollegePermissionsAccount(<?=$emp_id;?>);"><i
+                                                            class="fa fa-plus text-white fa-1x"></i></button></td>
+                                                <td>  <button type="button" class="btn btn-success"
+                                                    onclick="searchForDeleteAccount(<?=$emp_id;?>);">Search</button></td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                  
+                                       
+                                        <div class="col-lg-12">
+                                        <div class="row">
+                                           
+                                        <div class='table-responsive' style="height:500px;"
+                                            id="TableAssignedPermissionsAccount">
+                                            <table class="table  table-bordered">
+                                                <tr>
+
+                                                    <th> <input type="checkbox" id="select_all1Account"
+                                                            onclick="selectForDeleteAccount();" class="checkbox"></th>
+                                                    <th>ID</th>
+                                                    <th>College</th>
+                                                    <th>Application</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                                <?php 
+$getUserMaster="SELECT * FROM UserMaster where UserName='$emp_id'  and ApplicationType='Windows' ";
+$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+$countPerms=0;
+while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+{
+
+    ?>
+                                                <tr>
+
+                                                    <td><input type="checkbox" class="checkbox v_checkAccount"
+                                                            value="<?=$getUserMasterRunRow['UserMasterID'];?>">
+                                                    </td>
+                                                    </td>
+
+                                                    <td>
+                                                        <?=$getUserMasterRunRow['UserMasterID'];?>
+                                                    </td>
+                                                    <td>
+                                                        <?=$getUserMasterRunRow['CollegeName'];?>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <?=$getUserMasterRunRow['ApplicationName'];?>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger btn-xs"
+                                                            onclick="deleteCollegeCourseAccount('<?=$getUserMasterRunRow['UserMasterID'];?>','<?=$getUserMasterRunRow['UserName'];?>');"><i
+                                                                class="fa fa-trash text-white"></i></button></td>
+                                                </tr>
+                                                <?php
+}
+?>
+                                                <tr>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-xs" onclick="deleteCollegeCoursePermissionsAccount(<?=$emp_id;?>);"><i
+                                                                class="fa fa-trash "></i></button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <?php 
+
+    ?>
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+                            </div>
 
 
 
@@ -25931,6 +26052,160 @@ elseif($code==361)
     echo json_encode($value);
 
 }
+
+
+elseif($code==362)
+{
+
+    $empid=$_POST['empid'];
+  $College_ID=$_POST['CollegeID'];
+  $ApplicationType=$_POST['ApplicationType'];
+  $LoginType = 'Staff';
+  $RightsLevel = 'Windows';
+  $getCollegeCourse1="SELECT DISTINCT CollegeID,CollegeName From MasterCourseCodes Where CollegeID='$College_ID'  and Status='1'";
+  $getCollegeCourseRun1=sqlsrv_query($conntest,$getCollegeCourse1);
+  if($row1=sqlsrv_fetch_array($getCollegeCourseRun1))
+  {
+    $CollegeName=$row1['CollegeName'];
+  }
+  if($College_ID!='')
+  {
+       $verified_study="SELECT *  From UserMaster  WHERE CollegeName='$CollegeName'  and UserName='$empid'";
+    $verified_study_run=sqlsrv_query($conntest,$verified_study);
+     $stmt4=sqlsrv_query($conntest,$verified_study,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));  
+      $ifexist=sqlsrv_num_rows($stmt4);
+if ($ifexist>0) 
+{
+          $verified_study1="DELETE From UserMaster  WHERE CollegeName='$CollegeName' and UserName='$empid'";
+        sqlsrv_query($conntest,$verified_study1);  
+     $insert_record="INSERT into UserMaster(UserName,Password,LoginType,ApplicationType,ApplicationName,CollegeName)values('$empid','$empid','$LoginType','$RightsLevel','$ApplicationType','$CollegeName');";
+   $insert_record_run = sqlsrv_query($conntest, $insert_record);
+   if($insert_record_run==true)
+   {
+       echo "1";
+   }
+   else{
+    echo "0";
+   }
+ 
+}
+  else
+  {
+     $insert_record="INSERT into UserMaster(UserName,Password,LoginType,ApplicationType,ApplicationName,CollegeName)values('$empid','$empid','$LoginType','$RightsLevel','$ApplicationType','$CollegeName');";
+    $insert_record_run = sqlsrv_query($conntest, $insert_record);
+    if($insert_record_run==true)
+    {
+    echo "1";
+    }
+    else
+    {
+     echo "0";
+    }
+
+    }
+    
+  }
+  }
+  elseif($code==363)
+{
+$CollegeID=$_POST['College'];
+$getCollegeCourse1="SELECT DISTINCT CollegeID,CollegeName From MasterCourseCodes Where CollegeID='$CollegeID'  and Status='1'";
+$getCollegeCourseRun1=sqlsrv_query($conntest,$getCollegeCourse1);
+if($row1=sqlsrv_fetch_array($getCollegeCourseRun1))
+{
+  $CollegeName=$row1['CollegeName'];
+}
+$ApplicationType=$_POST['ApplicationType'];
+$id=$_POST['empid'];
+    ?>
+        <table class="table  table-bordered">
+            <tr>
+                <th> <input type="checkbox" id="select_all1Account" onclick="selectForDeleteAccount();" class="checkbox"></th>
+                <th>ID</th>
+                <th>College</th>
+                <th>Application</th>
+                <th>Delete</th>
+            </tr>
+            <?php 
+       if($CollegeID!='')
+       {
+ $getUserMaster="SELECT * FROM UserMaster where CollegeName='$CollegeName' and ApplicationName='$ApplicationType' and UserName='$id'  ";
+} 
+else
+{
+            $getUserMaster="SELECT * FROM UserMaster where  ApplicationName='$ApplicationType' and  UserName='$id'  ";
+
+       }
+$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+$countPerms=0;
+while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+            <tr>
+
+                <td><input type="checkbox" class="checkbox v_checkAccount" value="<?=$getUserMasterRunRow['UserMasterID'];?>">
+                </td>
+                </td>
+
+                <td>
+                    <?=$getUserMasterRunRow['UserMasterID'];?>
+                </td>
+                <td>
+
+                    <?=$getUserMasterRunRow['CollegeName'];?>
+                </td>
+                <td>
+                    <?=$getUserMasterRunRow['ApplicationName'];?>
+                </td>
+                <td><button type="button" class="btn btn-danger btn-xs"
+                        onclick="deleteCollegeCourseAccount('<?=$getUserMasterRunRow['UserMasterID'];?>','<?=$getUserMasterRunRow['UserName'];?>');"><i
+                            class="fa fa-trash text-white"></i></button></td>
+            </tr>
+            <?php
+}
+?>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger btn-xs" onclick="deleteCollegeCoursePermissionsAccount(<?=$id;?>);"><i class="fa fa-trash "></i></button>
+                </td>
+            </tr>
+        </table>
+        <?php 
+} 
+elseif($code==364)
+{
+  $id=$_POST['ID'];
+  $empid=$_POST['empid'];
+        $verified_study="DELETE From UserMaster  WHERE UserMasterID='$id' and UserName='$empid'";
+        $verified_study_run=sqlsrv_query($conntest,$verified_study);  
+  if ($verified_study_run==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
+} 
+elseif($code==365)
+{
+  $ids=$_POST['subjectIDs'];
+
+//  print_r($ids);
+  foreach($ids as $key => $id)
+  { 
+       $verified_study="DELETE From UserMaster  WHERE UserMasterID='$id'";
+        $verified_study_run=sqlsrv_query($conntest,$verified_study);  
+  }
+  if ($verified_study_run==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
+} 
    else
    {
    
