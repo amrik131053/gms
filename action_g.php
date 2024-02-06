@@ -4333,18 +4333,24 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                 <th>Update</th>
                                             </tr>
                                             <?php 
-$getUser="SELECT * FROM user inner join role_name on user.role_id=role_name.id  Where emp_id='$emp_id' ";
+                                            $getUserRole="SELECT * FROM Staff   Where IDNo='$emp_id' ";
+                                            $getUserRungetUserRole=sqlsrv_query($conntest,$getUserRole);
+if($getUserRunRowgetUserRungetUserRole=sqlsrv_fetch_array($getUserRungetUserRole))
+{
+$RolleID=$getUserRunRowgetUserRungetUserRole['RoleID'];
+}
+$getUser="SELECT * FROM role_name where  id='$RolleID' ";
 $getUserRun=mysqli_query($conn,$getUser);
 $countPerms=0;
 while($getUserRunRow=mysqli_fetch_array($getUserRun))
 {
 ?>
                                             <tr>
-                                                <td><?=$getUserRunRow['emp_id'];?></td>
+                                                <td><?=$emp_id;?></td>
 
                                                 <td>
                                                     <select class="form-control" id="LoginType_lms">
-                                                        <option value="<?=$getUserRunRow['role_id'];?>">
+                                                        <option value="<?=$getUserRunRow['id'];?>">
                                                             <?=$getUserRunRow['role_name'];?></option>
 
                                                         <?php 
@@ -5560,14 +5566,17 @@ $QrCourse=$Course.'('.$Stream.')';
     $checkQuery = "SELECT * FROM `degree_print` WHERE `UniRollNo` = '$UniRollNo'";
     $checkResult = mysqli_query($conn, $checkQuery);
     
-    if (mysqli_num_rows($checkResult) > 0) {
-        ?>
+    if (mysqli_num_rows($checkResult) > 0) 
+    {
+    ?>
     <script type="text/javascript">
     alert(' UniRollNo <?php echo $UniRollNo; ?> already exists in the database');
     window.location.href = 'degree_generate.php';
     </script>
     <?php
-    } else {
+    } 
+    else 
+    {
         $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,`Course1`,`QrCourse`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead','$QrCourse');";
         $insert_run = mysqli_query($conn, $insert);
     
@@ -5578,8 +5587,8 @@ $QrCourse=$Course.'('.$Stream.')';
     window.location.href = 'degree_generate.php';
     </script>
     <?php
-        } else {
-            
+        } else 
+        {
             echo "Error: " . mysqli_error($conn);
         }
     }
@@ -12909,7 +12918,7 @@ elseif($code=='198')
 }
 elseif($code==199)
 {
-
+$LMSRole=0;
 $loginId=$_POST['loginId'];
 $RecommendingAuth=0;
 $SenctionAuth=0;
@@ -12950,25 +12959,27 @@ $category=$_POST['category'];
 $Permanent=$_POST['Permanent'];
 $Correspondance=$_POST['Correspondance'];
 $shift=$_POST['shift'];
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift');";
+
+if($category=='6')
+{
+$LoginType="Staff";
+$RightsLevel="Faculty";
+$LMSRole='11';
+}
+else
+{
+    $LoginType="Staff";
+    $RightsLevel="Staff";
+    $LMSRole='12';
+}
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
     $insert_record1="INSERT into LeaveBalances(Employee_Id,LeaveType_Id,Balance,LastModifiedDate)values('$loginId','1','0','$timeStamp');";
     sqlsrv_query($conntest, $insert_record1);
 
-
-if($category=='6')
-{
-$LoginType="Staff";
-$RightsLevel="Faculty";
-}
-else
-{
-    $LoginType="Staff";
-    $RightsLevel="Staff";
-}
 $insert_record="INSERT into UserMaster(UserName,Password,LoginType,RightsLevel,ApplicationType,ApplicationName,CollegeName)values('$loginId','$loginId','$LoginType','$RightsLevel','Web','Campus','$college');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if($insert_record_run==true)
@@ -13058,8 +13069,8 @@ elseif($code==201)
 {
 $empid = $_POST['empid'];
 $LoginType = $_POST['LoginType'];
- $insert_record = "UPDATE  user SET role_id='$LoginType'  where  emp_id='$empid'";
-$insert_record_run = mysqli_query($conn, $insert_record);
+ $insert_record = "UPDATE  Staff SET RoleID='$LoginType'  where  IDNo='$empid'";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
 echo "1";
@@ -13073,8 +13084,8 @@ echo "0";
 elseif($code==202)
 {
 $empid = $_POST['empid'];
-$insert_record = "UPDATE   user SET role_id='0'  where  emp_id='$empid'";
-$insert_record_run = mysqli_query($conn, $insert_record);
+$insert_record = "UPDATE   Staff SET RoleID='0'  where  IDNo='$empid'";
+$insert_record_run = sqlsrv_query($conntest, $insert_record);
 mysqli_query($conn,"DELETE from special_permission where emp_id='$empid'");
 if ($insert_record_run==true) 
 {
