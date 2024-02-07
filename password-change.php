@@ -187,7 +187,9 @@ input[type=submit]:not(:disabled):hover {
  
     <div class="card-body">
     <div class="form-container">
+      
   <form id="form">
+  <h4 class="text-center">Change Password</h4>
     <div class="input-container">
       <input type="password" id="password" aria-describedby="requirements" required />
       <label for="password">Password</label>
@@ -338,13 +340,25 @@ form.addEventListener("submit", (event) => {
         type: "POST",
         data: {
             code: code,
-            confirmValue: confirmValue
+            confirmValue: confirmValue,value:value
         },
         success: function(response) {
             // console.log(response);
             spinner.style.display = 'none';
             // SuccessToast('Successfully Moved');
-            $('.successPass').show();
+            if(response==1)
+            {
+                $('.successPass').show();
+
+            }
+            else if(response==2)
+            {
+                matchPassword.classList.remove("hidden");
+
+            }
+            else{
+                matchPassword.classList.remove("hidden");
+            }
         }
     });
 });
