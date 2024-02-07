@@ -170,12 +170,13 @@ ini_set('max_execution_time', '0');
 
                             <div class="col-lg-3 col-md-3 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
-                                <button class="btn btn-danger btn-sm " onclick="Search_exam_student1()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
-                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">Detail</button> 
+                                <button class="btn btn-danger btn-sm " onclick="Search_exam_student1()"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 
-                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">Summary</button> 
+                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExcel()">S</button> 
+                                                    &nbsp;&nbsp;<button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">G</button> 
+                                 <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradeca()">D</button> 
 
-                                                    <button class="btn btn-success btn-sm " onclick="exportCutListExcelgrade()">G</button> 
+                                                    
                                                      <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
                                                      <button class="btn btn-success btn-sm " onclick="exportCutListExcelmarks()">M</button> 
 

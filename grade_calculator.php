@@ -1,9 +1,15 @@
-    <?php  
-    $color='black';
+<?php  
+$color='black';
 $printmark='';
-     $msttotal='';
-     $showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe."/".$grace;
-     if(is_numeric($mst1))
+$showgradefail='';
+$msttotal='';
+$showmarks=$CE1."/".$CE3."/".$att."/".$mst1."/".$mst2."/".$ESe;
+if($grace>0)
+{
+   $showmarks=$showmarks."(".$grace.")";
+}
+
+if(is_numeric($mst1))
                                  {
                                 $mst1=$mst1;
 
@@ -23,13 +29,9 @@ if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
 if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
 if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
 if(is_numeric($grace)){$fgrace=$grace;}else{$fgrace=0;}
-
-
-   $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
-
-
-   $grade='';
-   $gardep=0;
+$totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
+$grade='';
+$gardep=0;
 if($ESe=='S')
 {
 $totalFinal=$ESe;
@@ -46,13 +48,11 @@ $color='red';
 }
 else{ 
 if($totalFinal>=90)
-{
-   $grade= "O";
+{   $grade= "O";
    $gardep=10;
 }
 else if($totalFinal>=80 &&$totalFinal<90)
-{
-   $grade="A+";
+{   $grade="A+";
    $gardep=9;
 }
 else if($totalFinal>=70 &&$totalFinal<80)
@@ -84,9 +84,9 @@ else if($totalFinal<40)
 {
    $grade="F";
    $printmark=$totalFinal;
+   $showgradefail='-Fail'.'('.$printmark.')';
     $gardep=0;
       $color='red';
      $nccount++;
 }
-
 } ?>
