@@ -3583,9 +3583,11 @@ else { ?>
                             <li class="nav-item"><a class="nav-link" href="#permissions"
                                     data-toggle="tab">Permissions</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#assignCollegeAccountPermssions"
-                                    data-toggle="tab">Windows Permissions</a></li>
+                                    data-toggle="tab">Windows </a></li>
                             <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
-                                    data-toggle="tab">Assign College Course</a></li>
+                                    data-toggle="tab">Assign College</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#resetPasswords"
+                                    data-toggle="tab">Password Reset</a></li>
 
                           
                             <?php 
@@ -4149,39 +4151,11 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
                                                     <center> ERP PERMISSIONS</center>
                                                 </th>
                                             </tr>
-                                            <tr >
-                                                <td colspan="8">
-                                                <select class="form-control" id="ApplicationType" onchange="showErpRole(<?=$emp_id;?>);">
-                                                        <option value="">Select</option>
-                                                        <?php 
-$getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
-                                                        <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
-                                                            <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
-
-
-                                                        <?php 
-}?>
-                                                </td>
-</tr>
-<tr id="onchnageErpRoleshow">
-                                                
-                                                <td colspan="1"></td>
-                                                <td colspan="1"></td>
-                                                <td colspan="1"></td>
-                                                <td colspan="1"></td>
-                                                <td colspan="1"></td>
-                                                <td colspan="1"></td>
-
-                                                <td colspan="2"></td>
-                                            </tr>
+                                         
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
-                                                <th>Password</th>
+                                                <!-- <th>Password</th> -->
                                                 <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
@@ -4197,8 +4171,9 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
 ?>
                                             <tr>
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
-                                                <td><?=$getUserMasterRunRow['UserName'];?></td>
-                                                <td><?=$getUserMasterRunRow['Password'];?></td>
+                                                <td onclick="copyToClipboard('<?=$getUserMasterRunRow['Password']; ?>')"><?= $getUserMasterRunRow['UserName']; ?></td>
+                                                <!-- <td><?=$getUserMasterRunRow['Password'];?></td> -->
+
                                                 <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>
                                                     <select class="form-control" id="LoginType">
@@ -4459,7 +4434,7 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
 
                             <div class="tab-pane" id="assignCollegeCourseRight">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
 
                                         <table class="table  table-bordered">
                                             <tr>
@@ -4468,7 +4443,8 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                 <th>Department</th>
                                                 <th>Course</th>
 
-                                                <th>Update</th>
+                                                <th>Add</th>
+                                                <th>Search</th>
                                             </tr>
 
                                             <tr>
@@ -4504,44 +4480,19 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                 </td>
                                                 <td><button type="button" class="btn btn-success"
                                                         onclick="addCollegePermissions(<?=$emp_id;?>);"><i
-                                                            class="fa fa-plus text-white fa-1x"></i></button></td>
+                                                            class="fa fa-plus text-white fa-1x"></i></button> </td>
+                                                <td>  <button type="button" class="btn btn-success"
+                                                    onclick="searchForDelete(<?=$emp_id;?>);">Search</button></td>
                                             </tr>
                                         </table>
 
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="row">
-                                            <div class="col-lg-10">
-                                                <select name="College" id='CollegeForsearch' class="form-control">
-                                                    <option value=''>Select Faculty</option>
-                                                    <?php
-                $getUserMaster="SELECT Distinct CollegeID FROM UserAccessLevel where IDNo='$emp_id'   ";
-                $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
-                $countPerms=0;
-                while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
-                {
-                    $getCollegeName="SELECT * FROM MasterCourseCodes where CollegeID='".$getUserMasterRunRow['CollegeID']."'  ";
-                $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
-                $countPerms=0;
-                if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSOC))
-                {
-                        ?>
-                                                    <option value="<?=$getCollegeNameRunRow['CollegeID'];?>">
-                                                        <?=$getCollegeNameRunRow['CollegeName'];?></option>
-                                                    <?php }
-                }
-                        ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <button type="button" class="btn btn-success"
-                                                    onclick="searchForDelete(<?=$emp_id;?>);">Search</button>
-                                            </div>
-
+        
                                         </div>
                                         <br>
-                                        <div class='table-responsive' style="height:500px;"
-                                            id="TableAssignedPermissions">
+                                        <div class='table-responsive' style="height:500px;" id="TableAssignedPermissions">
                                             <table class="table  table-bordered">
                                                 <tr>
 
@@ -4554,17 +4505,17 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                     <th>Delete</th>
                                                 </tr>
                                                 <?php 
-$getUserMaster="SELECT * FROM UserAccessLevel where IDNo='$emp_id'  ";
-$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
-$countPerms=0;
-while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
-{
-    $getCollegeName="SELECT * FROM MasterCourseCodes where CourseID='".$getUserMasterRunRow['CourseID']."'  ";
-$getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
-$countPerms=0;
-if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSOC))
-{
-    ?>
+                                                        $getUserMaster="SELECT * FROM UserAccessLevel where IDNo='$emp_id'  ";
+                                                        $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+                                                        $countPerms=0;
+                                                        while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+                                                        {
+                                                            $getCollegeName="SELECT * FROM MasterCourseCodes where CourseID='".$getUserMasterRunRow['CourseID']."'  ";
+                                                        $getCollegeNameRun=sqlsrv_query($conntest,$getCollegeName);
+                                                        $countPerms=0;
+                                                        if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSOC))
+                                                        {
+                                                            ?>
                                                 <tr>
 
                                                     <td><input type="checkbox" class="checkbox v_check"
@@ -4587,31 +4538,20 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
                                                                 class="fa fa-trash text-white"></i></button></td>
                                                 </tr>
                                                 <?php
-}
-}
-?>
+                                                    }
+                                                    }
+                                                    ?>
                                                 <tr>
                                                     <td>
                                                         <button type="button" class="btn btn-danger btn-xs"
-                                                            onclick="DeleteCollegeCoursePermissions(<?=$id;?>);"><i
-                                                                class="fa fa-trash "></i></button>
+                                                            onclick="deleteCollegeCoursePermissions(<?=$emp_id;?>);"><i class="fa fa-trash "></i></button>
                                                     </td>
                                                 </tr>
-                                            </table>
-                                            <?php 
-
-    ?>
+                                            </table>                                          
                                         </div>
                                     </div>
-
-
-
-
                                 </div>
-
                             </div>
-
-
                             <div class="tab-pane" id="assignCollegeAccountPermssions">
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -4729,6 +4669,68 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                 </div>
 
                             </div>
+
+
+                            <div class="tab-pane" id="resetPasswords">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <table class="table  table-bordered">
+                                           
+
+                                              <tr >
+                                                <td colspan="8">
+                                                <select class="form-control" id="ApplicationType" onchange="showErpRole(<?=$emp_id;?>);">
+                                                        <option value="">Select</option>
+                                                        <?php 
+$getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+{
+?>
+                                                        <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
+                                                            <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
+
+
+                                                        <?php 
+}?>
+                                                </td>
+</tr>
+<tr>
+
+<th>ID</th>
+<th>UserName</th>
+<!-- <th>Password</th> -->
+<th>Type</th>
+<th>Login Type</th>
+<th>Rights</th>
+<th>Action</th>
+</tr>
+<tr id="onchnageErpRoleshow">
+                                                
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <!-- <td colspan="1"></td> -->
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+                                                <td colspan="1"></td>
+
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
 
 
 
@@ -19797,17 +19799,22 @@ $getDefalutMenu="SELECT  * FROM UserMaster  Where UserName='$EmpIDs' and Applica
 $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRunRowm=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
 {
+// The plain text password to be hashed 
+$plaintext_password = $getDefalutMenuRunRowm['Password']; 
+// The hash of the password that 
+// can be stored in the database 
+$hashPassword = password_hash($plaintext_password,PASSWORD_DEFAULT); 
+// Print the generated hash 
+// echo "Generated hash: ".$hashPassword; 
 ?>
   <td><?=$getDefalutMenuRunRowm['UserMasterID'];?></td>
-    <td><?=$getDefalutMenuRunRowm['UserName'];?></td>
-    <td colspan=""><?=$getDefalutMenuRunRowm['Password'];?></td>
+  <td onclick="copyToClipboard('<?= $plaintext_password; ?>')"><?= $getDefalutMenuRunRowm['UserName']; ?></td>
 
+    <!-- <td colspan=""><?=$hashPassword;?></td> -->
     <td colspan=""><?=$getDefalutMenuRunRowm['ApplicationName'];?></td>
     <td colspan=""><?=$getDefalutMenuRunRowm['LoginType'];?></td>
     <td colspan=""><?=$getDefalutMenuRunRowm['RightsLevel'];?></td>
-    <td colspan="2"><button type="button" class="btn btn-danger btn-xs"
-                                                        onclick="deleteRoleAll('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');"><i
-                                                            class="fa fa-trash text-white"></i></button><button type="button" class="btn btn-success btn-xs"
+    <td colspan=""><button type="button" class="btn btn-success btn-xs"
                                                         onclick="resetPassword('<?=$getDefalutMenuRunRowm['UserName'];?>','<?=$getDefalutMenuRunRowm['ApplicationName'];?>');" style='float:right;'> Reset Password</button></td>
                                           
    <?php 

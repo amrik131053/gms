@@ -628,7 +628,7 @@ function deleteRole(empid,userMasterId)
  
 }
 
-function deleteCollegeCoursePermissions()
+function deleteCollegeCoursePermissions(id)
 {
   
    var a=confirm('Are you sure you want to delete');
@@ -666,7 +666,7 @@ var len_student= verifiy.length;
             console.log(data);
             if (data==1) 
             {
-               // searchForDelete(id);
+               searchForDelete(id);
                 SuccessToast('Successfully Deleted');
                
             }
@@ -810,7 +810,7 @@ function selectForDeleteAccount()
 }
 
 function searchForDelete(id) {
-var College = document.getElementById('CollegeForsearch').value;
+var College = document.getElementById('CollegeID').value;
 var code = '190';
 $.ajax({
     url: 'action_g.php',
@@ -883,7 +883,7 @@ function lmsUpdateRole(empid)
          },
          success: function(response) 
          {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -917,7 +917,7 @@ function updateRole(empid,userMasterId)
          },
          success: function(response) 
          {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -951,7 +951,7 @@ function addCollegePermissions(empid)
          },
          success: function(response) 
          {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -1041,7 +1041,7 @@ function deleteCollegeCourse(ID,empid)
          {
             // console.log(response);
             spinner.style.display = 'none';
-            if(response=='1')
+            if(response==1)
             {
              
                SuccessToast('Successfully Deleted');
@@ -1157,7 +1157,7 @@ function lmsAddRole(empid)
          {
             console.log(response);
             spinner.style.display = 'none';
-            if(response=='1')
+            if(response==1)
             {
               
                SuccessToast('Successfully  Inserted');
@@ -1177,10 +1177,8 @@ function lmsAddRole(empid)
 }
 function addRole(empid,college) 
 {
-
    var RightsLevel = document.getElementById("RightsLevel").value;
    var LoginType = document.getElementById("LoginType").value;
-  
    // alert(LoginType+RightsLevel);
    if(RightsLevel!='' && LoginType!='' )
    {
@@ -1198,7 +1196,7 @@ function addRole(empid,college)
          {
             // console.log(response);
             spinner.style.display = 'none';
-            if(response=='1')
+            if(response==1)
             {
               
                SuccessToast('Successfully  Inserted');
@@ -1656,6 +1654,15 @@ function printfourthCard(id) {
       
 }
 
+function copyToClipboard(text) {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+   //  alert('Password copied to clipboard');
+}
 
 function showErpRole(id) {
 var ApplicationType = document.getElementById('ApplicationType').value;

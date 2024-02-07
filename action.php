@@ -13650,8 +13650,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
 
                         <li class="nav-link"><b>Password</b> :&nbsp;&nbsp;&nbsp;<?php echo ""; 
 
-?><?=$password;?>  <a href="#" onclick="copyToClipboard('<?= $password;?>')" title="Copy Link">
-   <span class="fa fa-copy" style="color:green"></span></a>
+?><?=$password;?><span class="fa fa-copy" style="color:green" onclick="copyToClipboard('<?= $password; ?>')"></span>
 <button class="btn btn-warning btn-xs" style="margin-left: 50px" onclick="passwordreset(<?= $IDNo;?>)" >Reset Password</button> <?php 
                       ?>  </li>
                      
