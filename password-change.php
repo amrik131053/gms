@@ -6,12 +6,12 @@ include "header.php";
 
 .form-container {
 
-  padding: 1rem;
+  /* padding: 1rem; */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
 }
 
 form {
@@ -23,8 +23,8 @@ form {
   max-width: 600px;
   background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0.5rem;
-  box-shadow: 0 0 8px 0 rgb(0 0 0 / 8%), 0 0 15px 0 rgb(0 0 0 / 2%), 0 0 20px 4px rgb(0 0 0 / 6%);
+  /* border-radius: 0.5rem; */
+  /* box-shadow: 0 0 8px 0 rgb(0 0 0 / 8%), 0 0 15px 0 rgb(0 0 0 / 2%), 0 0 20px 4px rgb(0 0 0 / 6%); */
 }
 
 .input-container {
@@ -183,9 +183,9 @@ input[type=submit]:not(:disabled):hover {
 }
 
 </style>
-  <div class="card card-outline card-primary">
+  <!-- <div class="  card-primary"> -->
  
-    <div class="card-body">
+    <!-- <div class="card-body"> -->
     <div class="form-container">
       
   <form id="form">
@@ -225,7 +225,7 @@ input[type=submit]:not(:disabled):hover {
      
     </div>
     <!-- /.login-card-body -->
-  </div>
+  <!-- </div> -->
   <p id="ajax-loader"></p>
 <script>
   
