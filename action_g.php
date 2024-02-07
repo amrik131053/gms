@@ -26213,6 +26213,19 @@ elseif($code==365)
   }
 
 } 
+elseif($code==366)
+{
+ $PasswordSet=$_POST['confirmValue'];
+$getDefalutMenu="UPDATE  UserMaster  SET Password='$PasswordSet' Where UserName='$EmployeeID' and ApplicationName='Campus' ";
+$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+if($getDefalutMenuRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+}
    else
    {
    

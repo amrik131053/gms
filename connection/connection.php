@@ -3,8 +3,8 @@
    $timeStamp=date('Y-m-d H:i:s.v');
    $timeStampS=date('Y-m-d H:i:s');
 
-$serverName = "10.0.8.181"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"Amrik", "PWD"=>"Amrik@123");
+$serverName = "10.0.10.11"; //serverName\instanceName
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conntest = sqlsrv_connect($serverName,$connectionInfo);
 
 $serverName1 = "10.0.10.11";
