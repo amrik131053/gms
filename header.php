@@ -383,6 +383,11 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
              
                  
                            <li class="nav-item ">
+                           <a href="password-change.php" class="nav-link">
+                                 <i class="nav-icon fas fa-copy"></i>
+                                 <p>Change Password</p>
+                              </a></li>
+                           <li class="nav-item ">
                            <a href="sign-out.php" class="nav-link">
                                  <i class="nav-icon fas fa-copy"></i>
                                  <p>LogOut</p>

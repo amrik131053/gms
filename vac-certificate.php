@@ -30,7 +30,9 @@
           
                                  <label>Session</label>
                 <select id='Session' name='session' class="form-control" required="">                                 
-                <option value=''>Select Session</option>                          
+                <option value=''>Select Session</option>      
+                <option value='2016-17'>2016-17</option>                         
+                <option value='2017-18'>2017-18</option>                               
                 <option value='2018-19'>2018-19</option>
                 <option value='2019-20'>2019-20</option>
                 <option value='2020-21'>2020-21</option>
@@ -129,7 +131,7 @@ while($row=mysqli_fetch_array($result))
                                 <select name="batch" class="form-control" id="Batch" required="">
                                     <option value="">Batch</option>
                                     <?php 
-                                    for($i=2018;$i<=2024;$i++)
+                                    for($i=2015;$i<=2024;$i++)
                                     {?>
                                     <option value="<?=$i?>"><?=$i?></option>
                                     <?php }
@@ -546,7 +548,9 @@ else
             <div class="col-lg-2"> 
  <label>Session</label>    
                 <select id='Session' name='session_sign' class="form-control" required="">                                 
-                <option value=''>Select Session</option>                          
+                <option value=''>Select Session</option> 
+                <option value='2016-17'>2016-17</option>                         
+                <option value='2017-18'>2017-18</option>                         
                 <option value='2018-19'>2018-19</option>
                 <option value='2019-20'>2019-20</option>
                 <option value='2020-21'>2020-21</option>
@@ -595,7 +599,7 @@ else
                                 <select name="batch_sign" class="form-control" id="Batch_1" required="">
                                     <option value="">Batch</option>
                                     <?php 
-                                    for($i=2018;$i<=2024;$i++)
+                                    for($i=2015;$i<=2024;$i++)
                                     {?>
                                     <option value="<?=$i?>"><?=$i?></option>
                                     <?php }

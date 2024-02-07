@@ -38,7 +38,7 @@ include "fastival.php";
         <div class=" justify-content-center form_container" style="margin-top: 50px; " id="login_chnge" >
           
             <div  style="text-align: center;" >
-              <h4>Login Here</h4>
+              <h4 style="color:#223260;">Login Here</h4>
            </div></br>
          
         <form action="login.php" class="sign-in-form" method="post" >
@@ -58,7 +58,8 @@ include "fastival.php";
             </div>
             <div class="form-group">
               <div class=" custom-checkbox">
-             <input type="checkbox" name="remember" id="remember"   <?php if(isset($_COOKIE["user_login"])) { ?> checked <?php } ?> > <label>Remember me</label>
+             <input type="checkbox" name="remember" id="remember"   <?php if(isset($_COOKIE["user_login"])) { ?> checked <?php } ?> > <label  style="color:#223260;">Remember me</label>
+            <a href="forgot-password.php"><label class="float-right" style="color:#223260;">Forgot Password</label></a>
               </div>
             </div>
              
@@ -75,7 +76,7 @@ include "fastival.php";
                     }   
                     unset($_SESSION['not_valid']);
                 ?></center>
-           <center> <p style="margin-top:30px;">For any technical support, please contact <br><b>78146-79220</b></p></center>
+           <center> <p style="margin-top:30px;color:#223260;">For any technical support, please contact <br><b>78146-79220</b></p></center>
          
           
           </form>
