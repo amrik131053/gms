@@ -79,34 +79,52 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     //  $PrintDate=$row['PrintDate'];
     //  $PrintDatew=$row['PrintDate'];
      $Batch=$row['Batch'];
-     $PrintDatew=$today1;
+    
      $getChecksql11 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
 $getChecksqlRun11=mysqli_query($conn,$getChecksql11);
+if($getChecksqlRun11rrow = mysqli_fetch_array($getChecksqlRun11))
+{
+   $PrintDate1=$getChecksqlRun11rrow["PrintDate"];  
+   $PrintDatew=date("d-m-Y", strtotime($PrintDate1));
+}
+else
+{
+  $PrintDatew=date('Y-m-d');
+ }
 if(mysqli_num_rows($getChecksqlRun11)<1)
 {
-     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$year'";
+      $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$year'";
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+     
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
-                 $PrintDatew=$getReffrenceNumberrow["PrintDate"];     
-                 $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1;         
+                  
+                  $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1;         
      }
+     
 }
 else{
- if($re=mysqli_fetch_array($getChecksqlRun11))
- {
-  $RefNo=$re['RefNo'];
- }
+  $getReffrenceNumbersql1 = "SELECT * FROM offer_latter_track  Where Year='$yearFromUI' and LatterID='$value'";
+  $getReffrenceNumberstmt1 = mysqli_query($conn,$getReffrenceNumbersql1);  
+  
+      if($getReffrenceNumberrow1 = mysqli_fetch_array($getReffrenceNumberstmt1) )
+  {    
+               
+               $RefNo=$getReffrenceNumberrow1["RefNo"];         
+  }else{
+   $RefNo='GKU/ADMF/'.$year.'/'.$row['RefNo'];
+ 
 
 }
-
-       if($PrintDatew!='')
-
-      {$PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
-  else
-  {
-    $PrintDate='';
-  }
+}
+$Ref=$RefNo;
+  //      if($PrintDatew!='')
+  //     {
+  //       $PrintDate = date("d-m-Y", strtotime($PrintDatew));  }
+  // else
+  // {
+  //   $PrintDate='';
+  // }
   $Duration=$row['Duration'];
   $Duration_leet=$row['Duration'];
 
@@ -198,9 +216,9 @@ else{
 }
 $pdf->SetFont('Times', 'B', 11);
 $pdf->SetXY(155, 50);
-if($PrintDate!='')
+if($PrintDatew!='')
 {
-$pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
+$pdf->MultiCell(45, 10,$PrintDatew, 0, 'C');
 }
 // else
 // {
@@ -585,7 +603,7 @@ $getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Y
 $getChecksqlRun1=mysqli_query($conn,$getChecksql1);
 if(mysqli_num_rows($getChecksqlRun1)<1)
 {
-  $Ref=$RefNo;
+
    $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
   mysqli_query($conn,$upd11);
 
