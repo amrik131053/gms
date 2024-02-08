@@ -76,10 +76,10 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $District=$row['District'];
     $State=$row['State'];
     $Session=$row['Session'];
-     $PrintDate=$row['PrintDate'];
-     $PrintDatew=$row['PrintDate'];
+    //  $PrintDate=$row['PrintDate'];
+    //  $PrintDatew=$row['PrintDate'];
      $Batch=$row['Batch'];
-
+     $PrintDatew=$today1;
      $getChecksql11 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
 $getChecksqlRun11=mysqli_query($conn,$getChecksql11);
 if(mysqli_num_rows($getChecksqlRun11)<1)
@@ -88,7 +88,7 @@ if(mysqli_num_rows($getChecksqlRun11)<1)
      $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
-                //  $RefString=$getReffrenceNumberrow["RefString"];     
+                 $PrintDatew=$getReffrenceNumberrow["PrintDate"];     
                  $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1;         
      }
 }
