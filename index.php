@@ -38,7 +38,7 @@ include "fastival.php";
         <div class=" justify-content-center form_container" style="margin-top: 50px; " id="login_chnge" >
           
             <div  style="text-align: center;" >
-              <h4 style="color:#223260;">Login Here</h4>
+              <h4 style="color:#223260;"><b>Login Here</b></h4>
            </div></br>
          
         <form action="login.php" class="sign-in-form" method="post" >
@@ -47,7 +47,7 @@ include "fastival.php";
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" name="user" class="form-control input_user" value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>" placeholder="Employee ID" required>
+              <input type="number" name="user" class="form-control input_user" value="<?php if(isset($_COOKIE["user_login"])) { echo $_COOKIE["user_login"]; } ?>" placeholder="Employee ID" required>
             </div>
             <div class="input-group mb-3">
               <div class="input-group-append">

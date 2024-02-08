@@ -21,6 +21,8 @@ $mail = new PHPMailer(true);
 
 				 $mail->Username   = 'spocgku@gmail.com';                 
 				$mail->Password   = 'ysnssrugbnzoeiht';                        
+				//  $mail->Username   = 'noreplygkuitdepartment@gmail.com';                 
+				// $mail->Password   = 'evvpchesvgsppzny';                        
 				$mail->SMTPSecure = 'TLS';                              
 				$mail->Port       = 587;    
 

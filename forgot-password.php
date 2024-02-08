@@ -25,35 +25,37 @@ include "fastival.php";
         </div>
   <div class="">
     <div class="card-header text-center">
-      <a href="" class="h3" style="color:#223260;"><b>Forgot Password</a>
+      <h4 style="color:#223260;"><b>Forgot Password</h4>
     </div>
     <div class="card-body">
       <!-- <p class="login-box-msg" style="color:#223260;">You forgot your password? Here you can easily retrieve a new password.</p> -->
       <!-- <form  action="forgot-password-action.php"  method="post"> -->
         <div class="input-group mb-3">
-          <input type="number" class="form-control" name="username" id="username" placeholder="Employee ID">
-        
-          <div class="input-group-append">
+        <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
             </div>
           </div>
+          <input type="number" class="form-control" name="username" id="username" placeholder="Employee ID">
+        
+         
           
         </div>
          
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email_id" id="email_id" placeholder="Email">
-          <div class="input-group-append">
+        <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
+          <input type="email" class="form-control" name="email_id" id="email_id" placeholder="Registered Email ID.....">
+         
         </div>
         
         <div class="row">
           <div class="col-12">
       
-            <button type="submit" name="submit" onclick="recoverPassword();" class="btn forgotbutton">  <span  class="spinner-border spinner-border-sm " role="status" aria-hidden="true"  style="display:none;"></span>&nbsp;Request new password</button>
+            <button type="submit" name="submit" onclick="recoverPassword();" class="btn login_btn">  <span  class="spinner-border spinner-border-sm " role="status" aria-hidden="true"  style="display:none;"></span>&nbsp;Request new password</button>
           </div>
           <!-- /.col -->
         </div>
@@ -86,7 +88,7 @@ function recoverPassword()
         email_id:email_id,username:username
       },
       success: function(response) {
-        //  console.log(response);
+         console.log(response);
         $('.spinner-border').hide();
          if(response==1)
          {  
