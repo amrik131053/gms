@@ -147,7 +147,7 @@ function recoverPassword() {
                 } else if (response == 4) {
                     $('#errorMsg').css('color', 'red');
                     $('#errorMsg').html(
-                        'Kindly provide the right information. Email and Username does not match in database'
+                        'Kindly provide the right information. Registered Email ID and Employee ID does not match in database'
                         );
                 }
             }

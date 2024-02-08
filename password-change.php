@@ -88,7 +88,7 @@ input[type=submit] {
   transition: .25s;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  padding: 16px;
+  /* padding: 16px; */
   background-color: #223260;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -109,8 +109,8 @@ input[type=submit]:not(:disabled):hover {
 
 .submit-container {
   border-radius: 4px;
-  margin-top: 1rem;
-  height: 56px;
+  /* margin-top: 1rem; */
+  height: 40px;
 }
 
 .show-password {
@@ -189,10 +189,10 @@ input[type=submit]:not(:disabled):hover {
     <div class="form-container">
       
   <form id="form">
-  <h4 class="text-center">Change Password</h4>
+  <h4 class="text-center"><b>Change Password</b></h4>
     <div class="input-container">
       <input type="password" id="password" aria-describedby="requirements" required />
-      <label for="password">Password</label>
+      <label for="password">New Password</label>
       <button class="show-password" id="show-password" type="button" role="switch" aria-label="Show password" aria-checked="false">Show</button>
     </div>
 
@@ -214,7 +214,7 @@ input[type=submit]:not(:disabled):hover {
     </div>
 
     <div class="submit-container">
-      <input type="submit" class="btn" id="submit" disabled style="background-color:#223260;color:white;">
+      <input type="submit" class="btn " id="submit" disabled style="background-color:#223260;color:white;">
     </div>
     <div id="password-success">
       <center><b><p class="successPass  " style="color:green; display:none;" >Password Change Successfully</p></b></center>
@@ -345,10 +345,10 @@ form.addEventListener("submit", (event) => {
         success: function(response) {
             // console.log(response);
             spinner.style.display = 'none';
-            // SuccessToast('Successfully Moved');
             if(response==1)
             {
-                $('.successPass').show();
+              $('.successPass').show();
+              SuccessToast('Password Change Successfully');
 
             }
             else if(response==2)
