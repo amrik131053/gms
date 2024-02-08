@@ -1,13 +1,12 @@
  <?php
 session_start();
-ini_set('max_execution_time', '0');
-
+ini_set('max_execution_time','0');
 ob_start();
 header("Content-Type: application/xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 include 'connection/connection.php';
-$exportCode = '';
+$exportCode ='';
 $fileName = 'My File';
 if (isset($_POST['exportCode']))
 {
@@ -6039,10 +6038,8 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 $subCount=(count($Subjects)*4)+7;
 $subCount1=count($Subjects);
 
-$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-        <thead>  
-        <tr>
-       ";
+$exportstudy="<table class='table' border='1'>
+        <thead>";
 include 'resultcopyheader.php';
 
 $exportstudy.="<tr>
@@ -6970,7 +6967,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
     
-    $exportstudy.="<th>CE1/CE3/Att/mst1/mst2/ese</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+    $exportstudy.="<th>CE1/CE3/Att/MST1/MST2/ESE(Grace)</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
        $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
 
@@ -7222,29 +7219,8 @@ $exportstudy.="<td style='text-align:center;'>NA</td>"; $exportstudy.="<td style
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          }
-
-
-
-
-
-
-
- $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+   }
+   $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
 
  $sgpa=$gradevaluetotal/$totalcredit;
 
@@ -7275,7 +7251,7 @@ include 'resultfooter.php';
 
  else if($exportCode==55)
 {
-    $College=$_GET['CollegeId'];
+$College=$_GET['CollegeId'];
 $Course=$_GET['Course'];
 $Batch=$_GET['Batch'];
 $Semester=$_GET['Semester'];
@@ -7293,115 +7269,78 @@ $SubjectTypes=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
-
-
-
-
-
 $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
 $list_cllegename = sqlsrv_query($conntest,$collegename);
-                  
-              
-                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+ if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
                    {
-
-                   // print_r($row);
                 $CollegeName=$row_college['CollegeName'] ;
                 $CourseName=$row_college['Course'] ;
-                
-        }
+                      }
 
 
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
-                 
-             if($list_Subjects === false)
+   if($list_Subjects === false)
                {
               die( print_r( sqlsrv_errors(), true) );
               }
                while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
                   {
-
-                  // print_r($row);
                $Subjects[]=$row_subject['SubjectCode'] ;
                $SubjectNames[]=$row_subject['SubjectName'] ;
                $SubjectTypes[]=$row_subject['SubjectType'] ;
 }
 $subCountc=count($Subjects);
-
 $sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
-
 $sql_openq = sqlsrv_query($conntest,$sql_open);
          
                 if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
                    {
-
                 $SubjectsNew[]=$row_subject['SubjectCode'] ;
                 $SubjectNamesNew[]=$row_subject['SubjectName'] ;
                 $SubjectTypesNew[]=$row_subject['SubjectType'] ;
 }
 $subCounto=count($SubjectsNew);
-
-
 $Subjects=array_merge($Subjects,$SubjectsNew);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
-
-
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
-                 
-             if($list_Subjects === false)
+                if($list_Subjects === false)
                {
               die( print_r( sqlsrv_errors(), true) );
               }
                while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
                   {
-
-                  // print_r($row);
                $Subjectsp[]=$row_subject['SubjectCode'] ;
                $SubjectNamesp[]=$row_subject['SubjectName'] ;
                $SubjectTypesp[]=$row_subject['SubjectType'] ;
 }
 $subCountp=count($Subjectsp);
-
+$gtcerdit=0;
 $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
-
 $subCount=(count($Subjects)*5)+4;
 $subCount1=count($Subjects);
 
-$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-        <thead>  
-        <tr>
-       ";
-include'resultcopyheader.php';
-  
-   $exportstudy.="<tr>  <th>SrNo</th> <th>UniRoll No</th>";
-
-     $gtcerdit=0;
-
+$exportstudy="<table class='table' border='1'><thead>"; 
+ $exportstudy.="<tr><th colspan='".$subCount."' ><b style='font-size:22px;'>GURU KASHI UNIVERSITY, TALWANDI SABO, BATHINDA (PUNJAB) RESULT NOTIFICATION No. GKU/COE/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;".$Examination."&nbsp;&nbsp;EXAMINATION</b></th></tr>"; 
+     $exportstudy.="<tr><th colspan='".$subCount."'><b style='font-size:16px;text-align:left;'>  &nbsp;&nbsp;&nbsp; Programme:&nbsp;&nbsp;&nbsp;".$CourseName."&nbsp;&nbsp;&nbsp;
+    <b style='text-align:center;font-size:16px;'>   &nbsp;&nbsp;&nbsp;Semester:&nbsp;&nbsp;&nbsp;".$Semester."</b>(".$Type.")  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Batch &nbsp;&nbsp;&nbsp;: <b style='text-align:right;'>".$Batch."</b></th></tr>";
+    $exportstudy.="<tr><th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th></tr>";
+$exportstudy.="<tr><th>SrNo</th><th>UniRoll No</th>";
 
     foreach ($Subjects as $key => $SubjectsCode) {
-    
-    $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+$exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
-       $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
+$exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
-
-
-
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
-    FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
-        
-        
-                $j=0;
-               
-               
-                        $list_result = sqlsrv_query($conntest,$list_sql);
+    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd Admissions.Status='1' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
+            $j=0;
+             $list_result = sqlsrv_query($conntest,$list_sql);
                             $count = 1;
                       if($list_result === false)
                         {
@@ -7409,18 +7348,12 @@ include'resultcopyheader.php';
                        }
                         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                            {
-                           // print_r($row);
-                        $IDNos=$row['IDNo'];
+                         $IDNos=$row['IDNo'];
                         $UnirollNos=$row['UniRollNo'];
                         $ClassRollNos=$row['ClassRollNo'];
                          $Examid=$row['ID'];
                          $StudentNames =$row['StudentName'];     
-     
-      $exportstudy.="<tr>
-         <td>{$SrNo}</td>
-         <th>{$UnirollNos}</td>
-         ";
-
+           $exportstudy.="<tr><td>{$SrNo}</td><td>{$UnirollNos}</td>";
 $totalcredit=0;
 $gradevaluetotal=0;
 $nccount=0;
@@ -7430,9 +7363,7 @@ $nccount=0;
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
-
-                              
-                                     $CE1=$row_exam['CE1'];
+                            $CE1=$row_exam['CE1'];
                                       $subjectName=$row_exam['SubjectName'];
                                       $SubjectCode=$row_exam['SubjectCode'];
                                      $CE3=$row_exam['CE3'];
@@ -7444,11 +7375,11 @@ $nccount=0;
 
 
 include'grade_calculator.php';
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} {$showgradefail}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep}</td>";
 
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
  $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjects[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
@@ -7458,7 +7389,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
             }
 
 $totalcredit=$totalcredit+$credit;
- $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+ $exportstudy.="<td style='text-align:center'>{$credit} </td>";  
 
 if($credit>0)
 {
@@ -7478,15 +7409,13 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA</td>";
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA</td>";
- $exportstudy.="<td style='text-align:center;'>NA</td>"; 
- $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA</td><td style='text-align:center'>NA</td><td style='text-align:center'>NA</td><td style='text-align:center'>NA</td><td style='text-align:center'>NA</td>"; 
 }
 
 
 }
+
+
  for($sub=0;$sub<$subCounto;$sub++)
         {
         $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNew[$sub]'  AND ExternalExam='Y' ";  
@@ -7506,13 +7435,10 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
                                       $grace= $row_exam['Grace'];
 
 include'grade_calculator.php';
-
-$exportstudy.="<td style='text-align:center;color:{$color}'></td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'></td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
-$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$grade}{$showgradefail}</td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep}</td>";
 
  $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectsNew[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -7540,26 +7466,18 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 else
 {
 
-
-
-
 }
 
 }  
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA </td>";
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA </td>";
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<td style='text-align:center'>NA </td>";
+$exportstudy.="<td style='text-align:center'>NA</td>"; 
+$exportstudy.="<td style='text-align:center'>NA </td>";
+ $exportstudy.="<td style='text-align:center'>NA </td>"; 
+ $exportstudy.="<td style='text-align:center'>NA </td>"; 
 }
-
-
 }
-
-
-
   for($sub=0;$sub<$subCountp;$sub++)
         {
 
@@ -7576,8 +7494,6 @@ $pshow='';
 $smarks='0';
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
-
-
 if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
 if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
 if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
@@ -7607,15 +7523,10 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
              $SubjectCode=$row7c['SubjectCode'];
              $SubjectName=$row7c['SubjectName'];
              $credit=$row7c['NoOFCredits'];
-
-
             }
 
 $totalcredit=$totalcredit+$credit;
-
-
-                           
-                            $exportstudy.="<td style='text-align:center;'>{$SubjectName}</td>"; 
+ $exportstudy.="<td style='text-align:center;'>{$SubjectName}</td>"; 
                            $exportstudy.="<td style='text-align:center;'>{$SubjectCode}</td>"; 
                            $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
@@ -7631,8 +7542,7 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
     $nccount++;
  }
 }
-$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
-        
+$exportstudy.="<td style='text-align:center;'>{$credit} </td>";   
 }  
 else
 {
@@ -7642,40 +7552,18 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
   $exportstudy.="<td style='text-align:center;'>NA </td>"; 
 }
-
-
-
-
-          }
-
-
- $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
-
- $sgpa=$gradevaluetotal/$totalcredit;
-    $sgpa= number_format($sgpa,2);
-
+}
+$exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+$sgpa=$gradevaluetotal/$totalcredit;
+$sgpa= number_format($sgpa,2);
 if($nccount>0)
 {
 $exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
-
 }
 else
- { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
-
-
-
-          $exportstudy.="</tr>";
-                            
-            $SrNo++;    
-
-                        }
-
-  
-
-
- 
-                  
-        $exportstudy.="</table>";
+ { $exportstudy.="<td style='text-align:center;'>{$sgpa}</td>";}  
+   $exportstudy.="</tr>";
+    $SrNo++; } $exportstudy.="</table>";
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
@@ -7701,19 +7589,11 @@ $SubjectTypes=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
-
-
-
-
-
 $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
 $list_cllegename = sqlsrv_query($conntest,$collegename);
-                  
-              
-                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+  if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
                    {
 
-                   // print_r($row);
                 $CollegeName=$row_college['CollegeName'] ;
                 $CourseName=$row_college['Course'] ;
                 
