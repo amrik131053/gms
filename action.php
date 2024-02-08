@@ -13401,14 +13401,14 @@ $ecat=$_POST['ecat'];
 $semester=$_POST['semester'];
 if($ecat=='ESE')
 {
-$ecat='MoocLocked';
+$ecat1='MoocLocked';
 }
 else
 {
-  $ecat=$ecat."Locked"; 
+  $ecat1=$ecat."Locked"; 
 }
 
- $list_sqlw= "update ExamFormSubject set $ecat=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
+ $list_sqlw= "update ExamFormSubject set $ecat1=NULL where Examination='$examination' ANd  SemesterID='$semester' ANd  ($ecat='' OR $ecat IS NULL )";
 $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {

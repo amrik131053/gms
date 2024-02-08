@@ -514,12 +514,12 @@ else
 }
 
 
-function unlockpending()
+function unlockpending() 
 {
 
   var examination=document.getElementById('Examination').value;
   var ecat=document.getElementById('ecat').value;
-   var semester=document.getElementById('Semester').value;
+  var semester=document.getElementById('Semester').value;
 
  if(examination!='' && ecat!='' && semester!='')
  {
@@ -531,7 +531,7 @@ function unlockpending()
       },
       success:function(response)
       {
-console.log(response);
+//console.log(response);
         if(response>0)
         { 
        SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);

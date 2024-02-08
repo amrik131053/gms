@@ -4163,7 +4163,7 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
                                                 <th>Update</th>
                                             </tr>
                                             <?php 
-$getUserMaster="SELECT * FROM UserMaster Where UserName='$emp_id' ";
+$getUserMaster="SELECT * FROM UserMaster Where UserName='$emp_id' AND ApplicationType='Web' ";
 $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
 $countPerms=0;
 while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
@@ -24812,19 +24812,9 @@ if($Status==6)
 
    elseif ($code==348) {
   ?>
-    <div class="card-header">
-      <h6>Student Detail</h6>
-      <!-- <span>
-          <button class="btn btn-sm ">
-              <input type="search" class="form-control form-control-sm" name="rollNo" id="rollNo"
-                  placeholder="Search RollNo">
-          </button>
-          <button type="button" onclick="searchStudentOnRollNo();" class="btn btn-success btn-sm">
-              Search
-          </button>
-      </span> -->
-  </div>
-  <br>
+ 
+  <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Student Detail -- </h6>  <hr style="background-color:#002149">
+
   <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Nationality</label>
@@ -24885,6 +24875,9 @@ if($Status==6)
               <option>General</option>
           </select>
       </div>
+  </div>    <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Course Detail -- </h6><hr style="background-color:#002149">
+  <div class="row">
+     
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Fee Category</label>
           <select class="form-control" id="feecategory">
@@ -24921,7 +24914,7 @@ if($Status==6)
           <select class="form-control" id="Session" onchange="fetchCollege();">
               <option value="">Select</option>
               <?php 
-                      $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes where Isopen='1' ";
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {?>
@@ -24931,13 +24924,25 @@ if($Status==6)
                      ?>
           </select>
       </div>
+
+
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>College Name</label>
-          <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
+          <select name="" id="CollegeID" class="form-control"  onchange="collegeByDepartment(this.value);">
               <option value="">Select</option>
 
           </select>
       </div>
+
+   <div class="col-lg-3">
+                                <label>Department</label>
+             <select id="Department" class="form-control"  onchange="fetchcourse()" required>
+                                    <option value=''>Select Department</option>
+                                   
+                                </select>
+                            </div>
+
+
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Course</label>
           <select name="" id="Course" class="form-control">
@@ -24960,21 +24965,32 @@ if($Status==6)
           <input type="text" id="Batch" class="form-control" readonly>
       </div>
 
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Comments</label>
-          <textarea name="" id="Comments" cols="1" rows="1" class="form-control"></textarea>
-      </div>
+    
 
   </div>
-  <!-- ---------------------------------------------------------------------------------- -->
-  <br>
-  <div class="card-header">
-      <h6>Reference Detail</h6>
-  </div>
-  <br>
+
+  <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Reference Detail --</h6> <hr style="background-color:#002149">
+ 
+<div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2">&nbsp;
+    </div>
+     <div class="col-lg-8 col-md-8 col-sm-8">
+          
+          <label>Comments</label>
+          <textarea  id="Comments" cols="1" rows="3" class="form-control"></textarea>
+     
+          &nbsp;
+      </div>
+</div>
+ 
+
+
   <div class="row">
 
+
       <div class="col-lg-2 col-md-2 col-sm-12">
+          
+
           &nbsp;
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12">
@@ -24998,6 +25014,7 @@ if($Status==6)
       </div>
       <div class="col-lg-2 col-md-2 col-sm-12">
           &nbsp;
+
       </div>
   </div>
 
@@ -25018,9 +25035,11 @@ if($Status==6)
           <label>Select</label>
           <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
               <option value="">Select</option>
-              <?php $get_consultant="SELECT * FROM masterconsultant ";
-                    $get_consultantRun=mysqli_query($conn,$get_consultant);
-                    while($row=mysqli_fetch_array($get_consultantRun))
+              <?php $get_consultant="SELECT * FROM MasterConsultant";
+
+
+                    $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
+                    while($row=sqlsrv_fetch_array($get_consultantRun))
                     {
     ?>
               <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
@@ -25043,29 +25062,44 @@ if($Status==6)
       </div>
 
 
-  </div>
-  <br>
-  <div class="card-header">
-      <h6>Fee Detail</h6>
-  </div>
-  <br>
+  </div> 
+  <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- FEE Detail -- </h6>  <hr style="background-color:#002149">
   <h4>Total Debit Fee</h4>
   <div class="row">
 
       <div class="col-lg-4 col-md-4 col-sm-12">
           <label>Semester</label>
-          <select id="SemesterForFee" class="form-control " onchange="getFeeDetails();">
+          <select id="SemesterForFee" class="form-control" onchange="getFeeDetails();">
               <option value="">Select</option>
+             
+
+<option value="1">First</option>
+
+<option value="1">First/Aug</option>
+
+<option value="1">First/Jan</option>
+
+<option value="3">Third</option>
+<option value="5">Fifth</option>
+
+
+
+
+
+
+
               <?php
-            $get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
-            $get_FeeRun = sqlsrv_query($conntest, $get_Fee);
+            //$get_Fee = "SELECT DISTINCT SemesterID,Semester FROM Ledger WHERE Semester != ''  ORDER BY Semester ASC";
+            //$get_FeeRun = sqlsrv_query($conntest, $get_Fee);
             
-            while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
+            //while ($rowFee = sqlsrv_fetch_array($get_FeeRun)) {
                 ?>
-              <option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>
+              <!--<option value="<?= $rowFee['SemesterID']; ?>"><?= $rowFee['Semester']; ?></option>-->
               <?php
-            }
+           // }
             ?>
+
+
 
           </select>
       </div>
@@ -25193,35 +25227,28 @@ if($Status==6)
               <option value="Not Applicable">Not Applicable</option>
           </select>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Session</label>
-          <select class="form-control" id="Session" onchange="fetchCollege();">
-              <option value="">Select</option>
-              <?php 
-                      $get_country="SELECT DISTINCT  Session FROM MasterCourseCodes where Isopen='1' ";
-                      $get_country_run=sqlsrv_query($conntest,$get_country);
-                      while($row_Session=sqlsrv_fetch_array($get_country_run))
-                      {?>
-              <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
-              <?php }
-    
-                     ?>
-          </select>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
+
+       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>College Name</label>
-          <select name="" id="CollegeID" class="form-control" onchange="fetchcourse();">
+          <select name="" id="CollegeID" class="form-control"  onchange="collegeByDepartment(this.value);">
               <option value="">Select</option>
 
           </select>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Course</label>
-          <select name="" id="Course" class="form-control">
-              <option value="">Select</option>
-          </select>
-      </div>
 
+   <div class="col-lg-3">
+   <label>Department</label>
+   <select id="Department" class="form-control"  onchange="fetchcourse()" required>
+   <option value=''>Select Department</option>
+   </select>
+   </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12">
+    <label>Course</label>
+    <select name="" id="Course" class="form-control">
+    <option value="">Select</option>
+    </select>
+    </div>
 
 
       <div class="col-lg-3 col-md-3 col-sm-12">
@@ -25383,7 +25410,8 @@ if($Status==6)
 {
 $College=$_POST['College'];
 $Session=$_POST['Session'];
- $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' order by Course ASC";
+$Department=$_POST['Department'];
+ $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' ANd MasterCourseCodes.DepartmentID='$Department' order by Course ASC";
 $stmt = sqlsrv_query($conntest,$sql);  
 echo "<option value=''>Course</option>";
     while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -25517,7 +25545,7 @@ $Session=$_POST['Session'];
 $FeeCategory=$_POST['FeeCategory'];
 $SemesterForFee=$_POST['SemesterForFee'];
 $Batch=$_POST['Batch'];
- $sql = "SELECT  DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
+ echo $sql = "SELECT  DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE 
  CourseID='$Course' and CollegeID='$College' and Batch='$Batch' and Semester='$SemesterForFee' ";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -25643,12 +25671,14 @@ if($ifexitIDNo<1)
  {
     $ClassRollNoUpdate=$ClassRollNo+1;
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
-    sqlsrv_query($conntest,$sqlG);  
+    sqlsrv_query($conntest,$sqlG); 
 
-     $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CreateDate)Values('$IDNo','12345678','Student','Web','Campus','$timeStampS')";
+
+
+    echo  $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CreateDate)Values('$IDNo','12345678','Student','Web','Campus','$timeStampS')";
     sqlsrv_query($conntest,$userMaster);
     
-    $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
+   echo  $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
      values('$Session','$CollegeName','$TodayDateAdmissions','$IDNo','$Name','$FatherName','$CourseName','$Batch','$ClassRollNo','$SemesterForFee','$SemesterID','$Gender','$Head','$Head','$Ammount','Debit','$TransactionID')";
     sqlsrv_query($conntest,$insertLager);
 
@@ -25657,13 +25687,13 @@ if($ifexitIDNo<1)
     foreach($ids as $key => $idRef)
     {
      
-        $sqlConsultant="INSERT into  master_consultant_Ref SET StudentIDNo='$IDNo' ,RefIDNo='$idRef',Type='$refvalue' ";
-        mysqli_query($conn,$sqlConsultant);
+        $sqlConsultant="INSERT into  MasterConsultantRef SET StudentIDNo='$IDNo' ,RefIDNo='$idRef',Type='$refvalue' ";
+       sqlsrv_query($conn,$sqlConsultant);
     }
     }
     else{
-    $sqlConsultant="INSERT into  master_consultant_Ref SET StudentIDNo='$IDNo' ,RefIDNo='$EmIDTeam',Type='$refvalue' ";
-    mysqli_query($conn,$sqlConsultant);
+    $sqlConsultant="INSERT into  MasterConsultantRef SET StudentIDNo='$IDNo' ,RefIDNo='$EmIDTeam',Type='$refvalue' ";
+    sqlsrv_query($conn,$sqlConsultant);
     }
   
      $Value[0]=$IDNo;
@@ -25697,8 +25727,7 @@ elseif($code==358)
     $getIDNosql = "SELECT * FROM Admissions Where IDNo='$IDNo' ";
     $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
         if($getIDNorow = sqlsrv_fetch_array($getIDNostmt, SQLSRV_FETCH_ASSOC) )
-    { 
-        
+    {         
         $Name=$getIDNorow['StudentName'];
         $FatherName=$getIDNorow['FatherName'];
         $IDNo=$getIDNorow['IDNo'];
@@ -25737,93 +25766,90 @@ $LedgerName = $rowLedger['Particulars'];
 
 ?>
 
-               <div class="col-lg-12">
-<div class="card " style="background-color:#223260; color:white;">
-<h6 class="text-center">Student Details </h6>
-   </div>
+               <div class="col-lg-12" style="text-align: center;">
+
+<img src="dist\img\success.gif"  height="100px"  width="100px">
     </div>
 <div class="col-lg-4 col-md-4 col-sm-12">
 
-<label>Student Name</label>
-    <input type="text" value="<?=$Name;?>"  id="StudentNameG" class="form-control form-control-sm" readonly>
+<label>Student Name : </label> <?=$Name;?> 
+    
     </div>
 <div class="col-lg-4 col-md-4 col-sm-12">
-    <label>Mother Name</label>
-    <input type="text" value="<?=$MotherName;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
+    <label>Mother Name  :</label>  <?=$MotherName;?>
+    
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12">
-    <label>FatherName</label>
-        <input type="text" value="<?=$FatherName;?>"   id="FatherNameG" class="form-control form-control-sm" readonly>
+    <label>FatherName  : </label> <?=$FatherName;?>
+       
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
     
-    <label>DOB</label>
-    <input type="text" value="<?=$DOB;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    <label>DOB : </label> <?=$DOB;?>
+   
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12">
-    <label>Student Mobile No</label>
-    <input type="text" value="<?=$StudentMobileNo;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    <label>Student Mobile No  : </label> <?=$StudentMobileNo;?>
+  
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12">
-    <label>Aadhaar No</label>
-    <input type="text" value="<?=$AadhaarNo;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    <label>Aadhaar No  :  </label> <?=$AadhaarNo;?>
+   
     </div>
-<div class="col-lg-2 col-md-2 col-sm-12">
-    <label>Gender</label>
-    <input type="text" value="<?=$Sex;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+<div class="col-lg-4 col-md-4 col-sm-12">
+    <label>Gender   : </label> <?=$Sex;?>
+   
     </div>
-<div class="col-lg-2 col-md-2 col-sm-12">
-<label>Admission Date</label>
-    <input type="text" value="<?=$AdmissionDate;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+
+
+
+<div class="col-lg-4 col-md-4 col-sm-12">
+<label>Admission Date   : </label> <?=$AdmissionDate;?> 
+    
     </div>
-<div class="col-lg-8 col-md-8 col-sm-12">
-<label>Comments</label>
-    <textarea    id="BatchG" class="form-control" readonly> <?php echo $CommentsDetail;?></textarea>
+<div class="col-lg-12 col-md-12 col-sm-12">
+<label>Comments  : </label> <?php echo $CommentsDetail;?>
+    
     </div>
 
 
     
     <div class="col-lg-12 col-md-12 col-sm-12">
-    <br>
-    <div class="card " style="background-color:#223260; color:white;">
-<h6 class="text-center">Course  Details </h6>
-   </div>
+
+   
+        <hr style="background-color:red">
+
+
    </div>
    <div class="row">
    <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>IDNo</label>
-    <input type="text" value="<?=$IDNo;?>"   id="IDNoG" class="form-control form-control-sm" readonly>
+    <label>IDNo  : </label> <?=$IDNo;?>
+   
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12">
-   <label>ClassRollNo</label>
-    <input type="text" value="<?=$ClassRollNo;?>"  id="ClassRollNoG" class="form-control form-control-sm" readonly>
+   <label>ClassRollNo : </label> <?=$ClassRollNo;?>
+  
     </div>
    <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Session</label>
-    <input type="text" value="<?=$Session;?>"   id="SessionG" class="form-control form-control-sm" readonly>
+    <label>Session  : </label> <?=$Session;?>
+    
     </div>
 <div class="col-lg-3 col-md-3 col-sm-12">
-    <label>Batch</label>
-    <input type="text" value="<?=$Batch;?>"   id="BatchG" class="form-control form-control-sm" readonly>
+    <label>Batch : </label> <?=$Batch;?>
+   
     </div>
-<div class="col-lg-6 col-md-6 col-sm-12">
-    <label>College Name</label>
-    <input type="text" value="<?=$CollegeName;?>"   id="BatchG" class="form-control form-control-sm" readonly>
-    </div>
-<div class="col-lg-6 col-md-6 col-sm-12">
-    <label>Course Name</label>
-    <input type="text" value="<?=$CourseName;?>"   id="BatchG" class="form-control form-control-sm" readonly>
-    </div>
-   </div>
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <label>College Name : </label> <?=$CollegeName;?>
 
-   <div class="col-lg-12 col-md-12 col-sm-12">
-    <br>
-    <div class="card " style="background-color:#223260; color:white;">
-<h6 class="text-center">Consultant  Details </h6>
+    </div>
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <label>Course Name : </label> <?=$CourseName;?>
+  
+    </div>
    </div>
-   </div>
+<hr style="background-color:red">
    <?php
-   $sqlConsultant="SELECT * from master_consultant_Ref  Where StudentIDNo='$IDNo' ";
+   $sqlConsultant="SELECT * from master_consultant_Ref  Where StudentIDNo='$IDNo'";
    $stmtConsultant = mysqli_query($conn,$sqlConsultant);
    while($rowConsultant = mysqli_fetch_array($stmtConsultant) )
    { 
@@ -25915,9 +25941,9 @@ $LedgerName = $rowLedger['Particulars'];
        }
        elseif($rowConsultant['Type']=='Consultant')
        {
-           $getIDConsultant = "SELECT * FROM masterconsultant Where ID='".$rowConsultant['RefIDNo']."'";
-           $getIDNConsultant = mysqli_query($conn,$getIDConsultant);  
-               if($getRefConsultant = mysqli_fetch_array($getIDNConsultant) )
+           $getIDConsultant = "SELECT * FROM MasterConsultant Where ID='".$rowConsultant['RefIDNo']."'";
+           $getIDNConsultant = sqlsrv_query($conntest,$getIDConsultant);  
+               if($getRefConsultant = sqlsrv_fetch_array($getIDNConsultant) )
            { 
                $RefName=$getRefConsultant['Name'];
                $RefIDNo=$getRefConsultant['ID'];
@@ -25987,25 +26013,8 @@ $LedgerName = $rowLedger['Particulars'];
    }
   ?>
 
-   <div class="col-lg-12 col-md-12 col-sm-12">
-    <br>
-    <div class="card " style="background-color:#223260; color:white;">
-<h6 class="text-center">Fee  Details </h6>
-   </div>
-   </div>
-   <div class="row">
-
-   <div class="col-lg-6 col-md-6 col-sm-12" style='display:;'>
-    <label>Particular</label>
-    <input type="text" value="<?=$LedgerName;?>"   id="" class="form-control form-control-sm" readonly>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-12">
-   <label>Ammount</label>
-    <input type="text" value="<?=$Debit;?>"  id="" class="form-control form-control-sm" readonly>
-    </div>
   
-
-   </div>
+  
     <?php }
 }
 elseif($code==360)
