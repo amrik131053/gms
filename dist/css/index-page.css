@@ -59,19 +59,12 @@
             background: #223260 !important;
             color: white !important;
         }
-        .forgotbutton:focus {
-            box-shadow: none !important;
-            outline: 0px !important;
-        }
+      
         .login_btn:focus {
             box-shadow: none !important;
             outline: 0px !important;
         }
-        .forgotbutton{
-            width: 100%;
-            background: #223260 !important;
-            color: white !important;
-        }
+      
         .login_container {
             padding: 0 2rem;
         }

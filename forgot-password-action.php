@@ -21,17 +21,23 @@ $status=0;
     }
         if($status == 1)
 		{
-			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$username'";
+			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$username' and ApplicationName='Campus'";
 			$userdeptres = sqlsrv_query($conntest, $userdeptqry);
 			$userdeptdata = sqlsrv_fetch_array($userdeptres);
 			$password  = $userdeptdata['Password']; 
 			$fileredirectpath="http://gurukashiuniversity.co.in/LMS";
 			$subject='Your Recovered Password';
-			$body="<html></body><div><div>Dear $receviername</div></br></br>
-				<div style='padding-top:8px;'>Please use this password to login: <b> $password </b> and click the following link</div>
-				<div style='padding-top:10px;'><a href='$fileredirectpath'>Click Here</a></div>
-				<div style='padding-top:4px;'>Powered by <a href='https://gku.ac.in/'>gku.ac.in</a></div></div>
-				</div></body></html>";
+			// $body="<html></body><div>
+		
+			// <div>Dear $receviername</div></br></br>
+			// 	<div style='padding-top:8px;'>Please use this password to login: <b> $password </b> and click the following link</div>
+			// 	<div style='padding-top:10px;'><a href='$fileredirectpath'>Click Here</a></div>
+			// 	<div style='padding-top:4px;'>Powered by <a href='https://gku.ac.in/'>gku.ac.in</a></div></div>
+			// 	</div></body></html>";
+			// Include the email template
+ob_start();
+include 'email/forgotemailtemplate.php';
+$body = ob_get_clean();
 			include "email/email_code_forgotpassword.php";
 		}
 $conn->close();
