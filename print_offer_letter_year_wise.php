@@ -111,8 +111,10 @@ else{
   {    
                
                $RefNo=$getReffrenceNumberrow1["RefNo"];         
-  }else{
-   $RefNo='GKU/ADMF/'.$year.'/'.$row['RefNo'];
+  }
+  else
+  {
+  //  $RefNo='GKU/ADMF/'.$year.'/'.$row['RefNo'];
  
 
 }
@@ -599,12 +601,12 @@ if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      
   $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1;     
 }
-$getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
+ $getChecksql1 = "SELECT * FROM offer_latter_track  Where LatterID='$value' and Year='$yearFromUI'";
 $getChecksqlRun1=mysqli_query($conn,$getChecksql1);
 if(mysqli_num_rows($getChecksqlRun1)<1)
 {
 
-   $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
+    $upd11="INSERT into  offer_latter_track (LatterID,Year,PrintDate,RefNo,PrintBy)VALUES('$value','$yearFromUI','$today1','$Ref','$EmployeeID')";
   mysqli_query($conn,$upd11);
 
   $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$year'";

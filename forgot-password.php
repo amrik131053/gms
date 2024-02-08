@@ -1,4 +1,5 @@
 <?php
+session_start();
 $code=$_POST['code'];
 if($code==1)
 {
