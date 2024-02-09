@@ -27,12 +27,12 @@
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div> -->
             <div class="modal-body" style="text-align:left">
                 <div class="row" id="testingQuery">
                 </div>
@@ -50,7 +50,7 @@ $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     $('#btn3').toggleClass("bg-success");
     newAdmission();
-    successModal(9618234070);
+    successModal(9618234050);
 
 })
 
@@ -586,8 +586,16 @@ function submitNewAdmissions() {
             } else if (response == 2) {
                 ErrorToast('Server is busy Click Again', 'bg-warning');
             } else if (response == 3) {
-                ErrorToast('ID Proof Already Exist', 'bg-warning');
-            } else {
+                ErrorToast('Student  Already Exist', 'bg-warning');
+            } 
+            else if (response == 4) {
+                ErrorToast('Roll Number Series Over', 'bg-warning');
+            } 
+            else if (response == 5) {
+                ErrorToast('Fee Not Updated', 'bg-warning');
+            } 
+
+            else {
                 var data = JSON.parse(response);
                 successModal(data[0]);
                 document.getElementById('Name').value = "";

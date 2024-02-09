@@ -20722,8 +20722,6 @@ elseif($code=='342')
 <?php }
 elseif($code=='343')
 {?>
-
-
 <?php
     $sql = '';
     $person_accom = "";

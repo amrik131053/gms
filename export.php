@@ -4272,7 +4272,9 @@ foreach ($Subjects as $key => $SubjectsCode) {
               if ($Examination != '') {
               $list_sql.=" AND ExamForm.Examination='$Examination' ";
               }
-             if ($Status != '') {
+             if ($Status != '') 
+             {
+
              if ($Status== '0') {
               $list_sql.=" AND (ExamForm.Status>='0' and  ExamForm.Status!='22') ";
               }
@@ -4283,7 +4285,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
              }
               if ($Status=='') 
               {
-             $list_sql.=" AND (ExamForm.Status='0' or ExamForm.Status='-1' or ExamForm.Status='22') ";
+             $list_sql.=" AND (ExamForm.Status>='0' or ExamForm.Status='-1' or ExamForm.Status='22') ";
               }
              $list_sql.=" ORDER BY ExamForm.Status"; 
                                  $list_result = sqlsrv_query($conntest,$list_sql);
