@@ -9961,20 +9961,24 @@ echo "1";
       $Course = $_POST['Course'];
       $Batch = $_POST['Batch'];
       $page = $_POST['page'];
+      $IsopenSearch = $_POST['IsopenSearch'];
       $recordsPerPage = 100;
 
 $baseQuery = "SELECT * FROM MasterCourseCodes WHERE 1 = 1";
-if ($CollegeName !== '') {
+if ($CollegeName != '') {
     $baseQuery .= " AND CollegeID='$CollegeName'";
 }
-if ($Department !== '') {
+if ($Department != '') {
     $baseQuery .= " AND DepartmentId='$Department'";
 }
-if ($Course !== '') {
+if ($Course != '') {
     $baseQuery .= " AND CourseID='$Course'";
 }
-if ($Batch !== '') {
+if ($Batch != '') {
     $baseQuery .= " AND Batch='$Batch'";
+}
+if ($IsopenSearch != '') {
+    $baseQuery .= " AND Isopen='$IsopenSearch'";
 }
 $baseQuery.="order by Batch DESC";
 if ($CollegeName !== '') {
@@ -13284,7 +13288,7 @@ elseif($code==203)
                         <i class="fa fa-eye text-success fa-sm" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id=2) {?>
+                        <?php if($role_id==2 || $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -13380,7 +13384,7 @@ else
                     <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id=2 | $role_id=18) {?>
+                        <?php if($role_id==2 | $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -13521,7 +13525,28 @@ else
 
                         </a>
                     </li>
-
+                    <li class="nav-item">
+<?php
+ if (str_contains($row['FilePath'], 'LeaveFileAttachment')) 
+{
+    $fileName=str_replace('~', '',$row['FilePath']);
+    ?>
+    <a href="http://erp.gku.ac.in:86/<?=$fileName;?>"
+    target='_blank' class="nav-link leaveViewColor">
+    <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
+        class="fa fa-eye fa-lg text-success"></i>
+</a><?php 
+}
+else
+{
+?>
+<a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+    target='_blank' class="nav-link leaveViewColor">
+    <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
+        class="fa fa-eye fa-lg text-success"></i>
+</a>
+<?php }?>
+</li>
                     <?php if($row['AuthorityId']==$row['SanctionId'] && $row['RecommendedRemarks']!='' && $row['SanctionRemarks']!=''){
                              ?>
                     <li class="nav-item">

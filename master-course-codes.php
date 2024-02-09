@@ -212,7 +212,7 @@ for($s1='0';$s1<='6';$s1++)
                         ?>
                                 </select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
 
                                 <select id="Department" class="form-control" onchange="fetchcourse()" required>
                                     <option value=''>Select Department</option>
@@ -240,6 +240,15 @@ for($s1='0';$s1<='6';$s1++)
                             </div>
                             <div class="col-lg-1">
 
+                                <select id="IsopenSearch" name="IsopenSearch" class="form-control" required>
+                                    <option value="">All</option>
+                                    <option value="1">Open</option>
+                                    <option value="0">Close</option>
+                                    
+                                </select>
+                            </div>
+                            <div class="col-lg-1">
+
                                 <button type='button' class='btn btn-success'
                                     onclick='by_search_studetn();'>Search</button>
                             </div>
@@ -261,7 +270,8 @@ for($s1='0';$s1<='6';$s1++)
                         var Department = document.getElementById('Department').value;
                         var Course = document.getElementById('Course').value;
                         var Batch = document.getElementById('Batch').value;
-
+                        var IsopenSearch = document.getElementById('IsopenSearch').value;
+// alert(IsopenSearch);
                         $.ajax({
                             url: 'action_g.php',
                             type: 'POST',
@@ -273,6 +283,7 @@ for($s1='0';$s1<='6';$s1++)
                                 Department: Department,
                                 Course: Course,
                                 Batch: Batch,
+                                IsopenSearch: IsopenSearch,
                                 search: searchQuery // Pass the search query to the server
                             },
                             success: function(data) {
@@ -293,6 +304,7 @@ for($s1='0';$s1<='6';$s1++)
                     var Department = '';
                     var Course = '';
                     var Batch = '';
+                    var IsopenSearch = '';
                     loadData(currentPage);
 
                     function loadData(page) {
@@ -308,6 +320,7 @@ for($s1='0';$s1<='6';$s1++)
                                 Department: Department,
                                 Course: Course,
                                 Batch: Batch,
+                                IsopenSearch: IsopenSearch,
                                 search: searchQuery // Pass the search query to the server
                             },
                             success: function(data) {
@@ -329,7 +342,7 @@ for($s1='0';$s1<='6';$s1++)
                             '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table +=
-                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Action</th></tr>';
+                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
@@ -341,6 +354,9 @@ for($s1='0';$s1<='6';$s1++)
                             table += '<td >' + unirollno + '</td>';
                             table += '<td >' + data[i][5] + '</td>';
                             table += '<td >' + data[i][8] + '</td>';
+                            var color = (data[i][19] == 1) ? 'green' : 'red';
+                        table += '<td style="color: ' + color + ';"><b>' + (data[i][19] == 1 ? 'Open' : (data[i][19] == 0 ? 'Close' : '')) + '</b></td>';
+
                             table += '<td><button onclick="edit_student(' + data[i][0] +
                                 ');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
                             table += '</tr>';

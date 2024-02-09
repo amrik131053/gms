@@ -14,6 +14,7 @@
 
 <?php include "internet_status.php";?>
 
+
 <script src="plugins/moment/moment.min.js"></script>
 <script src="plugins/fullcalendar/main.min.js"></script>
 <script src="plugins/fullcalendar-daygrid/main.min.js"></script>
@@ -38,7 +39,6 @@
 
 <script src="dist/js/adminlte.js"></script>
 <script src="sc.js"></script>
-
 
 <!--   tool tip -->
 
@@ -66,10 +66,8 @@
     ['para', ['ul', 'ol', 'paragraph']],
     ['height', ['height']]
   ]
-})
-    
+}) 
   })
-
 </script>
 <script type="text/javascript">
    function SuccessToast(text)
