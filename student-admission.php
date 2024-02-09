@@ -5,21 +5,28 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12  col-sm-12 col-lg-12">
-                <div class="card card-primary">
+
+            <div class="col-lg-3  col-sm-3 col-lg-3">
+            </div>
+
+            <div class="col-lg-6  col-sm-6 col-lg-6">
+               
                     <div class="btn-group w-100 mb-2">
-                        <a class="btn btn-primary btn11" id="btn1"
+                        <a class="btn btn-primary" id="btn1"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="newAdmission(),bg1(this.id);"> New Admission </a>
-                        <a class="btn btn-primary btn11" id="btn2"
+                        <a class="btn btn-primary" id="btn2"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="oldAdmission(),bg1(this.id);"> Old Admission </a>
                     </div>
-                    <div class="card-body" id="admissionForm" style="">
-                    </div>
-                </div>
+                   
+             
             </div>
         </div>
+         <div class="card card-primary">
+         <div class="card-body" id="admissionForm" style="">
+                    </div>
+                </div>
     </div>
     <!-- /.col -->
 </section>

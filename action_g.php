@@ -25161,52 +25161,36 @@ if($Status==6)
 
   <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Reference Detail --</h6> <hr style="background-color:#002149">
  
-<div class="row">
-    <div class="col-lg-2 col-md-2 col-sm-2">&nbsp;
-    </div>
-     <div class="col-lg-8 col-md-8 col-sm-8">
-          
-          <label>Comments</label>
-          <textarea  id="Comments" cols="1" rows="3" class="form-control"></textarea>
-     
-          &nbsp;
-      </div>
-</div>
- 
-
 
   <div class="row">
 
 
-      <div class="col-lg-2 col-md-2 col-sm-12">
-          
-
-          &nbsp;
-      </div>
-      <div class="col-lg-8 col-md-8 col-sm-12">
+      
+      <div class="col-lg-12 col-md-12 col-sm-12">
 
           <div class="btn-group w-100 mb-1">
-              <a class="btn btn-primary bg-success btn-xs btnG" id="btn3"
+              <a class="btn btn-primary bg-success  btnG" id="btn3"
                   style="background-color:#223260; color: white; border: 1px solid;"
                   onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
-              <a class="btn btn-primary btn-xs btnG" id="btn4"
+              <a class="btn btn-primary  btnG" id="btn4"
                   style="background-color:#223260; color: white; border: 1px solid;"
                   onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
-              <a class="btn btn-primary btn-xs btnG" id="btn5"
+              <a class="btn btn-primary  btnG" id="btn5"
                   style="background-color:#223260; color: white; border: 1px solid;"
                   onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
-              <a class="btn btn-primary btn-xs btnG" id="btn6"
+              <a class="btn btn-primary  btnG" id="btn6"
                   style="background-color:#223260; color: white; border: 1px solid;"
                   onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
               <input type="hidden" id="refvalue" value="Staff">
               <input type="hidden" id="refvalueCount" value="1">
           </div>
       </div>
-      <div class="col-lg-2 col-md-2 col-sm-12">
-          &nbsp;
-
-      </div>
+     
   </div>
+
+ 
+
+
 
   <!-- ---------------------------------------------------------------------------------- -->
   <div class="row" id="tableTeam">
@@ -25253,6 +25237,16 @@ if($Status==6)
 
 
   </div> 
+  <div class="row">
+    
+     <div class="col-lg-12 col-md-12 col-sm-12">
+          <br>
+          <label>Comments</label>
+          <textarea  id="Comments" cols="1" rows="3" class="form-control"></textarea>
+     
+          &nbsp;
+      </div>
+</div>
   <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- FEE Detail -- </h6>  <hr style="background-color:#002149">
   <h4>Total Debit Fee</h4>
   <div class="row">
