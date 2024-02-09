@@ -50,6 +50,8 @@ $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     $('#btn3').toggleClass("bg-success");
     newAdmission();
+    successModal(9618234070);
+
 })
 
 function bg1(id) {
@@ -69,7 +71,7 @@ function newAdmission() {
         url: 'action_g.php',
         type: 'POST',
         data: {
-            code: code
+            code: code 
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -77,6 +79,28 @@ function newAdmission() {
         }
     });
 }
+function collegeByDepartment(College) {
+
+    var code = '304';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            if (data != "") {
+
+                $("#Department").html("");
+                $("#Department").html(data);
+            }
+        }
+    });
+
+}
+
 function oldAdmission() {
     var code = 349;
     var spinner = document.getElementById('ajax-loader');
@@ -177,12 +201,13 @@ function fetchCollege() {
 function fetchcourse() {
     var College = document.getElementById('CollegeID').value;
     var Session = document.getElementById('Session').value;
+     var Department = document.getElementById('Department').value;
     var code = 351;
     $.ajax({
         url: 'action_g.php',
         data: {
             College: College,
-            Session: Session,
+            Session: Session,Department,Department,
             code: code
         },
         type: 'POST',
@@ -263,22 +288,27 @@ function getFeeDetails() {
     var Batch = document.getElementById('Batch').value;
     if (College === '') {
         ErrorToast('Please select a College', 'bg-warning');
+        document.getElementById("SemesterForFee").value = "";
         return;
     }
     if (Course === '') {
         ErrorToast('Please select a Course', 'bg-warning');
+         document.getElementById("SemesterForFee").value = "";
         return;
     }
     if (LateralEntry === '') {
         ErrorToast('Please select Lateral Entry status', 'bg-warning');
+         document.getElementById("SemesterForFee").value = "";
         return;
     }
     if (FeeCategory === '') {
         ErrorToast('Please select a Fee Category', 'bg-warning');
+         document.getElementById("SemesterForFee").value = "";
         return;
     }
     if (SemesterForFee === '') {
         ErrorToast('Please select a Semester', 'bg-warning');
+         document.getElementById("SemesterForFee").value = "";
         return;
     }
     var spinner = document.getElementById('ajax-loader');
@@ -299,6 +329,7 @@ function getFeeDetails() {
         type: 'POST',
         success: function(response) {
             spinner.style.display = 'none';
+            console.log(response);
             var data = JSON.parse(response);
             document.getElementById("feeparticulr").value = data[0];
             document.getElementById("feeTotalDebit").value = data[1];
@@ -551,9 +582,9 @@ function submitNewAdmissions() {
             console.log(response);
             spinner.style.display = 'none';
             if (response == 1) {
-                ErrorToast('Error', 'bg-warning');
+                ErrorToast('Server is busy Try Again ', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('Click Again', 'bg-warning');
+                ErrorToast('Server is busy Click Again', 'bg-warning');
             } else if (response == 3) {
                 ErrorToast('ID Proof Already Exist', 'bg-warning');
             } else {
@@ -567,8 +598,10 @@ function submitNewAdmissions() {
         }
     });
 }
+
 // successModal(9618224520);
-function successModal(IDNo) {
+function successModal(IDNo)
+ {
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $('#successModal').modal('show');

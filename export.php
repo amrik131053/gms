@@ -7221,8 +7221,15 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
 }
    }
    $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+if($totalcredit>0)
+{
+  $sgpa=$gradevaluetotal/$totalcredit;   
+}
+else
+{
+   $sgpa=0; 
+}
 
- $sgpa=$gradevaluetotal/$totalcredit;
 
     $sgpa= number_format($sgpa,2);
 

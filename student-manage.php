@@ -827,7 +827,7 @@ function copyToClipboard(text) {
                             </select>
                         </div>
                         <div class="col-lg-12">
-                            <label>Department</label>
+                            <label>Course</label>
                             <select id="Course1" name="Course1" class="form-control" >
                                 <option value=''>Select Course</option>
                             </select>
