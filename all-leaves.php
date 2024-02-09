@@ -27,9 +27,11 @@
                             &nbsp;
 
                         </div>
-<?php }?>
+
                         <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
                                 class="fa fa-retweet" aria-hidden="true"></i></button>
+                                <?php }else{
+                                   ?><input type="hidden"id="actionButtonValue" value="Manage Leaves"><?php  }?>
                         <input type="hidden" id="CollegeID_Set">
                         <div class="card-tools">
                             <div class="input-group ">

@@ -13288,7 +13288,7 @@ elseif($code==203)
                         <i class="fa fa-eye text-success fa-sm" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id=2) {?>
+                        <?php if($role_id==2 || $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -13384,7 +13384,7 @@ else
                     <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id=2 | $role_id=18) {?>
+                        <?php if($role_id==2 | $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
