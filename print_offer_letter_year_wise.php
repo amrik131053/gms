@@ -233,7 +233,7 @@ $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);
 
-$pdf->MultiCell(190, 10, '  FEE STRUCTURE  ',0, 'C','');
+$pdf->MultiCell(190, 10, '  FEE DEMAND LETTER  ',0, 'C','');
  
 //$pdf->MultiCell(190, 10, 'TO WHOM IT MAY CONCERN', 0, 'C');
 
