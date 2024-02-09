@@ -50,7 +50,7 @@ $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     $('#btn3').toggleClass("bg-success");
     newAdmission();
-    successModal(9618234050);
+    //successModal(9618234050);
 
 })
 
