@@ -13527,9 +13527,11 @@ else
                     </li>
                     <li class="nav-item">
 <?php
- if (str_contains($row['FilePath'], 'LeaveFileAttachment')) 
-{
-    $fileName=str_replace('~', '',$row['FilePath']);
+
+if (strpos($row['FilePath'], 'LeaveFileAttachment') !== false) {
+//  if (str_contains($row['FilePath'],'LeaveFileAttachment')) 
+// {
+    $fileName=str_replace('~','',$row['FilePath']);
     ?>
     <a href="http://erp.gku.ac.in:86/<?=$fileName;?>"
     target='_blank' class="nav-link leaveViewColor">
@@ -25787,15 +25789,19 @@ $Course=$_POST['Course'];
 $LateralEntry=$_POST['LateralEntry'];
 $Batch=$_POST['Batch'];
 $Comments=$_POST['Comments'];
+
 $refvalue=$_POST['refvalue'];
 $EmIDTeam=$_POST['EmID'];
 $RefName=$_POST['RefName'];
 $RefContact=$_POST['RefContact'];
 $RefAddress=$_POST['RefAddress'];
+
+
 $SemesterForFee=$_POST['SemesterForFee'];
 $SemesterID=$_POST['SemesterID'];
 $feeparticulr=$_POST['feeparticulr'];
 $feeTotalDebit=$_POST['feeTotalDebit'];
+
 $sqlG="SELECT DISTINCT CollegeName from MasterCourseCodes  Where CollegeID='$CollegeID' and Isopen='1'";
 $stmtG = sqlsrv_query($conntest,$sqlG);
 if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
@@ -25892,9 +25898,12 @@ if($ifexitIDNo<1)
     }
     else{
 
+        if($IDNo>0){
+
     $sqlConsultant="INSERT into  MasterConsultantRef(StudentIDNo,RefIDNo,Type) values ('$IDNo','$EmIDTeam','$refvalue')";
  
     sqlsrv_query($conntest,$sqlConsultant);
+}
     }
   
      $Value[0]=$IDNo;

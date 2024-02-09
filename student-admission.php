@@ -4,7 +4,7 @@
 
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
+     <!--    <div class="row">
 
             <div class="col-lg-3  col-sm-3 col-lg-3">
             </div>
@@ -22,7 +22,7 @@
                    
              
             </div>
-        </div>
+        </div> -->
          <div class="card card-primary">
          <div class="card-body" id="admissionForm" style="">
                     </div>
