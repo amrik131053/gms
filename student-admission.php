@@ -4,7 +4,7 @@
 
 <section class="content">
     <div class="container-fluid">
-     <!--    <div class="row">
+  <div class="row">
 
             <div class="col-lg-3  col-sm-3 col-lg-3">
             </div>
@@ -18,11 +18,14 @@
                         <a class="btn btn-primary" id="btn2"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="oldAdmission(),bg1(this.id);"> Old Admission </a>
+                              <a class="btn btn-primary" id="btn2"
+                            style="background-color:#223260; color: white; border: 5px solid;"
+                            onclick="creditcardAdmission(),bg1(this.id);"> Credit Card </a>
                     </div>
                    
              
             </div>
-        </div> -->
+        </div> 
          <div class="card card-primary">
          <div class="card-body" id="admissionForm" style="">
                     </div>
@@ -125,6 +128,23 @@ function oldAdmission() {
     });
 }
 
+function creditcardAdmission() {
+    var code = 367;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("admissionForm").innerHTML = response;
+        }
+    });
+}
+
 function searchStudentOnRollNo() {
     var rollNo = document.getElementById('rollNo').value;
     if (rollNo != '') {
@@ -185,6 +205,94 @@ function searchStudentOnRollNo() {
         ErrorToast('Please Enter RollNo', 'bg-warning');
     }
 }
+
+
+
+
+function creditcardsearch() {
+    var rollNo = document.getElementById('rollNo').value;
+    if (rollNo != '') {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '368';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                code: code,
+                rollNo: rollNo
+            },
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                spinner.style.display = 'none';
+                var data = JSON.parse(response);
+                document.getElementById("Nationality").value = data[0];
+                document.getElementById("Name").value = data[1];
+                document.getElementById("FatherName").value = data[2];
+                document.getElementById("MobileNumber").value = data[3];
+                if (data[0] == 'Indian') {
+        $('#AdharCard').show();
+        $('#IDNoNationlity').hide();
+        $('#PassportNo').hide();
+        document.getElementById('IDNoNationlity').value = "";
+        document.getElementById('PassportNumber').value = "";
+        document.getElementById("AdharCardNo").value = data[4];
+    } else if (data[0] == 'NRI') {
+        $('#PassportNo').show();
+        $('#AdharCard').hide();
+        $('#IDNoNationlity').hide();
+        document.getElementById("PassportNumber").value = data[4];
+        document.getElementById('IDNoNationlity').value = "";
+        document.getElementById('AdharCardNo').value = "";
+        document.getElementById('IDNumber').value = "";
+    } else if (data[0] == 'Nepal') {
+        $('#IDNoNationlity').show();
+        $('#AdharCard').hide();
+        $('#PassportNo').hide();
+        document.getElementById("IDNoNationlity").value = data[4];
+        document.getElementById('AdharCardNo').value = "";
+        document.getElementById('PassportNumber').value = "";
+    } else if (data[0] == 'Bhutan') {
+        $('#IDNoNationlity').show();
+        $('#AdharCard').hide();
+        $('#PassportNo').hide();
+        document.getElementById("IDNoNationlity").value = data[4];
+        document.getElementById('AdharCardNo').value = "";
+        document.getElementById('PassportNumber').value = "";
+    }
+                
+                document.getElementById("Dob").value = data[5];
+                document.getElementById("Gender").value = data[6];
+                document.getElementById("category").value = data[7];
+            }
+        });
+    } else {
+        ErrorToast('Please Enter RollNo', 'bg-warning');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function fetchCollege() {
     var Session = document.getElementById('Session').value;
     var code = 350;
