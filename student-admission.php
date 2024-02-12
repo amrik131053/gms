@@ -226,17 +226,18 @@ function creditcardsearch() {
                 console.log(response);
                 spinner.style.display = 'none';
                 var data = JSON.parse(response);
-                document.getElementById("Nationality").value = data[0];
+              
                 document.getElementById("Name").value = data[1];
                 document.getElementById("FatherName").value = data[2];
                 document.getElementById("MobileNumber").value = data[3];
-                if (data[0] == 'Indian') {
+                if (data[0] == '101') {
         $('#AdharCard').show();
         $('#IDNoNationlity').hide();
         $('#PassportNo').hide();
         document.getElementById('IDNoNationlity').value = "";
         document.getElementById('PassportNumber').value = "";
         document.getElementById("AdharCardNo").value = data[4];
+          document.getElementById("Nationality").value ='Indian';
     } else if (data[0] == 'NRI') {
         $('#PassportNo').show();
         $('#AdharCard').hide();
@@ -264,6 +265,19 @@ function creditcardsearch() {
                 document.getElementById("Dob").value = data[5];
                 document.getElementById("Gender").value = data[6];
                 document.getElementById("category").value = data[7];
+                  document.getElementById("feecategory").value = data[8];
+                   document.getElementById("scholaship").value = data[9];
+                    document.getElementById("Session").value = data[10];
+                    document.getElementById("CollegeID").value = data[11];
+                    document.getElementById("Course").value = data[12];
+                    document.getElementById("Department").value = data[13];
+                                document.getElementById("LateralEntry").value = data[14];
+                    document.getElementById("CourseName").value = data[15];
+                    document.getElementById("CollegeName").value = data[16];
+                    document.getElementById("Batch").value = data[17];
+                    document.getElementById("EmIDConsultant1").value = data[18];
+                    
+
             }
         });
     } else {
@@ -556,8 +570,10 @@ function submitNewAdmissions() {
     var LateralEntry = document.getElementById('LateralEntry').value;
     var Batch = document.getElementById('Batch').value;
     var Comments = document.getElementById('Comments').value;
+
     var refvalue = document.getElementById('refvalue').value;
     var EmIDTeam = document.getElementById('EmID' + refvalue + '1').value;
+    
     if (refvalue == 'Team') {
         var verifiy = document.getElementsByClassName('v_check');
         var len_student = verifiy.length;
@@ -568,21 +584,21 @@ function submitNewAdmissions() {
     } else {
         var subjectIDs = [];
     }
-    if (EmIDTeam != '') {
-        var RefName = document.getElementById('RefName1').value;
-        var RefContact = document.getElementById('RefContact1').value;
-        var RefAddress = document.getElementById('RefAddress1').value;
-    } else {
-        var RefName = "";
-        var RefContact = "";
-        var RefAddress = "";
-    }
-    for (i = 1; i < len_student + 1; i++) {
-        var EmIDTeam = document.getElementById('EmID' + refvalue + i).value;
-        var RefName = document.getElementById('RefName' + i).value;
-        var RefContact = document.getElementById('RefContact' + i).value;
-        var RefAddress = document.getElementById('RefAddress' + i).value;
-    }
+    // if (EmIDTeam != '') {
+    //     var RefName = document.getElementById('RefName1').value;
+    //     var RefContact = document.getElementById('RefContact1').value;
+    //     var RefAddress = document.getElementById('RefAddress1').value;
+    // } else {
+    //     var RefName = "";
+    //     var RefContact = "";
+    //     var RefAddress = "";
+    // }
+    // for (i = 1; i < len_student + 1; i++) {
+    //     var EmIDTeam = document.getElementById('EmID' + refvalue + i).value;
+    //     var RefName = document.getElementById('RefName' + i).value;
+    //     var RefContact = document.getElementById('RefContact' + i).value;
+    //     var RefAddress = document.getElementById('RefAddress' + i).value;
+    // }
     var semesterSelect = document.getElementById("SemesterForFee");
     var selectedOption = semesterSelect.options[semesterSelect.selectedIndex];
     var selectedSemesterID = selectedOption.value;
@@ -683,9 +699,6 @@ function submitNewAdmissions() {
             refvalue: refvalue,
             EmID: EmIDTeam,
             subjectIDs: subjectIDs,
-            RefName: RefName,
-            RefContact: RefContact,
-            RefAddress: RefAddress,
             SemesterForFee: SemesterForFee,
             SemesterID: selectedSemesterID,
             feeparticulr: feeparticulr,

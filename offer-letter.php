@@ -99,12 +99,23 @@ include "header.php";
       </div>
       <div class="modal-body">
             <div class="row">
-               <div class="col-lg-9">
+                <div class="col-lg-2">
+                </div>
+               <div class="col-lg-8">
+                <label>Name</label>
                   <input type="text" class="form-control" id="consultant_name" value="">
+                  <label>Mobile</label>
+
+                   <input type="text" class="form-control" id="Mobile" value="">
+                   <label>Address</label>
+                    <input type="text" class="form-control" id="address" value="">
+                    <label>Organisation</label>
+                     <input type="text" class="form-control" id="organisation" value="">
+
+<br>
+                     <button class="btn btn-primary" onclick="add_consultant();"><i class="fa fa-plus" ></i>ADD</button>
                </div>
-               <div class="col-lg-3">
-                  <button class="btn btn-primary" onclick="add_consultant();"><i class="fa fa-plus" ></i>ADD</button>
-               </div>
+             
             </div>
 
       </div>
@@ -169,12 +180,13 @@ include "header.php";
                  <label>Consultant</label>
                   <select  id="Consultant"  class="form-control" required>
                      <option value=''>Select Consultant</option>
-                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
-                     $get_consultant_run=mysqli_query($conn,$get_consultant);
-                     while($row=mysqli_fetch_array($get_consultant_run))
+                       <?php  $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
-                     <option value='<?=$row['id'];?>'><?=$row['state'];?></option>
+                     <option value='<?=$row['ID'];?>'><?=$row['Name'];?></option>
                      
                      <?php }?>
                  </select>
@@ -216,12 +228,13 @@ include "header.php";
                  <label>Fee Applicable</label>
                   <select  id="Consultant_old"  class="form-control" required>
                      <option value=''>Select Consultant</option>
-                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
-                     $get_consultant_run=mysqli_query($conn,$get_consultant);
-                     while($row=mysqli_fetch_array($get_consultant_run))
+                     <?php  $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
-                     <option value='<?=$row['id'];?>'><?=$row['state'];?></option>
+                     <option value='<?=$row['ID'];?>'><?=$row['Name'];?></option>
                      
                      <?php }?>
                  </select>
@@ -365,12 +378,13 @@ include "header.php";
               <label>Consultant</label>  
               <select  id="Consultant_"  class="form-control" >
                      <option value=''>Select Consultant</option>
-                     <?php  $get_consultant="SELECT * FROM consultant_master "; 
-                     $get_consultant_run=mysqli_query($conn,$get_consultant);
-                     while($row=mysqli_fetch_array($get_consultant_run))
+                      <?php  $get_consultant="SELECT * FROM MasterConsultant where Status>0"; 
+
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
-                     <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
+                     <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
                      
                      <?php }?>
                  </select>
@@ -447,7 +461,7 @@ include "header.php";
                      </label>
                  
                </div>
-              
+         
                   <div class="icheck-primary d-inline">
                      <input type="radio" id="radioPrimaryb19"  value="Yes" name="Lateral">
                      <label for="radioPrimaryb19">
@@ -456,6 +470,30 @@ include "header.php";
                 
                </div>
             </div>
+
+             <div class="col-lg-2">
+               <label>Date Of Birth</label> <br>
+                  <input type='date'  id="DOB"  class="form-control" required >
+                    
+              </div>
+              <div class="col-lg-2">
+               <label>Mobile No</label> <br>
+                  <input type='text'  id="MobileNo"  class="form-control" pattern="{0-9}[10]" required >
+                    
+              </div>
+
+<div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Category</label>
+          <select class="form-control" id="category">
+              <option value="">Select</option>
+              <option>SC</option>
+              <option>ST</option>
+              <option>OBC</option>
+
+              <option>General</option>
+          </select>
+      </div>
+
             <div class="col-lg-3">
               
                   <select  id="Batch"  class="form-control" required hidden>
@@ -931,17 +969,20 @@ function add_consultant()
 {
   // alert();
     var consultant_name = document.getElementById("consultant_name").value;
+      var consultant_m = document.getElementById("Mobile").value;
+        var consultant_a = document.getElementById("address").value;
+          var consultant_o = document.getElementById("organisation").value;
     if (consultant_name!='' && consultant_name!=null) 
     {
 var code=135;
       $.ajax({
     url: 'action_g.php',
-    data: {consultant_name:consultant_name,code:code},
+    data: {consultant_name:consultant_name,consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,code:code},
     type: 'POST',
     success: function(response)
      {
-    // console.log(response);
-    if (response=='1') {
+    //console.log(response);
+    if (response==1) {
          SuccessToast('Successfully Inserted');
    }
    else
@@ -1096,7 +1137,9 @@ function submit_record() {
   var FatherName = document.getElementById('FatherName').value;
   // var MotherName = document.getElementById('MotherName').value;
   var Gender = document.getElementById('Gender').value;
-  // var MobileNo = document.getElementById('MobileNo').value;
+   var MobileNo = document.getElementById('MobileNo').value;
+   var DOB = document.getElementById('DOB').value;
+   var Category = document.getElementById('category').value;
   var CollegeName = document.getElementById('CollegeName1').value;
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
@@ -1126,7 +1169,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     months:months,
     // MotherName: MotherName,
     Gender: Gender,
-    // MobileNo: MobileNo,
+    MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
@@ -1137,10 +1180,11 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     District: District,
     Consultant: Consultant,
     Lateral: Lateral,
-    //duration: duration,
+   DOB:DOB,
     session: session,
     AdharCardNo: AdharCardNo,
     PassportNo: PassportNo,
+    Category:Category,
     code: code
   };
  

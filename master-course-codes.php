@@ -342,7 +342,7 @@ for($s1='0';$s1<='6';$s1++)
                             '<div id="pagination"><td colspan="3"> <button id="prev-btn" class="btn btn-primary " disabled>Previous</button></td><td colspan="">  </td><td></td><td></td><td><button id="next-btn" class="btn btn-primary ">Next</button></td></div>';
                         table += '</tr>';
                         table +=
-                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th>Action</th></tr>';
+                            '<tr><th width="10">Session</th><th>College</th><th>Course</th><th>ShortName</th><th>Batch</th><th>LateralEntry</th><th>ClassRollNo</th><th>Is Open</th><th colspan="2">Action</th></tr>';
 
                         for (var i = 0; i < data.length; i++) {
                             var unirollno = data[i][6];
@@ -359,6 +359,8 @@ for($s1='0';$s1<='6';$s1++)
 
                             table += '<td><button onclick="edit_student(' + data[i][0] +
                                 ');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>';
+                                 table += '<td><button onclick="delete_course(' + data[i][0] +
+                                ');"  class="btn btn-danger btn-xs " ><i class="fa fa-trash"></i></button ></td>';
                             table += '</tr>';
                         }
 
@@ -424,6 +426,7 @@ for($s1='0';$s1<='6';$s1++)
 <script type="text/javascript">
 function edit_record() {
     var id = document.getElementById('master_id').value;
+    ValidUpTo
     var CollegeID = document.getElementById('CollegeName1').value;
     var Department = document.getElementById('Department1').value;
     var Course = document.getElementById('Course1').value;
@@ -431,6 +434,7 @@ function edit_record() {
     var Batch = document.getElementById('Batch1').value;
     var session = document.getElementById('Session').value;
     var selectBoxCollegeName1 = document.getElementById("CollegeName1");
+    var ValidUpTo=document.getElementById('ValidUpTo').value;
     var selectedIndex = selectBoxCollegeName1.selectedIndex;
     var CollegeName = selectBoxCollegeName1.options[selectedIndex].text; // Fix: Removed ()
     var LateralEntry = document.getElementById('LateralEntry').value;
@@ -457,7 +461,7 @@ function edit_record() {
             Isopen: Isopen,
             EndClassRollNo: EndClassRollNo,
             CourseType: CourseType,
-            Duration: Duration,
+            Duration: Duration,ValidUpTo:ValidUpTo,
             Status: Status
         };
         // Send the AJAX request
@@ -579,6 +583,39 @@ function edit_student(id) {
     });
 
 }
+
+function  delete_course(id)
+{
+var code = '369';
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            id: id,
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+         if (response == 1) {
+                    SuccessToast('Data submitted successfully');
+                } else {
+                    ErrorToast('Try  after some time', 'bg-danger');
+
+                }  
+
+            
+        }
+    });
+
+}
+
+
+
+
+
+
+
+
+
 
 function collegeByDepartment1(College) {
 

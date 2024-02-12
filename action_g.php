@@ -8496,7 +8496,7 @@ $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
  $months = $_POST['months'];
 $Gender = $_POST['Gender'];
-// $MobileNo = $_POST['MobileNo'];
+ $MobileNo = $_POST['MobileNo'];
 $CollegeName = $_POST['CollegeName'];
 $Department = $_POST['Department'];
 $Course = $_POST['Course'];
@@ -8507,7 +8507,8 @@ $Nationality = $_POST['Nationality'];
 $State = $_POST['State'];
 $District = $_POST['District'];
 $Consultant = $_POST['Consultant'];
-//$duration= $_POST['duration'];
+$Category= $_POST['Category'];
+$DOB= $_POST['DOB'];
 $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
@@ -8534,7 +8535,7 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
 
 
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -8632,8 +8633,15 @@ else
           elseif($code==135)
       {
          $state=$_POST['consultant_name'];
-          $insert_consultant="INSERT INTO consultant_master (state)values('$state');";
-         $insert_consultant_run=mysqli_query($conn,$insert_consultant);
+          $m=$_POST['consultant_m'];
+           $a=$_POST['consultant_a'];
+            $o=$_POST['consultant_o'];
+
+
+
+        $insert_consultant="INSERT INTO MasterConsultant (Name,Mobile,Address,Organisation,Status)values('$state','$m','$a','$o','1')";
+
+         $insert_consultant_run=sqlsrv_query($conntest,$insert_consultant);
          if ($insert_consultant_run==true)
           {
          echo "1";   
@@ -10189,7 +10197,8 @@ if ($CollegeName !== '') {
  $Status=$_POST['Status'];
  $Duration=$_POST['Duration'];
  $CourseType=$_POST['CourseType'];
-  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration' where Id='$id'";
+  $ValidUpTo=$_POST['ValidUpTo'];
+  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo' where Id='$id'";
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -16913,7 +16922,7 @@ elseif($code==248)
    $result = sqlsrv_query($conntest,$sql);
    if($row=sqlsrv_fetch_array($result))
    {
-         $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' ";
+      $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row['CourseID']."' and Batch='".$row['Batch']."' ";
        $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
        if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
        {
@@ -25220,7 +25229,7 @@ if($Status==6)
           <label>Select</label>
           <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
               <option value="">Select</option>
-              <?php $get_consultant="SELECT * FROM MasterConsultant";
+              <?php $get_consultant="SELECT * FROM MasterConsultant where Status>0";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
@@ -25530,7 +25539,7 @@ if($Status==6)
           <label>Select</label>
           <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
               <option value="">Select</option>
-              <?php $get_consultant="SELECT * FROM MasterConsultant";
+              <?php $get_consultant="SELECT * FROM MasterConsultant where Status>0";
 
 
                     $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
@@ -25835,11 +25844,8 @@ $Batch=$_POST['Batch'];
 $Comments=$_POST['Comments'];
 
 $refvalue=$_POST['refvalue'];
-$EmIDTeam=$_POST['EmID'];
-$RefName=$_POST['RefName'];
-$RefContact=$_POST['RefContact'];
-$RefAddress=$_POST['RefAddress'];
 
+$EmIDTeam=$_POST['EmID'];
 
 $SemesterForFee=$_POST['SemesterForFee'];
 $SemesterID=$_POST['SemesterID'];
@@ -26295,7 +26301,7 @@ elseif($code==361)
         $value[2]=$getRefStudent['FatherName'];
         $value[3]=$getRefStudent['StudentMobileNo'];
         $value[4]=$getRefStudent['AadhaarNo'];
-        $value[5]=$getRefStudent['DOB']->format('Y-d-m');
+        $value[5]=$getRefStudent['DOB']->format('Y-m-d');
         $value[6]=$getRefStudent['Sex'];
         $value[7]=$getRefStudent['Category'];
     }
@@ -26576,7 +26582,7 @@ else if($code==367)
           <label>Scholarship</label>
           <select class="form-control" id="scholaship">
               <option value="">Select</option>
-              <option value="Special Meritorious Scholarship ">Special Meritorious Scholarship </option>
+              <option value="Special Meritorious Scholarship">Special Meritorious Scholarship </option>
               <option value="Early Bird scholarship">Early Bird scholarship</option>
               <option value="Single Girl Child Scholarship">Single Girl Child Scholarship</option>
               <option value="Orphan Student scholarship">Orphan Student scholarship</option>
@@ -26605,26 +26611,25 @@ else if($code==367)
 
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>College Name</label>
-          <select name="" id="CollegeID" class="form-control"  onchange="collegeByDepartment(this.value);">
-              <option value="">Select</option>
+         
+<input type='text' id="CollegeName" class="form-control"  readonly required>
 
-          </select>
+          <input type='hidden' id="CollegeID" class="form-control"  readonly required>
       </div>
 
-   <div class="col-lg-3">
+<!--    <div class="col-lg-3">
                                 <label>Department</label>
-             <select id="Department" class="form-control"  onchange="fetchcourse()" required>
-                                    <option value=''>Select Department</option>
+             
                                    
-                                </select>
-                            </div>
+                            </div> -->
 
-
+<input type='hidden' id="Department" class="form-control"  readonly required>
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Course</label>
-          <select name="" id="Course" class="form-control">
-              <option value="">Select</option>
-          </select>
+         
+
+            <input type='hidden' id="Course" class="form-control"  readonly required>
+            <input type='text' id="CourseName" class="form-control"  readonly required>
       </div>
 
 
@@ -26650,31 +26655,6 @@ else if($code==367)
   <!-- <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Reference Detail --</h6> <hr style="background-color:#002149"> -->
  
 
-  <div class="row">
-
-
-      
-      <div class="col-lg-12 col-md-12 col-sm-12">
-
-          <div class="btn-group w-100 mb-1">
-              <a class="btn btn-primary bg-success  btnG" id="btn3"
-                  style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
-              <a class="btn btn-primary  btnG" id="btn4"
-                  style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
-              <a class="btn btn-primary  btnG" id="btn5"
-                  style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
-              <a class="btn btn-primary  btnG" id="btn6"
-                  style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
-              <input type="hidden" id="refvalue" value="Staff">
-              <input type="hidden" id="refvalueCount" value="1">
-          </div>
-      </div>
-     
-  </div>
 
  
 
@@ -26684,53 +26664,27 @@ else if($code==367)
   <div class="row" id="tableTeam">
 
   </div>
-  <div class="row" style="display:none;" id="tableTeamOhter">
-      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStaff" style="display:none;">
-          <label>IDNo</label>
-          <input type="text" id="EmIDStaff1" class="form-control" onblur="getOnChnageDetails('1');">
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffStudent" style="display:none;">
-          <label>RollNo</label>
-          <input type="text" id="EmIDStudent1" class="form-control" onblur="getOnChnageDetails('1');">
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" style="display:none;">
-          <label>Select</label>
-          <select id="EmIDConsultant1" class="form-control" onchange="getOnChnageDetails('1');">
-              <option value="">Select</option>
-              <?php $get_consultant="SELECT * FROM MasterConsultant";
+  <div class="row"  id="tableTeamOhter">
+      
 
 
-                    $get_consultantRun=sqlsrv_query($conntest,$get_consultant);
-                    while($row=sqlsrv_fetch_array($get_consultantRun))
-                    {
-    ?>
-              <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
-              <?php 
-                    }
-            ?>
-          </select>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label> Name</label>
-          <input type="text" id="RefName1" class="form-control" readonly>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Contact No.</label>
-          <input type="text" id="RefContact1" class="form-control" readonly>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <label>Address</label>
-          <input type="text" name="" id="RefAddress1" class="form-control " readonly>
-      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12" id="accordingToReffConsoultant" >
+          
+ 
+  <input type="hidden" id='refvalue'  class="form-control"  value="Consultant" readonly>
+          <input type="hidden" id='EmIDConsultant1'  class="form-control" name="" readonly>
+          
+  
 
 
   </div> 
+</div>
   <div class="row">
     
      <div class="col-lg-12 col-md-12 col-sm-12">
           <br>
           <label>Comments</label>
-          <textarea  id="Comments" cols="1" rows="3" class="form-control"></textarea>
+          <textarea  id="Comments" cols="1" rows="3" class="form-control"> Full Fee as per Norms</textarea>
      
           &nbsp;
       </div>
@@ -26792,40 +26746,68 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
-     $degree="SELECT * FROM offer_latter   where id like '%$rollNo%' or Class_RollNo like '%$rollNo%' or ID_Proof_No like '%$rollNo%'  order by Id DESC"; 
+     $degree="SELECT * FROM offer_latter   where id like '%$rollNo%'   order by Id DESC"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
             {
                 $data2=$degree_row;
                 $CourseID=$degree_row['Course'];
+               $session= $degree_row['Session'];
 
         $value[0]=$degree_row['Nationality'];
         $value[1]=$degree_row['Name'];
         $value[2]=$degree_row['FatherName'];
         $value[3]=$degree_row['MobileNo'];
         $value[4]=$degree_row['ID_Proof_No'];
-        $value[5]='';
+        $value[5]=$degree_row['DOB'];;
         $value[6]=$degree_row['Gender'];
-        $value[7]='';
+        $value[7]=$degree_row['Category'];;
+        $value[8]='General';
+        $value[9]='Not Applicable';
+        $value[10]=$session;
+        $value[11]=$degree_row['CollegeName'];  
+        $value[12]=$degree_row['Course'];   
+        $value[13]=$degree_row['Department'];
+         $value[14]=$degree_row['Lateral'];
+         $value[18]=$degree_row['Consultant_id'];                       
+
+if($value[14]=='Yes')
+{
+ $value[17]=$degree_row['Batch']-1;                 
+}
+else
+{
+    $value[17]=$degree_row['Batch'];               
+}
 
 
 
 
 
+                $get_course="SELECT Course,CollegeName FROM MasterCourseCodes Where CourseId='$CourseID'";
+                $get_course_run=sqlsrv_query($conntest,$get_course);
+                if($row=sqlsrv_fetch_array($get_course_run))
+                {
+               $value[15]=$row['Course'];   
+        $value[16]=$row['CollegeName'];              
 
-            //     $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
-            //     $get_course_run=sqlsrv_query($conntest,$get_course);
-            //     if($row=sqlsrv_fetch_array($get_course_run))
-            //     {
-            //    $data1=$row;
-            //    $data[]=array_merge($data2,$data1);
           
-            // }
+            }
 
 }
     echo json_encode($value);
 
+}
+else if($code=='369')
+    {
+        $id=$_POST['id'];
+      $baseQuery = "Delete FROM MasterCourseCodes WHERE Id='$id'";
+      $baseQuery_run=sqlsrv_query($conntest,$baseQuery);
+     if($baseQuery_run)
+     {
+        echo "1";
+     }
 }
 
    else
