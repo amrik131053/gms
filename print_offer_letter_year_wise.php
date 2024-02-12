@@ -551,13 +551,12 @@ $Y=$pdf->GETY();
 
 if($typeFromUII==1)
 {
-    $pdf-> Image('dist/img/sign-offer.png',160,170,24,20.5);
-
- $pdf-> Image('dist/img/sign.png',160, 150,30,26.5);
 }
 
 else{
- 
+ $pdf-> Image('dist/img/sign-offer.png',160,170,24,20.5);
+
+ $pdf-> Image('dist/img/sign.png',160, 150,30,26.5);
 }
 
 
