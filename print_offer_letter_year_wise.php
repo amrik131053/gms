@@ -100,7 +100,7 @@ else
                   $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1; 
                    $PrintDatew=date('Y-m-d');  
 
-                   $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1   
+                   $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1   ;
 
 
 
