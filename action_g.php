@@ -22964,7 +22964,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     if($Status==4){?> 
 
     <!-- <label class='text-danger text-sm'>Reject Remarks</label> -->
-    <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <textarea class=" form-control "name="" id="remarkReject"  > Fee Pending</textarea>
     <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
                                     a value minimum 5 characters.</small><br>
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
