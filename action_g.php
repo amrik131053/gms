@@ -8500,7 +8500,7 @@ $Gender = $_POST['Gender'];
 $CollegeName = $_POST['CollegeName'];
 $Department = $_POST['Department'];
 $Course = $_POST['Course'];
-// $Batch = $_POST['Batch'];
+ $Batch = $_POST['Batch'];
 $Lateral = $_POST['Lateral'];
 $PinCode = $_POST['PinCode'];
 $Nationality = $_POST['Nationality'];
@@ -8534,7 +8534,7 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
 
 
 
- $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp');";
+ $insert_record = "INSERT INTO `offer_latter` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`District`,`PinCode`, `State`,`Consultant_id`,`Session`,`Duration`,`ID_Proof_No`,`months`,`AddedBy`,`SubmitDate`,`Batch`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$District','$PinCode','$State','$Consultant','$session','$duration','$ID_Proof_No','$months','$EmployeeID','$timeStamp','$Batch');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -8653,6 +8653,7 @@ else
          $hostel=$_POST['hostel'];
          $concession=$_POST['concession'];
           $Lateral=$_POST['Lateral'];
+          $Batch=$_POST['Batch'];
          $afterconcession=$_POST['afterconcession'];
          $consultant_id=$_POST['consultant_id'];
 
@@ -8666,7 +8667,7 @@ echo "2";
           {
           // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
 
-          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral');";
+          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`,`batch`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral','$Batch');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
           {

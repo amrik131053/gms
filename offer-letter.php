@@ -267,6 +267,13 @@ include "header.php";
                </div>
             </div>
 
+<div class="col-lg-3">
+                 <label>Batch / Admisison Year</label>
+                  <select  id="Batch"  class="form-control" required>
+                     <option value='2024'>2024</option>
+                       <option value='2023'>2023</option>
+                 </select>
+              </div> 
 
             <!--   <div class="col-lg-1">
                  <label>Action</label><br>
@@ -449,12 +456,19 @@ include "header.php";
                 
                </div>
             </div>
+            <div class="col-lg-3">
+              
+                  <select  id="Batch"  class="form-control" required hidden>
+                     <option value='2024'>2024</option>
+                       <option value='2023'>2023</option>
+                 </select>
+              </div> 
 
 
          <!--    <div class="col-lg-2">
               <label>Session</label>   -->
               <select class="form-control" id="session" hidden>
-                <option value="2023-24">2023-24</option>
+                <option value="2024-25">2024-25</option>
                  <option value="">Select</option>
                  <option value="2022-23">2022-23</option>
                  <option value="2023-24">2023-24</option>
@@ -826,6 +840,7 @@ function submit_fee()
 {
     var CollegeName = document.getElementById("CollegeName").value;
     var Department = document.getElementById("Department").value;
+       var Batch = document.getElementById("Batch").value;
     var Course = document.getElementById("Course").value;
     var Applicables = document.getElementById("Applicables").value;
     var Hostel = document.getElementById("Hostel").value;
@@ -841,7 +856,7 @@ if (CollegeName!='' && Department!='' && Course!='' && Applicables !='' && Hoste
 var code=136;
       $.ajax({
     url: 'action_g.php',
-    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code,Lateral:Lateral},
+    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code,Lateral:Lateral,Batch:Batch},
     type: 'POST',
     success: function(response) {
       console.log(response);
@@ -1085,7 +1100,7 @@ function submit_record() {
   var CollegeName = document.getElementById('CollegeName1').value;
   var Department = document.getElementById('Department1').value;
   var Course = document.getElementById('Course1').value;
-  // var Batch = document.getElementById('batch').value;
+   var Batch = document.getElementById('Batch').value;
   var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality_').value;
   var State = document.getElementById('State_').value;
@@ -1115,7 +1130,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
-    // Batch: Batch,
+    Batch: Batch,
     PinCode: PinCode,
     Nationality: Nationality,
     State: State,

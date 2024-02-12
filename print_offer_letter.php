@@ -116,7 +116,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
     $courseName=$row_course_name['Course'];
 }
 
-$fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'";
+$fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'ANd batch='$Batch'";
 $fee_details_run=mysqli_query($conn,$fee_details);
 if ($row_fee=mysqli_fetch_array($fee_details_run))
  {
@@ -127,7 +127,7 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
  }
  else
  {
-  $fee_details1="SELECT * FROM master_fee where Lateral='$Lateral' ANd course='$Course'";
+  $fee_details1="SELECT * FROM master_fee where Lateral='$Lateral' ANd course='$Course'ANd batch='$Batch'";
   $fee_details1_run=mysqli_query($conn,$fee_details1);
   if($row_fee1=mysqli_fetch_array($fee_details1_run))
   {
