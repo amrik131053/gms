@@ -549,9 +549,17 @@ $Y=$pdf->GETY();
 //$pdf-> Image('dist/img/sign-offer.png',$X-30, $Y+5,24,20.5);
 //$pdf-> Image('dist/img/sign.png',$X-30, $Y-12,30,26.5);
 
+if($typeFromUII==1)
+{
+}
+else{
  $pdf-> Image('dist/img/sign-offer.png',160,170,24,20.5);
 
  $pdf-> Image('dist/img/sign.png',160, 150,30,26.5);
+}
+
+
+ 
 
 $pdf->SetXY($X,10+$Y);
 $pdf->MultiCell(190, 8, 'Thanks and Regards,',0, 'R');
