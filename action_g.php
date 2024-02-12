@@ -22901,6 +22901,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $phone = $row6['StudentMobileNo'];
             $batch = $row6['Batch'];
             $college = $row6['CollegeName'];
+             $Comments = $row6['CommentsDetail'];
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
           }
@@ -22952,10 +22953,48 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <?=$Semester;?> </td>
    </tr>
    <tr>
+   <td><b>Comment:</b></td>
+   <td  colspan="5"><?php echo $Comments;?></td>
+   
+ </tr>
+  
         </table>
         </div>
         <br>
+      <?php   
+    if($Status==4){?> 
+
+    <!-- <label class='text-danger text-sm'>Reject Remarks</label> -->
+    <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+    <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+    <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+    <?php }?>
+
+    <?php if($Status==5 && $Status!=6){?>
+        <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+        <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+        <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+        <?php }?>
+        <?php if($Status==6){?>
+<p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
+            <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+            <?php }
+
+        // } 
+        // else {
+        //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
+        // }
+
+    ?>
+        </center>
+<br>
         <div class="table table-responsive" style="height:500px;">
+            <br>
         <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
                                       <thead >      
                                             <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
@@ -22972,10 +23011,10 @@ $stmt1 = sqlsrv_query($conntest,$sql);
                                               $amount=$tdebit-$tcredit;
                                                 ?>                                  
                                             
-                                              <!-- <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td> -->
-                                            <!-- <td colspan="2"></td>
+                                               <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td> 
+                                           <td colspan="2"></td>
                                                 <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
-                                                </tr> -->
+                                                </tr>
                                             
                                             
                                                                                         <tr >
@@ -23072,42 +23111,10 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     
 
 
-    if($Status==4){?> 
-
-    <!-- <label class='text-danger text-sm'>Reject Remarks</label> -->
-    <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
-    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
-                                    a value minimum 5 characters.</small><br>
-    <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
-
-    <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
-    <?php }?>
-
-    <?php if($Status==5 && $Status!=6){?>
-        <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
-        <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
-                                    a value minimum 5 characters.</small><br>
-        <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
-        <?php }?>
-        <?php if($Status==6){?>
-<p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
-<br>
-            <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
-            <?php }
-
-        // } 
-        // else {
-        //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
-        // }
-
-    ?>
-        </center>
 
 
 
 
-
-         <?php 
    }
 
    else if($code==328)
@@ -26786,7 +26793,7 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
-     $degree="SELECT * FROM offer_latter where id like '%$rollNo%' or Class_RollNo like '%$rollNo%' or ID_Proof_No like '%$rollNo%'  order by Id DESC"; 
+     $degree="SELECT * FROM offer_latter   where id like '%$rollNo%' or Class_RollNo like '%$rollNo%' or ID_Proof_No like '%$rollNo%'  order by Id DESC"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
