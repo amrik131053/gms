@@ -8667,7 +8667,7 @@ echo "2";
           {
           // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
 
-          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`,`batch`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral','$Batch');";
+          $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`,`batch`,`updatedby`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral','$Batch','$EmployeeID');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
           {
