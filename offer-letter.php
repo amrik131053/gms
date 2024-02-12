@@ -19,7 +19,7 @@ include "header.php";
               <select class="form-control" id="Nationality_1" onchange="fetch_state1(this.value);">
                  <option value="">Country</option>
                  <?php 
-                  $get_country="SELECT * FROM countries ";
+                  $get_country="SELECT * FROM countries";
                   $get_country_run=mysqli_query($conn,$get_country);
                   while($row=mysqli_fetch_array($get_country_run))
                   {?>

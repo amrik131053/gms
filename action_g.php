@@ -4155,7 +4155,7 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
-                                                <!-- <th>Password</th> -->
+                                                <th>Password</th>
                                                 <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
@@ -4172,7 +4172,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                             <tr>
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td onclick="copyToClipboard('<?=$getUserMasterRunRow['Password']; ?>')"><?= $getUserMasterRunRow['UserName']; ?></td>
-                                                <!-- <td><?=$getUserMasterRunRow['Password'];?></td> -->
+                                                <td><?=$getUserMasterRunRow['Password'];?></td>
 
                                                 <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>

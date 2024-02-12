@@ -238,29 +238,52 @@ for ($i=$sem; $i <=$numberofsem ; $i++)
 
 if ($i==1) {
    $ss="First";
-   $session_split='2023-24';
-}elseif ($i==2) 
+ $Batchn=(string)$Batch+1;
+   $endye=substr($Batchn, -2);
+   $session_split=$Batch.'-'.$endye;
+  
+}
+elseif ($i==2) 
 {
    $ss="Second";
    if ($Lateral=='Yes')
  {
-      $session_split='2023-24';
-  }else
-  {
-    $session_split='2024-25';
+$Batchn=(string)$Batch+1;
+   $endye=substr($Batchn, -2);
+   $session_split=$Batch.'-'.$endye;
 
   }
-}elseif ($i==3) 
+  else
+  {
+$Batchn=(string)$Batch+2;
+   $endye=substr($Batchn,-2);
+
+   $Batch=$Batch+1;
+
+   $session_split=$Batch.'-'.$endye;
+
+   // $session_split='2024-25';
+
+  }
+}
+elseif ($i==3) 
 {
    $ss="Third";
      
 
       if ($Lateral=='Yes')
  {
-      $session_split='2024-25';
-  }else
+      $Batchn=(string)$Batch+2;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+1;
+   $session_split=$Batch.'-'.$endye;
+  }
+  else
   {
-     $session_split='2025-26';
+    $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
 
   }
 }
@@ -271,10 +294,17 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $session_split='2025-26';
+      $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
+
   }else
   {
-   $session_split='2026-27';
+   $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
 
   }
 
@@ -289,10 +319,16 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $session_split='2026-27';
+   $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
   }else
   {
-  $session_split='2027-28';
+   $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
 
   }
      
@@ -302,14 +338,23 @@ elseif ($i==6)
    $ss="Sixth";
       if ($Lateral=='Yes')
  {
-      $session_split='2027-28';
+     $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
+
   }else
   {
- $session_split='2028-29';
+$Batchn=(string)$Batch+5;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+4;
+   $session_split=$Batch.'-'.$endye;
+
 
   }
       
 }
+
 
 
 // $session_split=split ("-", $ip);
@@ -372,29 +417,52 @@ if($Months>0)
 {
 if ($i==1) {
    $ss="First";
-   $session_split='2023-24';
-}elseif ($i==2) 
+ $Batchn=(string)$Batch+1;
+   $endye=substr($Batchn, -2);
+   $session_split=$Batch.'-'.$endye;
+  
+}
+elseif ($i==2) 
 {
    $ss="Second";
    if ($Lateral=='Yes')
  {
-      $session_split='2023-24';
-  }else
-  {
-    $session_split='2024-25';
+$Batchn=(string)$Batch+1;
+   $endye=substr($Batchn, -2);
+   $session_split=$Batch.'-'.$endye;
 
   }
-}elseif ($i==3) 
+  else
+  {
+$Batchn=(string)$Batch+2;
+   $endye=substr($Batchn,-2);
+
+   $Batch=$Batch+1;
+
+   $session_split=$Batch.'-'.$endye;
+
+   // $session_split='2024-25';
+
+  }
+}
+elseif ($i==3) 
 {
    $ss="Third";
      
 
       if ($Lateral=='Yes')
  {
-      $session_split='2024-25';
-  }else
+      $Batchn=(string)$Batch+2;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+1;
+   $session_split=$Batch.'-'.$endye;
+  }
+  else
   {
-     $session_split='2025-26';
+    $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
 
   }
 }
@@ -405,10 +473,17 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $session_split='2025-26';
+      $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
+
   }else
   {
-   $session_split='2026-27';
+   $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
 
   }
 
@@ -423,10 +498,16 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $session_split='2026-27';
+   $Batchn=(string)$Batch+3;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+2;
+   $session_split=$Batch.'-'.$endye;
   }else
   {
-  $session_split='2027-28';
+   $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
 
   }
      
@@ -436,14 +517,23 @@ elseif ($i==6)
    $ss="Sixth";
       if ($Lateral=='Yes')
  {
-      $session_split='2027-28';
+     $Batchn=(string)$Batch+4;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+3;
+   $session_split=$Batch.'-'.$endye;
+
   }else
   {
- $session_split='2028-29';
+$Batchn=(string)$Batch+5;
+   $endye=substr($Batchn, -2);
+    $Batch=$Batch+4;
+   $session_split=$Batch.'-'.$endye;
+
 
   }
       
 }
+
     $pdf->SetFont('Times', 'B', 10);
     $pdf->SetXY($X, $Y+12);
 $pdf->Cell(190, 4, $ss.' Year Academic  and Hostel Fee '.$session_split, 1, 1, 'C');
