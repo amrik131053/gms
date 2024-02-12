@@ -22954,9 +22954,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    </tr>
    <tr>
    <td><b>Comment:</b></td>
-   <td  colspan="5"><?php echo $Comments;?></td>
-   
- </tr>
+   <td  colspan="10"><?php echo $Comments;?></td>
+    </tr>
   
         </table>
         </div>
