@@ -86,7 +86,7 @@ if($getChecksqlRun11rrow = mysqli_fetch_array($getChecksqlRun11))
 {
    $PrintDate1=$getChecksqlRun11rrow["PrintDate"];  
    $PrintDatew=date("d-m-Y", strtotime($PrintDate1));
-     $RefNo=$getChecksqlRun11rrow["RefNo"];     
+    $RefNo=$getChecksqlRun11rrow["RefNo"];     
 }
 else
 {
@@ -97,10 +97,11 @@ else
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
                   
-                  $RefNo='GKU/ADMF/'.$year.'/'.$getReffrenceNumberrow["RefNumber"]+1; 
+                     $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1;
+                  $RefNo='GKU/ADMF/'.$year.'/'.$ReffrenceNumber; 
                    $PrintDatew=date('Y-m-d');  
 
-                   $ReffrenceNumber=$getReffrenceNumberrow["RefNumber"]+1   ;
+                
 
 
 
