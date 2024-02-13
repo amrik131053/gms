@@ -8821,11 +8821,11 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
     $after_concession=$row_fee['after_concession'];
  }    
 
- $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
-$consultant_details_run=mysqli_query($conn,$consultant_details);
-if ($row_consultant=mysqli_fetch_array($consultant_details_run))
+ $consultant_details="SELECT * FROM MasterConsultant where id='$Consultant_id'";
+$consultant_details_run=sqlsrv_query($conntest,$consultant_details);
+if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
  {
-    $consultant=$row_consultant['state'];
+    $consultant=$row_consultant['Name'];
    
  }
 
@@ -8920,9 +8920,9 @@ else
 
                     <select id="Consultant_" class="form-control">
                         <option value="<?=$Consultant_id;?>"><?=$consultant;?></option>
-                        <?php  $get_consultant="SELECT * FROM consultant_master "; 
-                     $get_consultant_run=mysqli_query($conn,$get_consultant);
-                     while($row=mysqli_fetch_array($get_consultant_run))
+                        <?php  $get_consultant="SELECT * FROM MasterConsultant"; 
+                     $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                     while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
                         <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
@@ -10272,7 +10272,7 @@ $stmt1 = mysqli_query($conn,$sql1);
 {
 $count=$row1['count'];
 }
-$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District'";
+$sql=" SELECT State,District, COUNT(*) AS `dist` FROM offer_latter WHERE State='$State' and District='$District' AND Batch='2024'";
  $result = mysqli_query($conn,$sql);
  while($row=mysqli_fetch_array($result))
 {
@@ -10323,7 +10323,7 @@ $sql1 = "SELECT count FROM offer_admission_count WHERE District='$District'";
 $stmt1 = mysqli_query($conn,$sql1); 
  if($row1 = mysqli_fetch_array($stmt1) )
 {
-echo $count=$row1['count'];
+echo $count=(Int)$row1['count'];
  }
 
 
@@ -26783,7 +26783,7 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
-     $degree="SELECT * FROM offer_latter   where id like '%$rollNo%'   order by Id DESC"; 
+     $degree="SELECT * FROM offer_latter   where Batch='2024'  ANd RefNo like '%$rollNo%'    order by Id DESC"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 

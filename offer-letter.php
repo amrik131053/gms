@@ -1621,14 +1621,15 @@ $("#District_1").html(data);
 }
 function admisssion_complete1(district)
 {
-   var code='164';
+   var code='164'; 
    var State = document.getElementById('State_').value;
    $.ajax({
       url:'action_g.php',
       data:{District:district,State:State,code:code},
       type:'POST',
       success:function(data){
-
+        
+    console.log(data);
     document.getElementById('previous_count').value=data;
   
 }
