@@ -1200,7 +1200,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
       SuccessToast('Data submitted successfully');
 
 
-      loadData(currentPage);
+      //loadData(currentPage);
 
    }
    else if(response==2)

@@ -10533,7 +10533,7 @@ $fileName=$image_name.'.PNG';
       else
       {
           
-             $degree="SELECT * FROM offer_latter  order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter  where Batch='2024'  order by Id DESC "; 
        
                   $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 

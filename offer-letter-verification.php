@@ -219,7 +219,7 @@ function by_search_studetn() {
                             var status = data[i][18];
 
                            var unirollno = data[i][2];
-                           var generate=data[i][33];
+                           var generate=data[i][39];
                              if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
 
@@ -248,7 +248,7 @@ function by_search_studetn() {
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][37]+'</td>';
+                           table += '<td >'+ data[i][40]+'</td>';
                            // table += '<td >'+ data[i][30]+'</td>';
 
 
