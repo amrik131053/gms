@@ -25853,8 +25853,7 @@ elseif($code==357)
 $Nationality=$_POST['Nationality'];
 $Name=$_POST['Name'];
 $admisisontype=$_POST['admisisontype'];
-
- $refoffer=$_POST['refoffer'];
+$refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 $AdharCardNo=$_POST['idproof'];
@@ -25952,6 +25951,12 @@ if($ifexitIDNo<1)
  if($newAdmissionInsertRun==true)
  {
 
+      if($admisisontype==3)
+    {
+        $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
+mysqli_query($conn,$upd);
+    }
+
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
     sqlsrv_query($conntest,$sqlG); 
 
@@ -25983,14 +25988,10 @@ if($ifexitIDNo<1)
 }
     }
 
-    if($admisisontype==3)
-    {
-     echo   $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNo' where id='$refoffer'";
-mysqli_query($conn,$upd);
-    }
+  
   
      $Value[0]=$IDNo;
-     $Value[1]=$ClassRollNo;
+     $Value[1]=$ClassRollNoUpdate;
     echo json_encode($Value);
 
  }
