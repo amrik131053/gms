@@ -25052,6 +25052,10 @@ if($Status==6)
               <option value="Bhutan">Bhutan</option>
           </select>
       </div>
+       <input type="hidden" id="admisisontype" value="1" class="form-control">
+
+       <input type="hidden" id="refoffer" value="0" class="form-control">
+
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Name</label>
           <input type="text" id="Name" class="form-control">
@@ -25362,6 +25366,8 @@ if($Status==6)
               <option value="Bhutan">Bhutan</option>
           </select>
       </div>
+        <input type="hidden" id="admisisontype" value="2" class="form-control">
+        <input type="hidden" id="refoffer" value="0" class="form-control">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Name</label>
           <input type="text" id="Name" class="form-control">
@@ -25846,6 +25852,9 @@ elseif($code==357)
 // print_r($ids);
 $Nationality=$_POST['Nationality'];
 $Name=$_POST['Name'];
+$admisisontype=$_POST['admisisontype'];
+
+ $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 $AdharCardNo=$_POST['idproof'];
@@ -25972,6 +25981,12 @@ if($ifexitIDNo<1)
  
     sqlsrv_query($conntest,$sqlConsultant);
 }
+    }
+
+    if($admisisontype==3)
+    {
+     echo   $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNo' where id='$refoffer'";
+mysqli_query($conn,$upd);
     }
   
      $Value[0]=$IDNo;
@@ -26216,7 +26231,7 @@ $LedgerName = $rowLedger['Particulars'];
        }
        elseif($rowConsultant['Type']=='Consultant')
        {
-           echo $getIDConsultant = "SELECT * FROM MasterConsultant Where ID='".$rowConsultant['RefIDNo']."'";
+            $getIDConsultant = "SELECT * FROM MasterConsultant Where ID='".$rowConsultant['RefIDNo']."'";
            $getIDNConsultant = sqlsrv_query($conntest,$getIDConsultant);  
                if($getRefConsultant = sqlsrv_fetch_array($getIDNConsultant) )
            { 
@@ -26526,6 +26541,9 @@ else if($code==367)
               <option value="Bhutan">Bhutan</option>
           </select>
       </div>
+      <input type="hidden" id="admisisontype" value="3" class="form-control">
+
+       <input type="hidden" id="refoffer" value="0" class="form-control">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Name</label>
           <input type="text" id="Name" class="form-control">
@@ -26799,6 +26817,7 @@ else
     $value[17]=$degree_row['Batch'];               
 }
 
+$value[19]=$rollNo;
 
 
 

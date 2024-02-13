@@ -276,6 +276,7 @@ function creditcardsearch() {
                     document.getElementById("CollegeName").value = data[16];
                     document.getElementById("Batch").value = data[17];
                     document.getElementById("EmIDConsultant1").value = data[18];
+                  document.getElementById("refoffer").value = data[19];   
                     
 
             }
@@ -556,6 +557,9 @@ function submitNewAdmissions() {
     } else if (Nationality == 'Bhutan') {
         var idproof = document.getElementById('IDNumber').value;
     }
+     var admisisontype = document.getElementById('admisisontype').value;
+ var refoffer = document.getElementById('refoffer').value;
+
     var Name = document.getElementById('Name').value;
     var FatherName = document.getElementById('FatherName').value;
     var MobileNumber = document.getElementById('MobileNumber').value;
@@ -573,7 +577,7 @@ function submitNewAdmissions() {
 
     var refvalue = document.getElementById('refvalue').value;
     var EmIDTeam = document.getElementById('EmID' + refvalue + '1').value;
-    
+
     if (refvalue == 'Team') {
         var verifiy = document.getElementsByClassName('v_check');
         var len_student = verifiy.length;
@@ -697,7 +701,9 @@ function submitNewAdmissions() {
             Batch: Batch,
             Comments: Comments,
             refvalue: refvalue,
+            admisisontype:admisisontype,
             EmID: EmIDTeam,
+             refoffer:refoffer,
             subjectIDs: subjectIDs,
             SemesterForFee: SemesterForFee,
             SemesterID: selectedSemesterID,

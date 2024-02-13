@@ -244,7 +244,7 @@ function by_search_studetn() {
                         
                            
                            table += '<td>' + data[i][0] + '</td>';
-                           table += '<td>' + data[i][20] + '</td>';
+                           table += '<td>' + data[i][22] + '</td>';
                            table += '<td>' + data[i][6] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
