@@ -8665,7 +8665,7 @@ else
          $afterconcession=$_POST['afterconcession'];
          $consultant_id=$_POST['consultant_id'];
 
-         $iffeesalready="SELECT * FROM  master_fee where consultant_id='$consultant_id' and college='$college' and department='$department' and course='$course' ";
+         $iffeesalready="SELECT * FROM  master_fee where consultant_id='$consultant_id' and college='$college' and department='$department' and course='$course' ANd batch='$Batch' ";
          $iffeesalready_run=mysqli_query($conn,$iffeesalready);
          if (mysqli_num_rows($iffeesalready_run)>0) 
          {
@@ -25918,8 +25918,8 @@ if($ifexitIDNoAdhaar<1)
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
 {    
-    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status)
- VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1')";
+    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID)
+ VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert);
 
  if($newAdmissionInsertRun==true)
