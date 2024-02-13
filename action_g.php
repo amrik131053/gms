@@ -15131,7 +15131,7 @@ else
                     $dummyVal=$numberDays;
                 } 
 
-if($LeaveType<3 && $LeaveBlance<$dummyVal)
+if($LeaveType<3   && $LeaveBlance<$dummyVal)
 {
 echo "5"; //leave balance not equeal
 }
@@ -15180,6 +15180,23 @@ else{
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonHR','$numberDays','$leaveShort','0','0','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
+
+
+if($LeaveType<3 OR $LeaveType==26){
+
+    if($leaveShort>0)
+    {
+        $LeaveDeduction=$leaveShort;
+    }
+    else
+    {
+       $LeaveDeduction=$numberDays; 
+    }
+            $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
+            sqlsrv_query($conntest,$deductionBLance);
+       }
+
+
 
 }
 
