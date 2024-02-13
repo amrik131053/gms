@@ -121,7 +121,7 @@
                                   }
 
                                   $CGPA = number_format($CGPA,2);
-                                    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                    $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                             $path = 'degreeqr/';
                                             $file = $path.$UnirollNo.".png";
                                             $ecc = 'L';

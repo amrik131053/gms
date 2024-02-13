@@ -7219,9 +7219,12 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
    
    $emp_id=$_POST['emp_id'];
-   $del="UPDATE user SET role_id='0' WHERE emp_id='$emp_id'";
+   $del="UPDATE Staff SET RoleID='0' WHERE IDNo='$emp_id'";
+
    mysqli_query($conn,"DELETE from special_permission where emp_id='$emp_id'");
-   $del_run=mysqli_query($conn,$del);
+
+
+   $del_run=sqlsrv_query($conntest,$del);
    if ($del_run) {
 
       echo "1";
@@ -7235,12 +7238,13 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
    $role_id=$_POST['role_new'];
    $emp_id=$_POST['emp_id'];
-   $check_role="SELECT * FROM user WHERE emp_id='$emp_id' and role_id='0'";
-   $role_check_run=mysqli_query($conn,$check_role);
-   if (mysqli_num_rows($role_check_run)>0)
+   $check_role="SELECT * FROM Staff WHERE IDNo='$emp_id' and RoleID='0'";
+   $role_check_run=sqlsrv_query($conntest,$check_role,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET));
+   
+   if (sqlsrv_num_rows($role_check_run)>0)
     {
-   $insert="UPDATE user SET role_id='$role_id' WHERE emp_id='$emp_id'";
-   $insert_run=mysqli_query($conn,$insert);
+   $insert="UPDATE Staff SET RoleID='$role_id' WHERE IDNo='$emp_id'";
+   $insert_run=sqlsrv_query($conntest,$insert);
    if ($insert_run)
     {
    echo "1";

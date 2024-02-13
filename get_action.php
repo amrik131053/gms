@@ -3005,14 +3005,17 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
    }
    
    } 
-   $presult = mysqli_query($conn,"SELECT emp_id, name,role_id from user WHERE emp_id = '$user_id'");
+   
+  $presult = sqlsrv_query($conntest,"SELECT IDNo,Name,RoleID from Staff WHERE IDNo = '$user_id'");
    
    $name = $emp_id = "";
-   while($row=mysqli_fetch_array($presult))
+
+
+   while($row=sqlsrv_fetch_array($presult,SQLSRV_FETCH_ASSOC))
    {
-     $permissions = $row['role_id'];
-     $emp_id = $row['emp_id'];
-     $name = $row['name'];
+      $permissions = $row['RoleID'];
+     $emp_id = $row['IDNo'];
+     $name = $row['Name'];
    }
    
    
@@ -3170,7 +3173,8 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
             $name = "";
       if ($role_id==0) {
     
-      }else
+      }
+      else
       {
        ?>
        <div class="table-responsive" style="height: 290px;">
