@@ -26198,7 +26198,7 @@ $LedgerName = $rowLedger['Particulars'];
        }
        elseif($rowConsultant['Type']=='Consultant')
        {
-           $getIDConsultant = "SELECT * FROM MasterConsultant Where ID='".$rowConsultant['RefIDNo']."'";
+           echo $getIDConsultant = "SELECT * FROM MasterConsultant Where ID='".$rowConsultant['RefIDNo']."'";
            $getIDNConsultant = sqlsrv_query($conntest,$getIDConsultant);  
                if($getRefConsultant = sqlsrv_fetch_array($getIDNConsultant) )
            { 
@@ -26684,7 +26684,7 @@ else if($code==367)
      <div class="col-lg-12 col-md-12 col-sm-12">
           <br>
           <label>Comments</label>
-          <textarea  id="Comments" cols="1" rows="3" class="form-control"> Full Fee as per Norms</textarea>
+          <textarea  id="Comments" cols="1" rows="3" class="form-control"> Credit Card Scheme</textarea>
      
           &nbsp;
       </div>
