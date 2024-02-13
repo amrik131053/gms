@@ -26,14 +26,15 @@ window.location.href = "index.php";
 
 
    include "connection/connection.php";
-       $employee_details="SELECT IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+       $employee_details="SELECT RoleID,IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
          $Emp_Name=$employee_details_row['Name'];
          $Emp_Designation=$employee_details_row['Designation'];
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
-
+          $role_id = $employee_details_row['RoleID'];
+   
         //    $Authority=$employee_details_row['LeaveRecommendingAuthority'];
         //   $Recommend=$employee_details_row['LeaveSanctionAuthority'];
 
@@ -59,11 +60,9 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 
       }
 
-      $getRole = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
-      if($row=mysqli_fetch_array($getRole)) 
-      {
-          $role_id = $row['role_id'];
-      }
+     
+         
+    
    
       function getEmployeeName($emplid) 
       {
@@ -13298,7 +13297,9 @@ elseif($code==203)
                         <i class="fa fa-eye text-success fa-sm" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id==2 || $role_id==18) {?>
+
+                        <?php  
+                        if($role_id==2 || $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -13394,7 +13395,7 @@ else
                     <td><i class="fa fa-eye text-success" data-toggle="modal" data-target="#ViewLeaveexampleModal"
                             data-whatever="@mdo" onclick="viewLeaveModal(<?=$row['LeaveID'];?>);"></i>
                         &nbsp;
-                        <?php if($role_id==2 | $role_id==18) {?>
+                        <?php if($role_id==2 || $role_id==18) {?>
                         <i class="fa fa-trash text-danger fa-sm" onclick="deleteLeaveOne(<?=$row['LeaveID'];?>);"></i>
                         <?php }?>
                     </td>
@@ -15227,13 +15228,13 @@ elseif($code==225)
     {
         $role='12';   
     }
-    $check_role="SELECT * FROM user WHERE emp_id='$empid'";
-    $count_run=mysqli_query($conn,$check_role);
-    $count=mysqli_num_rows($count_run);
+    $check_role="SELECT * FROM Staff WHERE IDNo='$empid'";
+    $count_run=sqlsrv_query($conntest,$check_role,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET));
+    $count=sqlsrv_num_rows($count_run);
     if($count>0)
     {
- $insert="UPDATE user SET role_id='$role' WHERE emp_id='$empid'";
-$insert_run=mysqli_query($conn,$insert);
+ $insert="UPDATE Staff SET RoleID='$role' WHERE IDNo='$empid'";
+$insert_run=sqlsrv_query($conntest,$insert);
 }
 else
 {
