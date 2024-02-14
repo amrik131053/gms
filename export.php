@@ -5938,9 +5938,7 @@ elseif($Status==8)
      }
 
                                            
-
-
- else if($exportCode==52)
+else if($exportCode==52)
 {
     $College=$_GET['CollegeId'];
 $Course=$_GET['Course'];
@@ -6037,7 +6035,7 @@ $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
-$subCount=(count($Subjects)*4)+7;
+$subCount=(count($Subjects)*4)+4;
 $subCount1=count($Subjects);
 
 $exportstudy="<table class='table' border='1'>
@@ -6046,20 +6044,16 @@ include 'resultcopyheader.php';
 
 $exportstudy.="<tr>
     <th>SrNo</th>
-    <th>ClassRoll No </th>
-    <th>UniRoll No</th>
-    <th>Name </th>
-   ";
+    
+    <th>UniRoll No</th>";
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=4>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
   
 }
 
-$exportstudy.="<th colspan=3>Grade Detail
+$exportstudy.="<th colspan=2>Grade Detail
     
   </th></tr>   <tr>
-    <th></th>
-    <th></th>
     <th></th>
     <th></th>";
      $gtcerdit=0;
@@ -6080,18 +6074,17 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 }
 
 
-  $exportstudy.="<th colspan=3>Total Credit :{$gtcerdit}
+  $exportstudy.="<th colspan=2>Total Credit :{$gtcerdit}
     
-  </th></tr>   <tr>
-    <th></th>
-    <th></th>
+  </th></tr>  
+   <tr>
     <th></th>
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
     
     $exportstudy.="<th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
-       $exportstudy.="<th>Total Credit</th><th>SGPA</th><th>Fail Subjects</th></tr> </thead>"; 
+       $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
 
 
 
@@ -6119,10 +6112,9 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
                          $StudentNames =$row['StudentName'];     
      
       $exportstudy.="<tr>
-         <td>{$SrNo}</td>
-         <td>{$ClassRollNos}</th>
-         <th>{$UnirollNos}</td>
-         <td>{$StudentNames}</td>";
+         <th>{$SrNo}</th>
+        
+         <th>{$UnirollNos}</th>";
 
 $totalcredit=0;
 $gradevaluetotal=0;
@@ -6151,9 +6143,9 @@ include'grade_calculator.php';
 
 
 
-$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
-$exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
-$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+$exportstudy.="<th>{$totalFinal} </th>";
+$exportstudy.="<th>{$grade} </th>"; 
+$exportstudy.="<th>{$gardep} </th>";
  $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjects[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
@@ -6163,7 +6155,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
             }
 
 $totalcredit=$totalcredit+$credit;
- $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+ $exportstudy.="<th>{$credit} </th>";  
 
 if($credit>0)
 {
@@ -6183,10 +6175,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA </td>";
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA</td>";
- $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+$exportstudy.="<th>NA </th>";
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA</th>";
+ $exportstudy.="<th>NA</th>"; 
 
 }
 
@@ -6211,9 +6203,9 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
 include'grade_calculator.php';
 
 
-$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
-$exportstudy.="<td style='text-align:center;'>{$grade} </td>"; 
-$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+$exportstudy.="<th>{$totalFinal} </th>";
+$exportstudy.="<th>{$grade} </th>"; 
+$exportstudy.="<th>{$gardep} </th>";
 
  $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectsNew[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -6224,7 +6216,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
             }
 
 $totalcredit=$totalcredit+$credit;
- $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+ $exportstudy.="<th>{$credit} </th>";  
 
 if($credit>0)
 {
@@ -6241,10 +6233,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
 }  
 else
 {
-$exportstudy.="<td style='text-align:center;'>NA </td>";
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA </td>";
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<th>NA </th>";
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA </th>";
+ $exportstudy.="<th>NA </th>"; 
   
 
 }
@@ -6308,9 +6300,9 @@ $totalcredit=$totalcredit+$credit;
 
 
                            
-                           $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
-                           $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
-$exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+                           $exportstudy.="<th>{$pmarks}</th>"; 
+                           $exportstudy.="<th>{$grade} </th>";
+$exportstudy.="<th>{$gardep} </th>";
                            if($credit>0)
 {
  $gradevalue=$gardep*$credit;
@@ -6323,17 +6315,17 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
     $nccount++;
  }
 }
-$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+$exportstudy.="<th>{$credit} </th>";  
         
 
 
 } 
 else
 {
-$exportstudy.="<td style='text-align:center'>NA</td>"; 
-$exportstudy.="<td style='text-align:center'>NA</td>";
-$exportstudy.="<td style='text-align:center'>NA</td>"; 
-$exportstudy.="<td style='text-align:center'>NA</td>";
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA</th>";
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA</th>";
 }
 
 
@@ -6350,20 +6342,19 @@ $exportstudy.="<td style='text-align:center'>NA</td>";
           }
 
 
- $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+ $exportstudy.="<th>{$totalcredit} </th>"; 
 
  $sgpa=$gradevaluetotal/$totalcredit;
     $sgpa= number_format($sgpa,2);
 
 if($nccount>0)
 {
-$exportstudy.="<td style='text-align:center;'>NC </td>";
+$exportstudy.="<th>NC </th>";
 
 }
 else
- { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
+ { $exportstudy.="<th>{$sgpa} </th>";}  
 
-$exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
 
           $exportstudy.="</tr>";
                             
@@ -6378,6 +6369,7 @@ include 'resultfooter.php';
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
+      
                                                      
 
 else if($exportCode==53)
