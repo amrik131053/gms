@@ -235,7 +235,8 @@ for ($i=$sem; $i <=$numberofsem ; $i++)
 { 
 if ($i==1) {
    $ss="First";
- $Batchn=(string)$Batch+1;
+   // 2024
+ $Batchn=(string)$Batch+1; 
    $endye=substr($Batchn, -2);
    $session_split=$Batch.'-'.$endye;
   
@@ -247,11 +248,12 @@ elseif ($i==2)
  {
 $Batchn=(string)$Batch+1;
    $endye=substr($Batchn, -2);
-   $session_split=$Batch.'-'.$endye;
+   echo $session_split=$Batch.'-'.$endye;
 
   }
   else
   {
+    //2023
 $Batchn=(string)$Batch+2;
    $endye=substr($Batchn,-2);
 
@@ -277,10 +279,10 @@ elseif ($i==3)
   }
   else
   {
-    $Batchn=(string)$Batch+3;
+    $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
-   $session_split=$Batch.'-'.$endye;
+    $Batch=$Batch+1;
+    $session_split=$Batch.'-'.$endye;
 
   }
 }
@@ -291,17 +293,17 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $Batchn=(string)$Batch+3;
+      $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }else
   {
-   $Batchn=(string)$Batch+4;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
-   $session_split=$Batch.'-'.$endye;
+    $Batch=$Batch+1;
+    $session_split=$Batch.'-'.$endye;
 
   }
 
@@ -316,15 +318,15 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-   $Batchn=(string)$Batch+3;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
   }else
   {
-   $Batchn=(string)$Batch+4;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }
@@ -335,16 +337,16 @@ elseif ($i==6)
    $ss="Sixth";
       if ($Lateral=='Yes')
  {
-     $Batchn=(string)$Batch+4;
+     $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }else
   {
-$Batchn=(string)$Batch+5;
+$Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+4;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
 
@@ -410,7 +412,8 @@ if($Months>0)
 {
 if ($i==1) {
    $ss="First";
- $Batchn=(string)$Batch+1;
+   // 2024
+ $Batchn=(string)$Batch+1; 
    $endye=substr($Batchn, -2);
    $session_split=$Batch.'-'.$endye;
   
@@ -422,11 +425,12 @@ elseif ($i==2)
  {
 $Batchn=(string)$Batch+1;
    $endye=substr($Batchn, -2);
-   $session_split=$Batch.'-'.$endye;
+   echo $session_split=$Batch.'-'.$endye;
 
   }
   else
   {
+    //2023
 $Batchn=(string)$Batch+2;
    $endye=substr($Batchn,-2);
 
@@ -452,10 +456,10 @@ elseif ($i==3)
   }
   else
   {
-    $Batchn=(string)$Batch+3;
+    $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
-   $session_split=$Batch.'-'.$endye;
+    $Batch=$Batch+1;
+    $session_split=$Batch.'-'.$endye;
 
   }
 }
@@ -466,17 +470,17 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-      $Batchn=(string)$Batch+3;
+      $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }else
   {
-   $Batchn=(string)$Batch+4;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
-   $session_split=$Batch.'-'.$endye;
+    $Batch=$Batch+1;
+    $session_split=$Batch.'-'.$endye;
 
   }
 
@@ -491,15 +495,15 @@ elseif ($i==4)
 
       if ($Lateral=='Yes')
  {
-   $Batchn=(string)$Batch+3;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+2;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
   }else
   {
-   $Batchn=(string)$Batch+4;
+   $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }
@@ -510,16 +514,16 @@ elseif ($i==6)
    $ss="Sixth";
       if ($Lateral=='Yes')
  {
-     $Batchn=(string)$Batch+4;
+     $Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+3;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
   }else
   {
-$Batchn=(string)$Batch+5;
+$Batchn=(string)$Batch+2;
    $endye=substr($Batchn, -2);
-    $Batch=$Batch+4;
+    $Batch=$Batch+1;
    $session_split=$Batch.'-'.$endye;
 
 
