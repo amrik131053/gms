@@ -2803,6 +2803,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -2822,12 +2823,22 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
 
                 <td>
@@ -2907,6 +2918,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -2924,12 +2936,22 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
 
 
@@ -2976,10 +2998,11 @@ else { ?>
          $get_category_run=mysqli_query($conn,$get_category);
          while($row=mysqli_fetch_array($get_category_run))
          {
-            $role_id=$row['id'];
-            $check_count_role_wise="SELECT * FROM user Where role_id='$role_id'";
-            $check_count_emp_category_wise_run=mysqli_query($conn,$check_count_role_wise);
-            $emp_count_status=mysqli_num_rows($check_count_emp_category_wise_run);
+           
+             $role_id=$row['id'];
+             $check_count_role_wise="SELECT * FROM Staff Where RoleID='$role_id' and JobStatus='1'";
+            $get_card_run=sqlsrv_query($conntest,$check_count_role_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+            $emp_count_status=sqlsrv_num_rows($get_card_run);
       ?>
     <li class="nav-item " onclick="show_emp_all_role(<?=$role_id;?>);">
         <a href="#" class="nav-link">
@@ -3006,6 +3029,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3014,12 +3038,12 @@ else { ?>
             <?php 
             $sr=1;
             $role_id=$_POST['role'];
-            $get_category="SELECT emp_id FROM user where  role_id='$role_id'";
-            $get_category_run=mysqli_query($conn,$get_category);
-            while($row=mysqli_fetch_array($get_category_run))
+            $check_count_role_wise2="SELECT * FROM Staff Where RoleID='$role_id' and JobStatus='1'";
+            $get_card_run2=sqlsrv_query($conntest,$check_count_role_wise2);
+            while($row=sqlsrv_fetch_array($get_card_run2))
             {
-                $emp_id=$row['emp_id'];
-                $get_category1="SELECT * FROM Staff where  IDNo='$emp_id' and JobStatus='1'";
+                $emp_id=$row['IDNo'];
+             $get_category1="SELECT * FROM Staff where  IDNo='$emp_id' and JobStatus='1'";
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             if($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
@@ -3027,12 +3051,22 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?><?=$row1['DepartmentID'];?></td>
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row1['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
                 <td>
                     <?php 
@@ -3148,7 +3182,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Status</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3167,14 +3201,24 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                <td><?php if($row1['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?>(<?=$row1['DepartmentID'];?>)</td>
-                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                </td>
+                <!-- <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?> -->
+                <!-- </td> -->
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row1['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
 
 
@@ -3231,7 +3275,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Status</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3250,14 +3294,24 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                <td><?php if($row1['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['Designation'];?></td>
                 <td><?=$row1['Department'];?>(<?=$row1['DepartmentID'];?>)</td>
-                <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                </td>
+                <!-- <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?> -->
+                <!-- </td> -->
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row1['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
 
 
@@ -3331,7 +3385,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Status</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3357,14 +3411,24 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['Designation'];?></td>
                 <td><?=$row['DepartmentName'];?>(<?=$row['depid'];?>)</td>
-                <td><?php if($row['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                </td>
+                <?php 
+
+$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+?>
+ <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
+}
+?>
+               
+              
                 <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
                 <td>
 
@@ -3418,7 +3482,7 @@ else { ?>
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Department</th>
-                <th>Status</th>
+                <th>role</th>
                 <th>Edit</th>
                 <th>ID Card</th>
             </tr>
@@ -3440,7 +3504,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -12447,12 +12511,13 @@ elseif ($code==186)
 elseif($code=='187') 
 {
 $count=0;
-$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,SUM(CASE WHEN offer_latter.statusVerification = '1' THEN 1 ELSE 0 END) AS `verified_count`, states.name AS StateName, consultant_master.state AS ConsultantName
+$ConsultantName="";
+$sql=" SELECT offer_latter.State AS o_state, offer_latter.Consultant_id,COUNT(*) AS `total_count`,
+SUM(CASE WHEN offer_latter.statusVerification = '1' THEN 1 ELSE 0 END) AS `verified_count`,
+ states.name AS StateName
 FROM
 offer_latter INNER JOIN states ON states.id = offer_latter.State
-INNER JOIN consultant_master ON consultant_master.id = offer_latter.Consultant_id
-GROUP BY offer_latter.State, offer_latter.Consultant_id, states.name, consultant_master.state
-ORDER BY ConsultantName ASC;";
+GROUP BY offer_latter.State, offer_latter.Consultant_id, states.name";
 $result = mysqli_query($conn,$sql);
 ?>
 <table class='table table-bordered'>
@@ -12466,9 +12531,15 @@ $result = mysqli_query($conn,$sql);
 while($row=mysqli_fetch_array($result))
 {
 
+    $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
+    $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
+    if($row_get_consultantName=sqlsrv_fetch_array($get_consultantNameRun))
+    {
+        $ConsultantName=$row_get_consultantName['Name'];
+    }
 ?>
     <tr>
-        <td><?=$row['ConsultantName'];?></td>
+        <td><?=$ConsultantName;?></td>
         <td><?=$row['StateName'];?></td>
         <td><?=$row['total_count'];?></td>
         <td><?=$row['verified_count'];?></td>
@@ -17767,7 +17838,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -25053,7 +25124,6 @@ if($Status==6)
           </select>
       </div>
        <input type="hidden" id="admisisontype" value="1" class="form-control">
-
        <input type="hidden" id="refoffer" value="0" class="form-control">
 
       <div class="col-lg-3 col-md-3 col-sm-12">
@@ -25101,11 +25171,10 @@ if($Status==6)
               <option>SC</option>
               <option>ST</option>
               <option>OBC</option>
-
               <option>General</option>
           </select>
       </div>
-   </div>   <br> <!--<hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Course Detail -- </h6>-->
+   </div>   <!--<hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Course Detail -- </h6>-->
     <!-- <hr style="background-color:#002149">  -->
   <div class="row">
      
@@ -25123,9 +25192,7 @@ if($Status==6)
               <?php }
                      ?>
           </select>
-
       </div>
-
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Scholarship</label>
           <select class="form-control" id="scholaship">
@@ -25211,18 +25278,18 @@ if($Status==6)
       <div class="col-lg-12 col-md-12 col-sm-12">
 
           <div class="btn-group w-100 mb-1">
-              <a class="btn btn-primary bg-success  btnG" id="btn3"
+              <a class="btn btn-primary  btnG" id="btn7"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
+                  onclick="onchnagereff('Staff'),bg1(this.id);"> Staff </a>
               <a class="btn btn-primary  btnG" id="btn4"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
+                  onclick="onchnagereff('Student'),bg1(this.id);"> Student </a>
               <a class="btn btn-primary  btnG" id="btn5"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
+                  onclick="onchnagereff('Consultant'),bg1(this.id);"> Consultant </a>
               <a class="btn btn-primary  btnG" id="btn6"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
+                  onclick="onchnagereffteam('1'),bg1(this.id);"> Team </a>
               <input type="hidden" id="refvalue" value="Staff">
               <input type="hidden" id="refvalueCount" value="1">
           </div>
@@ -25417,7 +25484,7 @@ if($Status==6)
               <option>General</option>
           </select>
       </div>
-   </div>   <br> <!--<hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Course Detail -- </h6>-->
+   </div>  <!--<hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Course Detail -- </h6>-->
     <!-- <hr style="background-color:#002149">  -->
   <div class="row">
      
@@ -25523,18 +25590,18 @@ if($Status==6)
       <div class="col-lg-12 col-md-12 col-sm-12">
 
           <div class="btn-group w-100 mb-1">
-              <a class="btn btn-primary bg-success  btnG" id="btn3"
+              <a class="btn btn-primary  btnG" id="btn7"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Staff'),bg(this.id);"> Staff </a>
+                  onclick="onchnagereff('Staff'),bg1(this.id);"> Staff </a>
               <a class="btn btn-primary  btnG" id="btn4"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Student'),bg(this.id);"> Student </a>
+                  onclick="onchnagereff('Student'),bg1(this.id);"> Student </a>
               <a class="btn btn-primary  btnG" id="btn5"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereff('Consultant'),bg(this.id);"> Consultant </a>
+                  onclick="onchnagereff('Consultant'),bg1(this.id);"> Consultant </a>
               <a class="btn btn-primary  btnG" id="btn6"
                   style="background-color:#223260; color: white; border: 1px solid;"
-                  onclick="onchnagereffteam('1'),bg(this.id);"> Team </a>
+                  onclick="onchnagereffteam('1'),bg1(this.id);"> Team </a>
               <input type="hidden" id="refvalue" value="Staff">
               <input type="hidden" id="refvalueCount" value="1">
           </div>
@@ -25845,18 +25912,33 @@ $stmt = sqlsrv_query($conntest,$sql);
 }
 elseif($code==357) 
 {
+    $PassportNo=0;
+$AdharCardNo=0;
     if(!empty($_POST['subjectIDs']))
     {
         $ids=$_POST['subjectIDs'];
     }
 // print_r($ids);
 $Nationality=$_POST['Nationality'];
+if ($Nationality == 'Indian') 
+{
+    $AdharCardNo=$_POST['idproof'];
+} else if ($Nationality == 'NRI') 
+{
+    $PassportNo=$_POST['idproof'];
+} else if ($Nationality == 'Nepal') 
+{
+    $AdharCardNo=$_POST['idproof'];
+} else if ($Nationality == 'Bhutan') 
+{
+    $AdharCardNo=$_POST['idproof'];
+}
 $Name=$_POST['Name'];
 $admisisontype=$_POST['admisisontype'];
 $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
-$AdharCardNo=$_POST['idproof'];
+// $AdharCardNo=$_POST['idproof'];
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
 $category=$_POST['category'];
@@ -25935,18 +26017,26 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
 {    
             $TransactionID=$getTransactionIDrow["TransactionID"]+1;     
 }
-  $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' "; 
+if ($Nationality == 'NRI') 
+{
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' "; 
+} 
+else
+{
+     $getIfExistAdhaar = "SELECT * FROM Admissions WHERE AadhaarNo='$AdharCardNo' "; 
+}
+ 
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
 if($ifexitIDNoAdhaar<1)
 {  $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
-if($ifexitIDNo<1)
+if($ifexitIDNo<2)
 {    
-    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID)
- VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID')";
- $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert);
+      $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID)
+ VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID')";
+ $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
 
  if($newAdmissionInsertRun==true)
  {
@@ -25954,20 +26044,20 @@ if($ifexitIDNo<1)
       if($admisisontype==3)
     {
         $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
-mysqli_query($conn,$upd);
+mysqli_query($conn,$upd);  
     }
 
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
-    sqlsrv_query($conntest,$sqlG); 
+    sqlsrv_query($conntest,$sqlG);
 
 
 
       $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CollegeName,CreatedDate)Values('$IDNo','12345678','Student','Web','Campus','$CollegeName','$timeStampS')";
-    sqlsrv_query($conntest,$userMaster);
+    sqlsrv_query($conntest,$userMaster); 
     
      $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
      values('$Session','$CollegeName','$timeStampS','$IDNo','$Name','$FatherName','$CourseName','$Batch','$ClassRollNo','$SemesterForFee','$SemesterID','$Gender','$Head','$Head','$Ammount','Debit','$TransactionID')";
-    sqlsrv_query($conntest,$insertLager);
+    sqlsrv_query($conntest,$insertLager); 
 
     if($refvalue=='Team')
     { 
@@ -25984,7 +26074,7 @@ mysqli_query($conn,$upd);
 
     $sqlConsultant="INSERT into  MasterConsultantRef(StudentIDNo,RefIDNo,Type) values ('$IDNo','$EmIDTeam','$refvalue')";
  
-    sqlsrv_query($conntest,$sqlConsultant);
+    sqlsrv_query($conntest,$sqlConsultant); 
 }
     }
 

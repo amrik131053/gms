@@ -14,13 +14,13 @@
                     <div class="btn-group w-100 mb-2">
                         <a class="btn btn-primary" id="btn1"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="newAdmission(),bg1(this.id);"> New Admission </a>
+                            onclick="newAdmission(),bg(this.id);"> New Admission </a>
                         <a class="btn btn-primary" id="btn2"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="oldAdmission(),bg1(this.id);"> Old Admission </a>
-                              <a class="btn btn-primary" id="btn2"
+                            onclick="oldAdmission(),bg(this.id);"> Old Admission </a>
+                              <a class="btn btn-primary" id="btn3"
                             style="background-color:#223260; color: white; border: 5px solid;"
-                            onclick="creditcardAdmission(),bg1(this.id);"> Credit Card </a>
+                            onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a>
                     </div>
                    
              
@@ -58,18 +58,19 @@
 <script>
 $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
-    $('#btn3').toggleClass("bg-success");
+    // $('#btn2').toggleClass("bg-success");
+    // $('#btn3').toggleClass("bg-success");
     newAdmission();
     //successModal(9618234050);
 
 })
 
-function bg1(id) {
-    $('.btn11').removeClass("bg-success");
+function bg(id) {
+    $('.btn').removeClass("bg-success");
     $('#' + id).toggleClass("bg-success");
 }
 
-function bg(id) {
+function bg1(id) {
     $('.btnG').removeClass("bg-success");
     $('#' + id).toggleClass("bg-success");
 }
@@ -459,7 +460,7 @@ function getFeeDetails() {
         type: 'POST',
         success: function(response) {
             spinner.style.display = 'none';
-            console.log(response);
+            // console.log(response);
             var data = JSON.parse(response);
             document.getElementById("feeparticulr").value = data[0];
             document.getElementById("feeTotalDebit").value = data[1];
@@ -713,12 +714,12 @@ function submitNewAdmissions() {
         },
         type: 'POST',
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if (response == 1) {
                 ErrorToast('Server is busy Try Again ', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('Server is busy Click Again', 'bg-warning');
+                ErrorToast('RollNo already exist please contant administrator', 'bg-warning');
             } else if (response == 3) {
                 ErrorToast('Student  Already Exist', 'bg-warning');
             } 
