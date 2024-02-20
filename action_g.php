@@ -9359,7 +9359,7 @@ else
     if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
     {
         // $gg[]=$rowgetCourseDetails;
-        $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+        // $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
         $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         $CourseShortName=$rowgetCourseDetails['CourseShortName'];
     }
@@ -10197,7 +10197,7 @@ if ($CollegeName !== '') {
                     <label>Isopen</label>
                     <select class="form-control" id="Isopen"
                         style="border: 2px solid <?php if($row[19]=='1'){echo 'green';}else{ echo 'red';};?>">
-                        <option value="<?=$row[19];?>"><?php if($row[9]=='1'){echo 'Yes';}else{ echo 'No';};?></option>
+                        <option value="<?=$row[19];?>"><?php if($row[19]=='1'){echo 'Yes';}else{ echo 'No';};?></option>
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                     </select>
@@ -17016,7 +17016,7 @@ elseif($code==248)
        if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
        {
            
-           $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+        //    $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
            $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
            
             $CourseShortNameMAster=$rowgetCourseDetails['CourseShortName'];
@@ -21972,7 +21972,8 @@ elseif($code==305)
             $Course=$rowCourse['Course'];
         }
     }
-    else{
+    else
+    {
         $getCourse="SELECT MAX(CourseID)as CourseID FROM MasterCourseCodes ";
         $getCourseRun=sqlsrv_query($conntest,$getCourse);
         if($rowCourse=sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
@@ -21993,8 +21994,8 @@ elseif($code==305)
 
     
   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
- EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths) 
- VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth');";
+ EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto) 
+ VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
 
 $insert_recordCourses = "INSERT INTO MasterCourses (CollegeName,Course,Batch,SemesterID,Semester) 
@@ -25984,13 +25985,13 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
-$sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+ $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
         if($row["ClassRollNo"]<=$row["EndClassRollNo"])
         {
-            $ClassRollNo=$row["ClassRollNo"];
+             $ClassRollNo=$row["ClassRollNo"];
 
         }
         else
@@ -26029,17 +26030,22 @@ else
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
 if($ifexitIDNoAdhaar<1)
-{  $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
+{   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
-if($ifexitIDNo<2)
+if($ifexitIDNo<1)
 {    
-      $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID)
- VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID')";
+       $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
+ VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
-
+ if ($newAdmissionInsertRun === false) {
+    // $errors = sqlsrv_errors();
+    // echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
  if($newAdmissionInsertRun==true)
  {
+
 
       if($admisisontype==3)
     {
@@ -26117,6 +26123,7 @@ if ($stmtG === false) {
 elseif($code==358)
 {
     $IDNo=$_POST['IDNo'];
+    $AdharCardNo="";
     // $ClassRollNo=$_POST['ClassRollNo'];
     $getIDNosql = "SELECT * FROM Admissions Where IDNo='$IDNo' ";
     $getIDNostmt = sqlsrv_query($conntest,$getIDNosql);  
@@ -26127,13 +26134,27 @@ elseif($code==358)
         $IDNo=$getIDNorow['IDNo'];
         $ClassRollNo=$getIDNorow['ClassRollNo'];
         $Session=$getIDNorow['Session'];
+        $Nationality=$getIDNorow['Nationality'];
         $Batch=$getIDNorow['Batch'];
         $AdmissionDate=$getIDNorow['AdmissionDate']->format('d-m-Y');
         $MotherName=$getIDNorow['MotherName'];
         $Sex=$getIDNorow['Sex'];
         $DOB=$getIDNorow['DOB']->format('d-m-Y');
         $StudentMobileNo=$getIDNorow['StudentMobileNo'];
-        $AadhaarNo=$getIDNorow['AadhaarNo'];
+        if ($Nationality == 'Indian') 
+{
+    $AdharCardNo=$getIDNorow['AadhaarNo'];
+} else if ($Nationality == 'NRI') 
+{
+    $AdharCardNo=$getIDNorow['PassportNo'];
+} else if ($Nationality == 'Nepal') 
+{
+    $AdharCardNo=$getIDNorow['AadhaarNo'];
+} else if ($Nationality == 'Bhutan') 
+{
+    $AdharCardNo=$getIDNorow['AadhaarNo'];
+}
+        // $AadhaarNo=$getIDNorow['AadhaarNo'];
         $CommentsDetail=$getIDNorow['CommentsDetail'];
         $CollegeID=$getIDNorow['CollegeID'];
         $CourseID=$getIDNorow['CourseID'];
@@ -26175,7 +26196,29 @@ $LedgerName = $rowLedger['Particulars'];
     <tr></th>
          <th>Gender : </th><th><?=$Sex;?>   </th>
 <th> Mobile No :</th><th><?=$StudentMobileNo;?> </th>
-<th>Aadhaar No  :</th><th><?=$AadhaarNo;?></th>
+
+<th>
+    <?php 
+            if ($Nationality == 'Indian') 
+            {
+                echo "Aadhaar No";
+            } else if ($Nationality == 'NRI') 
+            {
+                echo "Passport No";
+            } else if ($Nationality == 'Nepal') 
+            {
+                echo "ID No";
+            } else if ($Nationality == 'Bhutan') 
+            {
+                echo "ID No";
+            }else{
+                echo "";
+            }
+                ?>
+      :</th>
+    
+    
+    <th><?=$AdharCardNo;?></th>
     </tr>
 
     <tr>

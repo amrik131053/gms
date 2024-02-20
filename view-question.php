@@ -679,11 +679,7 @@ code:code,code_access:code_access,subCode:subCode,courseId:courseId,batch:batch,
                 
               }
            });
-   
-   
    }
-   
-   
    function lockQuestions(SubjectCode,CourseID,Batch,Semester) 
    {
      //alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);

@@ -70,12 +70,12 @@ $eprint=$_GET['print'];
         if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
         {
            
-            $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+            // $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
             $CourseShortName=$rowgetCourseDetails['CourseShortName'];
             $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         }
 
-if($CourseShortName)
+if($CourseShortName!='')
 {
         $name= $row['StudentName'];
         $pdf->SetFont('Arial','',10);
@@ -83,7 +83,7 @@ if($CourseShortName)
         $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,9);
         $pdf-> Image('dist\img\idcardbg.png',0,80,53.98,6);
         $pdf-> Image('dist\img\signn.jpg',20.5,75,13,4); 
-        $collegeLen=strlen($row['CollegeName']);
+        $collegeLen=strlen($rowgetCourseDetails['CollegeName']);
         if($collegeLen<25)
         {
             $ClgC=4;
@@ -99,7 +99,7 @@ if($CourseShortName)
             $ClgY=17.5;
         }
         $pdf->SetXY(1,$ClgY);
-        $pdf->MultiCell(52,$ClgC,$row['CollegeName'],'0','C');
+        $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
         $img= $row['Snap'];
         $pic = 'data://text/plain;base64,' . base64_encode($img);
         $info = getimagesize($pic);
@@ -243,7 +243,7 @@ elseif($code==2)
         if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
         {
            
-            $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
+            // $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
             $CourseShortName=$rowgetCourseDetails['CourseShortName'];
             $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
         }
@@ -253,7 +253,7 @@ elseif($code==2)
         $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,9);
         $pdf-> Image('dist\img\idcardbg.png',0,80,53.98,6);
         $pdf-> Image('dist\img\signn.jpg',20.5,75,13,4); 
-        $collegeLen=strlen($row['CollegeName']);
+        $collegeLen=strlen($rowgetCourseDetails['CollegeName']);
         if($collegeLen<25)
         {
             $ClgC=4;
@@ -269,7 +269,7 @@ elseif($code==2)
             $ClgY=17.5;
         }
         $pdf->SetXY(1,$ClgY);
-        $pdf->MultiCell(52,$ClgC,$row['CollegeName'],'0','C');
+        $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
         $img= $row['Snap'];
         $pic = 'data://text/plain;base64,' . base64_encode($img);
         $info = getimagesize($pic);
@@ -366,7 +366,7 @@ $date=date('Y-m-d H:i:s');
 $up="UPDATE Admissions SET ValidUpTo='$ValidUpTo' WHERE IDNo='$empid' ";
  sqlsrv_query($conntest,$up);
 
- $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
+ $up11="UPDATE MAsterCourseCodes SET CourseShortName='$CourseShortName',ValidUpto='$ValidUpTo'  WHERE CourseID='".$row['CourseID']."' and Session='".$row['Session']."' and Batch='".$row['Batch']."'  ";
   sqlsrv_query($conntest,$up11);
 }
 }

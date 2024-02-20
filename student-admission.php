@@ -714,7 +714,7 @@ function submitNewAdmissions() {
         },
         type: 'POST',
         success: function(response) {
-            // console.log(response);
+            console.log(response);
             spinner.style.display = 'none';
             if (response == 1) {
                 ErrorToast('Server is busy Try Again ', 'bg-warning');
@@ -742,7 +742,7 @@ function submitNewAdmissions() {
     });
 }
 
-// successModal(9618234054);
+// successModal(9618233885);
 function successModal(IDNo)
  {
     var spinner = document.getElementById('ajax-loader');
