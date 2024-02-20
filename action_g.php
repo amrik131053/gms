@@ -17838,7 +17838,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?= $borderColor;?>;'>";?> 
                 </td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
