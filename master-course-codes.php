@@ -44,6 +44,7 @@ $data[]=$degree_row;
                     </div>
                     <div class="card-body collapse">
                         <div class="row">
+                               
                             <div class="col-lg-2" style="text-align: ;">
                                 <label>Select Session</label>
                                 <br>
@@ -69,6 +70,8 @@ for($s1='16';$s1<='31';$s1++)
                                     <option value='J'>J</option>
                                 </select>
                             </div>
+
+
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>College Name</label>
                                 <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control form-control-sm"
@@ -88,6 +91,8 @@ for($s1='16';$s1<='31';$s1++)
                         <!-- <option value="other">Other</option> -->
                                 </select>
                             </div>
+
+
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>Department</label>
                                 <select id="Department3" class="form-control form-control-sm" onchange="fetchcourse3()" required>
@@ -107,7 +112,7 @@ for($s1='16';$s1<='31';$s1++)
                                <input type="text"  id="CourseNew" class="form-control form-control-sm">
                             </div>
                            
-                            <div class="col-lg-2" style="text-align: left;">
+                           <div class="col-lg-2" style="text-align: left;">
                                 <label>Batch</label>
                                 <select id="Batch3" class="form-control form-control-sm" required>
                                     <option value="">Batch</option>
