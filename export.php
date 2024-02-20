@@ -2182,12 +2182,12 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];    
      $Duration=$row['Duration'];    
      $Consultant_id=$row['Consultant_id']; 
-     $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
-    $consultant_details_run=mysqli_query($conn,$consultant_details); 
-    if($row_consultant=mysqli_fetch_array($consultant_details_run))
-    {
-$consultantName=$row_consultant['state'];
-    }  
+     $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
+     $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
+     if($row_get_consultantName=sqlsrv_fetch_array($get_consultantNameRun))
+     {
+         $consultantName=$row_get_consultantName['Name'];
+     }  
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
          $ID_Proof_No=$row['ID_Proof_No'];   
@@ -2384,6 +2384,8 @@ cities on cities.id=offer_latter.District  where offer_latter.Consultant_id='$Co
        ";
 while($row=mysqli_fetch_array($get_student_details_run)) 
 {   
+
+  
      $name=$row['Name'];    
     $FatherName=$row['FatherName'];    
     $MotherName=$row['MotherName'];    
@@ -2404,12 +2406,12 @@ while($row=mysqli_fetch_array($get_student_details_run))
     $Session=$row['Session'];    
      $Duration=$row['Duration'];    
      $Consultant_id=$row['Consultant_id']; 
-     $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
-    $consultant_details_run=mysqli_query($conn,$consultant_details); 
-    if($row_consultant=mysqli_fetch_array($consultant_details_run))
-    {
-$consultantName=$row_consultant['state'];
-    }  
+     $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
+     $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
+     if($row_get_consultantName=sqlsrv_fetch_array($get_consultantNameRun))
+     {
+         $consultantName=$row_get_consultantName['Name'];
+     }
          $Lateral=$row['Lateral'];    
          $Nationality=$row['Nationality'];    
          $ID_Proof_No=$row['ID_Proof_No'];   
