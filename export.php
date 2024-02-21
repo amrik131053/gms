@@ -6069,9 +6069,13 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
         $credit=$row7c['NoOFCredits'];
+        if(is_numeric($credit))
+        {
         $gtcerdit=$gtcerdit+$credit;
+        }
          $exportstudy.="<th colspan=4>Credit : {$credit}</th>";
-            }
+            
+        }
    
 }
 
@@ -6267,23 +6271,37 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 
 
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
+if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
+if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
+if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
+
+ if($p=='S' OR $p=='US')
+ {
+    $pmarks=$row7pr['PMarks'];
+ }
+ else{
 $pmarks=$pmarks+$p+$v+$f;
+ }
 
 $pcount++;
           } 
 
+          if(is_numeric($pmarks))
+          {
        if($pcount>5) 
        {
+
          $pmarks=round((($pmarks/$pcount)*5));
        }   
        else
        {
         $pmarks=$pmarks;
        }
-
+    }
+    else
+    {
+        $pmarks=$pmarks;
+    }
 
 
 include'grade_calculator_practical.php';
@@ -6296,18 +6314,22 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
-            }
+         }
 
+
+         if(is_numeric($credit))
+         {
 $totalcredit=$totalcredit+$credit;
-
-
-                           
-                           $exportstudy.="<th>{$pmarks}</th>"; 
+         }
+$exportstudy.="<th>{$pmarks}</th>"; 
                            $exportstudy.="<th>{$grade} </th>";
 $exportstudy.="<th>{$gardep} </th>";
                            if($credit>0)
 {
+    if(is_numeric($credit))
+    {
  $gradevalue=$gardep*$credit;
+    }
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
@@ -6318,7 +6340,7 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
 }
 $exportstudy.="<th>{$credit} </th>";  
-        
+     
 
 
 } 
@@ -6413,7 +6435,6 @@ $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
               }
                while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
                   {
-
                   // print_r($row);
                $Subjects[]=$row_subject['SubjectCode'] ;
                $SubjectNames[]=$row_subject['SubjectName'] ;
@@ -6462,25 +6483,21 @@ $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
-$subCount=(count($Subjects)*2)+7;
+$subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-        <thead>  
-        <tr>
-       ";
+        <thead>";
 include'resultcopyheader.php';
-
-
 $exportstudy.="<tr>
     <th>SrNo</th>
   
-    <th>UniRoll No</th>   ";
+    <th>UniRoll No</th> ";
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=2>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
   
 }
-$exportstudy.="<th colspan=3>Grade Detail
+$exportstudy.="<th colspan=2>Grade Detail
     
   </th></tr>  
    <tr>
@@ -6498,17 +6515,22 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
         $credit=$row7c['NoOFCredits'];
+
+        if(is_numeric($credit))
+        {
         $gtcerdit=$gtcerdit+$credit;
+        }       
          $exportstudy.="<th colspan=2>Credit : {$credit}</th>";
-            }
+        }
    
 }
 
 
-  $exportstudy.="<th colspan=3>Total Credit :{$gtcerdit}
+  $exportstudy.="<th colspan=2>Total Credit :{$gtcerdit}
     
-  </th></tr>   <tr>
-    <th></th>
+  </th></tr> 
+    <tr>
+   
     <th></th>
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
@@ -6694,16 +6716,23 @@ $pcount=0;
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 
+         if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
+        if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
+        if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
 
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
-$pmarks=$pmarks+$p+$v+$f;
 
+        if($p=='S' OR $p=='US')
+        {
+           $pmarks=$row7pr['PMarks'];
+        }
+        else{
+       $pmarks=$pmarks+$p+$v+$f;
+        }
 
 $pcount++;
           }  
-
+          if(is_numeric($pmarks))
+          {
 if($pcount>5)
 {
     $pmarks=round((($pmarks/$pcount)*5));
@@ -6712,7 +6741,11 @@ else
 {
    $pmarks=$pmarks; 
 }
-
+          }
+          else
+          {
+              $pmarks=$pmarks;
+          }
  include 'grade_calculator_practical.php';
 
 
@@ -6728,7 +6761,11 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
              $credit=$row7c['NoOFCredits'];
             }
 
-$totalcredit=$totalcredit+$credit;
+
+            if(is_numeric($credit))
+            {
+   $totalcredit=$totalcredit+$credit;
+            }
 
 
                            
@@ -6737,7 +6774,10 @@ $totalcredit=$totalcredit+$credit;
 $exportstudy.="<th style='color:{$color}'>{$gardep} </th>";
 if($credit>0)
 {
+    if(is_numeric($credit))
+    {
  $gradevalue=$gardep*$credit;
+    }
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
@@ -6779,7 +6819,7 @@ $exportstudy.="<th style='color:{$color}'>NC</th>";
 else
  { $exportstudy.="<th>{$sgpa} </th>";}  
 
-$exportstudy.="<th>{$nccount} </th>";
+//$exportstudy.="<th>{$nccount} </th>";
 
           $exportstudy.="</tr>";
                             
@@ -6899,7 +6939,7 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
 $subCount=(count($Subjects)*5)+7;
 $subCount1=count($Subjects);
-$exportstudy="<table class='table' border='1'>     <thead>         <tr>       ";
+$exportstudy="<table class='table' border='1'>     <thead>";
 include 'resultcopyheader.php';
 
 $exportstudy.="
@@ -6932,7 +6972,11 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
         $credit=$row7c['NoOFCredits'];
+        if(is_numeric($credit))
+        {
         $gtcerdit=$gtcerdit+$credit;
+        }
+ 
          $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
             }
    
@@ -7137,17 +7181,27 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 
 
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
+            if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
+            if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
+            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
+            
+         
 
-$smarks=$p+$v+$f;
-$pmarks=$pmarks+$p+$v+$f;
-$pshow=$smarks.'/'.$pshow;
+            if($p=='S' OR $p=='US')
+            {
+               $pmarks=$row7pr['PMarks'];
+            }
+            else{
+
+                $smarks=$p+$v+$f;
+           $pmarks=$pmarks+$p+$v+$f;
+           $pshow=$smarks.'/'.$pshow;
+            }
 
 $pcount++;
           }  
-
+          if(is_numeric($pmarks))
+          {
 if($pcount>5)
 {
     $pmarks=round((($pmarks/$pcount)*5));
@@ -7156,7 +7210,11 @@ else
 {
    $pmarks=$pmarks; 
 }
-
+          }
+          else
+{
+   $pmarks=$pmarks; 
+}
 include'grade_calculator_practical.php';
 
 $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
@@ -7167,7 +7225,12 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
              $credit=$row7c['NoOFCredits'];
          }
 
+
+         if(is_numeric($credit))
+         {
 $totalcredit=$totalcredit+$credit;
+         }
+
 
 
                            
@@ -7177,7 +7240,10 @@ $totalcredit=$totalcredit+$credit;
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
                            if($credit>0)
 {
+    if(is_numeric($credit))
+    {
  $gradevalue=$gardep*$credit;
+    }
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
@@ -7216,7 +7282,7 @@ else
 
 if($nccount>0)
 {
-$exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
+$exportstudy.="<td style='text-align:center;color:{$color}'>NC</td>";
 
 }
 else

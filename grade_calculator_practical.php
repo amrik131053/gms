@@ -3,7 +3,8 @@
  $grade='';
  $printmark='';
    $gardep=0;
-
+   if(is_numeric($pmarks))
+   {
 if($pmarks>=90)
 {
    $grade= "O";
@@ -46,5 +47,12 @@ else if($pmarks<40)
    $printmark=$pmarks;
     $gardep=0;
 }
-
+   }
+   else
+   {
+      $grade=$pmarks;
+   
+   $printmark=$pmarks;
+    $gardep=0;
+   }
 ?>
