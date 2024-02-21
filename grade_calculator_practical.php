@@ -50,9 +50,8 @@ else if($pmarks<40)
    }
    else
    {
-      $grade=$pmarks;
-   
+   $grade=$pmarks;
    $printmark=$pmarks;
-    $gardep=0;
+   $gardep=0;
    }
 ?>

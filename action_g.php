@@ -18016,8 +18016,17 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Aadhaar No</label>
-                                        <input type="number" class="form-control" name="aadharNo"
+                                        <?php if($role_id=='2'){
+                                            ?>
+                                            <input type="number" class="form-control" name="aadharNo"
                                             placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="number" class="form-control" name="aadharNo"
+                                                placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
                                     </div>
 
 
@@ -25423,20 +25432,20 @@ if($Status==6)
         <input type="hidden" id="refoffer" value="0" class="form-control">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Name</label>
-          <input type="text" id="Name" class="form-control">
+          <input type="text" id="Name" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Father Name</label>
-          <input type="text" id="FatherName" class="form-control">
+          <input type="text" id="FatherName" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label for="MobileNumber">Mobile No</label>
           <input type="text" id="MobileNumber" class="form-control" name="mobileNumber" pattern="[789]\d{9}"
-              title="Enter a valid Indian mobile number" maxlength="10" required>
+              title="Enter a valid Indian mobile number" maxlength="10" required readonly>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
+      <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;" >
           <label>Aadhar Card No</label>
-          <input type="text" id="AdharCardNo" class="form-control">
+          <input type="text" id="AdharCardNo" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
           <label>ID No</label>
@@ -26673,11 +26682,11 @@ else if($code==367)
        <input type="hidden" id="refoffer" value="0" class="form-control">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Name</label>
-          <input type="text" id="Name" class="form-control">
+          <input type="text" id="Name" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Father Name</label>
-          <input type="text" id="FatherName" class="form-control">
+          <input type="text" id="FatherName" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label for="MobileNumber">Mobile No</label>
@@ -26686,7 +26695,7 @@ else if($code==367)
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12" id="AdharCard" style="display:none;">
           <label>Aadhar Card No</label>
-          <input type="text" id="AdharCardNo" class="form-control">
+          <input type="text" id="AdharCardNo" class="form-control" readonly>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12" id="IDNoNationlity" style="display:none;">
           <label>ID No</label>
@@ -26799,7 +26808,7 @@ else if($code==367)
 
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>LateralEntry</label>
-          <select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();">
+          <select class="form-control" name="LateralEntry" id="LateralEntry" onchange="fatchBatch();" disabled>
               <option value="">Select</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
