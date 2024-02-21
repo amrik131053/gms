@@ -21728,14 +21728,19 @@ $update_query=sqlsrv_query($conntest,$update1);
 <table class="table">
   <?php  
   $sr=1;
-     $presult = mysqli_query($conn,"SELECT user.user_id,user.emp_id,user.role_id,user.name,role_name.role_name from user inner join role_name ON user.role_id=role_name.id WHERE  user.role_id='16'");
+     $presult ="SELECT * FROM Staff WHERE RoleID='16'";
+     $resultRun= sqlsrv_query($conntest,$presult);
      $name = $emp_id = "";
-     while($row=mysqli_fetch_array($presult))
+     while($row=sqlsrv_fetch_array($resultRun,SQLSRV_FETCH_ASSOC))
      {
-         $id = $row['user_id'];
-         $emp_id = $row['emp_id'];
-         $name = $row['name'];
-         $role_name = $row['role_name'];
+        $getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+$getRoleNameRun=mysqli_query($conn,$getRoleName);
+if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+{
+        //  $id = $row['user_id'];
+         $emp_id = $row['IDNo'];
+         $name = $row['Name'];
+         $role_name = $rowGetRoleName['role_name'];
       ?>
   <tr>
      <th><b style='color:#a62532;'><?=$sr;?></b></th>
@@ -21747,6 +21752,7 @@ $update_query=sqlsrv_query($conntest,$update1);
   <?php 
   $sr++;
      }
+    }
      ?>
 </table>
 </div>
@@ -21771,11 +21777,8 @@ elseif($code=='301')
    $stmt1 = sqlsrv_query($conntest,$result1);
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
-   
     $IDNo= $row['IDNo'];
-    
     $img= $row['Snap'];
-   
     $name = $row['Name'];
     $father_name = $row['FatherName'];
     $course = $row['Department'];
@@ -21851,12 +21854,10 @@ elseif($code=='301')
 
    elseif($code==302) 
    {
-   
    $emp_id=$_POST['emp_id'];
-   $del="UPDATE user SET role_id='11' WHERE emp_id='$emp_id' and role_id='16'";
-   $del_run=mysqli_query($conn,$del);
+   $del="UPDATE Staff SET RoleID='11' WHERE IDNo='$emp_id' and RoleID='16'";
+   $del_run=sqlsrv_query($conntest,$del);
    if ($del_run) {
-
       echo "1";
     }
    else
@@ -21869,27 +21870,8 @@ elseif($code=='301')
    {
    $role_id=$_POST['role_new'];
    $emp_id=$_POST['emp_id'];
-   $userQry="SELECT * FROM user WHERE emp_id = '$emp_id'";
-   $userRes=mysqli_query($conn,$userQry);
-   if (mysqli_num_rows($userRes)<1) 
-   {      
-   $staff="SELECT * FROM Staff Where IDNo='$emp_id' ";
-   $stmt = sqlsrv_query($conntest,$staff);  
-   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-   {
-   $IDNo=$row_staff['IDNo'];
-   $Name=$row_staff['Name'];
-   $Clg=$row_staff['CollegeName'];
-   $dept=$row_staff['Department'];
-   $Desi=$row_staff['Designation'];
-   $contact=$row_staff['ContactNo'];
-   $email=$row_staff['EmailID'];
-   mysqli_query($conn,"INSERT INTO user (emp_id, name, college, department, designation, mobile, email) VALUES ('$IDNo', '$Name', ' $Clg','$dept', '$Desi', '$contact', '$email')");
-   }
-   } 
- 
-   $insert="UPDATE user SET role_id='$role_id' WHERE emp_id='$emp_id'  and (role_id='0' or role_id='11') and role_id!='16'";
-   $insert_run=mysqli_query($conn,$insert);
+   $insert="UPDATE Staff SET RoleID='$role_id' WHERE IDNo='$emp_id'  and (RoleID='0' or RoleID='11') and RoleID!='16'";
+   $insert_run=sqlsrv_query($conntest,$insert);
    if ($insert_run==true)
     {
    echo "1";
@@ -21992,8 +21974,11 @@ elseif($code==305)
     $durationMonth=$_POST['durationMonth'];
     $CourseType=$_POST['CourseType'];
 
-    
-  $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
+    if($LateralEntry=='Yes')
+    {
+         $Batch=$Batch-1;
+    }
+   $insert_record = "INSERT INTO MasterCourseCodes (Session,CollegeName, CollegeID, Course,CourseID, DepartmentId, Batch, LateralEntry, ClassRollNo,
  EndClassRollNo,Isopen,Status, CourseType,Duration,DurationMonths,ValidUpto) 
  VALUES ('$Session','$CollegeName','$CollegeID','$Course','$CourseID','$DepartmentID','$Batch','$LateralEntry','$FirstRollNo','$LastRollNo','1','1','$CourseType','$durationYears','$durationMonth','$ValidUpTo');";
 $insert_record_run = sqlsrv_query($conntest, $insert_record);
