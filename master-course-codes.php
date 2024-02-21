@@ -49,6 +49,7 @@ $data[]=$degree_row;
                                 <label>Select Session</label>
                                 <br>
                                 <select id="session1" class="btn btn-default btn-sm">
+                                <option value="<?php echo date('Y')-1;?>"><?php echo date('Y')-1;?></option>
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -57,6 +58,7 @@ for($s='2015';$s<='2030';$s++)
                                     <?php }?>
                                 </select>
                                 <select id="session2" class="btn btn-default btn-sm">
+                                <option value="<?php echo date('y');?>"><?php echo date('y');?></option>
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
@@ -115,7 +117,7 @@ for($s1='16';$s1<='31';$s1++)
                            <div class="col-lg-2" style="text-align: left;">
                                 <label>Batch</label>
                                 <select id="Batch3" class="form-control form-control-sm" required>
-                                    <option value="">Batch</option>
+                                    <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                                     <?php 
                               for($i=2013;$i<=2030;$i++)
                                  {?>
@@ -142,10 +144,8 @@ for($s1='16';$s1<='31';$s1++)
                             <div class="col-lg-2">
                                 <label>Lateral Entry</label>
                                 <select id="LateralEntry" name="LateralEntry" class="form-control form-control-sm" required>
-                                    <option value="No">NO</option>
+                                    <option value="No">No</option>
                                     <option value="Yes">Yes</option>
-
-                                    ?>
                                 </select>
                             </div>
                       
@@ -550,7 +550,7 @@ CourseType:CourseType,
             data: data,
             type: 'POST',
             success: function(response) {
-                // console.log(response);
+                console.log(response);
                 if (response == 1) {
                     SuccessToast('Data submitted successfully');
                 } else {

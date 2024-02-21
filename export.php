@@ -3985,7 +3985,6 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
                 
         }
 
-
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
@@ -7988,24 +7987,6 @@ else
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
