@@ -6174,7 +6174,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 }     
@@ -6233,7 +6236,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 }  
@@ -6330,13 +6336,20 @@ $exportstudy.="<th>{$gardep} </th>";
     {
  $gradevalue=$gardep*$credit;
     }
+    else{
+       
+        $gradevalue=0;
+    }
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 $exportstudy.="<th>{$credit} </th>";  
@@ -6608,9 +6621,10 @@ $totalcredit=$totalcredit+$credit;
 
 if($credit>0)
 {
-    if(is_numeric($gardep)){$gardep=$gardep;}else{$gardep=0;}
-
- $gradevalue=$gardep*$credit;
+    if(is_numeric($gardep))
+    {$gardep=$gardep;}else{$gardep=0;}
+    
+     $gradevalue=$gardep*$credit;
 
  if($gradevalue>0)
  {
@@ -6618,7 +6632,12 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+   
+
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 
@@ -6677,7 +6696,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 }   
@@ -6778,13 +6800,20 @@ if($credit>0)
     {
  $gradevalue=$gardep*$credit;
     }
+else{
+        $gradevalue=0;
+    }
+   
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 
@@ -6809,11 +6838,13 @@ else
  $exportstudy.="<th>{$totalcredit} </th>"; 
 
  $sgpa=$gradevaluetotal/$totalcredit;
+
+
     $sgpa= number_format($sgpa,2);
 
 if($nccount>0)
 {
-$exportstudy.="<th style='color:{$color}'>NC</th>";
+$exportstudy.="<th style='color:{$color}'>NC </th>";
 
 }
 else
@@ -7073,7 +7104,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 }     
@@ -7131,7 +7165,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 else
@@ -7244,13 +7281,19 @@ $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
     {
  $gradevalue=$gardep*$credit;
     }
+    else{
+        $gradevalue=0; 
+    }
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
@@ -7441,7 +7484,8 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
        $credit=$row7c['NoOFCredits'];
             }
-
+           
+         
 $totalcredit=$totalcredit+$credit;
  $exportstudy.="<td style='text-align:center'>{$credit} </td>";  
 
@@ -7456,7 +7500,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 }     
@@ -7514,7 +7561,10 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
 }
 else
@@ -7548,21 +7598,32 @@ $pshow='';
 $smarks='0';
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
+            if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
+            if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
+            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
 
-$smarks=$p+$v+$f;
+
+            if($p=='S' OR $p=='US')
+ {
+    $pmarks=$row7pr['PMarks'];
+ }
+ else{
+    $smarks=$p+$v+$f;
 $pmarks=$pmarks+$p+$v+$f;
 $pshow=$smarks.'/'.$pshow;
-
+ }
 $pcount++;
           }  
-
+          if(is_numeric($pmarks))
+          {
 if($pcount>5)
 {
     $pmarks=round((($pmarks/$pcount)*5));
 }
+else
+{
+   $pmarks=$pmarks; 
+}}
 else
 {
    $pmarks=$pmarks; 
@@ -7578,24 +7639,41 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
              $SubjectName=$row7c['SubjectName'];
              $credit=$row7c['NoOFCredits'];
             }
-
+            if(is_numeric($credit))
+            {
 $totalcredit=$totalcredit+$credit;
+            }
  $exportstudy.="<td style='text-align:center;'>{$SubjectName}</td>"; 
                            $exportstudy.="<td style='text-align:center;'>{$SubjectCode}</td>"; 
                            $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>";
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
-                           if($credit>0)
+    
+if(is_numeric($credit))
+{
+    $credit=$credit;
+}   
+else
+{
+    $credit=0;
+}
+
+if($credit>0)
 {
  $gradevalue=$gardep*$credit;
- if($gradevalue>0)
+}
+ 
+if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
+    if($grade=='F' || $grade=='US')
+    {
     $nccount++;
+    }
  }
-}
+
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";   
 }  
 else
