@@ -25411,7 +25411,7 @@ if($Status==6)
   <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Nationality</label>
-          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
+          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);" >
               <option value="">Select</option>
               <option value="Indian">Indian</option>
               <option value="NRI">NRI</option>
@@ -25972,7 +25972,7 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
- $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -26016,9 +26016,12 @@ else
 }
  
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-
-
 $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
+
+if($admisisontype==2)
+{
+    $ifexitIDNoAdhaar=0;
+}
 if($ifexitIDNoAdhaar<1)
 {   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -26043,7 +26046,7 @@ if($ifexitIDNo<1)
 mysqli_query($conn,$upd);  
     }
 
- $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+ $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
     sqlsrv_query($conntest,$sqlG);
 
 
