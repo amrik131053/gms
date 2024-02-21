@@ -9354,7 +9354,7 @@ else
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
-    echo $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+     $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
     $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
     if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
     {
@@ -17806,7 +17806,7 @@ elseif($code==266)  // search student
                 <th>FatherName</th>
                 <th>College</th>
                 <th>Course</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
                 <th>Edit</th>
                 <th>Print</th>
             </tr>
@@ -17838,7 +17838,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?= $borderColor;?>;'>";?> 
+               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
                 </td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -17850,8 +17850,8 @@ elseif($code==266)  // search student
                 
                        
                        
-                <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
-                        </td>
+                <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
+                        </td> -->
                 <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
@@ -19124,7 +19124,7 @@ elseif($code==270)  // search student
                         <th>College</th>
                         <th>Course</th>
                         <th>Status</th>
-                        <th>Edit</th>
+                        <!-- <th>Edit</th> -->
                         <th>ID Card</th>
                     </tr>
                 </thead>
@@ -19189,8 +19189,8 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
-                        </td>
+                        <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
+                </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
                         <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -19199,8 +19199,8 @@ elseif($code==270)  // search student
                         <td><?=$row['FatherName'];?></td>
                         <td><?=$row['CollegeName'];?></td>
                         <td><?=$row['Course'];?></td>
-                        <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
-                        </td>
+                        <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
+                        </td> -->
                         <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
@@ -25420,7 +25420,7 @@ if($Status==6)
   <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12">
           <label>Nationality</label>
-          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);">
+          <select name="" id="Nationality" class="form-control" onchange="adharPassChnage(this.value);" >
               <option value="">Select</option>
               <option value="Indian">Indian</option>
               <option value="NRI">NRI</option>
@@ -25981,7 +25981,7 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
- $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -26025,9 +26025,12 @@ else
 }
  
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-
-
 $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
+
+if($admisisontype==2)
+{
+    $ifexitIDNoAdhaar=0;
+}
 if($ifexitIDNoAdhaar<1)
 {   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -26052,7 +26055,7 @@ if($ifexitIDNo<1)
 mysqli_query($conn,$upd);  
     }
 
- $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'";
+ $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
     sqlsrv_query($conntest,$sqlG);
 
 
