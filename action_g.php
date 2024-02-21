@@ -17806,7 +17806,7 @@ elseif($code==266)  // search student
                 <th>FatherName</th>
                 <th>College</th>
                 <th>Course</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
                 <th>Edit</th>
                 <th>Print</th>
             </tr>
@@ -17838,7 +17838,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?= $borderColor;?>;'>";?> 
+               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
                 </td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -17850,8 +17850,8 @@ elseif($code==266)  // search student
                 
                        
                        
-                <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
-                        </td>
+                <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
+                        </td> -->
                 <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
@@ -19124,7 +19124,7 @@ elseif($code==270)  // search student
                         <th>College</th>
                         <th>Course</th>
                         <th>Status</th>
-                        <th>Edit</th>
+                        <!-- <th>Edit</th> -->
                         <th>ID Card</th>
                     </tr>
                 </thead>
@@ -19189,8 +19189,8 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
-                        </td>
+                        <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
+                </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
                         <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -19199,8 +19199,8 @@ elseif($code==270)  // search student
                         <td><?=$row['FatherName'];?></td>
                         <td><?=$row['CollegeName'];?></td>
                         <td><?=$row['Course'];?></td>
-                        <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
-                        </td>
+                        <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
+                        </td> -->
                         <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
