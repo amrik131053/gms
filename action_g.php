@@ -9354,7 +9354,7 @@ else
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
-    $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+    echo $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
     $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
     if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
     {
@@ -16955,7 +16955,7 @@ else
                         <td><?=$row['ClassRollNo'];?></td>
                         <td><?=$row['StudentName'];?></td>
                         <td><?=$row['Batch'];?></td>
-                        <td><?=$row['CourseShortName'];?></td>
+                        <td><?=$row['Course'];?></td>
                         <td><?php if($row['ApplyDate']!=''){echo $row['ApplyDate']->format('d-m-Y H:i:s');}?></td>
                         <td><?php if($row['VerifyDate']!=''){echo$row['VerifyDate']->format('d-m-Y H:i:s');}?></td>
                         <td><?php if($row['RejectDate']!=''){echo$row['RejectDate']->format('d-m-Y H:i:s');}?></td>
@@ -17838,7 +17838,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?= $borderColor;?>;'>";?> 
                 </td>
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
@@ -25924,7 +25924,9 @@ $admisisontype=$_POST['admisisontype'];
 $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
-// $AdharCardNo=$_POST['idproof'];
+
+$AdharCardNo=$_POST['idproof'];
+
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
 $category=$_POST['category'];
@@ -25961,7 +25963,7 @@ $CourseName = $rowGG['Course'];
 
 $Ammount=0;
 
-$sqlfee = "SELECT DISTINCT Amount,Head  FROM MasterAnnualFee  WHERE CourseID='$Course' and CollegeID='$CollegeID' and Batch='$Batch' and Semester='$SemesterForFee' ";
+$sqlfee = "SELECT DISTINCT Amount,Head FROM MasterAnnualFee  WHERE CourseID='$Course' and CollegeID='$CollegeID' and Batch='$Batch' and Semester='$SemesterForFee'";
 $stmtfee = sqlsrv_query($conntest,$sqlfee);  
 if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 {
@@ -26003,6 +26005,7 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
 {    
             $TransactionID=$getTransactionIDrow["TransactionID"]+1;     
 }
+
 if ($Nationality == 'NRI') 
 {
      $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' "; 
@@ -26013,6 +26016,8 @@ else
 }
  
  $get_card_runAdhaar=sqlsrv_query($conntest,$getIfExistAdhaar,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+
 $ifexitIDNoAdhaar=sqlsrv_num_rows($get_card_runAdhaar);
 if($ifexitIDNoAdhaar<1)
 {   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
@@ -26686,7 +26691,7 @@ else if($code==367)
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12" id="PassportNo" style="display:none;">
           <label>Passport No</label>
-          <input type="text" id="PassportNumber" class="form-control">
+          <input type="text" id="PassportNumber"   class="form-control">
       </div>
 
       <div class="col-lg-3 col-md-3 col-sm-12">

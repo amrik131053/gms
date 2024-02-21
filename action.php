@@ -14669,7 +14669,7 @@ elseif($code==227)
                            </tr>
                      <?php 
 
-                         $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Departmentid='$Department' and Sgroup='$Group' and IsVerified='0'";
+           $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Departmentid='$Department' and Sgroup='$Group' and IsVerified='0'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
