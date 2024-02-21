@@ -737,6 +737,9 @@ function submitNewAdmissions() {
                 document.getElementById('FatherName').value = "";
                 document.getElementById('MobileNumber').value = "";
                 document.getElementById('Dob').value = "";
+                document.getElementById('Batch').value = "";
+                document.getElementById('AdharCardNo').value = "";
+                document.getElementById('LateralEntry').value = "";
             }
         }
     });
