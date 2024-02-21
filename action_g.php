@@ -9354,7 +9354,7 @@ else
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
    {
-    echo $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+     $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
     $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
     if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
     {
