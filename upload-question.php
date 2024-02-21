@@ -697,7 +697,7 @@ function fetchcourse1(data) {
             }
         }
     });
-
+ 
 }
 
 function fetchcodes() {
@@ -728,7 +728,7 @@ function fetchcodes() {
         type: 'POST',
         success: function(data) {
             if (data != "") {
-                // console.log(data);
+                 console.log(data);
                 $("#Subjectcodecopy").html("");
                 $("#Subjectcodecopy").html(data);
             }

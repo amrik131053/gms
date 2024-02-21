@@ -19177,11 +19177,18 @@ elseif($code==318)
 
 
 
+ if($EmployeeID=='131053')
+ {
+   echo $showQuestionQry="SELECT Distinct SubjectCode FROM question_bank WHERE  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' ANd  Unit='$Unit' and Semester='$Semester' ORDER BY Id desc" ;
+ }
+ else
+ {
+   echo $showQuestionQry="SELECT Distinct SubjectCode FROM question_bank WHERE  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' ANd UpdatedBy='$EmployeeID'
 
-echo $showQuestionQry="SELECT Distinct SubjectCode FROM question_bank WHERE  Batch='$Batch' and CourseID='$Course'and  CollegeID='$College' ANd UpdatedBy='$EmployeeID'
+   and  Unit='$Unit' and Semester='$Semester' ORDER BY Id desc" ;
 
-  and  Unit='$Unit' and Semester='$Semester' ORDER BY Id desc;"
-  ;
+ }
+
                         $showQuestionRun=mysqli_query($conn,$showQuestionQry);
                         while($showQuestionData=mysqli_fetch_array($showQuestionRun))
                         { 
