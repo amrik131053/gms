@@ -25996,6 +25996,7 @@ if($rowG=sqlsrv_fetch_array($stmtG, SQLSRV_FETCH_ASSOC))
 { 
 $CollegeName=$rowG['CollegeName']; 
 }
+
 $sqlGG="SELECT DISTINCT Course from MasterCourseCodes  Where CourseID='$Course' and Isopen='1'";
 $stmtGG = sqlsrv_query($conntest,$sqlGG);
 if($rowGG = sqlsrv_fetch_array($stmtGG, SQLSRV_FETCH_ASSOC) )
@@ -26014,7 +26015,7 @@ if($rowfee = sqlsrv_fetch_array($stmtfee, SQLSRV_FETCH_ASSOC) )
 }
 
 $ClassRollNo=0;
-  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
+  $sql = "SELECT  ClassRollNo,EndClassRollNo FROM MasterCourseCodes  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID'and Batch='$Batch' and LateralEntry='$LateralEntry'";
 $stmt = sqlsrv_query($conntest,$sql);  
     if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
@@ -26088,12 +26089,12 @@ if($ifexitIDNo<1)
 mysqli_query($conn,$upd);  
     }
 
- $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry'";
+ $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch'";
     sqlsrv_query($conntest,$sqlG);
 
 
 
-      $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,CollegeName,CreatedDate)Values('$IDNo','12345678','Student','Web','Campus','$CollegeName','$timeStampS')";
+      $userMaster="INSERT into UserMaster (UserName,Password,LoginType,ApplicationType,ApplicationName,RightsLevel,CollegeName,CreatedDate)Values('$IDNo','12345678','Student','Web','Campus','Student','$CollegeName','$timeStampS')";
     sqlsrv_query($conntest,$userMaster); 
     
      $insertLager="INSERT into Ledger(Session,CollegeName,DateEntry,IDNo,StudentName,FatherName,Course,Batch,ClassRollNo,Semester,SemesterID,Sex,Particulars,LedgerName,Debit,TransactionType,TransactionID)
@@ -26494,7 +26495,7 @@ elseif($code==360)
 elseif($code==361)
 {
     $rollNo = $_POST['rollNo'];
-    $list_sql = "SELECT  * FROM Admissions  where  (UniRollNo='$rollNo' or ClassRollNo='$rollNo') and  Admissions.Status='1' ";
+    $list_sql = "SELECT  * FROM Admissions  where  (UniRollNo='$rollNo' or ClassRollNo='$rollNo') ";
        $getIDStudent= sqlsrv_query($conntest,$list_sql);
         if($getRefStudent = sqlsrv_fetch_array($getIDStudent, SQLSRV_FETCH_ASSOC) )
     { 

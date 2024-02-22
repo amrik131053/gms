@@ -111,7 +111,7 @@ echo  $examName ." (".$sessionnane.")" ;
                  
                   <tr>
                     <th valign="bottom" colspan="2" align="left">
-                      Program: <?=$courseName?> 
+                      Programme: <?=$courseName?> 
                     </th>
                     
                     <th valign="bottom" align="right">
@@ -238,7 +238,7 @@ echo  $examName ." (".$sessionnane.")" ;
                             ?>
                             <tr>
                               <th width="10%" align="right" >
-                                <p><?=$questionCount?>. 
+                                <?=$questionCount?>. 
                                 <?php
                                  if ($row['Type']==1) 
                                   {
@@ -246,13 +246,10 @@ echo  $examName ." (".$sessionnane.")" ;
 
                                   }
                                   ?>
-                                &nbsp;</p><br></th>
+                                &nbsp;<br></th>
 
                               <th align="left"  ><?=$row['sanitized_question']?>
-                                <?= $img?>
-
-                        <br>
-                                <?php 
+                                <?= $img?><!-- <?php 
                                 if($row['OptionA']!='')
                                 {?>
                                    (A) &nbsp; <?=$row['OptionA']?> 
@@ -273,7 +270,7 @@ echo  $examName ." (".$sessionnane.")" ;
                                 if($row['OptionD']!='')
                                 {?>
                                    (D) &nbsp; <?=$row['OptionD']?> 
-                                <?php }?>
+                                <?php }?> -->
 
 
                               </th> 
