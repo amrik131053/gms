@@ -9376,7 +9376,6 @@ else
           case 'image/png':
               $extension = 'png';
               break;
-          
       }
 ?>
     <div class="container">
@@ -17366,7 +17365,7 @@ elseif($code==257)
                                         onchange="setValueTimeAcrodingToShift(this.value);">
                                         <option value=''>Select Shift</option>
                                         <?php
-                        $sql="SELECT * from MasterShift ";
+                        $sql="SELECT * from MasterShift  ";
                                 $stmt2 = sqlsrv_query($conntest,$sql);
                             while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 {
@@ -17407,7 +17406,7 @@ elseif($code==257)
                                 <th>OutTime1</th>
                                 <th>OutTime2</th>
                                 <th>OutTime3</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                             <?php
 
@@ -17428,7 +17427,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 <td><?=$row1['Outtime1']; ?></td>
                                 <td><?=$row1['Outtime2']; ?></td>
                                 <td><?=$row1['Outtime3']; ?></td>
-                                <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td>
+                                <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
                                 <?php 
 }
 ?>
@@ -17441,7 +17440,8 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 elseif ($code==258) {
     ?>
                 <div class="container-fluid">
-
+                    
+               
                     <div class="card-body table-responsive-lg pd" id="insertData">
                         <table class="table">
                             <tr>
@@ -17478,6 +17478,16 @@ elseif ($code==258) {
                         </table>
                     </div>
                     <div class="card-body table-responsive-lg pd">
+                    <div class="card-header">
+                    Search Employee
+                <span style="float:right;">
+                <button class="btn btn-xs ">
+                        <input type="search"  class="form-control form-control-sm"  id="empIDSignleException" placeholder="Emp ID">
+                    </button>
+                            <button type="button" onclick="searchEmpSingleException();" class="btn btn-success btn-sm">
+                            Search
+                            </button></span>
+                  </div>
                         <table class="table">
                             <tr>
                                 <th>Emp ID Name</th>
@@ -17491,31 +17501,54 @@ elseif ($code==258) {
                                 <th>OutTime1</th>
                                 <th>OutTime2</th>
                                 <th>OutTime3</th>
-                                <!-- <th>Action</th> -->
+                                <th>Action</th>
                             </tr>
+                            <tbody id="showSingleExceptionSearch">
                             <?php
 
-$sql="SELECT * from MadamSingleEmployeeException  order by Id ASC";
+$sql="SELECT * from MadamSingleEmployeeException  order by Id DESC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
     ?>
                             <tr>
-                                <td><?=$row1['IDNo']; ?></td>
-                                <td><?=$row1['StartDate']->format('d-m-Y'); ?></td>
-                                <td><?=$row1['EndDate']->format('d-m-Y'); ?></td>
-                                <td><?=$row1['Intime']; ?></td>
-                                <td><?=$row1['Intime1']; ?></td>
-                                <td><?=$row1['Intime2']; ?></td>
-                                <td><?=$row1['Intime3']; ?></td>
-                                <td><?=$row1['Outtime']; ?></td>
-                                <td><?=$row1['Outtime1']; ?></td>
-                                <td><?=$row1['Outtime2']; ?></td>
-                                <td><?=$row1['Outtime3']; ?></td>
-                                <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
+                                <td class="editable " data-field="IDNo"><?=$row1['IDNo']; ?></td>
+                                <td  class="editable-date " data-field="StartDate"><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+                                <td class="editable-date " data-field="EndDate"><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+                                <td class="editable " data-field="Intime"><?=$row1['Intime']; ?></td>
+                                <td class="editable " data-field="Intime1"><?=$row1['Intime1']; ?></td>
+                                <td class="editable " data-field="Intime2"><?=$row1['Intime2']; ?></td>
+                                <td class="editable " data-field="Intime3"><?=$row1['Intime3']; ?></td>
+                                <td class="editable " data-field="Outtime"><?=$row1['Outtime']; ?></td>
+                                <td class="editable " data-field="Outtime1"><?=$row1['Outtime1']; ?></td>
+                                <td class="editable " data-field="Outtime2"><?=$row1['Outtime2']; ?></td>
+                                <td class="editable " data-field="Outtime3"><?=$row1['Outtime3']; ?></td>
+                                <td>
+                                    <?php
+                                $dateValue = strtotime($row1['StartDate']->format('Y-m-d'));
+                                $year = date('Y',$dateValue);
+                                $monthName = date('F',$dateValue);
+                                 $monthNo = date('m',$dateValue);
+                                  
+                                if($monthNo>=date('m'))
+                                {
+                                ?>
+                                 <button type="button" class=" btn btn-dark btn-xs"
+                                     onclick="modalEditSingleException(<?=$row1['id'];?>)" data-toggle="modal" data-target="#ExceptionChnageModal"><i class="fa fa-edit"></i>
+                                 </button> 
+                                  <?php }
+                                  else{
+                                    ?>
+                                    <button type="button" class="btn btn-dark btn-xs"
+                                     disabled><i class="fa fa-edit"></i>
+                                 </button> <?php 
+                                  }?>
+                               </td>
+                                </tr>
                                 <?php 
 }
 ?>
+</tbody>
                         </table>
                     </div>
                 </div>
@@ -26982,7 +27015,137 @@ else if($code=='369')
         echo "1";
      }
 }
+elseif($code==370)
+{
+$id=$_POST['id'];
+$StartDate=$_POST['StartDate'];
+$EndDate=$_POST['EndDate'];
+$intime=$_POST['intime'];
+$intime1=$_POST['intime1'];
+$intime2=$_POST['intime2'];
+$intime3=$_POST['intime3'];
+$outtime=$_POST['outtime'];
+$outtime1=$_POST['outtime1'];
+$outtime2=$_POST['outtime2'];
+$outtime3=$_POST['outtime3'];
+$updateSingleException="UPDATE MadamSingleEmployeeException SET StartDate='$StartDate',EndDate='$EndDate',Intime='$intime',
+Intime1='$intime1',Intime2='$intime2',Intime3='$intime3',Outtime='$outtime',Outtime1='$outtime1',Outtime2='$outtime2',Outtime3='$outtime3' where id='$id' ";
+$updateSingleExceptionRun=sqlsrv_query($conntest,$updateSingleException);
+if($updateSingleExceptionRun==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+}
+elseif($code==371)
+{
+$id=$_POST['id'];
+    ?>
+<div class="card-body table-responsive-lg pd" id="">
+<?php 
+ $sql11="SELECT * from MadamSingleEmployeeException where id=$id";
+ $stmt21 = sqlsrv_query($conntest,$sql11);
+if($row11 = sqlsrv_fetch_array($stmt21, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-lg-6">
+        <label>Start Date</label>
+    <input type="date" id="StartDate<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['StartDate']->format('Y-m-d');?>"></div>                               
+    <div class="col-lg-6">
+    <label>End Date</label>
+        <input type="date" id="EndDate<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['EndDate']->format('Y-m-d');?>">
+    </div>
+</div>
+</div>
+</br>
 
+                        <table class="table">
+                            <tr>
+                              
+                               
+                                <th>InTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>OutTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>Action</th>
+                            </tr>
+
+                            <tr>
+                                <td><input type="time" id="intime<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime'];?>"></td>
+                                <td><input type="time" id="intime1<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime1'];?>"></td>
+                                <td><input type="time" id="intime2<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime2'];?>"></td>
+                                <td><input type="time" id="intime3<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime3'];?>"></td>
+                                <td><input type="time" id="outtime<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime'];?>"></td>
+                                <td><input type="time" id="outtime1<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime1'];?>"></td>
+                                <td><input type="time" id="outtime2<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime2'];?>"></td>
+                                <td><input type="time" id="outtime3<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime3'];?>"></td>
+                                <td><input type="button" class="btn btn-success btn-xs" value="Update"
+                                        onclick="saveRowSingle(<?=$id;?>);"></td>
+</tr>
+<?php 
+}
+?>
+
+                    </table>
+                </div>
+                    <?php 
+
+
+
+}
+elseif($code==372){
+    $empid=$_POST['Employeeid'];
+    $sql="SELECT * from MadamSingleEmployeeException where IDNo='$empid'";
+    $stmt2 = sqlsrv_query($conntest,$sql);
+    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+    {
+        ?>
+                                <tr>
+                                    <td class="editable " data-field="IDNo"><?=$row1['IDNo']; ?></td>
+                                    <td  class="editable-date " data-field="StartDate"><?=$row1['StartDate']->format('d-m-Y'); ?></td>
+                                    <td class="editable-date " data-field="EndDate"><?=$row1['EndDate']->format('d-m-Y'); ?></td>
+                                    <td class="editable " data-field="Intime"><?=$row1['Intime']; ?></td>
+                                    <td class="editable " data-field="Intime1"><?=$row1['Intime1']; ?></td>
+                                    <td class="editable " data-field="Intime2"><?=$row1['Intime2']; ?></td>
+                                    <td class="editable " data-field="Intime3"><?=$row1['Intime3']; ?></td>
+                                    <td class="editable " data-field="Outtime"><?=$row1['Outtime']; ?></td>
+                                    <td class="editable " data-field="Outtime1"><?=$row1['Outtime1']; ?></td>
+                                    <td class="editable " data-field="Outtime2"><?=$row1['Outtime2']; ?></td>
+                                    <td class="editable " data-field="Outtime3"><?=$row1['Outtime3']; ?></td>
+                                    <td>
+                                        <?php
+                                    $dateValue = strtotime($row1['StartDate']->format('Y-m-d'));
+                                    $year = date('Y',$dateValue);
+                                    $monthName = date('F',$dateValue);
+                                     $monthNo = date('m',$dateValue);
+                                      
+                                    if($monthNo>=date('m'))
+                                    {
+                                    ?>
+                                     <button type="button" class=" btn btn-dark btn-xs"
+                                         onclick="modalEditSingleException(<?=$row1['id'];?>)" data-toggle="modal" data-target="#ExceptionChnageModal"><i class="fa fa-edit"></i>
+                                     </button> 
+                                      <?php }
+                                      else{
+                                        ?>
+                                        <button type="button" class="btn btn-dark btn-xs"
+                                         disabled><i class="fa fa-edit"></i>
+                                     </button> <?php 
+                                      }?>
+                                   </td>
+                                    </tr>
+                                    <?php 
+    }
+}
    else
    {
    
