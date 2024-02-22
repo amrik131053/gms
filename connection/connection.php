@@ -3,7 +3,7 @@
    $timeStamp=date('Y-m-d H:i:s.v');
    $timeStampS=date('Y-m-d H:i:s');
 $serverName = "10.0.10.11"; //serverName\instanceName
-$connectionInfo = array( "Database"=>"DBgurukashitest", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 
 // $serverName = "10.0.8.181"; //serverName\instanceName
