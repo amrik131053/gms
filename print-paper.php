@@ -111,7 +111,7 @@ echo  $examName ." (".$sessionnane.")" ;
                  
                   <tr>
                     <th valign="bottom" colspan="2" align="left">
-                      Program: <?=$courseName?> 
+                      Programme: <?=$courseName?> 
                     </th>
                     
                     <th valign="bottom" align="right">
