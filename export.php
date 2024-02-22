@@ -6490,16 +6490,13 @@ $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                $SubjectTypesp[]=$row_subject['SubjectType'] ;
 }
 $subCountp=count($Subjectsp);
-
 $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
-
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
-
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-        <thead>";
+       <thead>";
 include'resultcopyheader.php';
 $exportstudy.="<tr>
     <th>SrNo</th>
@@ -7226,13 +7223,16 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
             if($p=='S' OR $p=='US')
             {
                $pmarks=$row7pr['PMarks'];
+               
             }
-            else{
+            else
+            {
 
-                $smarks=$p+$v+$f;
+           $smarks=$p+$v+$f;
            $pmarks=$pmarks+$p+$v+$f;
            $pshow=$smarks.'/'.$pshow;
-            }
+             
+               }
 
 $pcount++;
           }  

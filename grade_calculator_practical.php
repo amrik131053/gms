@@ -50,7 +50,13 @@ else if($pmarks<40)
    }
    else
    {
+    if($pmarks=='AB')  
+    {
+      $grade="F";
+    }
+    else{
    $grade=$pmarks;
+    }
    $printmark=$pmarks;
    $gardep=0;
    }
