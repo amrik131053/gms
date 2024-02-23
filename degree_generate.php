@@ -216,15 +216,17 @@ include "header.php";
                      function buildTable(data) {
                         var table = '<table class="table table-bordered">';
                         table += '<tr>';
-                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option><option value="11">Plan Agri</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
+                        table += '<div id="pagination"><center><td> <button id="prev-btn" class="btn btn-primary btn-xs " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="2 "><select class="form-control" id="code"><option value="">Select Type</option><option value="1">Agri Diploma</option><option value="8">Other Diploma</option><option value="7">Pharmacy</option><option value="3">Plan</option><option value="6">Plan Stream</option><option value="2">Stream</option><option value="4">Specialization</option><option value="5">Ph.D</option><option value="9">With College</option><option value="10">Stream With College</option><option value="11">Plan Agri</option></select></td><td colspan=""><input type="date" id="upload_date1" class="form-control" value=""></td><td colspan="2"> <button onclick="printSelectedRows();" class="btn btn-success " >Print </button> </td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button id="next-btn" class="btn btn-primary btn-xs "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></center></td></div>';
                         table += '</tr>';
-                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>QR Course</th><th>Gender</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
+                        table += '<tr><th><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th>SrNo</th><th>UniRolNo</th><th>Name</th><th>FatherName</th><th>Examination</th><th>Course</th><th>Other</th><th>CGPA</th><th>QR Course</th><th>Gender</th><th>Type</th><th>Upload Date</th><th>Action</th></tr>';
                         for (var i = 0; i < data.length; i++) {
     var unirollno = data[i][2];
     var cgpa = parseFloat(data[i][9] || 0);  // Convert to number and handle null/undefined
     var formattedCGPA = cgpa.toFixed(2);
+    var SrNo=i+1;
     table += '<tr>';
     table += '<td><input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '"></td>';
+    table += '<td>' + SrNo + '</td>';
     // table += '<td>' + data[i][0] + '</td>';
     table += '<td data-toggle="modal" data-target="#exampleModal" onclick="view_image(\'' + unirollno + '\');"><b style="color:#223260;">' + unirollno + '</b></td>';
     table += '<td>' + data[i][1] + '</td>';
