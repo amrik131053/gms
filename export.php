@@ -7250,12 +7250,12 @@ if($pcount>5)
 }
 else
 {
-   $pmarks=$pmarks; 
+    $pmarks=$pmarks; 
 }
           }
           else
 {
-   $pmarks=$pmarks; 
+ $pmarks=$pmarks; 
 }
 include'grade_calculator_practical.php';
 
