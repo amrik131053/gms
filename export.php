@@ -7228,7 +7228,7 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
             else
             {
 
-           $smarks=$p+$v+$f;
+           $smarks=0;
            $pmarks=$pmarks+$p+$v+$f;
 
            $pshow=$smarks.'/'.$pshow;
