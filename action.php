@@ -8456,7 +8456,7 @@ elseif ($code==135)
         while($data=mysqli_fetch_array($res))
         {
          $Semester=$data['Semester'];
-         $sqlSubject = "SELECT Course,SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$courseId."' ";
+         $sqlSubject = "SELECT Course,SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$courseId."'  order by SrNo DESC";
                     $resultSubject = sqlsrv_query($conntest,$sqlSubject);
                     if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
                     {

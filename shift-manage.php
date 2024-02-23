@@ -57,6 +57,26 @@ include "header.php";
     </div>
 
 </section>
+<div class="modal fade" id="ExceptionChnageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">View Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id='exceptionChnageModal1'>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -207,6 +227,70 @@ function showSingleExceptionShift() {
         }
     });
 }
+function modalEditSingleException(id) {
+    var code = 371;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,id:id
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("exceptionChnageModal1").innerHTML = response;
+        }
+    });
+}
+
+function saveRowSingle(id) {
+    var code = 370;
+var StartDate = document.getElementById("StartDate"+id).value;
+var EndDate = document.getElementById("EndDate"+id).value;
+var intime = document.getElementById("intime"+id).value;
+var intime1 = document.getElementById("intime1"+id).value;
+var intime2 = document.getElementById("intime2"+id).value;
+var intime3 = document.getElementById("intime3"+id).value;
+var outtime = document.getElementById("outtime"+id).value;
+var outtime1 = document.getElementById("outtime1"+id).value;
+var outtime2 = document.getElementById("outtime2"+id).value;
+var outtime3 = document.getElementById("outtime3"+id).value;
+    $.ajax({
+        type: 'POST',
+        url: 'action_g.php',
+        data: {
+            code: code,
+            id: id,
+            StartDate:StartDate,
+            EndDate:EndDate,
+            intime: intime,
+            intime1: intime1,
+            intime2: intime2,
+            intime3: intime3,
+            outtime: outtime,
+            outtime1: outtime1,
+            outtime2: outtime2,
+            outtime3: outtime3
+           
+        },
+        success: function(response) {
+            // console.log(response);
+            if(response==1)
+            {
+            SuccessToast('Successfully Added');
+            showSingleExceptionShift();
+            }
+            else{
+                ErrorToast('Try Again','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
 
 
 function addMasterShift() {
@@ -602,6 +686,31 @@ function search() {
             document.getElementById("tab_data").innerHTML = response;
         }
     });
+
+}
+function searchEmpSingleException() {
+    var code = 372;
+    var EmployeeID = document.getElementById('empIDSignleException').value;
+    if(EmployeeID!='')
+    {
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            Employeeid: EmployeeID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("showSingleExceptionSearch").innerHTML = response;
+        }
+    });
+}
+else{
+    ErrorToast('Please Enter Emplyee ID','bg-warning');
+}
 
 }
 

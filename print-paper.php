@@ -26,7 +26,7 @@ while ($data=mysqli_fetch_array($res))
     $time =$data['exam_time'];
     $instruction =$data['instructions'];
     $subjectCode=$data['subject_code'];
-    $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID=".$data['course'];
+     $sqlSubject = "SELECT  SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$data['course']."'  order by SrNo DESC ";
                     $resultSubject = sqlsrv_query($conntest,$sqlSubject);
                     if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
                     {
