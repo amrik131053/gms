@@ -7224,11 +7224,13 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
                $pmarks=$row7pr['PMarks'];
                
             }
-            else if($p=='AB') { $pmarks=0;}
+            else if($p=='AB') { $p=0;
+            $v=0;
+        $f=0;}
             else
             {
 
-           $smarks=0;
+           $smarks=$p+$v+$f;
            $pmarks=$pmarks+$p+$v+$f;
 
            $pshow=$smarks.'/'.$pshow;
