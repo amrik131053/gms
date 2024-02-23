@@ -6496,7 +6496,7 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-       <thead>";
+        <thead>";
 include'resultcopyheader.php';
 $exportstudy.="<tr>
     <th>SrNo</th>
