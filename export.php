@@ -6273,9 +6273,7 @@ $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);
 $pmarks=0;
 $pcount=0;
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-
-
+  {
 if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
 if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
 if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
@@ -6284,12 +6282,13 @@ if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'
  {
     $pmarks=$row7pr['PMarks'];
  }
- else{
-$pmarks=$pmarks+$p+$v+$f;
+ else if($p=='AB') { }
+ else
+ {
+ $pmarks=$pmarks+$p+$v+$f;
  }
-
 $pcount++;
-          } 
+ } 
 
           if(is_numeric($pmarks))
           {
@@ -7225,11 +7224,13 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
                $pmarks=$row7pr['PMarks'];
                
             }
+            else if($p=='AB') { $pmarks=0;}
             else
             {
 
            $smarks=$p+$v+$f;
            $pmarks=$pmarks+$p+$v+$f;
+
            $pshow=$smarks.'/'.$pshow;
              
                }
