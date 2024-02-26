@@ -7,8 +7,8 @@
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
 $pmarks=0;
 $pcount=0;
-$pshow=0;
-$smarks=0;
+$pshow='';
+$smarks='';
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 $absent=0;
