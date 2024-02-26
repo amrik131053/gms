@@ -67,7 +67,8 @@ if(is_numeric($row7pr['PMarks']))
 
             if(is_numeric($f)){$f=$f;}else{$f=0; $absent++;}
                       
-           $smarks=$v+$f;
+           $smarks=$p+$v+$f;
+           
            $pmarks=$pmarks+$smarks;
           }
 
