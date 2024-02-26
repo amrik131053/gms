@@ -7137,7 +7137,7 @@ $totalcredit=$totalcredit+$credit;
 
 
                            
-                            $exportstudy.="<td style='text-align:center;'>{$pshow}-{$pcount}</td>"; 
+                            $exportstudy.="<td style='text-align:center;'>{$pshow}</td>"; 
                            $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
