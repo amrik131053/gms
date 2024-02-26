@@ -5959,7 +5959,7 @@ $SubjectTypes=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
- 
+
 
 
 
@@ -6268,44 +6268,7 @@ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' AN
 
 
             $pmarks=0;
-        $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=0;
-$pcount=0;
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-  {
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
 
- if($p=='S' OR $p=='US')
- {
-    $pmarks=$row7pr['PMarks'];
- }
- else if($p=='AB') { }
- else
- {
- $pmarks=$pmarks+$p+$v+$f;
- }
-$pcount++;
- } 
-
-          if(is_numeric($pmarks))
-          {
-       if($pcount>5) 
-       {
-
-         $pmarks=round((($pmarks/$pcount)*5));
-       }   
-       else
-       {
-        $pmarks=$pmarks;
-       }
-    }
-    else
-    {
-        $pmarks=$pmarks;
-    }
 
 
 include'grade_calculator_practical.php';
@@ -6720,49 +6683,8 @@ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' AN
                           {
 
 
-
-
-
-
-
             $pmarks=0;
-    $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=0;
-$pcount=0;
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-
-         if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
-        if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
-        if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
-
-
-        if($p=='S' OR $p=='US')
-        {
-           $pmarks=$row7pr['PMarks'];
-        }
-        else{
-       $pmarks=$pmarks+$p+$v+$f;
-        }
-
-$pcount++;
-          }  
-          if(is_numeric($pmarks))
-          {
-if($pcount>5)
-{
-    $pmarks=round((($pmarks/$pcount)*5));
-}
-else
-{
-   $pmarks=$pmarks; 
-}
-          }
-          else
-          {
-              $pmarks=$pmarks;
-          }
+   
  include 'grade_calculator_practical.php';
 
 
@@ -7184,79 +7106,18 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
 
 }
 
-
-
-
-
-
-
-
   for($sub=0;$sub<$subCountp;$sub++)
         {
 
 
- $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'  ";  
+ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
 
-
-
             $pmarks=0;
-        $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=0;
-$pcount=0;
-$pshow='';
-$smarks='0';
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
 
 
-            if(is_numeric($row7pr['PMarks']))
-                {$p=$row7pr['PMarks'];}
-
-            else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' )
-             {$p=0;} else{$p=0;}
-
-            if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=0;}else{$v=0;}
-
-            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=0;}else{$f=0;}
-            
-         
-
-            if($p=='S' OR $p=='US')
-            {
-               $pmarks=$row7pr['PMarks'];
-               
-            }
-            else
-            {
-
-           $smarks=$p+$v+$f;
-           $pmarks=$pmarks+$p+$v+$f;
-
-           $pshow=$smarks.'/'.$pshow;
-             
-               }
-
-$pcount++;
-          }  
-          if(is_numeric($pmarks))
-          {
-if($pcount>5)
-{
-    $pmarks=round((($pmarks/$pcount)*5));
-}
-else
-{
-    $pmarks=$pmarks; 
-}
-          }
-          else
-{
- $pmarks=$pmarks; 
-}
 include'grade_calculator_practical.php';
 
 $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
@@ -7595,44 +7456,7 @@ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' AN
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
             $pmarks=0;
-        $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=0;
-$pcount=0;
-$pshow='';
-$smarks='0';
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-            if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US' ) {$p=$row7pr['PMarks'];} else{$p=0;}
-            if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {$v=$row7pr['VMarks'];}else{$v=0;}
-            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$f=$row7pr['FMarks'];}else{$f=0;}
-
-
-            if($p=='S' OR $p=='US')
- {
-    $pmarks=$row7pr['PMarks'];
- }
- else{
-    $smarks=$p+$v+$f;
-$pmarks=$pmarks+$p+$v+$f;
-$pshow=$smarks.'/'.$pshow;
- }
-$pcount++;
-          }  
-          if(is_numeric($pmarks))
-          {
-if($pcount>5)
-{
-    $pmarks=round((($pmarks/$pcount)*5));
-}
-else
-{
-   $pmarks=$pmarks; 
-}}
-else
-{
-   $pmarks=$pmarks; 
-}
+       
  include'grade_calculator_practical.php';
 
 $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
@@ -7932,31 +7756,7 @@ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' AN
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
  $pmarks=0;
-    $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
-$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
-$pmarks=0;
-$pcount=0;
-while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
-         {
-
-
-if(is_numeric($row7pr['PMarks'])){$p=$row7pr['PMarks'];}else{$p=0;}
-if(is_numeric($row7pr['VMarks'])){$v=$row7pr['VMarks'];}else{$v=0;}
-if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else{$f=0;}
-$pmarks=$pmarks+$p+$v+$f;
-
-
-$pcount++;
-          }  
-
-if($pcount>5)
-{
-    $pmarks=round((($pmarks/$pcount)*5));
-}
-else
-{
-   $pmarks=$pmarks; 
-}
+    
 
  include 'grade_calculator_practical.php';
 //$exportstudy.="<td style='text-align:center;'>{$pmarks} </td>"; 
@@ -7968,14 +7768,7 @@ else
 
 }
 
-            
-
-
-
-
-
-
-
+     
           }
 
 
