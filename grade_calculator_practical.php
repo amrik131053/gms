@@ -44,15 +44,20 @@ if(is_numeric($row7pr['PMarks']))
 
             if(is_numeric($f)){$f=$f;}else{$f=0; $absent++;}
            
-           $smarks=$p+$v+$f;
-
-           $pmarks=$pmarks+$smarks;
+           $smarks1=$p+$v+$f;
+  $smarks=$p+$v+$f;
+           $pmarks=$pmarks+$smarks1;
                               }
 
  if($absent>2)
 {
    $smarks='AB';
-} $pshow=$smarks.'/'.$pshow;
+} 
+else
+{
+
+}
+$pshow=$smarks.'/'.$pshow;
 
 $pcount++;
           }  
