@@ -60,7 +60,7 @@ else
 {
 
 }
-$pshow=$pshow.'/'.$smarks;
+$pshow=$pshow.'/'.$p.'/'.$v.'/'.$f;
 
 $pcount++;
  } 
