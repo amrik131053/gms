@@ -35,11 +35,15 @@ if(is_numeric($row7pr['PMarks']))
                {
                   $v=$row7pr['VMarks'];
                }
-            else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' ) {
+            else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' )
+             {
                $pmarks=$row7pr['VMarks'];
-            }else if($row7pr['VMarks'] =='AB'){
+            }
+            else if($row7pr['VMarks'] =='AB')
+            {
                $v='AB';
-            }else{
+            }
+            else{
                $v=0;
             }
 
@@ -68,7 +72,17 @@ if(is_numeric($row7pr['PMarks']))
             if(is_numeric($f)){$f=$f;}else{$f=0; $absent++;}
                       
            $smarks=$p+$v+$f;
-           
+
+           if(is_numeric($pmarks))
+             {
+
+             } 
+             else
+             {
+              $pmarks=0; 
+             }
+
+
            $pmarks=$pmarks+$smarks;
           }
 
