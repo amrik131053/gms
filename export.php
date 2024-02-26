@@ -7197,7 +7197,7 @@ $exportstudy.="<td style='text-align:center;color:{$color}'>NC</td>";
 else
  { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
 
-$exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
+//$exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
 
           $exportstudy.="</tr>";
                             

@@ -10,6 +10,7 @@ $pcount=0;
 $pshow='';
 $smarks1=0;
 
+
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 $absent=0;
@@ -18,10 +19,7 @@ if(is_numeric($row7pr['PMarks']))
                {
                   $p=$row7pr['PMarks'];
                }
-            else if($row7pr['PMarks'] =='S' OR $row7pr['PMarks'] =='US') 
-                {
-                  $pmarks=$row7pr['PMarks'];
-                } 
+           
                 else if($row7pr['PMarks'] =='AB')
                   {
                      $p='AB';
@@ -35,7 +33,7 @@ if(is_numeric($row7pr['PMarks']))
                {
                   $v=$row7pr['VMarks'];
                }
-            else if($row7pr['VMarks'] =='S' OR $row7pr['VMarks'] =='US' )
+            else if($row7pr['VMarks'] =='S' || $row7pr['VMarks'] =='US' )
              {
                $pmarks=$row7pr['VMarks'];
             }
@@ -47,9 +45,9 @@ if(is_numeric($row7pr['PMarks']))
                $v=0;
             }
 
-            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' OR $row7pr['FMarks'] =='US' ) {$pmarks=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='AB'){
+            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' || $row7pr['FMarks'] =='US' ) {$pmarks=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='AB'){
                $f='AB';}else{$f=0;} 
-            if($pmarks=='S' OR $pmarks=='US')
+            if($pmarks=='S' || $pmarks=='US')
             {
                $pmarks=$row7pr['PMarks'];
                $smarks=$pmarks;
