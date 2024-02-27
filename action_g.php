@@ -5639,21 +5639,16 @@ if ($check_flow_row['status']<4) {
                elseif($code==78)
       {
          $up_date=$_POST['upload_date'];
-         $by_search=$_POST['by_search'];
+        //  $by_search=$_POST['by_search'];
          $by_search_college=$_POST['by_search_college'];
          $by_search_StreamName=$_POST['by_search_StreamName'];
-                   if($by_search!='')
-                   {
-                    $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
-                   }
-                   elseif ($by_search_college!='' && $by_search_StreamName!='')
+                 if ($by_search_college!='' && $by_search_StreamName!='')
                     {
                     # code...
                     $degree="SELECT * FROM degree_print where Course='$by_search_college' and Stream='$by_search_StreamName'  order by Id ASC  ";                     
                    }
-                   elseif ($by_search_college!='')
+                   elseif ($by_search_college!='' && $by_search_StreamName=='')
                     {
-                    
                     $degree="SELECT * FROM degree_print where Course='$by_search_college'  order by Id ASC  ";                     
                    }
                    else

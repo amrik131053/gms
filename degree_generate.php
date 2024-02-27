@@ -38,7 +38,7 @@
               
               <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo/Name">
                                    
-<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="date_by_search()">
+<input  type="button" class="btn btn-success btn-xs" value="Search" onclick="search_degree_record()">
 &nbsp;
 &nbsp;
 &nbsp;
@@ -202,7 +202,6 @@ function date_by_search() {
  
  var spinner = document.getElementById("ajax-loader");
  spinner.style.display = 'block';
- var currentPage = 1;
  var code = 78;
  var searchQuery = '';
  var upload_date = document.getElementById('upload_date').value;
@@ -215,7 +214,6 @@ function date_by_search() {
      data: {
          code: code,
          upload_date: upload_date,
-         by_search: by_search,
          by_search_college: by_search_college,
          by_search_StreamName: by_search_StreamName
      },
@@ -376,7 +374,7 @@ $.ajax({
 }
 
 function search_degree_record() {
-var unirollno = document.getElementById('unirollno').value;
+var unirollno = document.getElementById('RollNoSearch').value;
 var spinner = document.getElementById("ajax-loader");
 spinner.style.display = 'block';
 var code = 224;
@@ -389,7 +387,7 @@ $.ajax({
     },
     success: function(response) {
         spinner.style.display = 'none';
-        document.getElementById("search_record").innerHTML = response;
+        document.getElementById("show_record").innerHTML = response;
     }
 });
 }
