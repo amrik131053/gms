@@ -5676,7 +5676,7 @@ if ($check_flow_row['status']<4) {
 
                   ?>
                   <tr>
-                  <td><input type="checkbox" class="checkbox v_check" value="<?=$degree_row['id'];?>"></td>
+                  <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
                       <td><?=$srNo;?></td>
                       <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
                       <td><?=$StudentName;?></td>

@@ -13993,7 +13993,7 @@ elseif($code==221)
                  $dateupload=strtotime($degree_row['upload_date']);
                  $upload_date=date( 'd-m-Y',$dateupload);
                  $cgpa = isset($degree_row['CGPA']) ? (float) $degree_row['CGPA'] : 0;
-                 $formattedCGPA = number_format($cgpa, 2);
+                    $formattedCGPA = number_format($cgpa, 2);
                  $get_pending="SELECT * FROM Admissions where UniRollNo='$uni'";
                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
                if($row_pending=sqlsrv_fetch_array($get_pending_run))
@@ -14006,7 +14006,7 @@ elseif($code==221)
 
                ?>
                <tr>
-               <td><input type="checkbox" class="checkbox v_check" value="<?=$degree_row['id'];?>"></td>
+               <td><input type="checkbox" class="checkbox form-control v_check" value="<?=$degree_row['id'];?>"></td>
                    <td><?=$srNo;?></td>
                    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
                    <td><?=$StudentName;?></td>

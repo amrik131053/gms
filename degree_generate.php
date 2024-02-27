@@ -97,7 +97,7 @@
                             <thead>
                                 <tr>
                               
-                                    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" ></th>
+                                    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control" ></th>
                                     <th>SrNo</th>
                                     <th>UniRolNo</th>
                                     <th>Name</th>
