@@ -6885,7 +6885,7 @@ $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
-$subCount=(count($Subjects)*5)+7;
+$subCount=(count($Subjects)*5)+6;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1'>     <thead>";
 include 'resultcopyheader.php';
@@ -6902,7 +6902,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
   
 }
 
-$exportstudy.="<th colspan=3>Grade Detail
+$exportstudy.="<th colspan=2>Grade Detail
     
   </th></tr>   <tr>
     <th></th>
@@ -6931,7 +6931,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 }
 
 
-  $exportstudy.="<th colspan=3>Total Credit :{$gtcerdit}
+  $exportstudy.="<th colspan=2>Total Credit :{$gtcerdit}
     
   </th></tr>   <tr>
     <th></th>

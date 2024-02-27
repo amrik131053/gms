@@ -2,87 +2,120 @@
  $color='black';
  $grade='';
  $printmark='';
-   $gardep=0;
+  $gardep=0;
  $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$College' ANd CourseId='$Course' ANd Batch='$Batch' AND SubCode='$Subjectsp[$sub]' ANd Session='$Examination' AND IDNO='$IDNos'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
 $pmarks=0;
 $pcount=0;
 $pshow='';
-$smarks1=0;
-
-
+$smarks=0;
 while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 $absent=0;
 
-if(is_numeric($row7pr['PMarks']))
+$p1=$row7pr['PMarks'];
+$v1=$row7pr['VMarks'];
+$f1=$row7pr['FMarks'];
+
+if(is_numeric($p1))
                {
-                  $p=$row7pr['PMarks'];
+                  $p=$p1;
                }
            
-                else if($row7pr['PMarks'] =='AB')
+                else if($p1 =='AB')
                   {
                      $p='AB';
                   }
+           
             else
                { 
-                     $p=0;
+                     $p='0';
                }
 
-            if(is_numeric($row7pr['VMarks']))
+            if(is_numeric($v1))
                {
-                  $v=$row7pr['VMarks'];
+                  $v=$v1;
                }
-            else if($row7pr['VMarks'] =='S' || $row7pr['VMarks'] =='US' )
-             {
-               $pmarks=$row7pr['VMarks'];
-            }
-            else if($row7pr['VMarks'] =='AB')
+            // else if(($v1 =='S') || ($v1 =='US'))
+            //  {
+            //    $pmarks=$v1;
+            // }
+            else if($v1 =='AB')
             {
                $v='AB';
             }
             else{
-               $v=0;
+               $v='0';
             }
 
-            if(is_numeric($row7pr['FMarks'])){$f=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='S' || $row7pr['FMarks'] =='US' ) {$pmarks=$row7pr['FMarks'];}else if($row7pr['FMarks'] =='AB'){
+            if(is_numeric($f1))
+            {
+
+              $f=$f1;}
+
+              // else if(($f1=='S') OR ($f1=='US') ) 
+              //   {$pmarks=$f1;
+
+              // }
+              else if($f1=='AB')
+              {
                $f='AB';}else{$f=0;} 
-            if($pmarks=='S' || $pmarks=='US')
-            {
-               $pmarks=$row7pr['PMarks'];
-               $smarks=$pmarks;
+
+
+
+          
+              // $smarks=0;
+            if(is_numeric($p1))
+               {
+                $p=$p1;
+              }
+                    else if(($p1 =='S') || ($p1 =='US'))
+             {
+               $pmarks=$p1;
             }
-            else
-            {
-               $smarks=0;
-            if(is_numeric($p))
-               {$p=$p;}
             else
             {$p=0;$absent++;}
 
-            if(is_numeric($v))
-               {$v=$v;}
-
-            else{
-               $v=0; $absent++;
+            if(is_numeric($v1))
+               {$v=$v1;}
+              else if(($v1 =='S') || ($v1 =='US'))
+             {
+               $pmarks=$v1;
             }
 
-            if(is_numeric($f)){$f=$f;}else{$f=0; $absent++;}
+            else{
+               $v='0'; $absent++;
+            }
+
+            if(is_numeric($f1))
+              {$f=$f1;}
+             else if(($f1 =='S') || ($f1 =='US'))
+             {
+               $pmarks=$f1;
+            }
+
+            else{$f=0; $absent++;}
                       
            $smarks=$p+$v+$f;
 
            if(is_numeric($pmarks))
              {
 
+              $pmarks=$pmarks+$smarks;
+
              } 
+
+                
+            else if(($pmarks =='S') || ($pmarks =='US'))
+            {
+
+              $pmarks=$pmarks;
+
+            }
              else
              {
-              $pmarks=0; 
+              $smarks=$p1; 
              }
-
-
-           $pmarks=$pmarks+$smarks;
-          }
 
  if($absent>2)
 {
@@ -90,6 +123,7 @@ if(is_numeric($row7pr['PMarks']))
 } 
 else
 {
+
 
 }
 $pshow=$pshow.'/'.$smarks;
