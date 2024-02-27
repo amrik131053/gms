@@ -8689,7 +8689,7 @@ else
             }
             else
             {
-          $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+           $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8699,14 +8699,13 @@ else
          {
                 $questionArray[]=$questionBankData1['Id'];
          
-
          }   
                    
          
          }    
-          //print_r($questionArray);
+         //  print_r($questionArray);
 
-  $countarray=count($questionArray);
+   $countarray=count($questionArray);
 
 
  if(!array_unique($questionArray))
@@ -8758,8 +8757,8 @@ $gene=1;
          
     for ($i=0; $i < $countarray; $i++) 
     { 
-          
-        mysqli_query($conn,"INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])"); 
+           $insert_questions="INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])";
+         mysqli_query($conn,$insert_questions); 
         mysqli_query($conn,"Update question_bank set Track= CONCAT(Track, ',$questionSessionTrack') Where Id=".$questionArray[$i]); 
 
     }
