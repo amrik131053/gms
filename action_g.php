@@ -16364,7 +16364,7 @@ else
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
-        if($LeaveTypeID<3){
+        if($LeaveTypeID<3 OR $LeaveType==26){
             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
             sqlsrv_query($conntest,$deductionBLance);
        }
@@ -16525,7 +16525,7 @@ else
         echo "1";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification11);
-        if($LeaveTypeID<3){
+        if($LeaveTypeID<3 OR $LeaveType==26){
              $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
              sqlsrv_query($conntest,$deductionBLance);
         }
