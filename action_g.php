@@ -16364,7 +16364,7 @@ else
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
-        if($LeaveTypeID<3){
+        if($LeaveTypeID<3 OR $LeaveType==26){
             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
             sqlsrv_query($conntest,$deductionBLance);
        }
@@ -16525,7 +16525,7 @@ else
         echo "1";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification11);
-        if($LeaveTypeID<3){
+        if($LeaveTypeID<3 OR $LeaveType==26){
              $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
              sqlsrv_query($conntest,$deductionBLance);
         }
@@ -18014,13 +18014,32 @@ elseif($code==267) //update student
                                     
                                     <div class="col-md-12 col-lg-3">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" name="StudentName"
+                                          <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="text" class="form-control" name="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="text" class="form-control" name="StudentName"
+                                            placeholder="Enter name" value="<?=$row1['StudentName'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                       
                                     </div>
                                     <div class="col-md-12 col-lg-3">
-                                        <label>Father's Name</label>
-                                        <input type="text" class="form-control" name="fatherName"
+                                         <label>Father's Name</label>
+                                         <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                          <input type="text" class="form-control" name="fatherName"
                                             placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="text" class="form-control" name="fatherName"
+                                            placeholder="Enter father's name" value="<?=$row1['FatherName'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                       
+                                        
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Mother's Name</label>
@@ -18056,7 +18075,7 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Aadhaar No</label>
-                                        <?php if($role_id=='2'){
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
                                             <input type="number" class="form-control" name="aadharNo"
                                             placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
