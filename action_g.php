@@ -20499,7 +20499,7 @@ elseif($code==283)
              $sgroup= $row5['SGroup'];
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
-             $Semester=$row5['Semester'];
+             $Semester=$row5['Semesterid'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -20630,7 +20630,7 @@ while($row7 = sqlsrv_fetch_array($list_resultexam, SQLSRV_FETCH_ASSOC) )
          <tr>
             <td width="10"><?=$sr;?></td>
   <td><?= $row7['Examination'];?></td>
-  <td><?= $row7['Semester'];?></td>
+  <td><?= $row7['Semesterid'];?></td>
   <td><?= $row7['Type'];?></td>
   <td><?= $row7['Batch'];?></td>
   <td><?php 
