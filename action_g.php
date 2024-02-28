@@ -18007,13 +18007,32 @@ elseif($code==267) //update student
                                     
                                     <div class="col-md-12 col-lg-3">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" name="StudentName"
+                                          <?php if($role_id=='3' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="text" class="form-control" name="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="text" class="form-control" name="StudentName"
+                                            placeholder="Enter name" value="<?=$row1['StudentName'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                       
                                     </div>
                                     <div class="col-md-12 col-lg-3">
-                                        <label>Father's Name</label>
-                                        <input type="text" class="form-control" name="fatherName"
+                                         <label>Father's Name</label>
+                                         <?php if($role_id=='3' OR  $role_id=='15'){
+                                            ?>
+                                          <input type="text" class="form-control" name="fatherName"
                                             placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="text" class="form-control" name="fatherName"
+                                            placeholder="Enter father's name" value="<?=$row1['FatherName'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                       
+                                        
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Mother's Name</label>
@@ -18049,7 +18068,7 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Aadhaar No</label>
-                                        <?php if($role_id=='2'){
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
                                             <input type="number" class="form-control" name="aadharNo"
                                             placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
