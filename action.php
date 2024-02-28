@@ -8689,7 +8689,7 @@ else
             }
             else
             {
-          $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+           $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8699,14 +8699,13 @@ else
          {
                 $questionArray[]=$questionBankData1['Id'];
          
-
          }   
                    
          
          }    
-          //print_r($questionArray);
+         //  print_r($questionArray);
 
-  $countarray=count($questionArray);
+   $countarray=count($questionArray);
 
 
  if(!array_unique($questionArray))
@@ -8758,8 +8757,8 @@ $gene=1;
          
     for ($i=0; $i < $countarray; $i++) 
     { 
-          
-        mysqli_query($conn,"INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])"); 
+           $insert_questions="INSERT INTO question_paper_details (question_paper_id, question_id) VALUES ($questionPaperId, $questionArray[$i])";
+         mysqli_query($conn,$insert_questions); 
         mysqli_query($conn,"Update question_bank set Track= CONCAT(Track, ',$questionSessionTrack') Where Id=".$questionArray[$i]); 
 
     }
@@ -13980,37 +13979,56 @@ elseif($code==221)
    } 
     elseif($code==224)
  {
-      $univ_rollno=$_POST['uni'];
+      $by_search=$_POST['uni'];
    
-                     $count=0;
-                     $degree="SELECT * FROM degree_print where UniRollNo='$univ_rollno'";                     
-                     $degree_run=mysqli_query($conn,$degree);
-                     while ($degree_row=mysqli_fetch_array($degree_run)) 
-                     {
-                        $count++;
-                        ?>
-                        <tr>
-                           <td><?=$count;?></td>
-                           <td><?=$degree_row['StudentName'];?></td>
-                           <td><?=$degree_row['UniRollNo'];?></td>
-                           <td><?=$degree_row['FatherName'];?></td>
-                           <td><?=$degree_row['MotherName'];?></td>
-                           <td><?=$degree_row['Examination'];?></td>
-                           <td><?=$degree_row['Course'];?></td>
-                           <td><?=$degree_row['CGPA'];?></td>
-                      
-                           <td>
-                              <form action='print_degree.php' method='post'>
-                                 <input type="hidden" name="code" value="1">
-                        <input type='hidden' name='p_id' value="<?=$degree_row['id'];?>">
-                        <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
-                            <i  class='fa fa-print' aria-hidden='true'></i>
-                        </button>
-                    </form>
-                 </td>
-                        </tr>
-                        <?php
-                      }
+     
+               
+                 $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
+              
+                  $degree_run=mysqli_query($conn,$degree);
+                  $srNo=1;
+                  while ($degree_row=mysqli_fetch_array($degree_run)) 
+                  {
+                 $uni=$degree_row['UniRollNo'];
+                 $dateupload=strtotime($degree_row['upload_date']);
+                 $upload_date=date( 'd-m-Y',$dateupload);
+                 $cgpa = isset($degree_row['CGPA']) ? (float) $degree_row['CGPA'] : 0;
+                    $formattedCGPA = number_format($cgpa, 2);
+                 $get_pending="SELECT * FROM Admissions where UniRollNo='$uni'";
+                 $get_pending_run=sqlsrv_query($conntest,$get_pending);
+               if($row_pending=sqlsrv_fetch_array($get_pending_run))
+               {
+                 $UniRollNo=$row_pending['UniRollNo'];
+                 $StudentName=$row_pending['StudentName'];
+                 $FatherName=$row_pending['FatherName'];
+                 $Sex=$row_pending['Sex'];
+               } 
+
+               ?>
+               <tr>
+               <td><input type="checkbox" class="checkbox form-control v_check" value="<?=$degree_row['id'];?>"></td>
+                   <td><?=$srNo;?></td>
+                   <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                   <td><?=$StudentName;?></td>
+                   <td><?=$FatherName;?></td>
+                   <td><?=$degree_row['Examination'];?></td>
+                   <td><?=$degree_row['Course'];?></td>
+                   <td><?=$degree_row['Stream'];?></td>
+                   <td><?=$formattedCGPA;?></td>
+                   <td><?=$degree_row['QrCourse'];?></td>
+                   <td><?=$Sex;?></td>
+                   <td><?=$degree_row['Type'];?></td>
+                   <td><?=$upload_date;?></td>
+                   <td><button onclick="edit_student(<?=$degree_row['id'];?>);" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>
+               </tr>
+               
+               <?php 
+               $srNo++;
+                 }
+                 ?>
+                 
+                 <?php 
+                 //   print_r($data);
                   
    }
 

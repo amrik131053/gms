@@ -79,7 +79,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 $currentMonthString=date('F');
 $currentMonthInt=date('n');
      $code =$_POST['code'];
-   if($code==224 ||  $code==168   )
+   if($code==224 ||  $code==168 || $code==374   )
 {
        include "connection/ftp.php";
 }
@@ -5638,25 +5638,17 @@ if ($check_flow_row['status']<4) {
          } 
                elseif($code==78)
       {
-
-        
-
          $up_date=$_POST['upload_date'];
-         $by_search=$_POST['by_search'];
+        //  $by_search=$_POST['by_search'];
          $by_search_college=$_POST['by_search_college'];
          $by_search_StreamName=$_POST['by_search_StreamName'];
-                   if($by_search!='')
-                   {
-                    $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
-                   }
-                   elseif ($by_search_college!='' && $by_search_StreamName!='')
+                 if ($by_search_college!='' && $by_search_StreamName!='')
                     {
                     # code...
                     $degree="SELECT * FROM degree_print where Course='$by_search_college' and Stream='$by_search_StreamName'  order by Id ASC  ";                     
                    }
-                   elseif ($by_search_college!='')
+                   elseif ($by_search_college!='' && $by_search_StreamName=='')
                     {
-                    
                     $degree="SELECT * FROM degree_print where Course='$by_search_college'  order by Id ASC  ";                     
                    }
                    else
@@ -5664,35 +5656,49 @@ if ($check_flow_row['status']<4) {
                        $degree="SELECT * FROM degree_print where upload_date='$up_date'  order by Id ASC  ";                     
                    }
                      $degree_run=mysqli_query($conn,$degree);
+                     $srNo=1;
                      while ($degree_row=mysqli_fetch_array($degree_run)) 
                      {
-                      $data1=$degree_row;
                     $uni=$degree_row['UniRollNo'];
-                    $get_pending="SELECT Sex FROM Admissions where UniRollNo='$uni'";
-
-                  $get_pending_run=sqlsrv_query($conntest,$get_pending);
+                    $dateupload=strtotime($degree_row['upload_date']);
+                    $upload_date=date( 'd-m-Y',$dateupload);
+                    $cgpa = isset($degree_row['CGPA']) ? (float) $degree_row['CGPA'] : 0;
+                    $formattedCGPA = number_format($cgpa, 2);
+                    $get_pending="SELECT * FROM Admissions where UniRollNo='$uni'";
+                    $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   if($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
-            $data2=$row_pending;
-
+                    $UniRollNo=$row_pending['UniRollNo'];
+                    $StudentName=$row_pending['StudentName'];
+                    $FatherName=$row_pending['FatherName'];
+                    $Sex=$row_pending['Sex'];
                   } 
 
-                   $data[]=array_merge($data1,$data2);
+                  ?>
+                  <tr>
+                  <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
+                      <td><?=$srNo;?></td>
+                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                      <td><?=$StudentName;?></td>
+                      <td><?=$FatherName;?></td>
+                      <td><?=$degree_row['Examination'];?></td>
+                      <td><?=$degree_row['Course'];?></td>
+                      <td><?=$degree_row['Stream'];?></td>
+                      <td><?=$formattedCGPA;?></td>
+                      <td><?=$degree_row['QrCourse'];?></td>
+                      <td><?=$Sex;?></td>
+                      <td><?=$degree_row['Type'];?></td>
+                      <td><?=$upload_date;?></td>
+                      <td><button onclick="edit_student(<?=$degree_row['id'];?>);" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button ></td>
+                  </tr>
+                  
+                  <?php 
+                  $srNo++;
                     }
+                    ?>
+                    
+                    <?php 
                     //   print_r($data);
-                     $page = $_POST['page'];
-                     $recordsPerPage = 100;
-                     $startIndex = ($page - 1) * $recordsPerPage;
-                     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
-                     
-                         echo json_encode($pagedData);
- 
- 
-        
- 
-                
-                     
-
       }
    elseif($code==79)
    {
@@ -27165,6 +27171,113 @@ elseif($code==372){
                                     </tr>
                                     <?php 
     }
+}
+elseif($code==373)
+{
+    ?>
+
+
+        <table class="table" style="font-size:;">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Certificate ID</th>
+                    <th>Certificate</th>
+                    <th>Action</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+    $Sr=1;
+    
+    $getAllleaves="SELECT  * FROM certificates "; 
+    $getAllleavesRun=mysqli_query($conn,$getAllleaves);
+    while($row=mysqli_fetch_array($getAllleavesRun))
+    { 
+?>
+                <tr>
+                    <td><?=$Sr;?></td>
+                   
+                    <td><?=$row['id'];?></td>
+                    <td><img src="http://gurukashiuniversity.co.in/data-server/value_added_course/<?=$row['certificatePath'];?>" width="100" height="50"></td>
+                    <td>
+                    <button class="btn btn-success"  onclick="viewCertificateForSetting(<?=$row['id'];?>);"><i class="fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteCertificate(<?=$row['id'];?>);"><i class="fa fa-trash " ></i>
+                    </button>
+                    </td>
+                </tr>
+                <?php
+
+       
+        $Sr++;
+    }
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table>
+        <?php
+
+}
+else if($code==374)
+{
+    $string = bin2hex(openssl_random_pseudo_bytes(4));
+    $file_name = $_FILES['fileCertificate']['name'];
+     $file_tmp = $_FILES['fileCertificate']['tmp_name'];
+      $type = $_FILES['fileCertificate']['type'];
+       $file_data = file_get_contents($file_tmp);
+        $file_name = $string."_".basename($_FILES['fileCertificate']['name']);
+         $target_dir = $file_name;
+           $destdir = 'Certificates';
+                ftp_chdir($conn_id, "value_added_course/") or die("Could not change directory");
+                ftp_pasv($conn_id,true);
+                ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+                ftp_close($conn_id);
+
+                 $insertCertificate="INSERT into certificates (certificatePath)values('$file_name')";
+                $insertCertificateRun=mysqli_query($conn,$insertCertificate);
+                if($insertCertificateRun==true)
+                {
+                    echo "1";
+                }
+                else{
+                    echo "0";
+                }
+
+
+}
+elseif($code==375)
+{
+$id=$_POST['id'];
+$delte="DELETE FROM certificates WHERE id='$id'";
+$delt_run=mysqli_query($conn,$delte);
+if ($delt_run==true) 
+{
+echo "1";   // code...
+}
+else
+{
+echo "0";
+}
+}
+elseif($code==376)
+{
+$arrayX=$_POST['arrayX'];
+$arrayY=$_POST['arrayY'];
+foreach ($arrayX as $key => $X) {
+   echo "X=".$X;
+}
+foreach ($arrayY as $key => $Y) {
+    echo "Y=".$Y;
+ }
+
+// $getData="INSERT into certificates_settings(col1X,col1Y) values('','') Where id='$id'";
+// $getDataRun=mysqli_query($conn,$getData);
+// if($row=mysqli_fetch_array($getDataRun))
+// {
+//  $filePath=$row['certificatePath'];
+// }
 }
    else
    {

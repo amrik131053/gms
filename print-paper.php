@@ -176,7 +176,7 @@ echo  $examName ." (".$sessionnane.")" ;
                         $questionCount=0;
                         $mcqCount='a';
                         
-                        $qry="Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question from question_paper_details inner join question_bank on question_bank.Id=question_paper_details.question_id inner join question_type on question_type.id=question_bank.Type inner join question_category on question_category.id=question_bank.Category inner join question_bank_details on question_bank.id=question_bank_details.question_id   where question_paper_id='$id' ORDER BY  Type  asc, Category asc";
+                         $qry="Select *,REGEXP_REPLACE(Question,'style=".'[\\d\\D]*?'."','') AS sanitized_question from question_paper_details inner join question_bank on question_bank.Id=question_paper_details.question_id inner join question_type on question_type.id=question_bank.Type inner join question_category on question_category.id=question_bank.Category inner join question_bank_details on question_bank.id=question_bank_details.question_id   where question_paper_id='$id' ORDER BY  Type  asc, Category asc";
                         $run=mysqli_query($conn,$qry);
                         while($row=mysqli_fetch_array($run))
                         { 
