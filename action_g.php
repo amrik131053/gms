@@ -18013,7 +18013,7 @@ elseif($code==267) //update student
                                     
                                     <div class="col-md-12 col-lg-3">
                                         <label>Name</label>
-                                          <?php if($role_id=='3' OR  $role_id=='15'){
+                                          <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
                                             <input type="text" class="form-control" name="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
