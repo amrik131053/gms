@@ -2823,7 +2823,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
@@ -2936,7 +2936,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
@@ -3051,7 +3051,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
+                <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -3411,7 +3411,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
+                <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row['Name'];?></td>
                 <td><?=$row['IDNo'];?></td>
@@ -3504,7 +3504,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -17877,8 +17877,9 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
+                
                 <td><?=$row['IDNo'];?></td>
                 <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
                 <!-- <td></td> -->
@@ -19228,7 +19229,7 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";'>";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -27259,6 +27260,33 @@ foreach ($arrayY as $key => $Y) {
 // {
 //  $filePath=$row['certificatePath'];
 // }
+}
+elseif($code==377)
+{
+$IDNo=$_POST['uni'];
+    $get_student_details="SELECT IDNo,Snap FROM Staff where IDNo='$IDNo'";
+                         $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                         if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                         {
+                             $snap=$row_student['Snap'];
+                                $finfo = new finfo(FILEINFO_MIME_TYPE);
+   $mime_type = $finfo->buffer($snap);
+   $extension = '';
+   switch ($mime_type) {
+       case 'image/jpeg':
+           $extension = 'jpg';
+           break;
+       case 'image/png':
+           $extension = 'png';
+           break; 
+   }
+   // echo $extension;
+   $pic = base64_encode($snap);
+   // $pic = base64_encode($pic);
+   ?>
+   <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+   <?php
+                         }
 }
    else
    {
