@@ -27307,6 +27307,136 @@ $IDNo=$_POST['uni'];
    <?php
                          }
 }
+
+elseif ($code==378) 
+{
+    $College=$_POST['College'];
+    $Course=$_POST['Course'];
+    $Batch=$_POST['Batch'];
+    $session=$_POST['session'];
+    $Nationality_=$_POST['Nationality_'];
+    $State_=$_POST['State_'];
+    $District=$_POST['District'];
+    $Consultant_=$_POST['Consultant_'];
+
+$list_sql="SELECT * FROM offer_latter WHERE 1=1 ";
+if($College!=''){
+ $list_sql.= " AND CollegeName='$College' ";
+}
+if($Course!=''){
+$list_sql.= "AND Course='$Course'";
+}
+if($Batch!=''){
+$list_sql.= "AND Batch='$Batch' ";
+}
+if($session!=''){
+$list_sql.= "AND Session='$session' ";
+}
+if($Nationality_!=''){
+$list_sql.= "AND Nationality='$Nationality_'";
+}
+if($State_!=''){
+$list_sql.= "ANd State='$State_' ";
+}
+if($District!=''){
+$list_sql.= "ANd District='$District'"; 
+}
+if($Consultant_!=''){
+$list_sql.= "ANd Consultant_id='$Consultant_'"; 
+}
+$list_sql.= "ORDER BY Status ASC";
+// echo $list_sql;
+
+?>
+
+<table class="table table-bordered" id="example">
+                             <thead>
+                                 <tr style='font-size:14px;'>
+                                     <th>#</th>
+                                     <th>Uni Roll No</th>
+                                     <th>Name</th>
+                                     <th>Father Name</th>
+                                     <th>CourseName</th>
+                                     <th>Batch</th>
+                                     <th>Session</th>
+                                     <th>Consultant</th>
+                                     <th>Country</th>
+                                     <th >State</th>
+                                     <th >District</th>
+                                     <th>Submit Date</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+<?php
+             $list_result = mysqli_query($conn,$list_sql);
+                 $count = 1;
+        
+             while( $row = mysqli_fetch_array($list_result) )
+                {
+             $Status= $row['Status'];
+            
+            $get_consultant="SELECT * FROM MasterConsultant where Status>0 and ID='".$row['Consultant_id']."'"; 
+
+             $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+             if($row1=sqlsrv_fetch_array($get_consultant_run))
+             {
+
+           $Consultantname=$row1['Name'];
+             
+            }
+            $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='".$row['Course']."'";
+$get_course_name_run=sqlsrv_query($conntest,$get_course_name);
+if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+{
+
+    $courseName=$row_course_name['Course'];
+}
+$get_country="SELECT * FROM countries where id='".$row['Nationality']."'";
+$get_country_run=mysqli_query($conn,$get_country);
+if($row_country=mysqli_fetch_array($get_country_run))
+{
+$countryName=$row_country['name'];
+}
+  $sql = "SELECT  id,name FROM states WHERE id='".$row['State']."' order by name ASC";
+$stmt = mysqli_query($conn,$sql); 
+ if($row_state = mysqli_fetch_array($stmt) )
+            {
+    $StateName=$row_state['name'];
+  }
+    $sqlDist = "SELECT  id,name FROM cities WHERE id='".$row['District']."' order by name ASC";
+$stmtsqlDist = mysqli_query($conn,$sqlDist); 
+
+       if($row_dist = mysqli_fetch_array($stmtsqlDist) )
+{
+    $DistName=$row_dist['name'];
+
+  }
+     
+
+             ?>
+             <tr style="">
+             <td><?= $count++;?></td>   
+          <td><?=$row['Class_RollNo'];?></td>
+          <td><?=$row['Name'];?></td>
+          <td><?=$row['FatherName'];?></td>
+          <td><?=$courseName;?></td>
+         <td><?=$row['Batch'];?></td>
+         <td>
+         <?=$row['Session'];?></td>
+         <td><?=$Consultantname;?></td>
+         <td><?=$countryName;?></td>
+         <td><?=$StateName;?></td>
+         <td><?=$DistName;?></td>
+         <td><?=date("d-m-Y", strtotime($row['SubmitDate']));?></td>
+            </tr>
+        <?php 
+         }?>
+
+         </tbody>
+     </table>
+         <?php
+
+}
    else
    {
    

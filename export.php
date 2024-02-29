@@ -7787,6 +7787,209 @@ else
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
 
+    else if($exportCode==57)
+    {
+    $College=$_GET['College'];
+    $Course=$_GET['Course'];
+    $Batch=$_GET['Batch'];
+    $session=$_GET['session'];
+    $Nationality_=$_GET['Nationality_'];
+    $State_=$_GET['State_'];
+    $District=$_GET['District'];
+    $Consultant_=$_GET['Consultant_'];
+    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>";
+                $exportstudy.="<thead><tr><th style='background-color:black; color:white;'>#</th>
+                    <th style='background-color:black; color:white;'>Uni Roll No</th>
+                    <th style='background-color:black; color:white;'>Name</th>
+                    <th style='background-color:black; color:white;'>Father Name</th>
+                    <th style='background-color:black; color:white;'>CourseName</th>
+                    <th style='background-color:black; color:white;'>Batch</th>
+                    <th style='background-color:black; color:white;'>Session</th>
+                    <th style='background-color:black; color:white;'>Consultant</th>
+                    <th style='background-color:black; color:white;'>Country</th>
+                    <th style='background-color:black; color:white;' >State</th>
+                    <th style='background-color:black; color:white;' >District</th>
+                    <th style='background-color:black; color:white;'>Submit Date</th>
+                    </tr></thead>";
+                        $SrNo=1;
+                            $list_sql="SELECT * FROM offer_latter WHERE 1=1 ";
+                    if($College!=''){
+                        $list_sql.= " AND CollegeName='$College' ";
+                    }
+                    if($Course!=''){
+                    $list_sql.= "AND Course='$Course'";
+                    }
+                    if($Batch!=''){
+                    $list_sql.= "AND Batch='$Batch' ";
+                    }
+                    if($session!=''){
+                    $list_sql.= "AND Session='$session' ";
+                    }
+                    if($Nationality_!=''){
+                    $list_sql.= "AND Nationality='$Nationality_'";
+                    }
+                    if($State_!=''){
+                    $list_sql.= "ANd State='$State_' ";
+                    }
+                    if($District!=''){
+                    $list_sql.= "ANd District='$District'"; 
+                    }
+                    if($Consultant_!=''){
+                    $list_sql.= "ANd Consultant_id='$Consultant_'"; 
+                    }
+                    $list_sql.= "ORDER BY Status ASC";
+                    $list_result = mysqli_query($conn,$list_sql);
+                    $count = 1;
+  
+                    while( $row = mysqli_fetch_array($list_result) )
+                        {
+                    $Status= $row['Status'];
+                    $ClassRollNo=$row['Class_RollNo'];
+                    $StudentName=$row['Name'];
+                    $FatherName=$row['FatherName'];
+                    $Batch=$row['Batch'];
+                    $Session=$row['Session'];   
+                    $SubmitDate=date("d-m-Y", strtotime($row['SubmitDate']));        
+                    $get_consultant="SELECT * FROM MasterConsultant where Status>0 and ID='".$row['Consultant_id']."'"; 
+                    $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                    if($row1=sqlsrv_fetch_array($get_consultant_run))
+                    {
+                    $Consultantname=$row1['Name']; 
+                    }
+                    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='".$row['Course']."'";
+                    $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
+                    if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+                    {
+                    $courseName=$row_course_name['Course'];
+                    }
+                    $get_country="SELECT * FROM countries where id='".$row['Nationality']."'";
+                    $get_country_run=mysqli_query($conn,$get_country);
+                    if($row_country=mysqli_fetch_array($get_country_run))
+                    {
+                    $countryName=$row_country['name'];
+                    }
+                    $sql = "SELECT  id,name FROM states WHERE id='".$row['State']."' order by name ASC";
+                    $stmt = mysqli_query($conn,$sql); 
+                    if($row_state = mysqli_fetch_array($stmt) )
+                    {
+                    $StateName=$row_state['name'];
+                    }
+                    $sqlDist = "SELECT  id,name FROM cities WHERE id='".$row['District']."' order by name ASC";
+                    $stmtsqlDist = mysqli_query($conn,$sqlDist); 
+                    if($row_dist = mysqli_fetch_array($stmtsqlDist) )
+                    {
+                    $DistName=$row_dist['name'];
+                    }         
+             $exportstudy.="<tr>
+             <td>{$SrNo}</td>
+             <td>{$ClassRollNo}</td>
+             <td>{$StudentName}</td>
+             <td>{$FatherName}</td>
+             <td>{$courseName}</td>
+             <td>{$Batch}</td>
+             <td>{$Session}</td>
+             <td>{$Consultantname}</td>
+             <td>{$countryName}</td>
+             <td>{$StateName}</td>
+             <td>{$DistName}</td>
+             <td>{$SubmitDate}</td>
+             </tr>";
+    $SrNo++;
+             }
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName="offer latter Report ";
+    }
+    else if($exportCode==58)
+    {
+    $College=$_GET['College'];
+    $Course=$_GET['Course'];
+    $Batch=$_GET['Batch'];
+    $session=$_GET['session'];
+    $Nationality_=$_GET['Nationality_'];
+    $State_=$_GET['State_'];
+    $District=$_GET['District'];
+    $Consultant_=$_GET['Consultant_'];
+    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>";
+                $exportstudy.="<thead><tr>
+                <th style='background-color:black; color:white;'>#</th>
+                <th style='background-color:black; color:white;'>Session</th>
+                    <th style='background-color:black; color:white;'>CourseName</th>
+                    <th style='background-color:black; color:white;'>Country</th>
+                    <th style='background-color:black; color:white;' >State</th>
+                    <th style='background-color:black; color:white;' >District</th>
+                    <th style='background-color:black; color:white;'>Consultant</th>
+                    <th style='background-color:black; color:white;' >Count</th>
+                    </tr></thead>";
+                        $SrNo=1;
+                            $list_sql="SELECT Course, Nationality, State, District,Consultant_id, COUNT(*) AS CourseCount
+                            FROM offer_latter
+                            WHERE 1=1 ";
+                            if($session!=''){
+                            $list_sql.= "AND Session='$session' ";
+                            }
+                    if($Consultant_!=''){
+                    $list_sql.= "AND Consultant_id='$Consultant_' "; 
+                    }
+                    $list_sql.= " GROUP BY Course, Nationality, State, District,Consultant_id
+                    ORDER BY Status ASC";
+// echo $list_sql;
+                    $list_result = mysqli_query($conn,$list_sql);
+                    $count = 1;
+  
+                    while( $row = mysqli_fetch_array($list_result) )
+                        {
+                 $CourseCount=$row['CourseCount'];
+                    $get_consultant="SELECT * FROM MasterConsultant where Status>0 and ID='".$row['Consultant_id']."'"; 
+                    $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                    if($row1=sqlsrv_fetch_array($get_consultant_run))
+                    {
+                    $Consultantname=$row1['Name']; 
+                    }
+                    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='".$row['Course']."'";
+                    $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
+                    if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+                    {
+                    $courseName=$row_course_name['Course'];
+                    }
+                    $get_country="SELECT * FROM countries where id='".$row['Nationality']."'";
+                    $get_country_run=mysqli_query($conn,$get_country);
+                    if($row_country=mysqli_fetch_array($get_country_run))
+                    {
+                    $countryName=$row_country['name'];
+                    }
+                    $sql = "SELECT  id,name FROM states WHERE id='".$row['State']."' order by name ASC";
+                    $stmt = mysqli_query($conn,$sql); 
+                    if($row_state = mysqli_fetch_array($stmt) )
+                    {
+                    $StateName=$row_state['name'];
+                    }
+                    $sqlDist = "SELECT  id,name FROM cities WHERE id='".$row['District']."' order by name ASC";
+                    $stmtsqlDist = mysqli_query($conn,$sqlDist); 
+                    if($row_dist = mysqli_fetch_array($stmtsqlDist) )
+                    {
+                    $DistName=$row_dist['name'];
+                    }         
+             $exportstudy.="<tr>
+             <td>{$SrNo}</td>
+             <td>{$session}</td>
+             <td>{$courseName}</td>
+             <td>{$countryName}</td>
+             <td>{$StateName}</td>
+             <td>{$DistName}</td>
+             <td>{$Consultantname}</td>
+             <td>{$CourseCount}</td>
+             </tr>";
+    $SrNo++;
+             }
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName="offer latter Report ";
+    }
+
+
+
+
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
