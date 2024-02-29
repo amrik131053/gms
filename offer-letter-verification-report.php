@@ -138,13 +138,6 @@
                                     <?php }?>
                                 </select>
                             </div>
-
-
-
-
-
-
-
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
                                 <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search"

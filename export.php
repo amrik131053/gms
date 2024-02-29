@@ -7786,9 +7786,8 @@ else
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
-
-    else if($exportCode==57)
-    {
+    elseif($exportCode==57)
+    {    
     $College=$_GET['College'];
     $Course=$_GET['Course'];
     $Batch=$_GET['Batch'];
@@ -7797,22 +7796,9 @@ else
     $State_=$_GET['State_'];
     $District=$_GET['District'];
     $Consultant_=$_GET['Consultant_'];
-    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>";
-                $exportstudy.="<thead><tr><th style='background-color:black; color:white;'>#</th>
-                    <th style='background-color:black; color:white;'>Uni Roll No</th>
-                    <th style='background-color:black; color:white;'>Name</th>
-                    <th style='background-color:black; color:white;'>Father Name</th>
-                    <th style='background-color:black; color:white;'>CourseName</th>
-                    <th style='background-color:black; color:white;'>Batch</th>
-                    <th style='background-color:black; color:white;'>Session</th>
-                    <th style='background-color:black; color:white;'>Consultant</th>
-                    <th style='background-color:black; color:white;'>Country</th>
-                    <th style='background-color:black; color:white;' >State</th>
-                    <th style='background-color:black; color:white;' >District</th>
-                    <th style='background-color:black; color:white;'>Submit Date</th>
-                    </tr></thead>";
-                        $SrNo=1;
-                            $list_sql="SELECT * FROM offer_latter WHERE 1=1 ";
+    $list_sql="SELECT *, states.name as StateName, cities.Name as DistrictName
+    FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
+    cities on cities.id=offer_latter.District WHERE 1=1 ";
                     if($College!=''){
                         $list_sql.= " AND CollegeName='$College' ";
                     }
@@ -7841,65 +7827,135 @@ else
                     $list_result = mysqli_query($conn,$list_sql);
                     $count = 1;
   
-                    while( $row = mysqli_fetch_array($list_result) )
-                        {
-                    $Status= $row['Status'];
-                    $ClassRollNo=$row['Class_RollNo'];
-                    $StudentName=$row['Name'];
-                    $FatherName=$row['FatherName'];
-                    $Batch=$row['Batch'];
-                    $Session=$row['Session'];   
-                    $SubmitDate=date("d-m-Y", strtotime($row['SubmitDate']));        
-                    $get_consultant="SELECT * FROM MasterConsultant where Status>0 and ID='".$row['Consultant_id']."'"; 
-                    $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
-                    if($row1=sqlsrv_fetch_array($get_consultant_run))
-                    {
-                    $Consultantname=$row1['Name']; 
-                    }
-                    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='".$row['Course']."'";
-                    $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
-                    if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
-                    {
-                    $courseName=$row_course_name['Course'];
-                    }
-                    $get_country="SELECT * FROM countries where id='".$row['Nationality']."'";
-                    $get_country_run=mysqli_query($conn,$get_country);
-                    if($row_country=mysqli_fetch_array($get_country_run))
-                    {
-                    $countryName=$row_country['name'];
-                    }
-                    $sql = "SELECT  id,name FROM states WHERE id='".$row['State']."' order by name ASC";
-                    $stmt = mysqli_query($conn,$sql); 
-                    if($row_state = mysqli_fetch_array($stmt) )
-                    {
-                    $StateName=$row_state['name'];
-                    }
-                    $sqlDist = "SELECT  id,name FROM cities WHERE id='".$row['District']."' order by name ASC";
-                    $stmtsqlDist = mysqli_query($conn,$sqlDist); 
-                    if($row_dist = mysqli_fetch_array($stmtsqlDist) )
-                    {
-                    $DistName=$row_dist['name'];
-                    }         
-             $exportstudy.="<tr>
-             <td>{$SrNo}</td>
-             <td>{$ClassRollNo}</td>
-             <td>{$StudentName}</td>
-             <td>{$FatherName}</td>
-             <td>{$courseName}</td>
-             <td>{$Batch}</td>
-             <td>{$Session}</td>
-             <td>{$Consultantname}</td>
-             <td>{$countryName}</td>
-             <td>{$StateName}</td>
-             <td>{$DistName}</td>
-             <td>{$SubmitDate}</td>
-             </tr>";
-    $SrNo++;
-             }
-        $exportstudy.="</table>";
-        echo $exportstudy;
-        $fileName="offer latter Report ";
+                  
+    
+        $count = 1;
+        $exportMeter="
+        <table class='table' border='1'>
+                   
+           <thead>
+                              
+              <tr color='red'>                 
+                 <th style='background-color:black; color:white;'>#</th>               
+                 <th style='background-color:black; color:white;'>Session</th>
+                 <th style='background-color:black; color:white;'>College Name</th>
+                 <th style='background-color:black; color:white;'>Course</th>  
+                 <th style='background-color:black; color:white;'>Name</th>
+                 <th style='background-color:black; color:white;'>Father Name</th>
+                 <th style='background-color:black; color:white;'>RollNo</th>
+                 <th style='background-color:black; color:white;'>Gender</th>
+                 <th style='background-color:black; color:white;'>State</th>
+                 <th style='background-color:black; color:white;'>District</th>
+                 <th style='background-color:black; color:white;'>Consultant</th>
+                  <th style='background-color:black; color:white;'>Status</th>
+                  <th style='background-color:black; color:white;'>Verification</th>
+                  <th style='background-color:black; color:white;'>Loan Number</th>
+                  <th style='background-color:black; color:white;'>Application No</th>
+                  <th style='background-color:black; color:white;'>Date Of Verification</th>
+                  <th style='background-color:black; color:white;'>Amount</th>
+                  <th style='background-color:black; color:white;'>UTR Number</th>
+                  <th style='background-color:black; color:white;'>Date Of Payment</th> 
+              </tr>          
+           </thead>
+           ";
+           while( $row = mysqli_fetch_array($list_result) )
+           { 
+         $name=$row['Name'];    
+        $FatherName=$row['FatherName'];    
+        $MotherName=$row['MotherName'];    
+        $Collegeid=$row['CollegeName'];    
+        $Course=$row['Course'];    
+        $Department=$row['Department'];    
+        $Gender=$row['Gender'];    
+        $classroll=$row['Class_RollNo'];
+        $loanNumber=$row['loanNumber'];
+        $applicationNo=$row['applicationNo'];
+        $dateVerification =$row['dateVerification'];
+        $UTRNumber=$row['UTRNumber'];
+        $loan_amount=$row['loan_amount'];
+        $datePayment =$row['datePayment'];
+    
+        $statusVerification=$row['statusVerification'];
+        $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
+        $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+        if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) 
+        {   
+             $courseName=$row_collegecourse_name['Course'];   
+              $CollegeName=$row_collegecourse_name['CollegeName']; 
+        }   
+        $State=$row['StateName'];   
+        $status=$row['Status'];   
+        $Session=$row['Session'];    
+         $Duration=$row['Duration'];    
+         $Consultant_id=$row['Consultant_id']; 
+         $get_consultantName="SELECT * FROM MasterConsultant where ID='".$row['Consultant_id']."' ";
+         $get_consultantNameRun=sqlsrv_query($conntest,$get_consultantName);
+         if($row_get_consultantName=sqlsrv_fetch_array($get_consultantNameRun))
+         {
+             $consultantName=$row_get_consultantName['Name'];
+         }  
+             $Lateral=$row['Lateral'];    
+             $Nationality=$row['Nationality'];    
+             $ID_Proof_No=$row['ID_Proof_No'];   
+    if($classroll>0)
+    {
+        $color='';
     }
+    else
+    {
+    $color="red";
+    }
+    if($statusVerification>0)
+    {
+        $color1='green';  
+$verification='Verified';
+    }
+    else
+    {
+    $color1="";
+    $verification='';
+    }
+    if ($status>0)
+    {
+            $colorl='red';
+            $mnStatus='LEFT';
+    }
+    else
+    {
+         $colorl='';
+            $mnStatus='';
+    }
+        $District=$row['DistrictName'];     
+         $exportMeter .= "
+           <tr>                
+              <td>{$count}</td>
+              <td>{$Session}</td>
+              <td>{$CollegeName}</td>
+              <td>{$courseName}</td>
+              <td>{$name}</td>
+              <td>{$FatherName}</td>
+              <td bgcolor=$color>{$classroll}</td>
+              <td>{$Gender}</td>
+              <td>{$State}</td>
+              <td>{$District}</td>
+              <td>{$consultantName}</td>
+               <td bgcolor=$colorl>{$mnStatus}</td>
+                 <td bgcolor=$color1>{$verification}</td>
+                  <td >{$loanNumber}</td>
+                   <td >{$applicationNo}</td>
+                    <td >{$dateVerification}</td>
+                      <td >{$loan_amount}</td>
+                        <td >{$UTRNumber}</td>
+                          <td >{$datePayment}</td>
+           </tr>";                                    
+           $count++;    
+        }
+        $exportMeter.="</table>"; 
+           //echo $exportMeterHeader;    
+           echo $exportMeter;  
+            $fileName="Detailed Report";
+    }
+
     else if($exportCode==58)
     {
     $College=$_GET['College'];
@@ -7933,7 +7989,6 @@ else
                     }
                     $list_sql.= " GROUP BY Course, Nationality, State, District,Consultant_id
                     ORDER BY Status ASC";
-// echo $list_sql;
                     $list_result = mysqli_query($conn,$list_sql);
                     $count = 1;
   
