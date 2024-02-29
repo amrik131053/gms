@@ -25809,13 +25809,14 @@ $College=$_POST['College'];
 $Course=$_POST['Course'];
 $Session=$_POST['Session'];
 $LateralEntry=$_POST['LateralEntry'];
-$sql = "SELECT DISTINCT MasterCourseCodes.Batch FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE  UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' and MasterCourseCodes.CourseID='$Course'";
+
+ $sql = "SELECT DISTINCT MasterCourseCodes.Batch FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE  UserAccessLevel.IDNo='$EmployeeID' and MasterCourseCodes.Isopen='1' and MasterCourseCodes.Session='$Session' and MasterCourseCodes.CourseID='$Course' ANd LateralEntry='$LateralEntry'";
 $stmt = sqlsrv_query($conntest,$sql);  
     while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 {
     if($LateralEntry=='Yes')
     {
-        echo $row["Batch"]-1;
+        echo $row["Batch"];
         
     }else{
         

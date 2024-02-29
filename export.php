@@ -7301,7 +7301,7 @@ $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd Admissions.Status='1' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
+    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
             $j=0;
              $list_result = sqlsrv_query($conntest,$list_sql);
                             $count = 1;
