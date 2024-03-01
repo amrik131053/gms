@@ -18044,7 +18044,7 @@ else if($code=='303')
    
    $stmt = sqlsrv_query($conntest,$sql); 
    ?> 
- <option value=''>Deaprtment</option>
+ <option value=''>Department</option>
  <?php 
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    

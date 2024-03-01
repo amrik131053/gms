@@ -1902,7 +1902,7 @@ function resetPassword(empid,ApplicationName)
     <label>Designation</label>
     <input type="text" name="table_search" id="department" class="form-control" required>
     <br>
-    <input type="submit"  onclick="save_designation();"  value="save" class="btn btn-secondary"> 
+    <input type="submit"  onclick="save();"  value="save" class="btn btn-secondary"> 
 
     </div>
     <div class="col-lg-1"></div>
