@@ -6060,7 +6060,7 @@ $exportstudy.="<th colspan=2>Grade Detail
      $gtcerdit=0;
     foreach ($Subjects as $key => $SubjectsCode) {
 
-   $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ANd SemesterID='$Semester' "; 
+   $amrikc = "SELECT TOP(1) NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ANd SemesterID='$Semester' Order BY SrNo Desc "; 
 
 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -6143,7 +6143,7 @@ $nccount=0;
                                      $grace= $row_exam['Grace'];
 
 
-include'grade_calculator.php';
+include'grade_calculator.php'; 
                                
 
 
@@ -7141,6 +7141,8 @@ $totalcredit=$totalcredit+$credit;
                            $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
 $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+                          
+
                            if($credit>0)
 {
     if(is_numeric($credit))
@@ -7175,8 +7177,9 @@ $exportstudy.="<td style='text-align:center;'>NA</td>"; $exportstudy.="<td style
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 }
-   }
+}
    $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
+
 if($totalcredit>0)
 {
   $sgpa=$gradevaluetotal/$totalcredit;   
@@ -7195,7 +7198,7 @@ $exportstudy.="<td style='text-align:center;color:{$color}'>NC</td>";
 
 }
 else
- { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
+ { $exportstudy.="<td style='text-align:center;'>{$sgpa}-{$gradevaluetotal} </td>";}  
 
 //$exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
 
@@ -7349,9 +7352,9 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
        $credit=$row7c['NoOFCredits'];
-            }
-           
-         
+         }
+       
+
 $totalcredit=$totalcredit+$credit;
  $exportstudy.="<td style='text-align:center'>{$credit} </td>";  
 
@@ -7486,12 +7489,19 @@ else
     $credit=0;
 }
 
-if($credit>0)
+
+
+
+ if($credit>0)
 {
+    if(is_numeric($credit))
+    {
  $gradevalue=$gardep*$credit;
-}
- 
-if($gradevalue>0)
+    }
+    else{
+        $gradevalue=0; 
+    }
+ if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
@@ -7502,6 +7512,13 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
     $nccount++;
     }
  }
+}
+
+
+
+
+
+
 
 $exportstudy.="<td style='text-align:center;'>{$credit} </td>";   
 }  
@@ -7510,13 +7527,28 @@ else
 $exportstudy.="<td style='text-align:center;'>NA </td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA </td>";
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
-  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>"; 
 }
 }
 $exportstudy.="<td style='text-align:center;'>{$totalcredit} </td>"; 
-$sgpa=$gradevaluetotal/$totalcredit;
-$sgpa= number_format($sgpa,2);
+
+if($totalcredit>0)
+{
+  $sgpa=$gradevaluetotal/$totalcredit;   
+}
+else
+{
+   $sgpa=0; 
+}
+
+
+// $sgpa=$gradevaluetotal/$totalcredit;
+
+
+// $sgpa= number_format($sgpa,2);
+
+
 if($nccount>0)
 {
 $exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
