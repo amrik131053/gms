@@ -26,12 +26,21 @@ while ($data=mysqli_fetch_array($res))
     $time =$data['exam_time'];
     $instruction =$data['instructions'];
     $subjectCode=$data['subject_code'];
-     $sqlSubject = "SELECT  SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and CourseID='".$data['course']."'  order by SrNo DESC ";
+     $sqlSubject = "SELECT  SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND  CourseID='".$data['course']."'  order by SrNo DESC ";
                     $resultSubject = sqlsrv_query($conntest,$sqlSubject);
                     if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
                     {
                         $subjectName=$rowSubject["SubjectName"]; 
                     }
+                    // else{
+                    //   $sqlSubject1 = "SELECT  SubjectName from MasterCourseStructure WHERE SubjectCode ='".$subjectCode."' AND Isverified='1' and Elective='O'  order by SrNo DESC ";
+                    //   $resultSubject1 = sqlsrv_query($conntest,$sqlSubject1);
+                    //   if($rowSubject1= sqlsrv_fetch_array($resultSubject1, SQLSRV_FETCH_ASSOC) )
+                    //   {
+                    //     $subjectName=$rowSubject1["SubjectName"]; 
+                    //   }
+
+                    // }
 
 }
 
