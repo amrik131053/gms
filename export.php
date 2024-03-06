@@ -5978,7 +5978,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
-echo $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd  
+ $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd  
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S')  order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -6002,14 +6002,12 @@ $sql_openq = sqlsrv_query($conntest,$sql_open);
          
                 if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
                    {
-
                 $SubjectsNew[]=$row_subject['SubjectCode'] ;
                 $SubjectNamesNew[]=$row_subject['SubjectName'] ;
                 $SubjectTypesNew[]=$row_subject['SubjectType'] ;
-}
+                   }
+
 $subCounto=count($SubjectsNew);
-
-
 $Subjects=array_merge($Subjects,$SubjectsNew);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
@@ -7198,7 +7196,7 @@ $exportstudy.="<td style='text-align:center;color:{$color}'>NC</td>";
 
 }
 else
- { $exportstudy.="<td style='text-align:center;'>{$sgpa}-{$gradevaluetotal} </td>";}  
+ { $exportstudy.="<td style='text-align:center;'>{$sgpa} </td>";}  
 
 //$exportstudy.="<td style='text-align:center;'>{$nccount} </td>";
 
