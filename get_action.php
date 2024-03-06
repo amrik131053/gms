@@ -3937,12 +3937,10 @@ else if($code=='45')
 
  $CourseID = $_GET['course'];
  $CollegeID = $_GET['college'];
-$Batch=$_GET['batch']; 
+ $Batch=$_GET['batch']; 
   $sem = $_GET['sem'];
   $subjectcode = $_GET['subject'];
-  
   $DistributionTheory = $_GET['DistributionTheory'];
-
   $exam = $_GET['examination'];
  $group = $_GET['group'];
   $allow=0;
@@ -3976,7 +3974,7 @@ $Batch=$_GET['batch'];
 
 <input type="hidden" value="<?=$sem;?>" name="sem">
 
- <input type="text" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
+ <input type="hidden" name="" id='practicalidnum' value="<?=$DistributionTheory;?>">
 
      </tr>
 
@@ -4029,13 +4027,14 @@ $count=1;
                      while($p_row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                  {
                   $IDNo=$p_row['IDNo'];
+                  $unirollNo=trim($p_row['UniRollNo']);
                   ?>
                   <tr><td>
                 <?= $count++;?>
               </td>
                  <td>
-                  <input type="hidden" name="unirollno[]" value="<?=$p_row['ClassRollNo'];?>" class="unirollnos">
-                 <?=  $UnirollNo=$p_row['UniRollNo'];?>/<?=  $UnirollNo=$p_row['ClassRollNo'];?>
+                  <input type="hidden" name="unirollno[]" value="<?=$unirollNo;?>" class="unirollnos">
+                 <?=  $UnirollNo=$p_row['UniRollNo'];?>/<?= $UnirollNo=$p_row['ClassRollNo'];?>
               </td>
 
               <td>
@@ -4071,6 +4070,8 @@ if($row_count>0)
                 $updateby=$m_row['Updateby'];
                 ?>
              <td>  <input type='hidden'  name="ids[]" value="<?= $m_row['id'];?>"  id="ids" class='IdNos'>
+                          
+
                            <select id='Pmarks' class="pmarksids">
                               
                                <option value="<?=$m_row['PMarks'];?>"><?=$m_row['PMarks'];?></option>
@@ -4136,7 +4137,7 @@ if($row_count>0)
             else
             {
 ?>
-               <td style="background-color: red">  <input type='text'  name="ids[]" value=""  id="ids" class='IdNos'>
+               <td style="background-color: red">  <input type='hidden'  name="ids[]" value=""  id="ids" class='IdNos'>
                            <select id='Pmarks'  class="pmarksids">
                               
                               <option value="">Select</option>

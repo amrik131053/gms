@@ -387,7 +387,7 @@ var xmlhttp = new XMLHttpRequest();
     }
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+45,true);
         xmlhttp.send();
- }
+ } 
 else
 {
 alert("Please Select Appropriate data");
@@ -421,10 +421,10 @@ var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var unirollno=document.getElementsByClassName('unirollnos');
   var pmarks=document.getElementsByClassName('pmarksids');
-    var vmarks=document.getElementsByClassName('vmarksids');
-       var fmarks=document.getElementsByClassName('fmarksids');
-                     var practicalid=document.getElementById('practicalidnum').value;
-               var internalupdatedby=document.getElementById('internalupdatedby').value;
+  var vmarks=document.getElementsByClassName('vmarksids');
+  var fmarks=document.getElementsByClassName('fmarksids');
+  var practicalid=document.getElementById('practicalidnum').value;
+  var internalupdatedby=document.getElementById('internalupdatedby').value;
 
   
   var len_student= unirollno.length; 
@@ -446,7 +446,7 @@ var   spinner= document.getElementById("ajax-loader");
      
 
     $.ajax({
-      url:'action.php',
+      url:'action.php', 
       type:'post',
       data:{
         student_str:student_str,pmarks_str:pmarks_str,vmarks_str:vmarks_str,fmarks_str:fmarks_str,len_student:len_student,practicalid:practicalid,internalupdatedby:internalupdatedby,code:'262'

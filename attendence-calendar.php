@@ -211,7 +211,7 @@ function rejectLeaves() {
     });
 }
 
-function pendingLeavesAuth() {
+function pendingLeavesAuth() { 
     var code = 229;
     var spinner = document.getElementById('div-loader');
     spinner.style.display = 'block';
@@ -459,6 +459,7 @@ function forwardToVCLeavesByAuthButton(id) {
 
 function approvedLeavesByAuthButtonVC(id) {
     var code = 239;
+    alert("vc");
     var remarksForApproved = document.getElementById('remarksForApproved').value;
     let length = remarksForApproved.length;
     if (remarksForApproved != '' && length > 2) {
@@ -473,7 +474,7 @@ function approvedLeavesByAuthButtonVC(id) {
                 remarks: remarksForApproved
             },
             success: function(response) {
-                // console.log(response);
+                 console.log(response);
                 spinner.style.display = 'none';
                 if (response == 1) {
                     SuccessToast('SuccessFully Approved');

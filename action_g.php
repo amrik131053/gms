@@ -15552,7 +15552,7 @@ if ($monthdown<1) {?>
         }
         if($Emp_Designation=='Vice Chancellor')
         {
-        $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='Pending To VC' order by  ApplyLeaveGKU.Id DESC "; 
+      $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='Pending To VC' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
     while($row=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run,SQLSRV_FETCH_ASSOC))
     {   
@@ -15595,7 +15595,7 @@ if ($monthdown<1) {?>
                                     <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
                                         data-whatever="@mdo"
                                         onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye">k</i></button>
 
                                 </div>
 
@@ -16497,7 +16497,7 @@ elseif($code==239)
     $id=$_POST['id'];
     
        $remarks =str_replace("'",'',$_POST['remarks']);
-     $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
+  echo    $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved',HRRemarks='$remarks',HRApprovedate='$timeStamp' WHERE Id='$id'";
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     $getAllleaves="SELECT *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  ApplyLeaveGKU.Id='$id' "; 
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -18014,7 +18014,7 @@ elseif($code==267) //update student
                                     
                                     <div class="col-md-12 col-lg-3">
                                         <label>Name</label>
-                                          <?php if($role_id=='2' OR  $role_id=='15'){
+                                          <?php if($role_id=='2' OR  $role_id=='15' OR  $role_id=='21'){
                                             ?>
                                             <input type="text" class="form-control" name="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
@@ -18028,7 +18028,7 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                          <label>Father's Name</label>
-                                         <?php if($role_id=='2' OR  $role_id=='15'){
+                                         <?php if($role_id=='2' OR  $role_id=='15'OR  $role_id=='21'){
                                             ?>
                                           <input type="text" class="form-control" name="fatherName"
                                             placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
