@@ -11,7 +11,7 @@ if($row=mysqli_fetch_array($result))
    
     $role_id = $row['role_id'];
 }
-if($role_id!=2)
+if($role_id!=2 || $role_id!=3)
 {
     
     ?><script>window.open("not_found.php");   </script><?php
