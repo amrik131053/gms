@@ -972,8 +972,14 @@ function copyToClipboard(text) {
                                 <button type="button" class="btn btn-success"
                                     onclick="searchStudentCollegeWise();">Search</button>
 
-                                <?php if($role_id!='20'){?><button type="submit"  class="btn btn-success  float-right ">
-                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i><?php }?>
+    
+                                    <button type="submit"  class="btn btn-success  float-right">
+                                    
+                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
+
+                               
+
+
                                 </button>
                             </div>
                         </div>
