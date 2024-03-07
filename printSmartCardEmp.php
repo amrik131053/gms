@@ -5,16 +5,18 @@ $EmployeeID=$_SESSION['usr'];
 ini_set('max_execution_time', '0');
 
 include 'connection/connection.php';
-$result = mysqli_query($conn,"SELECT role_id FROM user  where emp_id=$EmployeeID");
-if($row=mysqli_fetch_array($result)) 
+$result = sqlsrv_query($conntest,"SELECT RoleID FROM Staff  where IDNo=$EmployeeID");
+if($row=sqlsrv_fetch_array($result)) 
 {
    
-    $role_id = $row['role_id'];
+     $role_id = $row['RoleID'];
 }
 if($role_id!=2 || $role_id!=3)
 {
     
-    ?><script>window.open("not_found.php");   </script><?php
+    ?>
+    <script>window.open("not_found.php");   </script>
+    <?php
 }
 else
 {
