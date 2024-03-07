@@ -101,7 +101,7 @@ if ($code==1)
     $pdf->Write(3,'Emp.No :','0','L');
     $pdf->SetXY(1,$XSet+2);
     $pdf->Write(3,'Desig.    :','0','L');
-    $pdf->SetXY(0.9,$XSet+7);
+    $pdf->SetXY(0.9,$XSet+8);
     $pdf->Write(3,'Dept.      :','0','L');
     
     $pdf->SetXY(14.5,50);
@@ -120,7 +120,7 @@ elseif($strlen>23)
     $pdf->MultiCell(39,3,$row['IDNo'],'0','L');
     $pdf->SetXY(14.5,$XSet+2);
     $pdf->MultiCell(39,3,$row['Designation'],'0','L');
-    $pdf->SetXY(14.5,$XSet+7);
+    $pdf->SetXY(14.5,$XSet+8);
     $pdf->MultiCell(39,3,$row['DepartmentName'],'0','L');
     $pdf->SetXY(0,0);
     
