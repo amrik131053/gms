@@ -5,20 +5,14 @@ $EmployeeID=$_SESSION['usr'];
 ini_set('max_execution_time', '0');
 
 include 'connection/connection.php';
-$result = mysqli_query($conn,"SELECT role_id FROM user  where emp_id=$EmployeeID");
-if($row=mysqli_fetch_array($result)) 
+$result = sqlsrv_query($conntest,"SELECT RoleID FROM Staff  where IDNo=$EmployeeID");
+if($row=sqlsrv_fetch_array($result)) 
 {
+       $role_id=$row['RoleID'];
+}
+if($role_id=='2' || $role_id=='3' )
+{ 
    
-    $role_id = $row['role_id'];
-}
-if($role_id!=2)
-{
-    
-    ?><script>window.open("not_found.php");   </script><?php
-}
-else
-{
-
 require_once('fpdf/fpdf.php');
 require_once('fpdf/fpdi.php');
 class PDF extends FPDF
@@ -32,7 +26,6 @@ if($this->PageNo() == 2){
 $this->MultiCell(53,4,'GURU KASHI UNIVERSITY Sardulgarh Road,Talwandi Sabo Bathinda, Punjab, India(151302) Phone: +91 99142-83400 www.gku.ac.in','','C');
 }
 if($this->PageNo() == 1){
-  
     $this->SetXY(0,81);
     // $this->SetY(-4);
     $this->SetFont('Arial','B',8);
@@ -41,7 +34,6 @@ if($this->PageNo() == 1){
 }
 }
 }
-
 // $pdf = new FPDF('P');  // 
 $pdf = new PDF('P','mm',array(53.98,85.60));
 $pdf->SetAutoPageBreak(false);
@@ -170,5 +162,10 @@ $date=date('Y-m-d H:i:s');
 
 
 $pdf->Output();
+}
+else{
+    ?>
+    <script>window.open("not_found.php");   </script>
+    <?php
 }
 ?>

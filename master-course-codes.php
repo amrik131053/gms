@@ -49,7 +49,7 @@ $data[]=$degree_row;
                                 <label>Select Session</label>
                                 <br>
                                 <select id="session1" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('Y')-1;?>"><?php echo date('Y')-1;?></option>
+                                <option value="<?php echo date('Y');?>"><?php echo date('Y');?></option>
                                     <?php 
 for($s='2015';$s<='2030';$s++)
 {
@@ -58,7 +58,7 @@ for($s='2015';$s<='2030';$s++)
                                     <?php }?>
                                 </select>
                                 <select id="session2" class="btn btn-default btn-sm">
-                                <option value="<?php echo date('y');?>"><?php echo date('y');?></option>
+                                <option value="<?php echo date('y')+1;?>"><?php echo date('y')+1;?></option>
                                     <?php 
 for($s1='16';$s1<='31';$s1++)
 {
