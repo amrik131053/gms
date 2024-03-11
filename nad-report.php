@@ -7,6 +7,20 @@
  header("Pragma: no-cache");
  header("Expires: 0");
  include "connection/connection.php";
+ function numberToRomanRepresentation($number) {
+    $map = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
+    $returnValue = '';
+    while ($number > 0) {
+        foreach ($map as $roman => $int) {
+            if($number >= $int) {
+                $number -= $int;
+                $returnValue .= $roman;
+                break;
+            }
+        }
+    }
+    return $returnValue;
+}
  $exportCode = "";
  $UniRollNos=array();
  $fileName = "My File";
@@ -19,6 +33,7 @@
  $Course = $_GET["Course"];
  $Batch = $_GET["Batch"];
  $Semester = $_GET["Semester"];
+$SemesterPrint=numberToRomanRepresentation($Semester);
  $Type = $_GET["Type"];
  $Group = $_GET["Group"];
  $Examination = $_GET["Examination"];
@@ -63,6 +78,8 @@
    <th>	ABC_ACCOUNT_ID	</th>
    <th>	TERM_TYPE	</th>
    <th>	TOT_GRADE	</th>";
+
+
   $list_sql1 = "SELECT  * FROM ExamForm 
  INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
  where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' 
@@ -87,9 +104,11 @@ foreach ($UniRollNos as $key => $value)
         $NumberofSubjects[]=$row_getResullt1["SubjectCode"];
     }
 }
+
+
 foreach ($NumberofSubjects as $key1 => $value1) {
     $key1=$key1+1;
-    $exportstudy .= "<th>	SUB{$count}NM	</th>
+    $exportstudy .= "<th>	SUB{$key1}NM	</th>
    <th>	SUB{$key1}	</th>
    <th>	SUB{$key1}_TH_MAX	</th>
    <th>	SUB{$key1}_PR_MAX	</th>
@@ -112,12 +131,13 @@ foreach ($NumberofSubjects as $key1 => $value1) {
                           </tr>
                         </thead> ";
  $SrNo = 1;
- $collegename = "select CollegeName,Course from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
+ $collegename = "select CollegeName,Course,PID from MasterCOurseCodes where  CollegeID='$College' ANd CourseID='$Course' ";
  $list_cllegename = sqlsrv_query($conntest, $collegename);
  if ($row_college = sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC)) {
      // print_r($row);
      $CollegeName = $row_college["CollegeName"];
      $CourseName = $row_college["Course"];
+     $PID = $row_college["PID"];
  }
  $list_sql = "SELECT  * FROM ExamForm 
  INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
@@ -129,6 +149,7 @@ foreach ($NumberofSubjects as $key1 => $value1) {
  while ($row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC)) {
      $IDNos = $row["IDNo"];
      $UnirollNos = $row["UniRollNo"];
+     $Batch = $row["Batch"];
      $ClassRollNos = $row["ClassRollNo"];
      $RegistrationNo = $row["RegistrationNo"];
      $Examid = $row["ID"];
@@ -153,31 +174,32 @@ foreach ($NumberofSubjects as $key1 => $value1) {
      $SubjectGrade =array();
      $NoOfCredit =array();
      $SubjectCredit =array();
-     $getResullt = "SELECT *,MasterCourseStructure.NoOFCredits from  ResultDetailGKU inner join ResultGKU on ResultDetailGKU.ResultID=ResultGKU.id inner join MasterCourseStructure ON MasterCourseStructure.SubjectCode=ResultDetailGKU.SubjectCode where ResultDetailGKU.UniRollNo='$UnirollNos'  and ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' ANd ResultGKU.Examination='$Examination'";
+     $getResullt = "SELECT *,MasterCourseStructure.NoOFCredits from  ResultDetailGKU inner join ResultGKU on ResultDetailGKU.ResultID=ResultGKU.id inner join MasterCourseStructure ON MasterCourseStructure.SubjectCode=ResultDetailGKU.SubjectCode where ResultDetailGKU.UniRollNo='$UnirollNos'  and ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' ANd MasterCourseStructure.Batch='$Batch' ANd ResultGKU.Examination='$Examination'";
      $list_getResullt = sqlsrv_query($conntest, $getResullt);
-     while ($row_getResullt = sqlsrv_fetch_array($list_getResullt,SQLSRV_FETCH_ASSOC)) {
-         $SubjectName = $row_getResullt["SubjectName"];
-         $SubjectCode = $row_getResullt["SubjectCode"];
-         $SubjectGrade = $row_getResullt["SubjectGrade"];
+     while ($row_getResullt = sqlsrv_fetch_array($list_getResullt,SQLSRV_FETCH_ASSOC)) 
+     {
+         $SubjectName[] = $row_getResullt["SubjectName"];
+         $SubjectCode[] = $row_getResullt["SubjectCode"];
+         $SubjectGrade[] = $row_getResullt["SubjectGrade"];
          $TotalCredit = $row_getResullt["TotalCredit"];
          $Sgpa = $row_getResullt["Sgpa"];
-         $NoOfCredit = $row_getResullt["NoOFCredits"];
-         $SubjectCredit = $row_getResullt["SubjectCredit"];
+         $NoOfCredit[] = $row_getResullt["NoOFCredits"];
+         $SubjectCredit[] = $row_getResullt["SubjectCredit"];
          $c++;
-     
      }
      if ($Sgpa == "NC") {
          $Sgpa1 = "NC";
      } else {
-         $Sgpa1 = "Pass";
+         $Sgpa1 = "PASS";
      }
+    //  echo count($SubjectCode);
                             $orderdate = explode(" ", $Examination);
-                            $ExaminationMonth = $orderdate[0];
+                            $ExaminationMonth = strtoupper($orderdate[0]);
                             $ExaminationYear = $orderdate[1];
                             $exportstudy .= "<tr>
                             <td></td>
                             <td></td>
-                            <td>{$Course}</td>
+                            <td>{$PID}</td>
                             <td>{$CourseName}</td>
                             <td></td>
                             <td></td>
@@ -199,7 +221,7 @@ foreach ($NumberofSubjects as $key1 => $value1) {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{$Semester}</td>
+                            <td>{$SemesterPrint}</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -216,11 +238,11 @@ foreach ($NumberofSubjects as $key1 => $value1) {
                             <td></td>
                             <td></td>";
         // foreach ($SubjectName as $id => $val) {
-            for ($id=0; $id < $c ; $id++) { 
+            for ($id=0; $id < count($NumberofSubjects) ; $id++) { 
               
          $exportstudy .= " 
-                            <td>{$SubjectName}</td>
-                            <td>{$SubjectCode}</td>
+                            <td>{$SubjectName[$id]}</td>
+                            <td>{$SubjectCode[$id]}</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -229,10 +251,10 @@ foreach ($NumberofSubjects as $key1 => $value1) {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{$SubjectGrade}</td>
-                            <td>{$SubjectCredit}</td>
-                            <td>{$NoOfCredit}</td>
-                            <td>{$NoOfCredit}</td>
+                            <td>{$SubjectGrade[$id]}</td>
+                            <td>{$SubjectCredit[$id]}</td>
+                            <td>{$NoOfCredit[$id]}</td>
+                            <td>{$NoOfCredit[$id]}</td>
                             <td></td>
                             <td></td>
                             ";
