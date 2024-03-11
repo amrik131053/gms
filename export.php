@@ -4891,22 +4891,22 @@ elseif($RegistrationStatus==8)
 
  else if($exportCode==45)
                 {
-                                            $CollegeID=$_GET['CollegeID'];
-                                            $Batch=$_GET['Batch'];
-                                            $Eligible=$_GET['Eligible'];
-                                            $Status=$_GET['Status'];
-                                            $StatusType='';
-                                            if($Status==2)
-                                            {
-                                                $Status=1;
-                                                $StatusType=1;
+  $CollegeID=$_GET['CollegeID'];
+$Batch=$_GET['Batch'];
+$Eligible=$_GET['Eligible'];
+$Status=$_GET['Status'];
+$StatusType='';
+if($Status==2)
+{
+$Status=1;
+$StatusType=1;
 
                                             }
                                             if($Status==3)
                                             {
 
-                                                $Status=0;
-                                                $StatusType=1;
+$Status=0;
+$StatusType=1;
 
                                             }
                                             
@@ -4919,59 +4919,59 @@ elseif($RegistrationStatus==8)
                                             <tr>
                                             ";
                                             $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
-                                                <th style='background-color:black; color:white;'>College Name</th>
-                                                <th style='background-color:black; color:white;'>Course</th>
-                                                <th style='background-color:black; color:white;'>Batch</th>
-                                                <th style='background-color:black; color:white;'>Student Name</th>
-                                                <th style='background-color:black; color:white;'>Gender</th>
-                                                <th style='background-color:black; color:white;'>Category</th>
-                                                <th style='background-color:black; color:white;'>Class Roll No</th>
-                                                <th style='background-color:black; color:white;'>UniRollno</th>
-                                                <th style='background-color:black; color:white;'>Father Name</th>
-                                                <th style='background-color:black; color:white;'>Mother Name</th>
-                                                <th style='background-color:black; color:white;'>EmailID</th>
-                                                <th style='background-color:black; color:white;'>Student Mobile No</th>
-                                                <th style='background-color:black; color:white;'>City</th>
-                                                <th style='background-color:black; color:white;'>State</th>
-                                                <th style='background-color:black; color:white;'>PIN</th>
-                                                <th style='background-color:black; color:white;'>Lateral</th>
-                                                <th style='background-color:black; color:white;'>Eligible</th>
-                                                <th style='background-color:black; color:white;'>Status</th>
-                                                ";
-                                                $exportstudy.="</tr></thead>";             
-                                                $list_sql = "SELECT * FROM Admissions  
-                                                where 1=1";
+<th style='background-color:black; color:white;'>College Name</th>
+<th style='background-color:black; color:white;'>Course</th>
+<th style='background-color:black; color:white;'>Batch</th>
+<th style='background-color:black; color:white;'>Student Name</th>
+<th style='background-color:black; color:white;'>Gender</th>
+<th style='background-color:black; color:white;'>Category</th>
+<th style='background-color:black; color:white;'>Class Roll No</th>
+<th style='background-color:black; color:white;'>UniRollno</th>
+<th style='background-color:black; color:white;'>Father Name</th>
+<th style='background-color:black; color:white;'>Mother Name</th>
+<th style='background-color:black; color:white;'>EmailID</th>
+<th style='background-color:black; color:white;'>Student Mobile No</th>
+<th style='background-color:black; color:white;'>City</th>
+<th style='background-color:black; color:white;'>State</th>
+<th style='background-color:black; color:white;'>PIN</th>
+<th style='background-color:black; color:white;'>Lateral</th>
+<th style='background-color:black; color:white;'>Eligible</th>
+<th style='background-color:black; color:white;'>Status</th>
+";
+$exportstudy.="</tr></thead>";             
+$list_sql = "SELECT * FROM Admissions  
+where 1=1";
                                      
-                                                 if ($CollegeID != '') {
+if ($CollegeID != '') {
                                                 $list_sql.="AND CollegeID='$CollegeID' ";
-                                                 }
-                                                 if ($Batch != '') {
+}
+if ($Batch != '') {
                                                 $list_sql.="AND Batch='$Batch' ";
-                                                 }
-                                                 if ($Eligible != '') {
+}
+if ($Eligible != '') {
                                                 $list_sql.=" AND  Eligibility='$Eligible' ";
-                                                 }
+}
                                                 if ($Status != '') {
                                                 
                                                 $list_sql.=" AND Status='$Status' ";
-                                                 
+
                                                 }
                                                 if ($StatusType != '') {
                                                 
                                                 $list_sql.=" AND StatusType='$StatusType' ";
-                                                 
+
                                                 }
                                                 if ($Lateral != '') {
                                
-                                                    $list_sql.=" AND LateralEntry='$Lateral' ";
-                                                     
+$list_sql.=" AND LateralEntry='$Lateral' ";
+
                                                     }
                                                 $list_sql.=" AND CourseID!='188' ORDER BY CollegeName ASC"; 
                                              
-                                                                    $list_result = sqlsrv_query($conntest,$list_sql);
-                                                                    while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-                                                                       {
-                                                                       // $aa=$row;
+$list_result = sqlsrv_query($conntest,$list_sql);
+while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+{
+// $aa=$row;
                                                                     $IDNo=$row['IDNo'];
                                                                     $CollegeName=$row['CollegeName'];
                                                                     $Course=$row['Course'];
@@ -5010,7 +5010,7 @@ elseif($RegistrationStatus==8)
                                                                    if($row['EligibilityReason']!='' && $row['Eligibility']==1)
                                                                     {
                                                         
-                                                                        $Eligibility="Provisional Eligible";
+$Eligibility="Provisional Eligible";
                                                                         $clr="blue";
                                                                     }
                                                                     else  if($row['Eligibility']==1)
@@ -5093,99 +5093,106 @@ elseif($RegistrationStatus==8)
 
  else if($exportCode==46)
               {
-                                                                                 $CollegeID=$_GET['CollegeID'];
-                                                                                 $Batch=$_GET['Batch'];
-                                                                                 $Eligible=$_GET['Eligible'];
-                                                                                 $Status=$_GET['Status']; 
-                                                                                 $Lateral=$_GET['Lateral'];  
-                                                                                 $CollegeName="";
-                                                                                 $Course="";             
-                                                                                 $SrNo=1;
-                                                                                 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
-                                                                                 <thead>  
-                                                                                 <tr>
-                                                                                 ";
-                                                                                 $exportstudy.="
-                                                                                     <th style='background-color:black; color:white;'>College Name</th>
-                                                                                     <th style='background-color:black; color:white;'>Course</th>
-                                                                                     <th style='background-color:black; color:white;'>Batch</th>
-                                                                                     <th style='background-color:black; color:white;'>TotalAdmission</th>
-                                                                                     <th style='background-color:black; color:white;'>Active</th>
-                                                                                     <th style='background-color:black; color:white;'>Eligible</th>
-                                                                                     <th style='background-color:black; color:white;'>Not Eligible</th>
-                                                                                     <th style='background-color:black; color:white;'>Lateral</th>
-                                                                                    
-                                                                                     ";
-                                                                                     $exportstudy.="</tr></thead>";             
-                                                                                     $list_sql = "SELECT DISTINCT CollegeID,CourseID,CollegeName,Course FROM Admissions  
-                                                                                     where 1=1";
+     $CollegeID=$_GET['CollegeID'];
+   $Batch=$_GET['Batch'];
+      $Eligible=$_GET['Eligible'];
+ $Status=$_GET['Status']; 
+ $Lateral=$_GET['Lateral'];  
+    $CollegeName="";
+  $Course="";             
+$SrNo=1;
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>  
+<tr>
+";
+$exportstudy.="
+<th style='background-color:black; color:white;'>College Name</th>
+<th style='background-color:black; color:white;'>Course</th>
+<th style='background-color:black; color:white;'>Batch</th>
+<th style='background-color:black; color:white;'>TotalAdmission</th>
+<th style='background-color:black; color:white;'>Active</th>
+<th style='background-color:black; color:white;'>Eligible</th>
+<th style='background-color:black; color:white;'>Not Eligible</th>
+<th style='background-color:black; color:white;'>Lateral</th>
+<th style='background-color:black; color:white;'>Left</th> ";
+$exportstudy.="</tr></thead>";             
+$list_sql = "SELECT DISTINCT CollegeID,CourseID,CollegeName,Course FROM Admissions  
+where 1=1";
                                                                           
-                                                                                      if ($CollegeID != '') {
+if ($CollegeID != '') {
                                                                                      $list_sql.="AND CollegeID='$CollegeID' ";
-                                                                                      }
-                                                                                      if ($Batch != '') {
+}
+if ($Batch != '') {
                                                                                      $list_sql.="AND Batch='$Batch' ";
-                                                                                      }
-                                                                                      if ($Eligible != '') {
+}
+if ($Eligible != '') {
                                                                                      $list_sql.=" AND  Eligibility='$Eligible' ";
-                                                                                      }
+}
                                                                                      if ($Status != '') {
                                                                                      
                                                                                      $list_sql.=" AND Status='$Status' ";
-                                                                                      
+
                                                                                      }
                                                                                      if ($Lateral != '') {
                                
-                                                                                        $list_sql.=" AND LateralEntry='$Lateral' ";
-                                                                                         
+$list_sql.=" AND LateralEntry='$Lateral' ";
+
                                                                                         }
                                                                                      $list_sql.=" AND CourseID!='188' ORDER BY CollegeName ASC"; 
                                                                                   
                                                                                                          $list_result = sqlsrv_query($conntest,$list_sql);
-                                                                                                         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-                                                                                                            {
-                                                                                                                $get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
-                                                                                                                $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                                                                                 $TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
+   while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+{
+$get_study_scheme="SELECT * FROM Admissions WHERE  Batch='$Batch' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
+$get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$TotalAdmission=sqlsrv_num_rows($get_study_scheme_run);
                                                                                                              
-                                                                                                                 $getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
-                                                                                                                 $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                                                                                  $TotalActive=sqlsrv_num_rows($getActiveTotal_run);
+$getActiveTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
+$getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$TotalActive=sqlsrv_num_rows($getActiveTotal_run);
                                                                                                                
-                                                                                                                  $getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
-                                                                                                                  $getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                                                                                   $TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
+$getLeftTotal="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='0' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
+$getLeftTotal_run=sqlsrv_query($conntest,$getLeftTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$TotalLeft=sqlsrv_num_rows($getLeftTotal_run);
                                                                                                              
-                                                                                                                   $getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
-                                                                                                                  $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                                                                                                   $TotalEligibility=sqlsrv_num_rows($getEligibility_run);
-                                                                                                             
-                                                                                                                   $count[0]=$TotalAdmission;
-                                                                                                                   $count[1]=$TotalActive;
-                                                                                                                   $count[2]=$TotalLeft;
-                                                                                                                   $count[3]=$TotalEligibility;
+$getEligibility="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='1' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
+ $getEligibility_run=sqlsrv_query($conntest,$getEligibility,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$TotalEligibility=sqlsrv_num_rows($getEligibility_run);
+                                                                  
 
-                                                                                                         $CollegeName=$row['CollegeName'];
-                                                                                                         $Course=$row['Course'];
+$getleft="SELECT * FROM Admissions WHERE  Batch='$Batch' and Eligibility='1' and Status='0' and CollegeID='".$row['CollegeID']."' and CourseID='".$row['CourseID']."'AND LateralEntry='$Lateral'AND CourseID!='188' ";
+ $getleft_run=sqlsrv_query($conntest,$getleft,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$Totallefts=sqlsrv_num_rows($getleft_run);
+
+
+
+$count[0]=$TotalAdmission;
+$count[1]=$TotalActive;
+$count[2]=$TotalLeft;
+$count[3]=$TotalEligibility;
+
+$count[5]=$Totallefts;
+$CollegeName=$row['CollegeName'];
+$Course=$row['Course'];
 
 
                                                                                
-                                                                                                         $exportstudy.="<tr >
-                                                                                                         
+$exportstudy.="<tr >
+
                                                                                                        
-                                                                                                         <td>{$CollegeName}</td>
-                                                                                                         <td>{$Course}</td>   
-                                                                                                         <td>{$Batch}</td>   
-                                                                                                         <td>{$TotalAdmission}</td>
-                                                                                                         <td>{$TotalActive}</td>
-                                                                                                         <td>{$TotalEligibility}</td>
-                                                                                                         <td>{$TotalLeft}</td>
-                                                                                                         <td>{$Lateral}</td>
+<td>{$CollegeName}</td>
+<td>{$Course}</td>   
+<td>{$Batch}</td>   
+<td>{$TotalAdmission}</td>
+<td>{$TotalActive}</td>
+<td>{$TotalEligibility}</td>
+<td>{$TotalLeft}</td>
+<td>{$Lateral}</td>
                                                                                                         
-                                                                                                         
-                                                                                                         
+<td>{$Totallefts}</td>
+
                                                                                        
-                                                                                                     </tr>";
+       </tr>";
                                                                                          $SrNo++;
                                                                                                             }
                                                                                          $exportstudy.="</table>";
