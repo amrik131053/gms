@@ -5978,7 +5978,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
- $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd  
+ $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd   Sgroup='$Group' ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S')  order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -6013,7 +6013,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' ANd   Sgroup='$Group' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
              if($list_Subjects === false)
@@ -6397,7 +6397,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course' ANd   Sgroup='$Group'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -6433,7 +6433,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course' ANd   Sgroup='$Group'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -6824,7 +6824,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'  ANd   Sgroup='$Group' ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -6861,7 +6861,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course' ANd   Sgroup='$Group'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -7242,8 +7242,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
                       }
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course' ANd  Batch='$Batch' ANd SGroup='$Group' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
    if($list_Subjects === false)
                {
@@ -7270,7 +7269,7 @@ $Subjects=array_merge($Subjects,$SubjectsNew);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
+ Batch='$Batch' AND SemesterID='$Semester' ANd SGroup='$Group' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                 if($list_Subjects === false)
                {
@@ -7591,7 +7590,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course' ANd   Sgroup='$Group'ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S') order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
@@ -7628,7 +7627,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
-$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd   Sgroup='$Group' ANd
  Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
