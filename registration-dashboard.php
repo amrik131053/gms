@@ -456,7 +456,7 @@
 
 
     function loadMainCount() {
-        alert('dfsfdsf');
+      
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var ExaminationA = document.getElementById("Examination").value;
