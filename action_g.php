@@ -23727,7 +23727,7 @@ if($_POST['Examination']!='')
    {
        $getActiveTotal.="and  ExamForm.Examination='$Examination' ";
    }
- ECHO $getActiveTotal;
+   $getActiveTotal;
   
 $getActiveTotal_run=sqlsrv_query($conntest,$getActiveTotal,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $Registration=sqlsrv_num_rows($getActiveTotal_run);
@@ -24008,11 +24008,7 @@ $ExaminationForward=sqlsrv_num_rows($getExamForward_run);
    $count[10]=$ExaminationReject;
    $count[11]=$ExaminationForward;
 
-   
-
-
-
- echo json_encode($count);
+    echo json_encode($count);
 
 }
 

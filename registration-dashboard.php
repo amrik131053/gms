@@ -75,14 +75,14 @@
                     <div class="col-lg-1">
                     <?php  if($code_access!='111')
             {?>
-                        <button class="btn btn-success"
+                        <!-- <button class="btn btn-success"
                             onclick="loadDashboard();">
-                            Search</button>
+                            Search</button> -->
                             <?php }?>
                             <?php  if($code_access!='000')
             {?>
                         <button class="btn btn-success"
-                            onclick="loadDashboard();loadMainCount();">
+                            onclick="loadMainCount();">
                             Search</button>
 <?php }?>
 
@@ -384,7 +384,7 @@
     <script>
     const d = new Date();
     let year = d.getFullYear();
-    loadDashboard();
+   
 
     <?php if($code_access=='111'){?>
     loadMainCount();
@@ -428,27 +428,27 @@
 
     }
 
-    function loadDashboard() {
+    // function loadDashboard() {
 
-        var subjects = document.getElementsByClassName('checkbox');
-        var len_subject = subjects.length;
-        var subject_str = [];
+    //     var subjects = document.getElementsByClassName('checkbox');
+    //     var len_subject = subjects.length;
+    //     var subject_str = [];
 
-        for (i = 0; i < len_subject; i++) {
-            if (subjects[i].checked === true) {
-                subject_str.push(subjects[i].value);
-            }
-        }
+    //     for (i = 0; i < len_subject; i++) {
+    //         if (subjects[i].checked === true) {
+    //             subject_str.push(subjects[i].value);
+    //         }
+    //     }
 
-        for (i = 0; i < len_subject; i++) {
-            var CourseID = subject_str[i];
+    //     // for (i = 0; i < len_subject; i++) {
+    //     //     var CourseID = subject_str[i];
 
-            showBatchsFromCourse(CourseID);
+    //     //    // showBatchsFromCourse(CourseID);
 
-        }
+    //     // }
 
 
-    }
+    // }
 
 
 
@@ -456,6 +456,7 @@
 
 
     function loadMainCount() {
+        alert('dfsfdsf');
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var ExaminationA = document.getElementById("Examination").value;
@@ -510,7 +511,7 @@
 
 
 
-
+ 
 
 
     function showBatchsFromCourse(CourseID) {
