@@ -6014,6 +6014,7 @@ $sql_openq = sqlsrv_query($conntest,$sql_open);
                 $SubjectTypesNew[]=$row_subject['SubjectType'] ;
                    }
 
+
 $subCounto=count($SubjectsNew);
 $Subjects=array_merge($Subjects,$SubjectsNew);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesNew);
@@ -6021,6 +6022,8 @@ $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNew);
 
 
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' ANd   Sgroup='$Group' AND SemesterID='$Semester' ANd Isverified='1' AND SubjectType='P' order by SubjectType ";
+
+
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
              if($list_Subjects === false)
@@ -6035,11 +6038,37 @@ $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                $SubjectNamesp[]=$row_subject['SubjectName'] ;
                $SubjectTypesp[]=$row_subject['SubjectType'] ;
 }
+
+
+
 $subCountp=count($Subjectsp);
 
 $Subjects=array_merge($Subjects,$Subjectsp);
 $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
+
+
+$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='P' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+
+$sql_openq = sqlsrv_query($conntest,$sql_open);
+         
+                if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
+                   {
+                $SubjectsNewop[]=$row_subject['SubjectCode'] ;
+                $SubjectNamesNewop[]=$row_subject['SubjectName'] ;
+                $SubjectTypesNewop[]=$row_subject['SubjectType'] ;
+                   }
+
+
+
+
+$subCountop=count($SubjectsNewop);
+
+$Subjects=array_merge($Subjects,$SubjectsNewop);
+$SubjectNames=array_merge($SubjectNames,$SubjectNamesNewop);
+$SubjectTypes=array_merge($SubjectTypes,$SubjectTypesNewop);
+
+
 
 $subCount=(count($Subjects)*4)+4;
 $subCount1=count($Subjects);
@@ -6262,6 +6291,10 @@ $exportstudy.="<th>NA </th>";
 
 
 
+
+
+
+
   for($sub=0;$sub<$subCountp;$sub++)
         {
 
@@ -6276,7 +6309,7 @@ $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' AN
 
 
 
-include'grade_calculator_practical.php';
+include'grade_calculator_practical.php'; 
 
 
 
@@ -6333,6 +6366,124 @@ $exportstudy.="<th>NA</th>";
 
 
      }
+
+
+ for($sub=0;$sub<$subCountop;$sub++)
+        {
+
+
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+
+
+            $pmarks=0;
+
+
+
+include'grade_calculator_practicalopen.php'; 
+
+
+
+                     $amrikc = "SELECT * FROM MasterCourseStructure where   Batch='$Batch' ANd SubjectCode='$SubjectsNewop[$sub]'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7c['NoOFCredits'];
+         }
+
+
+         if(is_numeric($credit))
+         {
+$totalcredit=$totalcredit+$credit;
+         }
+$exportstudy.="<th>{$pmarks}</th>"; 
+                           $exportstudy.="<th>{$grade} </th>";
+$exportstudy.="<th>{$gardep} </th>";
+                           if($credit>0)
+{
+    if(is_numeric($credit))
+    {
+ $gradevalue=$gardep*$credit;
+    }
+    else{
+       
+        $gradevalue=0;
+    }
+ if($gradevalue>0)
+ {
+$gradevaluetotal=$gradevaluetotal+$gradevalue;
+ }
+ else
+ {
+    if($grade=='F' || $grade=='US')
+    {
+    $nccount++;
+    }
+ }
+}
+$exportstudy.="<th>{$credit} </th>";  
+     
+
+
+} 
+else
+{
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA</th>";
+$exportstudy.="<th>NA</th>"; 
+$exportstudy.="<th>NA</th>";
+}
+
+
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  $exportstudy.="<th>{$totalcredit} </th>"; 
