@@ -16,6 +16,9 @@ $SubjectTypes=array();
 $SubjectsNew=array();
 $SubjectNamesNew=array();
 $SubjectTypesNew=array();
+$SubjectsNewop=array();
+                $SubjectNamesNewop=array();
+                $SubjectTypesNewop=array();
 
 
 
