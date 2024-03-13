@@ -6253,7 +6253,7 @@ $exportstudy.="<th>NA</th>";
         {
 
 
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -6662,7 +6662,7 @@ else
         {
 
 
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP'  ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -7067,7 +7067,7 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
         {
 
 
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -7442,7 +7442,7 @@ $exportstudy.="<td style='text-align:center;'>NA </td>";
         {
 
 
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -7706,7 +7706,7 @@ for($sub=0;$sub<$subCountop;$sub++)
         {
 
 
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ";  
+$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP'  ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {

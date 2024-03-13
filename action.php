@@ -12384,7 +12384,7 @@ $batch= $_POST['batch'];
 
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ";
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType!='P'  order by SubjectCode";
 
 
 
@@ -12401,7 +12401,7 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStr
    $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
 
 $stmt = sqlsrv_query($conntest,$sqlee);  
-   echo "<option value=''>Course</option>";
+  
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    
    {
@@ -12409,7 +12409,7 @@ $stmt = sqlsrv_query($conntest,$sqlee);
      $cname=$row["Course"];
    }
  
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ";
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
 
 
 
