@@ -251,7 +251,7 @@ elseif ($i==2)
  {
 $Batchn=(string)$Batch+1;
    $endye=substr($Batchn, -2);
-   echo $session_split=$Batch.'-'.$endye;
+    $session_split=$Batch.'-'.$endye;
 
   }
   else
