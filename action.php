@@ -19833,7 +19833,7 @@ $id = $_POST['id'];
 
  elseif($code=='332') 
    {
- $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon' ");
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='International Seminar 2024' ");
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {
@@ -19862,8 +19862,6 @@ $id = $_POST['id'];
         else{
 $adstatus="Pending";
         }
-       
-      
 if($row['confirmation']==2  AND $admissionstatus> 0  )
 {?>
             <tr style="background-color:#dff0d8" >
@@ -19886,7 +19884,13 @@ if($payment_id!=''){?>
  </td>
  <td> <?php echo $name ;?> </td>
  <td><?php echo $father_name; ;?></td>
- <td><?php echo $course; ?>(<?php echo $batch; ?>)</td>    
+ <td><?php echo $course; ?></td>    
+ <!-- <td> -->
+   <?php //echo $course; ?>
+   <!-- ( -->
+      <?php //echo $batch; ?>
+      <!-- ) -->
+<!-- </td>     -->
  <td><?php echo $email;?> </td>
  <td><?php echo $purpose;?> </td>
   <td style="text-align: left;">  <?php if($row['receipt']!="")
@@ -19894,7 +19898,7 @@ if($payment_id!=''){?>
    <?php 
 }
 ?> </td>
-      <td><?php echo $phone; ?></td>
+      <td><?php echo $roll_no; ?></td>
       <td><?php echo $amount; ?></td>
       <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
   

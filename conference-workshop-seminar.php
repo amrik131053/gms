@@ -41,8 +41,10 @@
           <th>P ID/ Ref no</th>
           <th>Name</th>
           <th>Member Type</th>
-           <th>Organisation</th>
-          <th>Email</th> <th>Purpose</th>  <th><i class="fa fa-download" style="color: green"></i></th>
+           <th>Designation</th>
+          <th>Email</th> 
+          <th>Purpose</th>
+            <th><i class="fa fa-download" style="color: green"></i></th>
           <th>Phone</th>
           <th>Amount</th>
           <th>Transaction Date/ Time</th>

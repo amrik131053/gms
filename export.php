@@ -5780,10 +5780,10 @@ elseif($Status==8)
             $Course=$rowCourseName['Course'];
             $Bstch=$rowCourseName['Batch'];
             $sem=$rowCourseName['SemesterId'];
-            $RE='<b style="color:blue;">'.$Registration.'</b>/<b style="color:red;">'.$RegistrationReject.'</b>';
-            $dep='<b style="color:blue;">'.$Department.'</b>/<b style="color:red;">'.$DepartmentReject.'</b>';
-            $AC='<b style="color:blue;">'.$Account.'</b>/<b style="color:red;">'.$AccountReject.'</b>';
-            $EE='<b style="color:blue;">'.$Examination1.'</b>/<b style="color:red;">'.$ExaminationReject.'</b>';
+            $RE='<b style="color:blue;">'.$Registration.'</b>|<b style="color:red;">'.$RegistrationReject.'</b>';
+            $dep='<b style="color:blue;">'.$Department.'</b>|<b style="color:red;">'.$DepartmentReject.'</b>';
+            $AC='<b style="color:blue;">'.$Account.'</b>|<b style="color:red;">'.$AccountReject.'</b>';
+            $EE='<b style="color:blue;">'.$Examination1.'</b>|<b style="color:red;">'.$ExaminationReject.'</b>';
             $Accepeted1='<b style="color:green;">'.$Accepeted.'</b>';
              
 
