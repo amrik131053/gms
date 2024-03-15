@@ -314,7 +314,7 @@ if ($result->num_rows > 0)
                   </a>
                </li> 
 <?php 
-              if ($spoc_per<0) 
+              if ($spoc_per>0) 
                   {
                  ?>
                

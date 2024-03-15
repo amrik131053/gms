@@ -37,7 +37,6 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
  $Type = $_GET["Type"];
  $Group = $_GET["Group"];
  $Examination = $_GET["Examination"];
-
  $exportstudy .= "<tr>
    <th>	ORG_NAME	</th>
    <th>	ORG_NAME_L	</th>
@@ -79,7 +78,7 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
    <th>	ABC_ACCOUNT_ID	</th>
    <th>	TERM_TYPE	</th>
    <th>	TOT_GRADE	</th>";
-$list_sql1="SELECT  top(10)* FROM ResultGKU 
+$list_sql1="SELECT  * FROM ResultGKU 
 INNER JOIN Admissions ON ResultGKU.IDNo = Admissions.IDNo 
 where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
 AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
@@ -88,13 +87,6 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
  while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
  $UniRollNos[]=$row1["UniRollNo"];
  }
- print_r($UniRollNos);
-
-//  echo  $list_sql1 = "SELECT  * FROM ExamForm 
-//  INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-//  where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' 
-//  AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' 
-//  ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
     $exportstudy .= "<th>	SUB{$key1}NM	</th>
    <th>	SUB{$key1}	</th>
    <th>	SUB{$key1}_TH_MAX	</th>
@@ -115,7 +107,6 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
                           <th>	ADMISSION_YEAR	</th>
                           </tr>
                         </thead> ";
-
                             $orderdate = explode(" ", $Examination);
                             $ExaminationMonth = strtoupper($orderdate[0]);
                             $ExaminationYear = $orderdate[1];
@@ -188,4 +179,3 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
  header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
  unset($_SESSION["filterQry"]);
  ob_end_flush();
-
