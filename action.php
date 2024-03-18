@@ -22125,6 +22125,12 @@ if($ecat=='ESE')
 $update='MOOCupdateby'; 
   $updatedate="MOOCupdatedDate"; 
 }
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
 else
 {
   $update=$ecat."updateby"; 

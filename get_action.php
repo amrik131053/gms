@@ -3880,7 +3880,7 @@ $moocattchment=$row_staff['MOOCattachment'];
 <?php 
 
 }
-  $flag=$i-1;
+  $flag=$i-1; 
 
 ?>
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
