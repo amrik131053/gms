@@ -79,7 +79,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 $currentMonthString=date('F');
 $currentMonthInt=date('n');
      $code =$_POST['code'];
-   if($code==224 ||  $code==168 || $code==374   )
+   if($code==224 ||  $code==168 || $code==374  || $code==380  )
 {
        include "connection/ftp.php";
 }
@@ -27434,6 +27434,426 @@ $stmtsqlDist = mysqli_query($conn,$sqlDist);
          <?php
 
 }
+
+
+elseif ($code==379) 
+{
+   $userId=$_POST['userId'];
+   $date=date('Y-m-d');
+   // echo strlen($userId);
+      $sql1 = "SELECT * FROM Staff Where IDNo='$userId'";
+      $q1 = sqlsrv_query($conntest, $sql1);
+      if ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+      {
+         $IDNo= $row['IDNo'];
+         $userName = $row['Name'];
+         $img= $row['Snap'];
+      $pic = 'data://text/plain;base64,' . base64_encode($img);
+         $qry="SELECT *,building_master.Name as LocationName from guard_location_assign inner join building_master ON  building_master.ID=guard_location_assign.system_number  where guard_location_assign.UserID='$IDNo' and status='0' and guard_location_assign.entry_time like '$date%'";
+        $run=mysqli_query($conn,$qry);
+        if (mysqli_num_rows($run)<1) 
+        {
+         $fatherName = $row['FatherName'];
+         $CollegeName = $row['CollegeName'];
+         $Designation = $row['Designation'];
+         $EmailID = $row['EmailID'];
+         $ContactNo = $row['ContactNo'];
+         if ($ContactNo=='') 
+         {
+            $ContactNo = $row['MobileNo'];
+         }
+         ?>
+
+<form id="submitGateEntry" action="action_g.php" method="post" enctype="multipart/form-data">
+                     <input type="hidden" name="code" value='380'>
+                     <input type="hidden" name="id" value='<?=$IDNo;?>'>
+    <div class="flex-container">
+  <div class="flex-item-left">
+  <div class="row">
+  <div class="col-lg-3">
+               <h6>Employee Name</h6>
+               <input type="text"  value="<?=$row['Name'];?>" class="form-control" readonly="">
+            </div>
+            <div class="col-lg-3">
+               <h6>Department</h6>
+               <input type="text"  value="<?=$row['Department'];?>"class="form-control" readonly=""> 
+            </div>
+            <div class="col-lg-3">
+               <h6>Designation</h6>
+               <input type="text"  value="<?=$row['Designation'];?>"class="form-control" readonly="">   
+            </div>
+            <div class="col-lg-3">
+               <h6>College Name</h6>
+               <input type="text"  value="<?=$row['CollegeName'];?>"class="form-control" readonly="">  
+            </div>
+            <div class="col-lg-3">
+               <label>Contact No.</label>
+               <input type="text"  value="<?=$ContactNo;?>"class="form-control" readonly="">   
+            </div>
+  
+        
+            <div class="col-lg-3">
+               <label>Location</label>
+               <select class="form-control" name="systemNumber">
+                <?php 
+$getLOcation="SELECT * FROM  building_master";
+$getLOcationRun=mysqli_query($conn,$getLOcation);
+while ($row=mysqli_fetch_array($getLOcationRun)) {
+                ?>
+                <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
+                <?php 
+}?>
+               </select>
+            </div>
+            <div class="col-lg-6">
+               <label>Remarks</label>
+               <input type="text"  class="form-control" name="remarks" placeholder="Remarks">
+            </div>
+          
+  </div>
+  </div>
+  <div class="flex-item-right">
+  <div class="row">
+            <div class="col-lg-6" style="text-align: center;" >
+               <img src="<?=$pic?>" width='100px' height='100%'>
+            </div>
+            <div class="col-lg-6 col-md-6"  >
+               <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
+               <div class="col-lg-12 col-md-12" data-target='#modal-default'  data-toggle='modal' id='image_captured'>
+                  <img src="dummy-user.png" width="100%" height="130px">
+            </div>
+               </div>
+  </div>
+  <div class="flex-item-right2">
+  <div class="row">
+            <div class="col-lg-12 col-md-12">
+                  <input type="submit" name="entrybtn" id="entrybtn" class="btn form-control btn-info ">
+               </div>
+         </div>
+        </div>
+    </div>
+</form>
+         <?php
+      }
+      else
+      {
+         if ($dataUser=mysqli_fetch_array($run)) 
+         {
+         ?>
+         
+            <div class="card card-widget collapsed-card">
+              <div class="card-header">
+                <div class="user-block">
+                  <img class="img-circle" src="<?=$pic?>" alt="User Image">
+                  <span class="username"><?=$userName?> (Already Assigned)</span>
+                  <span class="username">Location:- <?=$dataUser['LocationName']?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Entry Time - <?=date('d:m:Y',strtotime($dataUser['entry_time']))?></span>
+                </div>
+                <!-- /.user-block -->
+                <div class="card-tools">
+                  <!-- <i onclick="checkOutLab(<?=$dataUser['id']?>)" class='fa fa-sign-out-alt' style='font-size: 23px;'></i> -->
+
+                </div>
+              </div>
+              <div class="card-body">
+                
+              </div>
+              <div class="card-footer card-comments">
+                
+               
+              </div>
+              <div class="card-footer">
+                
+              </div>
+            </div>
+          
+         <?php
+         // echo $userName." Already Assigned";
+      }
+      }
+      }
+      else
+      {
+         echo 'Not valid Input';
+      }
+   
+
+}
+elseif ($code==380) 
+{
+    $tdate=date('Y-m-d');
+    $userId=$_POST['id'];
+    $systemNo=$_POST['systemNumber'];
+    $link=$_POST['userImageCaptured'];
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $result = 'image';
+    for ($i = 0; $i < 25; $i++)
+    $result .= $characters[mt_rand(0, 4)];
+    $image_name =$result;
+    $destdir = 'dummy_images/';
+    ftp_chdir($conn_id, "gate_entry") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+ 
+    file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
+ 
+    ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+ 
+    ftp_close($conn_id);
+
+    $sql="INSERT INTO guard_location_assign (UserID, system_number, remarks, entry_time, status,image) VALUES ('$userId', '$systemNo', '$remarks', '$tdate', '0','$image_name.jpg')";
+    $res=mysqli_query($conn,$sql);
+   if ($res==true) 
+   {
+    ?>
+    <script> location.href = "guard-location-assign.php";</script>
+        <?php 
+   }
+
+
+
+}
+
+elseif ($code==381) 
+{
+   $date=date('Y-m-d');
+
+   ?>
+   <table class="table  " id="example">  <thead>
+              <tr>
+                  <th>#</th>
+                 <th>Image</th>
+                 <th>IDNo</th>
+                  <th>Name</th>
+                  <th> Department</th>
+                <th>College</th>
+                <th>Location</th>
+                  <th>Entry Time</th>
+                  <!-- <th>Exit Time</th> -->
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT *,building_master.Name as LocationName FROM guard_location_assign inner join building_master ON  building_master.ID=guard_location_assign.system_number  where guard_location_assign.entry_time like '$date%' ORDER BY Status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+        
+                        $sql1 = "SELECT * FROM Staff Where IDNo='".$row['UserID']."'";
+                        $q1 = sqlsrv_query($conntest, $sql1);
+                        if ($row1 = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+                        {
+
+                           $userId.= $row1['IDNo'];
+                           $name = $row1['Name'];
+                           $fatherName = $row1['FatherName'];
+                           $college = $row1['CollegeName'];
+                           $Designation = $row1['Designation'];
+                           $Department = $row1['Department'];
+                           $EmailID = $row1['EmailID'];
+                           $ContactNo = $row1['ContactNo'];
+                           if ($ContactNo=='') 
+                           {
+                              $ContactNo = $row1['MobileNo'];
+                           }
+                           $img= $row1['Snap'];
+                        $pic = 'data://text/plain;base64,' . base64_encode($img);
+                        }
+                    
+                    if($row["status"] == "1")
+                    {
+                     ?>
+                      <tr style='background:#98FF98; height:30px;'>
+                        <?php
+                     }
+                    else
+                    {
+                     ?>
+                      <tr style='background:#E3F9A6;height:30px;'>
+                        <?php
+                     }
+                     ?>
+                      <td><?=$count++?></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="http://gurukashiuniversity.co.in/data-server/gate_entry/<?=$row['image']?>"  alt="User Avatar"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$college?></td>
+                    <td><?=$row['LocationName']?></td>
+                      <td><?=$row['entry_time']?></td>
+                      <td><i class="fa fa-edit" data-toggle="modal" data-target="#EditGuardLocation"
+                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i></td>
+               
+
+                      
+                  </tr>
+                      <?php
+                  }
+                }
+            ?>
+          </tbody>
+        </table>
+   <?php
+
+}
+elseif ($code==382) {
+    $id=$_POST['id'];
+    $sql = "SELECT *,building_master.Name as LocationName FROM guard_location_assign inner join building_master ON  building_master.ID=guard_location_assign.system_number  where guard_location_assign.id='$id' ORDER BY Status ASC";
+    $result = mysqli_query($conn, $sql);
+    $count = 1;
+    if(mysqli_num_rows($result) > 0)
+    {
+      while($row = mysqli_fetch_array($result))
+      {
+         $userId='';
+
+            $sql1 = "SELECT * FROM Staff Where IDNo='".$row['UserID']."'";
+            $q1 = sqlsrv_query($conntest, $sql1);
+            if ($row1 = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+            {
+
+               $userId.= $row1['IDNo'];
+               $name = $row1['Name'];
+               $fatherName = $row1['FatherName'];
+               $college = $row1['CollegeName'];
+               $Designation = $row1['Designation'];
+               $Department = $row1['Department'];
+               $EmailID = $row1['EmailID'];
+               $ContactNo = $row1['ContactNo'];
+               if ($ContactNo=='') 
+               {
+                  $ContactNo = $row1['MobileNo'];
+               }
+               $img= $row1['Snap'];
+            $pic = 'data://text/plain;base64,' . base64_encode($img);
+            }
+            ?>
+        <div class="row">
+  <div class="col-lg-12">
+               <label>Location</label>
+               <select class="form-control" id="systemNumberE">
+                <option value="<?=$row['system_number'];?>"><?=$row['LocationName'];?></option>
+                <?php 
+$getLOcation="SELECT * FROM  building_master";
+$getLOcationRun=mysqli_query($conn,$getLOcation);
+while ($row11=mysqli_fetch_array($getLOcationRun)) {
+                ?>
+                <option value="<?=$row11['ID'];?>"><?=$row11['Name'];?></option>
+                <?php 
+}?>
+               </select>
+            </div>
+           
+        </div>
+        <br>
+            <button type="button" class="btn btn-success" onclick="editLocation(<?=$row['id'];?>);">Update</button>
+<?php 
+      }
+}
+}
+elseif ($code==383) 
+{
+   $userId=$_POST['id'];
+   $systemNo=$_POST['systemNumber'];
+   $sql="UPDATE guard_location_assign SET system_number='$systemNo' where id='$userId'";
+   $res=mysqli_query($conn,$sql);
+   if ($res==true) 
+   {
+   echo "1";
+   }
+
+}
+
+elseif ($code==384) 
+{
+   $system_number=$_POST['systemNumberSearch'];
+   $dateSearch=$_POST['dateSearch'];
+
+   ?>
+   <table class="table  " id="example">  <thead>
+              <tr>
+                  <th>#</th>
+                 <th>Image</th>
+                 <th>IDNo</th>
+                  <th>Name</th>
+                  <th> Department</th>
+                <th>College</th>
+                <th>Location</th>
+                  <th>Entry Time</th>
+                  <!-- <th>Exit Time</th> -->
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+                $sql = "SELECT *,building_master.Name as LocationName FROM guard_location_assign inner join building_master ON  building_master.ID=guard_location_assign.system_number  where guard_location_assign.system_number ='$system_number' and guard_location_assign.entry_time='$dateSearch' ORDER BY Status ASC";
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0)
+                {
+                  while($row = mysqli_fetch_array($result))
+                  {
+                     $userId='';
+                        $sql1 = "SELECT * FROM Staff Where IDNo='".$row['UserID']."'";
+                        $q1 = sqlsrv_query($conntest, $sql1);
+                        if ($row1 = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+                        {
+                           $userId.= $row1['IDNo'];
+                           $name = $row1['Name'];
+                           $fatherName = $row1['FatherName'];
+                           $college = $row1['CollegeName'];
+                           $Designation = $row1['Designation'];
+                           $Department = $row1['Department'];
+                           $EmailID = $row1['EmailID'];
+                           $ContactNo = $row1['ContactNo'];
+                           if ($ContactNo=='') 
+                           {
+                              $ContactNo = $row1['MobileNo'];
+                           }
+                           $img= $row1['Snap'];
+                        $pic = 'data://text/plain;base64,' . base64_encode($img);
+                        }
+                    
+                    if($row["status"] == "1")
+                    {
+                     ?>
+                      <tr style='background:#98FF98; height:30px;'>
+                        <?php
+                     }
+                    else
+                    {
+                     ?>
+                      <tr style='background:#E3F9A6;height:30px;'>
+                        <?php
+                     }
+                     ?>
+                      <td><?=$count++?></td>
+                      <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="http://gurukashiuniversity.co.in/data-server/gate_entry/<?=$row['image']?>"  alt="User Avatar"></td>
+                       <td><?=$userId?></td>
+                       <td><?=$name?></td>
+                       <td><?=$Department?></td>
+                       <td><?=$college?></td>
+                    <td><?=$row['LocationName']?></td>
+                      <td><?=$row['entry_time']?></td>
+                      <td><i class="fa fa-edit" data-toggle="modal" data-target="#EditGuardLocation"
+                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i></td>
+               
+
+                      
+                  </tr>
+                      <?php
+                  }
+                }
+            ?>
+          </tbody>
+        </table>
+   <?php
+
+}
+
    else
    {
    
