@@ -60,13 +60,13 @@ $alertshow=0;
    $session='Jan' . date('Y');
 }
 
- $buspass="SELECT * FROM StudentBusPassGKU where p_status='1' ANd session='$session'";
+ $buspass="SELECT * FROM StudentBusPassGKU Inner join Admissions on  StudentBusPassGKU.IDNo=Admissions.IDNo  where StudentBusPassGKU.p_status='1' ANd StudentBusPassGKU.session='$session' AND  Admissions.Status='1'";
  $buspassCount=sqlsrv_query($conntest,$buspass,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $pass_count=sqlsrv_num_rows($buspassCount);
 
 
 
-         $buspassp="SELECT * FROM StudentBusPassGKU where  p_status='5' ANd session='$session'";
+         $buspassp="SELECT * FROM StudentBusPassGKU Inner join Admissions on  StudentBusPassGKU.IDNo=Admissions.IDNo  where StudentBusPassGKU.p_status='5' ANd StudentBusPassGKU.session='$session' AND  Admissions.Status='1'";
  $buspassCountp=sqlsrv_query($conntest,$buspassp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
           $pass_countp=sqlsrv_num_rows($buspassCountp);
     
