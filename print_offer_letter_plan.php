@@ -191,7 +191,15 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // }
 
 $pdf->SetXY(25, 50);
-$pdf->MultiCell(45, 10,  $RefString.$Batch.'/'.$RefNo, 0, 'L');
+  if($Lateral=='Yes')
+  {
+    $Batch=$Batch+1;
+    $pdf->MultiCell(45, 10, $RefString.$Batch.'/'.$RefNo, 0, 'L');
+  }
+  else{
+$pdf->MultiCell(45, 10, $RefString.$Batch.'/'.$RefNo, 0, 'L');
+}
+//$pdf->MultiCell(45, 10,  $RefString.$Batch.'/'.$RefNo, 0, 'L');
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);

@@ -12443,6 +12443,12 @@ if($ecat=='ESE')
 $update='MOOCupdateby'; 
   $updatedate="MOOCupdatedDate"; 
 }
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
 else
 {
   $update=$ecat."updateby"; 
@@ -12451,7 +12457,7 @@ else
 
  for($i=0;$i<$flag;$i++)
   {
- $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$ids[$i]'";
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {

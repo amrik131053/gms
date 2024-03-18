@@ -174,7 +174,7 @@ for($i=1;$i<=12;$i++)
 
 
  
-            <button class="btn btn-danger" onclick="exportdata()"><i  class="fa fa-file-pdf" ></i></button>
+            <button class="btn btn-danger" onclick="exportpdfdata()"><i  class="fa fa-file-pdf" ></i></button>
 
 </div>
  
@@ -678,6 +678,32 @@ var exportCode='58';
  {
    
    window.location.href="export.php?exportCode="+exportCode+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
+
+    }
+      else
+      {
+        ErrorToast('Select Appropriate data','bg-danger');
+ 
+      }
+}
+
+   function exportpdfdata()
+
+
+   {
+          var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value;
+         var subject = document.getElementById('Subject').value;
+     var  examination = document.getElementById('Examination').value;
+
+    var distributiontheory = document.getElementById('ecat').value;
+
+  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
+ {
+   
+   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
 
     }
       else
