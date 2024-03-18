@@ -121,7 +121,7 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-            <div class="col-md-2">
+            <div class="col-md-1">
             <div class="form-group">
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
@@ -168,12 +168,16 @@ for($i=1;$i<=12;$i++)
 </div>
 
 
- <div class="col-lg-1 col-md-4 col-sm-3">
+ <div class="col-lg-1 col-md-4 col-sm-3" style="text-align: center;">
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
 
-</div>
 
+ 
+            <button class="btn btn-danger" onclick="exportdata()"><i  class="fa fa-file-pdf" ></i></button>
+
+</div>
+ 
 
 
         <!-- /.row -->
@@ -188,7 +192,23 @@ for($i=1;$i<=12;$i++)
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Students</h3>
+
+                <div class="row"><div class="col-md-2"><h3 class="card-title">Students</h3>
+</div> 
+<div class="col-lg-1 col-md-12 col-sm-12" style="text-align: center;">
+ 
+            <button class="btn btn-danger" onclick="exportdata()">Format</button>
+
+</div><div class="col-md-2">
+  <input type="file" name="fileexcel">
+</div> <div class="col-md-2">
+ <button class="btn btn-danger" onclick="Upload CSV">Upload CSV</i></button>
+</div>
+</div>
+                
+
+
+
               </div>
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
@@ -276,9 +296,10 @@ var xmlhttp = new XMLHttpRequest();
         xmlhttp.send();
  }
 else
-{
- alert("Please Select Appropriate data ");
-}
+      {
+        ErrorToast('Select Appropriate data','bg-danger');
+ 
+      }
       
   }
 
@@ -304,13 +325,13 @@ var xmlhttp = new XMLHttpRequest();
 function testing() 
 {
 var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
+   
   var idNos=document.getElementsByClassName('IdNos');
   var marks=document.getElementsByClassName('marks');
   var ecat=document.getElementById('ecat').value;
   var len_student= idNos.length; 
   var len_marks= marks.length; 
-
+var lockallowed=0;
   var student_str=[];
   var marks_str=[];
     for(i=0;i<len_student;i++)
@@ -319,9 +340,23 @@ var   spinner= document.getElementById("ajax-loader");
      }
      for(i=0;i<len_marks;i++)
      {
+      if(marks[i].value!='')
+      {
         marks_str.push(marks[i].value);
+      }
+      else
+      {
+        var lockallowed=1;
+      }
      }
     // alert(student_str);
+ if(lockallowed>0)
+ {
+
+ ErrorToast('Unable to Lock Update all Marks',"bg-danger" );
+}
+else {
+  spinner.style.display='block';
 
     $.ajax({
       url:'action.php',
@@ -331,13 +366,45 @@ var   spinner= document.getElementById("ajax-loader");
       },
       success:function(response)
       {
-console.log(response);
+//console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
        select_mst() ;
       }
     });
+
 }
+}
+
+
+
+function savemarks(id)
+{
+
+  var marks=document.getElementById('marks_'+id).value;
+   var ecat=document.getElementById('ecat').value;
+
+  $.ajax({
+      url:'action.php',
+      type:'post',
+      data:{
+        id:id,marks:marks,ecat:ecat,code:'360'
+      },
+      success:function(response)
+      {
+        console.log(response);
+ 
+
+
+        SuccessToast('Successfully Updated');
+        //select_mst(); 
+       
+       
+      }
+    });
+
+}
+
 
 
 function unlock(id)
@@ -591,6 +658,35 @@ else
 }
 }
 }
+
+
+
+   function exportdata()
+
+
+   {
+          var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value;
+         var subject = document.getElementById('Subject').value;
+     var  examination = document.getElementById('Examination').value;
+var exportCode='58';
+    var distributiontheory = document.getElementById('ecat').value;
+
+  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
+ {
+   
+   window.location.href="export.php?exportCode="+exportCode+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
+
+    }
+      else
+      {
+        ErrorToast('Select Appropriate data','bg-danger');
+ 
+      }
+}
+
 
 
 
