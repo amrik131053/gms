@@ -266,6 +266,7 @@ function cutlistCountDepartment() {
 
 function fetchCutList() {
 
+
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
@@ -274,7 +275,8 @@ function fetchCutList() {
     var State_ = document.getElementById('State_').value;
     var District = document.getElementById('District').value;
     var Consultant_ = document.getElementById('Consultant_').value;
-    if (session != '' && Consultant_ != '') {
+
+    if (session != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = '378';
@@ -316,7 +318,7 @@ function exportCutListExcel() {
     var District = document.getElementById('District').value;
     var Consultant_ = document.getElementById('Consultant_').value;
 
-    if (session != '' && Consultant_ != '') {
+    if (session != '') {
         window.open("export.php?exportCode=" + exportCode + "&College=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&session=" + session + "&Nationality_=" +
             Nationality_ + "&State_=" + State_ + "&District=" + District+ "&Consultant_=" + Consultant_, '_blank');
@@ -337,7 +339,7 @@ function exportCutListExcelcount() {
     var District = document.getElementById('District').value;
     var Consultant_ = document.getElementById('Consultant_').value;
 
-    if (session != '' && Consultant_ != '') {
+    if (session != '' ) {
         window.open("export.php?exportCode=" + exportCode + "&College=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&session=" + session + "&Nationality_=" +
             Nationality_ + "&State_=" + State_ + "&District=" + District+ "&Consultant_=" + Consultant_, '_blank');

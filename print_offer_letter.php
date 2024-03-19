@@ -72,15 +72,15 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Course=$row['Course'];
     $Gender=$row['Gender'];
     $Class_RollNo=$row['Class_RollNo'];
-   $District=$row['District'];   
+    $District=$row['District'];   
     $State=$row['State'];
     $Session=$row['Session'];
-     $PrintDate=$row['PrintDate'];
-     $PrintDatew=$row['PrintDate'];
-     $Batch=$row['Batch'];
-     $RefNo=$row["RefNo"]; 
-     $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
-     $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
+    $PrintDate=$row['PrintDate'];
+    $PrintDatew=$row['PrintDate'];
+    $Batch=$row['Batch'];
+    $RefNo=$row["RefNo"]; 
+    $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+    $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
          if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
      {    
                  $RefString=$getReffrenceNumberrow["RefString1"];     
@@ -188,8 +188,18 @@ $pdf->MultiCell(45, 10,$PrintDate, 0, 'C');
 // $pdf->MultiCell(45, 10, $today.'-'.$month.'-'.$year, 0, 'C');
 // }
 
+
+
+
 $pdf->SetXY(25, 49);
+  if($Lateral=='Yes')
+  {
+    $Batch=$Batch+1;
+    $pdf->MultiCell(45, 10, $RefString.$Batch.'/'.$RefNo, 0, 'L');
+  }
+  else{
 $pdf->MultiCell(45, 10, $RefString.$Batch.'/'.$RefNo, 0, 'L');
+}
 $pdf->SetXY(10, 60);
 $pdf->SetFont('Times','U', 15);
 $pdf->SetTextColor(0, 0, 0);

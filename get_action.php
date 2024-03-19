@@ -3880,7 +3880,7 @@ $moocattchment=$row_staff['MOOCattachment'];
 <?php 
 
 }
-  $flag=$i-1;
+  $flag=$i-1; 
 
 ?>
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
@@ -4691,6 +4691,7 @@ else if($code=='51')
  $sem = $_GET['sem'];
  $subject = $_GET['subject'];
  $ecat = $_GET['DistributionTheory'];
+ $start=0;
 if($ecat=='CE1')
 {
 $max=20;
@@ -4713,7 +4714,8 @@ $max=40;
 }
 else if($ecat=='Attendance')
 {
-$max=40;
+$max=5;
+$start=3;
 }
 
 ?>
@@ -4760,9 +4762,11 @@ $max=40;
                       
                        <th style="width:25px;text-align: left;"> Name </th>
                          <th style="width:50px;text-align: left;"> Subject </th>
-                   <th style="width:25px;text-align: center;">MST Marks </th>
-                    <th style="width:25px;text-align: center;">File </th>
-                  <th style="width:25px;text-align: center;">Lock </th>
+                   <th style="width:25px;text-align: left;">Marks </th>
+                    <th style="width:25px;text-align: left;">Updated By </th>
+                     <th style="width:25px;text-align: left;">Updated On </th>
+                   
+                  <th style="width:25px;text-align: center;">Lock Status </th>
                       
                 </tr>
  <?php
@@ -4802,40 +4806,116 @@ $max=40;
 ?>
 <tr>
 <td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
-<td style="text-align: left"> <?=$row['UniRollNo'];?></td>
+<td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
-               <td><?= $subject;?>
-             <?php  $iidd=$row['id'];?></td>
-                           <td style='text-align:left;width: 100px'>  
+               <td>
+                  <?= $row['SubjectName'];?>/<?= $subject;?>
+             <?php   $iidd=$row['id'];?></td>
+                           <td style='text-align:left;width:50px'>  
 
 
-<select  name="mst[]"  id='marks' class='marks' >
-<?php if($row['intmarks']!='')
+<?php
+
+ $getdistri="Select Id from DDL_TheroyExamination where Value='$DistributionTheory'" ;
+$list_resultdi = sqlsrv_query($conntest,$getdistri);
+        $i = 1;
+        while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
+        {  
+            $did=$rowdi['Id'];
+        }
+
+
+
+
+
+     $exam_type=$DistributionTheory;
+   $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+            $todaydate=date('d-m-Y');
+            $endDate=$row5['EndDate']->format('d-m-Y');
+         
+              if (strtotime($endDate)<strtotime($todaydate)) 
+              {
+              $dateover=1;
+              $show="<b style='color:red;'>Date Over</b>";
+
+              }
+              else
+              {
+               $dateover=0;
+               $show="";
+              }
+              ?>
+              
+      <?php     
+         }
+         ?>
+<select  name="mst[]"  id='marks_<?=$iidd;?>' class='marks' onchange="savemarks(<?=$iidd;?>)" >
+
+<?php 
+
+ if($row['Locked']>0||$dateover>0)
+  {
+                               
+   if($row['intmarks']!='')
 {
    ?>
     <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
 
 <?php
 }
-?>
-    
-   <option value="">Select</option>
+
+  
+
+
+   }
+   else
+   {
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+    ?>
+     <option value="">Select</option>
       <option value='AB'>AB</option>
         <option value='NA'>NA</option>
         <?php 
 
-for($j=0;$j<=$max;$j++)
+for($j=$start;$j<=$max;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
  <?php 
-}?>
+}
+      
+                           
+     }
+      ?>
+
+
 </select>
+<?php 
+if($dateover>0)
+{
+   echo $show;
+}?>
 
 
 
                            </td>
+
+                           <td><?=$row['updateby'];?></td>
+                           <td><?php 
+                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                        }?></td>
                             
                             
 
@@ -4850,7 +4930,8 @@ for($j=0;$j<=$max;$j++)
                             {
                                
                                ?>
-                               <i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>
+                               <i class="fa fa-lock text-danger" ></i>
+                                <!--<i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>-->
 
                                 <?php 
 
@@ -4859,7 +4940,8 @@ for($j=0;$j<=$max;$j++)
                            else {
 
                            ?>
-                               <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i>
+                               <!-- <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i> -->
+                                <i class="fa fa-lock-open text-success" ></i>
                                 <?php 
                            
                         }
@@ -4876,8 +4958,7 @@ for($j=0;$j<=$max;$j++)
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-
-<p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing();" class="btn btn-danger "  >
+<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
 <?php 
 
 

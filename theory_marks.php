@@ -382,7 +382,7 @@ var   spinner= document.getElementById("ajax-loader");
     // alert(student_str);
 
     $.ajax({
-      url:'action.php',
+      url:'action.php', 
       type:'post',
       data:{
         ids:student_str,mst:marks_str,ecat:ecat,flag:len_student,code:'201'

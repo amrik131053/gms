@@ -101,7 +101,7 @@ $SubjectNames=array_merge($SubjectNames,$SubjectNamesp);
 $SubjectTypes=array_merge($SubjectTypes,$SubjectTypesp);
 
 
-$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName'ANd SubjectType='OP' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd CollegeName='$CollegeName'  ANd Course='$CourseName' ANd SubjectType='OP' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
 
 $sql_openq = sqlsrv_query($conntest,$sql_open);
          

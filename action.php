@@ -12436,9 +12436,28 @@ $ids =$_POST['ids'];
  $mst=$_POST['mst'];
 $ecat=$_POST['ecat'];
    $flag=$_POST['flag'];
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
  for($i=0;$i<$flag;$i++)
   {
- echo $list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]' where ID='$ids[$i]'";
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -13292,8 +13311,6 @@ elseif($code==213)
     $id = $_POST['id'];
     $userid =$_POST['IDNo']; 
     $status = $_POST['status'];
-    
-
     $receipt_date=   date("Y-m-d");
 
      $sq="Update ExamForm set Status='$status',AccountantVerificationDate='$receipt_date',DepartmentVerifiedDate='$receipt_date',DeanVerifiedDate='$receipt_date',ExaminationVerifiedDate='$receipt_date' Where ID='$id'"; 
@@ -13334,7 +13351,7 @@ elseif($code==214)
 </tr>
    <?php 
      $exam_type=$_POST['exam_type'];
-  $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by DTES.SemesterId  ASC";
+ $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by DTES.SemesterId  ASC";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
@@ -22094,7 +22111,43 @@ $Id = $_POST["id"];
    }
 
 
+ else  if($code==360)
+{       
 
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+ $list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
 
 
 
