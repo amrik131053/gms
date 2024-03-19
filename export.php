@@ -7915,7 +7915,7 @@ $verification='Verified';
 
     else if($exportCode==58)
     {
-    $CourseID = $_GET['course'];
+ $CourseID = $_GET['course'];
  $CollegeID = $_GET['college'];
  $Batch=$_GET['batch']; 
  $semID = $_GET['sem'];
@@ -7962,14 +7962,91 @@ $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$College
     
 }
 
-    else if($exportCode==59)
-{
-
- 
-               
-                  
-
-}
+else if($exportCode==59)
+    {
+    $College=$_GET['College'];
+    $Course=$_GET['Course'];
+    $Batch=$_GET['Batch'];
+    $session=$_GET['session'];
+    $Nationality_=$_GET['Nationality_'];
+    $State_=$_GET['State_'];
+    $District=$_GET['District'];
+    $Consultant_=$_GET['Consultant_'];
+    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>";
+                $exportstudy.="<thead><tr>
+                <th style='background-color:black; color:white;'>#</th>
+                <th style='background-color:black; color:white;'>Session</th>
+                    <th style='background-color:black; color:white;'>CourseName</th>
+                    <th style='background-color:black; color:white;'>Country</th>
+                    <th style='background-color:black; color:white;' >State</th>
+                    <th style='background-color:black; color:white;' >District</th>
+                    <th style='background-color:black; color:white;'>Consultant</th>
+                    <th style='background-color:black; color:white;' >Count</th>
+                    </tr></thead>";
+                        $SrNo=1;
+                            $list_sql="SELECT Course, Nationality, State, District,Consultant_id, COUNT(*) AS CourseCount
+                            FROM offer_latter
+                            WHERE 1=1 ";
+                            if($session!=''){
+                            $list_sql.= "AND Session='$session' ";
+                            }
+                    if($Consultant_!=''){
+                    $list_sql.= "AND Consultant_id='$Consultant_' "; 
+                    }
+                    $list_sql.= " GROUP BY Course, Nationality, State, District,Consultant_id
+                    ORDER BY Status ASC";
+                    $list_result = mysqli_query($conn,$list_sql);
+                    $count = 1;
+  
+                    while( $row = mysqli_fetch_array($list_result) )
+                        {
+                 $CourseCount=$row['CourseCount'];
+                    $get_consultant="SELECT * FROM MasterConsultant where Status>0 and ID='".$row['Consultant_id']."'"; 
+                    $get_consultant_run=sqlsrv_query($conntest,$get_consultant);
+                    if($row1=sqlsrv_fetch_array($get_consultant_run))
+                    {
+                    $Consultantname=$row1['Name']; 
+                    }
+                    $get_course_name="SELECT Course FROM MasterCourseCodes where CourseID='".$row['Course']."'";
+                    $get_course_name_run=sqlsrv_query($conntest,$get_course_name);
+                    if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) 
+                    {
+                    $courseName=$row_course_name['Course'];
+                    }
+                    $get_country="SELECT * FROM countries where id='".$row['Nationality']."'";
+                    $get_country_run=mysqli_query($conn,$get_country);
+                    if($row_country=mysqli_fetch_array($get_country_run))
+                    {
+                    $countryName=$row_country['name'];
+                    }
+                    $sql = "SELECT  id,name FROM states WHERE id='".$row['State']."' order by name ASC";
+                    $stmt = mysqli_query($conn,$sql); 
+                    if($row_state = mysqli_fetch_array($stmt) )
+                    {
+                    $StateName=$row_state['name'];
+                    }
+                    $sqlDist = "SELECT  id,name FROM cities WHERE id='".$row['District']."' order by name ASC";
+                    $stmtsqlDist = mysqli_query($conn,$sqlDist); 
+                    if($row_dist = mysqli_fetch_array($stmtsqlDist) )
+                    {
+                    $DistName=$row_dist['name'];
+                    }         
+             $exportstudy.="<tr>
+             <td>{$SrNo}</td>
+             <td>{$session}</td>
+             <td>{$courseName}</td>
+             <td>{$countryName}</td>
+             <td>{$StateName}</td>
+             <td>{$DistName}</td>
+             <td>{$Consultantname}</td>
+             <td>{$CourseCount}</td>
+             </tr>";
+    $SrNo++;
+             }
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName="offer letter Report ";
+    }
 
 
 
