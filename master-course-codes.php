@@ -525,8 +525,7 @@ var durationMonth=document.getElementById('duration2').value;
 var CourseType=document.getElementById('CourseType').value;
    
 
-    if (durationYears!='' && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='')
-
+    if ((durationYears!='' || durationMonth!='' ) && College3!='' && Department3!='' && Batch3!='' && FirstRollNo!='' && LastRollNo!='' && ValidUpTo!='' && LateralEntry!='' && CourseType!='')
     {
         var code = 305;
         var data = {

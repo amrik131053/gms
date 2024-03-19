@@ -23,15 +23,16 @@
           } 
            function show_emp_all(categoryID)
           {
+            var qcode="category";
             // alert(categoryID);
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=51;
+           var code=59;
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,CategoryId:categoryID
+                 code:code,CategoryId:categoryID,qcode:qcode
               },
               success: function(response) 
               {
@@ -62,15 +63,15 @@
           }   
             function show_emp_all_status(status)
           {
-           
+            var qcode="status";
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=53;
+           var code=59; 
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,status:status
+                 code:code,status:status,qcode:qcode
               },
               success: function(response) 
               {
@@ -101,15 +102,15 @@
           }      
             function show_emp_all_role(role)
           {
-           
+            var qcode="role";
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=55;
+           var code=59;
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,role:role
+                 code:code,role:role,qcode:qcode
               },
               success: function(response) 
               {
@@ -159,24 +160,18 @@
               }
            });
           }      
-              
-
-
-
-
-
 
               function show_emp_all_college(collegeId)
           {
-           
+            var qcode="college";
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=5800;
+           var code=59;
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,collegeId:collegeId
+                 code:code,collegeId:collegeId,qcode:qcode
               },
               success: function(response) 
               {
@@ -188,22 +183,17 @@
               }
            });
           }    
-
-
-
-
-
               function show_emp_all_department(collegeId,department)
           {
-           
+            var qcode="department";
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=58;
+           var code=59;
            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,collegeId:collegeId,department:department
+                 code:code,collegeId:collegeId,department:department,qcode:qcode
               },
               success: function(response) 
               {
@@ -215,9 +205,7 @@
               }
            });
           }    
-
           function view_image(id) {
-    // alert(id);
                      var code = 377;
                      $.ajax({
                         url: 'action_g.php',
@@ -232,9 +220,9 @@
                         }
                      });
                   }
-
     function search_all_employee_emp_name(emp_name)
           {
+            var qcode="search";
             if (emp_name!='') 
             {
             // var spinner=document.getElementById("ajax-loader");
@@ -244,7 +232,7 @@
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,empID:emp_name
+                 code:code,empID:emp_name,qcode:qcode
               },
               success: function(response) 
               {
@@ -258,6 +246,7 @@
           } 
           function search_all_employee()
           {
+            var qcode="search";
             var emp_name=document.getElementById('emp_name').value;
               if (emp_name!='') 
             {
@@ -268,21 +257,19 @@
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,empID:emp_name
+                 code:code,empID:emp_name,qcode:qcode
               },
               success: function(response) 
               {
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
          // document.getElementById('emp_name').value="";
-
               }
            });
-        }
+           }
           }  
             function update_emp_record(empID)
           {
-            
             var spinner=document.getElementById("ajax-loader");
                spinner.style.display='block';
            var code=61;
@@ -296,8 +283,8 @@
               {
                //  console.log(response);
                   spinner.style.display='none';
-                 document.getElementById("show_record").innerHTML=response;
-                 $('#update_button').show();
+                 document.getElementById("emp_details_colaped"+empID).innerHTML=response;
+                 $('#update_button'+empID).show();
                  tab();
 
               }
@@ -433,6 +420,7 @@ function emp_detail_verify2(id)
 
 
   function uploadPhoto(form) {
+   var loginId = form.loginId.value;
    var formData = new FormData(form);
       $.ajax({
          url: form.action,
@@ -444,7 +432,7 @@ function emp_detail_verify2(id)
             // console.log(response);
             if (response==1) 
             {
-            SuccessToast('Successfully Updated');
+            SuccessToast('Successfully Updated '+loginId);
                 }
              else if(response=='Could not connect to 10.0.10.11')
                 {
@@ -850,7 +838,6 @@ $.ajax({
       document.getElementById('TableAssignedPermissionsAccount').innerHTML=data;
     }
 });
-
 }
 function fetchcourse() {
 var College = document.getElementById('CollegeID').value;
@@ -873,11 +860,9 @@ $.ajax({
         }
     }
 });
-
 }
 function lmsUpdateRole(empid) 
 {
-
    var LoginType = document.getElementById("LoginType_lms").value;
    var spinner = document.getElementById("ajax-loader");
       spinner.style.display = 'block';
@@ -906,10 +891,9 @@ function lmsUpdateRole(empid)
             }
          }
       });
-   }
+}
 function updateRole(empid,userMasterId) 
 {
-
    var RightsLevel = document.getElementById("RightsLevel").value;
    var LoginType = document.getElementById("LoginType").value;
       // alert(LoginType+RightsLevel);
@@ -929,10 +913,9 @@ function updateRole(empid,userMasterId)
             spinner.style.display = 'none';
             if(response==1)
             {
-               // erp_role_drop();
+              // erp_role_drop();
                SuccessToast('Successfully  Updated');
-               update_emp_record(empid);
-               
+               update_emp_record(empid);    
             }
             else
             {
@@ -1925,12 +1908,6 @@ function resetPassword(empid,ApplicationName)
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         
-            
-
-              
-    
-    
      <div class="row">
         <div class="col-lg-1"></div>
       <div class="col-lg-10"> 
@@ -1958,8 +1935,8 @@ function resetPassword(empid,ApplicationName)
     <!-- Main content -->
     <section class="content">
       <div class="row">
+         
         <div class="col-md-3">
-
 
       <div class="card">
   <div class="card-header">

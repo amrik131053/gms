@@ -2775,8 +2775,6 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
               $check_count_emp_category_wise="SELECT * FROM Staff Where JobStatus='1' and CategoryId='$Emp_category'";
               $check_count_emp_category_wise_run=sqlsrv_query($conntest,$check_count_emp_category_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
               $emp_count=sqlsrv_num_rows($check_count_emp_category_wise_run);
-      
-      
       ?>
     <li class="nav-item " onclick="show_emp_all(<?=$Emp_category;?>);">
         <a href="#" class="nav-link">
@@ -2786,99 +2784,13 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
     </li>
     <?php 
       }
-      
-      
-      
+
       
       //      print_r($category);
       }
       elseif($code==51)
-      {?>
-    <table class="table table-head-fixed" id="example">
-        <thead>
-            <tr>
-                <th>SrNo</th>
-                <th>Image</th>
-                <th>EmpID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Department</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>ID Card</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sr=1;
-            $CategoryId=$_POST['CategoryId'];
-            $get_category="SELECT * FROM Staff where CategoryId='$CategoryId' and JobStatus='1'";
-            $get_category_run=sqlsrv_query($conntest,$get_category);
-            while($row=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-            {
-                $emp_pic=base64_encode($row['Snap']);
-                        
-            
-            $aa[]=$row;
-               ?>
-            <tr>
-                <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
-                </td>
-                <td><?=$row['Name'];?></td>
-                <td><?=$row['IDNo'];?></td>
-                <td><?=$row['Designation'];?></td>
-                <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
-                <?php 
-
-$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
-$getRoleNameRun=mysqli_query($conn,$getRoleName);
-if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-{
-?>
- <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
-}
-?>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
-
-                <td>
-                    <?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                    <?php if($row['DepartmentID']!='81'){
-    ?>
-
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-                    <?php 
-}
-else { ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
-
-                    <?php
-}?>
-
-
-                </td>
-            </tr>
-            <?php $sr++; }
-            
-            // print_r($aa);
-            ?>
-        </tbody>
-    </table>
-    <?php 
+      {
+        // emty
       }
          elseif($code==52)
       {
@@ -2908,90 +2820,9 @@ else { ?>
       //      print_r($category);
         }
         elseif($code==53)
-        {?>
-    <table class="table table-head-fixed" id="example">
-        <thead>
-            <tr>
-                <th>SrNo</th>
-                <th>Image</th>
-                <th>EmpID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Department</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>ID Card</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sr=1;
-            $status=$_POST['status'];
-            $get_category="SELECT * FROM Staff where  JobStatus='$status'";
-            $get_category_run=sqlsrv_query($conntest,$get_category);
-            while($row=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-            {
-                $emp_pic=base64_encode($row['Snap']);
-            
-               ?>
-            <tr>
-                <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
-                </td>
-                <td><?=$row['Name'];?></td>
-                <td><?=$row['IDNo'];?></td>
-                <td><?=$row['Designation'];?></td>
-                <td><?=$row['Department'];?>(<?=$row['DepartmentID'];?>)</td>
-                <?php 
-
-$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
-$getRoleNameRun=mysqli_query($conn,$getRoleName);
-if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-{
-?>
- <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
-}
-?>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
-
-
-
-                <td>
-                    <?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                    <?php if($row['DepartmentID']!='81'){
-    ?>
-
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
-                    <?php 
-}
-else { ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
-
-                    <?php
-}?>
-
-
-                </td>
-            </tr>
-            <?php $sr++; }?>
-        </tbody>
-    </table>
-    <?php 
-      }
+        {
+            // emty
+        }
          elseif($code==54)
       {
          $get_category="SELECT role_name,id FROM role_name ";
@@ -3019,91 +2850,8 @@ else { ?>
       //      print_r($category);
       }
       elseif($code==55)
-      {?>
-    <table class="table table-head-fixed" id="example">
-        <thead>
-            <tr>
-                <th>SrNo</th>
-                <th>Image</th>
-                <th>EmpID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Department</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>ID Card</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sr=1;
-            $role_id=$_POST['role'];
-            $check_count_role_wise2="SELECT * FROM Staff Where RoleID='$role_id' and JobStatus='1'";
-            $get_card_run2=sqlsrv_query($conntest,$check_count_role_wise2);
-            while($row=sqlsrv_fetch_array($get_card_run2))
-            {
-                $emp_id=$row['IDNo'];
-             $get_category1="SELECT * FROM Staff where  IDNo='$emp_id' and JobStatus='1'";
-            $get_category_run1=sqlsrv_query($conntest,$get_category1);
-            if($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
-            { 
-                $emp_pic=base64_encode($row1['Snap']);
-               ?>
-            <tr>
-                <td><?=$sr;?></td>
-                <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
-                </td>
-                <td><?=$row1['Name'];?></td>
-                <td><?=$row1['IDNo'];?></td>
-                <td><?=$row1['Designation'];?></td>
-                <td><?=$row1['Department'];?><?=$row1['DepartmentID'];?></td>
-                <?php 
-
-$getRoleName="SELECT * FROM role_name where id='".$row1['RoleID']."'";
-$getRoleNameRun=mysqli_query($conn,$getRoleName);
-if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-{
-?>
- <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
-}
-?>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
-                <td>
-                    <?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                    <?php if($row1['DepartmentID']!='81'){
-    ?>
-
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-                    <?php 
-}
-else { ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
-
-                    <?php
-}?>
-
-
-                </td>
-            </tr>
-            <?php $sr++;
-            } }?>
-        </tbody>
-    </table>
-    <?php 
+      {
+        // emty
       }
             elseif($code==56)
       {
@@ -3265,209 +3013,131 @@ else { ?>
 
   elseif($code==5800)
       {
-      ?>
-    <table class="table" id="example">
-        <thead>
-            <tr>
-                <th>SrNo</th>
-                <th>Image</th>
-                <th>EmpID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Department</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>ID Card</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sr=1;
-          
-            $collegeId=$_POST['collegeId'];
-            
-                $get_category1="SELECT * FROM Staff where  CollegeId='$collegeId'  ANd JobStatus='1' ";
-            $get_category_run1=sqlsrv_query($conntest,$get_category1);
-            while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
-            { 
-                $emp_pic=base64_encode($row1['Snap']);
-               ?>
-            <tr>
-                <td><?=$sr;?></td>
-                <td><?php if($row1['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
-                </td>
-                <td><?=$row1['Name'];?></td>
-                <td><?=$row1['IDNo'];?></td>
-                <td><?=$row1['Designation'];?></td>
-                <td><?=$row1['Department'];?>(<?=$row1['DepartmentID'];?>)</td>
-                <!-- <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?> -->
-                <!-- </td> -->
-                <?php 
-
-$getRoleName="SELECT * FROM role_name where id='".$row1['RoleID']."'";
-$getRoleNameRun=mysqli_query($conn,$getRoleName);
-if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-{
-?>
- <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
-}
-?>
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i></td>
-
-
-
-
-
-                <td>
-                    <?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                    <?php if($row1['DepartmentID']!='81'){
-    ?>
-
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-                    <?php 
-}
-else { ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
-
-                    <?php
-}?>
-
-
-                </td>
-            </tr>
-            <?php $sr++;
-            } ?>
-        </tbody>
-    </table>
-    <?php 
+    // emty
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
          elseif($code==59)
       {
-          $search = $_POST['empID'];
-      ?>
-    <table class="table " id="example">
-        <thead>
-            <tr>
-                <th>SrNo</th>
-                <th>Image</th>
-                <th>EmpID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Department</th>
-                <th>Role</th>
-                <th>Edit</th>
-                <th>ID Card</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sr=1;
+         $qcode=$_POST['qcode'];
+        $sr=1;
+        if($qcode=='category')
+        {
+            $CategoryId=$_POST['CategoryId'];
+            $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CategoryId='$CategoryId' and Staff.JobStatus='1' ";
+        }
+        elseif($qcode=='search')
+        {
+            $search = $_POST['empID'];
+            $query ="SELECT *,DepartmentId as depid FROM Staff  Where (IDNo like '%".$search."%' or Name like '%".$search."%') ";
+            // $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (Staff.IDNo like '%".$search."%' or Name like '%".$search."%')";
+        }
+        elseif($qcode=='status')
+        {
+            $status = $_POST['status'];
+            $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.JobStatus='$status' ";
+        }
+        elseif($qcode=='role')
+        {
+            $role_id = $_POST['role'];
+            $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.RoleID='$role_id' and Staff.JobStatus='1' ";
+        }
+        elseif($qcode=='department')
+        {
+            $department=$_POST['department'];
+            $collegeId=$_POST['collegeId'];
+            $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CollegeId='$collegeId' and Staff.DepartmentID='$department' ANd Staff.JobStatus='1' ";
+        }
+        elseif($qcode=='college')
+        {
+            $collegeId=$_POST['collegeId'];  
+            $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CollegeId='$collegeId' ANd Staff.JobStatus='1' ";
+        }
+        $result = sqlsrv_query($conntest,$query);
+        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+        {
+           $emp_pic=base64_encode($row['Snap']);
+          if ($row['ContactNo']!='') 
+          {
+             $mobile=$row['ContactNo'];
+          }
+          else
+          {
+             $mobile=$row['MobileNo'];
+          }
 
-             $query = "SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where (IDNo like '%".$search."%' or Name like '%".$search."%') ";
-             $result = sqlsrv_query($conntest,$query);
-             while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-             {
-                $emp_pic=base64_encode($row['Snap']);
-               if ($row['ContactNo']!='') 
-               {
-                  $mobile=$row['ContactNo'];
-               }
-               else
-               {
-                  $mobile=$row['MobileNo'];
-               }
+        ?>
+            <div class="card card-widget collapsed-card">
+              <div class="card-header" style="background-color:white!important;">
+                <div class="user-block">
+                <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
+                     </div>
+                     <span class="username"><a href="#"><?=$row['Name'];?> (<?=$row['IDNo'];?>)</a></span>
+                  <span class="description"><?=$row['Designation'];?></span>
+                  <span title="Department" class="username"  style="color:#a62535;font-size:12px;"><i class="fa fa-home" aria-hidden="true"></i> <b><?=$row['Department'];?>(<?=$row['depid'];?>)</b></span>
+                  <?php
+                            $getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
+                            $getRoleNameRun=mysqli_query($conn,$getRoleName);
+                            if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
+                            {
+                           
+                           ?> <span title="Role" class="username  "  style="color:green!important;font-size:12px;"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</span>
+                           <?php 
+                            }?>
+                </div>
+                &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
                
-               ?>
-            <tr>
-                <td><?=$sr;?></td>
-                <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
-                </td>
-                <td><?=$row['Name'];?></td>
-                <td><?=$row['IDNo'];?></td>
-                <td><?=$row['Designation'];?></td>
-                <td><?=$row['DepartmentName'];?>(<?=$row['depid'];?>)</td>
-                <?php 
-
-$getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
-$getRoleNameRun=mysqli_query($conn,$getRoleName);
-if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-{
-?>
- <td><?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</td><?php 
-}
-?>
-               
-              
-                <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row['IDNo'];?>);"></i></td>
-                <td>
-
-
-                    <?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                    <?php if($row['depid']!='81'){
-    ?>
-
+                <!-- /.user-block -->
+                <div class="card-tools">
+                    
+                <button type="button" class="btn " title="Mark as read">
+                  <?php
+                  $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
+                                      $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                                      $count_0=0;
+                                      $color='';
+                                        if(sqlsrv_num_rows($get_card_run)>0)
+                                        {                                        
+                                          $color="red";
+                                        }  
+                                     
+                            if($row['depid']!='81')
+                            {
+                        ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
                     <?php 
-}
-else { ?>
+                        }
+                        else { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
-
                     <?php
-}?>
-
-
-                </td>
-            </tr>
-            <?php $sr++;
-            }
-            ?>
-        </tbody>
-    </table>
+                        }
+                    
+                        ?>
+                  </button>
+                  <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                
+                </div>
+               
+                <!-- /.card-tools -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" id="emp_details_colaped<?=$row['IDNo'];?>">
+               
+              </div>
+              <!-- /.card-body -->
+            
+              <div class="card-footer">
+               
+              </div>
+            </div>
+          
+<?php }?>
     <?php 
       }
             elseif($code==60)
@@ -3551,26 +3221,7 @@ else { ?>
       {
         $DateOfBirth="01-01-1900";
       ?>
-    <section class="content">
-
-        <div class="row" style="margin-top: 10px!important;">
-            <div class="col-md-12 table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>EmpID</th>
-                            <th>Name</th>
-                            <th>Designation</th>
-                            <th>College</th>
-                            <th>Department</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>ID Card</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
+<?php 
                         $emp_id=$_POST['empID'];
                          $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' ";
                         $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -3582,74 +3233,30 @@ else { ?>
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
                          
-                        ?>
-                        <tr>
-                            <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
-                            </td>
-                            <td><?=$row1['Name'];?></td>
-                            <td><?=$row1['IDNo'];?></td>
-                            <td><?=$row1['Designation'];?></td>
-                            <td><?=$row1['CollegeName'];?></td>
-                            <td><?=$row1['DepartmentName'];?>(<?=$row1['DepartmentId'];?>)</td>
-                            <td><?php if($row1['JobStatus']==1){echo "<b class='text-success'>Active</b>";}else{echo "<b class='text-danger'>Left</b>";};?>
-                            </td>
-                            <td><i class="fa fa-edit fa-lg" onclick="update_emp_record(<?=$row1['IDNo'];?>);"></i>
-                            </td>
-                            <td><?php 
-    $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'";
-
-                        $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                        $count_0=0;
-                        $color='';
-                          if(sqlsrv_num_rows($get_card_run)>0)
-                          {
-                            
-                            $color="red";
-                          }  
-?>
-
-                                <?php if($row1['DepartmentId']!='81'){
-    ?>
-
-                                <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                                    onclick="printEmpIDCard(<?=$row1['IDNo'];?>);"></i>
-                                <?php 
-}
-else { ?>
-                                <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                                    onclick="printfourthCard(<?=$row1['IDNo'];?>);"></i>
-
-                                <?php
-}?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            ?>
         <div class="row" style="margin-top: 10px!important;">
             <div class="col-md-12">
-                <div class="card">
+                <!-- <div class="card"> -->
                     <div class="card-header p-2" style="background-color:white!important">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#personal_details"
+                            <li class="nav-item"><a class="nav-link active" href="#personal_details<?=$emp_id;?>"
                                     data-toggle="tab">Basic</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
+                            <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>" data-toggle="tab">Contact</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Employment</a>
+                            <li class="nav-item"><a class="nav-link" href="#employment<?=$emp_id;?>" data-toggle="tab">Employment</a>
                             </li>
                             <?php   if($role_id==2){
                                             
                                             ?>
-                            <li class="nav-item"><a class="nav-link" href="#idcard" data-toggle="tab">ID Card</a>
+                            <li class="nav-item"><a class="nav-link" href="#idcard<?=$emp_id;?>" data-toggle="tab">ID Card</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="#permissions"
+                            <li class="nav-item"><a class="nav-link" href="#permissions<?=$emp_id;?>"
                                     data-toggle="tab">Permissions</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#assignCollegeAccountPermssions"
+                                    <li class="nav-item"><a class="nav-link" href="#assignCollegeAccountPermssions<?=$emp_id;?>"
                                     data-toggle="tab">Windows </a></li>
-                            <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight"
+                            <li class="nav-item"><a class="nav-link" href="#assignCollegeCourseRight<?=$emp_id;?>"
                                     data-toggle="tab">Assign College</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#resetPasswords"
+                            <li class="nav-item"><a class="nav-link" href="#resetPasswords<?=$emp_id;?>"
                                     data-toggle="tab">Password Reset</a></li>
 
                           
@@ -3660,9 +3267,9 @@ else { ?>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="active tab-pane" id="personal_details">
+                            <div class="active tab-pane" id="personal_details<?=$emp_id;?>">
                                 <!-- /.login-logo -->
-                                <form action="action_g.php" method="post" enctype="multipart/form-data">
+                                <form action="action_g.php" method="post" enctype="multipart/form-data" id="form-emplyee<?=$emp_id;?>">
                                     <input type="hidden" name="code" value="94">
                                     <div class="row">
                                         <div class="col-12 col-lg-3">
@@ -3794,10 +3401,10 @@ else { ?>
                                         </div>
                                     </div>
 
-                            </div>
-                            <div class="tab-pane" id="contact">
+                                    </div>
+                                    <div class="tab-pane" id="contact<?=$emp_id;?>">
 
-                                <div class="row">
+                                        <div class="row">
 
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
@@ -3924,12 +3531,12 @@ else { ?>
                                                 placeholder="Enter post office">
                                         </div>
                                     </div>
-                                </div>
+                                            </div>
 
-                            </div>
-                            <div class="tab-pane" id="employment">
+                                                </div>
+                                                <div class="tab-pane" id="employment<?=$emp_id;?>">
 
-                                <div class="row">
+                                            <div class="row">
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label>Name of Organisation</label>
@@ -4036,24 +3643,24 @@ else { ?>
 
                                             <select class="form-control" name="EmpCategory">
 
-                                                <?php  
-                                  $get_defalut_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp Where CategoryId='".$row1['CategoryId']."' ";
-           $get_defalut_category_run=sqlsrv_query($conntest,$get_defalut_category);
-           if($row_cate=sqlsrv_fetch_array($get_defalut_category_run,SQLSRV_FETCH_ASSOC))
-           {?>
-                                                <option value="<?=$row_cate['CategoryId'];?>">
-                                                    <?=$row_cate['CategoryFName'];?></option>
+                                                                                    <?php  
+                                                                    $get_defalut_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp Where CategoryId='".$row1['CategoryId']."' ";
+                                            $get_defalut_category_run=sqlsrv_query($conntest,$get_defalut_category);
+                                            if($row_cate=sqlsrv_fetch_array($get_defalut_category_run,SQLSRV_FETCH_ASSOC))
+                                            {?>
+                                                                                    <option value="<?=$row_cate['CategoryId'];?>">
+                                                                                        <?=$row_cate['CategoryFName'];?></option>
 
-                                                <?php }
-                                            $get_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp ";
-           $get_category_run=sqlsrv_query($conntest,$get_category);
-           while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-           {
-      ?>
-                                                <option value="<?=$row_categort['CategoryId'];?>">
-                                                    <?=$row_categort['CategoryFName'];?></option>
-                                                <?php 
-      }?>
+                                                                                    <?php }
+                                                                                $get_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp ";
+                                            $get_category_run=sqlsrv_query($conntest,$get_category);
+                                            while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                            {
+                                        ?>
+                                                                                    <option value="<?=$row_categort['CategoryId'];?>">
+                                                                                        <?=$row_categort['CategoryFName'];?></option>
+                                                                                    <?php 
+                                        }?>
                                             </select>
                                         </div>
                                     </div>
@@ -4065,22 +3672,22 @@ else { ?>
                                                 <?php  $getShift="SELECT * FROm MasterShift Where Id='".$row1['ShiftID']."'";
                                                 $getshiftRun=sqlsrv_query($conntest,$getShift);
                                                 if($row_shift=sqlsrv_fetch_array($getshiftRun,SQLSRV_FETCH_ASSOC))
-           {
+                                              {
            
                                                 ?>
                                             <option value="<?=$row_shift['Id'];?>">
                                                     <?=$row_shift['ShiftName'];?></option>
                                          <?php
                                          }  
-                                           $get_category="SELECT * FROM MasterShift ";
-           $get_category_run=sqlsrv_query($conntest,$get_category);
-           while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-           {
-      ?>
-                                                <option value="<?=$row_categort['Id'];?>">
-                                                    <?=$row_categort['ShiftName'];?></option>
-                                                <?php 
-      }?>
+                                                                    $get_category="SELECT * FROM MasterShift ";
+                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                    {
+                                ?>
+                                                                            <option value="<?=$row_categort['Id'];?>">
+                                                                                <?=$row_categort['ShiftName'];?></option>
+                                                                            <?php 
+                                }?>
                                             </select>
                                             </select>
                                         </div>
@@ -4094,13 +3701,13 @@ else { ?>
                                                 placeholder="Enter leave sanction authority"
                                                 value="<?=$row1['LeaveRecommendingAuthority'];?>"
                                                 onkeyup="emp_detail_verify2(this.value);">
-                                            <?php  
-                                                   $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
-    $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
-    if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
-    {
-       ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
-    }?>
+                                                                                    <?php  
+                                                                                        $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+                                            $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+                                            if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+                                            {
+                                            ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
+                                            }?>
 
 
                                         </div>
@@ -4116,15 +3723,15 @@ else { ?>
                                                 onkeyup="emp_detail_verify1(this.value);">
 
                                             <?php  
-                                                   $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
-    $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
-    if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
-    {
-        ?>
-                                            <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
-                                            <?php 
-       
-    }?>
+                                                                                    $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
+                                        $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+                                        if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+                                        {
+                                            ?>
+                                                                                <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
+                                                                                <?php 
+                                        
+                                        }?>
 
                                         </div>
                                     </div>
@@ -4166,7 +3773,7 @@ else { ?>
 
 
                             </div>
-                            <div class="tab-pane" id="idcard">
+                            <div class="tab-pane" id="idcard<?=$emp_id;?>">
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -4183,12 +3790,12 @@ else { ?>
                                                 <td>Date</td>
                                             </tr>
                                             <?php 
-           $IdCard="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'"; 
-$getUseridcard=sqlsrv_query($conntest,$IdCard);
-$countPerms=0;
-while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
-{
-?>
+                                                $IdCard="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."'"; 
+                                        $getUseridcard=sqlsrv_query($conntest,$IdCard);
+                                        $countPerms=0;
+                                        while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
                                             <tr>
                                                 <td><?= $getUseridcardRow['IDNo'];?></td>
                                                 <td><?= $getUseridcardRow['PrintStatus'];?></td>
@@ -4203,7 +3810,7 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
 
 
 
-                            <div class="tab-pane" id="permissions">
+                            <div class="tab-pane" id="permissions<?=$emp_id;?>">
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -4225,13 +3832,13 @@ while($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
                                                 <th>Delete</th>
                                                 <th>Update</th>
                                             </tr>
-                                            <?php 
-$getUserMaster="SELECT * FROM UserMaster Where UserName='$emp_id' AND ApplicationType='Web' ";
-$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
-$countPerms=0;
-while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
-{
-?>
+                                                                                    <?php 
+                                        $getUserMaster="SELECT * FROM UserMaster Where UserName='$emp_id' AND ApplicationType='Web' ";
+                                        $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+                                        $countPerms=0;
+                                        while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
                                             <tr>
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td onclick="copyToClipboard('<?=$getUserMasterRunRow['Password']; ?>')"><?= $getUserMasterRunRow['UserName']; ?></td>
@@ -4244,19 +3851,19 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                                             <?=$getUserMasterRunRow['LoginType'];?></option>
 
                                                         <?php 
-$getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
+                                                $getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
+                                                $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+                                                while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+                                                {
+                                                ?>
 
-                                                        <option value="<?=$getDefalutMenuRunRow['LoginType'];?>">
-                                                            <?=$getDefalutMenuRunRow['LoginType'];?></option>
+                                                                                                        <option value="<?=$getDefalutMenuRunRow['LoginType'];?>">
+                                                                                                            <?=$getDefalutMenuRunRow['LoginType'];?></option>
 
 
-                                                        <?php 
-}?>
-</select>
+                                                                                                        <?php 
+                                                }?>
+                                                </select>
                                                 </td>
                                                 <td>
                                                     <select class="form-control" id="RightsLevel">
@@ -4264,19 +3871,19 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                             <?=$getUserMasterRunRow['RightsLevel'];?></option>
 
                                                         <?php 
-$getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
+                                    $getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
+                                    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+                                    while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+                                    {
+                                    ?>
 
-                                                        <option value="<?=$getDefalutMenuRunRow['Category'];?>">
-                                                            <?=$getDefalutMenuRunRow['Category'];?></option>
+                                                                                            <option value="<?=$getDefalutMenuRunRow['Category'];?>">
+                                                                                                <?=$getDefalutMenuRunRow['Category'];?></option>
 
 
-                                                        <?php 
-}?>
-</select>
+                                                                                            <?php 
+                                    }?>
+                                    </select>
                                                 </td>
                                                 <td><button type="button" class="btn btn-danger"
                                                         onclick="deleteRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
@@ -4284,16 +3891,16 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                 <td><button type="button" class="btn btn-success"
                                                         onclick="updateRole('<?=$getUserMasterRunRow['UserName'];?>','<?=$getUserMasterRunRow['UserMasterID'];?>');"><i
                                                             class="fa fa-check text-white fa-1x"></i></button></td>
-                                            </tr>
+                                                                                </tr>
 
-                                            <?php
+                                                                                <?php
 
-$countPerms++;
-} ?>
-                                        </table><?php 
-if($countPerms<1)
-{
-                                                    ?> <table class="table  table-bordered">
+                                    $countPerms++;
+                                    } ?>
+                                                                            </table><?php 
+                                    if($countPerms<1)
+                                    {
+                                                                                        ?> <table class="table  table-bordered">
                                             <tr>
                                                 <th colspan="7">
                                                     <center> ERP PERMISSIONS</center>
@@ -4310,47 +3917,47 @@ if($countPerms<1)
                                                     <select class="form-control" id="LoginType">
                                                         <option value="">Select</option>
 
-                                                        <?php 
-$getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
+                                                                                                <?php 
+                                        $getDefalutMenu="SELECT Distinct LoginType FROM LoginTypePerms ";
+                                        $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+                                        while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
 
-                                                        <option value="<?=$getDefalutMenuRunRow['LoginType'];?>">
-                                                            <?=$getDefalutMenuRunRow['LoginType'];?></option>
+                                                                                                <option value="<?=$getDefalutMenuRunRow['LoginType'];?>">
+                                                                                                    <?=$getDefalutMenuRunRow['LoginType'];?></option>
 
 
-                                                        <?php 
-}?>
+                                                                                                <?php 
+                                        }?>
 
                                                 </td>
                                                 <td>
                                                     <select class="form-control" id="RightsLevel">
                                                         <option value="2">Select</option>
                                                         <?php 
-$getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
-                                                        <option value="<?=$getDefalutMenuRunRow['Category'];?>">
-                                                            <?=$getDefalutMenuRunRow['Category'];?></option>
-                                                        <?php 
-}?>
-                                                </td>
+                                    $getDefalutMenu="SELECT Distinct Category FROM DefaultMenu  ";
+                                    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+                                    while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+                                    {
+                                    ?>
+                                                                                            <option value="<?=$getDefalutMenuRunRow['Category'];?>">
+                                                                                                <?=$getDefalutMenuRunRow['Category'];?></option>
+                                                                                            <?php 
+                                    }?>
+                                                                                    </td>
 
-                                                <td><button type="button" class="btn btn-success"
-                                                        onclick="addRole('<?=$emp_id;?>','<?=$row1['CollegeName'];?>');"><i
-                                                            class="fa fa-plus text-white fa-1x"></i></button></td>
-                                            </tr>
-                                            <?php 
-}
-?>
-                                        </table>
-                                        <?php 
+                                                                                    <td><button type="button" class="btn btn-success"
+                                                                                            onclick="addRole('<?=$emp_id;?>','<?=$row1['CollegeName'];?>');"><i
+                                                                                                class="fa fa-plus text-white fa-1x"></i></button></td>
+                                                                                </tr>
+                                                                                <?php 
+                                    }
+                                    ?>
+                                                                            </table>
+                                                                            <?php 
 
-    ?>
+                                        ?>
                                     </div>
 
                                 </div>
@@ -4375,18 +3982,18 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
                                                 <th>Update</th>
                                             </tr>
                                             <?php 
-                                            $getUserRole="SELECT * FROM Staff   Where IDNo='$emp_id' ";
-                                            $getUserRungetUserRole=sqlsrv_query($conntest,$getUserRole);
-if($getUserRunRowgetUserRungetUserRole=sqlsrv_fetch_array($getUserRungetUserRole))
-{
-$RolleID=$getUserRunRowgetUserRungetUserRole['RoleID'];
-}
-$getUser="SELECT * FROM role_name where  id='$RolleID' ";
-$getUserRun=mysqli_query($conn,$getUser);
-$countPerms=0;
-while($getUserRunRow=mysqli_fetch_array($getUserRun))
-{
-?>
+                                                                                $getUserRole="SELECT * FROM Staff   Where IDNo='$emp_id' ";
+                                                                                $getUserRungetUserRole=sqlsrv_query($conntest,$getUserRole);
+                                    if($getUserRunRowgetUserRungetUserRole=sqlsrv_fetch_array($getUserRungetUserRole))
+                                    {
+                                    $RolleID=$getUserRunRowgetUserRungetUserRole['RoleID'];
+                                    }
+                                    $getUser="SELECT * FROM role_name where  id='$RolleID' ";
+                                    $getUserRun=mysqli_query($conn,$getUser);
+                                    $countPerms=0;
+                                    while($getUserRunRow=mysqli_fetch_array($getUserRun))
+                                    {
+                                    ?>
                                             <tr>
                                                 <td><?=$emp_id;?></td>
 
@@ -4395,19 +4002,19 @@ while($getUserRunRow=mysqli_fetch_array($getUserRun))
                                                         <option value="<?=$getUserRunRow['id'];?>">
                                                             <?=$getUserRunRow['role_name'];?></option>
 
-                                                        <?php 
-$getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
-$getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
-while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
-{
-?>
+                                                                                                <?php 
+                                        $getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
+                                        $getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
+                                        while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
+                                        {
+                                        ?>
 
-                                                        <option value="<?=$getDefalutMenuRunRow['id'];?>">
-                                                            <?=$getDefalutMenuRunRow['role_name'];?></option>
+                                                                                                <option value="<?=$getDefalutMenuRunRow['id'];?>">
+                                                                                                    <?=$getDefalutMenuRunRow['role_name'];?></option>
 
 
-                                                        <?php 
-}?>
+                                                                                                <?php 
+                                        }?>
 
                                                 </td>
 
@@ -4421,12 +4028,12 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
 
                                             <?php
 
-$countPerms++;
-} ?>
-                                        </table><?php 
-if($countPerms<1)
-{
-                                                    ?> <table class="table  table-bordered">
+                                        $countPerms++;
+                                        } ?>
+                                                                                </table><?php 
+                                        if($countPerms<1)
+                                        {
+                                                                                            ?> <table class="table  table-bordered">
                                             <tr>
                                                 <th colspan="7">
                                                     <center> LMS PERMISSIONS</center>
@@ -4444,34 +4051,34 @@ if($countPerms<1)
                                                     <select class="form-control" id="LoginType_lms">
                                                         <option value="">Select</option>
 
-                                                        <?php 
-$getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
-$getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
-while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
-{
-?>
+                                                                                                <?php 
+                                        $getDefalutMenu="SELECT Distinct role_name,id FROM role_name ";
+                                        $getDefalutMenuRun=mysqli_query($conn,$getDefalutMenu);
+                                        while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
+                                        {
+                                        ?>
 
-                                                        <option value="<?=$getDefalutMenuRunRow['id'];?>">
-                                                            <?=$getDefalutMenuRunRow['role_name'];?></option>
-
-
-                                                        <?php 
-}?>
-
-                                                </td>
+                                                                                                <option value="<?=$getDefalutMenuRunRow['id'];?>">
+                                                                                                    <?=$getDefalutMenuRunRow['role_name'];?></option>
 
 
-                                                <td><button type="button" class="btn btn-success"
-                                                        onclick="lmsAddRole('<?=$emp_id;?>');"><i
-                                                            class="fa fa-plus text-white fa-1x"></i></button></td>
-                                            </tr>
-                                            <?php 
-}
-?>
-                                        </table>
-                                        <?php 
+                                                                                                <?php 
+                                        }?>
 
-    ?>
+                                                                                        </td>
+
+
+                                                                                        <td><button type="button" class="btn btn-success"
+                                                                                                onclick="lmsAddRole('<?=$emp_id;?>');"><i
+                                                                                                    class="fa fa-plus text-white fa-1x"></i></button></td>
+                                                                                    </tr>
+                                                                                    <?php 
+                                        }
+                                        ?>
+                                                                                </table>
+                                                                                <?php 
+
+                                            ?>
                                     </div>
 
                                 </div>
@@ -4495,7 +4102,7 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
 
                             </div>
 
-                            <div class="tab-pane" id="assignCollegeCourseRight">
+                            <div class="tab-pane" id="assignCollegeCourseRight<?=$emp_id;?>">
                                 <div class="row">
                                     <div class="col-lg-12">
 
@@ -4516,16 +4123,16 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                         class="form-control" required>
                                                         <option value=''>Select Faculty</option>
                                                         <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-                     $stmt2 = sqlsrv_query($conntest,$sql);
-                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-                      {   
-                        $college = $row1['CollegeName']; 
-                        $CollegeID = $row1['CollegeID'];
-                        ?>
-                                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
-                                                        <?php }
-                        ?>
+                                        $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                                            {   
+                                                $college = $row1['CollegeName']; 
+                                                $CollegeID = $row1['CollegeID'];
+                                                ?>
+                                                                                <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                                                                <?php }
+                                                ?>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -4615,7 +4222,7 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="assignCollegeAccountPermssions">
+                            <div class="tab-pane" id="assignCollegeAccountPermssions<?=$emp_id;?>">
                                 <div class="row">
                                     <div class="col-lg-12">
 
@@ -4635,16 +4242,16 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                         class="form-control" required>
                                                         <option value=''>Select Faculty</option>
                                                         <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
-                     $stmt2 = sqlsrv_query($conntest,$sql);
-                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
-                      {   
-                        $college = $row1['CollegeName']; 
-                        $CollegeID = $row1['CollegeID'];
-                        ?>
-                                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
-                                                        <?php }
-                        ?>
+                                $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                                    $stmt2 = sqlsrv_query($conntest,$sql);
+                                    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                                    {   
+                                        $college = $row1['CollegeName']; 
+                                        $CollegeID = $row1['CollegeID'];
+                                        ?>
+                                                                        <option value="<?=$CollegeID;?>"><?=$college;?></option>
+                                                                        <?php }
+                                        ?>
                                                     </select>
                                                 </td>
                                                 <td> Windows</td>
@@ -4681,13 +4288,13 @@ while($getDefalutMenuRunRow=mysqli_fetch_array($getDefalutMenuRun))
                                                     <th>Delete</th>
                                                 </tr>
                                                 <?php 
-$getUserMaster="SELECT * FROM UserMaster where UserName='$emp_id'  and ApplicationType='Windows' ";
-$getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
-$countPerms=0;
-while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
-{
+                                        $getUserMaster="SELECT * FROM UserMaster where UserName='$emp_id'  and ApplicationType='Windows' ";
+                                        $getUserMasterRun=sqlsrv_query($conntest,$getUserMaster);
+                                        $countPerms=0;
+                                        while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASSOC))
+                                        {
 
-    ?>
+                                            ?>
                                                 <tr>
 
                                                     <td><input type="checkbox" class="checkbox v_checkAccount"
@@ -4710,8 +4317,8 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                                                 class="fa fa-trash text-white"></i></button></td>
                                                 </tr>
                                                 <?php
-}
-?>
+                                            }
+                                            ?>
                                                 <tr>
                                                     <td>
                                                         <button type="button" class="btn btn-danger btn-xs" onclick="deleteCollegeCoursePermissionsAccount(<?=$emp_id;?>);"><i
@@ -4721,7 +4328,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                             </table>
                                             <?php 
 
-    ?>
+                                    ?>
                                         </div>
                                         </div>
                                     </div>
@@ -4734,7 +4341,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                             </div>
 
 
-                            <div class="tab-pane" id="resetPasswords">
+                            <div class="tab-pane" id="resetPasswords<?=$emp_id;?>">
                                 <div class="row">
                                     <div class="col-lg-12">
 
@@ -4746,31 +4353,31 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
                                                 <select class="form-control" id="ApplicationType" onchange="showErpRole(<?=$emp_id;?>);">
                                                         <option value="">Select</option>
                                                         <?php 
-$getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
-while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
-{
-?>
-                                                        <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
-                                                            <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
+                                            $getDefalutMenu="SELECT Distinct ApplicationName FROM UserMaster  Where UserName='$emp_id' ";
+                                            $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+                                            while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_ASSOC))
+                                            {
+                                            ?>
+                                                                                                    <option value="<?=$getDefalutMenuRunRow['ApplicationName'];?>">
+                                                                                                        <?=$getDefalutMenuRunRow['ApplicationName'];?></option>
 
 
-                                                        <?php 
-}?>
-                                                </td>
-</tr>
-<tr>
+                                                                                                    <?php 
+                                            }?>
+                                                                                            </td>
+                                            </tr>
+                                            <tr>
 
-<th>ID</th>
-<th>UserName</th>
-<!-- <th>Password</th> -->
-<th>Type</th>
-<th>Login Type</th>
-<th>Rights</th>
-<th>Action</th>
-</tr>
-<tr id="onchnageErpRoleshow">
-                                                
+                                            <th>ID</th>
+                                            <th>UserName</th>
+                                            <!-- <th>Password</th> -->
+                                            <th>Type</th>
+                                            <th>Login Type</th>
+                                            <th>Rights</th>
+                                            <th>Action</th>
+                                            </tr>
+                                            <tr id="onchnageErpRoleshow">
+                                                                                            
                                                 <td colspan="1"></td>
                                                 <td colspan="1"></td>
                                                 <!-- <td colspan="1"></td> -->
@@ -4786,7 +4393,7 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
                                 </div>
 
-                            </div>
+                            <!-- </div> -->
 
 
 
@@ -4815,15 +4422,16 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
 
 
                                 <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
-                                    id="update_button" style="display:none;">Update</button>
+                                    id="update_button<?=$emp_id;?>" style="display:none;">Update</button>
 
 
 
 
                             </div>
+</form>
 
                             <!-- /.container-fluid -->
-    </section>
+    <!-- </section> -->
     <?php 
       }
        elseif($code==62)
