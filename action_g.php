@@ -27234,6 +27234,7 @@ $code_access=$_POST['code_access'];
                   <th> Department</th>
                 <th>College</th>
                 <th>Location</th>
+                <th>Remarks</th>
                   <th>Entry Time</th>
                   <!-- <th>Exit Time</th> -->
                   <th>Action</th>
@@ -27291,6 +27292,7 @@ $code_access=$_POST['code_access'];
                        <td><?=$Department?></td>
                        <td><?=$college?></td>
                     <td><?=$row['LocationName']?></td>
+                    <td><?=$row['remarks']?></td>
                       <td><?=$row['entry_time']?></td>
                       <td>
                         <?php if($code_access=='111')
