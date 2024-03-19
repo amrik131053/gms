@@ -660,7 +660,7 @@ function submitNewAdmissions() {
         return;
     }
     if (Course === '') {
-        ErrorToast('Please select a Course', 'bg-warning');
+        ErrorToast('Please select a Course', 'bg-warning'); 
         return;
     }
     if (LateralEntry === '') {

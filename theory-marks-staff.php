@@ -612,7 +612,7 @@ else
 }
 
 function unlockSemesterpending()
-{
+{  
   var college=document.getElementById('College').value;
   var course=document.getElementById('Course').value;
   var examination=document.getElementById('Examination').value;

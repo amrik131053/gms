@@ -306,7 +306,7 @@ function fetchCutList() {
 }
 
 
-
+ 
 function exportCutListExcel() {
     var exportCode = 57;
     var College = document.getElementById('College').value;
@@ -329,7 +329,7 @@ function exportCutListExcel() {
     }
 }
 function exportCutListExcelcount() {
-    var exportCode = 58;
+    var exportCode = 59; 
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
