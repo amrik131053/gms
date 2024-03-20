@@ -767,8 +767,15 @@ var exportCode='58';
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
  {
+  var code=1;
    
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
+   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
+
+    }
+    else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
+    {
+       var code=2;
+      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
 
     }
       else
