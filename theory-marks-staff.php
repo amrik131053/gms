@@ -38,9 +38,10 @@ function uncheckall()
    <section class="content">
       <div class="container-fluid">
         <div class="row">
+
           <!-- left column -->
           <div class="col-lg-2 col-md-4 col-sm-3">
-
+ 
    <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
@@ -185,7 +186,7 @@ for($i=1;$i<=12;$i++)
     </br>
 
 
-
+ 
  <div class="row">
           <!-- left column -->
           <div class="col-lg-12 col-md-4 col-sm-3">
@@ -200,12 +201,14 @@ for($i=1;$i<=12;$i++)
             <button class="btn btn-danger" onclick="exportdata()">Format</button>
 
 </div><div class="col-md-2">
-  <input type="file" name="fileexcel">
+  <form  id="submit_csv_marks" method="post" enctype="multipart/form-data" action="action.php">
+<input type="hidden" name="code" value="361">
+  <input type="file" name="file_exl" id="file_exl" >
 </div> <div class="col-md-2">
- <button class="btn btn-danger" onclick="Upload CSV">Upload CSV</i></button>
+ <button class="btn btn-danger" type="submit">Upload CSV</i></button>
 </div>
 </div>
-                
+    </form>            
 
 
 
@@ -267,7 +270,7 @@ for($i=1;$i<=12;$i++)
   });
 
 
-function select_mst() 
+function select_mst()  
 { 
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
@@ -320,7 +323,69 @@ var xmlhttp = new XMLHttpRequest();
         xmlhttp.send();
 
 
-}
+} 
+
+
+$(document).ready(function(e) { // image upload form submit
+    $("#submit_csv_marks").on('submit', (function(e) {
+        e.preventDefault();
+
+var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value;
+         var subject = document.getElementById('Subject').value;
+     var  examination = document.getElementById('Examination').value;
+
+
+    var distributiontheory = document.getElementById('ecat').value;
+
+var form_data = new FormData(this);   
+form_data.append('file_exl', file_exl);
+form_data.append('code',361);
+form_data.append('college',college);
+form_data.append('course',course) ;             
+form_data.append('batch',batch) ;
+form_data.append('DistributionTheory',distributiontheory) ;
+form_data.append('subject',subject) ;
+form_data.append('examination',examination) ;
+form_data.append('sem',sem) ;
+
+var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: "action.php",
+            type: "POST",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                spinner.style.display = 'none';
+                if (data==1) {
+                    SuccessToast('Successfully Uploaded');
+                    
+                    //search_exam_form();
+
+                } 
+                else if(data==0)
+                {
+                    ErrorToast('Invalid CSV File ', 'bg-danger');
+                    
+                }
+
+                    else {
+ ErrorToast('Failed to Upload', 'bg-warning');
+                    
+                }
+            },
+        });
+    }));
+});
+
+
+
 
 function testing() 
 {

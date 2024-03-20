@@ -23144,8 +23144,12 @@ if($_POST['Examination']!='')
     $getACPending_run=sqlsrv_query($conntest,$getACPending,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $Account=sqlsrv_num_rows($getACPending_run);
     $getACReject="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='6' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
+
     $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $AccountReject=sqlsrv_num_rows($getACReject_run);
+
+
+
     $getACForward="SELECT Distinct IDNo FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CourseID=ExamForm.CourseID WHERE ExamForm.SemesterId='".$rowCourseName['SemesterId']."' and  ExamForm.Batch='".$rowCourseName['Batch']."'  and ExamForm.Status='5' and ExamForm.CourseID='$CourseID' and  ExamForm.Examination='".$rowCourseName['Examination']."'";
     $getACForward_run=sqlsrv_query($conntest,$getACForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     $AccountForward=sqlsrv_num_rows($getACForward_run);
@@ -23502,7 +23506,7 @@ $getACReject="SELECT Distinct IDNo FROM  ExamForm  WHERE
        }
        if($Examination!='')
        {
-           $getACReject.="and  ExamForm.Examination='$Examination' ";
+          $getACReject.="and  ExamForm.Examination='$Examination' ";
        }
 $getACReject_run=sqlsrv_query($conntest,$getACReject,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $AccountReject=sqlsrv_num_rows($getACReject_run);
@@ -23510,7 +23514,7 @@ $AccountReject=sqlsrv_num_rows($getACReject_run);
 // Account verified
 
 $getACForward="SELECT Distinct IDNo FROM  ExamForm  WHERE 
- ExamForm.Status>='5' ";
+ ExamForm.Status>='5' AND ExamForm.Status!='6'  ";
     if($Type!='')
     {
         $getACForward.="and  ExamForm.Type='$Type' ";
@@ -25582,10 +25586,14 @@ $Nationality=$_POST['Nationality'];
 if ($Nationality == 'Indian') 
 {
     $AdharCardNo=$_POST['idproof'];
-} else if ($Nationality == 'NRI') 
+
+} 
+else if ($Nationality == 'NRI') 
 {
     $PassportNo=$_POST['idproof'];
-} else if ($Nationality == 'Nepal') 
+
+}
+ else if ($Nationality == 'Nepal') 
 {
     $AdharCardNo=$_POST['idproof'];
 } else if ($Nationality == 'Bhutan') 
@@ -25598,7 +25606,8 @@ $refoffer=$_POST['refoffer'];
 $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 
-$AdharCardNo=$_POST['idproof'];
+//$AdharCardNo=$_POST['idproof'];
+
 
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
@@ -25680,6 +25689,7 @@ $getTransactionIDstmt = sqlsrv_query($conntest,$getTransactionIDsql);
             $TransactionID=$getTransactionIDrow["TransactionID"]+1;     
 }
 
+
 if ($Nationality == 'NRI') 
 {
      $getIfExistAdhaar = "SELECT * FROM Admissions WHERE PassportNo='$PassportNo' "; 
@@ -25697,12 +25707,13 @@ if($admisisontype==2)
     $ifexitIDNoAdhaar=0;
 }
 if($ifexitIDNoAdhaar<1)
+
 {   $getIfExist = "SELECT * FROM Admissions WHERE IDNo='$IDNo' or ClassRollNo='$ClassRollNoUpdate' ";
  $get_card_run=sqlsrv_query($conntest,$getIfExist,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
 {    
-       $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
+    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
  VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
  if ($newAdmissionInsertRun === false) {
