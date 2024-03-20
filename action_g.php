@@ -24719,19 +24719,19 @@ if($Status==6)
    
    $Session = $_POST['Session'];
    
-    $list_sql="SELECT * FROM StudentBusPassGKU  WHERE p_status='1'  ANd session='$Session'";
+     $list_sql="SELECT * FROM StudentBusPassGKU  inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo WHERE StudentBusPassGKU.p_status='1'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1'";
       $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $Pending=sqlsrv_num_rows($list_sql_run);
 
-      $list_sqlRejected="SELECT * FROM StudentBusPassGKU  WHERE p_status='2'  ANd session='$Session'";
+      $list_sqlRejected="SELECT * FROM StudentBusPassGKU  inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo  WHERE StudentBusPassGKU.p_status='2'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1'";
         $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
         $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
 
-          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status='3'  ANd session='$Session' ";
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo  WHERE StudentBusPassGKU.p_status='3'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1' ";
             $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
 
-            $list_sqlAccepted="SELECT * FROM StudentBusPassGKU  WHERE p_status='6'  ANd session='$Session'";
+            $list_sqlAccepted="SELECT * FROM StudentBusPassGKU  inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo  WHERE StudentBusPassGKU.p_status='6'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1'";
               $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
               $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
         
@@ -24747,15 +24747,15 @@ if($Status==6)
    {
    $count=array(); 
    $Session = $_POST['Session'];
-    $list_sql="SELECT * FROM StudentBusPassGKU  WHERE p_status='3'  ANd session='$Session'";
+    $list_sql="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo   WHERE StudentBusPassGKU.p_status='3'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1'";
       $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
       $Pending=sqlsrv_num_rows($list_sql_run);
 
-      $list_sqlRejected="SELECT * FROM StudentBusPassGKU  WHERE p_status='4'  ANd session='$Session'";
+      $list_sqlRejected="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo   WHERE StudentBusPassGKU.p_status='4'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1'";
         $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
         $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
 
-          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU  WHERE p_status>='5'  ANd session='$Session' ";
+          $list_sqlForwardToAccount="SELECT * FROM StudentBusPassGKU inner join Admissions ON Admissions.IDNo=StudentBusPassGKU.IDNo   WHERE StudentBusPassGKU.p_status>='5'  ANd StudentBusPassGKU.session='$Session' and Admissions.Status='1' ";
             $list_sqlForwardToAccount_run=sqlsrv_query($conntest,$list_sqlForwardToAccount,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
             $ForwardToAccount=sqlsrv_num_rows($list_sqlForwardToAccount_run);
       $count[0]=$Pending;

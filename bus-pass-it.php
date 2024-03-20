@@ -64,12 +64,12 @@
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <label>Status</label>
                                 <select id="Status" class="form-control form-control-sm" >
-                                    <option value="All">All</option>
                                     <option value="1">Pending</option>
                                     <option value="2">Rejected</option>
                                     <option value="3">Verified</option>
                                     <option value="5">Ready To Print</option>
                                     <option value="6">Printed</option>                              
+                                    <option value="All">All</option>
                                 </select>
 
                             </div>
@@ -196,13 +196,7 @@ function cutlistCountDepartment() {
                 document.getElementById("rejectCount").textContent = data[1];
                 document.getElementById("Forwardtoaccount").textContent = data[2];
                 document.getElementById("Accepted").textContent = data[3];
-
-                
-
-
-
-
-               
+  
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error);
