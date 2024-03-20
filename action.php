@@ -12674,7 +12674,7 @@ elseif($Status==8)
         
 
    }
-
+ 
 
 
 
@@ -21330,10 +21330,14 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                 <td><?= $row['ID']?></td>
                 
                 <td>
-                <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+                 
+                <a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
              </td>
              <td>
-             <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a>
+                <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                  <?=$row['StudentName'];?></a></b>
+          </a>
                    </td>
       <?php
                 echo "<td>".$row['Course']."</td>";
@@ -21530,9 +21534,9 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <th width="8%">MST2</th>
     <th width="8%">Best</th>
      <th width="8%">ESE</th>
-       <th width="8%">Total</th>
-  <th width="8%">Grade</th>
- <th width="8%">Grade Point</th>
+<th width="8%">Total</th>
+<th width="8%">Grade</th>
+<th width="8%">Grade Point</th>
  
 </tr>
 
@@ -21632,7 +21636,7 @@ if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
    $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe;?>
 </td>
 
-<td>
+<!-- <td>
 
    <?php
 $grade='';
@@ -21708,7 +21712,7 @@ else if($totalFinal<40)
 {
    echo"0";
 }
-?></td>
+?></td> -->
 
 
 
@@ -21761,7 +21765,7 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
             }
-
+$nop=0;
 $practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$CollegeID' ANd CourseId='$CourseID' ANd Batch='$batch' AND SubCode='$SubjectCode' ANd Session='$examination' AND IDNO='$IDNo'"; 
 $list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
 $pmarks=array();
@@ -21769,6 +21773,7 @@ while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
          {
 
 $pmarks[]=$row7pr['PMarks']+$row7pr['VMarks']+$row7pr['FMarks'];
+$nop++;
           }  
 ?>
 
@@ -21792,7 +21797,7 @@ $pmarks[]=$row7pr['PMarks']+$row7pr['VMarks']+$row7pr['FMarks'];
 
     <?php 
     $totapracti=0;
-    for($i=0;$i<5;$i++)
+    for($i=0;$i<$nop;$i++)
     {
       ?>
       <td>
@@ -22149,8 +22154,325 @@ else
  }
 }
 
+ else  if($code==361)
+{  
+ $ucourse = $_POST['course'];
+ $college = $_POST['college'];
+ $batch=$_POST['batch']; 
+ $sem = $_POST['sem'];
+ $subject = $_POST['subject'];
+ $ecat = $_POST['DistributionTheory'];
+ $file=$_FILES['file_exl']['tmp_name'];
 
 
+
+}
+
+ elseif($code==362)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
+             $SemesterID=$row5['Semesterid'];
+             $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
+             $receipt_date=$row5['ReceiptDate'];
+             $receipt_no=$row5['ReceiptNo'];
+             $formid=$row5['ID'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+
+?>
+
+
+
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  border="1">
+ <tr style="border: 1px black solid" height="30" >
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <input type="hidden" value="<?=$IDNo;?>" name="" id='userid'>
+ <td> <?php echo $UniRollNo;?>/<?php echo $ClassRollNo;?>  &nbsp;(<?=$IDNo;?>)</td>
+ <td colspan="1"><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+ <td rowspan="3" colspan="2" style="border:0">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+             </td>
+ </tr>
+ <tr style="border: 1px black solid"height="30">
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td colspan="1"><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+ </tr>
+ <tr style="border: 1px black solid"height="30"  >
+   <td style="padding-left: 10px"><b>Examination :</b></td>
+   <td colspan="1"><?= $examination;?>
+    
+         
+
+      </td>
+
+   <td><b>Type:</b></td>
+   <td colspan="3">
+             
+              
+             
+
+<?=$type;?>/
+     <?= $sgroup;?> 
+   </td>
+
+   <td colspan="1">Semester :<?=$SemesterID;?></td>
+ </tr>
+
+
+</tr>
+</table>
+<table class="table table-striped" border="1">
+<tr>
+   <th>SrNo</th>
+  <th width="60%">Subject Name</th>
+  <th width="12%">Subject Code</th><th>Credit</th>
+  <th width="8%">Int</th>
+  <th width="8%">CA1&CA2</th>
+    <th width="8%">CA3</th>
+     <th width="8%">Att</th>
+    <th width="8%">MST1</th>
+    <th width="8%">MST2</th>
+    <!-- <th width="8%">Best</th> -->
+    
+ 
+</tr>
+
+
+<?php 
+
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType!='P'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+$list_resultamrik = sqlsrv_query($conntest,$amrik);  
+if($list_resultamrik === false) 
+{  
+    die( print_r( sqlsrv_errors(), true) );
+}
+$sr=0;
+$credit='';
+while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+         { $sr++;
+            
+$SubjectCode=$row7['SubjectCode'];
+
+            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7c['NoOFCredits'];
+            }
+?>
+         <tr>
+            <td width="10"><?=$sr;?></td>
+            <?php if($examinationss<>$row7['Examination'])
+            {               $color="#ed040491";      }else $color='';
+  ?>
+  <td colspan="1" style="background-color: <?=$color;?>">
+   <?= $row7['SubjectName'];?>
+
+</td>
+   <td >
+      <?=$row7['SubjectCode'];?>
+   </td>
+   <td><?= $credit;?></td>
+
+  <td><?php echo $row7['ExternalExam'];?>
+    </td>
+  <td>
+   <?php echo  $CE1=$row7['CE1'];?>
+      
+  </td>
+  <td>
+   <?php echo  $CE3=$row7['CE3'];?>
+      
+  </td>
+   <td>
+   <?php echo $att=$row7['Attendance'];?>
+      
+  </td>
+  <td>
+      <?php echo $mst1=$row7['MST1'];?> 
+  </td>
+   <td>
+      <?php echo $mst2= $row7['MST2'];?> 
+  </td>
+ <!--  <td>
+
+   <?php
+   $msttotal='';
+    if($mst1>$mst2)
+   {
+echo $msttotal=$mst1;
+   }
+   else
+   {
+     echo  $msttotal=$mst2;
+   }
+
+?>
+  
+  </td> -->
+  
+    
+  
+ 
+  
+      
+
+
+
+
+
+</tr>
+
+
+
+
+         <?php }
+         ?>
+<tr>
+   <th colspan="5"></th>
+  
+  <th width="8%">P1</th>
+    <th width="8%">P2</th>
+     <th width="8%">P3</th>
+    <th width="8%">P4</th>
+    <th width="8%">P5</th>
+   
+     
+
+ 
+</tr>
+
+
+
+         <?php 
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType='P' ANd ExternalExam='Y' order by ExternalExam DESC";  
+$list_resultamrik = sqlsrv_query($conntest,$amrik);  
+if($list_resultamrik === false) 
+{  
+    die( print_r( sqlsrv_errors(), true) );
+}
+$sr=0;
+$credit='';
+while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+         { $sr++;
+            
+$SubjectCode=$row7['SubjectCode'];
+
+            $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$CollegeID' AND CourseID='$CourseID' AND Batch='$batch' ANd SubjectCode='$SubjectCode'";  
+$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+             $credit=$row7c['NoOFCredits'];
+            }
+$nop=0;
+$practivcal="SELECT * from MasterPracticals inner join PracticalMarks on MasterPracticals.id=PracticalMarks.PID  where CollegeId='$CollegeID' ANd CourseId='$CourseID' ANd Batch='$batch' AND SubCode='$SubjectCode' ANd Session='$examination' AND IDNO='$IDNo'"; 
+$list_resultamrikpr = sqlsrv_query($conntest,$practivcal);  
+$pmarks=array();
+while($row7pr = sqlsrv_fetch_array($list_resultamrikpr, SQLSRV_FETCH_ASSOC) )
+         {
+
+$pmarks[]=$row7pr['PMarks']+$row7pr['VMarks']+$row7pr['FMarks'];
+$nop++;
+          }  
+?>
+
+
+         <tr>
+            <td width="10"><?=$sr;?></td>
+            <?php if($examinationss<>$row7['Examination'])
+            {               $color="#ed040491";      }else $color='';
+  ?>
+  <td colspan="1" style="background-color: <?=$color;?>">
+   <?= $row7['SubjectName'];?>
+
+</td>
+   <td >
+      <?=$row7['SubjectCode'];?>
+   </td>
+   <td><?= $credit;?></td>
+
+  <td><?php echo $row7['ExternalExam'];?>
+    </td>
+
+    <?php 
+    $totapracti=0;
+    for($i=0;$i<$nop;$i++)
+    {
+      ?>
+      <td>
+        
+
+   <?php echo  $CE1=$pmarks[$i];
+  if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
+
+      $totapracti=$totapracti+$fCE1;
+      ?>
+  </td>
+  <?php   }
+  
+  ?>
+ 
+
+<td >
+      <?= $totapracti;?>
+</td>
+
+
+
+
+
+</tr>
+
+
+         <?php }
+         ?>
+</table>
+</div>
+
+         <?php 
+   
+}
 
 
 
