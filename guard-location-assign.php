@@ -280,11 +280,12 @@ $.ajax({
     }
     labUsers();
 function labUsers() {
+    var code_access = '<?php echo $code_access; ?>';
     var code = '381';
     $.ajax({
         url: 'action_g.php',
         data: {
-            code: code
+            code: code,code_access:code_access
         },
         type: 'POST',
         success: function(data) {

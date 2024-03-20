@@ -27234,7 +27234,7 @@ elseif ($code==380)
 elseif ($code==381) 
 {
    $date=date('Y-m-d');
-
+$code_access=$_POST['code_access'];
    ?>
    <table class="table  " id="example">  <thead>
               <tr>
@@ -27245,6 +27245,7 @@ elseif ($code==381)
                   <th> Department</th>
                 <th>College</th>
                 <th>Location</th>
+                <th>Remarks</th>
                   <th>Entry Time</th>
                   <!-- <th>Exit Time</th> -->
                   <th>Action</th>
@@ -27302,9 +27303,15 @@ elseif ($code==381)
                        <td><?=$Department?></td>
                        <td><?=$college?></td>
                     <td><?=$row['LocationName']?></td>
+                    <td><?=$row['remarks']?></td>
                       <td><?=$row['entry_time']?></td>
-                      <td><i class="fa fa-edit" data-toggle="modal" data-target="#EditGuardLocation"
-                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i></td>
+                      <td>
+                        <?php if($code_access=='111')
+                        {?>
+                      <i class="fa fa-edit" data-toggle="modal" data-target="#EditGuardLocation"
+                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i>
+                        <?php }?>
+                        </td>
                
 
                       
@@ -27472,7 +27479,138 @@ elseif ($code==384)
    <?php
 
 }
+elseif ($code=='385') 
+{
+  
+                      $CollegeID=$_POST['CollegeID'];
+                      $Course=$_POST['Course'];
+                      $Batch=$_POST['Batch'];
+                      $Semester=$_POST['Semester'];
+                      $Group=$_POST['Group'];
+                      $Department=$_POST['Department'];
+                    
+    ?>
+                     
+                          <div class="col-lg-12">
+                       <div class="card-header">
+                        Subjects
+                      </div>
+    
+                        <div class="table-responsive " style="font-size:12px;">
+                            <table class="table table-bordered table-hover">
+                               <tr>
+                                  <!-- <th>Course</th> -->
+                                  <th>Course</th>
+                                  <th>Batch</th>
+                                  <th>Semester</th>
+                                  <th>Name</th>
+                                  <th>Code</th>
+                                  <th>Type</th>
+                                  <th>Employee ID</th>
+                                  <th>Action</th>
+                                 
+                               </tr>
+                         <?php 
+                              $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'and Departmentid='$Department' and Sgroup='$Group' and IsVerified=1";
+                            $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                            $count_1=0;
+                              if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                           {
+                            while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                            {
+                                $count_1++;
+                               ?>
+                                  <tr>   
+                                     <td><?=$get_row['Course'];?></td>
+                                     <td><?=$get_row['Batch'];?></td>
+                                     <td><?=$get_row['Semester'];?></td>
+                                     <td><?=$get_row['SubjectName'];?></td>
+                                     <td><?=$get_row['SubjectCode'];?></td>
+                                     <td><?=$get_row['SubjectType'];?></td>
+                                     
+                                        <?php 
+                                               $checkSubjectCodeAlreadyAssign="SELECT * FROM SubjectAllotment WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester' and SubjectCode='".$get_row['SubjectCode']."' and Status='1'";
+                                               $checkSubjectCodeAlreadyAssign_run=sqlsrv_query($conntest,$checkSubjectCodeAlreadyAssign,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                                               $count_1=0;
+                                                 if(sqlsrv_num_rows($checkSubjectCodeAlreadyAssign_run)>0)  
+                                              {
+                                                while($get_rowSubejctEntry=sqlsrv_fetch_array($checkSubjectCodeAlreadyAssign_run,SQLSRV_FETCH_ASSOC))
+                                                {
+                                                ?>
+                                                <td>
+                                                <b> Assigned To </b><?php getEmployeeName($get_rowSubejctEntry['EmployeeID']);?>(<?=$get_rowSubejctEntry['EmployeeID'];?>) 
+                                              </td>
+                                              <td><button type="button" class="btn btn-warning btn-xs" onclick="submitSubjectDeAllotment('<?=$get_rowSubejctEntry['ID'];?>');">Re-Assigned</button></td>
+                                   
+                                                <?php 
+                                                }
+                                              }
+                                              else{
+                                            ?>
+                                            <td>
+                                        <input type="number" id="employeeIDOnkeyUp<?=$get_row['SrNo'];?>" class="form-control" onkeyup="emp_detail_verify2('<?=$get_row['SrNo'];?>');">
+                                        <p id="emp_detail_status_2<?=$get_row['SrNo'];?>"></p>
+                                  
+                                    </td>
+                                     <td><button type="button" class="btn btn-success btn-xs" onclick="submitSubjectAllotment('<?=$get_row['SrNo'];?>',<?=$CollegeID;?>,<?=$Course;?>,<?=$Batch;?>,<?=$Semester;?>,<?=$Department;?>,'<?=$get_row['SubjectCode'];?>');">Assigned</button></td>
+                                     <?php }?>
 
+                                  </tr>
+                            <?php 
+                          }  
+                          }
+                           else
+                           {
+                            echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                           }
+                           ?>
+                        </table>
+                      </div>
+                   </div>
+    <?php
+    
+}
+elseif ($code==386) {
+   
+     $EmpID=$_POST['id'];
+     $SrNo=$_POST['SrNo'];
+     $CollegeID=$_POST['CollegeID'];
+     $Course=$_POST['Course'];
+     $Batch=$_POST['Batch'];
+     $Semester=$_POST['Semester'];
+     $Department=$_POST['Department'];
+     $SubjectCode=$_POST['SubjectCode'];
+    
+      $allotSubjectInsert="INSERT into SubjectAllotment (CollegeID,CourseID,Batch,Semester,SubjectCode,EmployeeID,UpdatedBy,Status,UpdateOn)
+     Values('$CollegeID','$Course','$Batch','$Semester','$SubjectCode','$EmpID','$EmployeeID','1','$timeStamp')";
+    $allotSubjectInsertRun=sqlsrv_query($conntest,$allotSubjectInsert);
+    if($allotSubjectInsertRun==true)
+     {
+echo "1";
+     }
+     else{
+        echo "0";
+     }
+     
+    
+}
+elseif ($code==387) {
+
+     $TableID=$_POST['IDT'];
+    
+      $allotSubjectInsert="UPDATE SubjectAllotment SET Status='2'  Where ID='$TableID'";
+     $allotSubjectInsertRun1=sqlsrv_query($conntest,$allotSubjectInsert);
+   
+    if($allotSubjectInsertRun1==true)
+     {
+echo "1";
+     }
+     else{
+        echo "0";
+     }
+     
+    
+}
    else
    {
    
