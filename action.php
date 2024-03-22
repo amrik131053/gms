@@ -22156,13 +22156,42 @@ else
 
  else  if($code==361)
 {  
- $ucourse = $_POST['course'];
- $college = $_POST['college'];
- $batch=$_POST['batch']; 
- $sem = $_POST['sem'];
- $subject = $_POST['subject'];
- $ecat = $_POST['DistributionTheory'];
- $file=$_FILES['file_exl']['tmp_name'];
+ $id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+$emarks=$_POST['emarks'];
+$vmarks=$_POST['vmarks'];
+$fmarks=$_POST['fmarks'];
+
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+$updatedate="MOOCupdatedDate"; 
+
+}
+elseif($ecat=='Attendance')
+{
+  $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+echo $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
 
 
 
@@ -22474,6 +22503,61 @@ $nop++;
    
 }
 
+else if($code='363')
+{
+
+
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
+
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+   $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+
+$stmt = sqlsrv_query($conntest,$sqlee);  
+  
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+     $cname=$row["Course"];
+   }
+ 
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y' ";
+
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+ 
+
+
+
+
+ 
+
+}
 
 
 
