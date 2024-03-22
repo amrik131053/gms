@@ -5155,7 +5155,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
    
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=10;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5173,7 +5173,7 @@ for($j=$start;$j<=$max;$j++)
     
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=5;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5190,7 +5190,7 @@ for($j=$start;$j<=$max;$j++)
     
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=5;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5236,7 +5236,8 @@ for($j=$start;$j<=$max;$j++)
 if($dateover>0)
 {
    echo $show;
-}?>
+}
+?>
 
 
 
@@ -5288,17 +5289,10 @@ if($dateover>0)
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
+<!--<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >-->
 <?php 
-
-
-
-
 }
-
-
-
-       else
+ else
        {
    
        }
