@@ -126,9 +126,9 @@ for($i=1;$i<=12;$i++)
             <div class="form-group">
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
+                <option value="">Select</option>
                 <option value="CE1">CA-1 & CA-2</option>
                 <option value="MST1">MST-1 </option>
-                 <!-- <option value="CE2">CE-2</option> -->
                <option value="MST2">MST-2</option> 
                 <option value="CE3">CA-3</option>
                  <option value="ESE">End Semester Exam</option>
@@ -769,13 +769,13 @@ var exportCode='58';
  {
   var code=1;
    
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
+   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
 
     }
     else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
     {
        var code=2;
-      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
+      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
 
     }
       else
