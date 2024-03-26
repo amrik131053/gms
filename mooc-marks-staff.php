@@ -38,10 +38,9 @@ function uncheckall()
    <section class="content">
       <div class="container-fluid">
         <div class="row">
-
           <!-- left column -->
           <div class="col-lg-2 col-md-4 col-sm-3">
- 
+
    <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
@@ -122,22 +121,21 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-            <div class="col-md-1">
+            
             <div class="form-group">
-              <label>Type</label>
-              <select name="ecat" id="ecat" class="form-control" required="">
-                <option value="CE1">P1</option>
-                <option value="MST1">P2 </option>
-                 <!-- <option value="CE2">CE-2</option> -->
-               <!-- <option value="MST2">P</option>  -->
-                <option value="CE3">P3</option>
-                 <option value="ESE">P4</option>
-                    <option value="Attendance">P5</option>
-
-                
-              </select>
+              <!-- <label>Type</label> -->
+              <select name="ecat" id="ecat" class="form-control" hidden required="">
+              <!--   <option value="CE1">CA-1 & CA-2</option>
+                <option value="MST1">MST-1 </option>
+                  <option value="CE2">CE-2</option> 
+                <option value="MST2">MST-2</option> 
+                <option value="CE3">CA-3</option> -->
+                <option value="ESE">End Semester Exam</option>
+                <!-- <option value="Attendance">Attendance</option>
+                <option value="Grace">Grace</option> -->
+                          </select>
+           
             </div>
- </div>
 
 
 
@@ -169,16 +167,12 @@ for($i=1;$i<=12;$i++)
 </div>
 
 
- <div class="col-lg-1 col-md-4 col-sm-3" style="text-align: center;">
+ <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
 
-
- 
-            <button class="btn btn-danger" onclick="exportpdfdata()"><i  class="fa fa-file-pdf" ></i></button>
-
 </div>
- 
+
 
 
         <!-- /.row -->
@@ -186,32 +180,14 @@ for($i=1;$i<=12;$i++)
     </br>
 
 
- 
+
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-12 col-md-4 col-sm-3">
+          <div class="col-lg-12 col-md-12 col-sm-12">
    
             <div class="card card-info">
               <div class="card-header">
-
-                <div class="row"><div class="col-md-2"><h3 class="card-title">Students</h3>
-</div> 
-<!-- <div class="col-lg-1 col-md-12 col-sm-12" style="text-align: center;">
- 
-            <button class="btn btn-danger" onclick="exportdata()">Format</button>
-
-</div><div class="col-md-2">
-  <form  id="submit_csv_marks" method="post" enctype="multipart/form-data" action="action.php">
-<input type="hidden" name="code" value="361">
-  <input type="file" name="file_exl" id="file_exl" >
-</div> <div class="col-md-2">
- <button class="btn btn-danger" type="submit">Upload CSV</i></button>
-</div> -->
-</div>
-    </form>            
-
-
-
+                <h3 class="card-title">Students</h3>
               </div>
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
@@ -234,12 +210,13 @@ for($i=1;$i<=12;$i++)
 
 
 
-
-
 </div>
       <!-- /.container-fluid -->
     </section>
     <script>
+
+
+
      $(function() { 
       $("#Semester").change(function(e) {
         e.preventDefault();
@@ -247,10 +224,10 @@ for($i=1;$i<=12;$i++)
         var course = $("#Course").val();
        var batch = $("#Batch").val();
        var sem = $("#Semester").val();  
-          
+           
 
          
-        var code='363';
+        var code='200';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem},
@@ -270,7 +247,7 @@ for($i=1;$i<=12;$i++)
   });
  
 
-function select_mst()  
+function select_mst() 
 { 
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
@@ -278,6 +255,7 @@ function select_mst()
     var  sem = document.getElementById('Semester').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
+
 
     var distributiontheory = document.getElementById('ecat').value;
 
@@ -289,20 +267,19 @@ var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200)
       {     
-   spinner.style.display='none';
+   spinner.style.display='none'; 
        
           document.getElementById("live_data").innerHTML=xmlhttp.responseText;
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+52,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+53,true);
         xmlhttp.send();
  }
 else
-      {
-        ErrorToast('Select Appropriate data','bg-danger');
- 
-      }
+{
+ alert("Please Select Appropriate data ");
+}
       
   }
 
@@ -323,163 +300,46 @@ var xmlhttp = new XMLHttpRequest();
         xmlhttp.send();
 
 
-} 
-
-
-$(document).ready(function(e) { // image upload form submit
-    $("#submit_csv_marks").on('submit', (function(e) {
-        e.preventDefault();
-
-   var  college = document.getElementById('College').value;
-   var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-   var  sem = document.getElementById('Semester').value;
-   var subject = document.getElementById('Subject').value;
-   var  examination = document.getElementById('Examination').value;
-   var distributiontheory = document.getElementById('ecat').value;
-
-var form_data = new FormData(this);   
-form_data.append('file_exl', file_exl);
-form_data.append('code',361);
-form_data.append('college',college);
-form_data.append('course',course) ;             
-form_data.append('batch',batch) ;
-form_data.append('DistributionTheory',distributiontheory) ;
-form_data.append('subject',subject) ;
-form_data.append('examination',examination) ;
-form_data.append('sem',sem) ;
-
-var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        $.ajax({
-            url: "action.php",
-            type: "POST",
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function(data) {
-                console.log(data);
-                spinner.style.display = 'none';
-                if (data==1) {
-                    SuccessToast('Successfully Uploaded');
-                    
-                    //search_exam_form();
-
-                } 
-                else if(data==0)
-                {
-                    ErrorToast('Invalid CSV File ', 'bg-danger');
-                    
-                }
-
-                    else {
- ErrorToast('Failed to Upload', 'bg-warning');
-                    
-                }
-            },
-        });
-    }));
-});
-
-
-
+}
 
 function testing() 
 {
-var spinner= document.getElementById("ajax-loader");
-var idNos=document.getElementsByClassName('IdNos');
-var marks=document.getElementsByClassName('marks');
-var ecat=document.getElementById('ecat').value;
-var len_student= idNos.length; 
-var len_marks= marks.length; 
-var lockallowed=0;
-var student_str=[];
-var marks_str=[];
-for(i=0;i<len_student;i++)
+var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var idNos=document.getElementsByClassName('IdNos');
+  var marks=document.getElementsByClassName('marks');
+  var ecat=document.getElementById('ecat').value;
+  var len_student= idNos.length; 
+  var len_marks= marks.length; 
+
+  var student_str=[];
+  var marks_str=[];
+    for(i=0;i<len_student;i++)
      {
         student_str.push(idNos[i].value);
      }
-for(i=0;i<len_marks;i++)
+     for(i=0;i<len_marks;i++)
      {
-      if(marks[i].value!='')
-      {
         marks_str.push(marks[i].value);
-      }
-      else
-      {
-        var lockallowed=1;
-      }
      }
     // alert(student_str);
- if(lockallowed>0)
- {
-
- ErrorToast('Unable to Lock Update all Marks',"bg-danger" );
-}
-else {
-  spinner.style.display='block';
 
     $.ajax({
-      url:'action.php',
+      url:'action.php', 
       type:'post',
       data:{
         ids:student_str,mst:marks_str,ecat:ecat,flag:len_student,code:'201'
       },
       success:function(response)
       {
-//console.log(response);
+console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
        select_mst() ;
       }
     });
-
-}
 }
 
-
-
-function savepmarks(id)
-{
-
-  var emarks=document.getElementById('emarks_'+id).value;
-   var vmarks=document.getElementById('vmarks_'+id).value
-    var fmarks=document.getElementById('fmarks_'+id).value
-     var ecat=document.getElementById('ecat').value;
-  
-
-    if(emarks!='' && vmarks!=''&& fmarks!='')
-    {
-
-
-      marks=parseInt(emarks)+parseInt(vmarks)+parseInt(fmarks);
-
-document.getElementById('marks_'+id).value='';
-
-      document.getElementById('marks_'+id).value = marks;
-
-
-      $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,code:'361'
-      },
-      success:function(response)
-      {
-        console.log(response);
-         SuccessToast('Successfully Updated');
-        //select_mst();      
-      }
-      });
-
-}
-else{
-  document.getElementById('marks_'+id).value='';
-}
-
-}
 
 function unlock(id)
 {
@@ -597,12 +457,12 @@ else
 }
 
 
-function unlockpending()
+function unlockpending() 
 {
 
   var examination=document.getElementById('Examination').value;
   var ecat=document.getElementById('ecat').value;
-   var semester=document.getElementById('Semester').value;
+  var semester=document.getElementById('Semester').value;
 
  if(examination!='' && ecat!='' && semester!='')
  {
@@ -610,11 +470,11 @@ function unlockpending()
       url:'action.php',
       type:'post',
       data:{
-        examination:examination,ecat:ecat,semester:semester,code:'216'
+        examination:examination,ecat:ecat,semester:semester,code:216
       },
       success:function(response)
       {
-
+//console.log(response);
         if(response>0)
         { 
        SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
@@ -686,7 +546,7 @@ else
 }
 
 function unlockSemesterpending()
-{  
+{
   var college=document.getElementById('College').value;
   var course=document.getElementById('Course').value;
   var examination=document.getElementById('Examination').value;
@@ -706,11 +566,12 @@ if(typeof  distributiontheory_str[0]== 'undefined')
   {
     ErrorToast('Please select atleast one theory distribution',"bg-danger" );
   }
-  else{   
-
+  else
+  {   
   if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
  {
   alert(distributiontheory_str[0]);
+
  $.ajax({
       url:'action.php',
       type:'post',
@@ -720,7 +581,7 @@ if(typeof  distributiontheory_str[0]== 'undefined')
       success:function(response)
       {
     
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
+       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp; of &nbsp;"+examination);
        
       }
     });
@@ -734,74 +595,46 @@ else
 }
 
 
+  function uploadPhoto(form) {
 
-   function exportdata()
+   var formData = new FormData(form);
+      $.ajax({
 
+         url: form.action,
+         type: form.method,
+         data: formData,
+         contentType: false,
+         processData: false,
+         success: function(response) {
+            // console.log(response);
+            if (response==1) 
+            {
+            SuccessToast('Successfully Updated');
+            select_mst(); 
+                }
+             else if(response=='Could not connect to 10.0.10.11')
+                {
+                 ErrorToast('FTP Server Off' ,'bg-warning');
+                }
+               else
+                {
 
-   {
-          var  college = document.getElementById('College').value;
-  var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value;
-         var subject = document.getElementById('Subject').value;
-     var  examination = document.getElementById('Examination').value;
-var exportCode='58';
-    var distributiontheory = document.getElementById('ecat').value;
-
-  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
- {
-   
-   window.location.href="export.php?exportCode="+exportCode+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
-
-    }
-      else
-      {
-        ErrorToast('Select Appropriate data','bg-danger');
- 
-      }
-}
-
-   function exportpdfdata()
-
-
-   {
-          var  college = document.getElementById('College').value;
-  var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value;
-         var subject = document.getElementById('Subject').value;
-     var  examination = document.getElementById('Examination').value;
-
-    var distributiontheory = document.getElementById('ecat').value;
-
-  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
- {
-  var code=1;
-   
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
-
-    }
-    else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
-    {
-       var code=2;
-      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
-
-    }
-      else
-      {
-        ErrorToast('Select Appropriate data','bg-danger');
- 
-      }
-}
-
-
-
-
+                 }
+         },
+         error: function(xhr, status, error) {
+            console.log(error);
+         }
+      });
+  }
 
 
 
 
 </script>
 
-<div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
     <?php include "footer.php";  ?>

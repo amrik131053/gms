@@ -20401,12 +20401,24 @@ elseif($code=='336')
     <span id="employee_name_show"></span>
 
     <input type="hidden" name="code" value="339">
+
 </div>
 
+  <div class="col-lg-3">
+     <label>Leave Duration<span class="text-danger">&nbsp;*</span></label>
+ <select class="form-control" name="leaveShort" id="leaveShort">
+                        <option value="">Leave Duration</option>
+                        <option value=".25">.25</option>
+                        <option value="0.5">.50</option>
+                        <option value="0.75">.75</option>
+                                 <option value="1">1</option>
+                        
+                    </select>
+</div>
                <div class="col-lg-3">
                <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
-    <option value="">Select Type</option>
+    
     <?php 
       $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id='7' "; 
 
@@ -20603,17 +20615,16 @@ elseif($code=='336')
 $EmpID=$_POST['EmpID'];
 $LeaveType=$_POST['LeaveType'];
 $leaveStartDate=$_POST['leaveDate'];
-
+$leaveShort=$_POST['leaveShort'];
  
-if($LeaveType==6){
 
+if($leaveShort==1){
 
-
-   $LeaveDurationsTime='0.25';
+   $LeaveDurationsTime='0';
 }
 else
 {
-   $LeaveDurationsTime='0';
+   $LeaveDurationsTime=$leaveShort;
 }
 
  $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
@@ -20628,7 +20639,7 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
 
                
     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department','1','$LeaveDurationsTime','0','0','0','Approved')";
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
