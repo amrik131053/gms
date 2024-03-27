@@ -4769,7 +4769,7 @@ $start=3;
                 </tr>
  <?php
  $i='1';
-
+$j=1;
 
 
  $CourseID = $_GET['course'];
@@ -4803,7 +4803,7 @@ $start=3;
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $j;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
@@ -4948,7 +4948,7 @@ if($dateover>0)
                         </td> </tr>
 
 <?php 
-
+$j++;
 }
   $flag=$i-1;
 

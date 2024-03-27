@@ -12433,9 +12433,9 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
  else  if($code==201)
 {       
 $ids =$_POST['ids']; 
- $mst=$_POST['mst'];
+$mst=$_POST['mst'];
 $ecat=$_POST['ecat'];
-   $flag=$_POST['flag'];
+$flag=$_POST['flag'];
 
 if($ecat=='ESE')
 {
@@ -12452,12 +12452,13 @@ elseif($ecat=='Attendance')
 else
 {
   $update=$ecat."updateby"; 
+  $locked=$ecat."Locked";
   $updatedate=$ecat."updatedDate"; 
 }
 
  for($i=0;$i<$flag;$i++)
   {
-$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$ids[$i]'";
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
