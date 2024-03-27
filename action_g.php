@@ -15768,7 +15768,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending to VC'){ ?>
 
                             <button class="btn btn-success"
-                                onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve  amrik</button>
+                                onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
                             <?php if($Emp_Designation!='Vice Chancellor')
                     {?>
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
