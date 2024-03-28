@@ -360,6 +360,8 @@ option value = "" > Select < /option> <?php
    $Brand = $_POST['Brand'];
    $Model = $_POST['Model'];
    $SerialNo = $_POST['SerialNo'];
+      $articleimageNo = $_POST['empc1'];
+ 
    $DeviceSerailNo = $_POST['DeviceSerailNo'];
    
    $BillNo = $_POST['BillNo'];
@@ -380,11 +382,11 @@ option value = "" > Select < /option> <?php
       $currentOwner=$rowData['Corrent_owner'];
       $referenceNo=$rowData['reference_no'];
    }
-      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',BillNo='$BillNo',BillDate='$BillDate' where IDNo='$IDNo'";
+      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',BillNo='$BillNo',BillDate='$BillDate',articleimage='$articleimageNo' where IDNo='$IDNo'";
    }
    else
    {
-      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',Status='1',BillNo='$BillNo',BillDate='$BillDate' where IDNo='$IDNo'";
+      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',Status='1',BillNo='$BillNo',BillDate='$BillDate',articleimage='$articleimageNo' where IDNo='$IDNo'";
    }
    
    $Summury_run = mysqli_query($conn, $Summury_insert);
@@ -12441,11 +12443,13 @@ if($ecat=='ESE')
 {
 
 $update='MOOCupdateby'; 
+$locked="MoocLocked";
   $updatedate="MOOCupdatedDate"; 
 }
 elseif($ecat=='Attendance')
 {
    $update=$ecat."updateyby"; 
+   $locked=$ecat."Locked";
   $updatedate=$ecat."updatedDate"; 
 
 }

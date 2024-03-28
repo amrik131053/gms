@@ -268,7 +268,7 @@
     {
       content=document.getElementById('article_No').value;
     }
-    var code=160;
+    var code=160; 
          $.ajax(
          {
             url:"action.php ",

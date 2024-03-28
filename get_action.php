@@ -717,7 +717,7 @@ if ($EmployeeID!=0) {
 </div>
 <?php
    }
-   else if ($code==9)
+   else if ($code==9) 
      {
    $id=$_GET['id'];
    $pageUrl=$_GET['page'];
@@ -748,7 +748,7 @@ if ($EmployeeID!=0) {
                while ($building_row=mysqli_fetch_array($building_run)) 
                {
                $building_num=$building_num+1;?>
-           <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+           <tr> <h3 class="text-center"><b><?=$building_row['ArticleName'];?>(<?= $articlecode=$building_row['ArticleCode'];?>)</b></h3>
             <td>
                <input class="form-control" readonly="" type="text" name="IDNo" value="<?=$building_row['IDNo'];?>"> 
             </td>
@@ -978,18 +978,57 @@ if ($EmployeeID!=0) {
          <?php 
             }
                        ?>
-            <tr>
+        
+<tr>
+    <?php 
+    $j=1;  $billSql="SELECT * FROM article_images where article_id='26' ";
+            $billRes=mysqli_query($conn,$billSql);
+            while($billData=mysqli_fetch_array($billRes))
+            {
+               
+               ?>
+              <td>
+
+              <div class="icheck-primary d-inline">
+                     <input type="radio"  id="radioPrimary<?=$j;?>"   value="<?=$billData['id'];?>" name="empc1">
+                     <label for="radioPrimary<?=$j;?>">
+                    <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:100px;height:100px">
+                     </label>
+                  </div>
+
+
+              </td>
+              
+               <?php
+               $j++;
+            }
+            ?> 
+            </select>
+         
+
+
+
+</tr>
+
+
+
+
             <td>
                <?php 
                // if ($stockStatus!=2) 
                // {
                      ?>
-                        <button type="submit" class="btn btn-secondary" style="background-color: #a62532">Submit</button>
+                     <button type="submit" class="btn btn-secondary" style="background-color: #a62532">Submit</button>
                      <?php
                // }
                ?>
             </td>
             </tr>
+
+
+
+<tr></tr>
+
          </tbody>
       </table>
    </div>
@@ -2588,7 +2627,7 @@ while($article_data=mysqli_fetch_array($ss))
       <div class="col-sm-2"></div>
    <input type="hidden" name="id" value="<?=$id;?>">
       <div class="col-sm-8" style="padding: 50px;">
-         <h3 class="text-center"><b  data-toggle="modal" onclick="updateModalFunction(<?=$id?>)" data-target="#update_modal" type="button"><?=$article_name;?></b></h3>
+         <h3 class="text-center"><b  data-toggle="modal" onclick="updateModalFunction(<?=$id?>)" data-target="#update_modal" type="button"><?=$article_name;?>(<?= $articlecode=$article_data['ArticleCode'];?>)</b></h3>
 <label>Article Number </label> 
 <input type="text"  class="form-control" value="<?=$id;?>" disabled>
 <input type="hidden" name="" id="id" class="form-control" value="<?=$id;?>" required>
@@ -2623,10 +2662,46 @@ while($article_data=mysqli_fetch_array($ss))
 <select id='roomSelectList' class="form-control" onchange="locationOwner(this.value)">
 
 </select>
+
+
+
+
+
+
 <input type="hidden" id="lcm_id" value="">
 <label>Current Owner </label>
          <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value);">
          <p id="emp_detail_status_"></p>
+
+         <tr>
+    <?php 
+    $j=1;  $billSql="SELECT * FROM article_images inner join stock_summary on stock_summary.articleimage=article_images.id where  IDNo='$id'  ";
+            $billRes=mysqli_query($conn,$billSql);
+            while($billData=mysqli_fetch_array($billRes))
+            {
+               
+               ?>
+              <td>
+
+              <div class="icheck-primary d-inline">
+                     
+                    <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:100px;height:100px">
+                   
+                  </div>
+
+
+              </td>
+              
+               <?php
+               $j++;
+            }
+            ?> 
+            </select>
+         
+
+
+
+</tr>
 
 <div class="col-lg-8" style="padding: 50px;">
    <?php 
