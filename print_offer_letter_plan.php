@@ -117,6 +117,10 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run)) {
 
     $courseName=$row_course_name['Course'];
 }
+if($Lateral=='Yes')
+  {
+    $Batch=$Batch-1;
+  }
 
     $fee_details="SELECT * FROM master_fee where consultant_id='$Consultant_id' and Lateral='$Lateral' ANd course='$Course'ANd batch='$Batch'";
 $fee_details_run=mysqli_query($conn,$fee_details);
