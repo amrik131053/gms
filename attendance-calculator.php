@@ -244,11 +244,11 @@ $deducation=0;
 
 if($myin>$fintime1 && $myin<=$fintime2)
 {
-    $deducation=0.25;
+  $deducation=0.25;
 }
 else if($myin>$fintime2&& $myin<=$fintime3)
 {
-    $deducation=0.50;
+   $deducation=0.50;
 }
 
 else if($myin>$fintime3 && $myin<=$fintime4)
@@ -275,7 +275,7 @@ $deducationo=0;
 if($myout>=$fouttime2&& $myout<$fouttime1)
 {
 
-   $deducationo=0.25;
+  $deducationo=0.25;
 }
 else if($myout>=$fouttime3&& $myout<$fouttime2)
 {
@@ -284,7 +284,7 @@ else if($myout>=$fouttime3&& $myout<$fouttime2)
 
 else if($myout>=$fouttime4&& $myout<$fouttime3)
 {
-   $deducationo=0.75;
+     $deducationo=0.75;
 }
 
 else if($myout>=$fouttime5 && $myout<$fouttime4)
@@ -309,7 +309,6 @@ else
 
 }
 
-
 else
 {
    $totaldeduction=1;  
@@ -322,7 +321,13 @@ $leavecount=1;
 
 }
 
-$countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
+
+if($holidaycount>0)
+{
+   $totaldeduction=0; 
+}
+
+ $countdayn=$mydaycount-$totaldeduction+$holidaycount+$leavecount;
 
 if($countdayn<=1)
 {
