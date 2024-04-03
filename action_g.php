@@ -79,7 +79,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 $currentMonthString=date('F');
 $currentMonthInt=date('n');
      $code =$_POST['code'];
-   if($code==224 ||  $code==168 || $code==374  || $code==380  )
+   if($code==224 ||  $code==168 || $code==374  || $code==380 || $code==388 )
 {
        include "connection/ftp.php";
 }
@@ -27610,6 +27610,36 @@ echo "1";
      }
      
     
+}
+elseif ($code==388) {
+    $ApplyDate=date('Y-m-d h:i:s A');
+    // $CategoryId=$_POST['CategoryID'];
+    $article_id=$_POST['ArticleName'];
+     $string = bin2hex(openssl_random_pseudo_bytes(4));
+         $file_name = $_FILES['fileImage']['name'];
+           $file_tmp = $_FILES['fileImage']['tmp_name'];
+          $type = $_FILES['fileImage']['type'];
+           $file_data = file_get_contents($file_tmp);
+            $file_name = $ApplyDate."_".$string."_".basename($_FILES['fileImage']['name']);
+                $target_dir = $file_name;
+         $destdir = 'Articleimages';
+         ftp_chdir($conn_id,"Articleimages") or die("Could not change directory");
+         ftp_pasv($conn_id,true);
+        //  file_put_contents(,$file_data);
+     ftp_put($conn_id,$target_dir,$file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    //  ftp_close($conn_id);
+         $InsertArticleImage="INSERT into article_images (article_id,image)
+     VALUES('$article_id','$file_name')";
+      $InsertArticleImageRun=mysqli_query($conn,$InsertArticleImage);
+      if($InsertArticleImageRun==true)
+      {
+        echo "1";
+      }
+      else{
+        echo "0";
+      }
+    //   echo "hihi";
+
 }
    else
    {
