@@ -1026,7 +1026,7 @@ if ($EmployeeID!=0) {
             </tr>
 
 
-         </tbody>
+         </tbody> 
       </table>
    </div>
 </form>
@@ -2633,7 +2633,7 @@ while($article_data=mysqli_fetch_array($ss))
    <optgroup label="Building">
       <option value="">Select</option>
    <?php 
-   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307') 
+   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
    {
       $locationBuildingSql="Select * from building_master ";
    }
