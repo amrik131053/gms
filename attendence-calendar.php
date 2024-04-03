@@ -239,6 +239,7 @@ function approvedLeavesAuth() {
             code: code
         },
         success: function(response) {
+            console.log(response);
             spinner.style.display = 'none';
             document.getElementById("table_load_auth_leaves").innerHTML = response;
         }
@@ -297,7 +298,9 @@ function approvedLeavesByAuthButton(id) {
             },
             success: function(response) {
                 spinner.style.display = 'none';
+                console.log(response);
                 if (response == 1) {
+
                     SuccessToast('SuccessFully Recommend');
                     leaveTypeChnageOnApprove(id);
                     $('#remarksForApproved').removeClass("is-invalid");

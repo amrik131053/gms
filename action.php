@@ -360,6 +360,8 @@ option value = "" > Select < /option> <?php
    $Brand = $_POST['Brand'];
    $Model = $_POST['Model'];
    $SerialNo = $_POST['SerialNo'];
+      $articleimageNo = $_POST['empc1'];
+ 
    $DeviceSerailNo = $_POST['DeviceSerailNo'];
    
    $BillNo = $_POST['BillNo'];
@@ -380,11 +382,11 @@ option value = "" > Select < /option> <?php
       $currentOwner=$rowData['Corrent_owner'];
       $referenceNo=$rowData['reference_no'];
    }
-      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',BillNo='$BillNo',BillDate='$BillDate' where IDNo='$IDNo'";
+      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',BillNo='$BillNo',BillDate='$BillDate',articleimage='$articleimageNo' where IDNo='$IDNo'";
    }
    else
    {
-      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',Status='1',BillNo='$BillNo',BillDate='$BillDate' where IDNo='$IDNo'";
+      $Summury_insert = "UPDATE  stock_summary SET CPU='$Processor',OS='$Operating',Memory='$Memory',Storage='$Storage',Brand='$Brand',Model='$Model',SerialNo='$SerialNo',DeviceSerialNo='$DeviceSerailNo',Updated_By='$EmployeeID',Status='1',BillNo='$BillNo',BillDate='$BillDate',articleimage='$articleimageNo' where IDNo='$IDNo'";
    }
    
    $Summury_run = mysqli_query($conn, $Summury_insert);
@@ -12433,31 +12435,34 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
  else  if($code==201)
 {       
 $ids =$_POST['ids']; 
- $mst=$_POST['mst'];
+$mst=$_POST['mst'];
 $ecat=$_POST['ecat'];
-   $flag=$_POST['flag'];
+$flag=$_POST['flag'];
 
 if($ecat=='ESE')
 {
 
 $update='MOOCupdateby'; 
+$locked="MoocLocked";
   $updatedate="MOOCupdatedDate"; 
 }
 elseif($ecat=='Attendance')
 {
    $update=$ecat."updateyby"; 
+   $locked=$ecat."Locked";
   $updatedate=$ecat."updatedDate"; 
 
 }
 else
 {
   $update=$ecat."updateby"; 
+  $locked=$ecat."Locked";
   $updatedate=$ecat."updatedDate"; 
 }
 
  for($i=0;$i<$flag;$i++)
   {
-$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$ids[$i]'";
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -20170,7 +20175,6 @@ else
     $shiftchnageremarks='';
 }
 
-
 if($HolidayName!='' && $printleave!='')
 {
 
@@ -20401,12 +20405,24 @@ elseif($code=='336')
     <span id="employee_name_show"></span>
 
     <input type="hidden" name="code" value="339">
+
 </div>
 
+  <div class="col-lg-3">
+     <label>Leave Duration<span class="text-danger">&nbsp;*</span></label>
+ <select class="form-control" name="leaveShort" id="leaveShort">
+                        <option value="">Leave Duration</option>
+                        <option value=".25">.25</option>
+                        <option value="0.5">.50</option>
+                        <option value="0.75">.75</option>
+                                 <option value="1">1</option>
+                        
+                    </select>
+</div>
                <div class="col-lg-3">
                <label>Leave Type<span class="text-danger">&nbsp;*</span></label>
                <select class="form-control" name="LeaveType"  id="LeaveType" required>
-    <option value="">Select Type</option>
+    
     <?php 
       $sql_att23="SELECT DISTINCT LeaveTypes.Name,LeaveTypes.Id FROM LeaveTypes where LeaveTypes.Id='7' "; 
 
@@ -20603,17 +20619,16 @@ elseif($code=='336')
 $EmpID=$_POST['EmpID'];
 $LeaveType=$_POST['LeaveType'];
 $leaveStartDate=$_POST['leaveDate'];
-
+$leaveShort=$_POST['leaveShort'];
  
-if($LeaveType==6){
 
+if($leaveShort==1){
 
-
-   $LeaveDurationsTime='0.25';
+   $LeaveDurationsTime='0';
 }
 else
 {
-   $LeaveDurationsTime='0';
+   $LeaveDurationsTime=$leaveShort;
 }
 
  $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$EmpID' and LeaveTypeId='$LeaveType' and Status!='Approved' and Status!='Reject'";
@@ -20628,7 +20643,7 @@ $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrol
 
                
     $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status)
- VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department','1','$LeaveDurationsTime','0','0','0','Approved')";
+ VALUES('$EmpID','$LeaveType','$leaveStartDate','$leaveStartDate','$leaveStartDate','By HR Department(Miss Punch Update)','1','$LeaveDurationsTime','0','0','0','Approved')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
                 if($InsertLeaveRun==true)
                 {
@@ -22503,7 +22518,7 @@ $nop++;
    
 }
 
-else if($code='363')
+else if($code=='363')
 {
 
 
@@ -22560,7 +22575,57 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
 }
 
 
+else if($code==364)
+{
+$College = $_POST["College"];
+ $Course = $_POST["Course"];
+ $Batch = $_POST["Batch"];
+ $Semester = $_POST["Semester"];
 
+ $Type = $_POST["Type"];
+ //$Group = $_POST["Group"];
+ //$Examination = $_POST["Examination"];
+
+?>
+  <table class="table">
+
+<?php 
+ $resulrs="SELECT distinct   a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo,rg.Examination  from ResultGKU as rg inner join Admissions as a  on rg.UniRollNo=a.UniRollNo   
+where  a.CollegeID='$College' AND a.CourseID='$Course' AND a.Batch='$Batch' AND rg.Semester='$Semester' AND rg.Type='$Type'  order by  rg.ResultNo Asc";
+
+$list_resultsub = sqlsrv_query($conntest, $resulrs);
+$key1=1;
+ while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) 
+ {
+   ?>
+   <tr><td><?= $rows['CollegeName'];?></td><td><?= $rows['Course'];?></td><td><?= $rows['Batch'];?></td><td><?= $rows['Semester'];?></td><td><?= $rows['Type'];?></td><td>  <?php if($rows['DeclareDate']!=''){
+      echo $date= $rows['DeclareDate']->format('Y-m-d');
+
+     
+
+   }
+   else
+   {
+$date='';
+
+   }
+?>
+      </td>
+      <td><?= $rows['DeclareType'];?></td>
+      <td><?= $rows['ResultNo'];?></td>
+      <td><?= $rows['Examination'];?></td>
+      <td>   <button class="btn btn-success btn-sm " onclick="exportCutListExcel('<?= $rows['Examination'];?>','<?=$date;?>','<?= $rows['ResultNo'];?>')"><i
+                                        class="fa fa-file-excel"></i></button>
+                                     </td>
+                                  </tr>
+
+<?php
+
+}
+?>
+</table>
+<?php 
+}
 
 
 

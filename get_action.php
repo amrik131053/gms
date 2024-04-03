@@ -717,7 +717,7 @@ if ($EmployeeID!=0) {
 </div>
 <?php
    }
-   else if ($code==9)
+   else if ($code==9) 
      {
    $id=$_GET['id'];
    $pageUrl=$_GET['page'];
@@ -748,7 +748,7 @@ if ($EmployeeID!=0) {
                while ($building_row=mysqli_fetch_array($building_run)) 
                {
                $building_num=$building_num+1;?>
-           <tr><h3 class="text-center"><b><?=$building_row['ArticleName'];?></b></h3>
+           <tr> <h3 class="text-center"><b><?=$building_row['ArticleName'];?>(<?= $articlecode=$building_row['ArticleCode'];?>)</b></h3>
             <td>
                <input class="form-control" readonly="" type="text" name="IDNo" value="<?=$building_row['IDNo'];?>"> 
             </td>
@@ -978,19 +978,55 @@ if ($EmployeeID!=0) {
          <?php 
             }
                        ?>
-            <tr>
+        
+<tr>
+    <?php 
+    $j=1;  $billSql="SELECT * FROM article_images where article_id='$articlecode' ";
+            $billRes=mysqli_query($conn,$billSql);
+            while($billData=mysqli_fetch_array($billRes))
+            {
+               
+               ?>
+             <td style="width:20%">
+
+              
+                     <input type="radio"  id="radioPrimary<?=$j;?>"   value="<?=$billData['id'];?>" name="empc1">
+                     <label for="radioPrimary<?=$j;?>">
+           <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:50px;height:50px">
+                     </label>
+                
+
+
+         </td>     
+              
+               <?php
+               $j++;
+            }
+            ?> 
+           
+         
+
+</tr>
+
+
+<tr>
+
+
+
             <td>
                <?php 
                // if ($stockStatus!=2) 
                // {
                      ?>
-                        <button type="submit" class="btn btn-secondary" style="background-color: #a62532">Submit</button>
+                     <button type="submit" class="btn btn-secondary" style="background-color: #a62532">Submit</button>
                      <?php
                // }
                ?>
             </td>
             </tr>
-         </tbody>
+
+
+         </tbody> 
       </table>
    </div>
 </form>
@@ -2588,7 +2624,7 @@ while($article_data=mysqli_fetch_array($ss))
       <div class="col-sm-2"></div>
    <input type="hidden" name="id" value="<?=$id;?>">
       <div class="col-sm-8" style="padding: 50px;">
-         <h3 class="text-center"><b  data-toggle="modal" onclick="updateModalFunction(<?=$id?>)" data-target="#update_modal" type="button"><?=$article_name;?></b></h3>
+         <h3 class="text-center"><b  data-toggle="modal" onclick="updateModalFunction(<?=$id?>)" data-target="#update_modal" type="button"><?=$article_name;?>(<?= $articlecode=$article_data['ArticleCode'];?>)</b></h3>
 <label>Article Number </label> 
 <input type="text"  class="form-control" value="<?=$id;?>" disabled>
 <input type="hidden" name="" id="id" class="form-control" value="<?=$id;?>" required>
@@ -2597,7 +2633,7 @@ while($article_data=mysqli_fetch_array($ss))
    <optgroup label="Building">
       <option value="">Select</option>
    <?php 
-   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307') 
+   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
    {
       $locationBuildingSql="Select * from building_master ";
    }
@@ -2623,10 +2659,46 @@ while($article_data=mysqli_fetch_array($ss))
 <select id='roomSelectList' class="form-control" onchange="locationOwner(this.value)">
 
 </select>
+
+
+
+
+
+
 <input type="hidden" id="lcm_id" value="">
 <label>Current Owner </label>
          <input type="number" name="Employee_ID" id="Employee_ID" class="form-control" onkeyup="emp_detail_verify(this.value);">
          <p id="emp_detail_status_"></p>
+
+         <tr>
+    <?php 
+    $j=1;  $billSql="SELECT * FROM article_images inner join stock_summary on stock_summary.articleimage=article_images.id where  IDNo='$id'  ";
+            $billRes=mysqli_query($conn,$billSql);
+            while($billData=mysqli_fetch_array($billRes))
+            {
+               
+               ?>
+              <td>
+
+              <div class="icheck-primary d-inline">
+                     
+                    <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:100px;height:100px">
+                   
+                  </div>
+
+
+              </td>
+              
+               <?php
+               $j++;
+            }
+            ?> 
+            </select>
+         
+
+
+
+</tr>
 
 <div class="col-lg-8" style="padding: 50px;">
    <?php 
@@ -3763,9 +3835,6 @@ else if($code=='43')
                 </tr>
  <?php
  $i='1';
-
-
-
  $CourseID = $_GET['course'];
  $CollegeID = $_GET['college'];
  $Batch=$_GET['batch']; 
@@ -3803,7 +3872,8 @@ else if($code=='43')
                                             
                <td><?= $subject;?>
              <?php  $iidd=$row['id'];?></td>
-                           <td style='text-align:center;width: 100px'>  <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td>
+                           <td style='text-align:center;width: 100px'>  
+                              <input type="text" required=""  style="width: 100px" name="mst[]" value="<?=$row['intmarks'];?>" id='marks' class='marks' ></td>
                             
                             <td>
                               <?php
@@ -4678,12 +4748,12 @@ else if($code==49)
       </div>
    </div>
    <br>
-</div><?php 
+</div>
+
+<?php 
 }
 else if($code=='51')
 {
-
-
  $allow=0;
  $ucourse = $_GET['course'];
  $college = $_GET['college'];
@@ -4724,7 +4794,7 @@ $start=3;
 
 <table  class="table table-striped "  style="border: 2px solid black;  ">  
 
- <tr><td colspan="5" style="text-align: center;"></td></tr>
+ <tr><td colspan="5" style="text-align: center;">  <?= $ecat ;?> </td></tr>
    
 
  <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
@@ -4771,7 +4841,7 @@ $start=3;
                 </tr>
  <?php
  $i='1';
-
+$j=1;
 
 
  $CourseID = $_GET['course'];
@@ -4797,7 +4867,7 @@ $start=3;
 
  //$declare= $row['11'];
 
-//print_r($row);
+// print_r($row);
 
 
 
@@ -4805,7 +4875,7 @@ $start=3;
                   
 ?>
 <tr>
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $j;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
@@ -4950,7 +5020,7 @@ if($dateover>0)
                         </td> </tr>
 
 <?php 
-
+$j++;
 }
   $flag=$i-1;
 
@@ -5109,7 +5179,7 @@ $start=3;
 
 <?php
 
- $getdistri="Select Id from DDL_TheroyExamination where Value='$DistributionTheory'" ;
+ $getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
 $list_resultdi = sqlsrv_query($conntest,$getdistri);
         $i = 1;
         while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
@@ -5155,7 +5225,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
    
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=10;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5173,7 +5243,7 @@ for($j=$start;$j<=$max;$j++)
     
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=5;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5190,7 +5260,7 @@ for($j=$start;$j<=$max;$j++)
     
         <?php 
 
-for($j=$start;$j<=$max;$j++)
+for($j=$start;$j<=5;$j++)
 {?>
      <option value='<?=$j;?>'><?=$j;?></option>
 
@@ -5236,11 +5306,319 @@ for($j=$start;$j<=$max;$j++)
 if($dateover>0)
 {
    echo $show;
-}?>
+}
+?>
 
 
 
                            </td>
+
+                           <td><?=$row['updateby'];?></td>
+                           <td><?php 
+                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                        }?></td>
+                            
+                            
+
+
+                              <td style='text-align:center;width: 30px'>
+
+
+                            <?php
+
+
+                            if($row['Locked']>0)
+                            {
+                               
+                               ?>
+                               <i class="fa fa-lock text-danger" ></i>
+                                <!--<i class="fa fa-lock text-danger" onclick="unlock(<?=$row['id'];?>);" ></i>-->
+
+                                <?php 
+
+
+                     }
+                           else {
+
+                           ?>
+                               <!-- <i class="fa fa-lock-open text-success" onclick="lock(<?=$row['id'];?>);"></i> -->
+                                <i class="fa fa-lock-open text-success" ></i>
+                                <?php 
+                           
+                        }
+                           ?>
+
+                        </td> </tr>
+
+<?php 
+
+}
+  $flag=$i-1;
+
+?>
+<input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
+
+</table>
+<!--<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >-->
+<?php 
+}
+
+
+
+else if($code==53)
+{
+ $allow=0;
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+ $subject = $_GET['subject'];
+ $ecat = $_GET['DistributionTheory'];
+ $start=0;
+if($ecat=='CE1')
+{
+$max=20;
+}
+else if($ecat=='CE3')
+{
+$max=5;
+}
+
+else if($ecat=='MST1')
+{
+$max=30;
+}else if($ecat=='MST2')
+{
+$max=30;
+}
+else if($ecat=='ESE')
+{
+$max=40;
+}
+else if($ecat=='Attendance')
+{
+$max=5;
+$start=3;
+}
+
+?>
+
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"> <?= $ecat ;?> </td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>(<?= $subject;?>)<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th style="width:25px;text-align: left;"> Sr No </th>
+                <th  style="width:25px;text-align:left">Uni Roll No</th>
+                                                
+                      
+                       <th style="width:25px;text-align: left;"> Name </th>
+                         <th style="width:50px;text-align: left;"> Subject </th>
+                   <th style="width:25px;text-align: left;">Marks </th>
+                   <th style="width:25px;text-align: left;">Certificate</th>
+                    <th style="width:25px;text-align: left;">Updated By </th>
+                     <th style="width:25px;text-align: left;">Updated On </th>
+                   
+                  <th style="width:25px;text-align: center;">Lock Status </th>
+                      
+                </tr>
+ <?php
+ $i='1';
+
+
+
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
+
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+    $stmt = sqlsrv_prepare($conntest,$sql1);
+  
+    if (!sqlsrv_execute($stmt)) {
+          echo "Your code is fail!";
+    echo sqlsrv_errors($sql1);
+    die;
+    } 
+
+        $count=0;
+
+     while($row = sqlsrv_fetch_array($stmt)){
+
+ //$declare= $row['11'];
+
+// print_r($row);
+
+
+
+               
+                  
+?>
+<tr> <form action="action.php" method="post" enctype="multipart/form-data">
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
+<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+                                            
+               <td>
+                  <?= $row['SubjectName'];?>/<?= $subject;?>
+             <?php   $iidd=$row['id'];?></td>
+                           <td style='text-align:left;width:50px'>  
+
+
+<?php
+
+$getdistri="Select Id from DDL_TheroyExamination where Value='MOOC_Mark'" ;
+$list_resultdi = sqlsrv_query($conntest,$getdistri);
+        $i = 1;
+        while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
+        {  
+            $did=$rowdi['Id'];
+        }
+
+
+
+
+
+     $exam_type=$DistributionTheory;
+   $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+            $todaydate=date('d-m-Y');
+            $endDate=$row5['EndDate']->format('d-m-Y');
+         
+              if (strtotime($endDate)<strtotime($todaydate)) 
+              {
+              $dateover=1;
+              $show="<b style='color:red;'>Date Over</b>";
+
+              }
+              else
+              {
+               $dateover=0;
+               $show="";
+              }
+              ?>
+              
+      <?php     
+         }
+         ?>
+         
+<select  name="mst[]"   id='marks_<?=$iidd;?>' class='marks'  >
+
+<?php 
+
+ if($row['Locked']>0||$dateover>0)
+  {
+                               
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['intmarks']!='')
+{
+   ?>
+    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+
+<?php
+}
+
+    ?>
+     <option value="">Select</option>
+             <option value='S'>S</option>
+       <option value='US'>US</option>
+        <?php 
+
+for($j=$start;$j<=100;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+      
+                           
+     }
+      ?>
+
+
+</select>
+
+
+
+
+                
+                   </td>
+
+
+
+
+                           <td>   
+                 <input type="hidden" name="code" value="358">
+                 <input type="hidden" class="form-control" name='id' value="<?=$row['id'];?>">
+                 <input type="file" class="form-control"  name="moocfile">
+
+                 <?php 
+if($dateover>0)
+{
+   echo $show;
+}
+else
+{
+   ?>
+ <button   onclick="uploadPhoto(this.form)" class="btn btn-success btn-xs" style="text-align:right;"> <i class="fa fa-upload"></i> </button>
+     
+
+
+     <?php 
+
+   // code...
+}?> </td>
+                        </form>
 
                            <td><?=$row['updateby'];?></td>
                            <td><?php 
@@ -5298,7 +5676,20 @@ if($dateover>0)
 
 
 
-       else
+
+
+
+
+
+
+
+
+
+
+
+
+
+ else
        {
    
        }

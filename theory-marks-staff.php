@@ -196,7 +196,7 @@ for($i=1;$i<=12;$i++)
 
                 <div class="row"><div class="col-md-2"><h3 class="card-title">Students</h3>
 </div> 
-<div class="col-lg-1 col-md-12 col-sm-12" style="text-align: center;">
+<!-- <div class="col-lg-1 col-md-12 col-sm-12" style="text-align: center;">
  
             <button class="btn btn-danger" onclick="exportdata()">Format</button>
 
@@ -206,7 +206,7 @@ for($i=1;$i<=12;$i++)
   <input type="file" name="file_exl" id="file_exl" >
 </div> <div class="col-md-2">
  <button class="btn btn-danger" type="submit">Upload CSV</i></button>
-</div>
+</div> -->
 </div>
     </form>            
 
@@ -233,7 +233,7 @@ for($i=1;$i<=12;$i++)
 
 
 
-
+ 
 
 
 </div>
@@ -439,7 +439,7 @@ else {
     });
 
 }
-}
+} 
 
 
 

@@ -14866,7 +14866,7 @@ else{
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
 
 
-if($LeaveType<3 OR $LeaveType==26){
+if($LeaveType<3 || $LeaveType==26){
 
     if($leaveShort>0)
     {
@@ -14876,7 +14876,7 @@ if($LeaveType<3 OR $LeaveType==26){
     {
        $LeaveDeduction=$numberDays; 
     }
-            $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
+          echo   $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
             sqlsrv_query($conntest,$deductionBLance);
        }
 
@@ -15971,10 +15971,11 @@ else
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
       {
-        echo "1";
-        if($LeaveTypeID<3 OR $LeaveType==26){
-            $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
+        
+        if($LeaveTypeID<3 || $LeaveTypeID==26){
+             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
             sqlsrv_query($conntest,$deductionBLance);
+            echo "1";
        }
       }
       if ($updateLeaveAcrodingToActionRun === false) {
@@ -16133,7 +16134,7 @@ else
         echo "1";
         $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
         mysqli_query($conn,$Notification11);
-        if($LeaveTypeID<3 OR $LeaveType==26){
+        if($LeaveTypeID<3 || $LeaveTypeID==26){
              $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
              sqlsrv_query($conntest,$deductionBLance);
         }
@@ -26594,7 +26595,7 @@ elseif($code==368)
 {
     $rollNo = $_POST['rollNo'];
 
-     $degree="SELECT * FROM offer_latter   where Batch='2024'  ANd RefNo like '%$rollNo%'    order by Id DESC"; 
+  $degree="SELECT * FROM offer_latter   WHERE (Batch='2024' OR (Batch='2023'ANd Lateral='Yes')) AND RefNo='$rollNo' order by Id DESC"; 
 
             $degree_run=mysqli_query($conn,$degree);
             while ($degree_row=mysqli_fetch_array($degree_run)) 
@@ -26766,18 +26767,19 @@ elseif($code==372){
                                     <td class="editable " data-field="Outtime3"><?=$row1['Outtime3']; ?></td>
                                     <td>
                                         <?php
-                                    $dateValue = strtotime($row1['StartDate']->format('Y-m-d'));
+                                    $dateValue = strtotime($row1['EndDate']->format('Y-m-d'));
                                     $year = date('Y',$dateValue);
                                     $monthName = date('F',$dateValue);
-                                     $monthNo = date('m',$dateValue);
+                                    $monthNo = date('m',$dateValue);
                                       
-                                    if($monthNo>=date('m'))
+                                    if($monthNo>=date('m') && $year>=date("Y") )
                                     {
                                     ?>
                                      <button type="button" class=" btn btn-dark btn-xs"
                                          onclick="modalEditSingleException(<?=$row1['id'];?>)" data-toggle="modal" data-target="#ExceptionChnageModal"><i class="fa fa-edit"></i>
                                      </button> 
-                                      <?php }
+                                      <?php
+                                       }
                                       else{
                                         ?>
                                         <button type="button" class="btn btn-dark btn-xs"

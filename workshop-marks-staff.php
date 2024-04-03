@@ -126,13 +126,13 @@ for($i=1;$i<=12;$i++)
             <div class="form-group">
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
-                <option value="CE1">P1</option>
-                <option value="MST1">P2 </option>
+                <option value="CE1">W1</option>
+                <option value="MST1">W2 </option>
                  <!-- <option value="CE2">CE-2</option> -->
                <!-- <option value="MST2">P</option>  -->
-                <option value="CE3">P3</option>
-                 <option value="ESE">P4</option>
-                    <option value="Attendance">P5</option>
+                <option value="CE3">W3</option>
+                 <option value="ESE">W4</option>
+                    <!-- <option value="Attendance">P5</option> -->
 
                 
               </select>

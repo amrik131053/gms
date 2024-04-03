@@ -33,6 +33,8 @@
  $Course = $_GET["Course"];
  $Batch = $_GET["Batch"];
  $Semester = $_GET["Semester"];
+ $DeclareDate=$_GET["DeclareDate"];
+ $ResultNo=$_GET["ResultNo"];
 $SemesterPrint=numberToRomanRepresentation($Semester);
  $Type = $_GET["Type"];
  $Group = $_GET["Group"];
@@ -78,15 +80,23 @@ $SemesterPrint=numberToRomanRepresentation($Semester);
    <th>	ABC_ACCOUNT_ID	</th>
    <th>	TERM_TYPE	</th>
    <th>	TOT_GRADE	</th>";
-$list_sql1="SELECT  * FROM ResultGKU 
-INNER JOIN Admissions ON ResultGKU.IDNo = Admissions.IDNo 
-where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
-AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
-ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
- $list_result1 = sqlsrv_query($conntest, $list_sql1);
- while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
- $UniRollNos[]=$row1["UniRollNo"];
- }
+
+    $subjectn="SELECT * from MasterCOurseCodes  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch'";
+$list_resultsubn = sqlsrv_query($conntest, $subjectn);
+
+ while($rown = sqlsrv_fetch_array($list_resultsubn, SQLSRV_FETCH_ASSOC)) {
+
+
+$PID=$rown["PID"];
+$CourseName=$rown["Course"];
+$CollegeName=$rown["CollegeName"];
+}
+
+ $subject="SELECT * from MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd Isverified='1'";
+$list_resultsub = sqlsrv_query($conntest, $subject);
+$key1=1;
+ while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) {
+
     $exportstudy .= "<th>	SUB{$key1}NM	</th>
    <th>	SUB{$key1}	</th>
    <th>	SUB{$key1}_TH_MAX	</th>
@@ -103,11 +113,82 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
    <th>	SUB{$key1}_CREDIT_POINTS	</th>
    <th>	SUB{$key1}_REMARKS	</th>
    <th>	SUB{$key1}_CREDIT_ELIGIBILITY	</th>";
+$key1++;
+
+}
+$subject2="SELECT  Distinct SubjectCode from ExamFormSubject  where CollegeName='$CollegeName' ANd Course='$CourseName' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectType='O'";
+$list_resultsubs = sqlsrv_query($conntest, $subject2);
+$key2=$key1;
+ while ($rowss = sqlsrv_fetch_array($list_resultsubs, SQLSRV_FETCH_ASSOC)) {
+
+     $exportstudy .= "<th>  SUB{$key2}NM    </th>
+   <th> SUB{$key2}  </th>
+   <th> SUB{$key2}_TH_MAX   </th>
+   <th> SUB{$key2}_PR_MAX   </th>
+   <th> SUB{$key2}_CE_MAX   </th>
+   <th> SUB{$key2}_TH_MRKS  </th>
+   <th> SUB{$key2}_PR_MRKS  </th>
+   <th> SUB{$key2}_CE_MRKS  </th>
+   <th> SUB{$key2}_TOT  </th>
+   <th> SUB{$key2}_STAUTS   </th>
+   <th> SUB{$key2}_GRADE    </th>
+   <th> SUB{$key2}_GRADE_POINTS </th>
+   <th> SUB{$key2}_CREDIT   </th>
+   <th> SUB{$key2}_CREDIT_POINTS    </th>
+   <th> SUB{$key2}_REMARKS  </th>
+   <th> SUB{$key2}_CREDIT_ELIGIBILITY   </th>";
+   $key2++;
+}
+
+
+
+
  $exportstudy .= "<th>	AADHAAR_NAME	</th>
                           <th>	ADMISSION_YEAR	</th>
                           </tr>
                         </thead> ";
-                            $orderdate = explode(" ", $Examination);
+
+$list_sql1="SELECT  * FROM ResultGKU 
+INNER JOIN Admissions ON ResultGKU.UniRollNo = Admissions.UniRollNo
+where Admissions.CollegeID='$College' AND Admissions.CourseID='$Course'AND Admissions.Batch='$Batch' 
+AND ResultGKU.Type='$Type'  ANd ResultGKU.Semester='$Semester' 
+ANd ResultGKU.Examination='$Examination' ANd ResultGKU.ResultNo='$ResultNo'AND ResultGKU.DeclareDate='$DeclareDate'    ORDER BY Admissions.UniRollNo";
+ $list_result1 = sqlsrv_query($conntest, $list_sql1);
+ while ($row1 = sqlsrv_fetch_array($list_result1, SQLSRV_FETCH_ASSOC)) {
+ $UniRollNo=$row1["UniRollNo"];
+ $RegistrationNo=$row1["RegistrationNo"];
+  $StudentName=$row1["StudentName"];
+ $Gender=$row1["Sex"];
+  $FatherName=$row1["FatherName"];
+   $MotherName=$row1["MotherName"];
+$AadhaarNo=$row1["AadhaarNo"];
+$Batch=$row1["Batch"];
+   $Sgpa=$row1["Sgpa"];
+
+   $TotalCredit=$row1["TotalCredit"];
+$ABCID=$row1["ABCID"];
+$rID=$row1["Id"];
+
+
+if($Gender='Male')
+{
+    $Gender='M';
+}
+else
+{
+   $Gender='F'; 
+}
+$p='';
+if($Sgpa!='NC')
+{
+$p='PASS';
+}
+else
+{
+$p='FAIL';
+}
+
+ $orderdate = explode(" ", $Examination);
                             $ExaminationMonth = strtoupper($orderdate[0]);
                             $ExaminationYear = $orderdate[1];
                             $exportstudy .= "<tr>
@@ -120,15 +201,15 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
                             <td></td>
                             <td></td>
                             <td>{$RegistrationNo}</td>
-                            <td>{$UnirollNos}</td>
-                            <td>{$StudentNames}</td>
+                            <td>{$UniRollNo}</td>
+                            <td>{$StudentName}</td>
                             <td>{$Gender}</td>
                             <td></td>
                             <td>{$FatherName}</td>
                             <td>{$MotherName}</td>
                             <td></td>
-                            <td></td>
-                            <td>{$Sgpa1}</td>
+                            <td>O</td>
+                            <td>{$p}</td>
                             <td>{$ExaminationYear}</td>
                             <td>{$ExaminationMonth}</td>
                             <td></td>
@@ -152,6 +233,30 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
                             <td></td>
                             <td></td>";
                 
+         
+
+
+
+$subjectresult="Select  * from ResultDetailGKU  where ResultID='$rID' order By SubjectCode";
+$list_resultsubject = sqlsrv_query($conntest, $subjectresult);
+
+ while($rowsubjects = sqlsrv_fetch_array($list_resultsubject, SQLSRV_FETCH_ASSOC)) {
+
+
+$SubjectName=$rowsubjects["SubjectName"];
+$SubjectCode=$rowsubjects["SubjectCode"];
+$SubjectGrade=$rowsubjects["SubjectGrade"];
+$SubjectCredit=$rowsubjects["SubjectCredit"];
+$NoOfCredit='';
+
+    $subjectcredit="SELECT DISTINCT NoOFCredits from  MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectCode='$SubjectCode'";
+$list_resultsubcredit = sqlsrv_query($conntest, $subjectcredit);
+$key1=1;
+ while ($rowcr = sqlsrv_fetch_array($list_resultsubcredit, SQLSRV_FETCH_ASSOC)) {
+    $NoOfCredit=$rowcr['NoOFCredits'];
+ }
+
+
          $exportstudy .= " 
                             <td>{$SubjectName}</td>
                             <td>{$SubjectCode}</td>
@@ -168,11 +273,13 @@ ANd ResultGKU.Examination='$Examination'   ORDER BY Admissions.UniRollNo";
                             <td>{$NoOfCredit}</td>
                             <td>{$NoOfCredit}</td>
                             <td></td>
-                            <td></td>
-                            ";
+                            <td></td>";
+     
+}
      
      $exportstudy .= " <td>{$AadhaarNo}</td>
              <td>{$Batch}</td></tr>";
+         }
  $exportstudy .= "</table>";
  echo $exportstudy;
  $fileName = "gg";
