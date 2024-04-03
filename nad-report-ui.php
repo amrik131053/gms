@@ -233,7 +233,7 @@ var spinner=document.getElementById('ajax-loader');
 }
 
 function exportCutListExcel(Examination,ddate,resultno) {
-    alert(Examination);
+   
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
