@@ -981,35 +981,35 @@ if ($EmployeeID!=0) {
         
 <tr>
     <?php 
-    $j=1;  $billSql="SELECT * FROM article_images where article_id='26' ";
+    $j=1;  $billSql="SELECT * FROM article_images where article_id='$articlecode' ";
             $billRes=mysqli_query($conn,$billSql);
             while($billData=mysqli_fetch_array($billRes))
             {
                
                ?>
-              <td>
+             <td style="width:20%">
 
-              <div class="icheck-primary d-inline">
+              
                      <input type="radio"  id="radioPrimary<?=$j;?>"   value="<?=$billData['id'];?>" name="empc1">
                      <label for="radioPrimary<?=$j;?>">
-                    <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:100px;height:100px">
+           <img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$billData['image'];?>" style="width:50px;height:50px">
                      </label>
-                  </div>
+                
 
 
-              </td>
+         </td>     
               
                <?php
                $j++;
             }
             ?> 
-            </select>
+           
          
-
-
 
 </tr>
 
+
+<tr>
 
 
 
@@ -1025,9 +1025,6 @@ if ($EmployeeID!=0) {
             </td>
             </tr>
 
-
-
-<tr></tr>
 
          </tbody>
       </table>

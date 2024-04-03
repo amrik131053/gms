@@ -145,8 +145,9 @@
 
                             <div class="col-lg-2 col-md-2 col-sm-13">
                                 <label class="" style="font-size:14px;">Action</label><br>
-                                <button class="btn btn-success btn-sm " onclick="exportCutListExcel()"><i
-                                        class="fa fa-file-excel"></i></button>
+                                  <button class="btn btn-success btn-sm " onclick="searchnad()"><i
+                                        class="fa fa-search"></i></button>
+                             
 
 
                             </div>
@@ -154,7 +155,11 @@
 
 
                         </div>
-                        <div class="table table-responsive" id="show_record"></div>
+                        <div class="table table-responsive" id="show_record">
+
+
+
+                        </div>
                     </div>
 
                     <!-- /.card-footer -->
@@ -174,19 +179,73 @@
 
 <script>
 
-function exportCutListExcel() {
+    function searchnad()
+     {
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
-    var Examination = document.getElementById('Examination').value;
+    //var Examination = document.getElementById('Examination').value;
+
+var code=364;
+if(College!='' && Course!='')
+{
+var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,
+               College:College,
+               Course:Course,
+               Batch:Batch,
+               Semester:Semester,
+               Type:Type,
+               Group:Group
+         },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("show_record").innerHTML=response;
+
+               //console.log(response);
+               if (response==1) {
+                
+                  //SuccessToast('Successfully Submit');
+
+               }
+               else
+               {
+                  
+               }
+            }
+         });
+      }
+      else
+      {
+         ErrorToast('Select Start and End Date','bg-danger');
+      }
+
+
+}
+
+function exportCutListExcel(Examination,ddate,resultno) {
+    alert(Examination);
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    //var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != '' && Type != '' && Group != '' && Examination !=
         '') {
         window.open("nad-report.php?CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+            Type + "&Group=" + Group + "&Examination=" + Examination+ "&DeclareDate=" + ddate+"&ResultNo=" + resultno, '_blank');
     } else {
 
         ErrorToast('All input required', 'bg-warning');

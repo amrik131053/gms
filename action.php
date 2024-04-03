@@ -20175,7 +20175,6 @@ else
     $shiftchnageremarks='';
 }
 
-
 if($HolidayName!='' && $printleave!='')
 {
 
@@ -22519,7 +22518,7 @@ $nop++;
    
 }
 
-else if($code='363')
+else if($code=='363')
 {
 
 
@@ -22576,7 +22575,57 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
 }
 
 
+else if($code==364)
+{
+$College = $_POST["College"];
+ $Course = $_POST["Course"];
+ $Batch = $_POST["Batch"];
+ $Semester = $_POST["Semester"];
 
+ $Type = $_POST["Type"];
+ //$Group = $_POST["Group"];
+ //$Examination = $_POST["Examination"];
+
+?>
+  <table class="table">
+
+<?php 
+ $resulrs="SELECT distinct   a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo,rg.Examination  from ResultGKU as rg inner join Admissions as a  on rg.UniRollNo=a.UniRollNo   
+where  a.CollegeID='$College' AND a.CourseID='$Course' AND a.Batch='$Batch' AND rg.Semester='$Semester' AND rg.Type='$Type'  order by  rg.ResultNo Asc";
+
+$list_resultsub = sqlsrv_query($conntest, $resulrs);
+$key1=1;
+ while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) 
+ {
+   ?>
+   <tr><td><?= $rows['CollegeName'];?></td><td><?= $rows['Course'];?></td><td><?= $rows['Batch'];?></td><td><?= $rows['Semester'];?></td><td><?= $rows['Type'];?></td><td>  <?php if($rows['DeclareDate']!=''){
+      echo $date= $rows['DeclareDate']->format('Y-m-d');
+
+     
+
+   }
+   else
+   {
+$date='';
+
+   }
+?>
+      </td>
+      <td><?= $rows['DeclareType'];?></td>
+      <td><?= $rows['ResultNo'];?></td>
+      <td><?= $rows['Examination'];?></td>
+      <td>   <button class="btn btn-success btn-sm " onclick="exportCutListExcel('<?= $rows['Examination'];?>','<?=$date;?>','<?= $rows['ResultNo'];?>')"><i
+                                        class="fa fa-file-excel"></i></button>
+                                     </td>
+                                  </tr>
+
+<?php
+
+}
+?>
+</table>
+<?php 
+}
 
 
 
