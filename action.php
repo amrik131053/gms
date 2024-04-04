@@ -22627,6 +22627,55 @@ $date='';
 <?php 
 }
 
+else if($code==365)
+{
+
+
+   $Category = $_POST["Category"];
+ $article = $_POST["article"];?>
+<table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Sr.No</th>
+                      <th>Category Name</th>
+                      <th>Article Name</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody id="search_record">
+                    <?php 
+                        $articles_num=0;
+
+                         $articles="SELECT * FROM master_calegories as c INNER JOIN master_article as a ON c.ID=a.CategoryCode inner Join article_images as ai on ai.article_id= a.ArticleCode 
+                        Where 1=1 ";
+       if($Category!='')
+       {
+           $articles.="AND c.ID='$Category'";
+       }
+       if($article!='')
+       {
+       $articles.="AND a.ArticleCode='$article'";
+       }
+ //echo $articles;
+
+                        $articles_run=mysqli_query($conn,$articles);
+                        while ($articles_row=mysqli_fetch_array($articles_run)) 
+                        {
+                        $articles_num=$articles_num+1;?>
+                     <tr>
+                        <td><?=$articles_num;?></td>
+                        <td><?=$articles_row['CategoryName'];?></td>
+                        <td><?=$articles_row['ArticleName'].'('.$articles_row['ArticleCode'];?>)</td>
+                        <td><img src="http://gurukashiuniversity.co.in/data-server/articleimages/<?=$articles_row['image'];?>" width="100px"></td>
+                     </tr>
+                     <?php 
+                        }
+                                   ?>
+                  </tbody>
+                </table>
+
+<?php 
+}
 
 
 
