@@ -304,8 +304,10 @@ if($rowCount>0)
 
 <div class="row">
 <?php 
-
+if($EmployeeID!='170601')
+{
   $qry="SELECT  Incharge,Name from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID inner join building_master on building_master.ID=location_master.Block where Corrent_owner='$EmployeeID' and CategoryID='1' GROUP BY Incharge";
+
 $resl=mysqli_query($conn,$qry);
 while ($dataIncharge=mysqli_fetch_array($resl)) 
 {  
@@ -512,6 +514,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
             </div>
 
 <?php 
+}
 }
 }
 }
