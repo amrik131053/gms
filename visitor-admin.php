@@ -85,6 +85,12 @@ while($permission_data=mysqli_fetch_array($permission_res))
              fetch_data();
         
            })
+
+
+    setInterval(function(){
+     fetch_data();
+  }, 6000);
+
     function fetch_data()
        {
        var code=343;

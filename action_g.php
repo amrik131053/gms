@@ -19320,7 +19320,8 @@ elseif($code==274)
 
             if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y H:i:s');}else{$ExaminationVerifiedDate="";}
 
-            if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
+            if($row5['RegistraionVerifDate']!=''){
+                $RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
 
 
             if($row5['RejectedDate']!=''){$RejectedDate=$row5['RejectedDate']->format('d-m-Y H:i:s');}else{$RejectedDate="";}
@@ -19522,7 +19523,7 @@ else if($Status>-1 && $Status!='22')
     <td colspan="5">
     <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Registration Branch)</b></p>
 
-    <h6>Form is successfully verified by registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
+    <h6>Form is successfully verified by registration branch on Dated : <?= $RegistraionVerifDate;?></h6> </td>
 </tr>
 
 
@@ -19548,6 +19549,9 @@ else if ($Status==22){
 
 <?php
 
+echo $CurrentExaminationLastDate ;
+echo $CurrentExaminationGetDate;
+echo $CurrentExaminationExamType;
 if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { 
     ?>

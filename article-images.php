@@ -69,7 +69,7 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0" style="height: 600px;" id='view_article'>
+              <div class="card-body table-responsive p-0"  id='view_article'>
                 
               </div>
               <!-- /.card-body -->
