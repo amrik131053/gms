@@ -92,31 +92,31 @@ $CourseName=$rown["Course"];
 $CollegeName=$rown["CollegeName"];
 }
 
- $subject="SELECT * from MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd Isverified='1'";
-$list_resultsub = sqlsrv_query($conntest, $subject);
+//  echo $subject="SELECT * from MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd Isverified='1'";
+// $list_resultsub = sqlsrv_query($conntest, $subject);
 $key1=1;
- while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) {
+//  while ($rows = sqlsrv_fetch_array($list_resultsub, SQLSRV_FETCH_ASSOC)) {
 
-    $exportstudy .= "<th>	SUB{$key1}NM	</th>
-   <th>	SUB{$key1}	</th>
-   <th>	SUB{$key1}_TH_MAX	</th>
-   <th>	SUB{$key1}_PR_MAX	</th>
-   <th>	SUB{$key1}_CE_MAX	</th>
-   <th>	SUB{$key1}_TH_MRKS	</th>
-   <th>	SUB{$key1}_PR_MRKS	</th>
-   <th>	SUB{$key1}_CE_MRKS	</th>
-   <th>	SUB{$key1}_TOT	</th>
-   <th>	SUB{$key1}_STAUTS	</th>
-   <th>	SUB{$key1}_GRADE	</th>
-   <th>	SUB{$key1}_GRADE_POINTS	</th>
-   <th>	SUB{$key1}_CREDIT	</th>
-   <th>	SUB{$key1}_CREDIT_POINTS	</th>
-   <th>	SUB{$key1}_REMARKS	</th>
-   <th>	SUB{$key1}_CREDIT_ELIGIBILITY	</th>";
-$key1++;
+//     $exportstudy .= "<th>	SUB{$key1}NM	</th>
+//    <th>	SUB{$key1}	</th>
+//    <th>	SUB{$key1}_TH_MAX	</th>
+//    <th>	SUB{$key1}_PR_MAX	</th>
+//    <th>	SUB{$key1}_CE_MAX	</th>
+//    <th>	SUB{$key1}_TH_MRKS	</th>
+//    <th>	SUB{$key1}_PR_MRKS	</th>
+//    <th>	SUB{$key1}_CE_MRKS	</th>
+//    <th>	SUB{$key1}_TOT	</th>
+//    <th>	SUB{$key1}_STAUTS	</th>
+//    <th>	SUB{$key1}_GRADE	</th>
+//    <th>	SUB{$key1}_GRADE_POINTS	</th>
+//    <th>	SUB{$key1}_CREDIT	</th>
+//    <th>	SUB{$key1}_CREDIT_POINTS	</th>
+//    <th>	SUB{$key1}_REMARKS	</th>
+//    <th>	SUB{$key1}_CREDIT_ELIGIBILITY	</th>";
+// $key1++;
 
-}
-$subject2="SELECT  Distinct SubjectCode from ExamFormSubject  where CollegeName='$CollegeName' ANd Course='$CourseName' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectType='O'";
+// }
+$subject2="SELECT  Distinct SubjectCode from ExamFormSubject  where CollegeName='$CollegeName' ANd Course='$CourseName' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd ExternalExam='Y' ";
 $list_resultsubs = sqlsrv_query($conntest, $subject2);
 $key2=$key1;
  while ($rowss = sqlsrv_fetch_array($list_resultsubs, SQLSRV_FETCH_ASSOC)) {
@@ -170,7 +170,7 @@ $ABCID=$row1["ABCID"];
 $rID=$row1["Id"];
 
 
-if($Gender='Male')
+if($Gender=='Male')
 {
     $Gender='M';
 }

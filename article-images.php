@@ -10,13 +10,14 @@
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title"> Article</h3>
+                <h3 class="card-title"> Article Image</h3>
               </div>
         
               <form action="action_g.php" method="post">
                         <div class="card-body">
                             <input type="hidden" name="code" value="388" >
                            <label for="inputEmail3" required="" class="col-lg-12 col-form-label">Category Name</label>
+                             
                              <select class="form-control" name="CategoryID" id="Category">
                               <option value="">Select </option>
                               <?php
@@ -28,6 +29,7 @@
                                  }
                                  ?>
                               </select>
+
                            <label for="inputEmail3" class="col-lg-12 col-form-label">Article  Name</label>
                             <select class="form-control" name="ArticleName" id="articlebind">
                            </select>
@@ -48,46 +50,27 @@
           <div class="col-lg-7 col-md-7 col-sm-3">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Articles</h3>
+
+                <div class="row">
+                
+<button type="button" class="btn btn-info" onclick="ViewImage();">View Images</button>
+             
+                </div>
+     </div>
+                           
+                             
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search" onkeyup="articlesearch(this.value);">
+                    
 
                    
                   </div>
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0" style="height: 600px;">
-                <table class="table table-head-fixed text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Sr.No</th>
-                      <th>Category Name</th>
-                      <th>Article Name</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="search_record">
-                    <?php 
-                        $articles_num=0;
-                        $articles="SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode";
-                        $articles_run=mysqli_query($conn,$articles);
-                        while ($articles_row=mysqli_fetch_array($articles_run)) 
-                        {
-                        $articles_num=$articles_num+1;?>
-                     <tr>
-                        <td><?=$articles_num;?></td>
-                        <td><?=$articles_row['CategoryName'];?></td>
-                        <td><?=$articles_row['ArticleName'].'('.$articles_row['ArticleCode'];?>)</td>
-                        <td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal_update" onclick="update_article(<?=$articles_row['ArticleCode'];?>);" style="color:#a62532;"></i></td>
-                     </tr>
-                     <?php 
-                        }
-                                   ?>
-                  </tbody>
-                </table>
+              <div class="card-body table-responsive p-0"  id='view_article'>
+                
               </div>
               <!-- /.card-body -->
             </div>
@@ -153,8 +136,8 @@ $.ajax({
     processData: false,
     success: function(response) {
         console.log(response);
-        if (response == '1') {
-            SuccessToast('Leave submit successfully');
+        if (response == 1) {
+            SuccessToast('Photo Uploaded successfully');
             document.getElementById("fileImage").value = "";
         }
         else{
@@ -166,7 +149,55 @@ $.ajax({
     }
 });
 }
+   
+
+function  ViewImage() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+     var Category = document.getElementById('Category').value;
+    var article = document.getElementById('articlebind').value;
+    // alert(id);
+    var code = 365;
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,Category:Category,article:article
+            
+        },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+            document.getElementById("view_article").innerHTML = response;
+
+        }
+    });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
+
 
 
     <?php include "footer.php";  ?>

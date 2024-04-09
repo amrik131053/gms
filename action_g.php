@@ -19320,7 +19320,8 @@ elseif($code==274)
 
             if($row5['ExaminationVerifiedDate']!=''){$ExaminationVerifiedDate=$row5['ExaminationVerifiedDate']->format('d-m-Y H:i:s');}else{$ExaminationVerifiedDate="";}
 
-            if($row5['RegistraionVerifDate']!=''){$RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
+            if($row5['RegistraionVerifDate']!=''){
+                $RegistraionVerifDate=$row5['RegistraionVerifDate']->format('d-m-Y H:i:s');}else{$RegistraionVerifDate="";}
 
 
             if($row5['RejectedDate']!=''){$RejectedDate=$row5['RejectedDate']->format('d-m-Y H:i:s');}else{$RejectedDate="";}
@@ -19522,7 +19523,7 @@ else if($Status>-1 && $Status!='22')
     <td colspan="5">
     <p style="color: green;text-align: center;font-size: 16px;"> <b>Form Verification Detail(By Registration Branch)</b></p>
 
-    <h6>Form is successfully verified by registration branch on Dated : <?=$RegistraionVerifDate;?></h6> </td>
+    <h6>Form is successfully verified by registration branch on Dated : <?= $RegistraionVerifDate;?></h6> </td>
 </tr>
 
 
@@ -19548,6 +19549,9 @@ else if ($Status==22){
 
 <?php
 
+echo $CurrentExaminationLastDate ;
+echo $CurrentExaminationGetDate;
+echo $CurrentExaminationExamType;
 if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { 
     ?>
@@ -27621,24 +27625,28 @@ elseif ($code==388) {
          $file_name = $_FILES['fileImage']['name'];
            $file_tmp = $_FILES['fileImage']['tmp_name'];
           $type = $_FILES['fileImage']['type'];
-           $file_data = file_get_contents($file_tmp);
-            $file_name = $ApplyDate."_".$string."_".basename($_FILES['fileImage']['name']);
-                $target_dir = $file_name;
-         $destdir = 'Articleimages';
-         ftp_chdir($conn_id,"Articleimages") or die("Could not change directory");
+
+          $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    
+    $result = $characters[mt_rand(0, 2)];
+ $file_name1 = $result."_".basename($_FILES['fileImage']['name']);
+        $target_dir = $file_name1;
+       
+         ftp_chdir($conn_id,"articleimages/") or die("Could not change directory");
          ftp_pasv($conn_id,true);
-        //  file_put_contents(,$file_data);
+       
      ftp_put($conn_id,$target_dir,$file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
     //  ftp_close($conn_id);
+
          $InsertArticleImage="INSERT into article_images (article_id,image)
-     VALUES('$article_id','$file_name')";
+     VALUES('$article_id','$file_name1')";
       $InsertArticleImageRun=mysqli_query($conn,$InsertArticleImage);
       if($InsertArticleImageRun==true)
       {
-        echo "1";
+        echo 1;
       }
       else{
-        echo "0";
+        echo 0;
       }
     //   echo "hihi";
 
