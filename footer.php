@@ -156,7 +156,7 @@ function show_notification(id)
  checkSessions();
 // });
 
-setInterval(function(){pushNotify();}, 8000);
+// setInterval(function(){pushNotify();}, 8000);
 
         function pushNotify() {
           if (!("Notification" in window)) {
@@ -232,7 +232,7 @@ function checkSessions() {
     else
     {
       load_unseen_notification();
-      setInterval(function(){pushNotify();}, 8000);
+      // setInterval(function(){pushNotify();}, 8000);
     }
    }
   });

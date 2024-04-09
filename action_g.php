@@ -3092,7 +3092,7 @@ else { ?>
                
                 <!-- /.user-block -->
                 <div class="card-tools">
-                    
+            <?php  if($role_id==2) {?>
                 <button type="button" class="btn " title="Mark as read">
                   <?php
                   $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
@@ -3119,6 +3119,10 @@ else { ?>
                     
                         ?>
                   </button>
+                  <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <?php }?>
                   <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
                     <i class="fas fa-plus"></i>
                   </button>
@@ -4424,6 +4428,7 @@ else { ?>
 
                                 <button type="button" onclick="uploadPhoto(this.form)" class="btn btn-primary"
                                     id="update_button<?=$emp_id;?>" style="display:none;">Update</button>
+                               
 
 
 
