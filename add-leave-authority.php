@@ -1722,7 +1722,7 @@ function resetPassword(empid,ApplicationName)
             code: code,empid:empid,ApplicationName:ApplicationName
          },
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {

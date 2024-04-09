@@ -74,6 +74,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
         }
           
        }
+      
 
 
 $currentMonthString=date('F');
@@ -19811,11 +19812,17 @@ else if($code=='279')
 {
     $ApplicationType=$_POST['ApplicationName'];
     $EmpIDs=$_POST['empid'];
-     $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
-$getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+    $getDefalutMenu="UPDATE  UserMaster  SET Password='$EmpIDs' Where UserName='$EmpIDs' and ApplicationName='$ApplicationType' ";
+    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+
 if($getDefalutMenuRun==true)
 {
     echo "1";
+    if($ApplicationType=='Campus')
+    {
+     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmpIDs' and  ApplicationType='Web' and ApplicationName='Campus' ";
+    sqlsrv_query($conntest, $updateLoggedIn);
+    }
 }
 else{
     echo "0";
@@ -27650,6 +27657,25 @@ elseif ($code==388) {
       }
     //   echo "hihi";
 
+}
+elseif ($code==389)
+ {  
+$sql11 = "SELECT * FROM UserMaster INNER JOIN Staff ON UserMaster.UserName = Staff.IDNO WHERE UserMaster.UserName = '$EmployeeID' AND UserMaster.ApplicationType = 'Web' AND Staff.JobStatus = '1' AND (UserMaster.LoggedIn < '1' OR UserMaster.LoggedIn IS NULL)";
+$sql12 = sqlsrv_query($conntest, $sql11, array(), array("Scrollable" => SQLSRV_CURSOR_KEYSET));
+ $ifexist = sqlsrv_num_rows($sql12);
+if ($ifexist>0) {
+    echo "1";
+}
+else
+{
+echo "0";
+session_destroy();
+} 
+ }
+ elseif($code==390)
+{
+     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
+     sqlsrv_query($conntest, $updateLoggedIn);
 }
    else
    {

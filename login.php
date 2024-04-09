@@ -1,6 +1,5 @@
 <?php ob_clean();
 session_start();
-
 date_default_timezone_set("Asia/Kolkata");
 $status=0;
 $user=$_POST["user"];
@@ -9,7 +8,7 @@ $u_permissions = "";
 $college = "";
 include 'connection/connection.php';
 
- $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1";
+$sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE UserName ='$user' AND Password='$pass' and ApplicationType='Web' and JobStatus=1 ";
 
 $stmt2 = sqlsrv_query($conntest,$sql1);
 
@@ -23,23 +22,13 @@ else
        $status=1;
      }
 }
-
 	if($status==1)
-
 {      
    $_SESSION['usr'] = $user;
-
-//echo session_save_path();
-// $amrik =$_SESSION['usr'];
-// echo $amrik;
-
-header('Location:Dashboard.php');
-
-
-
+   $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='0' where  UserName='$user' and  ApplicationType='Web' and ApplicationName='Campus' ";
+   sqlsrv_query($conntest, $updateLoggedIn);
+   header('Location:Dashboard.php');
 	}
-	
-	
 else
 {
 	echo $_SESSION['incorrect'] = "<p style='color:red;'>Incorrect Password. Try ERP Password .</p>";

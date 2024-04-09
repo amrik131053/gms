@@ -128,7 +128,7 @@ function show_notification(id)
    }
   });
 }
-$(document).ready(function(){
+// $(document).ready(function(){
  function load_unseen_notification()
  {
   var code=27;
@@ -149,30 +149,13 @@ $(document).ready(function(){
     }
    }
   });
-}
-
-sessionCheck();
-load_unseen_notification();
+ }
  setInterval(function(){ 
-  load_unseen_notification();
+  checkSessions();
  }, 1000);
- setInterval(function(){ 
-  sessionCheck();
- }, 30000);
-});
-function sessionCheck() {
-  var code=33;
-   $.ajax({
-   url:"action_g.php",
-   method:"POST",
-   data:{code:code},
-   
-   success:function(data)
-   {
-     
-   }
-  });
-}
+ checkSessions();
+// });
+
 setInterval(function(){pushNotify();}, 8000);
 
         function pushNotify() {
@@ -227,10 +210,41 @@ function seen_webnotification(id) {
    url:"action_g.php",
    method:"POST",
    data:{code:code,n_id:id},
-   
    success:function(data)
+   { 
+   }
+  });
+}
+function checkSessions() {
+   var code=389;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code},
+   
+   success:function(res)
    {
-     
+    if(res==0)
+    {
+      // window.location.reload();
+      window.location.href = 'index.php';
+    }
+    else
+    {
+      load_unseen_notification();
+      setInterval(function(){pushNotify();}, 8000);
+    }
+   }
+  });
+}
+function sessionAlllogout() {
+  var code=390;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code},
+   success:function(res)
+   {
    }
   });
 }
