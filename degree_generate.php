@@ -305,7 +305,7 @@ $.ajax({
         document.getElementById("from_show_toggle").innerHTML = response;
     }
 });
-}
+} 
 
 function degree() {
 var code = 132;
