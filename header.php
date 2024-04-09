@@ -272,7 +272,7 @@ if ($result->num_rows > 0)
           <!-- Menu Footer-->
           <li class="user-footer">
             <a href="#" class="btn btn-primary btn-flat">Profile</a>
-            <a href="#" onclick="sessionAlllogout();" class="btn btn-danger btn-flat float-center">Sign out all</a>
+            <a href="#" onclick="sessionAlllogout('0');" class="btn btn-danger btn-flat float-center">Sign out all</a>
             <a href="sign-out.php" class="btn btn-warning btn-flat float-right">Sign out</a>
           </li>
         </ul>

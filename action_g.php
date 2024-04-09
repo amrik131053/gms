@@ -3093,6 +3093,9 @@ else { ?>
                 <!-- /.user-block -->
                 <div class="card-tools">
             <?php  if($role_id==2) {?>
+                <button onclick="sessionAlllogout(<?=$row['IDNo'];?>);" type="button" class="btn btn-danger btn-xs">
+                 LogOut
+                  </button>
                 <button type="button" class="btn " title="Mark as read">
                   <?php
                   $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
@@ -3119,9 +3122,7 @@ else { ?>
                     
                         ?>
                   </button>
-                  <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
-                    <i class="fas fa-plus"></i>
-                  </button>
+                
                   <?php }?>
                   <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
                     <i class="fas fa-plus"></i>
@@ -27679,8 +27680,15 @@ session_destroy();
  }
  elseif($code==390)
 {
-     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
+    $id=$_POST['id'];
+    if($_POST['id']=='0')
+    {
+        $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
+        sqlsrv_query($conntest, $updateLoggedIn);
+    }else{
+     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
      sqlsrv_query($conntest, $updateLoggedIn);
+    }
 }
    else
    {
