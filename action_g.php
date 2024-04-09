@@ -16577,7 +16577,7 @@ else
                         <td><?=$row['IDcardStatus']; ?></td>
                         <td>
                             <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal"
-                                onclick="viewLeaveModalSmartCard(<?=$row['StudentSmartCardID'];?>);">View </button>
+                                onclick="viewLeaveModalSmartCard(<?=$row['StudentSmartCardID'];?>);">View test </button>
                         </td>
                     </tr>
                     <?php

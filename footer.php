@@ -149,15 +149,30 @@ $(document).ready(function(){
     }
    }
   });
- }
- load_unseen_notification();
- 
- setInterval(function(){ 
-  load_unseen_notification();; 
- }, 1000);
- 
-});
+}
 
+sessionCheck();
+load_unseen_notification();
+ setInterval(function(){ 
+  load_unseen_notification();
+ }, 1000);
+ setInterval(function(){ 
+  sessionCheck();
+ }, 30000);
+});
+function sessionCheck() {
+  var code=33;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code},
+   
+   success:function(data)
+   {
+     
+   }
+  });
+}
 setInterval(function(){pushNotify();}, 8000);
 
         function pushNotify() {
