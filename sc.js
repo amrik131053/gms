@@ -1264,7 +1264,7 @@ data:{
 role_new:role_id,emp_id:id,code:code,
 },
 success:function(response) {
-    console.log(response);
+    // console.log(response);
 $('#exampleModal').trigger({
     type:"click"
 });
@@ -1313,7 +1313,7 @@ function emp_role_all(id)
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-      //document.getElementById("role_all").innerHTML=xmlhttp.responseText;
+      document.getElementById("role_all").innerHTML=xmlhttp.responseText;
     }
   }
   xmlhttp.open("GET", "get_action.php?role_id=" + id+"&code="+code, true);

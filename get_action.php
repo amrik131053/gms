@@ -3201,11 +3201,12 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
    elseif($code==34) //72
    {
    $emp_id=$_GET['user_id'];
-    $get_emp_data = mysqli_query($conn,"SELECT emp_id, name from user WHERE emp_id = '$emp_id'");
-   while($row_emp=mysqli_fetch_array($get_emp_data))
+   
+    $get_emp_data = sqlsrv_query($conntest,"SELECT IDNo,Name,Designation from Staff WHERE IDNo = '$emp_id'");
+   while($row_emp=sqlsrv_fetch_array($get_emp_data))
    {
-     $name = $row_emp['name'];
-     // $designation = $row_emp['designation'];
+     $name = $row_emp['Name'];
+     $designation = $row_emp['Designation'];
    }
    ?>
 
@@ -3213,7 +3214,7 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
             
                <div class="form-group" id="">
                   <h5><b>Role Assigned To :</b> <?=$name;?></h5><br>
-                   <!-- <h5><b>Designation :</b> <?=$designation;?></h5><br> -->
+                   <h5><b>Designation :</b> <?=$designation;?></h5><br>
                   <select class="form-control" name="" id="role_new" required>
    <option>Select Role</option>
    <?php  
@@ -3244,7 +3245,6 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
             $emp_id = "";
             $name = "";
       if ($role_id==0) {
-    
       }
       else
       {
@@ -3253,17 +3253,17 @@ echo "<h4>".$name."(".$emp_id.")</h4>";
 <table class="table">
    <?php  
    $sr=1;
-      $presult = mysqli_query($conn,"SELECT user_id,emp_id, name,role_id from user WHERE  role_id='$role_id'");
+      $presult = sqlsrv_query($conntest,"SELECT IDNo,Name from Staff WHERE  RoleID='$role_id'");
       $name = $emp_id = "";
-      while($row=mysqli_fetch_array($presult))
+      while($row=sqlsrv_fetch_array($presult))
       {
-          $id = $row['user_id'];
-          $emp_id = $row['emp_id'];
-          $name = $row['name'];
+         //  $id = $row['user_id'];
+          $emp_id = $row['IDNo'];
+          $name = $row['Name'];
        ?>
    <tr>
       <th><b style='color:#a62532;'><?=$sr;?></b></th>
-      <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)rrr</b></th>
+      <th><b style='color:#a62532;'><?=$name." (".$emp_id;?>)</b></th>
       <input type="hidden" name="" value="<?=$id;?>">
       <th><input type="button" class="btn btn-danger btn-xs" onclick="del_role(<?=$emp_id;?>)" value="Delete"></th>
    </tr>
