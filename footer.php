@@ -152,7 +152,7 @@ function show_notification(id)
  }
  setInterval(function(){ 
   checkSessions();
- }, 1000);
+ }, 30000);
  checkSessions();
 // });
 
