@@ -150,10 +150,8 @@ function show_notification(id)
    }
   });
  }
- setInterval(function(){ 
-  checkSessions();
- }, 30000);
- checkSessions();
+
+//  checkSessions();
 // });
 
 // setInterval(function(){pushNotify();}, 8000);
@@ -212,10 +210,14 @@ function seen_webnotification(id) {
    data:{code:code,n_id:id},
    success:function(data)
    { 
-   }
-  });
+  }
+});
 }
+setInterval(function(){ 
+  checkSessions();
+ }, 60000);
 function checkSessions() {
+
    var code=389;
    $.ajax({
    url:"action_g.php",
@@ -248,6 +250,7 @@ function sessionAlllogout(id) {
    }
   });
 }
+
 </script>
 
 </body>
