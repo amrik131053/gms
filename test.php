@@ -48,14 +48,17 @@ while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
 {
 $oldSubjectcode= $filesop[0];
 $newSubjectcode = $filesop[1];
-  echo $update_study="UPDATE  MasterCourseStructure SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
+   $update_study="UPDATE  MasterCourseStructure SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
 sqlsrv_query($conntest,$update_study);
 // $updateQuestions="UPDATE question_bank SET SubjectCode='$newSubjectcode' WHERE SubjectCode='$oldSubjectcode' ";
 // mysqli_query($conn,$updateQuestions);
 
-echo $update_ExamFormSubject="UPDATE  ExamFormSubject SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
+ $update_ExamFormSubject="UPDATE  ExamFormSubject SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
 sqlsrv_query($conntest,$update_ExamFormSubject);
 
+
+ $update_MasterPracticals="UPDATE  MasterPracticals SET SubCode='$newSubjectcode',SubjectType='$newSubjectcode'  WHERE  SubCode='$oldSubjectcode'";
+sqlsrv_query($conntest,$update_MasterPracticals);
 
 echo "<br>";
 // $update_study_run=sqlsrv_query($conntest,$update_study);  
