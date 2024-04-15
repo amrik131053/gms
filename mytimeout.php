@@ -164,7 +164,8 @@ $exit_time = date('H:i');
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         {
 
-    // $emp_image = $row_staff['image'];
+   //  $emp_image = $row_staff['image'];
+    $emp_image = "";
       $empid = $row_staff['IDNo'];
 
       $name = $row_staff['Name'];
@@ -193,7 +194,7 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
            mysqli_query($conn,$Notification);
 
 ?>
-<script> window.location.href="mytimeout.php";</script>
+<!-- <script> window.location.href="mytimeout.php";</script> -->
 
 <?php }
 
@@ -201,7 +202,7 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
  <div class="panel-body">
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
-         <div class="card-body card">
+         <!-- <div class="card-body card"> -->
 
         <div class="btn-group w-100 mb-2">
                     <a class="btn"  id="btn6" style="background-color:#223260; color: white; border: 1px solid;" onclick="pending();bg(this.id);">My Request</a>
@@ -223,7 +224,7 @@ $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, 
         </div>
 
 
-   </div>
+   <!-- </div> -->
 
 
 </div>
