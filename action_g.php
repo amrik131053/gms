@@ -27685,7 +27685,7 @@ echo "0";
 session_destroy();
 } 
  }
- elseif($code==390)
+ elseif($code==390) // logout all 
 {
     $id=$_POST['id'];
     if($_POST['id']=='0')
@@ -27696,6 +27696,14 @@ session_destroy();
      $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
      sqlsrv_query($conntest, $updateLoggedIn);
     }
+}
+
+ elseif($code==391) // onlone Status
+{
+        $timeForOnline=time()+100;
+        $updateLoggedIn = "UPDATE  UserMaster SET ActivityStatus='$timeForOnline' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
+        sqlsrv_query($conntest, $updateLoggedIn);
+   
 }
    else
    {

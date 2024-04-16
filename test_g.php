@@ -7,6 +7,8 @@
 //         session_id($sessionName);
 //         session_start();
 //         $allSessions[$sessionName] = $_SESSION;
+
+
 //         session_abort();
 //     }
 // }
