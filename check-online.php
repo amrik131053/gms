@@ -6,6 +6,7 @@ include "header.php";
 <table class="table">
     <thead>
         <tr>
+            <th>SrNo</th>
             <th>UserName</th>
             <th>Name</th>
             <th>Designation</th>
@@ -16,13 +17,19 @@ include "header.php";
         <tbody id="users">
             <?php 
              $time=time();
+             $sr=1;
              $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
              and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
              $checkUserOnlineRun=sqlsrv_query($conntest, $checkUserOnline);
              while($checkUserOnlineRow=sqlsrv_fetch_array($checkUserOnlineRun,SQLSRV_FETCH_ASSOC))
              {
+                $Emp_Image=$checkUserOnlineRow['Snap'];
+                $emp_pic=base64_encode($Emp_Image);
+
                 ?>
                  <tr>
+                     <td><?=$sr;?></td>
+                     <td><?php echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
                      <td><?=$checkUserOnlineRow['UserName'];?></td>
                      <td><?=$checkUserOnlineRow['Name'];?></td>
                      <td><?=$checkUserOnlineRow['Designation'];?></td>
@@ -30,9 +37,11 @@ include "header.php";
                      <td><?php 
                      echo $onlineStatus="<b class='text-success'>Online</b>";
                  ?></td>
+
                  </tr>
              
              <?php 
+             $sr++;
              }?>
 </tbody>
 </table>
