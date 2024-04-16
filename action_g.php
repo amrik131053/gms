@@ -27700,7 +27700,7 @@ session_destroy();
 
  elseif($code==391) // onlone Status
 {
-        $timeForOnline=time()+100;
+        $timeForOnline=time()+10;
         $updateLoggedIn = "UPDATE  UserMaster SET ActivityStatus='$timeForOnline' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
         sqlsrv_query($conntest, $updateLoggedIn);
    
