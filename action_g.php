@@ -3096,8 +3096,12 @@ else { ?>
                 <button onclick="sessionAlllogout(<?=$row['IDNo'];?>);" type="button" class="btn btn-danger btn-xs">
                  LogOut
                   </button>
+                  <?php
+                     }
+                     ?>
                 <button type="button" class="btn " title="Mark as read">
                   <?php
+                     
                   $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
                                       $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                                       $count_0=0;
@@ -3106,7 +3110,9 @@ else { ?>
                                         {                                        
                                           $color="red";
                                         }  
-                                     
+                                 
+                                   if($role_id==3 || $role_id==2) {
+                                            
                             if($row['depid']!='81')
                             {
                         ?>
@@ -3118,12 +3124,13 @@ else { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
                     <?php
-                        }
-                    
+                        }     # code...
+                  
+
                         ?>
                   </button>
                 
-                  <?php }?>
+              
                   <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
                     <i class="fas fa-plus"></i>
                   </button>
