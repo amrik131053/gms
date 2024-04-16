@@ -3129,7 +3129,7 @@ else { ?>
 
                         ?>
                   </button>
-                
+                <?PHP }?>
               
                   <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
                     <i class="fas fa-plus"></i>
