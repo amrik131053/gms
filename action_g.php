@@ -3838,7 +3838,7 @@ else { ?>
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
-                                                <th>Password</th>
+                                                <!-- <th>Password</th> -->
                                                 <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
@@ -3855,7 +3855,7 @@ else { ?>
                                             <tr>
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td onclick="copyToClipboard('<?=$getUserMasterRunRow['Password']; ?>')"><?= $getUserMasterRunRow['UserName']; ?></td>
-                                                <td><?=$getUserMasterRunRow['Password'];?></td>
+                                                <!-- <td><?=$getUserMasterRunRow['Password'];?></td> -->
 
                                                 <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>
