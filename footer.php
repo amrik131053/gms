@@ -239,17 +239,6 @@ function checkSessions() {
    }
   });
 }
-function sessionAlllogout(id) {
-  var code=390;
-   $.ajax({
-   url:"action_g.php",
-   method:"POST",
-   data:{code:code,id:id},
-   success:function(res)
-   {
-   }
-  });
-}
 function UpdateUserOnline() {
   var code=391;
    $.ajax({

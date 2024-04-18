@@ -27692,7 +27692,8 @@ session_destroy();
     {
         $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
         sqlsrv_query($conntest, $updateLoggedIn);
-    }else{
+    }else
+    {
      $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
      sqlsrv_query($conntest, $updateLoggedIn);
     }
@@ -27704,6 +27705,59 @@ session_destroy();
         $updateLoggedIn = "UPDATE  UserMaster SET ActivityStatus='$timeForOnline' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
         sqlsrv_query($conntest, $updateLoggedIn);
    
+}
+elseif ($code==392) {
+   ?>
+   <table class="table">
+    <thead>
+        <tr>
+            <th>SrNo</th>
+            <th>Image</th>
+            <th>UserName</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Status</th>
+        </tr>
+</thead>
+        <tbody id="users">
+            <?php 
+             $time=time();
+             $sr=1;
+             $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
+             and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
+             $checkUserOnlineRun=sqlsrv_query($conntest, $checkUserOnline);
+             while($checkUserOnlineRow=sqlsrv_fetch_array($checkUserOnlineRun,SQLSRV_FETCH_ASSOC))
+             {
+                $Emp_Image=$checkUserOnlineRow['Snap'];
+                $emp_pic=base64_encode($Emp_Image);
+
+                ?>
+                 <tr>
+                     <td><?=$sr;?></td>
+                     <td><?php echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
+                     <td><?=$checkUserOnlineRow['UserName'];?></td>
+                     <td><?=$checkUserOnlineRow['Name'];?></td>
+                     <td><?=$checkUserOnlineRow['Designation'];?></td>
+                     <td><?=$checkUserOnlineRow['Department'];?></td>
+                     <td><?php 
+                     echo $onlineStatus="<b class='text-success'>Online</b>";
+                 ?></td>
+                 <td>
+                 <button onclick="sessionAlllogout(<?=$checkUserOnlineRow['UserName'];?>);" type="button" class="btn btn-danger btn-xs">
+                 LogOut
+                  </button>
+                 </td>
+
+                 </tr>
+             
+             <?php 
+             $sr++;
+             }?>
+</tbody>
+</table>
+   <?php 
 }
    else
    {

@@ -623,6 +623,20 @@ function deleteRole(empid,userMasterId)
    }
  
 }
+function sessionAlllogout(id) {
+   var spinner = document.getElementById("ajax-loader");
+      spinner.style.display = 'block';
+  var code=390;
+   $.ajax({
+   url:"action_g.php",
+   method:"POST",
+   data:{code:code,id:id},
+   success:function(res)
+   {
+      spinner.style.display = 'none';
+   }
+  });
+}
 
 function deleteCollegeCoursePermissions(id)
 {
