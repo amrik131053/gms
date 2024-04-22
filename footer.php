@@ -215,9 +215,9 @@ function seen_webnotification(id) {
 }
 setInterval(function(){ 
   checkSessions();
+  
  }, 60000);
 function checkSessions() {
-
    var code=389;
    $.ajax({
    url:"action_g.php",
@@ -228,28 +228,29 @@ function checkSessions() {
    {
     if(res==0)
     {
-      // window.location.reload();
       window.location.href = 'index.php';
     }
     else
     {
       load_unseen_notification();
-      // setInterval(function(){pushNotify();}, 8000);
+      UpdateUserOnline();
     }
+
    }
   });
 }
-function sessionAlllogout(id) {
-  var code=390;
+function UpdateUserOnline() {
+  var code=391;
    $.ajax({
    url:"action_g.php",
    method:"POST",
-   data:{code:code,id:id},
+   data:{code:code},
    success:function(res)
    {
    }
   });
 }
+
 
 </script>
 

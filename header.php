@@ -220,6 +220,12 @@ if ($result->num_rows > 0)
          <!-- Right navbar links -->
 
          <ul class="navbar-nav ml-auto">
+         <!-- <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="fa fa-users" aria-hidden="true"></i>
+          <span class="badge badge-danger navbar-badge" id="countOnlineUsers"></span>
+        </a> -->
+</li>
             <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;"></li>
              <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" onclick="show_notification();">

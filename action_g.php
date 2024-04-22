@@ -3096,8 +3096,12 @@ else { ?>
                 <button onclick="sessionAlllogout(<?=$row['IDNo'];?>);" type="button" class="btn btn-danger btn-xs">
                  LogOut
                   </button>
+                  <?php
+                     }
+                     ?>
                 <button type="button" class="btn " title="Mark as read">
                   <?php
+                     
                   $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
                                       $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                                       $count_0=0;
@@ -3106,7 +3110,9 @@ else { ?>
                                         {                                        
                                           $color="red";
                                         }  
-                                     
+                                 
+                                   if($role_id==3 || $role_id==2) {
+                                            
                             if($row['depid']!='81')
                             {
                         ?>
@@ -3118,12 +3124,13 @@ else { ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
                     <?php
-                        }
-                    
+                        }     # code...
+                  
+
                         ?>
                   </button>
-                
-                  <?php }?>
+                <?PHP }?>
+              
                   <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
                     <i class="fas fa-plus"></i>
                   </button>
@@ -3831,7 +3838,7 @@ else { ?>
                                             <tr>
                                                 <th> ID</th>
                                                 <th>Emp ID</th>
-                                                <th>Password</th>
+                                                <!-- <th>Password</th> -->
                                                 <th>Type</th>
                                                 <th>LoginType</th>
                                                 <th>RightsLevel</th>
@@ -3848,7 +3855,7 @@ else { ?>
                                             <tr>
                                                 <td><?=$getUserMasterRunRow['UserMasterID'];?></td>
                                                 <td onclick="copyToClipboard('<?=$getUserMasterRunRow['Password']; ?>')"><?= $getUserMasterRunRow['UserName']; ?></td>
-                                                <td><?=$getUserMasterRunRow['Password'];?></td>
+                                                <!-- <td><?=$getUserMasterRunRow['Password'];?></td> -->
 
                                                 <td><?=$getUserMasterRunRow['ApplicationName'];?></td>
                                                 <td>
@@ -27678,17 +27685,98 @@ echo "0";
 session_destroy();
 } 
  }
- elseif($code==390)
+ elseif($code==390) // logout all 
 {
     $id=$_POST['id'];
     if($_POST['id']=='0')
     {
         $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
         sqlsrv_query($conntest, $updateLoggedIn);
-    }else{
+    }else
+    {
      $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
      sqlsrv_query($conntest, $updateLoggedIn);
     }
+}
+
+ elseif($code==391) // onlone Status
+{
+        $timeForOnline=time()+60;
+        $updateLoggedIn = "UPDATE  UserMaster SET ActivityStatus='$timeForOnline' where  UserName='$EmployeeID' and  ApplicationType='Web' and ApplicationName='Campus' ";
+        sqlsrv_query($conntest, $updateLoggedIn);
+   
+}
+elseif ($code==392) {
+   ?>
+   <table class="table">
+    <thead>
+        <tr>
+            <th>SrNo</th>
+            <th>Image</th>
+            <th>UserName</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <!-- <th>Status</th> -->
+            <th>Action</th>
+        </tr>
+</thead>
+        <tbody id="users">
+            <?php 
+             $time=time();
+             $sr=1;
+             $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
+             and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
+             $checkUserOnlineRun=sqlsrv_query($conntest, $checkUserOnline);
+
+             $countTotalOnlineUsers=sqlsrv_query($conntest,$checkUserOnline,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+             $TotalActiveUsers=sqlsrv_num_rows($countTotalOnlineUsers);
+
+
+             while($checkUserOnlineRow=sqlsrv_fetch_array($checkUserOnlineRun,SQLSRV_FETCH_ASSOC))
+             {
+                $Emp_Image=$checkUserOnlineRow['Snap'];
+                $emp_pic=base64_encode($Emp_Image);
+
+                ?>
+                 <tr>
+                     <td><?=$sr;?></td>
+                     <td>
+                     <div class="img-box">
+    <a class="avatar-link" href="#">
+         <?php echo  "<img class='direct-chat-img'  src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' class='user-avatar'>";?>
+         <div class="user-status"></div>
+    </a>
+</div>
+                    </td>
+                     <td><?=$checkUserOnlineRow['UserName'];?></td>
+                     <td><?=$checkUserOnlineRow['Name'];?></td>
+                     <td><?=$checkUserOnlineRow['Designation'];?></td>
+                     <td><?=$checkUserOnlineRow['Department'];?></td>
+                     <!-- <td><?php 
+                    //  echo $onlineStatus="<b class='text-success'>Online</b>";
+                 ?></td> -->
+                 <td>
+                 <button onclick="sessionAlllogout(<?=$checkUserOnlineRow['UserName'];?>);" type="button" class="btn btn-danger btn-xs">
+                 LogOut
+                  </button>
+                 </td>
+
+                 </tr>
+             
+             <?php 
+             $sr++;
+             }?>
+</tbody>
+</table>
+   <?php 
+}
+elseif ($code==393) {
+    $time=time();
+    $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
+    and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
+    $countTotalOnlineUsers=sqlsrv_query($conntest,$checkUserOnline,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+   echo  $TotalActiveUsers=sqlsrv_num_rows($countTotalOnlineUsers);
 }
    else
    {
