@@ -17943,7 +17943,7 @@ else if($code==302)
        <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th></thead>
        <tbody>
        <?php 
- $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY id DESC ";
+ $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY Status DESC ";
  //
 $result = mysqli_query($conn,$list_sql);
 while($row=mysqli_fetch_array($result)) 
@@ -22197,7 +22197,7 @@ else
   $updatedate=$ecat."updatedDate"; 
 }
 
-echo $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+ $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {

@@ -9,84 +9,28 @@
 
 
 
-  //include'sendsms.php';
+ $Admiss="SELECT * from Admissions Where Session='2023-24-A'ANd CourseID='188'";
+$q1 = sqlsrv_query($conntest, $Admiss);
+?><table class="table"><tr><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
+  <td>Father Name</td> <td>COurse</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>
+  <?php
+        while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+        {
+?><tr><td><?= $row['Session'];?></td><td><?= $row['Batch'];?></td><td><?= $idno= $row['IDNo'];?></td><td><?=$row['ClassRollNo'];?></td> <td><?=$row['UniRollNo'];?></td>
+<td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td>
+<?php 
+$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from ledger  Where IDNo='$idno'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+ while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
+ {
+  
+$tdebit=$dataw['totaldebit'];
+$tcredit=$dataw['totalcredit'];
+$balanceamount=$tdebit-$tcredit;
+?><td><?=$tdebit;?></td><td><?=$tcredit;?></td><td><?=$balanceamount;?></td>
+<?php 
+ }?>
 
-// if(ISSET($_POST['email_imp']))
-// {  
-//   $file = $_FILES['file_exl']['tmp_name'];
-//   $handle = fopen($file, 'r');
-//   $c = 0;
-//   while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-//   {
+          <tr> <?php
+        }
 
-//   $reg_id = $filesop[0];
-//   $reg_id1 =$filesop[1];
-
-
-
-// $sql = "UPDATE  Staff  SET RoleID = '$reg_id1' WHERE IDNo='$reg_id'";
-   
-
-//    $list_result = sqlsrv_query($conntest,$sql);
-
-
-// if($list_result === false) {
-
-//     die( print_r( sqlsrv_errors(), true) );
-// }
-
-
-// }
-
-// }
-if(ISSET($_POST['email_imp']))
-{ 
-$file = $_FILES['file_exl']['tmp_name'];
-$handle = fopen($file, 'r');
-$c = 0;
-while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
-{
-$oldSubjectcode= $filesop[0];
-$newSubjectcode = $filesop[1];
-   $update_study="UPDATE  MasterCourseStructure SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
-sqlsrv_query($conntest,$update_study);
-// $updateQuestions="UPDATE question_bank SET SubjectCode='$newSubjectcode' WHERE SubjectCode='$oldSubjectcode' ";
-// mysqli_query($conn,$updateQuestions);
-
- $update_ExamFormSubject="UPDATE  ExamFormSubject SET SubjectCode='$newSubjectcode'  WHERE  SubjectCode='$oldSubjectcode'";
-sqlsrv_query($conntest,$update_ExamFormSubject);
-
-
- $update_MasterPracticals="UPDATE  MasterPracticals SET SubCode='$newSubjectcode',SubjectType='$newSubjectcode'  WHERE  SubCode='$oldSubjectcode'";
-sqlsrv_query($conntest,$update_MasterPracticals);
-
-echo "<br>";
-// $update_study_run=sqlsrv_query($conntest,$update_study);  
-// if ($update_study_run==true) 
-// {
-// echo "success";
-// }
-// else
-// {
-// echo"no";
-// }
-
-}
-}
-
-    ?>
-
-
-    <form action="#" enctype="multipart/form-data" method="post">
-          <input type="file" name="file_exl" class="btn btn-warning btn-xs">
-          </div>
- <div class="col-sm-1">
-         <button type="submit"  name='email_imp' class="btn btn-warning btn-xs">Import</button>
-          </div>
-</form>
-<?php
-
-
-               
-                   
-?>

@@ -292,7 +292,7 @@ var xmlhttp = new XMLHttpRequest();
    spinner.style.display='none';
        
           document.getElementById("live_data").innerHTML=xmlhttp.responseText;
-//Examination_theory_types();
+//Examination_theory_types(); 
         }
     }
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+51,true);
@@ -444,7 +444,7 @@ else {
 
 
 function savemarks(id)
-{
+{ 
 
   var marks=document.getElementById('marks_'+id).value;
    var ecat=document.getElementById('ecat').value;

@@ -4955,9 +4955,22 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
 
     ?>
      <option value="">Select</option>
-      <option value='AB'>AB</option>
+      
         <option value='NA'>NA</option>
+
+
         <?php 
+
+        if($ecat=='Attendance')
+        {?>
+          <option value='0'>0</option>
+
+
+       <?php  }else
+       {?>
+         <option value='AB'>AB</option>
+       <?php } 
+
 
 for($j=$start;$j<=$max;$j++)
 {?>
@@ -5048,31 +5061,7 @@ else if($code=='52')
  $subject = $_GET['subject'];
  $ecat = $_GET['DistributionTheory'];
  $start=0;
-if($ecat=='CE1')
-{
-$max=20;
-}
-else if($ecat=='CE3')
-{
-$max=5;
-}
 
-else if($ecat=='MST1')
-{
-$max=30;
-}else if($ecat=='MST2')
-{
-$max=30;
-}
-else if($ecat=='ESE')
-{
-$max=40;
-}
-else if($ecat=='Attendance')
-{
-$max=5;
-$start=3;
-}
 
 ?>
 <!-- <form action="post_action.php" method="post"> -->
