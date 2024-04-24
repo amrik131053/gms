@@ -330,10 +330,10 @@ $pagebottomNumber++;
 $pdf->SetXY(10,22);
 $pdf->SetFont('Times','',10);
 $pdf->Cell(15,10,'Sr No',1,0,'L',0);
-// $pdf->Cell(20,10,'QR No',1,0,'L',0);
+$pdf->Cell(20,10,'QR No',1,0,'L',0);
 $pdf->Cell(28,10,'Bill No',1,0,'L',0);
 $pdf->Cell(30,10,'Bill Date',1,0,'L',0);  
-$pdf->Cell(99,10,'Specifications',1,0,'L',0);
+$pdf->Cell(79,10,'Specifications',1,0,'L',0);
 //$pdf->Cell(28,10,'Device Serial No',1,0,'L',0);
 //$pdf->Cell(24,10,'Local Serial No',1,0,'L',0);
 $pdf->Cell(21,10,'Date of Issue',1,0,'L',0);
@@ -341,7 +341,7 @@ $pdf->Cell(21,10,'Date of Issue',1,0,'L',0);
 // { 
   $pdf->SetXY(10,$y);           
   $pdf->Cell(15,24,$Countforpage,1,0,'C',0);
-  // $pdf->Cell(20,24,$IDNo,1,0,'C',0);
+   $pdf->Cell(20,24,$IDNo,1,0,'C',0);
   $y = $pdf->GetY();
 $x = $pdf->GetX();
 
@@ -376,33 +376,33 @@ $space=substr_count($CPU, ' ');
 $myspace='';
 if ($zc<27)
  {
-  $pdf->MultiCell(99,24,$CPU,1,'C',False);
+  $pdf->MultiCell(79,24,$CPU,1,'C',False);
 }
 elseif($zc<50)
 {
 
-  $pdf->MultiCell(99,24,$CPU,1,'C',False);
+  $pdf->MultiCell(79,24,$CPU,1,'C',False);
  
 }
 elseif($zc<60)
 {
 
-  $pdf->MultiCell(99,12,$CPU,1,'C',False);
+  $pdf->MultiCell(79,12,$CPU,1,'C',False);
  
 }
 elseif($zc>100)
 {
 
-$pdf->MultiCell(99,12,$CPU,1,'C',False);
+$pdf->MultiCell(79,12,$CPU,1,'C',False);
  
 }
 else
  {
-  $pdf->MultiCell(99,12,$CPU,1,'C',False);
+  $pdf->MultiCell(79,12,$CPU,1,'C',False);
 }
 // $y = $pdf->GetY();
 // $x = $pdf->GetX();
-$pdf->SetXY($x+47+28+30, $y);
+$pdf->SetXY($x+47+28+10, $y);
 //  $z=strlen($SerialNo);
 // if ($z<15)
 //  {
@@ -445,7 +445,7 @@ $pdf->SetXY($x+28+47+28+30,$y);
 
  // $pdf->Cell(24,24,$Device,1,0,'C',0);
 
-$pdf->SetXY($x+28+47+28+30+24,$y);
+$pdf->SetXY($x+28+47+28+30+4,$y);
  $pdf->Cell(21,24,$IssueDate,1,0,'C',0);
   $y=$y+24;
 // }

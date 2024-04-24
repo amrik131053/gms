@@ -59,7 +59,7 @@
                         </div>
                       </form>
                      </div>
-                  </div>
+                  </div> 
          
               
             </div>
@@ -313,7 +313,7 @@
       {
          // var id=id1;
          //var RoomType= document.getElementById("RoomType").value;
-         //alert(id);
+         alert(id);
          var code=47;
          $.ajax(
          {
@@ -337,6 +337,52 @@
             }
          });
       }
+
+ function stock_discard(id)   
+      {
+         // var id=id1;
+         //var RoomType= document.getElementById("RoomType").value;
+         alert(id);
+         var code=47;
+         $.ajax(
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,articleID:id
+            },
+            success:function(response) 
+            {
+               document.getElementById("return_stock").innerHTML =response;
+               $(document).ajaxStop(function()
+               {
+                  // window.location.reload();
+               });
+            },
+            error:function()
+            {
+               alert("error");
+            }
+         });
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       function returnSubmit(id){
    var code=48;
