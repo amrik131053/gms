@@ -343,7 +343,7 @@ function searchStudentOnRollNo() {
             }
         });
   
-}
+} 
 function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -384,6 +384,37 @@ function exportExamForm() {
 }
 
 
+function pverify(ExamFromID)
+ {
+    // var r = confirm("Do you really want to Verifiy");
+    // if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 394;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Verify');
+                    edit_stu(ExamFromID);
+                    fetchCutList();
+                    $('.bd-example-modal-xl').modal('hide');
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+  //  }
+}
 function verify(ExamFromID)
  {
     // var r = confirm("Do you really want to Verifiy");
@@ -415,6 +446,28 @@ function verify(ExamFromID)
         });
   //  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function reject(ExamFromID) {
    
     var remark = document.getElementById("remarkReject").value;

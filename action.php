@@ -2595,7 +2595,7 @@ if($count>0)
    elseif($code=='47')
    {
    $id=$_POST['articleID'];
-   $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
+    $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
    $result = mysqli_query($conn,$sql);
    $array = array();
    $a=0;
@@ -2624,6 +2624,7 @@ if($count>0)
    }
    
    }
+
    $sql1="SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$emp_id'";
    
    $q1 = sqlsrv_query($conntest,$sql1);
@@ -13636,6 +13637,7 @@ $ApplyDate="";
 
               <div class="card-footer p-0" style="text-align: left;">
                 <ul class="nav flex-column">
+
                   <li class="nav-item">
                      <li class="nav-link"><b>Father Name</b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
                   </li>
@@ -19716,7 +19718,7 @@ $sql="SELECT  Distinct md.CollegeID,mcs.CollegeName,md.Department ,md.Department
                      </td>
                   
                   <td><?=$DepartmentF;?></td><td>
-                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
 
                   <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:red;"></i></td>
                 
@@ -22676,7 +22678,204 @@ else if($code==365)
 
 <?php 
 }
+else if($code==366)
+{
 
+
+$id=$_POST['articleID'];
+    $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
+   $result = mysqli_query($conn,$sql);
+
+   while($row=mysqli_fetch_array($result))
+   {
+   
+
+   $category=$row['ArticleName'];
+   $working=$row['WorkingStatus'];
+   $issue_date=$row['IssueDate'];
+   $description=$row['CPU'].' '.$row['Brand'].' '.$row['Model'].' '.$row['DeviceSerialNo'].'- RAM : '.$row['Memory'].'- Storage : '.$row['Storage'];
+
+   if ($working=='0'||$working=='') 
+   {
+   $remarks='Working';
+   }
+   elseif ($working=='1') 
+   {
+   $remarks='Faulty';
+   }
+   
+}
+?>
+     <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
+      <tr>
+         <td>Article Name: </td>
+         <th><?=$category;?></th>
+         <td>Specification: </td>
+         <th> <?=$description;?></th>
+         
+      </tr>
+      <tr>
+         <td>QR No: </td>
+         <th><?=$id;?>
+      </th>
+         <td>Status: </td>
+         <th><?= $remarks;?></th>
+      </tr>
+   </table>
+   <?php
+   
+   $location_num=0;
+   ?>
+<div class="card-body table-responsive p-0" style="height: 100%;">
+   <?php 
+      $id=$_POST['articleID'];
+  $location="SELECT * ,user.name as staffname from  stock_summary ss inner join  stock_description as abc ON abc.IDNO=ss.IDNO  
+ inner join master_calegories mc on ss.CategoryID=mc.ID INNER join master_article ma on ss.ArticleCode=ma.ArticleCode
+  inner join location_master lm on lm.ID=ss.LocationID inner join room_master rm on rm.FloorID=lm.Floor inner join building_master
+   bm on bm.ID=lm.Block inner join room_type_master rtm on rtm.ID=lm.Type inner join room_name_master rnm on rnm.ID=lm.RoomName
+    inner join user on abc.OwerID=user.emp_id WHERE ss.IDNo='$id' GROUP BY  abc.reference_no";
+         $location_run=mysqli_query($conn,$location);
+
+
+        while ($location_row=mysqli_fetch_array($location_run)) 
+         {
+
+           //print_r($location_row) ;
+$emp_id=$location_row['OwerID'];
+
+          $sqlas="SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$emp_id'";
+   
+   $qas1 = sqlsrv_query($conntest,$sqlas);
+   
+   while($rowas = sqlsrv_fetch_array($qas1, SQLSRV_FETCH_ASSOC) )
+        {
+   $name=$rowas['Name'];
+   $Department=$rowas['Department'];
+   $Designation=$rowas['Designation'];
+   $CollegeName=$rowas['CollegeName'];
+   $img= $rowas['Snap'];
+   $pic = 'data://text/plain;base64,' . base64_encode($img);
+   }  
+
+      ?>
+   <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
+      <tr>
+         <td>Employee ID: </td>
+         <th><?=$location_row['OwerID'];?></th>
+         <td>Name: </td>
+         <th> <?=$location_row['staffname'];?></th>
+         <td rowspan="2" style="text-align: right;">
+            <img src="<?= $pic; ?>" width="100" height="130" border="1">
+         </td>
+      </tr>
+      <tr>
+         <td>Designation: </td>
+         <th><?=$location_row['designation'];?></th>
+         <td>Department: </td>
+         <th><?=$location_row['department'];?></th>
+      </tr>
+   </table>
+   <br>
+    <label>Location</label>
+    <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            <th>Block</th>
+            <th>Floor</th>
+            <th>Room No</th>
+            <th>Room Type</th>
+            <th>Room Name</th>
+            <th>Issue Date</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            
+            <td>
+               <?=$location_row['Name'];?>
+            </td>
+            <td>
+               <?=$location_row['Floor'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomNo'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomType'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomName'];?>
+            </td>
+
+              <td>
+               <?=$location_row['IssueDate'];?>
+            </td>
+            
+         </tr>
+      </tbody>
+   </table>
+   
+   <br>
+  <!--  <label>Particular's Description(<?=$id?>)</label>
+   <table class="table table-head-fixed text-nowrap" border="1" style="border: 2px solid black;"> -->
+      <!-- <thead>
+         <tr>
+            <th>Article </th>
+            <th>View</th>
+            <th>Brand</th>
+            <th>OS</th>
+            <th>Model</th>
+         </tr>
+      </thead>
+      <tbody> -->
+       <!--   <tr>
+            <td>
+               <?=$location_row['ArticleName'];?>
+            </td>
+            <td>
+               <?=$location_row['CPU'];?>
+            </td>
+            <td>
+               <?=$location_row['Brand'];?>
+            </td>
+            <td>
+               <?=$location_row['OS'];?>
+            </td>
+            <td>
+               <?=$location_row['Model'];?>
+            </td>
+         </tr> -->
+         <?php
+            }
+            ?>
+    <!--   </tbody>
+   </table> -->
+   <br>
+<!--    <div class="row" >
+      <div class="col-lg-6">
+         <label>Remarks</label>
+         <input type="text" id="returnRemark" class="form-control" required>
+      </div>
+      <div class="col-lg-3">
+         <label>Status</label>
+         <select id="workingStatus" class="form-control" required>
+            <option value="">Select</option>
+            <option value="0">Working</option>
+            <option value="1">Faulty</option>
+         </select>
+      </div>
+      <div class="col-lg-3">
+         <label>&nbsp;</label>
+         <button type="submit" data-dismiss="modal" class="form-control btn-danger btn" onclick="returnSubmit(<?=$id?>)">Return</button>
+      </div>
+   </div> -->
+   <br>
+</div>
+<?php 
+
+
+}
 
 
 

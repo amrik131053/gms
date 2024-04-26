@@ -148,7 +148,7 @@ function view_image(id) {
                         }
                      });
                   }
-                  function uploadImage(form, id) {
+ function uploadImage(form, id) {
 var formData = new FormData(form);
 $.ajax({
     url: form.action,
@@ -559,6 +559,8 @@ function updateStudentdata(id) {
     var status = document.getElementById('ustatus').value;
     var lock = document.getElementById('ulocked').value;
     var classroll = document.getElementById('classroll').value;
+    var uniroll = document.getElementById('uniroll').value;
+    var uniroll = document.getElementById('uniroll').value;
     var uniroll = document.getElementById('uniroll').value;
 
     var Collegechange = document.getElementById('Collegechange').value;

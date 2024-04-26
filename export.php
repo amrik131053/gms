@@ -5412,6 +5412,8 @@ $exportstudy.="<tr >
                 <th style='background-color:black; color:white;'>Student Mobile No</th>
               
                 <th style='background-color:black; color:white;'>Status</th>
+                
+                <th style='background-color:black; color:white;'>Accept Status</th>
                 ";
                 $exportstudy.="</tr></thead>";             
                 $list_sql = "SELECT   *,ExamForm.Status as ExamStatus
@@ -5468,6 +5470,16 @@ $exportstudy.="<tr >
                                     $StudentMobileNo=$row['StudentMobileNo'];
                                     
                                     $Status=$row['ExamStatus'];
+
+                                     $AcceptType=$row['AcceptType'];
+              if($AcceptType>0)
+              {
+                $pr='(Provisional)';
+              }
+              else
+              {
+               $pr=''; 
+              }
                                    
 if($Status==-1)
              {
@@ -5517,7 +5529,9 @@ elseif($Status==6)
 elseif($Status==8)
              {
                $StatusShow="<b style='color:green'>Accepted</b>";
-             }  
+             } 
+
+
                                        
 
 
@@ -5535,6 +5549,7 @@ elseif($Status==8)
                                        <td>{$EmailID}</td>
                                        <td>{$StudentMobileNo}</td>
                                        <td>{$StatusShow}</td>
+                                       <td>{$pr}</td>
                                        </tr>";
           }
 

@@ -202,8 +202,8 @@ for($as=$subcount;$as<7;$as++)
    $ExternalExam[$as]='';
 }
 
-$list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex
-FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
+$list_sql = "SELECT  ExamForm.ID,ExamForm.AcceptType,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo";
         $j=100;
        
        
@@ -221,7 +221,8 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where Exa
                  $Examid[]=$row['ID'];
                  $StudentNames[] =$row['StudentName'];
                  $Snap[] =$row['Snap'];
-                 $Gender[] =$row['Sex'];           
+                 $Gender[] =$row['Sex'];    
+                  $accepttype[] =$row['AcceptType'];           
  }
 
                 // print_r($ExternalExam);
@@ -259,7 +260,16 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','b',8);
         $pdf->SetXY(19,$y);
         $smal =strtolower($StudentNames[$i]);
-      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
+        $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i]."/ ".ucwords($smal),0,'C');
       $pdf->SetXY(19,$y);
       $pdf->Cell(35,14,"",1,0,'C',0);
         $pdf->SetXY(35,$y);
@@ -283,16 +293,16 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
 
 
 
-
+$pdf->SetTextColor(255,0,0);
         $pdf->Cell(21.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(28.6,14,"",1,0,'C',0);
-        
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(28.6,14,$pr,1,0,'C',0);
+    $pdf->SetTextColor(0,0,0);    
         if($subcount<2)
         {
            
@@ -485,6 +495,16 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','b',8);
         $pdf->SetXY(19,$y);
         $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+
       $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
       $pdf->SetXY(19,$y);
       $pdf->Cell(35,14,"",1,0,'C',0);
@@ -506,13 +526,13 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
     
         $pdf->Cell(21.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(28.6,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(28.6,14,$pr,1,0,'C',0);
 
         if($subcount<8)
         {
@@ -704,6 +724,15 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','b',8);
         $pdf->SetXY(19,$y);
         $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
       $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
       $pdf->SetXY(19,$y);
       $pdf->Cell(35,14,"",1,0,'C',0);
@@ -723,14 +752,14 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
         $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
     
-        $pdf->Cell(21.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
+        $pdf->Cell(21.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(28.6,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(28.6,14,$pr,1,0,'C',0);
 
 
       
@@ -927,6 +956,15 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
         $pdf->SetFont('Times','b',8);
         $pdf->SetXY(19,$y);
         $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
       $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
       $pdf->SetXY(19,$y);
       $pdf->Cell(35,14,"",1,0,'C',0);
@@ -947,14 +985,14 @@ for ($p = 0; $p < $totalStudent / 10; $p++) {
           }
         $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
     
-        $pdf->Cell(21.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
+        $pdf->Cell(21.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
         
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(35.4,14,"",1,0,'C',0);
-        $pdf->Cell(28.6,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(28.6,14,$pr,1,0,'C',0);
 
 
       

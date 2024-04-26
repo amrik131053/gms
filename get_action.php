@@ -2517,8 +2517,8 @@ elseif($Status==5)
                            <th>Category Name</th>
                            <th>Article Name</th>
                            <th>Specifications</th>
-                          <!--  <th>Oprating System</th>
-                           <th>Memory</th> -->
+                           <!-- <th>Oprating System</th> -->
+                           <th>Track</th>
                            <th>Action</th>
                          <th>Action</th>
                         </tr>
@@ -2537,6 +2537,8 @@ elseif($Status==5)
                        <td><?=$building_row['CPU'];?></td>
                          <!--   <td><?=$building_row['OS'];?></td>
                            <td><?=$building_row['Memory'];?></td> -->
+
+                           <td>  <i class="fa fa-eye fa-lg" onclick="track(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_track" style="color:red;"></i></td>
                             <td>
                                   <?php
                                  if($building_row['Status']=="0")
@@ -2570,7 +2572,7 @@ elseif($Status==5)
                                  }
                                   else if ($building_row['Status']=="1" &&  $building_row['WorkingStatus']=='1')
                                     {?>
-                              <a class="btn btn-primary btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard1" style="color: white;">Faulty (Return)</a>
+                              <a class="btn btn-primary btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard" style="color: white;">Faulty (Return)</a>
                               <?php
                                  }
 
@@ -2578,7 +2580,7 @@ elseif($Status==5)
                                  else if ($building_row['Status']=="2" &&  $building_row['WorkingStatus']=='1')
                                  {
                                  ?>
-                                    <a class="btn btn-warning btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard1" style="color: white;">Faulty</a>
+                                    <a class="btn btn-warning btn-xs"  onclick="stock_discard1(<?=$building_row['IDNo'];?>);" data-toggle="modal" data-target="#exampleModal_discard" style="color: white;">Faulty</a>
                               <?php  # code...
                                  }
                                  else if ($building_row['Status']=="2")
