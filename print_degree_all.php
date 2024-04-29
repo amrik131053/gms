@@ -32,6 +32,14 @@
          }
          #footer {
          position: fixed;
+         bottom: 80px;
+         left: 0;
+         width: 100%;
+         height: 20px;
+         }
+
+         #footernew {
+         position: fixed;
          bottom: 93px;
          left: 0;
          width: 100%;
@@ -177,9 +185,7 @@
                           else{
                           $ge1="son"; 
                           $ms1="Mr.";    // code...
-                          } 
-                       
-                          
+                          }                                                 
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                        having completed the requirements for the award of  diploma and having passed the prescribed
@@ -198,7 +204,7 @@
                  </div>
                  <div style="height: 107px;"></div>
                  <!-- // space -->
-                 <div id="footer">
+                 <div id="footernew">
                     <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 85.3px; color:#0D729C;">
                        <p>
                           <b><?php  echo "CONTROLLER OF EXAMINATIONS";?></b>
