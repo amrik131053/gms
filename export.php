@@ -8066,7 +8066,7 @@ else if($exportCode==59)
 
  else if($exportCode==60)
 {
-    include 'result-pages/result-subject-bind.php';
+    include 'result-pages/result-subject-bind-new.php';
 
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
@@ -8285,152 +8285,152 @@ $exportstudy.="<td style='text-align:center;'>NA</td>";
 
 }
 
-  for($sub=0;$sub<$subCountp;$sub++)
-        {
+//   for($sub=0;$sub<$subCountp;$sub++)
+//         {
 
 
- $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'";  
-        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-                          {
+//  $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjectsp[$sub]' AND ExternalExam='Y'";  
+//         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+//                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+//                           {
 
-            $pmarks=0;
-
-
-include'result-pages/grade_calculator_practical.php';
-
-$amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
-$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
-
-while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-         {
-             $credit=$row7c['NoOFCredits'];
-         }
+//             $pmarks=0;
 
 
-         if(is_numeric($credit))
-         {
-$totalcredit=$totalcredit+$credit;
-         }
+// include'result-pages/grade_calculator_practical.php';
+
+// $amrikc = "SELECT * FROM MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SubjectCode='$Subjectsp[$sub]'";  
+// $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+
+// while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+//          {
+//              $credit=$row7c['NoOFCredits'];
+//          }
+
+
+//          if(is_numeric($credit))
+//          {
+// $totalcredit=$totalcredit+$credit;
+//          }
 
 
 
                            
-                            $exportstudy.="<td style='text-align:center;'>{$pshow}</td>"; 
-                           $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
-//                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
-// $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+//                             $exportstudy.="<td style='text-align:center;'>{$pshow}</td>"; 
+//                            $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
+// //                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
+// // $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
                           
 
-                           if($credit>0)
-{
-    if(is_numeric($credit))
-    {
- $gradevalue=$gardep*$credit;
-    }
-    else{
-        $gradevalue=0; 
-    }
- if($gradevalue>0)
- {
-$gradevaluetotal=$gradevaluetotal+$gradevalue;
- }
- else
- {
-    if($grade=='F' || $grade=='US')
-    {
-    $nccount++;
-    }
- }
-}
-//$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
+//                            if($credit>0)
+// {
+//     if(is_numeric($credit))
+//     {
+//  $gradevalue=$gardep*$credit;
+//     }
+//     else{
+//         $gradevalue=0; 
+//     }
+//  if($gradevalue>0)
+//  {
+// $gradevaluetotal=$gradevaluetotal+$gradevalue;
+//  }
+//  else
+//  {
+//     if($grade=='F' || $grade=='US')
+//     {
+//     $nccount++;
+//     }
+//  }
+// }
+// //$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
            
 
 
 
-}
-else
-{
-$exportstudy.="<td style='text-align:center;'>NA</td>"; 
-$exportstudy.="<td style='text-align:center;'>NA</td>";
-//  $exportstudy.="<td style='text-align:center;'>NA</td>";
+// }
+// else
+// {
 // $exportstudy.="<td style='text-align:center;'>NA</td>"; 
-// $exportstudy.="<td style='text-align:center;'>NA</td>"; 
-}
-}
+// $exportstudy.="<td style='text-align:center;'>NA</td>";
+// //  $exportstudy.="<td style='text-align:center;'>NA</td>";
+// // $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+// // $exportstudy.="<td style='text-align:center;'>NA</td>"; 
+// }
+// }
 
- for($sub=0;$sub<$subCountop;$sub++)
-        {
-
-
-$list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP' ";  
-        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
-                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
-                          {
+//  for($sub=0;$sub<$subCountop;$sub++)
+//         {
 
 
-            $pmarks=0;
+// $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$SubjectsNewop[$sub]' AND ExternalExam='Y'  ANd SubjectType='OP' ";  
+//         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+//                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+//                           {
+
+
+//             $pmarks=0;
 
 
 
-include'result-pages/grade_calculator_practicalopen.php'; 
+// include'result-pages/grade_calculator_practicalopen.php'; 
 
 
 
-                     $amrikc = "SELECT * FROM MasterCourseStructure where   Batch='$Batch' ANd SubjectCode='$SubjectsNewop[$sub]'";  
-$list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+//                      $amrikc = "SELECT * FROM MasterCourseStructure where   Batch='$Batch' ANd SubjectCode='$SubjectsNewop[$sub]'";  
+// $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
-while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-         {
-             $credit=$row7c['NoOFCredits'];
-         }
+// while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+//          {
+//              $credit=$row7c['NoOFCredits'];
+//          }
 
 
-         if(is_numeric($credit))
-         {
-$totalcredit=$totalcredit+$credit;
-         }
-$exportstudy.="<td style='text-align:center;'>{$pshow}</td>"; 
-                           $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
-//                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
-// $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
-                           if($credit>0)
-{
-    if(is_numeric($credit))
-    {
- $gradevalue=$gardep*$credit;
-    }
-    else{
+//          if(is_numeric($credit))
+//          {
+// $totalcredit=$totalcredit+$credit;
+//          }
+// $exportstudy.="<td style='text-align:center;'>{$pshow}</td>"; 
+//                            $exportstudy.="<td style='text-align:center;'>{$pmarks}</td>"; 
+// //                            $exportstudy.="<td style='text-align:center;'>{$grade} </td>";
+// // $exportstudy.="<td style='text-align:center;'>{$gardep} </td>";
+//                            if($credit>0)
+// {
+//     if(is_numeric($credit))
+//     {
+//  $gradevalue=$gardep*$credit;
+//     }
+//     else{
        
-        $gradevalue=0;
-    }
- if($gradevalue>0)
- {
-$gradevaluetotal=$gradevaluetotal+$gradevalue;
- }
- else
- {
-    if($grade=='F' || $grade=='US')
-    {
-    $nccount++;
-    }
- }
-}
-//$exportstudy.="<th>{$credit} </th>";  
+//         $gradevalue=0;
+//     }
+//  if($gradevalue>0)
+//  {
+// $gradevaluetotal=$gradevaluetotal+$gradevalue;
+//  }
+//  else
+//  {
+//     if($grade=='F' || $grade=='US')
+//     {
+//     $nccount++;
+//     }
+//  }
+// }
+// //$exportstudy.="<th>{$credit} </th>";  
      
 
 
-} 
-else
-{
-$exportstudy.="<th>NA</th>"; 
-$exportstudy.="<th>NA</th>";
+// } 
+// else
+// {
 // $exportstudy.="<th>NA</th>"; 
 // $exportstudy.="<th>NA</th>";
-}
+// // $exportstudy.="<th>NA</th>"; 
+// // $exportstudy.="<th>NA</th>";
+// }
 
 
-     }
+//      }
 
 
 

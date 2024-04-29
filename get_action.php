@@ -5061,6 +5061,7 @@ else if($code=='52')
  $batch=$_GET['batch']; 
  $sem = $_GET['sem'];
  $subject = $_GET['subject'];
+ $group = $_GET['group'];
  $ecat = $_GET['DistributionTheory'];
  $start=0;
 
@@ -5131,8 +5132,9 @@ else if($code=='52')
  $subjectcode = $_GET['subject'];
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
+  $group = $_GET['group'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -5172,7 +5174,7 @@ else if($code=='52')
 
  $getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
 $list_resultdi = sqlsrv_query($conntest,$getdistri);
-        $i = 1;
+      
         while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
         {  
             $did=$rowdi['Id'];
@@ -5185,7 +5187,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
      $exam_type=$DistributionTheory;
    $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
-        $i = 1;
+
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
             $todaydate=date('d-m-Y');

@@ -300,7 +300,7 @@ function edit_stu(id) {
 
 function Search_exam_student1() {
 
-    var code = 355;
+    var code = 355; 
     var sub_data = 2;
     var College = document.getElementById("College").value;
     var Course = document.getElementById("Course").value;

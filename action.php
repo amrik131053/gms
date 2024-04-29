@@ -22312,11 +22312,11 @@ $stmt1 = sqlsrv_query($conntest,$sql);
   <th width="60%">Subject Name</th>
   <th width="12%">Subject Code</th><th>Credit</th>
   <th width="8%">Int</th>
-  <th width="8%">CA1&CA2</th>
-    <th width="8%">CA3</th>
-     <th width="8%">Att</th>
-    <th width="8%">MST1</th>
-    <th width="8%">MST2</th>
+  <th width="8%">CA1&CA2 /P1</th>
+    <th width="8%">CA3/P2</th>
+     <th width="8%">Att/P3</th>
+    <th width="8%">MST1/P4</th>
+    <th width="8%">MST2/P5</th>
     <!-- <th width="8%">Best</th> -->
     
  
@@ -22325,7 +22325,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 <?php 
 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType!='P'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ //AND SubjectType!='P' 
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {  
@@ -22377,9 +22378,12 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
   <td>
       <?php echo $mst1=$row7['MST1'];?> 
   </td>
-   <td>
-      <?php echo $mst2= $row7['MST2'];?> 
+  <td>
+      <?php echo $mst2= $row7['ESE'];?> 
   </td>
+   <!-- <td>
+      <?php echo $mst2= $row7['MST2'];?> 
+  </td> -->
  <!--  <td>
 
    <?php
@@ -22396,6 +22400,7 @@ echo $msttotal=$mst1;
 ?>
   
   </td> -->
+   
   
     
   
@@ -22414,23 +22419,22 @@ echo $msttotal=$mst1;
 
          <?php }
          ?>
-<tr>
-   <th colspan="5"></th>
-  
-  <th width="8%">P1</th>
+<!-- <tr>
+    <th colspan="5"></th>
+    <th width="8%">P1</th>
     <th width="8%">P2</th>
-     <th width="8%">P3</th>
+    <th width="8%">P3</th>
     <th width="8%">P4</th>
     <th width="8%">P5</th>
    
      
 
  
-</tr>
+</tr> -->
 
 
 
-         <?php 
+<!--          <?php 
  $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType='P' ANd ExternalExam='Y' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
@@ -22512,7 +22516,7 @@ $nop++;
 
 
          <?php }
-         ?>
+         ?> -->
 </table>
 </div>
 
