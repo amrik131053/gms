@@ -156,7 +156,7 @@
                     </div>
                  </div>
                  <div class="row">
-                    <div style="height: 152px;"></div>
+                    <div style="height: 175px" ></div>
                     <!-- // space -->
                     <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                  </div>

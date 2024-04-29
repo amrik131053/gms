@@ -21,6 +21,8 @@ else
  
 $data = array();
 $start=date('Y-m-d');
+
+
 $list=array();
 function getBetweenDates($startDate, $endDate) {
   $array = array();
