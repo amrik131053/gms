@@ -55,8 +55,8 @@ function search_result() {
     var rollno = document.getElementById('rollno').value;
     if (rollno != '') {
      
-        //var spinner = document.getElementById("ajax-loader");
-        //spinner.style.display = 'block';
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
         var code = 395;
         $.ajax({
             url: 'action_g.php',
@@ -65,7 +65,7 @@ function search_result() {
                 code: code,rollno:rollno
             },
             success: function(response) {
-                //spinner.style.display = 'none';
+                spinner.style.display = 'none';
                 document.getElementById("show_record1").innerHTML = response;
               
 

@@ -276,7 +276,7 @@ for($i=1;$i<=12;$i++)
           
 
          
-        var code='363';
+        var code='368';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem},
