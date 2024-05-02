@@ -17612,12 +17612,21 @@ elseif($code==267) //update student
                         </li>
                       <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
                         </li>
+                       
+                        
+                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
+
+                        </li>
+                         <?php 
+   if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+   {   ?>
+     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
+                       
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
-                        </li>
+          <?php }
+          ?>              
                         <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a>
                         </li>
                     </ul>
@@ -27855,6 +27864,48 @@ $update_query=sqlsrv_query($conntest,$update1);
        echo "0";
    }
    }
+
+
+
+
+else if($code==395)
+   {
+$srNo=1;
+ $search=$_POST['rollno'];
+$query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where (Admissions.ClassRollNo like '%".$search."%' or Admissions.UniRollNo like '%".$search."%') ";
+?>
+ <table class="table"><th>#</th><th>Semester</th><th>Examination</th><th>SGPA</th><th>Declare Date</th><th>Print</th><?php 
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+       ?>
+       <tr><td><?=$srNo?></td><td><?=$row['Semester'];?></td><td><?=$row['Examination'];?></td><td><?=$row['Sgpa']?></td>  
+<td>
+<?php if($row['DeclareDate']!='')
+{
+    $decdate=$row['DeclareDate']->format('d-m-Y');
+}else
+{
+     $decdate='';
+}
+?>
+    <?= $decdate;?></td><td><i class="fa fa-print" style="color: red;"></i></td>
+         <?php 
+     $srNo++;
+ }
+
+
+
+       
+
+
+}
+
+
+
+
+
+
    else
    {
    

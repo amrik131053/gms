@@ -22889,6 +22889,7 @@ $emp_id=$location_row['OwerID'];
    $sem = $_POST["sem"];
     $batch = $_POST["batch"];
      $session = $_POST["session"];
+      $category = $_POST["category"];
 
 $list_sql="SELECT * FROM Admissions WHERE 1=1 ";
 if($college!=''){
@@ -22897,13 +22898,14 @@ if($college!=''){
 if($course!=''){
 $list_sql.= "AND CourseID='$course'";
 }
-if($batch!=''){
-$list_sql.= "AND Batch='$batch'";
-} 
+
 if($session!=''){
 $list_sql.= "AND Session='$session' ";
 }
-$list_sql.= "AND Status='1'";
+if($category!=''){
+$list_sql.= "AND Category='$category' ";
+}
+$list_sql.= "AND Status='1' AND Batch='$batch' Order BY ClassRollNo ASC";
 
 
 
@@ -22912,16 +22914,22 @@ $list_sql.= "AND Status='1'";
 $q1 = sqlsrv_query($conntest,$list_sql);
 ?>
 <table class="table"><tr><td>Sr No</td><td>Session</td><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
-  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>
+  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>
   <?php
   $srno=1;
         while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
         {
 ?><tr><td><?=$srno;?></<td><td><?= $row['Session'];?></td><td><?= $idno= $row['IDNo'];?></td><td><?=$row['ClassRollNo'];?></td> <td><?=$row['UniRollNo'];?></td>
-<td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td><td><?= $row['Batch'];?></td>
+<td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td><td><?= $row['Batch'];?></td><td><?= $row['FeeCategory'];?></td>
 <?php 
-$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from ledger  Where IDNo='$idno'";
+$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
+if($sem!='')
+{
+ $Admiss2.= " AND SemesterID<='$sem' ";
+}
+$Admiss2.="AND IDNo='$idno'";
 $q2 = sqlsrv_query($conntest, $Admiss2);
+
  while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
  {
   

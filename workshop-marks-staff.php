@@ -219,7 +219,8 @@ for($i=1;$i<=12;$i++)
             <div class="card card-info">
               <div class="card-header">
 
-                <div class="row"><div class="col-md-2"><h3 class="card-title">Students</h3>
+                <div class="row">
+                  <div class="col-md-2"><h3 class="card-title">Students</h3>
 </div> 
 <!-- <div class="col-lg-1 col-md-12 col-sm-12" style="text-align: center;">
  

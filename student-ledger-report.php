@@ -103,7 +103,28 @@ for($i=1;$i<=12;$i++)
             </select>
 
 </div>
+ <div class="col-lg-2 col-md-4 col-sm-3">
+<label> Fee Category</label>
+            <select   id='category' class="form-control" required="">
+              <option value="">Fee Category</option>
+         <?php
+   $sql="SELECT DISTINCT FeeCategory  from Admissions";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
+       
+     $FeeCategory = $row1['FeeCategory']; 
+     
+    ?>
+<option  value="<?=$FeeCategory;?>"><?= $FeeCategory;?></option>
+<?php    }
+
+?>
+             
+            </select>
+
+</div>
 
  
 
@@ -171,7 +192,7 @@ function select_mst()
         var Batch= document.getElementById("Batch").value;
          var Semester= document.getElementById("Semester").value;
           var Session= document.getElementById("Session").value;
-
+       var category= document.getElementById("category").value;
       if (Batch!='') 
       {
           
@@ -180,7 +201,7 @@ function select_mst()
            var code='367';
             $.ajax({
             url:'action.php',
-            data:{code:code,college:CollegeID,course:CourseID,batch:Batch,sem:Semester,session:Session},
+            data:{code:code,college:CollegeID,course:CourseID,batch:Batch,sem:Semester,session:Session,category:category},
             type:'POST',
             success:function(data)
             { 
@@ -215,6 +236,7 @@ function select_mst()
           var batch= document.getElementById("Batch").value;
           var sem= document.getElementById("Semester").value;
           var session= document.getElementById("Session").value;
+           var category= document.getElementById("category").value;
 
 
 
@@ -224,7 +246,7 @@ function select_mst()
  
  // window.location.href="export.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&session="+session+"&exportCode="+code;
 
- window.open("export.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&session="+session+"&exportCode="+code, '_blank');
+ window.open("export.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&session="+session+"&category="+category+"&exportCode="+code, '_blank');
 
   }
   
