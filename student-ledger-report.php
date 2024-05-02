@@ -203,6 +203,50 @@ function select_mst()
       }
    }
 
+
+
+
+  function exportpdfdata()
+
+
+   {
+          var college= document.getElementById("College").value;
+          var course= document.getElementById("Course").value;
+          var batch= document.getElementById("Batch").value;
+          var sem= document.getElementById("Semester").value;
+          var session= document.getElementById("Session").value;
+
+
+
+  if(batch!='')
+ {
+  var code=61;
+ 
+ // window.location.href="export.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&session="+session+"&exportCode="+code;
+
+ window.open("export.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&session="+session+"&exportCode="+code, '_blank');
+
+  }
+  
+      else
+      {
+        ErrorToast('Select Appropriate data','bg-danger');
+ 
+      }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 

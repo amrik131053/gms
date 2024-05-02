@@ -8185,13 +8185,13 @@ elseif($code==132)
 
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
- $months = $_POST['months'];
+$months = $_POST['months'];
 $Gender = $_POST['Gender'];
- $MobileNo = $_POST['MobileNo'];
+$MobileNo = $_POST['MobileNo'];
 $CollegeName = $_POST['CollegeName'];
 $Department = $_POST['Department'];
 $Course = $_POST['Course'];
- $Batch = $_POST['Batch'];
+$Batch = $_POST['Batch'];
 $Lateral = $_POST['Lateral'];
 $PinCode = $_POST['PinCode'];
 $Nationality = $_POST['Nationality'];
@@ -10218,14 +10218,13 @@ $fileName=$image_name.'.PNG';
          // echo json_encode($pagedData);
       
              echo json_encode($pagedData);
-        
+         
       }
       else
       {
           
-             $degree="SELECT * FROM offer_latter  where Batch='2024'  order by Id DESC "; 
-       
-                  $degree_run=mysqli_query($conn,$degree);
+$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC "; 
+                $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
                      $data2=$degree_row;
@@ -10236,12 +10235,10 @@ $fileName=$image_name.'.PNG';
                      {
                     $data1=$row;
                     $data[]=array_merge($data2,$data1);
-               
-                 }
+                     }
                  
                   }
                   // print_r($data);139
-
                   $page = $_POST['page'];
                   $recordsPerPage = 50;
                   $startIndex = ($page - 1) * $recordsPerPage;

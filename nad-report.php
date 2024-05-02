@@ -277,7 +277,7 @@ $key1=1;
      
 }
      
-     $exportstudy .= " <td>{$AadhaarNo}</td>
+     $exportstudy .= " <td></td>
              <td>{$Batch}</td></tr>";
          }
  $exportstudy .= "</table>";
