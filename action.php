@@ -8692,7 +8692,7 @@ else
             }
             else
             {
-           $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+          $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8706,16 +8706,28 @@ else
                    
          
          }    
-         //  print_r($questionArray);
+          // print_r($questionArray);
 
    $countarray=count($questionArray);
 
 
- if(!array_unique($questionArray))
-{
-    echo 'Please Regenerate';
-    print_r($questionArray);
+//  if(array_unique($questionArray))
+// {
+//     echo 'Please Regenerate';
+//     print_r($questionArray);
+// }
+
+
+ if($countarray != count(array_unique($questionArray)))
+ {
+  echo 'Please Regenerate';
+    //print_r($questionArray);
 }
+
+
+
+
+
 else
 {
     
