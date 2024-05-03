@@ -170,7 +170,7 @@
                  </div>
         
                  <div class="row">
-                    <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 70px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+                    <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 63px;margin-left: 60px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
                        <?php 
                           $ge1="son";
                           $ge="daughter";
