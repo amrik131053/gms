@@ -141,7 +141,7 @@
         
            <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
               <span class="notranslate">
-                 <div style="height: 40px;border: 0px solid red;" ></div>
+                 <div style="height: 50px;border: 0px solid red;" ></div>
                  <div class="row">
                     <!-- // space -->
                    <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php 
