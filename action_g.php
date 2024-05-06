@@ -8185,13 +8185,13 @@ elseif($code==132)
 
 $Name = $_POST['Name'];
 $FatherName = $_POST['FatherName'];
- $months = $_POST['months'];
+$months = $_POST['months'];
 $Gender = $_POST['Gender'];
- $MobileNo = $_POST['MobileNo'];
+$MobileNo = $_POST['MobileNo'];
 $CollegeName = $_POST['CollegeName'];
 $Department = $_POST['Department'];
 $Course = $_POST['Course'];
- $Batch = $_POST['Batch'];
+$Batch = $_POST['Batch'];
 $Lateral = $_POST['Lateral'];
 $PinCode = $_POST['PinCode'];
 $Nationality = $_POST['Nationality'];
@@ -8204,7 +8204,7 @@ $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
 $ID_Proof_No=$AdharCardNo.$PassportNo;
-$check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No'";
+$check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
 $check_exit_run=mysqli_query($conn,$check_exit);
 $numof_exit=mysqli_num_rows($check_exit_run);
 if ($numof_exit>0) {
@@ -8212,7 +8212,6 @@ if ($numof_exit>0) {
 }
 else
 {
-
 
 $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$CollegeName' and CourseID='$Course' ANd Session='$session'";
 $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
@@ -10219,14 +10218,13 @@ $fileName=$image_name.'.PNG';
          // echo json_encode($pagedData);
       
              echo json_encode($pagedData);
-        
+         
       }
       else
       {
           
-             $degree="SELECT * FROM offer_latter  where Batch='2024'  order by Id DESC "; 
-       
-                  $degree_run=mysqli_query($conn,$degree);
+$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC "; 
+                $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
                      $data2=$degree_row;
@@ -10237,12 +10235,10 @@ $fileName=$image_name.'.PNG';
                      {
                     $data1=$row;
                     $data[]=array_merge($data2,$data1);
-               
-                 }
+                     }
                  
                   }
                   // print_r($data);139
-
                   $page = $_POST['page'];
                   $recordsPerPage = 50;
                   $startIndex = ($page - 1) * $recordsPerPage;
@@ -17616,12 +17612,21 @@ elseif($code==267) //update student
                         </li>
                       <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
                         </li>
+                       
+                        
+                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
+
+                        </li>
+                         <?php 
+   if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+   {   ?>
+     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
+                       
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
-                        </li>
+          <?php }
+          ?>              
                         <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a>
                         </li>
                     </ul>
@@ -18242,7 +18247,7 @@ $tcredit=$rowww['totalcredit'];
   $amount=$tdebit-$tcredit;
     ?>                                  
 
-  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
+  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td colspan="2" style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
 <td colspan="2"></td>
     <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
     </tr>
@@ -18251,11 +18256,13 @@ $tcredit=$rowww['totalcredit'];
                                             <tr>
                                                 <td><b>Date</b></td>
                                                 <td><b>Receipt No</b></td>
-                                                <td><b>Particulars</b></td>
-                                                <td><b>Reamrks</b></td>
-                                                <td><b>Debit</b></td>
-                                                <td><b>Credit</b></td>
-                                                <td><b>Remarks</b></td>
+                                                 <td><b>Installment</b></td>
+                                                 <td><b>Particulars</b></td>
+                                               
+                                                 <td><b>Ledger</b></td>
+                                                 <td><b>Debit</b></td>
+                                                 <td><b>Credit</b></td>
+                                                 <td><b>Remarks</b></td>
 
                                                 
 
@@ -18280,6 +18287,8 @@ while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
 
 
                                          </td><td><?= $row8['ReceiptNo'];;?></td>
+                                            
+                                            <td><?= $row8['Semester'];?>   </td>
                                             <td style="width: 300px"><?= $row8['Particulars'];;?></td>
 
                                             <td><?= $row8['LedgerName'];?>   </td><td><?= $row8['Debit'];;?></td><td><?= $row8['Credit'];;?></td><td><?= $row8['Remarks'];;?></td>
@@ -18304,7 +18313,7 @@ $tcredit=$rowww['totalcredit'];
   $amount=$tdebit-$tcredit;
     ?>                                  
 
-  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
+  <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td colspan="2" style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
 <td colspan="2"></td>
     <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
     </tr>  
@@ -18724,6 +18733,14 @@ sqlsrv_query($conntest, $upimage, $params);
  $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
+
+
+  $update_studentb="UPDATE Ledger SET StudentName='$name',FatherName='$fatherName',Batch='$batch' where IDNo='$loginId'";
+
+    $update_runb=sqlsrv_query($conntest,$update_studentb);
+
+
+
       echo "1";
 
 
@@ -18734,7 +18751,7 @@ sqlsrv_query($conntest, $upimage, $params);
 
   $desc="UPDATE Admissions SET StudentName =".$name."FatherName =".$fatherName."MotherName =".$motherName."DOB =".$dob."Sex =".$gender."Category =".$category."BloodGroup =".$BloodGroup."AadhaarNo =".$adhaar."Religion =".$Religion." EmailID :".$personalEmail."OfficialEmailID :".$officialEmail."StudentMobileNo :".$mobileNumber."FatherMobileNo :".$whatsappNumber."AddressLine1 :".$addressLine1."AddressLine2 :".$addressLine2."PermanentAddress :".$permanentAddress."CorrespondanceAddress :".$correspondenceAddress." Nationality :".$Nationality_1." Country :".$CountryID."District :".$districtID."State:".$State."PO :".$postOffice."PIN :".$pinCode."Status :".$employmentStatus."Eligibility :".$eligible."Locked :".$ulocked."Quota :".$modeofadmission."ScholarShip :".$scholaship."CommentsDetail".$specialcomment."Batch :".$batch;
 
-
+      
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
 
 $update_query=sqlsrv_query($conntest,$update1);
@@ -19057,7 +19074,7 @@ $Course = $_POST['Course'];
 
 $list_sql="SELECT Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
 ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
-ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'";
 if($College!=''){
     $list_sql.= "AND ExamForm.CollegeID='$College' ";
@@ -19087,7 +19104,7 @@ else{
     $rollNo = $_POST['rollNo'];
      $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup,
      ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,
-     ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+     ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
      FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo WHERE Admissions.Status='1'
      and  Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' order by ExamForm.SemesterId ASC ";
 
@@ -19121,6 +19138,16 @@ else{
                 while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                    {
                 $Status= $row['Status'];
+             $AcceptType=$row['AcceptType'];
+              if($AcceptType>0)
+              {
+                $pr='(Provisional)';
+              }
+              else
+              {
+               $pr=''; 
+              }
+
                 if($row['SubmitFormDate']!='')
                 {
 
@@ -19259,7 +19286,9 @@ elseif($Status==22)
 elseif($Status==8)
                 {
                   echo "<b style='color:green'>Accepted</b>";
-                }   ?>        
+                }   ?> 
+
+                 <b style='color:red'> <?=$pr;?>   </b>    
 
                </td>
                 
@@ -20594,7 +20623,7 @@ if($_POST['sub_data']!='1')
     $Examination = $_POST['Examination'];
 $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
-Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,
 ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
 where Admissions.Status='1'";
@@ -20633,7 +20662,7 @@ else{
     $rollNo = $_POST['rollNo'];
      $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
     ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
-    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,
     ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
     where  Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo' and  Admissions.Status='1' ";
@@ -20672,6 +20701,15 @@ else{
              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
              $Status= $row['Status'];
+             $AcceptType=$row['AcceptType'];
+              if($AcceptType>0)
+              {
+                $pr='(Provisional)';
+              }
+              else
+              {
+               $pr=''; 
+              }
              if($row['SubmitFormDate']!='')
              {
 
@@ -20811,11 +20849,11 @@ elseif($Status==6)
 elseif($Status==8)
              {
                echo "<b style='color:green'>Accepted</b>";
-             }   ?>        
+             }   ?>     <b style='color:red'><?= $pr;?></b>   
             </td>
        <td>
 <!-- <i class="fa fa-trash fa-md" onclick="delexam(<?=$row['ID'];?>)" style="color:red"></i> -->
-<i class="fa fa-eye fa-lg" data-toggle="modal"  data-target=".bd-example-modal-xl" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green"></i>&nbsp;&nbsp;
+<i class="fa fa-eye fa-lg" data-toggle="modal"  data-target=".bd-example-modal-xl" onclick=" edit_stu(<?= $row['ID'];?>)" style="color:green"></i>&nbsp;&nbsp;
 <?php 
 if($Status==8)
 {?>
@@ -22351,7 +22389,7 @@ if($_POST['sub_data']!='1')
 $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
 Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
-ExamForm.Batch,ExamForm.Type
+ExamForm.Batch,ExamForm.Type,ExamForm.AcceptType
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
 where Admissions.Status='1' ";
  if ($College != '') 
@@ -22388,7 +22426,7 @@ else{
     $rollNo = $_POST['rollNo'];
      $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
     ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
-    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
+    Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.AcceptType,
     ExamForm.Batch,ExamForm.Type
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
     where (Admissions.IDNo='$rollNo' or Admissions.UniRollNo='$rollNo' or Admissions.ClassRollNo='$rollNo') AND Admissions.Status='1'  ";
@@ -22413,7 +22451,7 @@ else{
                                      <th>Semester</th>
                                      <th>Date</th>
                                      <th>Status</th>
-                                     <th >Action</th>
+                                     <th>Action</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -22427,6 +22465,15 @@ else{
              while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                 {
              $Status= $row['Status'];
+            $AcceptType=$row['AcceptType'];
+              if($AcceptType>0)
+              {
+                $pr='(Provisional)';
+              }
+              else
+              {
+               $pr=''; 
+              }
              if($row['SubmitFormDate']!='')
              {
 
@@ -22510,7 +22557,7 @@ elseif($Status==8)
          <?=$row['Type'];?>
                 </td>
           <td>
-         <?=$row['Semesterid'];?>
+         <?=$row['Semesterid'];?> 
                 </td>
                 <td> <?php 
             echo $issueDate;?>
@@ -22566,7 +22613,10 @@ elseif($Status==6)
 elseif($Status==8)
              {
                echo "<b style='color:green'>Accepted</b>";
-             }   ?>        
+             }   ?>  <b style='color:red'><?= $pr;?></b>
+
+
+
             </td>
        <td>
 <i class="fa fa-eye fa-lg" data-toggle="modal"  data-target=".bd-example-modal-xl" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green"></i>&nbsp;&nbsp;
@@ -22767,6 +22817,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 <p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
             <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+            <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
             <?php }
 
         // } 
@@ -22798,7 +22850,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
                                                <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td> 
                                            <td colspan="2"></td>
                                                 <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
-                                                </tr>
+                                                </tr>   
                                             
                                             
                                                                                         <tr >
@@ -22926,6 +22978,7 @@ $update_query=sqlsrv_query($conntest,$update1);
        echo "0";
    }
    }
+
    else if($code==329)
    {
        $ExamFromID=$_POST['ExamFromID'];
@@ -27779,7 +27832,79 @@ elseif ($code==393) {
    echo  $TotalActiveUsers=sqlsrv_num_rows($countTotalOnlineUsers);
 }
 
-elseif($code==394)
+ else if($code==394)
+   {
+       $ExamFromID=$_POST['ExamFromID'];
+   $getDefalutMenu="UPDATE  ExamForm  SET AccountantVerificationDate='$timeStampS',Status='5',AcceptType='1' Where ID='$ExamFromID'";
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+   }
+   $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,AccountantVerificationDate: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+   if($getDefalutMenuRun==true)
+   {
+       echo "1";
+   }
+   else
+   {
+       echo "0";
+   }
+   }
+
+
+
+
+else if($code==395)
+   {
+$srNo=1;
+ $search=$_POST['rollno'];
+$query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where (Admissions.ClassRollNo like '%".$search."%' or Admissions.UniRollNo like '%".$search."%') ";
+?>
+ <table class="table"><th>#</th><th>Semester</th><th>Examination</th><th>SGPA</th><th>Total Credit</th><th>Type</th><th>Declare Date</th><th>Print</th><?php 
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+       ?>
+       <tr><td><?=$srNo?></td><td><?=$row['Semester'];?></td><td><?=$row['Examination'];?></td><td><?=$row['Sgpa']?></td><td><?=$row['TotalCredit'];?></td>  <td><?=$row['Type'];?></td>
+<td>
+<?php if($row['DeclareDate']!='')
+{
+    $decdate=$row['DeclareDate']->format('d-m-Y');
+}else
+{
+     $decdate='';
+}
+?>
+    <?= $decdate;?></td><td><i class="fa fa-print" style="color: red;"></i></td>
+         <?php 
+     $srNo++;
+ }
+
+
+
+       
+
+
+}
+
+elseif($code==396)
+{
+    $id=$_POST['id'];
+    $insertCourseFile="DELETE FROM CourseUpload  WHERE id='$id' and Uploadby='$EmployeeID'";
+    $insertCourseFileRun=sqlsrv_query($conntest,$insertCourseFile);
+    if($insertCourseFileRun==true)
+      {
+        echo "1";
+      }
+
+}
+
+elseif($code==397)  // 397
 {
 $College=$_POST['College'];
 $Course=$_POST['Course'];
@@ -27818,7 +27943,7 @@ ftp_close($conn_id);
                 } 
 }
 
-elseif($code==395)
+elseif($code==398) 
 {
     $CollegeName="";
 $CourseName="";
@@ -27908,17 +28033,9 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
             </tbody>
         </table><?php 
 }
-elseif($code==396)
-{
-    $id=$_POST['id'];
-    $insertCourseFile="DELETE FROM CourseUpload  WHERE id='$id' and Uploadby='$EmployeeID'";
-    $insertCourseFileRun=sqlsrv_query($conntest,$insertCourseFile);
-    if($insertCourseFileRun==true)
-      {
-        echo "1";
-      }
 
-}
+
+
    else
    {
    

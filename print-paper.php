@@ -257,7 +257,8 @@ echo  $examName ." (".$sessionnane.")" ;
                                   ?>
                                 &nbsp;<br></th>
 
-                              <th align="left"  ><?=$row['sanitized_question']?>
+                              <th align="left"  ><?=$row['sanitized_question']?>  
+                              <!-- <?=$row['id']?> -->
                                 <?= $img?><!-- <?php 
                                 if($row['OptionA']!='')
                                 {?>

@@ -96,12 +96,12 @@
 </div>
 <div class="col-sm-4"> 
 
-               <?php if($EmployeeID=='131053')
+               <?php if($EmployeeID=='131053'||$EmployeeID=='121031')
              { ?>
               <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Movements();bg(this.id);">  GKU Movements </a>
 
 
-                    <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="adminreports();bg(this.id);"> GKU Report </a>
+                    <!-- <a class="btn"  id="btn5" style="background-color:#223260; color: white; border: 1px solid;" onclick="adminreports();bg(this.id);"> GKU Report </a> -->
          <?php } ?>
 
      </div>

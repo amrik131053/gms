@@ -37,6 +37,14 @@
          width: 100%;
          height: 20px;
          }
+
+         #footernew {
+         position: fixed;
+         bottom: 90px;
+         left: 0;
+         width: 100%;
+         height: 20px;
+         }
       </style>
       <script async src='/cdn-cgi/challenge-platform/h/b/scripts/invisible.js?ts=1650157200'></script>
    </head>
@@ -133,7 +141,7 @@
         
            <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
               <span class="notranslate">
-                 <div style="height: 74px;"></div>
+                 <div style="height: 60px;border: 0px solid red;" ></div>
                  <div class="row">
                     <!-- // space -->
                    <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php 
@@ -156,13 +164,13 @@
                     </div>
                  </div>
                  <div class="row">
-                    <div style="height: 152px;"></div>
+                    <div style="height: 175px" ></div>
                     <!-- // space -->
                     <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
                  </div>
         
                  <div class="row">
-                    <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+                    <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:justify; margin-right: 63px;margin-left: 60px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
                        <?php 
                           $ge1="son";
                           $ge="daughter";
@@ -177,9 +185,7 @@
                           else{
                           $ge1="son"; 
                           $ms1="Mr.";    // code...
-                          } 
-                       
-                          
+                          }                                                 
                            ?>
                        <?php  echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
                        having completed the requirements for the award of  diploma and having passed the prescribed
@@ -196,9 +202,9 @@
                  <div class="row">
                     <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
                  </div>
-                 <div style="height: 90px;"></div>
+                 <div style="height: 99px;"></div>
                  <!-- // space -->
-                 <div id="footer">
+                 <div id="footernew">
                     <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 85.3px; color:#0D729C;">
                        <p>
                           <b><?php  echo "CONTROLLER OF EXAMINATIONS";?></b>

@@ -59,7 +59,7 @@
                         </div>
                       </form>
                      </div>
-                  </div>
+                  </div> 
          
               
             </div>
@@ -225,12 +225,12 @@
    <div class="modal-dialog modal-xl" role="document" >
       <div class="modal-content"  >
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Stock Assign </h5>
+            <h5 class="modal-title" id="exampleModalLabel">Stock Assign  dd</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-         <form action="action.php" method="post">
+        <!--  <form action="action.php" method="post">
             <input type="hidden" name="code" value="15">
             <div class="modal-body" id="stock_samry_assign">
                ...
@@ -239,11 +239,35 @@
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                <button type="submit" class="btn btn-primary">Save</button>
             </div>
-         </form>
+         </form> -->
       </div>
    </div>
 </div>
 <!-- Modal -->
+
+
+
+<div class="modal fade" id="exampleModal_track" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+   <div class="modal-dialog modal-xl" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Stock Details </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+        
+            <div class="modal-body" id="stock_samry_track">
+               ...
+            </div>
+           
+         <
+      </div>
+   </div>
+</div>
+
+
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog modal-xl" role="document" >
       <div class="modal-content"  >
@@ -313,7 +337,7 @@
       {
          // var id=id1;
          //var RoomType= document.getElementById("RoomType").value;
-         //alert(id);
+         alert(id);
          var code=47;
          $.ajax(
          {
@@ -337,6 +361,10 @@
             }
          });
       }
+
+
+  
+
 
       function returnSubmit(id){
    var code=48;
@@ -401,6 +429,67 @@
 
 
       }
+
+       function stock_discard1(id)   
+      {
+         // var id=id1;
+         //var RoomType= document.getElementById("RoomType").value;
+         //alert(id);
+         var code=47;
+         $.ajax( 
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,articleID:id
+            },
+            success:function(response) 
+            {
+               document.getElementById("stock_samry_discart").innerHTML =response;
+               $(document).ajaxStop(function()
+               {
+                  // window.location.reload();
+               });
+            },
+            error:function()
+            {
+               alert("error");
+            }
+         });
+      }
+
+      function track(id)   
+      {
+         // var id=id1;
+         //var RoomType= document.getElementById("RoomType").value;
+         //alert(id);
+         var code=366; 
+         $.ajax( 
+         {
+            url:"action.php ",
+            type:"POST",
+            data:
+            {
+               code:code,articleID:id
+            },
+            success:function(response) 
+            {
+               document.getElementById("stock_samry_track").innerHTML =response;
+               $(document).ajaxStop(function()
+               {
+                  // window.location.reload();
+               });
+            },
+            error:function()
+            {
+               alert("error");
+            }
+         });
+      }
+
+
+
 
 
 </script>

@@ -96,6 +96,7 @@ function pending() {
                            }
                         });
                   }
+                  
 function verified() {
                     
                     var currentPage = 1;

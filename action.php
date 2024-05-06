@@ -2595,7 +2595,7 @@ if($count>0)
    elseif($code=='47')
    {
    $id=$_POST['articleID'];
-   $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
+    $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
    $result = mysqli_query($conn,$sql);
    $array = array();
    $a=0;
@@ -2624,6 +2624,7 @@ if($count>0)
    }
    
    }
+
    $sql1="SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$emp_id'";
    
    $q1 = sqlsrv_query($conntest,$sql1);
@@ -8703,15 +8704,15 @@ else
                $unit=rand(1,2);
             }
 
-            elseif ($type=='1' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
+            // elseif ($type=='1' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
 
-             elseif ($type=='2' && $unit=='3') 
-            {
-               $unit=rand(3,4);
-            }
+            //  elseif ($type=='2' && $unit=='3') 
+            // {
+            //    $unit=rand(3,4);
+            // }
 
             if($unit>4)
             {
@@ -8719,7 +8720,7 @@ else
             }
             else
             {
-           $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+          $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
 
@@ -8733,16 +8734,28 @@ else
                    
          
          }    
-         //  print_r($questionArray);
+          // print_r($questionArray);
 
    $countarray=count($questionArray);
 
 
- if(!array_unique($questionArray))
-{
-    echo 'Please Regenerate';
-    print_r($questionArray);
+//  if(array_unique($questionArray))
+// {
+//     echo 'Please Regenerate';
+//     print_r($questionArray);
+// }
+
+
+ if($countarray != count(array_unique($questionArray)))
+ {
+  echo 'Please Regenerate';
+    //print_r($questionArray);
 }
+
+
+
+
+
 else
 {
     
@@ -10423,8 +10436,8 @@ elseif($code==170)
       <div class="col-lg-2 col-sm-2 col-md-2">
          <button class="btn btn-warning form-control" data-toggle="modal" onclick="reAssignModal(<?=$id?>)" data-target="#returnModal">Owner Change</button>
       </div>
-<?php 
-     $mail="SELECT * from stock_summary inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where IDNo='$id'  and is_admin='1' AND employee_id='$EmployeeID'";
+<?php // and is_admin='1'
+     $mail="SELECT * from stock_summary inner join category_permissions on category_permissions.CategoryCode=stock_summary.CategoryID where IDNo='$id'  AND employee_id='$EmployeeID'";
             $mail_run=mysqli_query($conn,$mail);
             while ($mail_row=mysqli_fetch_array($mail_run)) 
             {
@@ -13705,6 +13718,7 @@ $ApplyDate="";
 
               <div class="card-footer p-0" style="text-align: left;">
                 <ul class="nav flex-column">
+
                   <li class="nav-item">
                      <li class="nav-link"><b>Father Name</b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
                   </li>
@@ -18012,7 +18026,7 @@ else if($code==302)
        <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th></thead>
        <tbody>
        <?php 
- $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY id DESC ";
+ $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY Status DESC ";
  //
 $result = mysqli_query($conn,$list_sql);
 while($row=mysqli_fetch_array($result)) 
@@ -19785,7 +19799,7 @@ $sql="SELECT  Distinct md.CollegeID,mcs.CollegeName,md.Department ,md.Department
                      </td>
                   
                   <td><?=$DepartmentF;?></td><td>
-                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i>  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-edit fa-lg" onclick="update_dep(<?=$id;?>);" data-toggle="modal" data-target="#exampleModalCenter2" style="color:green;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
 
                   <i class="fa fa-trash fa-lg" onclick="delete_dep(<?=$id;?>);" data-toggle="modal" data-target="#view_assign_stock_employee_Modal" style="color:red;"></i></td>
                 
@@ -22266,7 +22280,7 @@ else
   $updatedate=$ecat."updatedDate"; 
 }
 
-echo $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+ $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {
@@ -22379,11 +22393,11 @@ $stmt1 = sqlsrv_query($conntest,$sql);
   <th width="60%">Subject Name</th>
   <th width="12%">Subject Code</th><th>Credit</th>
   <th width="8%">Int</th>
-  <th width="8%">CA1&CA2</th>
-    <th width="8%">CA3</th>
-     <th width="8%">Att</th>
-    <th width="8%">MST1</th>
-    <th width="8%">MST2</th>
+  <th width="8%">CA1&CA2 /P1</th>
+    <th width="8%">CA3/P2</th>
+     <th width="8%">Att/P3</th>
+    <th width="8%">MST1/P4</th>
+    <th width="8%">MST2/P5</th>
     <!-- <th width="8%">Best</th> -->
     
  
@@ -22392,7 +22406,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 <?php 
 
- $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType!='P'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id'  ANd ExternalExam='Y' order by ExternalExam DESC";  
+ //AND SubjectType!='P' 
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
 {  
@@ -22444,9 +22459,12 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
   <td>
       <?php echo $mst1=$row7['MST1'];?> 
   </td>
-   <td>
-      <?php echo $mst2= $row7['MST2'];?> 
+  <td>
+      <?php echo $mst2= $row7['ESE'];?> 
   </td>
+   <!-- <td>
+      <?php echo $mst2= $row7['MST2'];?> 
+  </td> -->
  <!--  <td>
 
    <?php
@@ -22463,6 +22481,7 @@ echo $msttotal=$mst1;
 ?>
   
   </td> -->
+   
   
     
   
@@ -22481,23 +22500,22 @@ echo $msttotal=$mst1;
 
          <?php }
          ?>
-<tr>
-   <th colspan="5"></th>
-  
-  <th width="8%">P1</th>
+<!-- <tr>
+    <th colspan="5"></th>
+    <th width="8%">P1</th>
     <th width="8%">P2</th>
-     <th width="8%">P3</th>
+    <th width="8%">P3</th>
     <th width="8%">P4</th>
     <th width="8%">P5</th>
    
      
 
  
-</tr>
+</tr> -->
 
 
 
-         <?php 
+<!--          <?php 
  $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' AND SubjectType='P' ANd ExternalExam='Y' order by ExternalExam DESC";  
 $list_resultamrik = sqlsrv_query($conntest,$amrik);  
 if($list_resultamrik === false) 
@@ -22579,7 +22597,7 @@ $nop++;
 
 
          <?php }
-         ?>
+         ?> -->
 </table>
 </div>
 
@@ -22745,8 +22763,333 @@ else if($code==365)
 
 <?php 
 }
+else if($code==366)
+{
 
 
+$id=$_POST['articleID'];
+    $sql="SELECT * FROM stock_summary inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode where   IDNo='$id'";
+   $result = mysqli_query($conn,$sql);
+
+   while($row=mysqli_fetch_array($result))
+   {
+   
+
+   $category=$row['ArticleName'];
+   $working=$row['WorkingStatus'];
+   $issue_date=$row['IssueDate'];
+   $description=$row['CPU'].' '.$row['Brand'].' '.$row['Model'].' '.$row['DeviceSerialNo'].'- RAM : '.$row['Memory'].'- Storage : '.$row['Storage'];
+
+   if ($working=='0'||$working=='') 
+   {
+   $remarks='Working';
+   }
+   elseif ($working=='1') 
+   {
+   $remarks='Faulty';
+   }
+   
+}
+?>
+     <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
+      <tr>
+         <td>Article Name: </td>
+         <th><?=$category;?></th>
+         <td>Specification: </td>
+         <th> <?=$description;?></th>
+         
+      </tr>
+      <tr>
+         <td>QR No: </td>
+         <th><?=$id;?>
+      </th>
+         <td>Status: </td>
+         <th><?= $remarks;?></th>
+      </tr>
+   </table>
+   <?php
+   
+   $location_num=0;
+   ?>
+<div class="card-body table-responsive p-0" style="height: 100%;">
+   <?php 
+      $id=$_POST['articleID'];
+  $location="SELECT * ,user.name as staffname from  stock_summary ss inner join  stock_description as abc ON abc.IDNO=ss.IDNO  
+ inner join master_calegories mc on ss.CategoryID=mc.ID INNER join master_article ma on ss.ArticleCode=ma.ArticleCode
+  inner join location_master lm on lm.ID=ss.LocationID inner join room_master rm on rm.FloorID=lm.Floor inner join building_master
+   bm on bm.ID=lm.Block inner join room_type_master rtm on rtm.ID=lm.Type inner join room_name_master rnm on rnm.ID=lm.RoomName
+    inner join user on abc.OwerID=user.emp_id WHERE ss.IDNo='$id' GROUP BY  abc.reference_no";
+         $location_run=mysqli_query($conn,$location);
+
+
+        while ($location_row=mysqli_fetch_array($location_run)) 
+         {
+
+           //print_r($location_row) ;
+$emp_id=$location_row['OwerID'];
+
+          $sqlas="SELECT Name,Department,Designation,CollegeName,Snap FROM Staff Where IDNo='$emp_id'";
+   
+   $qas1 = sqlsrv_query($conntest,$sqlas);
+   
+   while($rowas = sqlsrv_fetch_array($qas1, SQLSRV_FETCH_ASSOC) )
+        {
+   $name=$rowas['Name'];
+   $Department=$rowas['Department'];
+   $Designation=$rowas['Designation'];
+   $CollegeName=$rowas['CollegeName'];
+   $img= $rowas['Snap'];
+   $pic = 'data://text/plain;base64,' . base64_encode($img);
+   }  
+
+      ?>
+   <table class="table table-head-fixed text-nowrap" border="0" style="border: 2px solid black;">
+      <tr>
+         <td>Employee ID: </td>
+         <th><?=$location_row['OwerID'];?></th>
+         <td>Name: </td>
+         <th> <?=$location_row['staffname'];?></th>
+         <td rowspan="2" style="text-align: right;">
+            <img src="<?= $pic; ?>" width="100" height="130" border="1">
+         </td>
+      </tr>
+      <tr>
+         <td>Designation: </td>
+         <th><?=$location_row['designation'];?></th>
+         <td>Department: </td>
+         <th><?=$location_row['department'];?></th>
+      </tr>
+   </table>
+   <br>
+    <label>Location</label>
+    <table class="table table-head-fixed text-nowrap" border="1">
+      <thead>
+         <tr>
+           
+            <th>Block</th>
+            <th>Floor</th>
+            <th>Room No</th>
+            <th>Room Type</th>
+            <th>Room Name</th>
+            <th>Issue Date</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            
+            <td>
+               <?=$location_row['Name'];?>
+            </td>
+            <td>
+               <?=$location_row['Floor'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomNo'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomType'];?>
+            </td>
+            <td>
+               <?=$location_row['RoomName'];?>
+            </td>
+
+              <td>
+               <?=$location_row['IssueDate'];?>
+            </td>
+            
+         </tr>
+      </tbody>
+   </table>
+   
+   <br>
+  <!--  <label>Particular's Description(<?=$id?>)</label>
+   <table class="table table-head-fixed text-nowrap" border="1" style="border: 2px solid black;"> -->
+      <!-- <thead>
+         <tr>
+            <th>Article </th>
+            <th>View</th>
+            <th>Brand</th>
+            <th>OS</th>
+            <th>Model</th>
+         </tr>
+      </thead>
+      <tbody> -->
+       <!--   <tr>
+            <td>
+               <?=$location_row['ArticleName'];?>
+            </td>
+            <td>
+               <?=$location_row['CPU'];?>
+            </td>
+            <td>
+               <?=$location_row['Brand'];?>
+            </td>
+            <td>
+               <?=$location_row['OS'];?>
+            </td>
+            <td>
+               <?=$location_row['Model'];?>
+            </td>
+         </tr> -->
+         <?php
+            }
+            ?>
+    <!--   </tbody>
+   </table> -->
+   <br>
+<!--    <div class="row" >
+      <div class="col-lg-6">
+         <label>Remarks</label>
+         <input type="text" id="returnRemark" class="form-control" required>
+      </div>
+      <div class="col-lg-3">
+         <label>Status</label>
+         <select id="workingStatus" class="form-control" required>
+            <option value="">Select</option>
+            <option value="0">Working</option>
+            <option value="1">Faulty</option>
+         </select>
+      </div>
+      <div class="col-lg-3">
+         <label>&nbsp;</label>
+         <button type="submit" data-dismiss="modal" class="form-control btn-danger btn" onclick="returnSubmit(<?=$id?>)">Return</button>
+      </div>
+   </div> -->
+   <br>
+</div>
+<?php 
+
+
+}
+
+ elseif($code==367)
+ {
+
+ $college = $_POST["college"];
+  $course = $_POST["course"];
+   $sem = $_POST["sem"];
+    $batch = $_POST["batch"];
+     $session = $_POST["session"];
+      $category = $_POST["category"];
+
+$list_sql="SELECT * FROM Admissions WHERE 1=1 ";
+if($college!=''){
+ $list_sql.= " AND CollegeID='$college' ";
+}
+if($course!=''){
+$list_sql.= "AND CourseID='$course'";
+}
+
+if($session!=''){
+$list_sql.= "AND Session='$session' ";
+}
+if($category!=''){
+$list_sql.= "AND Category='$category' ";
+}
+$list_sql.= "AND Status='1' AND Batch='$batch' Order BY ClassRollNo ASC";
+
+
+
+
+ // $Admiss="SELECT * from Admissions Where Session='2023-24-A'ANd CourseID='188'";
+$q1 = sqlsrv_query($conntest,$list_sql);
+?>
+<table class="table"><tr><td>Sr No</td><td>Session</td><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
+  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>
+  <?php
+  $srno=1;
+        while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+        {
+?><tr><td><?=$srno;?></<td><td><?= $row['Session'];?></td><td><?= $idno= $row['IDNo'];?></td><td><?=$row['ClassRollNo'];?></td> <td><?=$row['UniRollNo'];?></td>
+<td><?=$row['StudentName'];?></td><td><?=$row['FatherName'];?></td><td><?=$row['Course'];?></td><td><?= $row['Batch'];?></td><td><?= $row['FeeCategory'];?></td>
+<?php 
+$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from  ledger   WHERE 1=1" ; 
+if($sem!='')
+{
+ $Admiss2.= " AND SemesterID<='$sem' ";
+}
+$Admiss2.="AND IDNo='$idno'";
+$q2 = sqlsrv_query($conntest, $Admiss2);
+
+ while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
+ {
+  
+$tdebit=$dataw['totaldebit'];
+$tcredit=$dataw['totalcredit'];
+$balanceamount=$tdebit-$tcredit;
+?><td><?=$tdebit;?></td><td><?=$tcredit;?></td><td><?=$balanceamount;?></td>
+<?php 
+ }?>
+
+          <tr> <?php
+          $srno++;
+        }
+
+
+
+
+
+
+
+
+
+ }
+
+else if($code==368)
+{
+
+
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='S'  order by SubjectCode";
+
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+   $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+
+$stmt = sqlsrv_query($conntest,$sqlee);  
+  
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+     $cname=$row["Course"];
+   }
+ 
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y' ";
+
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+ 
+
+
+
+
+ 
+
+}
 
 
 
