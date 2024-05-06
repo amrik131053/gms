@@ -17,7 +17,7 @@
                             <label>College Name</label>
                             <select name="College" id='College' onchange="collegeByDepartment(this.value);"
                                 class="form-control form-control-sm">
-                                <option value=''>Select Course</option>
+                                <option value=''>Select College</option>
                                 <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID' ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
