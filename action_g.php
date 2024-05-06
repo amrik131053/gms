@@ -84,7 +84,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if( $code==319 || $code==320 ||$code==92 || $code==153  )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==394 )
 {
        include "connection/ftp-erp.php";
 }
@@ -27777,6 +27777,147 @@ elseif ($code==393) {
     and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
     $countTotalOnlineUsers=sqlsrv_query($conntest,$checkUserOnline,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
    echo  $TotalActiveUsers=sqlsrv_num_rows($countTotalOnlineUsers);
+}
+
+elseif($code==394)
+{
+$College=$_POST['College'];
+$Course=$_POST['Course'];
+$Batch=$_POST['Batch'];
+$Semester=$_POST['Semester'];
+$subject=$_POST['subject'];
+
+$SubjectCode="SubCode12";
+$file_name = $_FILES['courseFile']['name'];
+$file_tmp = $_FILES['courseFile']['tmp_name'];
+$type = $_FILES['courseFile']['type'];
+$date=date('Y-m-d');       
+ $string = bin2hex(openssl_random_pseudo_bytes(4));
+    $file_name = $_FILES['courseFile']['name'];
+      $file_tmp = $_FILES['courseFile']['tmp_name'];
+      $type = $_FILES['courseFile']['type'];
+       $file_data = file_get_contents($file_tmp);
+         $file_name = "//CouresUpload/".$EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
+   $target_dir = $file_name;
+     $destdir = 'CouresUpload';
+     ftp_chdir($conn_id, "CouresUpload/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ftp_close($conn_id);
+      $InsertCourse="INSERT into CourseUpload (collegeid,Courseid,semid,batch,sheet_type,CourseFile,status,SubjectCode,uploaddate,Uploadby)
+ VALUES('$College','$Course','$Semester','$Batch','CourseFile','$file_name','active','$subject','$date','$EmployeeID')";
+  $InsertCourseFile=sqlsrv_query($conntest,$InsertCourse);
+
+                if($InsertCourseFile==true)
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                } 
+}
+
+elseif($code==395)
+{
+    $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>College</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Batch</th>
+                    <th>Subject</th>
+                    <th>Upload Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+    $getAllleaves="SELECT * FROM CourseUpload where Uploadby='$EmployeeID'  order by  id DESC "; 
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+        $sql = "SELECT DISTINCT CollegeName FROM MasterCourseCodes WHERE CollegeID ='".$row['collegeid']."'";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ if($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+    $CollegeName=$row1['CollegeName'];
+ }
+$sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['Courseid']."'";
+ $stmt21 = sqlsrv_query($conntest,$sql1);
+ if($row11= sqlsrv_fetch_array($stmt21, SQLSRV_FETCH_ASSOC) )
+ {
+    $CourseName=$row11['Course'];
+ }
+ $sqlSubject = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='".$row['SubjectCode']."' AND Isverified='1' and CourseID='".$row['Courseid']."' ";
+ $resultSubject = sqlsrv_query($conntest,$sqlSubject);
+ if($rowSubject= sqlsrv_fetch_array($resultSubject, SQLSRV_FETCH_ASSOC) )
+ {
+      $SubjectName=$rowSubject["SubjectName"]; 
+ }
+?>
+                <tr>
+                    <td><?=$Sr;?></td>
+                    <td><?=$CollegeName;?></td>
+                    <td><?=$CourseName;?></td>
+                    <td><?=$row['semid'];?></td>
+                    <td><?=$row['batch'];?></td>
+                    <td><?=$SubjectName;?>(<?=$row['SubjectCode'];?>)</td>
+                    <td widht="100"><?=$row['uploaddate']->format('d-m-Y');?></td>
+                    <td>
+                        <div class="controls">
+                            <?php
+                            if($row['uploaddate']->format('Y-m-d')<=date('Y-m-d'))
+                            {
+?>
+                            <button type="button" onclick="deleteCourseFile(<?=$row['id'];?>);"
+                                class=" btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                
+                                <?php 
+                                  }
+                                  else{
+                                      ?>
+                                      <button type="button"
+                                class=" btn btn-danger btn-sm"><i class="fa-solid fa-trash-slash"></i></button><?php 
+                                  }
+                                  ?>
+                            <button type="button"  onclick="viewCourseFile('<?=$row['CourseFile'];?>');"
+                                class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
+
+                        </div>
+
+
+                    </td>
+                </tr>
+                <?php
+
+       
+        $Sr++;
+        // $aa[]=$row;
+    }
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+}
+elseif($code==396)
+{
+    $id=$_POST['id'];
+    $insertCourseFile="DELETE FROM CourseUpload  WHERE id='$id' and Uploadby='$EmployeeID'";
+    $insertCourseFileRun=sqlsrv_query($conntest,$insertCourseFile);
+    if($insertCourseFileRun==true)
+      {
+        echo "1";
+      }
+
 }
    else
    {
