@@ -185,7 +185,7 @@ $.ajax({
 uploadedRecord();
 function uploadedRecord() {
    
-    var code = 395;
+    var code = 398;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -250,7 +250,7 @@ function viewCourseFile(url) {
                 </div>
                 <div class="card-body p-2">
                     <form action="action_g.php" method="post">
-                        <input type="hidden" value="394" name="code">
+                        <input type="hidden" value="397" name="code">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>College</label>
                             <select name="College" id='College' onchange="courseByCollegeSelf(this.value)"
