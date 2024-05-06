@@ -122,6 +122,8 @@ var Batch = form.Batch.value;
 var Semester = form.Semester.value;
 var subject = form.subject.value;
 var courseFile = form.courseFile.value;
+var Topic = form.Topic.value;
+var Type = form.Type.value;
 
 if (College === "") {
 
@@ -146,6 +148,16 @@ if (Semester === "") {
 if (subject === "") {
 
     ErrorToast('Please select subject.', 'bg-warning');
+    return;
+}
+if (Topic === "") {
+
+    ErrorToast('Please enter topic name.', 'bg-warning');
+    return;
+}
+if (Type === "") {
+
+    ErrorToast('Please select type.', 'bg-warning');
     return;
 }
 
@@ -174,7 +186,7 @@ $.ajax({
         } 
         else if(response == 2)
         {
-            ErrorToast('Please upload the file in (.PDF) format only.', 'bg-warning');
+            ErrorToast('The document type does not match the chosen file format', 'bg-warning');
         }
         else{
             ErrorToast('Please try after sometime.', 'bg-danger');
@@ -189,7 +201,7 @@ $.ajax({
 uploadedRecord();
 function uploadedRecord() {
    
-    var code = 398;
+    var code = 400;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -250,11 +262,11 @@ function viewCourseFile(url) {
         <div class="col-lg-3 col-sm-12 col-md-12 col-xs-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Upload Course </h3>
+                    <h3 class="card-title">Upload Study Material </h3>
                 </div>
                 <div class="card-body p-2">
                     <form action="action_g.php" method="post">
-                        <input type="hidden" value="397" name="code">
+                        <input type="hidden" value="399" name="code">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>College</label>
                             <select name="College" id='College' onchange="courseByCollegeSelf(this.value)"
@@ -303,28 +315,37 @@ function viewCourseFile(url) {
                             </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="form-group">
+                            
                                 <label>Subject</label>
                                 <select name="subject" id="Subject" class="form-control" required="">
                                     <option value="">Subject</option>
-                                </select>
-                            </div>
+                                </select>            
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">          
+                                <label>Docuemnt Type</label>
+                                <select name="Type" id="Type" class="form-control" required="">
+                                    <option value="PDF">PDF</option>
+                                    <option value="PPT">PPT</option>
+                                    <option value="Video/Audio">Video/Audio</option>
+                                </select>                
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">                     
+                                <label>Topic</label>
+                               <input type="text" class="form-control" name="Topic" id="Topic">                       
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="form-group">
-                                <label>Course File(Only pdf supported)</label>
-                               
-                               <input type="file" name="courseFile" id="courseFile" class="form-control" accept=".pdf">
+                                <label>File</label>
+                                <input type="file" name="courseFile" id="courseFile" class="form-control" accept=".ppt, .pptx, .pdf, audio/*, video/*">
 
-                            </div>
+                           
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="form-group">
+                           
                                 <br>
                                 <button type="button" class="btn btn-success"
                                 onclick="uploadSubmit(this.form);">Upload</button>
                              
-                            </div>
+                           
                         </div>
                     </form>
                 </div>
@@ -338,7 +359,7 @@ function viewCourseFile(url) {
                 <div class="card-header">
 
 
-                View Courses
+                View Study Material
 
                     <!-- <span style="float:right;">
                         <button class="btn btn-sm ">
