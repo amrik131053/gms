@@ -202,7 +202,7 @@
                  <div class="row">
                     <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
                  </div>
-                 <div style="height: 107px;"></div>
+                 <div style="height: 103px;"></div>
                  <!-- // space -->
                  <div id="footernew">
                     <div class="col-lg-12 " style="border:; font-size: 19px; margin-right: 80px;margin-left: 85.3px; color:#0D729C;">
