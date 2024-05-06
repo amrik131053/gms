@@ -27880,9 +27880,12 @@ $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=
      $decdate='';
 }
 ?>
-    <?= $decdate;?></td><td><i class="fa fa-print" style="color: red;"></i></td>
+    <?= $decdate;?></td>  <td>   <i  class="fa fa-print" style="color: red;" onclick="print(<?=$row['Id'];?>)"></i></td>
          <?php 
      $srNo++;
+
+
+
  }
 
 
