@@ -27874,12 +27874,12 @@ $srNo=1;
  $search=$_POST['rollno'];
 $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where (Admissions.ClassRollNo like '%".$search."%' or Admissions.UniRollNo like '%".$search."%') ";
 ?>
- <table class="table"><th>#</th><th>Semester</th><th>Examination</th><th>SGPA</th><th>Declare Date</th><th>Print</th><?php 
+ <table class="table"><th>#</th><th>Semester</th><th>Examination</th><th>SGPA</th><th>Total Credit</th><th>Type</th><th>Declare Date</th><th>Print</th><?php 
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
        ?>
-       <tr><td><?=$srNo?></td><td><?=$row['Semester'];?></td><td><?=$row['Examination'];?></td><td><?=$row['Sgpa']?></td>  
+       <tr><td><?=$srNo?></td><td><?=$row['Semester'];?></td><td><?=$row['Examination'];?></td><td><?=$row['Sgpa']?></td><td><?=$row['TotalCredit'];?></td>  <td><?=$row['Type'];?></td>
 <td>
 <?php if($row['DeclareDate']!='')
 {
