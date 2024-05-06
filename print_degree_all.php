@@ -40,7 +40,7 @@
 
          #footernew {
          position: fixed;
-         bottom: 80px;
+         bottom: 90px;
          left: 0;
          width: 100%;
          height: 20px;
