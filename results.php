@@ -73,5 +73,13 @@ function search_result() {
         });
     }
 }
+
+function print(id)
+{
+
+ window.open("show_result.php?id="+id, '_blank');
+}
+
+
 </script>
  <?php include "footer.php";  ?>
