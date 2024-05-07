@@ -256,8 +256,14 @@ function deleteCourseFile(id) {
 }
 
 function viewCourseFile(url) {
-    alert(url);
-    window.open("http://erp.gku.ac.in:86/StudyMaterial/" + url, '_blank');
+ if(url.indexOf("StudyMaterial")==true)
+ {
+     window.open("http://erp.gku.ac.in:86/" + url, '_blank');
+
+ }else{
+
+     window.open("http://erp.gku.ac.in:86/StudyMaterial/" + url, '_blank');
+ }
 
 
 }

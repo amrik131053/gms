@@ -236,13 +236,17 @@ if (a == true) {
 }
 }
 
-function viewCourseFile(url) {
+function viewCourseFile(url)
+ {
+ if(url.indexOf("CouresUpload")==true)
+ {
+     window.open("http://erp.gku.ac.in:86/" + url, '_blank');
 
-        window.open("http://erp.gku.ac.in:86/CouresUpload/"+url, '_blank');
-   
+ }else{
 
-}
-
+     window.open("http://erp.gku.ac.in:86/CouresUpload/" + url, '_blank');
+ }
+ }
 </script>
 <!-- Main content -->
 <section class="content">
