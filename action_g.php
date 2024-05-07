@@ -25825,7 +25825,7 @@ $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 
 //$AdharCardNo=$_POST['idproof'];
-
+ 
 
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
@@ -25945,8 +25945,8 @@ if($ifexitIDNo<1)
 
       if($admisisontype==3)
     {
-        $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
-mysqli_query($conn,$upd);  
+         $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
+        mysqli_query($conn,$upd);  
     }
 
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch'";
@@ -26847,7 +26847,7 @@ else
     $value[17]=$degree_row['Batch'];               
 }
 
-$value[19]=$rollNo;
+$value[19]=$degree_row['id'];
 
 
 
