@@ -238,7 +238,7 @@ if (a == true) {
 
 function viewCourseFile(url) {
 
-        window.open("http://erp.gku.ac.in:86"+url, '_blank');
+        window.open("http://erp.gku.ac.in:86/"+url, '_blank');
    
 
 }
