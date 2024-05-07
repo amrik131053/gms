@@ -124,7 +124,7 @@ $(document).ready(function() {
                                         onchange="q_check_count(); total_count()">
                                         <option value="">Select</option>
                                         <?php 
-                           for($i=1;$i<=4;$i++)
+                           for($i=1;$i<=5;$i++)
                            {?>
                                         <option value="<?=$i?>"><?=$i?></option>
                                         <?php }
