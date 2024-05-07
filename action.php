@@ -12771,6 +12771,7 @@ elseif($Status==8)
     $type=$_POST['type']; 
    $sem=$_POST['sem']; 
    $examination=$_POST['month'];
+    $group=$_POST['group'];
    $Status=$_POST['Status'];
   $file = $_FILES['file_exl']['tmp_name'];
 
@@ -12812,7 +12813,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
           }
 
- $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' ";
+ $result1 = "SELECT * FROM MasterCourseStructure where CourseID='$CourseID' and Batch='$batch' and SemesterID='$sem' and IsVerified='1' AND SGroup='$group' ";
 
         $s_counter = 0;
         $stmt2 = sqlsrv_query($conntest,$result1);
