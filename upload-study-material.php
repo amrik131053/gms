@@ -2,205 +2,212 @@
    include "header.php";   
    ?>
 <script type="text/javascript">
-function courseByCollegeSelf(College) 
-{  
+function courseByCollegeSelf(College) {
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
-var code='90.1';
-$.ajax({
-url:'action.php',
-data:{College:College,code:code},
-type:'POST',
-success:function(data){
-    spinner.style.display = 'none';
-if(data != "")
-{
-    
-$("#Course").html("");
-$("#Course").html(data);
-}
-}
-});
+    var code = '90.1';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            College: College,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            spinner.style.display = 'none';
+            if (data != "") {
+
+                $("#Course").html("");
+                $("#Course").html(data);
+            }
+        }
+    });
 
 }
-$(function() { 
-      $("#Course").change(function(e) {
+$(function() {
+    $("#Course").change(function(e) {
         e.preventDefault();
         var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
+        spinner.style.display = 'block';
         var course = $("#Course").val();
-       var College = $("#College").val();
-      
-           
+        var College = $("#College").val();
 
-         
-        var code='200.2';
-            $.ajax({
-            url:'action.php',
-            data:{course:course,code:code,College:College},
-            type:'POST',
-            success:function(data)
-            { 
+
+
+
+        var code = '200.2';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College
+            },
+            type: 'POST',
+            success: function(data) {
                 spinner.style.display = 'none';
-             if(data != "")
-                {
-                
+                if (data != "") {
+
                     $("#Batch").html("");
                     $("#Batch").html(data);
                 }
             }
-          });
+        });
     });
-  });
-$(function() { 
-      $("#Batch").change(function(e) {
+});
+$(function() {
+    $("#Batch").change(function(e) {
         e.preventDefault();
         var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
+        spinner.style.display = 'block';
         var College = $("#College").val();
         var course = $("#Course").val();
         var Batch = $("#Batch").val();
-      
-           
 
-         
-        var code='200.3';
-            $.ajax({
-            url:'action.php',
-            data:{course:course,code:code,College:College,Batch:Batch},
-            type:'POST',
-            success:function(data)
-            { 
+
+
+
+        var code = '200.3';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College,
+                Batch: Batch
+            },
+            type: 'POST',
+            success: function(data) {
                 spinner.style.display = 'none';
-             if(data != "")
-                {
-                
+                if (data != "") {
+
                     $("#Semester").html("");
                     $("#Semester").html(data);
                 }
             }
-          });
+        });
     });
-  });
-$(function() { 
-      $("#Semester").change(function(e) {
+});
+$(function() {
+    $("#Semester").change(function(e) {
         e.preventDefault();
         var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
+        spinner.style.display = 'block';
         var course = $("#Course").val();
-       var batch = $("#Batch").val();
-       var sem = $("#Semester").val();  
-           
+        var batch = $("#Batch").val();
+        var sem = $("#Semester").val();
 
-         
-        var code='200.1';
-            $.ajax({
-            url:'action.php',
-            data:{course:course,code:code,batch:batch,sem:sem},
-            type:'POST',
-            success:function(data)
-            { 
+
+
+        var code = '200.1';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                batch: batch,
+                sem: sem
+            },
+            type: 'POST',
+            success: function(data) {
                 spinner.style.display = 'none';
-             if(data != "")
-                {
-                
+                if (data != "") {
+
                     $("#Subject").html("");
                     $("#Subject").html(data);
                 }
             }
-          });
+        });
     });
-  });
-
-
-
-  function uploadSubmit(form) {
-
-var College = form.College.value;
-var Course = form.Course.value;
-var Batch = form.Batch.value;
-var Semester = form.Semester.value;
-var subject = form.subject.value;
-var courseFile = form.courseFile.value;
-var Topic = form.Topic.value;
-var Type = form.Type.value;
-
-if (College === "") {
-
-    ErrorToast('Please select college.', 'bg-warning');
-    return;
-}
-if (Course === "") {
-
-    ErrorToast('Please select Course.', 'bg-warning');
-    return;
-}
-if (Batch === "") {
-
-    ErrorToast('Please select Batch.', 'bg-warning');
-    return;
-}
-if (Semester === "") {
-
-    ErrorToast('Please select Semester.', 'bg-warning');
-    return;
-}
-if (subject === "") {
-
-    ErrorToast('Please select subject.', 'bg-warning');
-    return;
-}
-if (Topic === "") {
-
-    ErrorToast('Please enter topic name.', 'bg-warning');
-    return;
-}
-if (Type === "") {
-
-    ErrorToast('Please select type.', 'bg-warning');
-    return;
-}
-
-if (courseFile === "") {
-
-    ErrorToast('Please choose course file', 'bg-warning');
-    return;
-}
-
-var formData = new FormData(form);
-$.ajax({
-    url: form.action,
-    type: form.method,
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(response) {
-        // console.log(response);
-        if (response == 1) {
-            SuccessToast('Leave submit successfully');
-            uploadedRecord();
-            document.getElementById("Semester").value = "";
-            document.getElementById("subject").value = "";
-            document.getElementById("courseFile").innerHTML = "";
-
-        } 
-        else if(response == 2)
-        {
-            ErrorToast('The document type does not match the chosen file format', 'bg-warning');
-        }
-        else{
-            ErrorToast('Please try after sometime.', 'bg-danger');
-        }
-    },
-    error: function(xhr, status, error) {
-        console.log(error);
-    }
-    
 });
+
+
+
+function uploadSubmit(form) {
+
+    var College = form.College.value;
+    var Course = form.Course.value;
+    var Batch = form.Batch.value;
+    var Semester = form.Semester.value;
+    var subject = form.subject.value;
+    var courseFile = form.courseFile.value;
+    var Topic = form.Topic.value;
+    var Type = form.Type.value;
+
+    if (College === "") {
+
+        ErrorToast('Please select college.', 'bg-warning');
+        return;
+    }
+    if (Course === "") {
+
+        ErrorToast('Please select Course.', 'bg-warning');
+        return;
+    }
+    if (Batch === "") {
+
+        ErrorToast('Please select Batch.', 'bg-warning');
+        return;
+    }
+    if (Semester === "") {
+
+        ErrorToast('Please select Semester.', 'bg-warning');
+        return;
+    }
+    if (subject === "") {
+
+        ErrorToast('Please select subject.', 'bg-warning');
+        return;
+    }
+    if (Topic === "") {
+
+        ErrorToast('Please enter topic name.', 'bg-warning');
+        return;
+    }
+    if (Type === "") {
+
+        ErrorToast('Please select type.', 'bg-warning');
+        return;
+    }
+
+    if (courseFile === "") {
+
+        ErrorToast('Please choose course file', 'bg-warning');
+        return;
+    }
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            // console.log(response);
+            if (response == 1) {
+                SuccessToast('Submit successfully');
+                uploadedRecord();
+                document.getElementById("Semester").value = "";
+                document.getElementById("subject").value = "";
+                document.getElementById("courseFile").innerHTML = "";
+
+            } else if (response == 2) {
+                ErrorToast('The document type does not match the chosen file format', 'bg-warning');
+            } else {
+                ErrorToast('Please try after sometime.', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+
+    });
 }
 uploadedRecord();
+
 function uploadedRecord() {
-   
+
     var code = 400;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -211,7 +218,7 @@ function uploadedRecord() {
             code: code
         },
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
         }
@@ -220,41 +227,40 @@ function uploadedRecord() {
 
 function deleteCourseFile(id) {
 
-var a = confirm('Are you sure you want to delete');
+    var a = confirm('Are you sure you want to delete');
 
-if (a == true) {
-    var code = 396;
+    if (a == true) {
+        var code = 401;
 
-    var spinner = document.getElementById('ajax-loader');
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id
-        },
-        success: function(response) {
-            if (response == 1) {
-                spinner.style.display = 'none';
-                SuccessToast('SuccessFully Deleted');
-                uploadedRecord();
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                id: id
+            },
+            success: function(response) {
+                if (response == 1) {
+                    spinner.style.display = 'none';
+                    SuccessToast('SuccessFully Deleted');
+                    uploadedRecord();
+                }
+
             }
+        });
+    } else {
 
-        }
-    });
-} else {
-
-}
+    }
 }
 
 function viewCourseFile(url) {
+    alert(url);
+    window.open("http://erp.gku.ac.in:86/StudyMaterial/" + url, '_blank');
 
-        window.open("http://erp.gku.ac.in:86/"+url, '_blank');
-   
 
 }
-
 </script>
 <!-- Main content -->
 <section class="content">
@@ -295,57 +301,55 @@ function viewCourseFile(url) {
 
                             </select>
                         </div>
-                       <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>Batch</label>
                             <select name="Batch" class="form-control" id="Batch" required="">
-                               
-                               
+                                <option value="">Batch</option> 
+
+
                             </select>
                         </div>
-                       <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
                             <label> Semester</label>
                             <select id='Semester' name="Semester" class="form-control" required="">
-                                <option value="">Sem</option>
-                                <?php 
-                                for($i=1;$i<=12;$i++)
-                                {?>
-                                <option value="<?=$i?>"><?=$i?></option>
-                                <?php }
-                                  ?>
+                              
+                           <option value="">Subject</option> 
+                               
                             </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            
-                                <label>Subject</label>
-                                <select name="subject" id="Subject" class="form-control" required="">
-                                    <option value="">Subject</option>
-                                </select>            
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">          
-                                <label>Docuemnt Type</label>
-                                <select name="Type" id="Type" class="form-control" required="">
-                                    <option value="PDF">PDF</option>
-                                    <option value="PPT">PPT</option>
-                                    <option value="Video/Audio">Video/Audio</option>
-                                </select>                
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">                     
-                                <label>Topic</label>
-                               <input type="text" class="form-control" name="Topic" id="Topic">                       
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                <label>File</label>
-                                <input type="file" name="courseFile" id="courseFile" class="form-control" accept=".ppt, .pptx, .pdf, audio/*, video/*">
 
-                           
+                            <label>Subject</label>
+                            <select name="subject" id="Subject" class="form-control" required="">
+                                <option value="">Subject</option>
+                            </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                           
-                                <br>
-                                <button type="button" class="btn btn-success"
+                            <label>Docuemnt Type</label>
+                            <select name="Type" id="Type" class="form-control" required="">
+                                <option value="PDF">PDF</option>
+                                <option value="PPT">PPT</option>
+                                <option value="Video/Audio">Video/Audio</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label>Topic</label>
+                            <input type="text" class="form-control" name="Topic" id="Topic">
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label>File</label>
+                            <input type="file" name="courseFile" id="courseFile" class="form-control"
+                                accept=".ppt, .pptx, .pdf, audio/*, video/*">
+
+
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                            <br>
+                            <button type="button" class="btn btn-success"
                                 onclick="uploadSubmit(this.form);">Upload</button>
-                             
-                           
+
+
                         </div>
                     </form>
                 </div>
@@ -359,7 +363,7 @@ function viewCourseFile(url) {
                 <div class="card-header">
 
 
-                View Study Material
+                    View Study Material
 
                     <!-- <span style="float:right;">
                         <button class="btn btn-sm ">
@@ -377,14 +381,14 @@ function viewCourseFile(url) {
 
                 </div>
                 <div class="card-body p-0">
-                
-                        <div class="table-responsive" id="table_load" style="height:auto;">
-                         
-                        </div> 
-                 
-                  
+
+                    <div class="table-responsive" id="table_load" style="height:auto;">
+
+                    </div>
+
+
                 </div>
-    
+
             </div>
         </div>
         <!-- /.card -->

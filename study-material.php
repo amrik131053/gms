@@ -50,7 +50,7 @@ ini_set('max_execution_time', '0');
                <div class="card-body">
                 <div class="row">
                 
-                  <div class="col-lg-2" style="text-align: left;">
+                  <div class="col-lg-3" style="text-align: left;">
                                 <label>College Name</label>
                                 <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control form-control-sm"
                                     required>
@@ -69,7 +69,7 @@ ini_set('max_execution_time', '0');
                         
                                 </select>
                             </div>
-                            <div class="col-lg-2" style="text-align: left;">
+                            <div class="col-lg-3" style="text-align: left;">
                                 <label>Department</label>
                                 <select id="Department3" class="form-control form-control-sm" onchange="fetchcourse3()" required>
                                     <option value=''>Select Department</option>
@@ -78,7 +78,7 @@ ini_set('max_execution_time', '0');
                             </div>
                             <div class="col-lg-2" style="text-align: left;">
                                 <label>Course</label>
-                                <select id="Course3" onchange="courseOnChnageOther(this.value);" class="form-control form-control-sm" required>
+                                <select id="Course3" class="form-control form-control-sm" required>
                                     <option value=''>Select Course</option>
                                 </select>
                             </div>

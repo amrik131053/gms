@@ -84,7 +84,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==394 || $code==399 )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 )
 {
        include "connection/ftp-erp.php";
 }
@@ -16512,6 +16512,146 @@ $DocumentType=$row['DocumentType'];
 ?>
                     </tbody>
                 </table>
+
+                <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Expandable Table</h3>
+              </div>
+              <!-- ./card-header -->
+              <div class="card-body">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>183</td>
+                      <td>John Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Approved</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="true">
+                      <td>219</td>
+                      <td>Alexander Pierce</td>
+                      <td>11-7-2014</td>
+                      <td>Pending</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="true">
+                      <td>657</td>
+                      <td>Alexander Pierce</td>
+                      <td>11-7-2014</td>
+                      <td>Approved</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>175</td>
+                      <td>Mike Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Denied</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>134</td>
+                      <td>Jim Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Approved</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>494</td>
+                      <td>Victoria Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Pending</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>832</td>
+                      <td>Michael Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Approved</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                      <td>982</td>
+                      <td>Rocky Doe</td>
+                      <td>11-7-2014</td>
+                      <td>Denied</td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
                 <?php 
 }
 elseif($code==245)
@@ -27926,12 +28066,11 @@ if($file_type == $accepted_type){
       $file_tmp = $_FILES['courseFile']['tmp_name'];
       $type = $_FILES['courseFile']['type'];
        $file_data = file_get_contents($file_tmp);
-         $file_name = "//CouresUpload/".$EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
-   $target_dir = $file_name;
+         $file_name =$EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
      $destdir = 'CouresUpload';
      ftp_chdir($conn_id, "CouresUpload/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
-    ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
       $InsertCourse="INSERT into CourseUpload (collegeid,Courseid,semid,batch,sheet_type,CourseFile,status,SubjectCode,uploaddate,Uploadby)
  VALUES('$College','$Course','$Semester','$Batch','CourseFile','$file_name','active','$subject','$date','$EmployeeID')";
@@ -28069,12 +28208,12 @@ if(in_array($file_type, $accepted_types)){
 
 $string = bin2hex(openssl_random_pseudo_bytes(4));
 $file_data = file_get_contents($file_tmp);
-$file_name = "//StudyMaterial/".$EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
-$target_dir = $file_name;
+ $file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
+// $target_dir = $file_name;
 $destdir = 'StudyMaterial';
      ftp_chdir($conn_id, "StudyMaterial/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
-    ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
       $InsertCourse="INSERT into StudyMaterial (collegeid,Courseid,semid,batch,sheet_type,CourseFile,status,SubjectCode,uploaddate,Uploadby,Topic,DocumentType)
  VALUES('$College','$Course','$Semester','$Batch','CourseFile','$file_name','active','$subject','$date','$EmployeeID','$Topic','$Type')";
@@ -28185,7 +28324,7 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
         </table><?php 
 }
 
-elseif($code==396)
+elseif($code==401)
 {
     $id=$_POST['id'];
     $insertCourseFile="DELETE FROM StudyMaterial  WHERE id='$id' and Uploadby='$EmployeeID'";

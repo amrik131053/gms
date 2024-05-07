@@ -165,7 +165,7 @@ $.ajax({
     success: function(response) {
         // console.log(response);
         if (response == 1) {
-            SuccessToast('Leave submit successfully');
+            SuccessToast('Submit successfully');
             uploadedRecord();
             document.getElementById("Semester").value = "";
             document.getElementById("subject").value = "";
@@ -199,7 +199,7 @@ function uploadedRecord() {
             code: code
         },
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             document.getElementById("table_load").innerHTML = response;
         }
@@ -238,7 +238,7 @@ if (a == true) {
 
 function viewCourseFile(url) {
 
-        window.open("http://erp.gku.ac.in:86/"+url, '_blank');
+        window.open("http://erp.gku.ac.in:86/CouresUpload/"+url, '_blank');
    
 
 }
@@ -287,19 +287,20 @@ function viewCourseFile(url) {
                             <label>Batch</label>
                             <select name="Batch" class="form-control" id="Batch" required="">
                                
+                                <option value="">Batch</option>
                                
                             </select>
                         </div>
                        <div class="col-lg-12 col-md-12 col-sm-12">
                             <label> Semester</label>
                             <select id='Semester' name="Semester" class="form-control" required="">
-                                <option value="">Sem</option>
-                                <?php 
+                                <option value="">Semester</option>
+                                <!-- <?php 
                                 for($i=1;$i<=12;$i++)
                                 {?>
                                 <option value="<?=$i?>"><?=$i?></option>
                                 <?php }
-                                  ?>
+                                  ?> -->
                             </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
