@@ -23093,6 +23093,162 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject
 }
 
 
+               elseif($code==369)
+               {
+                $sub_data=$_POST['sub_data']; 
+
+               
+if($sub_data==2)
+{
+
+$College = $_POST['College'];
+$Course = $_POST['Course'];
+  $Batch = $_POST['Batch'];
+  $Semester = $_POST['Semester'];
+  $Type = $_POST['Type'];
+    $Group = $_POST['Group'];
+        $Examination = $_POST['Examination'];
+
+
+$list_sql = "SELECT   Admissions.ClassRollNo,ResultGKU.Sgpa,ResultGKU.TotalCredit,ExamForm.Course,ExamForm.ReceiptDate,ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ResultGKU.ID as rid,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo  inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'ANd ExamForm.Status='8' ORDER BY Admissions.UniRollNo";
+
+}
+
+
+?>
+
+<table class="table table-bordered" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ID</th>
+                                        <th>Uni Roll No</th>
+                                        <th>Name</th>
+                                        <th>Course</th>
+                                        <th>Sem</th>
+                                        <th>Batch</th>
+                                        <th>Examination</th>
+                                        <th>Type</th>
+                                        <th>SGPA</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                       
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+<?php
+                $list_result = sqlsrv_query($conntest,$list_sql);
+                    $count = 1;
+               if($list_result === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
+                while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                   {
+                $Status= $row['Status'];
+                $issueDate=$row['SubmitFormDate'];
+                ?>
+                <tr>
+                <td><?= $count++;?></td>
+                <td><?= $row['rid']?></td>
+                
+                <td>
+                 
+                <a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                  <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a>
+             </td>
+             <td>
+                <b><a href=""  onclick="edit_stu(<?= $row['ID'];?>)" style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                  <?=$row['StudentName'];?></a></b>
+          </a>
+                   </td>
+      <?php
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                echo "<td>".$row['Batch']."</td>";
+                echo "<td>".$row['Examination']."</td>";
+                     if($row['ReceiptDate']!='')
+                     {
+                       $rdate=$row['ReceiptDate']->format('Y-m-d');
+                     }
+                     else 
+                     {
+                     $rdate='';
+                     }
+?>
+               <td>
+                <?=$row['Type'];?></td>
+                <!-- <td><?= $row['SGroup'];?></td> -->
+                 <td><?= $row['Sgpa'];?></td>
+                <td><?= $row['TotalCredit'];?></td>
+
+              <td  style="width:100px"><center><?php 
+
+ if($Status==-1)
+                {
+                  echo "Forward to Registration";
+
+                }
+                elseif($Status==0)
+                {
+                  echo "Draft";
+                }elseif($Status==1)
+                {
+                  echo 'Forward<br>to<br>Department';
+                }
+
+                elseif($Status==2)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+                }
+                 elseif($Status==3)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
+                }
+
+ elseif($Status==4)
+                {
+                  echo 'Forward <br>to<br> Account';
+                }
+ elseif($Status==5)
+                {
+                  echo 'Forward <br>to<br> Examination<br> Branch';
+                }
+
+ elseif($Status==6)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Accountant</b>";
+                }
+      elseif($Status==7)
+                {
+                  echo "<b style='color:red'>Rejected_By<br>Examination<br>Branch</b>";
+                }           
+
+elseif($Status==8)
+                {
+                  echo "<b style='color:green'>Accepted</b>";
+                }   ?>        
+</center>
+               </td> 
+                
+               
+  
+               </tr>
+           <?php 
+            }?>
+
+            </tbody>
+        </table>
+            <?php
+    
+        
+
+   }
+
+
+
 
 
  else
