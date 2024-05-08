@@ -3802,6 +3802,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Mother Name </th>
     <th>Mobile No </th>
     <th>Category </th>
+    <th>Religion </th>
     <th>EmailID </th>
     <th>College </th>
     <th>Course </th>
@@ -3813,6 +3814,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Nationality </th>
     <th>Remarks </th>
     <th>Status </th>
+
     </tr>
         </thead>";
 
@@ -3868,6 +3870,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Nationality=$row['Nationality'];
             $Refrence=$row['FeeWaiverScheme'];
             $Category=$row['Category'];
+            $Religion=$row['Religion'];
 
 
             if($StatusType>0)
@@ -3927,6 +3930,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
          <td>{$Category}</td>
+          <td>{$Religion}</td>
          <td>{$EmailID}</td>
          <td>{$CollegeName}</td>
          <td>{$Course}</td>
