@@ -19723,7 +19723,7 @@ elseif($code=='324')
    $count=0;
 $sql=" SELECT State,District, COUNT(*) AS `dist` ,states.name as StateName,cities.name as DistrictName FROM offer_latter
 
- inner join states ON states.id=offer_latter.State  inner join cities ON cities.id=offer_latter.District GROUP BY offer_latter.District order by StateName ASC ";
+ inner join states ON states.id=offer_latter.State  inner join cities ON cities.id=offer_latter.District where offer_latter.batch='2024'  GROUP BY offer_latter.District order by StateName ASC ";
  $result = mysqli_query($conn,$sql);
 ?>
 <table class='table table-bordered'><tr><th>State</th><th>District</th><th>Count</th><th>Total Adm Count</th><th>Export</th></tr>  <?php
