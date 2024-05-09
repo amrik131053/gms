@@ -8557,6 +8557,69 @@ $exportstudy.="<td>{$tdebit}</td><td>{$tcredit}</td><td>{$balanceamount}</td>";
         $fileName="StudentLedger";
     
 }
+  else if($exportCode==62)
+    {
+        $CollegeID=$_REQUEST['CollegeID'];
+$Course=$_REQUEST['Course'];
+$Batch=$_REQUEST['batch'];
+$Semester=$_REQUEST['semester'];
+
+$get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
+if($CollegeID!='')
+{
+   $get_study_scheme.="AND CollegeID='$CollegeID'";
+}
+if($Course!='')
+{
+$get_study_scheme.=" AND CourseID='$Course'";
+}
+if($Batch!='')
+{
+$get_study_scheme.=" AND Batch='$Batch'";
+}
+if($Semester!='')
+{
+$get_study_scheme.=" AND SemesterID='$Semester'";
+} 
+$get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<tr>
+<td>CollegeName</td>
+<td>Course</td>
+<td>Semester</td>
+<td>Batch</td>
+<td>SubjectName</td>
+<td>SubjectType</td>
+<td>SubjectCode</td>
+<td>Lecture</td>
+<td>Tutorial</td>
+<td>Practical</td>
+<td>NoOFCredits</td>
+</tr>";
+$srno=1;
+while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+  {
+$exportstudy.="<tr>";
+$exportstudy.="<td>{$get_row['CollegeName']}</td>
+<td>{$get_row['Course']}</td>
+<td>{$get_row['Semester']}</td>
+<td>{$get_row['Batch']}</td>
+<td>{$get_row['SubjectName']}</td>
+<td>{$get_row['SubjectType']}</td>
+<td>{$get_row['SubjectCode']}</td>
+<td>{$get_row['Lecture']}</td>
+<td>{$get_row['Tutorial']}</td>
+<td>{$get_row['Practical']}</td>
+<td>{$get_row['NoOFCredits']}</td>
+";
+  $exportstudy.="</tr>"; 
+$srno++;
+ }    
+$exportstudy.="</table>";
+ echo $exportstudy;
+ $fileName="Study Scheme";
+    
+}
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");

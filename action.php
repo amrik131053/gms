@@ -15159,6 +15159,7 @@ elseif($code==230)
               <div class="col-lg-2">
                  <label>Action</label><br>
                  <button onclick="update_study_scheme_search();" class="btn btn-success btn-sm">Search</button>
+                 <button onclick="exportStudyScheme();" class="btn btn-success btn-sm">Download</button>
               </div>
             
             </div>
@@ -15622,18 +15623,6 @@ elseif($code==252)
                   <div class="card-header">
                      Study Scheme Update
                      <div class="card-tools">
-
-                        <!--back end chnages -->
-<!-- <form action="action_g.php" method="post" enctype="multipart/form-data" target="_blank">
-       <input type="hidden" name="code" value="23">  
-<input type="hidden" name="CollegeID" value="<?=$CollegeID;?>">
-<input type="hidden" name="Course" value="<?=$Course;?>">
-<input type="hidden" name="Batch" value="<?=$Batch;?>">
-<input type="hidden" name="Semester" value="<?=$Semester;?>">
-           <input type="file" required class="" name="file_exl">
-            <button type="submit"  class="btn btn-success" >
-             Upload
-            </button> -->
          </form>
           </div>
                   </div>
@@ -15663,24 +15652,28 @@ elseif($code==252)
                         <tbody>
                      <?php 
 
-                     if($Semester!='')
-                     {
-                      $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'";
-                     }
-                     else{
- $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch'  ";
-                     }
-
-                  
-
-
+                
+                      $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
+                      if($CollegeID!='')
+                      {
+                         $get_study_scheme.="AND CollegeID='$CollegeID'";
+                      }
+                      if($Course!='')
+                      {
+                      $get_study_scheme.=" AND CourseID='$Course'";
+                      }
+                      if($Batch!='')
+                      {
+                      $get_study_scheme.=" AND Batch='$Batch'";
+                      }
+                      if($Semester!='')
+                      {
+                      $get_study_scheme.=" AND SemesterID='$Semester'";
+                      }
                         
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                         if(sqlsrv_num_rows($get_study_scheme_run)>0)  
-                        
-                       
-
                        {
 
                         while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
