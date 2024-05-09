@@ -8660,6 +8660,13 @@ elseif ($code==138)
       $flag=1;
 
    }
+    elseif($examName=='9')
+   {
+   // for B PHARMACY End Semester
+  $questionCountQry="Select * from question_generate_count where  unit='5' ";
+      $flag=1;
+
+   }
 
 
    else
@@ -8703,6 +8710,7 @@ else
             {
                $unit=rand(1,2);
             }
+
 
             // elseif ($type=='1' && $unit=='3') 
             // {
@@ -8780,6 +8788,10 @@ $gene=1;
     {
 $gene=1;
     } 
+      elseif($examName==9 && $countarray==22)
+    {
+$gene=1;
+    }
     else
     {
       $gene=0;
