@@ -154,7 +154,34 @@ ini_set('max_execution_time', '0');
                                 </select>
                             </div>
 
-                            <div class="col-lg-6">
+ 
+
+ <div class="col-lg-6 col-md-4 col-sm-3">
+  <label>Group</label>
+              <select  id="group" name="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+
+</div>
+
+
+ <div class="col-lg-6">
                                 <label>Excel Here:</label>
                                 <input type="file" name="file_exl" id="file_exl">
                             </div>

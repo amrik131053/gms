@@ -9937,6 +9937,7 @@ $stmt = mysqli_query($conn,$sql);
 elseif($code=='161') 
 {
 $state_id=$_POST['state_id'];
+
  $sql = "SELECT  id,name FROM cities WHERE state_id='$state_id' order by name ASC";
 $stmt = mysqli_query($conn,$sql); 
 ?>
@@ -10006,18 +10007,17 @@ elseif($code==163)
 }
 elseif($code=='164') 
 {
-    $count=0;
+$count=0;
 $District=$_POST['District'];
 $State=$_POST['State'];
 $sql1 = "SELECT count FROM offer_admission_count WHERE District='$District'";
 $stmt1 = mysqli_query($conn,$sql1); 
- if($row1 = mysqli_fetch_array($stmt1) )
+if($row1 = mysqli_fetch_array($stmt1) )
 {
 echo $count=(Int)$row1['count'];
- }
-
-
 }
+}
+
 elseif($code==165)
 {
 
@@ -10368,13 +10368,30 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
     $after_concession=$row_fee['after_concession'];
  }    
 
- $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
-$consultant_details_run=mysqli_query($conn,$consultant_details);
-if ($row_consultant=mysqli_fetch_array($consultant_details_run))
+
+ $consultant_details="SELECT * FROM MasterConsultant where id='$Consultant_id'";
+$consultant_details_run=sqlsrv_query($conntest,$consultant_details);
+if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
  {
-    $consultant=$row_consultant['state'];
+    $consultant=$row_consultant['Name'];
    
  }
+
+
+
+//  $consultant_details="SELECT * FROM consultant_master where id='$Consultant_id'";
+// $consultant_details_run=mysqli_query($conn,$consultant_details);
+// if ($row_consultant=mysqli_fetch_array($consultant_details_run))
+//  {
+//     $consultant=$row_consultant['state'];
+   
+//  }
+
+
+
+
+
+
 
 
     
@@ -25687,7 +25704,7 @@ $FatherName=$_POST['FatherName'];
 $MobileNumber=$_POST['MobileNumber'];
 
 //$AdharCardNo=$_POST['idproof'];
-
+ 
 
 $Dob=$_POST['Dob'];
 $Gender=$_POST['Gender'];
@@ -25807,8 +25824,8 @@ if($ifexitIDNo<1)
 
       if($admisisontype==3)
     {
-        $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
-mysqli_query($conn,$upd);  
+         $upd="UPDATE offer_latter SET Class_RollNo='$ClassRollNoUpdate' where id='$refoffer'";
+        mysqli_query($conn,$upd);  
     }
 
  $sqlG = "UPDATE  MasterCourseCodes SET ClassRollNo='$ClassRollNoUpdate'  WHERE   Isopen='1' and Session='$Session' and CourseID='$Course' and CollegeID='$CollegeID' and LateralEntry='$LateralEntry' and Batch='$Batch'";
@@ -26709,7 +26726,7 @@ else
     $value[17]=$degree_row['Batch'];               
 }
 
-$value[19]=$rollNo;
+$value[19]=$degree_row['id'];
 
 
 

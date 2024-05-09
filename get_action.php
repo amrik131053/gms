@@ -5215,7 +5215,8 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
    <select  name="emst[]"  id='emarks_<?=$iidd;?>' class='emarks' onchange="savepmarks(<?=$iidd;?>)" >
        <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
  <option value="">Select</option>
-   
+    <option value='S'>S</option>
+    <option value='US'>US</option>
         <?php 
 
 for($j=$start;$j<=10;$j++)
@@ -5233,7 +5234,8 @@ for($j=$start;$j<=10;$j++)
    <select  name="vmst[]"  id='vmarks_<?=$iidd;?>' class='vmarks' onchange="savepmarks(<?=$iidd;?>)" >
         <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
  <option value="">Select</option>
-    
+    <option value='S'>S</option>
+    <option value='US'>US</option>
         <?php 
 
 for($j=$start;$j<=5;$j++)
@@ -5250,7 +5252,8 @@ for($j=$start;$j<=5;$j++)
    <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>)" >
        <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
  <option value="">Select</option>
-    
+    <option value='S'>S</option>
+    <option value='US'>US</option>
         <?php 
 
 for($j=$start;$j<=5;$j++)

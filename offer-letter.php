@@ -44,7 +44,7 @@ include "header.php";
            </div>
            <div class="col-lg-2">
                <label>Previous Count</label>  
-             <input type="number" class="form-control" id="previous_count" readonly>
+             <input type="text" class="form-control" id="previous_count" readonly>
            </div>
            <div class="col-lg-2">
                <label>Count</label>  
@@ -1441,12 +1441,12 @@ function export_all()
       {
          var exportCode='22';
 
-          window.location.href="export.php?exportCode="+exportCode;
+          window.location.href="export.php?exportCode="+exportCode; 
       
       }
 
 
-function export_one(district) 
+function export_one(district)  
       {
          // alert(district);
          var exportCode='23';
@@ -1461,6 +1461,7 @@ function export_detail()
       window.location.href="export.php?exportCode="+exportCode+"&District="+0;
       
       }
+
       function export_course_wise_count() 
       {
          var exportCode='37';
@@ -1628,7 +1629,6 @@ function admisssion_complete1(district)
       data:{District:district,State:State,code:code},
       type:'POST',
       success:function(data){
-        
     console.log(data);
     document.getElementById('previous_count').value=data;
   

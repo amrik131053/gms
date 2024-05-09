@@ -2061,7 +2061,7 @@ elseif($exportCode==22)
 $sql="SELECT Distinct offer_latter.District , 
   COUNT(*) AS `dist`,states.name as StateName, cities.Name as DistrictName
 FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  GROUP BY offer_latter.District";
+cities on cities.id=offer_latter.District where offer_latter.batch='2024'  GROUP BY offer_latter.District";
 
 $exportMeter="<table class='table' border='1'>
         <thead>
@@ -2105,13 +2105,13 @@ elseif($exportCode==23)
     {   
      $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
 FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  where offer_latter.District='$District' ";
+cities on cities.id=offer_latter.District  where offer_latter.District='$District'ANd  offer_latter.batch='2024' ";
 }
 else
 {
  $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
 FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  ";   
+cities on cities.id=offer_latter.District  where offer_latter.batch='2024' ";   
 }
 
     $get_student_details_run=mysqli_query($conn,$get_student_details);
@@ -3623,7 +3623,7 @@ $SrNo=1;
         </thead>";
 
 
-      $CheckStudyMaterial="SELECT Course,COUNT(Course) as coursecount FROM offer_latter GROUP BY Course";
+      $CheckStudyMaterial="SELECT Course,COUNT(Course) as coursecount FROM offer_latter where offer_latter.batch='2024' GROUP BY Course ";
 
  
 
@@ -3802,6 +3802,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Mother Name </th>
     <th>Mobile No </th>
     <th>Category </th>
+    <th>Religion </th>
     <th>EmailID </th>
     <th>College </th>
     <th>Course </th>
@@ -3813,6 +3814,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Nationality </th>
     <th>Remarks </th>
     <th>Status </th>
+
     </tr>
         </thead>";
 
@@ -3868,6 +3870,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Nationality=$row['Nationality'];
             $Refrence=$row['FeeWaiverScheme'];
             $Category=$row['Category'];
+            $Religion=$row['Religion'];
 
 
             if($StatusType>0)
@@ -3927,6 +3930,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
          <td>{$Category}</td>
+          <td>{$Religion}</td>
          <td>{$EmailID}</td>
          <td>{$CollegeName}</td>
          <td>{$Course}</td>
