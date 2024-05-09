@@ -573,6 +573,16 @@ function add_submit() {
 
 }
 
+function exportStudyScheme() 
+      {
+        var CollegeID = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var batch = document.getElementById('batch').value;
+    var semester = document.getElementById('semester').value;
+    
+         var exportCode='62';
+          window.location.href="export.php?exportCode="+exportCode+"&CollegeID="+CollegeID+"&Course="+Course+"&batch="+batch+"&semester="+semester;
+      }
 
 function delete_study_scheme(id) {
 
