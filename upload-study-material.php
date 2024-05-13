@@ -170,11 +170,12 @@ function uploadSubmit(form) {
         return;
     }
 
-    if (courseFile === "") {
+    // if (courseFile === "") {
 
-        ErrorToast('Please choose course file', 'bg-warning');
-        return;
-    }
+    //     ErrorToast('Please select File/Link', 'bg-warning');
+    //     return;
+    // }
+
 
     var formData = new FormData(form);
     $.ajax({
@@ -190,7 +191,8 @@ function uploadSubmit(form) {
                 uploadedRecord();
                 document.getElementById("Semester").value = "";
                 document.getElementById("subject").value = "";
-                document.getElementById("courseFile").innerHTML = "";
+                document.getElementById("courseFile").value = "";
+                // document.getElementById("linkUrl").value = "";
 
             } else if (response == 2) {
                 ErrorToast('The document type does not match the chosen file format', 'bg-warning');
@@ -267,6 +269,25 @@ function viewCourseFile(url) {
 
 
 }
+
+function ShowHideDiv_type(id)
+{
+   // alert(id);
+   if (id=='Video/Audio')
+    {
+   $('#link_div').show('Slow');
+   $('#Choose_div').hide('Slow');
+   document.getElementById('courseFile').value="";
+    }
+    else
+    {
+    $('#Choose_div').show('Slow');
+    $('#link_div').hide('Slow');
+    document.getElementById('courseFile').value="";
+
+    }
+
+}
 </script>
 <!-- Main content -->
 <section class="content">
@@ -332,7 +353,7 @@ function viewCourseFile(url) {
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>Docuemnt Type</label>
-                            <select name="Type" id="Type" class="form-control" required="">
+                            <select name="Type" id="Type" class="form-control" required="" onchange="ShowHideDiv_type(this.value);">
                                 <option value="PDF">PDF</option>
                                 <option value="PPT">PPT</option>
                                 <option value="Video/Audio">Video/Audio</option>
@@ -342,10 +363,18 @@ function viewCourseFile(url) {
                             <label>Topic</label>
                             <input type="text" class="form-control" name="Topic" id="Topic">
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12" id="Choose_div" style="">
                             <label>File</label>
                             <input type="file" name="courseFile" id="courseFile" class="form-control"
                                 accept=".ppt, .pptx, .pdf, audio/*, video/*">
+
+
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12" id="link_div" style="display:none">
+                            <label>Link</label>
+
+                            <input type="text" name="courseFile" id="courseFile" class="form-control"
+                                >
 
 
                         </div>

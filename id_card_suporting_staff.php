@@ -99,9 +99,9 @@ include "connection/connection.php";
                      <!-- <strong>Time: </strong> <span id="timestamp"></span> -->
                   </h3>
                       <div class="card-tools">
-                      <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="showVisitors();"> Show </a>
-                      <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="ID_card();bg(this.id);"> Print </a>
-                      <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="showVisitors_mess();"> OnSpot </a>
+                      <!-- <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="showVisitors();"> Show </a>
+                      <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="ID_card();bg(this.id);"> Print </a> -->
+                      <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="showVisitors_mess();"> Show </a>
                       <a class="btn" style="background-color:#223260; color: white; border: 1px solid;" onclick="onspot_ID_card();bg(this.id);"> Print </a>
                   </div>
                   
@@ -188,7 +188,63 @@ include "connection/connection.php";
    </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="image_view">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary"></button> -->
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
+   function view_image(id) {
+    // alert(id);
+                     var code = 403;
+                     $.ajax({
+                        url: 'action_g.php',
+                        type: 'post',
+                        data: {
+                           ID: id,
+                           code: code
+                        },
+                        success: function(response) {
+                        //    console.log(response);
+                           document.getElementById("image_view").innerHTML = response;
+                        }
+                     });
+                  }
+
+                  function uploadImage(form, id) {
+var formData = new FormData(form);
+$.ajax({
+    url: form.action,
+    type: form.method,
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(response) {
+        console.log(response);
+        SuccessToast('Successfully Uploaded');
+        view_image(id);
+    },
+    error: function(xhr, status, error) {
+        console.log(error);
+    }
+});
+}
                        $(document).ready(function (e) {    // image upload form submit
          $("#submitGateEntry").on('submit',(function(e) {
             e.preventDefault();
