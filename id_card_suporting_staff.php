@@ -298,6 +298,7 @@ function submit() {
     var address = document.getElementById("address1").value;
     var contractor1 = document.getElementById("contractor1").value;
     var CollegeName1 = document.getElementById("CollegeName1").value;
+    var ContractorNo = document.getElementById("ContractorNo").value;
     var code = 279;
     if ( name != '' ) {
         var spinner = document.getElementById("ajax-loader");
@@ -313,7 +314,8 @@ function submit() {
                 designation: designation,
                 address: address,
                 contractor: contractor1,
-                CollegeName: CollegeName1
+                CollegeName: CollegeName1,
+                ContractorNo: ContractorNo
             },
             success: function(data) {
                // console.log(data);

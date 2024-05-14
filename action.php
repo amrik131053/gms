@@ -16903,6 +16903,10 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
    <label>Hostel Name</label>
 <input type="text" class="form-control" value="<?=$row['CollegeName'];?>" name="CollegeName" id="CollegeName1">
 </div>
+<div class="col-lg-4 col-md-4">
+   <label> Contractor Number</label>
+<input type="text" class="form-control" value="<?=$row['MobileNo'];?>" name="ContractorNo" id="ContractorNo">
+</div>
  <div class="col-lg-8 col-md-8">
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address1"><?=$row['Address'];?></textarea>
@@ -16920,7 +16924,8 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
     $address=$_POST['address'];
     $contractor=$_POST['contractor'];
     $CollegeName=$_POST['CollegeName'];
-  $result1 = "UPDATE MastercontractorIdCard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE ID='$IdNo'";
+    $ContractorNo=$_POST['ContractorNo'];
+  $result1 = "UPDATE MastercontractorIdCard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor',MobileNo='$ContractorNo' WHERE ID='$IdNo'";
    $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
