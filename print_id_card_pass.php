@@ -1502,7 +1502,7 @@ else if ($code==4)
    $left1=86;
    $down1=5;
    $down=5;
-   $count=0;
+   $count=1;
    $down11=5;
    $output = '';  
    $ctime = date("d-m-Y");
@@ -1625,9 +1625,9 @@ while($row=sqlsrv_fetch_array($result) )
    
    $pdf->SetXY($left1-13+5,$down1+15);
    $pdf->SetFont('Arial','B',11);
-   $pdf->Write(0,'F/H/W.Name  :');
+   $pdf->Write(0,'F/H/ Name:');
    
-   $pdf->SetXY($left1-13+23,$down1+15);
+   $pdf->SetXY($left1-10+23,$down1+15);
    $pdf->SetFont('Arial','B',11);
    $pdf->Write(0,$row['FatherName']);
    
