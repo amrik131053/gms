@@ -16821,15 +16821,16 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
                    </thead>
     <tbody >
       <?php 
-      $sql="SELECT * FROM mess_idcard ";
-$result = mysqli_query($conn,$sql); 
-while($row=mysqli_fetch_array($result))
+      $sql="SELECT * FROM mess_idcard order by  ID DESC ";
+$result = sqlsrv_query($conntest,$sql); 
+while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 {
 ?>
  <tr>
-    <td><input type="checkbox" name="" class="sel" value="<?=$row['id'];?>" ></td>
-    <td> <?php echo '<img src="http://10.0.10.11:86/images/Staff/'.$row['img'].'" height="50" width="50" class="img-thumnail" style="border-radius:50%">';?>   
-    </td>
+    <td><input type="checkbox" name="" class="sel" value="<?=$row['ID'];?>" ></td>
+   
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image(<?=$row['ID'];?>)"><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$row['img']."' alt='message user image'  >";?> 
+                </td>
      <td><?=$row['Name'];?></td>
       <td><?=$row['FatherName'];?></td>
       
@@ -16838,7 +16839,7 @@ while($row=mysqli_fetch_array($result))
           <td><?=$row['Address']; 
                ?>
             </td>
-            <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['id'];?>);" ></i></td>
+            <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['ID'];?>);" ></i></td>
 </tr><?php
 }
 ?>
@@ -16852,9 +16853,9 @@ while($row=mysqli_fetch_array($result))
    elseif($code==278)  //170976
    { 
    $univ_rollno=$_POST['id'];
-   $result1 = "SELECT  * FROM mess_idcard where id='$univ_rollno'";
-   $stmt1 = mysqli_query($conn,$result1);
-   if($row = mysqli_fetch_array($stmt1) )
+   $result1 = "SELECT  * FROM mess_idcard where ID='$univ_rollno'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
    
     // $IDNo= $row['IDNo'];
@@ -16901,8 +16902,8 @@ while($row=mysqli_fetch_array($result))
     $address=$_POST['address'];
     $contractor=$_POST['contractor'];
     $CollegeName=$_POST['CollegeName'];
- $result1 = "UPDATE mess_idcard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE id='$IdNo'";
-   $stmt1 = mysqli_query($conn,$result1);
+ $result1 = "UPDATE mess_idcard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE ID='$IdNo'";
+   $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
    echo "1";   // code...
@@ -16921,7 +16922,7 @@ while($row=mysqli_fetch_array($result))
                     $c=0;
       $array=array();
       $sql="SELECT DISTINCT Incharge from building_master where Incharge>0";
-      $res=mysqli_query($conn,$sql);
+      $res=sqlsrv_query($conn,$sql);
       while($data=mysqli_fetch_array($res))
       {
          $array[$c]=$data['Incharge'];
@@ -23252,10 +23253,23 @@ elseif($Status==8)
 
    }
 
+elseif ($code==370) {
+   $userId=$_POST['userId'];
+      $result1 = "SELECT  * FROM Staff where IDNo='$userId'";
+      $stmt1 = sqlsrv_query($conntest,$result1);
+      if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+      {
+        $IDNo= $row['IDNo'];
+         $Name = $row['Name'];
+         $CollegeName = $row['CollegeName'];
+         $img= $row['Snap'];
+      $pic = 'data://text/plain;base64,' . base64_encode($img);
 
-
-
-
+      $array[0]=$Name;
+      $array[1]=$CollegeName;
+      echo json_encode($array);
+}
+}
  else
 {
 echo "select code";

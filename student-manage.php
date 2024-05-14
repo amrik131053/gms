@@ -14,7 +14,7 @@ function uploadPhotoStudent(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            //  console.log(response);
+             console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Updated');
                 updateStudent(empID) 

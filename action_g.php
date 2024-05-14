@@ -28118,8 +28118,8 @@ $file_size =$_FILES['courseFile']['size'];
 $file_type = $_FILES['courseFile']['type'];
 // $accepted_types = array('application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/pdf', 'audio/*', 'video/*');
 $date=date('Y-m-d');  
-if(in_array($file_type, $accepted_types)){
-
+if(in_array($file_type, $accepted_types))
+{
 $string = bin2hex(openssl_random_pseudo_bytes(4));
 $file_data = file_get_contents($file_tmp);
  $file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['courseFile']['name']);
@@ -28129,6 +28129,7 @@ $destdir = 'StudyMaterial';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
+
       $InsertCourse="INSERT into StudyMaterial (collegeid,Courseid,semid,batch,sheet_type,CourseFile,status,SubjectCode,uploaddate,Uploadby,Topic,DocumentType)
  VALUES('$College','$Course','$Semester','$Batch','CourseFile','$file_name','active','$subject','$date','$EmployeeID','$Topic','$Type')";
   $InsertCourseFile=sqlsrv_query($conntest,$InsertCourse);
@@ -28141,12 +28142,33 @@ ftp_close($conn_id);
                 {
                     echo "0";
                 } 
+
+
+
+            }
+            elseif($Type=='Video/Audio')
+            {
+                $file_name1 = $_POST['courseFile'];
+                $InsertCourse="INSERT into StudyMaterial (collegeid,Courseid,semid,batch,sheet_type,CourseFile,status,SubjectCode,uploaddate,Uploadby,Topic,DocumentType)
+                VALUES('$College','$Course','$Semester','$Batch','CourseFile','$file_name1','active','$subject','$date','$EmployeeID','$Topic','$Type')";
+                 $InsertCourseFile=sqlsrv_query($conntest,$InsertCourse);
+               
+                               if($InsertCourseFile==true)
+                               {
+                                   echo "1";
+                               }
+                               else
+                               {
+                                   echo "0";
+                               }  
             }
             else{
                 echo "2"; //file type wrong
             }
-}
 
+
+
+}
 elseif($code==400) 
 {
     $CollegeName="";
@@ -28198,7 +28220,7 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
 ?>
                 <tr>
                     <td><?=$Sr;?></td>
-                    <td><?=$CollegeName;?><?=$urlString;?></td>
+                    <td><?=$CollegeName;?></td>
                     <td><?=$CourseName;?></td>
                     <td><?=$row['semid'];?></td>
                     <td><?=$row['batch'];?></td>
@@ -28221,9 +28243,24 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
                                 class=" btn btn-danger btn-sm"><i class="fa-solid fa-trash-slash"></i></button><?php 
                                   }
                                   ?>
+                                  <?php 
+                        if($row['DocumentType']=='Video/Audio')
+                        {
+                            ?>
+                            <a href="<?=$row['CourseFile'];?>"><button type="button"  class="btn btn-success btn-sm">
+                            <i class="fa fa-link"></i>
+                         </button></a>
+                         <?php 
+                        }
+                        else
+                        {
+                                  ?>
                            <button type="button" onclick="viewCourseFile(<?php echo htmlspecialchars(json_encode($urlString)); ?>);" class="btn btn-success btn-sm">
                            <i class="fa fa-eye"></i>
                         </button>
+                        <?php 
+                        }
+                        ?>
 
 
                         </div>
@@ -28252,6 +28289,104 @@ elseif($code==401)
       {
         echo "1";
       }
+
+}
+elseif($code==402)
+{
+$EmpName=$_REQUEST['EmpName'];
+$CollegeName=$_REQUEST['CollegeName'];
+$ProjectTitle=$_REQUEST['ProjectTitle'];
+$ProjectDescription=$_REQUEST['ProjectDescription'];
+$DesignType=$_REQUEST['DesignType'];
+$LSize=$_REQUEST['LSize'];
+$WSize=$_REQUEST['WSize'];
+$HSize=$_REQUEST['HSize'];
+$Quantity=$_REQUEST['Quantity'];
+$Normal=$_REQUEST['Normal'];
+$Rush=$_REQUEST['Rush'];
+$Urgent=$_REQUEST['Urgent'];
+
+
+
+}
+elseif($code==403)
+{
+$UniRollNo=$_POST['ID'];
+$sql="SELECT * FROM mess_idcard  where ID='$UniRollNo' ";
+$result = sqlsrv_query($conntest,$sql); 
+if($row=sqlsrv_fetch_array($result))
+{
+                             $snap=$row['Snap'];
+                                $finfo = new finfo(FILEINFO_MIME_TYPE);
+   $mime_type = $finfo->buffer($snap);
+   $extension = '';
+   switch ($mime_type) {
+       case 'image/jpeg':
+           $extension = 'jpg';
+           break;
+       case 'image/png':
+           $extension = 'png';
+           break;
+       
+   }
+   // echo $extension;
+   $pic = base64_encode($snap);
+   // $pic = base64_encode($pic);
+   ?>
+   <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+   <br>
+   <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>"
+       download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download
+           Image</button></a>
+
+   <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
+       <input type="file" name="image" id="image" class="form-control input-group-sm">
+       <input type="hidden" name="idNumber" value="<?php echo $UniRollNo; ?>">
+       <input type="hidden" name="code" value="404">
+       <input type="button" value="Upload" class="btn btn-success btn-xs"
+           onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
+   </form>
+   <div id="result"></div>
+
+   <?php
+              
+                             
+                          
+
+                         }
+}
+else if($code==404)
+{
+
+
+  $UniRollNo=$_POST['unirollno'];
+
+    $file_name = $_FILES['image']['name'];
+   $file_tmp = $_FILES['image']['tmp_name'];
+   $type = $_FILES['image']['type'];
+    $file_data = file_get_contents($file_tmp);
+   $characters = '';
+  $result = $UniRollNo;
+  $image_name =$result;
+    $destdir = 'Staff';
+  ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+  ftp_pasv($conn_id,true);
+  file_put_contents($destdir.$image_name.'.PNG',$file_data);
+  ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+  ftp_close($conn_id);
+  $upimage = "UPDATE mess_idcard SET Snap = ? WHERE ID = ?";
+$params = array($file_data, $UniRollNo);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+if ($upimage_run === false) {
+   $errors = sqlsrv_errors();
+   echo "Error: " . print_r($errors, true);
+   echo "0";
+} 
+else
+{
+   echo "1";
+}
+
 
 }
    else
