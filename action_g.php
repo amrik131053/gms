@@ -28413,7 +28413,7 @@ else if($code==405)
 $params = array($name, $father_name, $designation, $address, $file_data);
 $stmt1 = sqlsrv_query($conntest, $result1, $params);
 
-      print_r($stmt1);
+    //   print_r($stmt1);
       if ($stmt1 === false) {
           die(print_r(sqlsrv_errors(), true));
       } else {
@@ -28422,7 +28422,17 @@ $stmt1 = sqlsrv_query($conntest, $result1, $params);
 
 
 }
+elseif($code==406)
+{
+    $id=$_POST['id'];
+    $insertCourseFile="DELETE FROM MastercontractorIdCard  WHERE ID='$id'";
+    $insertCourseFileRun=sqlsrv_query($conntest,$insertCourseFile);
+    if($insertCourseFileRun==true)
+      {
+        echo "1";
+      }
 
+}
    else
    {
    

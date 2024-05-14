@@ -16785,33 +16785,33 @@ if($row1=mysqli_fetch_array($result1) )
    //   } else {
    //       echo "1"; // Success
    //   }
-   $name=$_POST['name'];
-   $father_name=$_POST['father_name'];
-   $designation=$_POST['designation'];
-   $address=$_POST['address'];
-   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-   $result= $characters[mt_rand(0, 2)];
-   $file_name = $_FILES['imgage']['name'];
-   $file_tmp = $_FILES['imgage']['tmp_name'];
-   $type = $_FILES['imgage']['type'];
-    $file_data = file_get_contents($file_tmp);
-   $characters = '';
-  $image_name =$result;
-    $destdir = 'Staff';
-  ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
-  ftp_pasv($conn_id,true);
-  file_put_contents($destdir.$image_name.'.PNG',$file_data);
-  ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
-  ftp_close($conn_id);
-    $result1 = "INSERT INTO MastercontractorIdCard (Name, FatherName, Designation, Address) VALUES (?, ?, ?, ?)";
-     $params = array($name, $father_name, $designation, $address);
-     $stmt1 = sqlsrv_query($conntest, $result1, $params);
-   //   print_r($params);
-     if ($stmt1 === false) {
-         die(print_r(sqlsrv_errors(), true));
-     } else {
-         echo "1"; // Success
-     }
+//    $name=$_POST['name'];
+//    $father_name=$_POST['father_name'];
+//    $designation=$_POST['designation'];
+//    $address=$_POST['address'];
+//    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+//    $result= $characters[mt_rand(0, 2)];
+//    $file_name = $_FILES['imgage']['name'];
+//    $file_tmp = $_FILES['imgage']['tmp_name'];
+//    $type = $_FILES['imgage']['type'];
+//     $file_data = file_get_contents($file_tmp);
+//    $characters = '';
+//   $image_name =$result;
+//     $destdir = 'Staff';
+//   ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+//   ftp_pasv($conn_id,true);
+//   file_put_contents($destdir.$image_name.'.PNG',$file_data);
+//   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+//   ftp_close($conn_id);
+//     $result1 = "INSERT INTO MastercontractorIdCard (Name, FatherName, Designation, Address) VALUES (?, ?, ?, ?)";
+//      $params = array($name, $father_name, $designation, $address);
+//      $stmt1 = sqlsrv_query($conntest, $result1, $params);
+//    //   print_r($params);
+//      if ($stmt1 === false) {
+//          die(print_r(sqlsrv_errors(), true));
+//      } else {
+//          echo "1"; // Success
+//      }
    }
 
 
@@ -16830,6 +16830,7 @@ if($row1=mysqli_fetch_array($result1) )
          
           <th>Address</th> 
           <!-- <th>Status</th>       -->
+          <th>Action</th>      
           <th>Action</th>      
          
          </tr>
@@ -16856,6 +16857,7 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
                ?>
             </td>
             <td><i class="fa fa-edit" data-target='#modal-default_edit'  data-toggle='modal' onclick="edit_data(<?=$row['ID'];?>);" ></i></td>
+            <td><i class="fa fa-trash text-danger" onclick="deleteData(<?=$row['ID'];?>);" ></i></td>
 </tr><?php
 }
 ?>
@@ -16897,11 +16899,11 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
    <label>Contractor</label>
 <input type="text" class="form-control" value="<?=$row['Contractor'];?>" name="contractor" id="contractor1">
 </div>
-<div class="col-lg-3 col-md-3">
+<div class="col-lg-4 col-md-4">
    <label>Hostel Name</label>
 <input type="text" class="form-control" value="<?=$row['CollegeName'];?>" name="CollegeName" id="CollegeName1">
 </div>
- <div class="col-lg-3 col-md-3">
+ <div class="col-lg-8 col-md-8">
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address1"><?=$row['Address'];?></textarea>
 </div>

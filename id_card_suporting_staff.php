@@ -61,48 +61,6 @@ include "connection/connection.php";
     </div>
 </section>
 
-<div class="modal fade" id="modal-default">
-    <div class="modal-dialog modal-lg ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Capture Image</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-responsive  " border="1">
-                    <tr style="background-color: #223260; color: white;">
-                        <th colspan="2">
-                            <center>Capture Image</center>
-                        </th>
-                    </tr>
-                    <tr>
-                        <form id="image-upload" action="action.php" method="post" enctype="multipart/form-data">
-                            <td>
-                                <input type="hidden" name="userImage" class="image-tag">
-                                <div id="my_camera"></div>
-                            </td>
-                            <td>
-                                <div id="results">
-                                    <img src="dummy-user.png" width="280px" height="320px">
-
-                                </div><br>
-                            </td>
-
-                        </form>
-                    </tr>
-
-                </table>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success btn-xs" type=button data-dismiss="modal"
-                    value="Take Snapshot" onClick="take_snapshot()">Capture</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="modal-default_edit">
     <div class="modal-dialog modal-lg ">
         <div class="modal-content">
@@ -296,6 +254,41 @@ function edit_data(id) {
     });
 
 }
+function deleteData(id){ 
+
+var r = confirm("Do you really want to Delete");
+    if (r == true) {
+         var code=406;
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+         $.ajax({
+            url: 'action_g.php',
+            type: 'post',
+            data: {
+                code: code,
+                id: id
+               
+            },
+            success: function(data) {
+               // console.log(data);
+                spinner.style.display = 'none';
+                if (data == 1) {
+                    SuccessToast('Successfully Update');
+                    showVisitors_mess()
+
+                } else {
+
+                }
+
+            },
+            error: function(data) {
+
+            }
+        });
+
+}
+}
+
 
 function submit() {
     var student_roll_no = document.getElementById("student_roll_no1").value;

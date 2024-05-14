@@ -1716,8 +1716,8 @@ while($row=sqlsrv_fetch_array($result) )
    $down=$down+120;
  }
    $date=date('Y-m-d');
-   $up="UPDATE mess_idcard set Status='1' where id='$value'";
-   $up1 =mysqli_query($conn,$up);
+   $up="UPDATE MastercontractorIdCard set Status='1' where ID='$value'";
+   $up1 =sqlsrv_query($conntest,$up);
    $count++;
    }
    
