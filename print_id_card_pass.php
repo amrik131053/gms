@@ -1533,15 +1533,21 @@ else if ($code==4)
    $pdf-> Image('dist\img\sign_suporting_staff.png',$left+20,$down+90,30,12);
            $pdf->SetFont('Arial','B',12);
    
-   $sql="SELECT * FROM mess_idcard where id='$value'";
-$result = mysqli_query($conn,$sql); 
+   $sql="SELECT * FROM MastercontractorIdCard where ID='$value'";
+$result = sqlsrv_query($conntest,$sql); 
     $array = array();
-while($row=mysqli_fetch_array($result) )
+while($row=sqlsrv_fetch_array($result) )
 {
   
-      $img=$row['img'];
-  // echo $value;
-   $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$img,$left+20,$down+32,27,27);
+     
+      $img= $row['Snap'];
+      $pic = 'data://text/plain;base64,' . base64_encode($img);
+      $info = getimagesize($pic);
+      $extension = explode('/', mime_content_type($pic))[1];
+      // $pdf-> Image($pic,18,25.8,20,22,$extension);
+    // echo $value;
+  //  $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$img,$left+20,$down+32,27,27);
+  $pdf-> Image($pic,$left+20,$down+32,27,27,$extension);
      $pdf->SetXY($left+20,$down+32);
     $pdf->MultiCell(27,27,'','1','C');
   
@@ -1631,7 +1637,7 @@ while($row=mysqli_fetch_array($result) )
 
    $pdf->MultiCell(66,5,'Address','0','C');
    
-   $pdf->SetXY($left1-10,$down1+5+25);
+   $pdf->SetXY($left1-10,$down1+5+30);
    $pdf->SetFont('Arial','B',11);
    $sss=strlen($row['Address']);
    if ($sss<29) 

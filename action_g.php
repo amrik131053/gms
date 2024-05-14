@@ -84,7 +84,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 )
 {
        include "connection/ftp-erp.php";
 }
@@ -28278,7 +28278,7 @@ $Urgent=$_REQUEST['Urgent'];
 elseif($code==403)
 {
 $UniRollNo=$_POST['ID'];
-$sql="SELECT * FROM mess_idcard  where ID='$UniRollNo' ";
+$sql="SELECT * FROM MastercontractorIdCard  where ID='$UniRollNo' ";
 $result = sqlsrv_query($conntest,$sql); 
 if($row=sqlsrv_fetch_array($result))
 {
@@ -28307,12 +28307,12 @@ if($row=sqlsrv_fetch_array($result))
 
    <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
        <input type="file" name="image" id="image" class="form-control input-group-sm">
-       <input type="hidden" name="idNumber" value="<?php echo $UniRollNo; ?>">
+       <input type="hidden" name="unirollno" value="<?php echo $UniRollNo; ?>">
        <input type="hidden" name="code" value="404">
        <input type="button" value="Upload" class="btn btn-success btn-xs"
            onclick="uploadImage(this.form,'<?php echo $UniRollNo; ?>')">
    </form>
-   <div id="result"></div>
+   <div id="result">ff</div>
 
    <?php
               
@@ -28340,7 +28340,7 @@ else if($code==404)
   file_put_contents($destdir.$image_name.'.PNG',$file_data);
   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
   ftp_close($conn_id);
-  $upimage = "UPDATE mess_idcard SET Snap = ? WHERE ID = ?";
+  $upimage = "UPDATE MastercontractorIdCard SET Snap = ? WHERE ID = ?";
 $params = array($file_data, $UniRollNo);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 if ($upimage_run === false) {
@@ -28355,6 +28355,40 @@ else
 
 
 }
+else if($code==405)
+{
+
+    $name=$_POST['name'];
+    $father_name=$_POST['father_name'];
+    $designation=$_POST['designation'];
+    $address=$_POST['address'];
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $result= $characters[mt_rand(0, 10)];
+    $file_name = $_FILES['image']['name'];
+    $file_tmp = $_FILES['image']['tmp_name'];
+    $type = $_FILES['image']['type'];
+      $file_data = file_get_contents($file_tmp);
+   $image_name =$result;
+     $destdir = 'Staff';
+   ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+   ftp_pasv($conn_id,true);
+   file_put_contents($destdir.$image_name.'.PNG',$file_data);
+   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   ftp_close($conn_id);
+   $result1 = "INSERT INTO MastercontractorIdCard (Name, FatherName, Designation, Address, Snap) VALUES (?, ?, ?, ?, ?)";
+$params = array($name, $father_name, $designation, $address, $file_data);
+$stmt1 = sqlsrv_query($conntest, $result1, $params);
+
+      print_r($stmt1);
+      if ($stmt1 === false) {
+          die(print_r(sqlsrv_errors(), true));
+      } else {
+          echo "1"; // Success
+      }
+
+
+}
+
    else
    {
    

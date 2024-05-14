@@ -42,7 +42,7 @@ ini_set('max_execution_time', '0');
        include "connection/connection_web.php"; 
 
    }
-     if($code==272)
+     if($code==272 || $code==276)
 {
        include "connection/ftp-erp.php";
 }
@@ -16726,77 +16726,92 @@ if($row1=mysqli_fetch_array($result1) )
    }
    elseif($code==276)
    {
-
-   // $characters = '';
-    // $IdNo = 11;
-    // $IdNo='';
-     $name=$_POST['name'];
-    $father_name=$_POST['father_name'];
-    $designation=$_POST['designation'];
-    $address=$_POST['address'];
-       $link=$_POST['userImageCaptured'];
+  
        // $link=$_POST['userImageCaptured'];
-    if ($_POST['yes']==1)
-     {
+   //  if ($_POST['yes']==1)
+   //   {
 
-      $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-   $result = 'OntheSpotImage';
-   // for ($i = 0; $i < 25; $i++)
-   $result .= $characters[mt_rand(0, 2)];
-   $image_name =$result;
-   $ftp_server1 = "10.0.10.11";
-   $ftp_user_name1 = "Gurpreet";
-   $ftp_user_pass1 = "Guri@123";
-   $remote_file1 = "";
-   $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
-   $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
-   $destdir = 'dummy_images/';
+//    $image_name =$result;
+//    $file_data = file_get_contents($file_tmp);
+//    $characters = '';
+//   $result = $UniRollNo;
+//   $image_name =$result;
+//     $destdir = 'Staff';
+//   ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+//   ftp_pasv($conn_id,true);
+//   file_put_contents($destdir.$image_name.'.PNG',$file_data);
+//   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+//   ftp_close($conn_id);
+   // $ftp_server1 = "10.0.10.11";
+   // $ftp_user_name1 = "Gurpreet";
+   // $ftp_user_pass1 = "Guri@123";
+   // $remote_file1 = "";
+   // $conn_id = ftp_connect($ftp_server1) or die("Could not connect to $ftp_server");
+   // $login_result = ftp_login($conn_id, $ftp_user_name1, $ftp_user_pass1) or die("Could not login to $ftp_server1");
+   // $destdir = 'dummy_images/';
 
-   ftp_chdir($conn_id, "") or die("Could not change directory");
-   ftp_pasv($conn_id,true);
+   // ftp_chdir($conn_id, "") or die("Could not change directory");
+   // ftp_pasv($conn_id,true);
 
-   file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
-   ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
-   $image_name=$image_name.'.jpg';
-   ftp_close($conn_id);
-     $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$image_name')";
-     }
-    else
-     {
-      $file_name = $_FILES['imgage']['name'];   
-      $file_size = $_FILES['imgage']['size'];      
-      $file_tmp = $_FILES['imgage']['tmp_name'];
-      $file_type = $_FILES['imgage']['type'];
-$target_dir = "";
-$ftp_server = "10.0.10.11";
-  $ftp_user_name = "Gurpreet";
-  $ftp_user_pass = "Guri@123";
-  $remote_file = "";
-$conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
-    $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass) or die("Could not login to $ftp_server");
-   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    $result = 'OntheSpotImage';
-    // for ($i = 0; $i < 25; $i++)
-    $result .= $characters[mt_rand(0, 2)];
-    $file_name =$result."-".$file_name;
-    $target_dir = $file_name;
-  ftp_chdir($conn_id, "") or die("Could not change directory");
-  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-  ftp_close($conn_id);
-  echo    $result1 = "INSERT INTO mess_idcard (Name,FatherName,Designation,Address,img)values('$name','$father_name','$designation','$address','$file_name')";
-     }
+   // file_put_contents($destdir.$image_name.'.jpg', file_get_contents($link));
+   // ftp_put($conn_id,$image_name.'.jpg',$destdir.$image_name.'.jpg',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   // $image_name=$image_name.'.jpg';
+   // ftp_close($conn_id);
+   //   $result1 = "INSERT INTO MastercontractorIdCard (Name,FatherName,Designation,Address,Snap)values('$name','$father_name','$designation','$address','$image_name')";
+   //   }
+   //  else
+   //   {
     
-// echo $link;
-   
-   $stmt1 = mysqli_query($conn,$result1);
-   if ($stmt1==true)
-    {
-   echo "1";   // code...
-   }
-   else
-   {
-      echo "0";
-   }
+   //    $file_name = $_FILES['imgage']['name'];   
+   //    $file_size = $_FILES['imgage']['size'];      
+   //    $file_tmp = $_FILES['imgage']['tmp_name'];
+   //    $file_type = $_FILES['imgage']['type'];
+   //    $file_data = file_get_contents($file_tmp);
+   //    $characters = '';
+   //    $result = '';
+   //    $image_name =$result;
+   //    $destdir = 'Staff';
+   //   ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+   //   ftp_pasv($conn_id,true);
+   //   file_put_contents($destdir.$image_name.'.PNG',$file_data);
+   //   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+   //   ftp_close($conn_id);
+   //    $result1 = "INSERT INTO MastercontractorIdCard (Name, FatherName, Designation, Address, Snap) VALUES (?, ?, ?, ?, ?)";
+   //   $params = array($name, $father_name, $designation, $address, $file_data);
+   //   $stmt1 = sqlsrv_query($conntest, $result1, $params);
+   //   print_r($params);
+   //   if ($stmt1 === false) {
+   //       die(print_r(sqlsrv_errors(), true));
+   //   } else {
+   //       echo "1"; // Success
+   //   }
+   $name=$_POST['name'];
+   $father_name=$_POST['father_name'];
+   $designation=$_POST['designation'];
+   $address=$_POST['address'];
+   $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+   $result= $characters[mt_rand(0, 2)];
+   $file_name = $_FILES['imgage']['name'];
+   $file_tmp = $_FILES['imgage']['tmp_name'];
+   $type = $_FILES['imgage']['type'];
+    $file_data = file_get_contents($file_tmp);
+   $characters = '';
+  $image_name =$result;
+    $destdir = 'Staff';
+  ftp_chdir($conn_id,"Images/Staff/") or die("Could not change directory");
+  ftp_pasv($conn_id,true);
+  file_put_contents($destdir.$image_name.'.PNG',$file_data);
+  ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
+  ftp_close($conn_id);
+    $result1 = "INSERT INTO MastercontractorIdCard (Name, FatherName, Designation, Address) VALUES (?, ?, ?, ?)";
+     $params = array($name, $father_name, $designation, $address);
+     $stmt1 = sqlsrv_query($conntest, $result1, $params);
+   //   print_r($params);
+     if ($stmt1 === false) {
+         die(print_r(sqlsrv_errors(), true));
+     } else {
+         echo "1"; // Success
+     }
    }
 
 
@@ -16821,15 +16836,16 @@ $conn_id = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
                    </thead>
     <tbody >
       <?php 
-      $sql="SELECT * FROM mess_idcard order by  ID DESC ";
+      $sql="SELECT * FROM MastercontractorIdCard order by  ID DESC ";
 $result = sqlsrv_query($conntest,$sql); 
 while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 {
+   $emp_pic=base64_encode($row['Snap']);
 ?>
  <tr>
     <td><input type="checkbox" name="" class="sel" value="<?=$row['ID'];?>" ></td>
    
-    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image(<?=$row['ID'];?>)"><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$row['img']."' alt='message user image'  >";?> 
+    <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['ID'];?>')"><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'  >";?> 
                 </td>
      <td><?=$row['Name'];?></td>
       <td><?=$row['FatherName'];?></td>
@@ -16853,7 +16869,7 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
    elseif($code==278)  //170976
    { 
    $univ_rollno=$_POST['id'];
-   $result1 = "SELECT  * FROM mess_idcard where ID='$univ_rollno'";
+   $result1 = "SELECT  * FROM MastercontractorIdCard where ID='$univ_rollno'";
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
@@ -16863,7 +16879,7 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 <div class="row">
 
 
-<input type="hidden" class="form-control" value="<?=$row['id'];?>" name="student_roll_no" id="student_roll_no1">
+<input type="hidden" class="form-control" value="<?=$row['ID'];?>" name="student_roll_no" id="student_roll_no1">
 
 <div class="col-lg-3 col-md-3">
    <label>Name</label>
@@ -16902,7 +16918,7 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
     $address=$_POST['address'];
     $contractor=$_POST['contractor'];
     $CollegeName=$_POST['CollegeName'];
- $result1 = "UPDATE mess_idcard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE ID='$IdNo'";
+  $result1 = "UPDATE MastercontractorIdCard SET Name='$name',FatherName='$father_name',Designation='$designation',Address='$address',CollegeName='$CollegeName',Contractor='$contractor' WHERE ID='$IdNo'";
    $stmt1 = sqlsrv_query($conntest,$result1);
    if ($stmt1==true)
     {
