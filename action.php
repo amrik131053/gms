@@ -16895,11 +16895,11 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
    <label>Designation</label>
 <input type="text" class="form-control" value="<?=$row['Designation'];?>" name="designation" id="designation1">
 </div>
-<div class="col-lg-3 col-md-3">
+<div class="col-lg-2 col-md-2">
    <label>Contractor</label>
 <input type="text" class="form-control" value="<?=$row['Contractor'];?>" name="contractor" id="contractor1">
 </div>
-<div class="col-lg-4 col-md-4">
+<div class="col-lg-3 col-md-3">
    <label>Hostel Name</label>
 <input type="text" class="form-control" value="<?=$row['CollegeName'];?>" name="CollegeName" id="CollegeName1">
 </div>
@@ -16907,7 +16907,7 @@ while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
    <label> Contractor Number</label>
 <input type="text" class="form-control" value="<?=$row['MobileNo'];?>" name="ContractorNo" id="ContractorNo">
 </div>
- <div class="col-lg-8 col-md-8">
+ <div class="col-lg-5 col-md-5">
    <label>Address</label>
 <textarea type="text" class="form-control"  name="address" id="address1"><?=$row['Address'];?></textarea>
 </div>
