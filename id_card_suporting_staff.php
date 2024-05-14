@@ -299,7 +299,7 @@ function submit() {
     var contractor1 = document.getElementById("contractor1").value;
     var CollegeName1 = document.getElementById("CollegeName1").value;
     var code = 279;
-    if (father_name != '' && name != '' && address != '' && designation != '') {
+    if ( name != '' ) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         $.ajax({
