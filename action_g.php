@@ -22405,6 +22405,15 @@ if($_POST['sub_data']!='1')
     $Type = $_POST['Type'];
     $Status = $_POST['Status'];
     $Examination = $_POST['Examination'];
+    if($Status=='66')
+    {
+        $AcceptType=1;
+    }
+    else
+    {
+        $AcceptType=0;
+    }
+
 $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
 ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
 Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,
@@ -22427,11 +22436,18 @@ $list_sql.=" AND  ExamForm.SemesterID='$Semester' ";
  if ($Examination != '') {
  $list_sql.=" AND ExamForm.Examination='$Examination' ";
  }
-if ($Status != '') {
+if ($Status != '')
+ {
 if ($Status== '5') {
  $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6') ";
  }
- else{
+ elseif($Status=='66')
+ {
+    $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
+ }
+
+ else
+ {
     $list_sql.=" AND ExamForm.Status='$Status' ";
  }
 }
@@ -22441,7 +22457,8 @@ $list_sql.=" AND (ExamForm.Status='4' or ExamForm.Status='5' or ExamForm.Status=
  }
 $list_sql.="  ORDER BY ExamForm.Status   ASC";
 }
-else{
+else
+{
     $rollNo = $_POST['rollNo'];
      $list_sql = "SELECT   Admissions.FatherName,Admissions.ClassRollNo,ExamForm.Course,ExamForm.ReceiptDate,
     ExamForm.SGroup, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,
@@ -22702,6 +22719,7 @@ elseif($code==327)
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
              $Semester=$row5['Semesterid'];
+                $AcceptType = $row5['AcceptType'];
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -22756,6 +22774,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $batch = $row6['Batch'];
             $college = $row6['CollegeName'];
              $Comments = $row6['CommentsDetail'];
+          
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
           }
@@ -22821,10 +22840,13 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <textarea class=" form-control "name="" id="remarkReject"  > Fee Pending</textarea>
     <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
                                     a value minimum 5 characters.</small><br>
+
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 
     <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
     <?php }?>
+
+
 
     <?php if($Status==5 && $Status!=6){?>
         <textarea class=" form-control "name="" id="remarkReject"  ></textarea>
@@ -22832,6 +22854,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
                                     a value minimum 5 characters.</small><br>
         <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
         <?php }?>
+
+
         <?php if($Status==6){?>
 <p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
@@ -22840,6 +22864,15 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
             <?php }
 
+
+
+ if($Status>6 && $AcceptType>0){?>
+<p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
+<br>
+            <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+
+            <!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
+            <?php }
         // } 
         // else {
         //     echo "<p style='color:red;font-size: 20px'>Date Over for  <u>". $CurrentExamination;
@@ -22975,16 +23008,17 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    else if($code==328)
    {
        $ExamFromID=$_POST['ExamFromID'];
-         $getDefalutMenu="UPDATE  ExamForm  SET AccountantVerificationDate='$timeStampS',Status='5' Where ID='$ExamFromID'";
+         $getDefalutMenu="UPDATE  ExamForm  SET AccountantVerificationDate='$timeStampS',Status='5',AcceptType='' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
    $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
+         $Examination=$row['Examination'];
    }
 
-   $desc= "UPDATE  ExamForm  SET Status: Verified,AccountantVerificationDate: ".$timeStampS;
+   $desc= "ExamForm SET Status: Verified,AccountantVerificationDate: ".$timeStampS."-".$Examination;
    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
 

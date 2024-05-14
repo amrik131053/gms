@@ -5390,6 +5390,14 @@ $exportstudy.="<tr >
     $Semester = isset($_GET['Semester']) ? $_GET['Semester'] : '';
     $Type = isset($_GET['Type']) ? $_GET['Type'] : '';
     $Status = isset($_GET['Status']) ? $_GET['Status'] : '';
+    if($Status=='66')
+    {
+        $AcceptType=1;
+    }
+    else
+    {
+        $AcceptType=0;
+    }
     $Examination = isset($_GET['Examination']) ? $_GET['Examination'] : '';
             $SrNo=1;
             $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
@@ -5443,6 +5451,10 @@ $exportstudy.="<tr >
                 if ($Status== '5') {
                  $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6') ";
                  }
+                 elseif($Status=='66')
+ {
+    $list_sql.=" AND (ExamForm.Status>='5' and  ExamForm.Status!='6' ANd AcceptType>'0') ";
+ }
                  else{
                     $list_sql.=" AND ExamForm.Status='$Status' ";
                  }
@@ -5456,6 +5468,7 @@ $exportstudy.="<tr >
                 }
                 $list_sql.="  ORDER BY ExamForm.Status   ASC"; 
              
+
                                     $list_result = sqlsrv_query($conntest,$list_sql);
                                     while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                                        {
