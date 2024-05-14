@@ -30,7 +30,7 @@ ini_set('max_execution_time', '0');
                             </div>
                              <div class="col-lg-2">
 
-                             <input type="text" class="form-control" name="GCSN"  required placeholder="Grade Card Serial No">
+                             <input type="text" class="form-control" name="GCSN"  placeholder="Grade Card Serial No" required >
 
                             </div>
                             <div class="col-lg-1">
