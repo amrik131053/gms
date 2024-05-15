@@ -28433,6 +28433,60 @@ elseif($code==406)
       }
 
 }
+elseif ($code==407)
+    {
+     $id=$_POST['oldowner'];
+     $locationID=$_POST['id'];
+     if ($id!='')
+      {
+
+                           $location_num=0;
+                              $location=" SELECT *,l.ID as l_id, r.Floor as FloorName, r.RoomNo as RoomNoo from location_master l inner join room_master r on r.RoomNo=l.RoomNo inner join building_master b on b.ID=l.Block  INNER join room_type_master as rtm ON rtm.ID=l.Type  inner join room_name_master  rnm on l.RoomName=rnm.ID where l.location_owner='$id' and l.Block='$locationID'";
+                             ?>
+<table class="table table-head-fixed text-nowrap table-bordered" id="example">
+   <thead>
+      <tr>
+      <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+         <th>ID</th>
+         <th>Block</th>
+         <th>Floor</th>
+         <th>Room Type/No</th>
+         <th>Owner Name</th>
+      </tr>
+   </thead>
+   <tbody  >
+              <?php          $location_run=mysqli_query($conn,$location);
+                        while ($location_row=mysqli_fetch_array($location_run)) 
+                        {
+                        $location_num=$location_num+1;?>
+                     <tr>
+                     <td><input type="checkbox" class="checkbox v_check" value="<?=$location_row['l_id'];?>"></td>
+                        <td><?=$location_num;?></td>
+                        <td><?=$location_row['Name'];?>(<?=$location_row['l_id'];?>)</td>
+
+                        <td><?=$location_row['FloorName'];?></td>
+                     
+                        <td><?=$location_row['RoomType'];?>-<?=$location_row['RoomNoo'];?> <b>(<?=$location_row['RoomName'];?>)</b></td>
+                          <td><?php 
+                         echo  "Emp ID:".$empID=$location_row['location_owner'];
+                         echo "<br>";
+                           $staff="SELECT Name FROM Staff Where IDNo='$empID'";
+ $stmt = sqlsrv_query($conntest,$staff);  
+while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+     {
+echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
+     }
+
+                          ?>                 
+
+                          </td>
+
+                     </tr>
+                     <?php 
+                        }
+     }
+                       
+   }
    else
    {
    
