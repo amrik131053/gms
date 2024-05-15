@@ -380,8 +380,8 @@ else {
                                     while ($building_select_row=mysqli_fetch_array($building_select_run)) 
                                     {?>
                                     <option value="<?=$building_select_row['ID'];?>"><?=$building_select_row['Name'];?></option>";
-                                   <?php  }
-                                    
+                                   <?php  
+                                    }
                                     ?>
                               </select>
  <label for="inputEmail3" required="" class="col-sm-12 col-form-label">College Name</label>
@@ -600,26 +600,38 @@ else {
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
-        <div class="row">
+<div class="card-body">
+   <div class="row">
+      
+      <div class="col-lg-4"> <label>Old Owner ID</label>
+             <input type="number" name="ownerID" class="form-control" id='oldowner'  onkeyup="emp_details1(this.value);"> <br>
 
-         <div class="col-lg-1">
-         </div>
-         <div class="col-lg-4"><div id="chnagesowner"></div>
-            <label>Old Owner ID</label>
-             <input type="text" name="ownerID" class="form-control" id='oldowner'  onkeyup="emp_details1(this.value);"> <br>
+               <p id="emp_details_name1"></p>  </div>
+               <div class="col-lg-4">
+         <label>Location</label>
+         <select class="form-control" name="blockForOwnerChnage" id="blockForOwnerChnage" onchange="showAssignedLocations(this.value);">
+                                 <option value="">Select</option>
+                                 <?php
+                                    $building_select="SELECT Distinct Name,ID FROM building_master";
+                                    $building_select_run=mysqli_query($conn,$building_select);
+                                    while ($building_select_row=mysqli_fetch_array($building_select_run)) 
+                                    {?>
+                                    <option value="<?=$building_select_row['ID'];?>"><?=$building_select_row['Name'];?></option>";
+                                   <?php  }
+                                    
+                                    ?>
+                              </select>
+      </div>
+      <div class="col-lg-4"> <label>New Owner ID</label>
+             <input type="number" name="ownerID" class="form-control" id='newowner'  onkeyup="emp_details2(this.value);"> <br>
 
-               <p id="emp_details_name1"></p>    
-
-
-               <label>New Owner ID</label>
-             <input type="text" name="ownerID" class="form-control" id='newowner'  onkeyup="emp_details2(this.value);"> <br>
-
-               <p id="emp_details_name2"></p>    
-
-            
-         </div>
-
-        </div>
+               <p id="emp_details_name2"></p>    </div>
+      
+   </div>
+</div>
+<div id="chnagesowner"></div>
+<div id="showAllAssignedLocation"></div>
+     
 
            
             <div class="modal-body" id="view_location">
@@ -634,33 +646,149 @@ else {
    </div>
 </div>
 <script>
-function ChangeOwner(){
+// function ChangeOwner(){
 
-var oldowner= document.getElementById("oldowner").value;
-var  newowner = document.getElementById("newowner").value;
-var code=235;
-if(oldowner!=''&& newowner!='')
+// var oldowner= document.getElementById("oldowner").value;
+// var  newowner = document.getElementById("newowner").value;
+// var  blockForOwnerChnage = document.getElementById("blockForOwnerChnage").value;
+// var code=235;
+// if(oldowner!=''&& newowner!='')
+// {
+// $.ajax({
+// url:"action.php",
+// type:"POST",
+// data:{code:code,oldowner:oldowner,newowner:newowner,blockForOwnerChnage:blockForOwnerChnage},
+// success:function(response) {
+  
+// document.getElementById("chnagesowner").innerHTML =response;
+// },
+// error:function(){
+// alert("error");
+// }
+// });
+// }
+// else
+// {
+//    document.getElementById("chnagesowner").innerHTML ="<div class='alert alert-danger' role='alert'> Incorrect Data</div>";
+// }
+// }
+
+function showAssignedLocations(id) {
+   var oldowner= document.getElementById("oldowner").value;
+   // alert(oldowner);
+   var spinner=document.getElementById("ajax-loader");
+                              spinner.style.display='block';
+   var code=407;
+   $.ajax({
+url:"action_g.php",
+type:"POST",
+data:{code:code,oldowner:oldowner,id:id},
+  success:function(response){  
+   spinner.style.display='none';
+  
+        document.getElementById("showAllAssignedLocation").innerHTML=response;
+
+         }
+         });
+
+}
+
+function verifiy_select()
 {
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+} 
+
+function ChangeOwner()
+{
+
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var oldowner= document.getElementById("oldowner").value;
+var  newowner = document.getElementById("newowner").value;
+var  blockForOwnerChnage = document.getElementById("blockForOwnerChnage").value;
+var code=235;
+  var locationid=[];  
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            locationid.push(verifiy[i].value);
+          }
+     }
+     if(oldowner!=''&& newowner!='')
+{
+  if((typeof  locationid[0]== 'undefined'))
+  {
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+
 $.ajax({
 url:"action.php",
 type:"POST",
-data:{code:code,oldowner:oldowner,newowner:newowner},
+data:{code:code,oldowner:oldowner,newowner:newowner,blockForOwnerChnage:blockForOwnerChnage,locationid:locationid},
 success:function(response) {
-  
-document.getElementById("chnagesowner").innerHTML =response;
+   spinner.style.display='none';
+   console.log(response);
+   if(response>0)
+   {
+      SuccessToast('location Owner Changed Successfully');
+      showAssignedLocations(blockForOwnerChnage);
+   }
+   else if(response=='Not')
+   {
+      ErrorToast(' Not a location Owner','bg-danger' );
+   }
+   else if(response=='EmployeeNot'){
+      
+      ErrorToast('  Employee does not exist ','bg-danger' );
+   }
 },
 error:function(){
 alert("error");
 }
 });
 }
-else
-{
-   document.getElementById("chnagesowner").innerHTML ="<div class='alert alert-danger' role='alert'> Incorrect Data</div>";
-}
-}
 
 
+}
+else{
+   ErrorToast(' all inputs required' ,'bg-warning');
+}
+}
 function update_location(id)
 {
 code=28;

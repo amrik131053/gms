@@ -96,7 +96,7 @@
 </div>
 
 <div class="modal fade" id="returnModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xs" id="returnModal_data" role="document">
+  <div class="modal-dialog  modal-lg" id="returnModal_data" role="document">
     
   </div>
 </div>
@@ -162,6 +162,44 @@
    </div>
 </div> 
 <script type="text/javascript">
+    function floorLocation(id)
+      {  var floor='';
+         buildingRoom(id,floor);
+         var code='81';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+            console.log(data);
+         $("#hostelFloorID").html("");
+         $("#hostelFloorID").html(data);
+         }
+         }
+         });
+      } 
+       function buildingRoom(id,floor)
+      {
+         if (id==0) 
+         {
+            id=document.getElementById("hostel_id").value;
+         }
+         var code='82';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id,floor:floor},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+         $("#hostelRoomID").html("");
+         $("#hostelRoomID").html(data);
+         }
+         }
+         });
+      }
   function re_assign(id)
   {
     var code=173;
@@ -499,7 +537,8 @@ function searchReturn(id)
    var code=48;
    var returnRemark= document.getElementById("returnRemark").value;
    var workingStatus= document.getElementById("workingStatus").value;
-    if (returnRemark!='' && workingStatus!='') 
+   var locationID= document.getElementById("locationID").value;
+    if (returnRemark!='' && workingStatus!='' && locationID!='') 
     {
          $.ajax(
          {
@@ -507,7 +546,7 @@ function searchReturn(id)
             type:"POST",
             data:
             {
-               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus
+               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus,locationID:locationID
             },
             success:function(response) 
             {  

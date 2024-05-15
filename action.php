@@ -2768,6 +2768,7 @@ if($count>0)
        $id=$_POST['article_id'];
        $workingStatus=$_POST['workingStatus'];
        $returnRemark=$_POST['returnRemark'];
+       $locationID=$_POST['locationID'];
        $date=date('Y-m-d');
        $sql="SELECT * FROM stock_summary  where IDNo='$id'";
        $result = mysqli_query($conn,$sql);
@@ -2777,7 +2778,8 @@ if($count>0)
           $currentLocation=$data['LocationID'];
           $deviceSerialNo=$data['DeviceSerialNo'];
           $referenceNo=$data['reference_no'];
-          $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) VALUES ('$id', '$date', 'Returned', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+          $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) 
+          VALUES ('$id', '$date', 'Returned', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
           $res=mysqli_query($conn,$qry);
           if ($res) 
           {    
@@ -2790,10 +2792,11 @@ if($count>0)
                $token=$tokenData['token_no'];
                $token=$token+1;
            }
-               $insFaultyTrack="INSERT INTO faulty_track ( article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
+               $insFaultyTrack="INSERT INTO faulty_track ( article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) 
+               VALUES ('$id', '$currentLocation', 'Faulty', '$returnRemark', '$referenceNo', '1', '1', '$EmployeeID', '$token', '$timeStamp')";
                mysqli_query($conn,$insFaultyTrack);
            }
-               $updateQry="UPDATE stock_summary SET LocationID=0, Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+               $updateQry="UPDATE stock_summary SET LocationID='$locationID', Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
                mysqli_query($conn,$updateQry);
           }
    
@@ -10479,11 +10482,26 @@ elseif($code==171)
         
       
 <div class="row" >
-      <div class="col-lg-6">
-         <label>Remarks</label>
-         <input type="text" id="returnRemark" class="form-control" required>
-      </div>
-      <div class="col-lg-3">
+   <div class="col-lg-3">
+      <label>Block</label>
+   <select class="form-control" name="hostel" id='locationID'  >
+                                       <option value="">Select Building</option>
+                                       <?php
+                                       $hostelQry="SELECT *,location_master.ID as LID,room_name_master.RoomName as LName,room_type_master.RoomType as RoomTypeName FROM building_master 
+                                       inner join location_master ON building_master.ID=location_master.Block 
+                                        inner join room_name_master ON room_name_master.ID=location_master.RoomName inner join room_type_master ON room_type_master.ID=location_master.Type
+                                        where location_master.returnLocation='1' order by Name asc";
+                                       $hostelRes=mysqli_query($conn,$hostelQry);
+                                       while($hostelData=mysqli_fetch_array($hostelRes))
+                                       {
+                                          ?>
+                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?></option>
+                                          <?php
+                                       }
+                                       ?>
+                                    </select>
+   </div>
+<div class="col-lg-3">
          <label>Status</label>
          <select id="workingStatus" class="form-control" required>
             <option value="">Select</option>
@@ -10491,7 +10509,12 @@ elseif($code==171)
             <option value="1">Faulty</option>
          </select>
       </div>
-      <div class="col-lg-3">
+         <div class="col-lg-4">
+         <label>Remarks</label>
+         <input type="text" id="returnRemark" class="form-control" required>
+      </div>
+      
+      <div class="col-lg-2">
          <label>&nbsp;</label>
          <button type="submit" data-dismiss="modal" class="form-control btn-danger btn" onclick="returnSubmit(<?=$id?>)">Return</button>
       </div>
@@ -14335,48 +14358,46 @@ elseif($code==235)
    {
    $oldowner=$_POST['oldowner'];
    $newowner=$_POST['newowner'];
+   $blockID=$_POST['blockForOwnerChnage'];
+   $ids=$_POST['locationid'];
 
-   $result1 = "SELECT count(*) as count FROM location_master WHERE location_owner='$oldowner'";
+   $countIF=0;
+   $loc=0;
+    foreach($ids as $key => $id)
+    {
+    $result1 = "SELECT count(*) as count FROM location_master WHERE location_owner='$oldowner' and Block='$blockID' and ID='$id'";
                $run=mysqli_query($conn,$result1);
-                      while($data=mysqli_fetch_array($run))
+                      if($data=mysqli_fetch_array($run))
                {           
-                  $loc=$data['count'];
+                   $loc=$data['count'];
                }
-
 if($loc>0)
 {
-
-
-
- $staff="SELECT count(IDNO) as noofemp  FROM Staff Where IDNo='$newowner'";
+   $staff="SELECT count(IDNO) as noofemp  FROM Staff Where IDNo='$newowner' and  JobStatus='1'";
  $stmt = sqlsrv_query($conntest,$staff);  
  while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
      {
-
-    $noofemp =$row_staff['noofemp'];
-
-       }
-
-
+     $noofemp =$row_staff['noofemp'];
+   }
 if($noofemp>0)
 {
-  $result1 ="UPDATE location_master set location_owner='$newowner' where location_owner='$oldowner'";
-
-               $run=mysqli_query($conn,$result1);
-                 echo "<div class='alert alert-success' role='alert'> $loc location Owner Changed Success </div>";    
- 
+   $result1 ="UPDATE location_master set location_owner='$newowner' where location_owner='$oldowner' and Block='$blockID' and ID='$id'";
+   mysqli_query($conn,$result1);
+   
+    $result11 ="UPDATE stock_summary set Corrent_owner='$newowner' where Corrent_owner='$oldowner' and  LocationID='$id'";
+   mysqli_query($conn,$result11); 
+   $countIF++;
 }
 else{
-
- 
-           echo "<div class='alert alert-danger' role='alert'> Employee does not exist </div>";    
-
+   $countIF='EmployeeNot'; 
 }
 }
 else
 {
-    echo "<div class='alert alert-danger' role='alert'> Not a location Owner </div>";    
+    $countIF='Not'; 
 }
+    }
+  echo   $countIF;
 }
 
  elseif ($code ==236)
