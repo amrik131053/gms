@@ -38,7 +38,17 @@ include "header.php";
                                      if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027' )
                                      {
                                      ?>
-                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button > &nbsp;
+                                     <select class="form-control" id='exbatch'>
+                                        <option value="2023">2023
+                                           
+                                        </option>
+                                          <option value="2024">2024
+                                           
+                                        </option>
+                                     </select>
+                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button >
+
+                                      &nbsp;
                                        <button onclick="export_detail();"  class="btn btn-success btn-xs " >Export Report</button >
                                      <?php }?>
 
@@ -869,7 +879,9 @@ function export_detail()
       {
          var exportCode='23';
 
-      window.location.href="export.php?exportCode="+exportCode+"&District="+0;
+          var batch=document.getElementById('exbatch').value;
+
+      window.location.href="export.php?exportCode="+exportCode+"&District="+0+"&batch="+batch;
       
       }
 
