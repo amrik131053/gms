@@ -8850,7 +8850,7 @@ $gene=1;
     {
 $gene=1;
     } 
-      elseif($examName==6 && $countarray==30)
+      elseif($examName==6 && $countarray>=36)
     {
 $gene=1;
     } 
