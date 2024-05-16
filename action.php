@@ -12479,17 +12479,16 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 $cname=$row["Course"];
 }
 
-// $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
-// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='O' ANd mcs.ExternalExam='Y' And sa.EmployeeID='$EmployeeID'";
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
+$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
 SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
-$stmt2 = sqlsrv_query($conntest,$sql);
-while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+$stmt2 = sqlsrv_query($conntest,$sql1);
+while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
    ?>
-   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+   <option value='<?= $row2["SubjectCode"];?>'><?= $row2["SubjectName"];?>(<?= $row2["SubjectCode"];?>)/<?= $row2["SubjectType"];?></option>";
  <?php 
  }
+}
 
    elseif ($code ==200.1)
    {
