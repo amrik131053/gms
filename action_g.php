@@ -28487,6 +28487,48 @@ echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
      }
                        
    }
+   elseif($code=='408')
+   {
+       $id=$_POST['article_id'];
+       $workingStatus=$_POST['workingStatus'];
+       $returnRemark=$_POST['returnRemark'];
+       $locationID=$_POST['locationID'];
+       $date=date('Y-m-d');
+       $sql="SELECT * FROM stock_summary  where IDNo='$id'";
+       $result = mysqli_query($conn,$sql);
+       while($data=mysqli_fetch_array($result))
+       {
+          $currentOwner=$data['Corrent_owner'];
+          $currentLocation=$data['LocationID'];
+          $deviceSerialNo=$data['DeviceSerialNo'];
+          $referenceNo=$data['reference_no'];
+          $qry="INSERT INTO stock_description ( IDNO, Date_issue, Direction, LocationID, OwerID, Remarks, WorkingStatus, DeviceSerialNo, Updated_By, reference_no) 
+          VALUES ('$id', '$date', 'Available', '$currentLocation', '$currentOwner', '$returnRemark', '$workingStatus', '$deviceSerialNo', '$EmployeeID','$referenceNo')";
+          $res=mysqli_query($conn,$qry);
+          if ($res) 
+          {    
+           if ($workingStatus==5) 
+           {
+               $tokenQry="SELECT token_no FROM faulty_track ORDER BY token_no Desc ";
+           $tokenRes=mysqli_query($conn,$tokenQry);
+           if ($tokenData=mysqli_fetch_array($tokenRes)) 
+           {
+               $token=$tokenData['token_no'];
+               $token=$token+1;
+           }
+               $insFaultyTrack="INSERT INTO faulty_track ( article_no, location_id,  direction, remarks, reference_no, working_status, status, updated_by, token_no, time_stamp) 
+               VALUES ('$id', '$currentLocation', 'Discard', '$returnRemark', '$referenceNo', '$workingStatus', '1', '$EmployeeID', '$token', '$timeStamp')";
+               mysqli_query($conn,$insFaultyTrack);
+           }
+               $updateQry="UPDATE stock_summary SET LocationID='$locationID', Corrent_owner='',reference_no='' ,  Status=1, WorkingStatus='$workingStatus' WHERE IDNo='$id'";
+               mysqli_query($conn,$updateQry);
+          }
+   
+   
+       }
+   
+   
+   }
    else
    {
    
