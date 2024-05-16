@@ -204,9 +204,35 @@
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
+         <!-- <form action="action.php" method="post"> -->
+            <!-- <input type="hidden" name="code" value="15"> -->
+            <div class="modal-body" id="stock_samry_discart">
+               ...
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <!-- <button type="submit" class="btn btn-primary">Save</button> -->
+            </div>
+         <!-- </form> -->
+      </div>
+   </div>
+</div>
+
+
+
+
+<!-- <div class="modal fade" id="exampleModal_assign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+   <div class="modal-dialog modal-xl" role="document" >
+      <div class="modal-content"  >
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Stock Assign  dd</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
          <form action="action.php" method="post">
             <input type="hidden" name="code" value="15">
-            <div class="modal-body" id="stock_samry_discart">
+            <div class="modal-body" id="stock_samry_assign">
                ...
             </div>
             <div class="modal-footer">
@@ -216,33 +242,7 @@
          </form>
       </div>
    </div>
-</div>
-
-
-
-
-<div class="modal fade" id="exampleModal_assign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-   <div class="modal-dialog modal-xl" role="document" >
-      <div class="modal-content"  >
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Stock Assign  dd</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-        <!--  <form action="action.php" method="post">
-            <input type="hidden" name="code" value="15">
-            <div class="modal-body" id="stock_samry_assign">
-               ...
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-         </form> -->
-      </div>
-   </div>
-</div>
+</div> -->
 <!-- Modal -->
 
 
@@ -337,7 +337,7 @@
       {
          // var id=id1;
          //var RoomType= document.getElementById("RoomType").value;
-         alert(id);
+         // alert(id);
          var code=47;
          $.ajax(
          {
@@ -370,7 +370,8 @@
    var code=48;
    var returnRemark= document.getElementById("returnRemark").value;
    var workingStatus= document.getElementById("workingStatus").value;
-    if (returnRemark!='' && workingStatus!='') 
+   var locationID= document.getElementById("locationID").value;
+    if (returnRemark!='' && workingStatus!='' && locationID!='') 
     {
          $.ajax(
          {
@@ -378,7 +379,35 @@
             type:"POST",
             data:
             {
-               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus
+               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus,locationID:locationID
+            },
+            success:function(response) 
+            {  
+               //console.log(response);
+               // location.reload(true);
+            }
+         });      
+    }
+    else
+    {
+      alert("Enter Remarks and Working Status");
+
+    }
+      }
+      function DiscardSubmit(id){
+   var code=408;
+   var returnRemark= document.getElementById("returnRemark").value;
+   var workingStatus= document.getElementById("workingStatus").value;
+   var locationID= document.getElementById("locationID").value;
+    if (returnRemark!='' && workingStatus!='' && locationID!='') 
+    {
+         $.ajax(
+         {
+            url:"action_g.php ",
+            type:"POST",
+            data:
+            {
+               code:code,article_id:id,returnRemark:returnRemark,workingStatus:workingStatus,locationID:locationID
             },
             success:function(response) 
             {  
