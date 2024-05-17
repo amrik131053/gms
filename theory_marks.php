@@ -311,7 +311,7 @@ function select_mst()
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
    var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value;
+    var  sem = document.getElementById('Semester').value; 
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
 

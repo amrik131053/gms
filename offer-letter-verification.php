@@ -33,30 +33,22 @@ include "header.php";
                   <div class="card-tools">
                       
                                      <div class="input-group input-group-sm">
-                                       
-                                     <?php 
-                                     if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027' )
+                   <?php 
+                  if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027')
                                      {
                                      ?>
                                      <select class="form-control" id='exbatch'>
-                                        <option value="2023">2023
-                                           
-                                        </option>
-                                          <option value="2024">2024
-                                           
-                                        </option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
                                      </select>
-                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs " >Report</button >
-
+                                     <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button >
                                       &nbsp;
-                                       <button onclick="export_detail();"  class="btn btn-success btn-xs " >Export Report</button >
-                                     <?php }?>
-
+                                       <button onclick="export_detail();"  class="btn btn-success btn-xs">Export Report</button>
+                                     <?php } ?>
                                      &nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Pending" onclick="pending();">&nbsp;&nbsp;
                                        <input  type="button" class="btn btn-success btn-xs" value="Verified" onclick="verified();">&nbsp;&nbsp;
-                                    
-                                       <input required type="text" id="RollNoSearch" class="form-control" placeholder="Ref.No and RollNo and ID Proof">
+                                      <input required type="text" id="RollNoSearch" class="form-control" placeholder="Ref.No and RollNo and ID Proof">
                                        <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
                                        </div>
                               

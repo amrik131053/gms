@@ -628,6 +628,7 @@ function update_study_scheme(srno) {
     // alert(subject_name);
     var subject_code = document.getElementById('subject_code' + srno).value;
     var subject_type = document.getElementById('subject_type' + srno).value;
+      var academic_type = document.getElementById('academic_type' + srno).value;
     var int_marks = document.getElementById('int_marks' + srno).value;
     var ext_marks = document.getElementById('ext_marks' + srno).value;
     var elective = document.getElementById('elective' + srno).value;
@@ -650,7 +651,7 @@ function update_study_scheme(srno) {
                     code: code,
                     subject_name: subject_name,
                     subject_code: subject_code,
-                    subject_type: subject_type,
+                    subject_type: subject_type,academic_type:academic_type,
                     int_marks: int_marks,
                     ext_marks: ext_marks,
                     elective: elective,
