@@ -3785,6 +3785,7 @@ else if($code=='43')
  $sem = $_GET['sem'];
  $subject = $_GET['subject'];
  $ecat = $_GET['DistributionTheory'];
+ $group = $_GET['group'];
 ?>
 
 <!-- <form action="post_action.php" method="post"> -->
@@ -3845,7 +3846,7 @@ else if($code=='43')
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {

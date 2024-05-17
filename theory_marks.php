@@ -121,24 +121,48 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-            <div class="col-md-2">
+
+            <div class="col-md-1">
             <div class="form-group">
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
-                <option value="CE1">CA-1 & CA-2</option>
-                <option value="MST1">MST-1 </option>
+                <option value="CE1">CA-1 & CA-2 /W1/P1</option>
+                <option value="MST1">MST-1 /W2/P2</option>
                  <!-- <option value="CE2">CE-2</option> -->
                 <option value="MST2">MST-2</option> 
-                <option value="CE3">CA-3</option>
-                <option value="ESE">End Semester Exam</option>
-                <option value="Attendance">Attendance</option>
+                <option value="CE3">CA-3/W3/P3</option>
+                <option value="ESE">ESE/W4/P4/S/M</option>
+                <option value="Attendance">Attendance/P5</option>
                 <option value="Grace">Grace</option>
                           </select>
             </div>
             </div>
 
 
+ <div class="col-md-1">
+            <div class="form-group">
+              <label>Group</label>
+                    <select  id="group" name="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
 
 
 
@@ -314,6 +338,7 @@ function select_mst()
     var  sem = document.getElementById('Semester').value; 
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
+var  group = document.getElementById('group').value;
 
     var distributiontheory = document.getElementById('ecat').value;
 
@@ -331,7 +356,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+43,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+43,true);
         xmlhttp.send();
  }
 else
