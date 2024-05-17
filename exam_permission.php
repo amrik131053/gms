@@ -7,14 +7,11 @@
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Permissions</h3>
+                        <!-- <h3 class="card-title">Permissions</h3> -->
+                        <span style="float:right;">
 
-                    </div>
-                    <div class="card-body table-responsive  ">
-
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <select class="form-control" id="exam_type">
+                            <button class="btn btn-sm ">
+                                <select class="form-control form-control-sm" id="exam_type">
                                     <option value="">Select</option>
                                     <?php 
                                                 $sql="SELECT DISTINCT id,Name from DDL_TheroyExamination  ";
@@ -24,34 +21,28 @@
                                     <option value="<?=$row1['id'];?>"><?=$row1['Name'];?></option>
                                     <?php }?>
                                 </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary"
-                                    onclick="open_examination_permision_search();" value="Search">
-
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#modalAssignAllpER" value="Add">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row" id="table_load"></div>
+                            </button>
+                            <input type="button" class="btn btn-secondary btn-sm"
+                                onclick="open_examination_permision_search();" value="Search">
+                            <input type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
+                                data-target="#modalAssignAllpER" value="Add">
+                        </span>
+                    </div>
+                    <div class="card-body table-responsive  ">
+                        <div class="row" id="table_load" style="font-size:12px;"> </div>
 
                     </div>
                 </div>
 
-                
-          
+
+
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Distribution Theory Marks (Pending)</h3>
-
-                    </div>
-                    <div class="card-body table-responsive  ">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <select class="form-control" id="exam_type">
+                        <!-- <h3 class="card-title">Distribution Theory Marks (Pending)</h3> -->
+                        <span style="float:right;">
+                        
+                        <button class="btn btn-sm ">
+                        <select class="form-control form-control-sm" id="exam_type">
                                     <option value="">Select</option>
                                     <?php 
                                                 $sql="SELECT DISTINCT id,Name from DDL_TheroyExamination  ";
@@ -61,30 +52,27 @@
                                     <option value="<?=$row1['id'];?>"><?=$row1['Name'];?></option>
                                     <?php }?>
                                 </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary"
+                        </button>
+                        <input type="button" class="btn btn-secondary btn-sm"
                                     onclick="open_examination_permision_search();" value="Search">
-
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary" data-toggle="modal"
+                                    <input type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
                                     data-target="#modalAssignAllpER" value="Add">
-                            </div>
-                        </div>
-
-                        <br>
-                        <div class="row" id=""></div>
+                    </span>
+                    </div>
+                    <div class="card-body table-responsive  ">
+                        <div class="row" style="font-size:12px;">
+                                       </div>
+                        <!-- <div class="row" id=""></div> -->
 
 
 
 
 
                     </div>
-               
 
-           
-        </div>
+
+
+                </div>
 
 
 
@@ -99,7 +87,7 @@
 
                     </div>
                     <div class="card-body table-responsive  ">
-                        <div class="row">
+                        <div class="row" style="font-size:12px;">
 
                             <table class="table">
                                 <tr>
@@ -120,8 +108,9 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
                                     <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
                                     <td> <?=$getExamPermissionRow['Type'];?>
                                     </td>
-                                    <td><button class="btn btn" data-toggle="modal"
-                                    data-target="#editExamAllPermission" onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i class="fa fa-edit"></i></button></td>
+                                    <td><button class="btn btn" data-toggle="modal" data-target="#editExamAllPermission"
+                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i
+                                                class="fa fa-edit"></i></button></td>
 
                                 </tr>
                                 <?php }
@@ -164,7 +153,7 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
                             </div>
                         </div>
                         <br>
-                        <div class="row" id=""></div>
+                        <div class="row" id="" style="font-size:12px;"></div>
 
                     </div>
                 </div>
@@ -174,7 +163,7 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
 
 
 
- 
+
 
 
 
@@ -185,8 +174,8 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
 <p id="ajax-loader"></p>
 
 
-<div class="modal fade" id="editExamAllPermission" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editExamAllPermission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -370,6 +359,7 @@ function editExam(id) {
         }
     });
 }
+
 function edit_start_end_date(id, Semester) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
