@@ -81,7 +81,7 @@ function uncheckall()
 
 
 
-
+ 
               <label>Batch</label>
             <select name="batch"  class="form-control" id="Batch" required="">
               <option value="">Batch</option>
@@ -276,7 +276,7 @@ for($i=1;$i<=12;$i++)
           
 
          
-        var code='363';
+        var code='373';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem},

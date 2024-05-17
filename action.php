@@ -12523,11 +12523,9 @@ elseif($code == 199)
 $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-// $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
-// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType!='P'  order by SubjectCode";
+AND SemesterID='$sem' ANd Batch='$batch'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -12542,17 +12540,16 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 $cname=$row["Course"];
 }
 
-// $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
-// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='O' ANd mcs.ExternalExam='Y' And sa.EmployeeID='$EmployeeID'";
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
+$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
 SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
-$stmt2 = sqlsrv_query($conntest,$sql);
-while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+$stmt2 = sqlsrv_query($conntest,$sql1);
+while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
    ?>
-   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+   <option value='<?= $row2["SubjectCode"];?>'><?= $row2["SubjectName"];?>(<?= $row2["SubjectCode"];?>)/<?= $row2["SubjectType"];?></option>";
  <?php 
  }
+}
 
    elseif ($code ==200.1)
    {
@@ -15718,17 +15715,18 @@ elseif($code==252)
                               <th>Name</th>
                               <th style="width:90px">Code</th>
 
-                              <th style="width:50px" >Type</th>
+                             
+                               <th style="width:50px" >Subject Type</th>
                               <!-- <th style="width:50px">Int</th>
                               <th style="width:50px">Ext </th> -->
                               <th style="width:80px" >Elective</th>
-                               <th style="width:180px" >Group</th>
+                               <th style="width:100px" >Group</th>
                               <th style="width:50px">Lecture</th>                          
 
                             
                               <th style="width:50px">Tutorial</th>
                               <th style="width:50px">Practical</th>
-                            
+                             <th style="width:180px" >Marks Type</th>
                               <th>No of Credits</th>
                               <th>Action</th>
                            </tr>
@@ -15775,11 +15773,13 @@ elseif($code==252)
                                     </td>
                                  <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
                                  <td >
-                                    <select class="form-control" style="width:80px"  id="subject_type<?=$get_row['SrNo'];?>">
-                                       <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
-                                        <option value="T">Theory</option>
-                                         <option value="P">Practical</option>
-                                         <option value="TP">Theory/Practical</option>
+                                    <select class="form-control" style="width:100px"  id="academic_type<?=$get_row['SrNo'];?>">
+                                        <option value="<?=$get_row['AcademicType'];?>"><?=$get_row['AcademicType'];?></option>
+                                        <option value="Theory">Theory</option>
+                                         <option value="Practical">Practical</option>
+                                         <option value="Theory/Practical">Theory/Practical</option>
+                                         <option value="NA">NA</option>
+
                                         
                                     </select>
                                     </td>
@@ -15790,14 +15790,16 @@ elseif($code==252)
                                  <td>
                                     <select class="form-control" style="width:80px" id="elective<?=$get_row['SrNo'];?>">
                                        <option value="<?=$get_row['Elective'];?>" ><?=$get_row['Elective'];?></option>
-                                        <option value="C">C</option>
-                                         <option value="E">E</option>
-                                           <option value="O">O</option>
-                                             <option value="M">M</option>
-                                               <option value="V">V</option>
-                                       
+                                       <option value="C">C</option>
+                                       <option value="E">E</option>
+                                       <option value="O">O</option>
+                                       <option value="M">M</option>
+                                       <option value="V">V</option>
                                     </select>
                                  </td>
+
+
+
 
 <td>   
                <select  id="sgroup<?=$get_row['SrNo'];?>" class="form-control" required="">
@@ -15813,11 +15815,66 @@ elseif($code==252)
 <option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
 <?php    }
 ?>
-              </select></td>
+              </select>
+           </td>
 
                         <td style="width:50px" ><input type="text" id="lecture<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Lecture'];?>"></td>
                                  <td style="width:50px"><input type="text" id="tutorials<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Tutorial'];?>"></td>
                                  <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
+
+                                <td>
+                                  <select class="form-control" style="width:180px"  id="subject_type<?=$get_row['SrNo'];?>">
+                                       <option value="<?=$get_row['SubjectType'];?>">
+
+
+
+
+                                          <?php $mtp=$get_row['SubjectType'];
+
+                                          if($mtp=='T')
+                                          {
+                                             $stp='Theory(CE1,CE2...)';
+                                          }
+                                          else if($mtp=='P')
+
+                                             {
+                                             $stp='Practical(5)';
+                                            }
+
+                                             else if($mtp=='W')
+
+                                             {
+                                             $stp='Workshop(4)';
+                                            }
+
+                                            else if($mtp=='S')
+
+                                             {
+                                             $stp='Seminar (1/3)';
+                                            }
+                                            else if($mtp=='S1')
+
+                                             {
+                                             $stp='Seminar(1/1)Non Credit';
+                                            }
+                                            else if($mtp=='M')
+
+                                             {
+                                             $stp='MOOC';
+                                            }
+
+                                       ?>
+
+                                   <?=$stp;?> </option>
+                                         <option value="T">Theory(CE1,CE2...)</option>
+                                         <option value="P">Practical(5)</option>
+                                         <option value="W">Workshop(4)</option>
+                                          <option value="S">Seminar (1/3)</option>
+                                            <option value="S1">Seminar(1/1)Non Credit</option>
+                                              <option value="M">MOOC</option>
+                                        
+                                    </select>
+                                 </td>
                                  <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
 
                                  <td style="width:80px"><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
@@ -15870,6 +15927,7 @@ elseif($code==255)
                $subject_name=$_POST['subject_name'];
                $subject_code=$_POST['subject_code'];
                $subject_type=$_POST['subject_type'];
+                $academic_type=$_POST['academic_type'];
                $int_marks=$_POST['int_marks'];
                $ext_marks=$_POST['ext_marks'];
                $elective=$_POST['elective'];
@@ -15878,7 +15936,7 @@ elseif($code==255)
                $tutorials=$_POST['tutorials'];
                $credits=$_POST['credits'];
                       $group=$_POST['group'];
-                $update_study="UPDATE  MasterCourseStructure SET SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
+                $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
          $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
@@ -22721,19 +22779,11 @@ $nop++;
 
 else if($code=='363')
 {
-
-
-      $course= $_POST['course'];
-
+$course= $_POST['course'];
 $batch= $_POST['batch'];
-
 $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
-
-
-
-
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -22741,37 +22791,23 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStr
    <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
  <?php 
  }
-
-
-   $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
-
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
 $stmt = sqlsrv_query($conntest,$sqlee);  
-  
-          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-   
-   {
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+      {
    
      $cname=$row["Course"];
    }
  
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y' ";
 
-
-
-
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
    ?>
    <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
  <?php 
- }
- 
-
-
-
-
- 
+ } 
 
 }
 
@@ -23415,10 +23451,132 @@ elseif ($code==370) {
       echo json_encode($array);
 }
 }
+
+
+else if($code==371)
+{
+
+
+      $course= $_POST['course'];
+
+$batch= $_POST['batch'];
+
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='S1'  order by SubjectCode";
+
+
+
+
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+   $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
+
+$stmt = sqlsrv_query($conntest,$sqlee);  
+  
+          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+   
+   {
+   
+     $cname=$row["Course"];
+   }
+ 
+
+
+
+
+
+ 
+
+}
+
+ else  if($code==372)
+{       
+
+$id =$_POST['id'];  
+$ecat=$_POST['ecat'];
+$marks=$_POST['marks'];
+
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $updatedate=$ecat."updatedDate"; 
+}
+
+ $list_sqlw= "update ExamFormSubject set $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+
+
+else if($code=='373')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='W'  order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+}
+
+else if($code=='374')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='M'  order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+}
+
  else
 {
 echo "select code";
 }
+
 } 
    
    ?>

@@ -4,7 +4,7 @@
   include "header.php";   
 ?>
 
-<script>
+<script> 
 
 
 function checkall()
@@ -139,7 +139,30 @@ for($i=1;$i<=12;$i++)
             </div>
  </div>
 
+  <div class="col-md-1">
+            <div class="form-group">
+              <label>Group</label>
+                    <select  id="group" name="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
 
 
 
@@ -278,6 +301,7 @@ function select_mst()
     var  sem = document.getElementById('Semester').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
+      var  group = document.getElementById('group').value;
 
     var distributiontheory = document.getElementById('ecat').value;
 
@@ -295,7 +319,7 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types(); 
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&code="+51,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+51,true);
         xmlhttp.send();
  }
 else
