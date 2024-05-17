@@ -12523,11 +12523,9 @@ elseif($code == 199)
 $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
-// $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
-// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-// AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType!='P'  order by SubjectCode";
+AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType=='T'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -22781,19 +22779,11 @@ $nop++;
 
 else if($code=='363')
 {
-
-
-      $course= $_POST['course'];
-
+$course= $_POST['course'];
 $batch= $_POST['batch'];
-
 $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
-
-
-
-
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -22801,37 +22791,23 @@ $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStr
    <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
  <?php 
  }
-
-
-   $sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
-
+$sqlee = "SELECT DISTINCT Course FROM MasterCourseStructure  WHERE CourseID='$course'";
 $stmt = sqlsrv_query($conntest,$sqlee);  
-  
-          while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-   
-   {
+    while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+      {
    
      $cname=$row["Course"];
    }
  
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y' ";
 
-
-
-
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
    ?>
    <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
  <?php 
- }
- 
-
-
-
-
- 
+ } 
 
 }
 
@@ -23559,6 +23535,42 @@ else
  }
 }
 
+
+else if($code=='373')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='W'  order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+}
+
+else if($code=='374')
+{
+$course= $_POST['course'];
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='M'  order by SubjectCode";
+ $stmt2 = sqlsrv_query($conntest,$sql);
+ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+ {
+   ?>
+   <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+ <?php 
+ }
+
+
+}
 
  else
 {

@@ -5044,6 +5044,7 @@ $j++;
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
+
 <p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
 <?php 
 
@@ -5282,6 +5283,7 @@ for($j=$start;$j<=5;$j++)
 
 <input type='text' name="mst[]"  id='marks_<?=$iidd;?>' class='marks' value='<?=$row['intmarks'];?>' readonly style="width: 50px;" >
 
+
 <?php 
 
  if($row['Locked']>0||$dateover>0)
@@ -5290,7 +5292,7 @@ for($j=$start;$j<=5;$j++)
    if($row['intmarks']!='')
 {
    ?>
-    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+    
 
 <?php
 }
@@ -5356,7 +5358,7 @@ if($dateover>0)
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-<!--<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >-->
+<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
 <?php 
 }
 
@@ -5464,7 +5466,7 @@ $start=3;
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -5893,7 +5895,7 @@ for($j=$start;$j<=25;$j++)
    if($row['intmarks']!='')
 {
    ?>
-    <option value="<?=$row['intmarks'];?>"><?=$row['intmarks'];?></option>
+   
 
 <?php
 }
@@ -5959,7 +5961,7 @@ if($dateover>0)
 <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'>
 
 </table>
-<!--<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >-->
+<p style="text-align: right"><input   type="submit" name="submit" value="Lock" onclick="testing();" class="btn btn-danger "  >
 <?php 
 }
 
@@ -6061,10 +6063,11 @@ $start=3;
  $Batch=$_GET['batch']; 
  $semID = $_GET['sem'];
  $subjectcode = $_GET['subject'];
+  $group = $_GET['group'];
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+ $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
