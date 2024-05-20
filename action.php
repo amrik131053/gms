@@ -13529,10 +13529,11 @@ elseif($code==214)
    <th>Semester</th>
    <th>Start Date</th>
    <th>End Date</th>
-   <th>Status</th>
+   <!-- <th>Status</th> -->
    <th>Action</th>
 </tr>
    <?php 
+   $status="#E9967A";
      $exam_type=$_POST['exam_type'];
  $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$exam_type' order by DTES.SemesterId  ASC";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
@@ -13541,22 +13542,21 @@ elseif($code==214)
         {  
             $todaydate=date('d-m-Y');
             $endDate=$row5['EndDate']->format('d-m-Y');
+            if (strtotime($endDate)<strtotime($todaydate)) 
+            {
+              $status="#E9967A";
+            }
+            else
+            {
+            $status="#3CB371";
+            }
          ?> 
-           <tr>
+           <tr style='background-color:<?=$status;?>'>
                <td><?=$row5['Name'];?></td>
               <td><?=$row5['SemesterId'];?></td>
               <th><?=$row5['StartDate']->format('d-m-Y');?></th>
               <th><?=$row5['EndDate']->format('d-m-Y');?></th>
-              <td><?php 
-              if (strtotime($endDate)<strtotime($todaydate)) 
-              {
-                 echo "<b style='color:red;'>Over</b>";
-              }
-              else
-              {
-               echo "<b style='color:green;'>Open<b>";
-              }
-              ?></td>
+              
               <td><i class="fa fa-edit " data-toggle="modal" onclick="edit_start_end_date(<?=$exam_type;?>,<?=$row5['SemesterId'];?>);" data-target="#exampleModal_edit_permission_exam"></i></td>
            </tr>
       <?php        }
@@ -14148,7 +14148,7 @@ elseif($code==221)
 
 <div class="col-lg-12">
     <label>End Date</label>
-   <input type="date" name="" id="end_date_edit" class="form-control" value="<?=$row['StartDate']->format('Y-m-d');?>">
+   <input type="date" name="" id="end_date_edit" class="form-control" value="<?=$row['EndDate']->format('Y-m-d');?>">
 </div>
 <div class="col-lg-12">
     <label>Action</label><br>

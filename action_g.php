@@ -17415,53 +17415,65 @@ elseif($Status==8)
 }
 elseif ($code==265) {
     $id=$_POST['id'];
- $getExamPermission="SELECT * FROM ExamDate Where id='$id'";
+    $Etype=$_POST['Etype'];
+ $getExamPermission="SELECT * FROM ExamDate Where ProgramType='$Etype' and  id='$id'";
    $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
    if($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
    {
    ?>
-                <h5 class="text-danger text-center"><b>Examination form Date For :
-                        <?=$getExamPermissionRow['Type'];?></b></h5>
-                <label for="">Last Date</label>
-                <input type="date" class="form-control" name="" id="lastDate"
-                    value="<?php echo $getExamPermissionRow['LastDate']->format('Y-m-d');?>">
 
-                <label for="">Amount</label>
-                <input type="number" class="form-control" name="" id="ammount" value="">
-                <label for="">Type</label>
-                <select class="form-control">
-                    <?php 
-$getType="SELECT * FROM  ExamType";
-$getType=sqlsrv_query($conntest,$getType);
-while($getrow=sqlsrv_fetch_array($getType))
-{?>
-                    <input type="checkbox">
-                    <option value=""><?=$getrow['ExamType'];?></option>
-                    <?php }
-?>
-                </select>
-                <div class="">
-                    <strong>Select Language:</strong>
-                    <select id="multiple-checkboxes" multiple="multiple">
-                        <option value="php">PHP</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="java">Java</option>
-                        <option value="sql">SQL</option>
-                        <option value="jquery">Jquery</option>
-                        <option value=".net">.Net</option>
+                <h6 class="text-danger text-center"><b>
+                    <!-- Examination form Date For : -->
+                        <?=$getExamPermissionRow['Type'];?>(<?=$getExamPermissionRow['ExamType'];?>)</b></h6>
+                        <div class="row">
+                        <div class="col-lg-6">
+                    <label for="">Month</label>
+                <select class="form-control" id="MonthEdit">
+                <option value="<?=$getExamPermissionRow['Month'];?>"><?=$getExamPermissionRow['Month'];?></option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                     </select>
                 </div>
+                <div class="col-lg-6">
+                <label for="">Year</label>
+                <select class="form-control" id="YearEdit">
+                <option value="<?=$getExamPermissionRow['Year'];?>"><?=$getExamPermissionRow['Year'];?></option>
+                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
 
+                    <?php }  ?>
+                </select>
+                </div>
+                </div>
+               
+                <label for="">Start Date</label>
+                <input type="date" class="form-control"  id="StartDateEdit"
+                    value="<?php if($getExamPermissionRow['StartDate']!=''){echo $getExamPermissionRow['StartDate']->format('Y-m-d');}?>">
+                <label for="">Last Date</label>
+                <input type="date" class="form-control"  id="EndDateEdit"
+                    value="<?php if($getExamPermissionRow['LastDate']!=''){ echo $getExamPermissionRow['LastDate']->format('Y-m-d');}?>">
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                    <input type="button" class="btn btn-success" value="Update" onclick="updatePermissons(<?=$getExamPermissionRow['id'];?>,'<?=$getExamPermissionRow['ProgramType'];?>');">
+                        </div>
+                        </div>
 
-    <tr>
-        <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
-        <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
-        <td> <?=$getExamPermissionRow['Type'];?>
-        </td>
-        <td><button class="btn btn" data-toggle="modal" data-target="#editExamAllPermission"
-                onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i class="fa fa-edit"></i></button></td>
-
-    </tr>
+                       
+        
+           
+               
     <?php }
    
 }
@@ -28710,6 +28722,418 @@ else if($code==412)
          }
 }
 
+elseif ($code==413) {
+    ?>
+     <table class="table">
+                                <tr>
+                                    <th>Examination </th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th> Type</th>
+                                    <!-- <th> Action</th> -->
+
+                                </tr>
+                                <?php $getExamPermission="SELECT * FROM ExamDate where ProgramType='1' ";
+                                    $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
+                                    while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
+                                    {
+                                   
+                                        $status="#E9967A"; 
+                                        if($getExamPermissionRow['StartDate']!='')
+                                        {
+
+                                            $StartDate=$getExamPermissionRow['StartDate']->format('Y-m-d');
+                                        }
+                                        else{
+                                            $StartDate="";
+                                        }
+                                        if($getExamPermissionRow['LastDate']!='')
+                                        {
+                                            
+                                            $LastDate=$getExamPermissionRow['LastDate']->format('Y-m-d');
+                                            
+                                        }
+                                        else{
+                                            $LastDate="";
+                                        }
+                                        $Tdate=date('Y-m-d');
+
+                                        if (strtotime($LastDate)>=strtotime($Tdate) &&  strtotime($StartDate)<=strtotime($Tdate)) 
+                                            {
+                                
+                                            $status="#3CB371";
+                                        }else{
+    
+                                            $status="#E9967A"; 
+                                        }
+                                        
+                                        ?>
+                                    <tr style='background-color:<?=$status;?>'  data-toggle="modal" data-target="#editExamAllPermission"
+                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>,<?=$getExamPermissionRow['ProgramType'];?>);">
+                                    <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+                                     <td><?php if($getExamPermissionRow['StartDate']!=''){echo $getExamPermissionRow['StartDate']->format('d-m-Y');}?></td>
+                                    <td><?php if($getExamPermissionRow['LastDate']!=''){echo $getExamPermissionRow['LastDate']->format('d-m-Y');}?></td>
+                                    <td> <?=$getExamPermissionRow['Type'];?>
+                                    </td>
+                                    
+                                   
+                                </tr>
+                                <?php }
+                                    
+                                        
+                                        ?>
+                            </table>
+                            <?php 
+}
+elseif ($code==414) {
+    ?>
+     <table class="table">
+                                <tr>
+                                    <th>Examination </th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th> Type</th>
+                                    <!-- <th> Action</th> -->
+
+                                </tr>
+                                <?php $getExamPermission="SELECT * FROM ExamDate where ProgramType='2'";
+                                    $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
+                                    while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
+                                    {
+                                      $status="#E9967A"; 
+                                        if($getExamPermissionRow['StartDate']!='')
+                                        {
+
+                                            $StartDate=$getExamPermissionRow['StartDate']->format('Y-m-d');
+                                        }
+                                        else{
+                                            $StartDate="";
+                                        }
+                                        if($getExamPermissionRow['LastDate']!='')
+                                        {
+                                            
+                                            $LastDate=$getExamPermissionRow['LastDate']->format('Y-m-d');
+                                            
+                                        }
+                                        else{
+                                            $LastDate="";
+                                        }
+                                        $Tdate=date('Y-m-d');
+
+                                        if (strtotime($LastDate)>=strtotime($Tdate) &&  strtotime($StartDate)<=strtotime($Tdate)) 
+                                            {
+                                
+                                            $status="#3CB371";
+                                        }else{
+    
+                                            $status="#E9967A"; 
+                                        }
+                                        
+                                        ?>
+                                   <tr style='background-color:<?=$status;?>' data-toggle="modal" data-target="#editExamAllPermission"
+                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>,<?=$getExamPermissionRow['ProgramType'];?>);">
+                                    <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+                                    <td><?php if($getExamPermissionRow['StartDate']!=''){echo $getExamPermissionRow['StartDate']->format('d-m-Y');}?></td>
+                                    <td><?php if($getExamPermissionRow['LastDate']!=''){echo $getExamPermissionRow['LastDate']->format('d-m-Y');}?></td>
+                                    <td> <?=$getExamPermissionRow['Type'];?>
+                                    </td>
+                                   
+                                </tr>
+                                <?php }
+                                        // print_r($aa);
+                                        ?>
+                            </table>
+                            <?php 
+}
+elseif ($code==415) {
+    ?>
+     <table class="table">
+                                <tr>
+                                <th>Examination </th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th> Type</th>
+                                    <th>Exam Type</th>
+                                </tr>
+                                <?php $getExamPermission="SELECT * FROM ExamDate where ProgramType='3' or ProgramType='4'";
+                                    $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
+                                    while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
+                                    {
+                                        $status="#E9967A"; 
+                                        if($getExamPermissionRow['StartDate']!='')
+                                        {
+
+                                            $StartDate=$getExamPermissionRow['StartDate']->format('Y-m-d');
+                                        }
+                                        else{
+                                            $StartDate="";
+                                        }
+                                        if($getExamPermissionRow['LastDate']!='')
+                                        {
+                                            
+                                            $LastDate=$getExamPermissionRow['LastDate']->format('Y-m-d');
+                                            
+                                        }
+                                        else{
+                                            $LastDate="";
+                                        }
+                                        $Tdate=date('Y-m-d');
+
+                                        if (strtotime($LastDate)>=strtotime($Tdate) &&  strtotime($StartDate)<=strtotime($Tdate)) 
+                                            {
+                                
+                                            $status="#3CB371";
+                                        }else{
+    
+                                            $status="#E9967A"; 
+                                        }
+                                        
+                                        ?>
+                                  <tr style='background-color:<?=$status;?>' data-toggle="modal" data-target="#editExamAllPermission"
+                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>,<?=$getExamPermissionRow['ProgramType'];?>);">
+                                    <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+                                     <td><?php if($getExamPermissionRow['StartDate']!=''){echo $getExamPermissionRow['StartDate']->format('d-m-Y');}?></td>
+                                    <td><?php if($getExamPermissionRow['LastDate']!=''){echo $getExamPermissionRow['LastDate']->format('d-m-Y');}?></td>
+                                    <td> <?=$getExamPermissionRow['Type'];?>
+                                    <td> <?php 
+                                                if($getExamPermissionRow['ProgramType']=='3')
+                                                {
+                                                    echo "Regular";
+                                                }
+                                                elseif ($getExamPermissionRow['ProgramType']=='4')
+                                                 {
+                                                    echo "Reapear";
+                                                }
+                            
+                                   ?>
+                                    </td>
+                                   
+
+                                </tr>
+                                <?php }
+                                        // print_r($aa);
+                                        ?>
+                            </table>
+                            <?php 
+}
+elseif ($code==416) {
+    ?>
+     <table class="table">
+                                <tr>
+                                <th>Examination </th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th> Type</th>
+                                    <th>Exam Type</th>
+
+                                </tr>
+                                <?php $getExamPermission="SELECT * FROM ExamDate where ProgramType='5' or ProgramType='6'";
+                                    $getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
+                                    while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
+                                    {
+                                      $status="#E9967A"; 
+                                        if($getExamPermissionRow['StartDate']!='')
+                                        {
+
+                                            $StartDate=$getExamPermissionRow['StartDate']->format('Y-m-d');
+                                        }
+                                        else{
+                                            $StartDate="";
+                                        }
+                                        if($getExamPermissionRow['LastDate']!='')
+                                        {
+                                            
+                                            $LastDate=$getExamPermissionRow['LastDate']->format('Y-m-d');
+                                            
+                                        }
+                                        else{
+                                            $LastDate="";
+                                        }
+                                        $Tdate=date('Y-m-d');
+
+                                        if (strtotime($LastDate)>=strtotime($Tdate) &&  strtotime($StartDate)<=strtotime($Tdate)) 
+                                            {
+                                
+                                            $status="#3CB371";
+                                        }else{
+    
+                                            $status="#E9967A"; 
+                                        }
+                                        
+                                        ?>
+                                    <tr style='background-color:<?=$status;?>' data-toggle="modal" data-target="#editExamAllPermission"
+                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>,<?=$getExamPermissionRow['ProgramType'];?>);">
+                                    <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
+                                     <td><?php if($getExamPermissionRow['StartDate']!=''){echo $getExamPermissionRow['StartDate']->format('d-m-Y');}?></td>
+                                    <td><?php if($getExamPermissionRow['LastDate']!=''){echo $getExamPermissionRow['LastDate']->format('d-m-Y');}?></td>
+                                    <td> <?=$getExamPermissionRow['Type'];?>
+                                    <td> <?php    if($getExamPermissionRow['ProgramType']=='5')
+                                                {
+                                                    echo "Regular";
+                                                }
+                                                elseif ($getExamPermissionRow['ProgramType']=='6')
+                                                 {
+                                                    echo "Reapear";
+                                                };?>
+                                    </td>
+                                  
+
+                                </tr>
+                                <?php }
+                                       
+                                        ?>
+                            </table>
+                            <?php 
+}
+elseif ($code=='417') {
+
+
+    $startDate=$_REQUEST['StartDate'];
+    $endDate=$_REQUEST['EndDate'];
+    $month=$_REQUEST['MonthEdit'];
+    $year=$_REQUEST['YearEdit'];
+    $id=$_REQUEST['id'];
+
+     $updatePermisions="UPDATE ExamDate SET StartDate='$startDate' ,LastDate='$endDate',Month='$month',Year='$year' Where id='$id'";
+    $updatePermisions_run=sqlsrv_query($conntest,$updatePermisions);
+    if($updatePermisions_run==true)
+    {
+        echo "1";
+    }
+    else
+    {
+        echo "0";
+    }
+    if ($updatePermisions_run === false) {
+        $errors = sqlsrv_errors();
+        echo "Error: " . print_r($errors, true);
+        
+    } 
+
+}
+elseif($code=='418')
+{
+$UniRollNo=$_POST['rollNo'];
+$query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM Admissions  Where (ClassRollNo='$UniRollNo' or UniRollNo='$UniRollNo' or IDNo='$UniRollNo')";
+                         $get_student_details_run=sqlsrv_query($conntest,$query);
+                         if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                         {
+                           ?>
+   <div class="row">
+   <div class="col-lg-12">
+                <div class="col-lg-12">
+                    <label>Student Name</label>
+                    <input type="text" value="<?=$row_student['StudentName'];?>" class="form-control" readonly="">
+                </div>
+                <div class="col-lg-12">
+                    <label>Father Name</label>
+                    <input type="text" value="<?=$row_student['FatherName'];?>" class="form-control" readonly="">
+                </div>
+                <div class="col-lg-12">
+                    <label>College Name</label>
+                    <input type="text" value="<?=$row_student['CollegeName'];?>" class="form-control" readonly="">
+                </div>
+                <div class="col-lg-12">
+                    <label>Course</label>
+                    <input type="text" value="<?=$row_student['Course'];?>" class="form-control" readonly="">
+                </div>
+                <div class="col-lg-12">
+                <div class="row">
+                <div class="col-lg-6">
+                    <label>Semester</label>
+                    <select class="form-control" id="SemesterSepecial">
+                    <?php  for ($i=1; $i<15 ; $i++) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
+                </select>
+                </div> <div class="col-lg-6">
+                    <label>Type</label>
+                    <select class="form-control" id="TypeSepcial">
+                    <option  value="Regular">Regular</option>
+                    <option value="Reappear">Reappear</option>
+                    <option value="Improvement">Improvement</option>
+                    <option value="Additional">Additional</option>
+                </select>
+                </div>
+                </div>
+                </div>
+                <div class="col-lg-12">
+                <div class="row">
+                <div class="col-lg-6">
+                    <label for="">Month</label>
+                <select class="form-control" id="MonthSepecial">
+              
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                <label for="">Year</label>
+                <select class="form-control" id="YearSepecial">
+                
+                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
+                </select>
+                </div>
+                <div class="col-lg-12">
+                    <label>End Date</label>
+                <input type="date" name="" id="validDate" class="form-control">
+            </div>
+                <div class="col-lg-6">
+                <label for="">Action</label><br>
+                <button class="btn btn-success" onclick="submitSpecial(<?=$row_student['UniRollNo'];?>);">Submit</button>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+               
+                </div>
+                </div>
+    </div>
+    </div>
+   <?php
+       
+
+                         }
+                         else{
+                            echo "<center><b class='text-danger'>No Record Fund!</b></center><br>";
+                         }
+}
+elseif ($code=='419') {
+            $id=$_REQUEST['id'];
+            $SemesterSepecial=$_REQUEST['SemesterSepecial'];
+            $TypeSepcial=$_REQUEST['TypeSepcial'];
+            $MonthSepecial=$_REQUEST['MonthSepecial'];
+            $YearSepecial=$_REQUEST['YearSepecial'];
+            $validDate=$_REQUEST['validDate'];
+            $updatePermisions="INSERT into ExamPermission (UniRollNo,SemId,ExamType,Month,Year,Validupto) 
+            VALUES('$id','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
+                $updatePermisions_run=sqlsrv_query($conntest,$updatePermisions);
+                if($updatePermisions_run==true)
+                {
+                    echo "1";
+                }
+                else
+                {
+                    echo "0";
+                }
+}
    else
    {
    
