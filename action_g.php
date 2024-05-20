@@ -28529,6 +28529,187 @@ echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
    
    
    }
+   else if($code=='409')
+   {
+     
+    $name=$_REQUEST['name'];
+$email=$_REQUEST['email'];
+$mobile=$_REQUEST['mobile'];
+$course=$_REQUEST['course'];
+$source=$_REQUEST['source'];
+$counter=$_REQUEST['counter'];
+
+$submit_date=date('Y-m-d');
+    $query = "SELECT TOP 1 TokenNo FROM Enquiry where CONVERT(DATE, DateEntry) = '$submit_date' ORDER BY TokenNo DESC";
+  $res = sqlsrv_query($conntest,$query);
+  if($row = sqlsrv_fetch_array($res, SQLSRV_FETCH_ASSOC))
+  {
+    $token = $row['TokenNo'] + 1;
+  }
+  else
+  {
+    $token = 100;
+  }
+
+     $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token')";       
+         $result =sqlsrv_query($conntest,$q);
+         if($result===true)
+         {
+            echo "0";
+         }
+         else{
+            echo "1";
+         }
+     
+}
+elseif ($code=='410') {
+    $i=0;
+    $date=date('Y-m-d');
+    $select_add="SELECT * FROM Enquiry where CONVERT(DATE, DateEntry) = '$date'  Order by ID desc";
+    $select_add_q=sqlsrv_query($conntest,$select_add);
+    while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
+    {
+    $i++;
+    if($row['Response']!='')
+    {
+    $color='#8ccb8c';
+    }
+    else
+    {
+    $color='#e5070761';
+    }
+    ?>
+<tr style="background-color:<?=$color;?>">
+<td><?=$i;?></td>
+<td><?=$row['Name'];?></td>
+<td><?=$row['MobileNo'];?></td>
+<td><?=$row['Email'];?></td>
+<td><?=$row['Course'];?></td>
+<td><?=$row['Source'];?></td>
+<td><?=$row['TokenNo'];?></td>
+<td><?=$row['CounterNo'];?></td>
+<td><?=$row['Response'];?></td>
+<td><i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#exampleModal"
+        onclick="update(<?=$row['ID'];?>);">
+    </i></td>
+
+
+<td>
+    <form action="print-enquiry-slip.php" method="post">
+
+
+        <input type="hidden" value="<?=$row['ID'];?>" name="id"><button
+            type="submit" name="print"><i
+                class="fa fa-print fa-lg"></i></button>
+    </form>
+</td>
+</tr>
+<?php
+        }
+
+}
+else if($code==411)
+{
+$id=$_REQUEST['id'];
+$date=date('Y-m-d');
+$select_add="SELECT * FROM Enquiry where ID='$id'";
+$select_add_q=sqlsrv_query($conntest,$select_add);
+while($row=sqlsrv_fetch_array($select_add_q))
+{
+	$name=$row['Name'];
+	$mobile=$row['MobileNo'];
+	$email=$row['Email'];
+	$course=$row['Course'];
+	$sourse=$row['Source'];
+	$token=$row['TokenNo'];
+	$counter=$row['CounterNo'];
+  $response=$row['Response'];
+	$id=$row['ID'];
+}
+?>
+
+        <div class="row">
+       <div class="col-lg-6">
+       	
+       	  
+      
+       	<label>Name</label>
+       	 <input type="text" id="nameA"  pattern="[A-Za-z ]{0,}" class="form-control" value="<?=$name;?>"  style="height: 40px;">
+       	 <label>Email</label>
+       	 <input type="email" id="emailA" class="form-control" value="<?=$email;?>"  style="height: 40px;">
+       	 <label>Mobile</label>
+
+       	  <input type="text" id="phoneA" class="form-control" minlength="10" maxlength="10"  value="<?=$mobile;?>" style="height: 40px;">
+<label>Response</label>
+          <select class="form-control" style="height: 40px;" id="responseA">
+          <option value="<?=$response;?>"><?=$response;?></option>
+    <option value="Admitted">Admitted</option>
+    <option value="Enquiry">Enquiry</option>
+        </select>
+       </div> 
+      
+       <div class="col-lg-6">
+       	<label>Course</label>
+       	 <input type="text" id="courseA" class="form-control" value="<?=$course;?>" style="height: 40px;">
+       	 <label>Token</label>
+          <input type="text" id="tokenA" class="form-control" value="<?=$token;?>" style="height: 40px;">
+          <label>Counter</label>
+       
+        <select class="form-control" style="height: 40px;" id="counterA">
+          <option value="<?=$counter;?>"><?=$counter;?></option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+        </select>
+        <label>Sourse</label>
+       
+        <select class="form-control" style="height: 40px;" id="sourseA">
+          <option value="<?=$sourse;?>"><?=$sourse;?></option>
+    <option value="News Paper">News Paper</option>
+    <option value="Website">Website</option>
+    <option value="Friends">Friends</option>
+    <option value="Teacher">Teacher</option>
+    <option value="Self Motivated">Self Motivated</option>
+        </select><br>
+       
+       </div> 
+       <button class="btn btn-success" onclick="updateRecord(<?=$id;?>);">Update</button>   
+       </div>    
+
+<?php
+
+}
+else if($code==412)
+{
+
+  $id=$_REQUEST['id'];	
+  $email=$_REQUEST['email'];
+    $name=$_REQUEST['name'];
+  $number=$_REQUEST['mobile'];
+  $course=$_REQUEST['course'];
+    $token=$_REQUEST['token'];
+      $counter=$_REQUEST['counter'];
+      $sourse=$_REQUEST['source'];
+      $response=$_REQUEST['responseA'];
+       $q="UPDATE Enquiry set Name='$name',Email='$email',MobileNo='$number',Course='$course',TokenNo='$token',CounterNo='$counter',Source='$sourse',Response='$response' where ID='$id'";
+ $result = sqlsrv_query($conntest,$q);
+         if ($result==true)
+          {
+          
+             echo "1";
+                   
+         }
+         else
+         {
+           echo "0";
+         }
+}
+
    else
    {
    
