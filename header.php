@@ -14,6 +14,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 
 }
 
+$passSecureFlag=$_SESSION['secure'];
 if(!(ISSET($_SESSION['usr']))) 
 {?>
 
@@ -100,7 +101,7 @@ if ($result->num_rows > 0)
            }
           
            $array_aa=array_unique((array_merge($r,$p)));
-       $urls=array('dashboard.php','not_found.php','bulk_assign.php');
+       $urls=array('dashboard.php','not_found.php','bulk_assign.php','password-change.php');
  
        $file= basename($_SERVER['REQUEST_URI'], '?' . $_SERVER['QUERY_STRING']);
    
@@ -114,8 +115,14 @@ if ($result->num_rows > 0)
        }
        if(!in_array($id,$array_aa))
        {
-           header('Location:not_found.php');
+        header('Location:not_found.php');
        } 
+       else if($passSecureFlag==1)
+       {
+         header('Location:password-change.php');
+         
+       }
+      
     }
    
    // ----------------------------------------------------------------------------------------

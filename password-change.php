@@ -189,6 +189,7 @@ input[type=submit]:not(:disabled):hover {
     <div class="form-container">
       
   <form id="form">
+  <center><h4 id="timer" class="text-danger"></h4></center>
   <h4 class="text-center"><b>Change Password</b></h4>
     <div class="input-container">
       <input type="password" id="password" aria-describedby="requirements" required />
@@ -318,9 +319,10 @@ const handleFormValidation = () => {
   
 };
 
-form.addEventListener("change", () => {
+form.addEventListener("keyup", () => {
   handleFormValidation();
 });
+
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -349,7 +351,10 @@ form.addEventListener("submit", (event) => {
             {
               $('.successPass').show();
               SuccessToast('Password Change Successfully');
-
+              timerToLogout();
+              // setTimeout(function() {
+              //     window.location.href = "sign-out.php";
+              // }, 3000);
             }
             else if(response==2)
             {
@@ -362,6 +367,21 @@ form.addEventListener("submit", (event) => {
         }
     });
 });
+    </script>
+
+<script>
+
+  function timerToLogout(){
+        var timeLeft = 5;
+        var countdown = setInterval(function() {
+            document.getElementById("timer").innerHTML = "You can log in again in "+timeLeft+" seconds";
+            timeLeft -= 1;
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                window.location.href = "sign-out.php";
+            }
+        }, 1000);
+      }
     </script>
 <?php 
 include "footer.php";
