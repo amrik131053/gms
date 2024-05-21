@@ -39,7 +39,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
 
 
  $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd   Sgroup='$Group' ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S'OR SubjectType='TP' OR SubjectType='P')  order by SubjectType";
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ANd (SubjectType like '%T%' OR SubjectType='M' OR SubjectType='S' OR SubjectType='S1' OR SubjectType='TP' OR SubjectType='P')  order by SubjectType";
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
              if($list_Subjects === false)
