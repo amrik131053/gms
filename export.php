@@ -8769,7 +8769,14 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
        $credit=$row7c['NoOFCredits'];
             }
 
-$totalcredit=$totalcredit+$credit;
+if(is_numeric($credit))
+        {
+        $totalcredit=$totalcredit+$credit;
+    }
+    else
+    {
+       $credit =0;
+    }
  $exportstudy.="<th>{$credit} </th>";  
 
 if($credit>0)
@@ -9022,7 +9029,15 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
         $credit=$row7c['NoOFCredits'];
             }
 
-$totalcredit=$totalcredit+$credit;
+
+ if(is_numeric($credit))
+        {
+        $totalcredit=$totalcredit+$credit;
+    }
+    else
+    {
+       $credit =0;
+    }
  //$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
 
 if($credit>0)
@@ -9278,7 +9293,18 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
        $credit=$row7c['NoOFCredits'];
             }
 
-$totalcredit=$totalcredit+$credit;
+        if(is_numeric($credit))
+        {
+        $totalcredit=$totalcredit+$credit;
+    }
+    else
+    {
+       $credit =0;
+    }
+
+
+
+
  $exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
 
 if($credit>0)
@@ -9491,7 +9517,14 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          }
        
 
-$totalcredit=$totalcredit+$credit;
+if(is_numeric($credit))
+        {
+        $totalcredit=$totalcredit+$credit;
+    }
+    else
+    {
+       $credit =0;
+    }
  $exportstudy.="<td style='text-align:center'>{$credit} </td>";  
 
 if($credit>0)

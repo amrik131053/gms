@@ -8980,8 +8980,10 @@ else
     $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
    if($row_pending=sqlsrv_fetch_array($get_pending_run))
+
    {
-     $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+      $getCourseDetails="SELECT * FROM  MasterCourseCodes WHERE CourseID='".$row_pending['CourseID']."' and Session='".$row_pending['Session']."' and Batch='".$row_pending['Batch']."' ";
+
     $getCourseDetailsRun = sqlsrv_query($conntest,$getCourseDetails);
     if($rowgetCourseDetails=sqlsrv_fetch_array($getCourseDetailsRun))
     {
@@ -10193,7 +10195,7 @@ $fileName=$image_name.'.PNG';
       if($value!='')
       {
          
-             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%'  order by Id DESC "; 
+             $degree="SELECT * FROM offer_latter where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%' or RefNo like '%$value%' order by Id DESC "; 
         
         
          $degree_run=mysqli_query($conn,$degree);

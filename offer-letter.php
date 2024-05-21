@@ -78,7 +78,7 @@ include "header.php";
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
          <button type="button" class="btn btn-success" onclick="export_course_wise_count();">Export Course Wise COunt</button>
-         <button type="button" class="btn btn-success" onclick="export_detail();">Export Detail</button>
+         <button type="button" class="btn btn-success" onclick="export_detail('2024');">Export Detail</button>
         <button type="button" class="btn btn-success" onclick="export_all();">Export Count</button>
       </div>
     </div>
@@ -1282,6 +1282,7 @@ document.getElementById('all_record_report').innerHTML=data;
 }
 });
 }
+
 function edit_student(id) 
 {  
 var code='139';
@@ -1446,19 +1447,19 @@ function export_all()
       }
 
 
-function export_one(district)  
+function export_one(district,batch)  
       {
          // alert(district);
          var exportCode='23';
-          window.location.href="export.php?exportCode="+exportCode+"&District="+district;
+          window.location.href="export.php?exportCode="+exportCode+"&District="+district+"&batch="+batch;
       }
 
       //report 
-function export_detail() 
+function export_detail(batch) 
       {
          var exportCode='23';
 
-      window.location.href="export.php?exportCode="+exportCode+"&District="+0;
+      window.location.href="export.php?exportCode="+exportCode+"&batch="+batch+"&District="+0;
       
       }
 
