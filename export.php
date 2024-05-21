@@ -4055,7 +4055,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
 
 
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+   $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
         
@@ -4074,8 +4074,8 @@ foreach ($Subjects as $key => $SubjectsCode) {
                         $IDNos=$row['IDNo'];
                         $UnirollNos=$row['UniRollNo'];
                         $ClassRollNos=$row['ClassRollNo'];
-                         $Examid=$row['ID'];
-                         $StudentNames =$row['StudentName'];     
+                        $Examid=$row['ID'];
+                        $StudentNames =$row['StudentName'];     
      
       $exportstudy.="<tr>
          <td>{$SrNo}</td>
@@ -4086,13 +4086,17 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
          for($sub=0;$sub<$subCount1;$sub++)
         {
-        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' ";  
+      $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
 
                             $ExternalExam=$row_exam['ExternalExam'];
                            $exportstudy.="<td style='text-align:center;'>{$ExternalExam} </td>"; 
+                          }
+                          else
+                          {
+                             $exportstudy.="<td style='text-align:center;'> </td>"; 
                           }
                           
           }
