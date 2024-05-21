@@ -1,78 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>5-Second Timer</title>
-    <style>
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>5-Second Timer</h1>
+<?php 
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Time remaining: <span id="timer">5</span> seconds</p>
-        </div>
-    </div>
+include "connection/connection.php";
+function is_secure_password($password) {
+    
+    $min_length = 8;
+    
+    
+    if (strlen($password) < $min_length) {
+        return false;
+    }
+    
+    
+    $contains_uppercase = preg_match('/[A-Z]/', $password);
+    $contains_lowercase = preg_match('/[a-z]/', $password);
+    $contains_digit = preg_match('/\d/', $password);
+    $contains_special = preg_match('/[\W]/', $password); 
+    
+    
+    if (!$contains_uppercase || !$contains_lowercase || !$contains_digit || !$contains_special) {
+        return false;
+    }
+    
+    return true;
+ }
 
-    <script>
-       
-        var modal = document.getElementById("myModal");
-        var span = document.getElementsByClassName("close")[0];
-        window.onload = function() {
-            modal.style.display = "block";
-            startTimer();
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        function startTimer() {
-            var timeLeft = 5;
+ $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 ";
+$countSecure=0;
+$countNotSecure=0;
+$stmt2 = sqlsrv_query($conntest,$sql1);
+	 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+     {
+       $password=$row['Password'];
+       $Name=$row['Name'];
+       $IDNo=$row['IDNo'];
+       if(!is_secure_password($password))
+       {
+        echo "<b style='color:red;'>Password Not Secure</b> ".$Name."(".$IDNo.")";
+        $countNotSecure++;
+       }
+       else{
+        echo " <b style='color:green;'>Password Fully  Secure</b> ".$Name."(".$IDNo.")";
+        $countSecure++;
+       }
 
-            var countdown = setInterval(function() {
-                document.getElementById("timer").innerHTML = timeLeft;
-                timeLeft -= 1;
-                if (timeLeft < 0) {
-                    clearInterval(countdown);
-                    modal.style.display = "none";
-                    // alert("Time's up!");
-                }
-            }, 1000);
-        }
-    </script>
-</body>
-</html>
+       echo "</br>";
+     }
+     echo "Total Secure :".$countSecure;
+     echo "Total Not Secure :".$countNotSecure;
+    
+ ?>

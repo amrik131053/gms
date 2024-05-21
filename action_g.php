@@ -27842,6 +27842,29 @@ elseif ($code==392) {
 </thead>
         <tbody id="users">
             <?php 
+            function is_secure_password($password) {
+    
+                $min_length = 8;
+                
+                
+                if (strlen($password) < $min_length) {
+                    return false;
+                }
+                
+                
+                $contains_uppercase = preg_match('/[A-Z]/', $password);
+                $contains_lowercase = preg_match('/[a-z]/', $password);
+                $contains_digit = preg_match('/\d/', $password);
+                $contains_special = preg_match('/[\W]/', $password); 
+                
+                
+                if (!$contains_uppercase || !$contains_lowercase || !$contains_digit || !$contains_special) {
+                    return false;
+                }
+                
+                return true;
+             }
+        
              $time=time();
              $sr=1;
              $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
@@ -27854,6 +27877,25 @@ elseif ($code==392) {
 
              while($checkUserOnlineRow=sqlsrv_fetch_array($checkUserOnlineRun,SQLSRV_FETCH_ASSOC))
              {
+                    
+             $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 and IDNo='".$checkUserOnlineRow['IDNo']."' ";
+           
+             $stmt2 = sqlsrv_query($conntest,$sql1);
+                  if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                  {
+                    $password=$row['Password'];
+                    $Name=$row['Name'];
+                    $IDNo=$row['IDNo'];
+                    if(!is_secure_password($password))
+                    {
+                   
+                     $countSecure="<b class='text-danger'>Not Secure</b>";
+                    }
+                    else{
+                    
+                     $countSecure="<b class='text-success'>Secure</b>";
+                    }
+                  }
                 $Emp_Image=$checkUserOnlineRow['Snap'];
                 $emp_pic=base64_encode($Emp_Image);
 
@@ -27868,6 +27910,7 @@ elseif ($code==392) {
     </a>
 </div>
                     </td>
+                     <td><?=$countSecure;?></td>
                      <td><?=$checkUserOnlineRow['UserName'];?></td>
                      <td><?=$checkUserOnlineRow['Name'];?></td>
                      <td><?=$checkUserOnlineRow['Designation'];?></td>
