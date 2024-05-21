@@ -26466,6 +26466,7 @@ $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 if($getDefalutMenuRun==true)
 {
     echo "1";
+    // header('Location: sign-out.php');
 }
 else{
     echo "0";

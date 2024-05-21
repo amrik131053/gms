@@ -4,7 +4,7 @@
 if(!(ISSET($_SESSION['usr']))) 
 {
   
- echo  $_SESSION['usr'];
+   $_SESSION['usr'];
   header('Location:index.php');  
 }
 else
