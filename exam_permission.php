@@ -7,28 +7,36 @@
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <!-- <h3 class="card-title">Permissions</h3> -->
-                        <span style="float:right;">
+                        <h3 class="card-title">Marks Permissions</h3>
 
-                            <button class="btn btn-sm ">
-                                <select class="form-control form-control-sm" id="exam_type">
-                                    <option value="">Select</option>
-                                    <?php 
-                                                $sql="SELECT DISTINCT id,Name from DDL_TheroyExamination  ";
-                                       $stmt2 = sqlsrv_query($conntest,$sql);
-                                 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-                                       {?>
-                                    <option value="<?=$row1['id'];?>"><?=$row1['Name'];?></option>
-                                    <?php }?>
-                                </select>
-                            </button>
-                            <input type="button" class="btn btn-secondary btn-sm"
-                                onclick="open_examination_permision_search();" value="Search">
-                            <input type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                data-target="#modalAssignAllpER" value="Add">
-                        </span>
                     </div>
+
                     <div class="card-body table-responsive  ">
+                        <div class="btn-group w-100 mb-2">
+                            <span style="float:right;">
+
+                                <button class="btn btn-sm ">
+                                    <select class="form-control form-control-sm" id="exam_type">
+                                        <option value="">Select</option>
+                                        <?php 
+                                                    $sql="SELECT DISTINCT id,Name from DDL_TheroyExamination  ";
+                                        $stmt2 = sqlsrv_query($conntest,$sql);
+                                    while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                        {?>
+                                        <option value="<?=$row1['id'];?>"><?=$row1['Name'];?></option>
+                                        <?php }?>
+                                    </select>
+                                </button>
+                                <button class="btn btn-success btn-sm" onclick="open_examination_permision_search();"><i
+                                        class="fa fa-search"></i></button>
+                                <button class="btn btn-success btn-sm" data-toggle="modal"
+                                    data-target="#modalAssignAllpER"><i
+                                        class="fa fa-plus"></i></button>
+                               
+                                <!-- <input type="button" class="btn btn-secondary btn-sm"  value="Add"> -->
+                            </span>
+                        </div>
+
                         <div class="row" id="table_load" style="font-size:12px;"> </div>
 
                     </div>
@@ -36,11 +44,11 @@
 
 
 
-                <div class="card card-info">
-                    <div class="card-header ">
-                        <!-- <h3 class="card-title">Distribution Theory Marks (Pending)</h3> -->
-                        <span style="float:right;">
-                        
+                <!-- <div class="card card-info"> -->
+                <!-- <div class="card-header "> -->
+                <!-- <h3 class="card-title">Distribution Theory Marks (Pending)</h3> -->
+                <!-- <span style="float:right;"> -->
+                <!--                         
                         <button class="btn btn-sm ">
                         <select class="form-control form-control-sm" id="exam_type">
                                     <option value="">Select</option>
@@ -58,21 +66,21 @@
                                     <input type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
                                     data-target="#modalAssignAllpER" value="Add">
                     </span>
-                    </div>
-                    <div class="card-body table-responsive  ">
+                    </div> -->
+                <!-- <div class="card-body table-responsive  ">
                         <div class="row" style="font-size:12px;">
-                                       </div>
-                        <!-- <div class="row" id=""></div> -->
+                                       </div> -->
+                <!-- <div class="row" id=""></div> -->
 
 
 
 
-
+                <!-- 
                     </div>
 
 
 
-                </div>
+                </div> -->
 
 
 
@@ -80,48 +88,34 @@
             </div>
 
 
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="card card-info">
                     <div class="card-header ">
                         <h3 class="card-title">Examination Permission</h3>
 
                     </div>
                     <div class="card-body table-responsive  ">
-                        <div class="row" style="font-size:12px;">
+                        <div class="btn-group w-100 mb-2">
+                            <a class="btn btn-primary" id="btn1"
+                                style="background-color:#223260; color: white; border: 5px solid;"
+                                onclick="showRegular(),bg(this.id);"> Regular </a>
+                            <a class="btn btn-primary" id="btn2"
+                                style="background-color:#223260; color: white; border: 5px solid;"
+                                onclick="showReapear(),bg(this.id);"> Reapear</a>
+                            <a class="btn btn-primary" id="btn3"
+                                style="background-color:#223260; color: white; border: 5px solid;"
+                                onclick="showDiploma(),bg(this.id);"> Diploma </a>
+                            <a class="btn btn-primary" id="btn4"
+                                style="background-color:#223260; color: white; border: 5px solid;"
+                                onclick="showPhD(),bg(this.id);"> Ph.D </a>
+                        </div>
+                        <div class="row" style="font-size:12px;" id="showExamPermissionsTable">
 
-                            <table class="table">
-                                <tr>
-                                    <th>Examination </th>
-                                    <th>Close Date</th>
-                                    <th> Type</th>
-                                    <th> Action</th>
 
-                                </tr>
-                                <?php $getExamPermission="SELECT * FROM ExamDate";
-$getExamPermissionRun=sqlsrv_query($conntest,$getExamPermission);
-while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
-{
-   // $aa[]=$getExamPermissionRow;
-?>
-                                <tr>
-                                    <td><?=$getExamPermissionRow['Month'];?> <?=$getExamPermissionRow['Year'];?> </td>
-                                    <td><?=$getExamPermissionRow['LastDate']->format('d-m-Y');?></td>
-                                    <td> <?=$getExamPermissionRow['Type'];?>
-                                    </td>
-                                    <td><button class="btn btn" data-toggle="modal" data-target="#editExamAllPermission"
-                                            onclick="editExam(<?=$getExamPermissionRow['id'];?>);"><i
-                                                class="fa fa-edit"></i></button></td>
-
-                                </tr>
-                                <?php }
-   // print_r($aa);
-   ?>
-                            </table>
 
                         </div>
 
-                        <br>
-                        <div class="row" id=""></div>
+
 
 
 
@@ -131,29 +125,29 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
                 </div>
 
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card card-info">
                     <div class="card-header ">
                         <h3 class="card-title">Special Permission</h3>
 
                     </div>
-                    <div class="card-body table-responsive  ">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <input type="text" class="form-control" id="RollNo">
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary"
-                                    onclick="open_examination_permision_search();" value="Search">
+                    <div class="card-body  ">
 
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="button" class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#modalAssignAllpER" value="Add">
-                            </div>
+                        <div class="btn-group w-100 mb-2">
+                            <!-- <span style="float:right;"> -->
+
+                                <input type="text" class="form-control form-control-sm" placeholder="RollNo/IDNO" id="UniRollNo">
+                                <button class="btn btn-sm ">
+                                <button class="btn btn-success btn-sm" onclick="searchStduentForSepecial();"><i
+                                        class="fa fa-search"></i></button>
+                                <!-- <button class="btn btn-danger  btn-sm" data-toggle="modal"
+                                    data-target="#modalAssignAllpER"><i class="fa fa-plus"></i></button> -->
+                                    </button>
+
+                            <!-- </span> -->
                         </div>
-                        <br>
-                        <div class="row" id="" style="font-size:12px;"></div>
+
+                        <div class="" id="showRecordSepcial"></div>
 
                     </div>
                 </div>
@@ -308,7 +302,211 @@ while($getExamPermissionRow=sqlsrv_fetch_array($getExamPermissionRun))
 
 <!-- Modal -->
 <script type="text/javascript">
+
+
+
+
+
+$(window).on('load', function() {
+    $('#btn1').toggleClass("bg-success");
+    showRegular();
+})
+
+function bg(id) {
+    $('.btn').removeClass("bg-success");
+    $('#' + id).toggleClass("bg-success");
+}
+
+function searchStduentForSepecial() {
+    var uniRollNo=document.getElementById('UniRollNo').value;
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '418';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,rollNo:uniRollNo
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showRecordSepcial').innerHTML = response;
+
+        }
+    });
+}
+function showRegular() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '413';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showExamPermissionsTable').innerHTML = response;
+
+        }
+    });
+}
+
+function showReapear() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '414';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showExamPermissionsTable').innerHTML = response;
+
+        }
+    });
+}
+
+function showDiploma() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '415';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showExamPermissionsTable').innerHTML = response;
+
+        }
+    });
+}
+
+function showPhD() {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '416';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showExamPermissionsTable').innerHTML = response;
+
+        }
+    });
+}
+
+function updatePermissons(id, type) {
+    var MonthEdit = document.getElementById('MonthEdit').value;
+    var YearEdit = document.getElementById('YearEdit').value;
+    var Examination = MonthEdit + '' + YearEdit;
+    var StartDate = document.getElementById('StartDateEdit').value;
+    var EndDate = document.getElementById('EndDateEdit').value;
+    if(StartDate<=EndDate && StartDate!='' && EndDate!='' ){
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = 417;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id,
+            StartDate: StartDate,
+            EndDate: EndDate,
+            MonthEdit: MonthEdit,
+            YearEdit: YearEdit
+        },
+        success: function(response) {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if (response == 1) {
+                SuccessToast('Successfully Update');
+                if (type == '1') {
+                    showRegular();
+                } else if (type == '2') {
+                    showReapear();
+                } else if (type == '3' || type == '4') {
+                    showDiploma();
+                } else if (type == '5' || type == '6') {
+                    showPhD();
+                }
+            } else {
+                ErrorToast('Input Wrong ', 'bg-danger');
+            }
+
+
+        }
+    });
+}
+else
+{
+ErrorToast('Start date cannot be greater than end date ','bg-warning');
+}
+}
+function submitSpecial(id) {
+    var SemesterSepecial=document.getElementById('SemesterSepecial').value;
+var TypeSepcial=document.getElementById('TypeSepcial').value;
+var MonthSepecial=document.getElementById('MonthSepecial').value;
+var YearSepecial=document.getElementById('YearSepecial').value;
+var validDate=document.getElementById('validDate').value;
+   if(validDate!=''){
+
+       var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = 419;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            id: id,
+            SemesterSepecial: SemesterSepecial,
+            TypeSepcial: TypeSepcial,
+            MonthSepecial: MonthSepecial,
+            YearSepecial: YearSepecial,
+            validDate:validDate
+        },
+        success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if (response == 1) {
+                SuccessToast('Successfully');
+               
+            } else {
+                ErrorToast('try Again ', 'bg-danger');
+            }
+            
+            
+        }
+    });
+}
+else{
+    ErrorToast('End Date required ', 'bg-warning');
+
+}
+}
+
+
+
+
+
+
 function update_date_end_date(id, Semester) {
+
+
+
     var start_date_edit = document.getElementById('start_date_edit').value;
     var end_date_edit = document.getElementById('end_date_edit').value;
     var spinner = document.getElementById("ajax-loader");
@@ -340,7 +538,7 @@ function update_date_end_date(id, Semester) {
     });
 }
 
-function editExam(id) {
+function editExam(id, Etype) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code = 265;
@@ -349,7 +547,8 @@ function editExam(id) {
         type: 'POST',
         data: {
             code: code,
-            id: id
+            id: id,
+            Etype: Etype
         },
         success: function(response) {
             // console.log(response);
