@@ -27829,16 +27829,19 @@ session_destroy();
 }
 elseif ($code==392) {
    ?>
+   
+
    <table class="table">
     <thead>
         <tr>
+        <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" ></th>
             <th>SrNo</th>
             <th>Image</th>
+            <th>Status</th>
             <th>UserName</th>
             <th>Name</th>
             <th>Designation</th>
             <th>Department</th>
-            <!-- <th>Status</th> -->
             <th>Action</th>
         </tr>
 </thead>
@@ -27903,6 +27906,7 @@ elseif ($code==392) {
 
                 ?>
                  <tr>
+                 <td><input type="checkbox" class="checkbox v_check" value="<?=$checkUserOnlineRow['IDNo'];?>"></td>
                      <td><?=$sr;?></td>
                      <td>
                      <div class="img-box">
@@ -27931,6 +27935,11 @@ elseif ($code==392) {
              <?php 
              $sr++;
              }?>
+             <tr>
+                <td colspan="9">
+                    <button type="button" onclick="logoutAll();" class="btn btn-danger">Logout</button>
+                </td>
+             </tr>
 </tbody>
 </table>
    <?php 
@@ -29142,7 +29151,7 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
             </div>
                 <div class="col-lg-6">
                 <label for="">Action</label><br>
-                <button class="btn btn-success" onclick="submitSpecial(<?=$row_student['UniRollNo'];?>);">Submit</button>
+                <button class="btn btn-success" onclick="submitSpecial('<?=$row_student['UniRollNo'];?>',<?=$row_student['IDNo'];?>);">Submit</button>
             </div>
             <br>
             <br>
@@ -29163,13 +29172,14 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
 }
 elseif ($code=='419') {
             $id=$_REQUEST['id'];
+            $IDNo=$_REQUEST['IDNo'];
             $SemesterSepecial=$_REQUEST['SemesterSepecial'];
             $TypeSepcial=$_REQUEST['TypeSepcial'];
             $MonthSepecial=$_REQUEST['MonthSepecial'];
             $YearSepecial=$_REQUEST['YearSepecial'];
             $validDate=$_REQUEST['validDate'];
-            $updatePermisions="INSERT into ExamPermission (UniRollNo,SemId,ExamType,Month,Year,Validupto) 
-            VALUES('$id','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
+            $updatePermisions="INSERT into ExamPermission (IDNo,UniRollNo,SemId,ExamType,Month,Year,Validupto) 
+            VALUES('$IDNo','$id','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
                 $updatePermisions_run=sqlsrv_query($conntest,$updatePermisions);
                 if($updatePermisions_run==true)
                 {
@@ -29179,6 +29189,24 @@ elseif ($code=='419') {
                 {
                     echo "0";
                 }
+}
+elseif($code=='421')
+{
+  $ids=$_POST['subjectIDs'];
+  foreach($ids as $key => $id)
+  {
+     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
+    $getDefalutMenuRun=sqlsrv_query($conntest, $updateLoggedIn);
+  }
+  if ($getDefalutMenuRun==true)
+  {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
 }
    else
    {

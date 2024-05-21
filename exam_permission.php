@@ -455,7 +455,7 @@ else
 ErrorToast('Start date cannot be greater than end date ','bg-warning');
 }
 }
-function submitSpecial(id) {
+function submitSpecial(id,IDNo) {
     var SemesterSepecial=document.getElementById('SemesterSepecial').value;
 var TypeSepcial=document.getElementById('TypeSepcial').value;
 var MonthSepecial=document.getElementById('MonthSepecial').value;
@@ -472,6 +472,7 @@ var validDate=document.getElementById('validDate').value;
         data: {
             code: code,
             id: id,
+            IDNo:IDNo,
             SemesterSepecial: SemesterSepecial,
             TypeSepcial: TypeSepcial,
             MonthSepecial: MonthSepecial,
