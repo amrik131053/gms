@@ -29075,6 +29075,39 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                          {
                            ?>
    <div class="row">
+   <table class="table" style='font-size:12px;'>
+              
+                <?php 
+      $dateToday = date('Y-m-d');
+      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission  WHERE Validupto >= '$dateToday'  AND IDNo = '".$row_student['IDNo']."'";
+      $query111=sqlsrv_query($conntest,$query1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $countIF=sqlsrv_num_rows($query111);
+      if($countIF>0)
+      {
+?>
+  <tr>
+                    <th>Semster</th>
+                    <th>Type</th>
+                    <th>Examination</th>
+                    <th>End Date</th>
+                    <th>Action</th>
+                </tr><?php 
+      }
+                                    
+                                     while($rowAleady=sqlsrv_fetch_array($query111))
+                                     {
+                                        ?>
+            <tr>
+                <td><?=$rowAleady['SemId'];?></td>
+                <td><?=$rowAleady['ExamType'];?></td>
+                <td><?=$rowAleady['Month']." ".$rowAleady['Year'];?></td>
+                <td><?=$rowAleady['Validupto']->format('d-m-Y');?></td>
+                <td><i class="fa fa-trash text-danger" onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i></td>
+            </tr>
+                                        <?php 
+                                     }
+                ?>
+            </table>
    <div class="col-lg-12">
                 <div class="col-lg-12">
                     <label>Student Name</label>
@@ -29157,6 +29190,7 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
             <br>
             <br>
             <br>
+           
                
                 </div>
                 </div>
@@ -29208,6 +29242,108 @@ elseif($code=='421')
   }
 
 }
+elseif($code=='422')
+{
+    $BatchOpen = $_REQUEST['BatchOpen'];
+    $DurationOpen = $_REQUEST['DurationOpen'];
+    $TypeOpen = $_REQUEST['TypeOpen'];
+    $numberOfSem = array();
+    ?>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row text-center">
+          <?php   $semesters = [];
+    $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+                  INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
+                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen' AND MasterCourseStructure.$TypeOpen = '1'  
+                  ORDER BY SemesterID ASC";
+    $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
+    while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
+        $semesters[] = $row['SemesterID'];
+    }
+    
+    for ($i = 1; $i <= $DurationOpen * 2; $i++) {
+        $checked = in_array($i, $semesters) ? "checked" : "";
+        $val = in_array($i, $semesters) ? "1" : "0";
+    ?>
+        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox"><br><?= $i; ?>
+            <input type="hidden" class="form-control sel22" value="<?= $i; ?>">
+            <input type="checkbox" class="form-control sel11" id="customCheckbox<?= $i; ?>" value="<?= $val; ?>" <?= $checked; ?>>
+        </div>
+    <?php
+    }
+    ?>
+    <div class="col-lg-12 col-sm-12"><br>
+        <button class="btn btn-success" style="float:right;" onclick="openSubmit();">Submit</button>
+    </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+
+elseif($code == 423) {
+    $semester = $_REQUEST['id_array_main'];
+    $BatchOpen = $_REQUEST['BatchOpen'];
+    $DurationOpen = $_REQUEST['DurationOpen'];
+    $TypeOpen = $_REQUEST['TypeOpen'];
+    $lenarraySem_main = $_REQUEST['lenarraySem_main'];
+    $success = true;
+
+    foreach($semester as $key => $val) {
+        $update_permission = "UPDATE MasterCourseStructure  SET $TypeOpen = '$val'   FROM MasterCourseStructure mcs  
+        INNER JOIN MasterCourseCodes mcc   ON mcs.CourseId = mcc.CourseId   WHERE mcs.Batch = '$BatchOpen'   AND mcc.Duration = '$DurationOpen' 
+                              AND mcs.SemesterID = '".$lenarraySem_main[$key]."'";
+        $update_run = sqlsrv_query($conntest, $update_permission);
+        if ($update_run === false) {
+            $success = false;
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+            break;
+        }
+    }
+
+    if ($success) {
+        echo "1";
+    } else {
+        echo "0";
+    }
+}
+
+   elseif($code=='424')
+{
+    $BatchOpen=$_REQUEST['BatchOpen'];
+    $DurationOpen=$_REQUEST['DurationOpen'];
+    $TypeOpen=$_REQUEST['TypeOpen'];
+     $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
+    inner join MasterCourseCodes mcc on mcs.CourseId=mcc.CourseId where mcs.Batch='$BatchOpen' ANd Duration='$DurationOpen' and $TypeOpen='1'";
+   $update_run=sqlsrv_query($conntest,$update_permission);
+   if($update_run==true)
+   {
+    echo "1";
+   }
+   else{
+    echo "0";
+   }
+
+}
+
+elseif($code==425)
+{
+    $id=$_REQUEST['id'];
+       $specialPermisisons="DELETE From ExamPermission  WHERE id='$id'";
+        $specialPermisisons_run=sqlsrv_query($conntest,$specialPermisisons);  
+  if ($specialPermisisons_run==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
+} 
    else
    {
    

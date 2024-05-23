@@ -30,9 +30,8 @@
                                 <button class="btn btn-success btn-sm" onclick="open_examination_permision_search();"><i
                                         class="fa fa-search"></i></button>
                                 <button class="btn btn-success btn-sm" data-toggle="modal"
-                                    data-target="#modalAssignAllpER"><i
-                                        class="fa fa-plus"></i></button>
-                               
+                                    data-target="#modalAssignAllpER"><i class="fa fa-plus"></i></button>
+
                                 <!-- <input type="button" class="btn btn-secondary btn-sm"  value="Add"> -->
                             </span>
                         </div>
@@ -122,8 +121,68 @@
 
 
                     </div>
-                </div>
 
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class=" ">
+                            <div class="card-header ">
+                                <h3 class="card-title">Semster open</h3>
+                                        <!-- <input type="date"  id="dateopen" class="form-control"> -->
+                            </div>
+                            <div class="card-body  ">
+
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-3">
+                                            <label>Batch</label>
+                                            <select id="BatchOpen" class="form-control" required>
+
+                                                <?php 
+                                                for($i=2011;$i<=2030;$i++)
+                                                    {?>
+                                                                    <option value="<?=$i?>"><?=$i?></option>
+                                                                    <?php }
+                                                    ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label>Duration</label>
+                                            <select class="form-control" id="DurationOpen">
+                                                        <?PHP 
+                                                             $checkOpen="SELECT Distinct Duration  FROM  MasterCourseCodes where Duration!='' and Duration!='0'  order by  Duration ASC";
+                                                             $checkOpenRun=sqlsrv_query($conntest,$checkOpen);
+                                                             while($row=sqlsrv_fetch_array($checkOpenRun,SQLSRV_FETCH_ASSOC))
+                                                             {?>
+                                                               <option value="<?=$row['Duration'];?>"><?=$row['Duration'];?></option><?php 
+                                                                 
+                                                             }
+                                                             ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label>Type</label>
+                                            <select class="form-control" id="TypeOpen">
+                                                <option value="Regular">Regular</option>
+                                                <option value="Reappear">Reappear</option>
+                                                <!-- <option value="Improvement">Improvement</option>
+                                                <option value="Additional">Additional</option> -->
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <label>Action</label><br>
+                                            <button class="btn btn-success" onclick="searchSemesterRecord();"><i
+                                                    class="fa fa-search"></i></button>
+                                            <button class="btn btn-success" onclick="closeSemesterRecord();"><i
+                                                    class="fa fa-stop"></i></button>
+                                        </div>
+                                  </div>
+                                <div class="" id="showSemesterOpenRecord"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="card card-info">
@@ -136,13 +195,14 @@
                         <div class="btn-group w-100 mb-2">
                             <!-- <span style="float:right;"> -->
 
-                                <input type="text" class="form-control form-control-sm" placeholder="RollNo/IDNO" id="UniRollNo">
-                                <button class="btn btn-sm ">
+                            <input type="text" class="form-control form-control-sm" placeholder="RollNo/IDNO"
+                                id="UniRollNo">
+                            <button class="btn btn-sm ">
                                 <button class="btn btn-success btn-sm" onclick="searchStduentForSepecial();"><i
                                         class="fa fa-search"></i></button>
                                 <!-- <button class="btn btn-danger  btn-sm" data-toggle="modal"
                                     data-target="#modalAssignAllpER"><i class="fa fa-plus"></i></button> -->
-                                    </button>
+                            </button>
 
                             <!-- </span> -->
                         </div>
@@ -302,11 +362,6 @@
 
 <!-- Modal -->
 <script type="text/javascript">
-
-
-
-
-
 $(window).on('load', function() {
     $('#btn1').toggleClass("bg-success");
     showRegular();
@@ -317,8 +372,98 @@ function bg(id) {
     $('#' + id).toggleClass("bg-success");
 }
 
+function searchSemesterRecord() {
+
+    var BatchOpen = document.getElementById('BatchOpen').value;
+    var DurationOpen = document.getElementById('DurationOpen').value;
+    var TypeOpen = document.getElementById('TypeOpen').value;
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '422';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            BatchOpen: BatchOpen,DurationOpen:DurationOpen,TypeOpen:TypeOpen
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('showSemesterOpenRecord').innerHTML = response;
+
+        }
+    });
+}
+function closeSemesterRecord() {
+
+    var BatchOpen = document.getElementById('BatchOpen').value;
+    var DurationOpen = document.getElementById('DurationOpen').value;
+    var TypeOpen = document.getElementById('TypeOpen').value;
+    var r = confirm("Do you really want to close all");
+    if (r == true) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '424';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            BatchOpen: BatchOpen,DurationOpen:DurationOpen,TypeOpen:TypeOpen
+        },
+        success: function(response) {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if (response==1) {
+                    SuccessToast('Successfully close');
+                    searchSemesterRecord();
+                  
+                } else {
+                    ErrorToast('Input Wrong ', 'bg-danger');
+                }
+
+
+        }
+    });
+}
+else{
+    
+}
+}
+function deleteSepecialPermissions(id) {
+    var r = confirm("Do you really want to delete");
+    if (r == true) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = '425';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+           id:id
+        },
+        success: function(response) {
+            // console.log(response);
+            spinner.style.display = 'none';
+            if (response==1) {
+                    SuccessToast('Successfully delete');
+                    searchStduentForSepecial();
+                } else {
+                    ErrorToast('try again ', 'bg-danger');
+                }
+
+
+        }
+    });
+}
+else{
+    
+}
+}
+
 function searchStduentForSepecial() {
-    var uniRollNo=document.getElementById('UniRollNo').value;
+    var uniRollNo = document.getElementById('UniRollNo').value;
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code = '418';
@@ -326,7 +471,8 @@ function searchStduentForSepecial() {
         url: 'action_g.php',
         type: 'POST',
         data: {
-            code: code,rollNo:uniRollNo
+            code: code,
+            rollNo: uniRollNo
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -335,6 +481,7 @@ function searchStduentForSepecial() {
         }
     });
 }
+
 function showRegular() {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -413,90 +560,89 @@ function updatePermissons(id, type) {
     var Examination = MonthEdit + '' + YearEdit;
     var StartDate = document.getElementById('StartDateEdit').value;
     var EndDate = document.getElementById('EndDateEdit').value;
-    if(StartDate<=EndDate && StartDate!='' && EndDate!='' ){
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 417;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id,
-            StartDate: StartDate,
-            EndDate: EndDate,
-            MonthEdit: MonthEdit,
-            YearEdit: YearEdit
-        },
-        success: function(response) {
-            // console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-                SuccessToast('Successfully Update');
-                if (type == '1') {
-                    showRegular();
-                } else if (type == '2') {
-                    showReapear();
-                } else if (type == '3' || type == '4') {
-                    showDiploma();
-                } else if (type == '5' || type == '6') {
-                    showPhD();
+    if (StartDate <= EndDate && StartDate != '' && EndDate != '') {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 417;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                id: id,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                MonthEdit: MonthEdit,
+                YearEdit: YearEdit
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Update');
+                    if (type == '1') {
+                        showRegular();
+                    } else if (type == '2') {
+                        showReapear();
+                    } else if (type == '3' || type == '4') {
+                        showDiploma();
+                    } else if (type == '5' || type == '6') {
+                        showPhD();
+                    }
+                } else {
+                    ErrorToast('Input Wrong ', 'bg-danger');
                 }
-            } else {
-                ErrorToast('Input Wrong ', 'bg-danger');
+
+
             }
+        });
+    } else {
+        ErrorToast('Start date cannot be greater than end date ', 'bg-warning');
+    }
+}
+
+function submitSpecial(id, IDNo) {
+    var SemesterSepecial = document.getElementById('SemesterSepecial').value;
+    var TypeSepcial = document.getElementById('TypeSepcial').value;
+    var MonthSepecial = document.getElementById('MonthSepecial').value;
+    var YearSepecial = document.getElementById('YearSepecial').value;
+    var validDate = document.getElementById('validDate').value;
+    if (validDate != '') {
+
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 419;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                id: id,
+                IDNo: IDNo,
+                SemesterSepecial: SemesterSepecial,
+                TypeSepcial: TypeSepcial,
+                MonthSepecial: MonthSepecial,
+                YearSepecial: YearSepecial,
+                validDate: validDate
+            },
+            success: function(response) {
+                console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully');
+                    searchStduentForSepecial();
+
+                } else {
+                    ErrorToast('try Again ', 'bg-danger');
+                }
 
 
-        }
-    });
-}
-else
-{
-ErrorToast('Start date cannot be greater than end date ','bg-warning');
-}
-}
-function submitSpecial(id,IDNo) {
-    var SemesterSepecial=document.getElementById('SemesterSepecial').value;
-var TypeSepcial=document.getElementById('TypeSepcial').value;
-var MonthSepecial=document.getElementById('MonthSepecial').value;
-var YearSepecial=document.getElementById('YearSepecial').value;
-var validDate=document.getElementById('validDate').value;
-   if(validDate!=''){
-
-       var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 419;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            id: id,
-            IDNo:IDNo,
-            SemesterSepecial: SemesterSepecial,
-            TypeSepcial: TypeSepcial,
-            MonthSepecial: MonthSepecial,
-            YearSepecial: YearSepecial,
-            validDate:validDate
-        },
-        success: function(response) {
-            console.log(response);
-            spinner.style.display = 'none';
-            if (response == 1) {
-                SuccessToast('Successfully');
-               
-            } else {
-                ErrorToast('try Again ', 'bg-danger');
             }
-            
-            
-        }
-    });
-}
-else{
-    ErrorToast('End Date required ', 'bg-warning');
+        });
+    } else {
+        ErrorToast('End Date required ', 'bg-warning');
 
-}
+    }
 }
 
 
@@ -603,6 +749,65 @@ function open_examination_permision_search() {
         }
     });
 }
+
+function openSubmit() {
+    var BatchOpen = document.getElementById('BatchOpen').value;
+    var DurationOpen = document.getElementById('DurationOpen').value;
+    var TypeOpen = document.getElementById('TypeOpen').value;
+    var checkboxes = document.getElementsByClassName('sel11');
+    var inputBoxes = document.getElementsByClassName('sel22');
+    var checkboxValues = [];
+    var inputValues = [];
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        var checkbox = checkboxes[i];
+        var inputBox = inputBoxes[i];
+
+        if (checkbox.checked) {
+            checkboxValues.push('1');
+        } else {
+            checkboxValues.push('0');
+        }
+
+        inputValues.push(inputBox.value);
+    }
+
+    // alert(inputValues + '=' + checkboxValues);
+
+    if (checkboxValues.length === 0) {
+        ErrorToast('Select at least one sem', 'bg-warning');
+    } else if (BatchOpen !== '' && DurationOpen !== '' && TypeOpen !== '' && checkboxes.length > 0) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 423;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                id_array_main: checkboxValues,
+                BatchOpen: BatchOpen,
+                DurationOpen: DurationOpen,
+                TypeOpen: TypeOpen,
+                lenarraySem_main: inputValues
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully');
+                    searchSemesterRecord();
+                } else {
+                    ErrorToast('Try again', 'bg-danger');
+                }
+            }
+        });
+    } else {
+        ErrorToast('All inputs required', 'bg-warning');
+    }
+}
+
+
 
 function open_examination_permision() {
     var exam_type = document.getElementById('load_semester').value;
