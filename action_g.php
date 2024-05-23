@@ -28605,6 +28605,42 @@ $mobile=$_REQUEST['mobile'];
 $course=$_REQUEST['course'];
 $source=$_REQUEST['source'];
 $counter=$_REQUEST['counter'];
+$SourceName=$_REQUEST['SourceName'];
+if($counter==1)
+{
+$counsellor="";
+}
+elseif($counter==2)
+{
+    $counsellor="171218";
+}else if($counter==3)
+{
+    $counsellor="171217";
+}
+elseif($counter==4)
+{
+    $counsellor="171810";
+}
+elseif($counter==5)
+{
+    $counsellor="171776";
+}
+elseif($counter==6)
+{
+    $counsellor="";
+}
+elseif($counter==7)
+{
+    $counsellor="";
+}
+elseif($counter==8)
+{
+    $counsellor="";
+}
+else
+{
+    $counsellor="";
+}
 
 $submit_date=date('Y-m-d');
     $query = "SELECT TOP 1 TokenNo FROM Enquiry where CONVERT(DATE, DateEntry) = '$submit_date' ORDER BY TokenNo DESC";
@@ -28618,7 +28654,7 @@ $submit_date=date('Y-m-d');
     $token = 100;
   }
 
-     $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token')";       
+      $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo,IDNo,SourceName) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token','$counsellor','$SourceName')";       
          $result =sqlsrv_query($conntest,$q);
          if($result===true)
          {
@@ -28665,7 +28701,8 @@ elseif ($code=='410') {
     <form action="print-enquiry-slip.php" method="post">
 
 
-        <input type="hidden" value="<?=$row['ID'];?>" name="id"><button
+        <input type="hidden" value="<?=$row['ID'];?>" name="id">
+        <button class="btn btn-primary"
             type="submit" name="print"><i
                 class="fa fa-print fa-lg"></i></button>
     </form>
@@ -29344,6 +29381,78 @@ elseif($code==425)
   }
 
 } 
+elseif ($code=='426') {
+    $i=0;
+    ?>
+     <table class="table" id="example" >
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Name</th>
+                                        <th>Mobile No</th>
+                                        <th>Email</th>
+                                        <th>Course </th>
+                                        <th>Source</th>
+                                        <th>Token Number</th>
+                                        <th>Counter No</th>
+                                        <th>Response</th>
+                                        <th>Action</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody ><?php 
+    $select_add="SELECT * FROM Enquiry   Order by ID desc";
+    $select_add_q=sqlsrv_query($conntest,$select_add);
+    while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
+    {
+    $i++;
+    if($row['Response']!='')
+    {
+    $color='#8ccb8c';
+    }
+    else
+    {
+    $color='#e5070761';
+    }
+    ?>
+<tr style="background-color:<?=$color;?>">
+<td><?=$i;?></td>
+<td><?=$row['Name'];?></td>
+<td><?=$row['MobileNo'];?></td>
+<td><?=$row['Email'];?></td>
+<td><?=$row['Course'];?></td>
+<td><?=$row['Source'];?></td>
+<td><?=$row['TokenNo'];?></td>
+<td><?=$row['CounterNo'];?></td>
+<td><?=$row['Response'];?></td>
+<td><select name="" id="response" class="form-control">
+    <option value="">Select</option>
+    <option value="Admitted">Admitted</option>
+    <option value="Enquiry">Enquiry</option>
+</select></td>
+<td>
+    <button class="btn btn-success">Submit</button>
+</td>
+</tr>
+<?php
+        }
+        ?>
+       <tr>
+        <td colspan="8">
+        <?php 
+        if($i<1)
+        {
+            echo "<center>No record</center>";
+        }
+
+        ?>
+        </td>
+        </tr>
+         </tbody>
+</table>
+        <?php 
+
+}
    else
    {
    

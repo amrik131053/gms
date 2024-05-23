@@ -21,18 +21,64 @@
                               <a class="btn btn-primary" id="btn3"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a>
+                            
                     </div>
                    
              
             </div>
+           
         </div> 
+        
          <div class="card card-primary">
+            <div><button class="btn btn-danger" data-toggle="modal" data-target="#visitroModal"
+        onclick="visitroRecord();" style=" float:right; color: white;"> <i class="fa fa-eye"></i></button></div>
          <div class="card-body" id="admissionForm" style="">
                     </div>
                 </div>
     </div>
     <!-- /.col -->
 </section>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- <form method="post" action="post_action.php"> -->
+                    <div class="modal-body" id="other">
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+<div class="modal fade" id="visitroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:left">
+                <div class="row" id="modalVistorRecordshow">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -741,6 +787,23 @@ function submitNewAdmissions() {
                 document.getElementById('AdharCardNo').value = "";
                 document.getElementById('LateralEntry').value = "";
             }
+        }
+    });
+}
+function visitroRecord()
+ {
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    var code = 426;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('modalVistorRecordshow').innerHTML = response;
         }
     });
 }

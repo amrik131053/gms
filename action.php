@@ -4907,7 +4907,8 @@ if($count>0)
    {       
    
    $studentId=$_POST['id'];
-   $sql="SELECT * from hostel_student_summary where student_id='$studentId' and status='0'";
+   $session=$_POST['session'];
+   $sql="SELECT * from hostel_student_summary where student_id='$studentId' and status='0' and session='$session' ";
    $res=mysqli_query($conn,$sql);
    while($data=mysqli_fetch_array($res))
    {
@@ -4926,7 +4927,7 @@ if($count>0)
    $session=$_POST['session'];
    $studentRemark=$_POST['studentRemark'];
    
-   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed' and status='0'";
+   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed'";
    $bedCheckRes=mysqli_query($conn,$bedCheckQry);
    if (mysqli_num_rows($bedCheckRes)>0) 
    {

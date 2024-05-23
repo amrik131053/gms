@@ -310,6 +310,7 @@
    {
       var code=73;
       var ID=document.getElementById("student_IDNO").value;
+      var session=document.getElementById("session").value;
       if (ID!='') 
       {
      // alert(ID);
@@ -319,7 +320,7 @@
             type:"POST",
             data:
             {
-               code:code,id:ID
+               code:code,id:ID,session:session
             },
             success:function(response) 
             {
