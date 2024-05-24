@@ -29468,7 +29468,7 @@ elseif($code=='427')
 }
 elseif($code==428)
 {
-    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID' and Response=''  Order by ID desc";
+    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID' and (Response='' or Response is Null)   Order by ID desc";
     $countcheck=sqlsrv_query($conntest,$select_add,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     echo $count=sqlsrv_num_rows($countcheck);
    

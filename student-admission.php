@@ -356,7 +356,7 @@ function creditcardsearch() {
 
 
 
-
+visitorCount();
 
 setInterval(function () {visitorCount();}, 60000);
 
@@ -820,7 +820,8 @@ function visitroRecord()
 }
 function visitorCount()
  {
-
+    // var spinner = document.getElementById('ajax-loader');
+    // spinner.style.display = 'block';
     var code = 428;
     $.ajax({
         url: 'action_g.php',
@@ -829,7 +830,7 @@ function visitorCount()
         },
         type: 'POST',
         success: function(response) {
-        
+            // spinner.style.display = 'none';
             document.getElementById('countVisitor').innerHTML = response;
         }
     });
