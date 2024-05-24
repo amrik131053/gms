@@ -5430,7 +5430,7 @@ if($count>0)
                {
 ?>
 
- <i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"> </i>
+ <i class="fa fa-edit fa-lg" onclick="student_stockF(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock1" style="color:blue;"> </i>
 
             <?php    }
       ?>
