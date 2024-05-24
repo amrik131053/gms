@@ -177,6 +177,17 @@
                            </div>
                         </div>
                         <div class="col-lg-6">
+                           <label for="inputEmail3" class="col-sm-4 col-form-label">Fee Type</label>
+                           <div class="col-lg-12">
+                              <select name="room_no" required id="feeType" class="form-control">
+                                 <option value="">Select</option>
+                                 <option value="Package">Package</option>
+                                 <option value="Credit Card">Credit Card</option>
+                                 <option value="Non Package">Non Package</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-6">
                            <label for="inputEmail3" class="col-sm-4 col-form-label">&nbsp;&nbsp;</label>
                            <div class="col-lg-12">
                               <button type="submit" id="addBedButton" class="btn btn-primary form-control" style="display: none;" onclick="addBedAtLocation()">Add Bed</button>
@@ -301,7 +312,8 @@
       }
       else
       {
-         alert("Please Enter the Roll No.");
+      
+         ErrorToast('Please Enter the Roll No','bg-warning');
          document.getElementById("student_IDNO").value ='';
          document.getElementById("student_search_record").innerHTML ='';
       }
@@ -310,6 +322,7 @@
    {
       var code=73;
       var ID=document.getElementById("student_IDNO").value;
+      var session=document.getElementById("session").value;
       if (ID!='') 
       {
      // alert(ID);
@@ -319,7 +332,7 @@
             type:"POST",
             data:
             {
-               code:code,id:ID
+               code:code,id:ID,session:session
             },
             success:function(response) 
             {
@@ -336,9 +349,10 @@
                   var studentRemark=document.getElementById("studentRemark").value;
                   var bed=document.getElementById("bedSelectList").value;
                   var session=document.getElementById("session").value;
-                  if (floor==''||room==''||bed==''|| session=='' || hostel=='') 
+                  var feeType=document.getElementById("feeType").value;
+                  if (floor==''&& room==''&& bed==''&&  session=='' &&  hostel=='' &&  feeType!='') 
                   {
-                     alert("Enter all the details.");
+                     ErrorToast('All Inputs Required ','bg-warning');
                   }
                   else
                   {
@@ -349,7 +363,7 @@
                         type:"POST",
                         data:
                         {
-                           code:code,id:ID,floor:floor,room:room,bed:bed,studentRemark:studentRemark,session:session,hostel:hostel
+                           code:code,id:ID,floor:floor,room:room,bed:bed,studentRemark:studentRemark,session:session,hostel:hostel,feeType:feeType
                         },
                         success:function(response) 
                         {

@@ -1,5 +1,6 @@
 <?php 
 include "header.php";
+ $passSecureFlag=$_SESSION['secure'];
 
 ?>
 <style>
@@ -190,7 +191,18 @@ input[type=submit]:not(:disabled):hover {
       
   <form id="form">
   <center><h4 id="timer" class="text-danger"></h4></center>
-  <h4 class="text-center"><b>Change Password</b></h4>
+  <?php 
+   if($passSecureFlag==1)
+   {
+?>  <h5 class="text-center text-danger"><b>Your Password is not secure please change</b></h5><?php
+   }
+   else{
+   
+   ?>
+     <h4 class="text-center"><b>Create new password</b></h4><?php 
+   }
+   ?>
+  <!-- <h4 class="text-center"><b>Change Password</b></h4> -->
     <div class="input-container">
       <input type="password" id="password" aria-describedby="requirements" required />
       <label for="password">New Password</label>

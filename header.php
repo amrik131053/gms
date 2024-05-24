@@ -21,7 +21,7 @@ if(!(ISSET($_SESSION['usr'])))
 
 
 <script type="text/javascript">
-    window.location.href="index.php";
+window.location.href = "index.php";
 </script>
 <?php 
 }
@@ -44,7 +44,7 @@ if ($result->num_rows > 0)
  if($EmployeeID==0 || $EmployeeID=='')
 {?>
 <script type="text/javascript">
-   window.location.href="index.php";
+window.location.href = "index.php";
 </script>
 <?php }
  $role_id='0';
@@ -159,62 +159,64 @@ if ($result->num_rows > 0)
    ?>
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <script src="plugins/jquery/jquery.min.js"></script>
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script> 
+
+<head>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 
 
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>Guru Kashi University</title>
-   
-      <!-- Font Awesome Icons -->
-      <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-      <!-- overlayScrollbars -->
-      <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-      <!-- Theme style -->
-      <link rel="stylesheet" href="dist/css/adminlte.min.css">
-      <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-      <!-- ----------internet status ---------- -->
-      <link rel="stylesheet" href="internet_status.css">
-      <!-- ----------internet status end ---------- -->
-      <link rel="stylesheet" href="style.css">
- <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
- <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-   <link rel="stylesheet" href="dist/css/jquery-ui.css">
-  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Guru Kashi University</title>
 
-<link rel="stylesheet" href="plugins/fullcalendar/main.min.css">
-  <link rel="stylesheet" href="plugins/fullcalendar-daygrid/main.min.css">
-  <link rel="stylesheet" href="plugins/fullcalendar-timegrid/main.min.css">
-  <link rel="stylesheet" href="plugins/fullcalendar-bootstrap/main.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <!-- ----------internet status ---------- -->
+    <link rel="stylesheet" href="internet_status.css">
+    <!-- ----------internet status end ---------- -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="dist/css/jquery-ui.css">
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-      <!-- Google Font: Source Sans Pro -->
-      <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-   </head>
-   <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-      <div class="wrapper">
-      <!-- Navbar -->
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-         <!-- Left navbar links -->
-         <ul class="navbar-nav">
-            <li class="nav-item">
-               <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-               <a href="dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
-            </li>
-            <!-- <li class="nav-item d-none d-sm-inline-block">
+    <link rel="stylesheet" href="plugins/fullcalendar/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-daygrid/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-timegrid/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-bootstrap/main.min.css">
+
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="dashboard.php" class="nav-link"><i class="fa fa-home fa-2x" style="color:#9c0a0f"></i></a>
+                </li>
+                <!-- <li class="nav-item d-none d-sm-inline-block">
                <a href="#" class="nav-link">Contact</a>
             </li> -->
-         </ul>
-         <!-- SEARCH FORM -->
-        <!--  <form class="form-inline ml-3">
+            </ul>
+            <!-- SEARCH FORM -->
+            <!--  <form class="form-inline ml-3">
             <div class="input-group input-group-sm">
                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                <div class="input-group-append">
@@ -224,126 +226,128 @@ if ($result->num_rows > 0)
                </div>
             </div>
          </form> -->
-         <!-- Right navbar links -->
+            <!-- Right navbar links -->
 
-         <ul class="navbar-nav ml-auto">
-         <!-- <li class="nav-item dropdown">
+            <ul class="navbar-nav ml-auto">
+                <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="fa fa-users" aria-hidden="true"></i>
           <span class="badge badge-danger navbar-badge" id="countOnlineUsers"></span>
         </a> -->
-</li>
-            <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;"></li>
-             <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" onclick="show_notification();">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge count" id="count"></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="show_notification_tab">
-          
-         
-            
-        </div>
-      </li>
-       <P class="count"></P>
-      <li class="nav-item dropdown user-menu">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-
-<?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
+                </li>
+                <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;">
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" onclick="show_notification();">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge count" id="count"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="show_notification_tab">
 
 
-         
-          <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <!-- User image -->
-          <li class="user-header bg-primary">
 
-           <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
+                    </div>
+                </li>
+                <P class="count"></P>
+                <li class="nav-item dropdown user-menu">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+
+                        <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
 
 
-            <p>
-              <?= $Emp_Name;?> - <?= $Emp_Designation;?>
-              <small>Member Since - <?= $DateOfJoining->format('d-M-Y');?> </small>
-            </p>
-          </li>
-          <!-- Menu Body -->
-          <li class="user-body">
-            <div class="row">
-              <div class="col-4 text-center">
-                <a class=" btn btn-primary btn-xs" href="mytimeout.php">Time out</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="task-manager.php" class=" btn btn-warning btn-xs">My Task</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="employee-articles.php" class=" btn btn-info btn-xs">My Stock</a>
-              </div>
-            </div>
-            <!-- /.row -->
-          </li>
-          <!-- Menu Footer-->
-          <li class="user-footer">
-            <a href="#" class="btn btn-primary btn-flat">Profile</a>
-            <a href="#" onclick="sessionAlllogout('0');" class="btn btn-danger btn-flat float-center">Sign out all</a>
-            <a href="sign-out.php" class="btn btn-warning btn-flat float-right">Sign out</a>
-          </li>
-        </ul>
-      </li>
-         </ul>
 
-      </nav>
-      <!-- /.navbar -->
-      <!-- Main Sidebar Container -->
-      <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #223260;">
-         <!-- Brand Logo -->
-         <a href="dashboard.php" class="brand-link" style="background-color: white;">
-         <img src="dist/img/new-logo.jpg" alt="AdminLTE Logo"
-            style="width: 230px;">
-         </a>
-         <!-- Sidebar -->
-         <div class="sidebar">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-               <div class="image">
-                  <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                   <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
-               </div>
-               <div class="info">
-                  <a href="#" class="d-block"><?=$Emp_Name;?>(<?=$EmployeeID;?>)</a>
-               </div>  
-            </div>
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-               <!-- Add icons to the links using the .nav-icon class
+                        <span class="d-none d-md-inline"><?= $Emp_Name;?></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <!-- User image -->
+                        <li class="user-header bg-primary">
+
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
+
+
+                            <p>
+                                <?= $Emp_Name;?> - <?= $Emp_Designation;?>
+                                <small>Member Since - <?= $DateOfJoining->format('d-M-Y');?> </small>
+                            </p>
+                        </li>
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <a class=" btn btn-primary btn-xs" href="mytimeout.php">Time out</a>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <a href="task-manager.php" class=" btn btn-warning btn-xs">My Task</a>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <a href="employee-articles.php" class=" btn btn-info btn-xs">My Stock</a>
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <a href="#" class="btn btn-primary btn-flat">Profile</a>
+                            <a href="#" onclick="sessionAlllogout('0');"
+                                class="btn btn-danger btn-flat float-center">Sign out all</a>
+                            <a href="sign-out.php" class="btn btn-warning btn-flat float-right">Sign out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #223260;">
+            <!-- Brand Logo -->
+            <a href="dashboard.php" class="brand-link" style="background-color: white;">
+                <img src="dist/img/new-logo.jpg" alt="AdminLTE Logo" style="width: 230px;">
+            </a>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
+                        <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block"><?=$Emp_Name;?>(<?=$EmployeeID;?>)</a>
+                    </div>
+                </div>
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
-               <li class="nav-item has-treeview menu-open">
-                  <a href="dashboard.php" class="nav-link ">
-                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                     <p>
-                        <!--LMS--> 
-                        Dashboard 
-                        <!-- <i class="right fas fa-angle-left"></i> -->
-                     </p>
-                  </a>
-               </li> 
-<?php 
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="dashboard.php" class="nav-link ">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    <!--LMS-->
+                                    Dashboard
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                </p>
+                            </a>
+                        </li>
+                        <?php 
               if ($spoc_per>0) 
                   {
                  ?>
-               
-                <li class="nav-item has-treeview menu-open">
-                  <a href="/spoc/index.php" class="nav-link ">
-                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                     <p>
-                        Spoc Dashboard 
-                       <span class="right badge badge-danger">New</span>
-                     </p>
-                  </a>
-               </li>
-            <?php }?> 
-            </ul>
-    <?php
+
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="/spoc/index.php" class="nav-link ">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Spoc Dashboard
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+                        <?php }?>
+                    </ul>
+                    <?php
                   $ids = join("','",$array_aa); 
                   $q = mysqli_query($conn,"SELECT permissions.id as pid, submenu, mainmenu,menu_name, page_link FROM permissions INNER 
 join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id IN ('$ids') and type = 'Menu' ORDER BY master_menu.priorityorder ASC, permissions.submenu ASC");
@@ -393,31 +397,33 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
                   
                   //echo "</ul>";
                   ?>
-             
-                 
-                           <li class="nav-item ">
-                           <a href="password-change.php" class="nav-link">
-                                 <i class="nav-icon fas fa-copy"></i>
-                                 <p>Change Password</p>
-                              </a></li>
-                           <li class="nav-item ">
-                           <a href="sign-out.php" class="nav-link">
-                                 <i class="nav-icon fas fa-copy"></i>
-                                 <p>LogOut</p>
-                              </a></li>
 
-                 </ul>
-             
 
-            </nav>
-            <!-- /.sidebar-menu -->
-         </div>
-         <!-- /.sidebar -->
-      </aside>
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <br><p id="ajax-loader"></p>
-   
-   <?php  }?>
-    
+                    <li class="nav-item ">
+                        <a href="password-change.php" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>Change Password</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="sign-out.php" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>LogOut</p>
+                        </a>
+                    </li>
+
+                    </ul>
+
+
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <br>
+            <p id="ajax-loader"></p>
+
+            <?php  }?>

@@ -304,8 +304,9 @@ while($permission_data=mysqli_fetch_array($permission_res))
             alert("Select Hostel");
          }
       }
-      function student_stock(locationID,studentID)
+      function student_stockF(locationID,studentID)
       {
+         // alert();
          var code_access=document.getElementById("code_access").value;
           var spinner=document.getElementById("ajax-loader");
                               spinner.style.display='block';
@@ -318,8 +319,9 @@ while($permission_data=mysqli_fetch_array($permission_res))
          if(data != "")
          {
             spinner.style.display='none';
-         $("#student_stock_data").html("");
-         $("#student_stock_data").html(data);
+            document.getElementById("student_stock_data").innerHTML=data;
+         // $("#student_stock_data").html("");
+         // $("#student_stock_data").html(data);
          }
          }
          });
@@ -485,7 +487,7 @@ function studentAttendance(studentID)
    </script>
 </section>
 
-<div class="modal fade" id="student_stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal fade" id="student_stock1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog" role="document" >
       <div class="modal-content" id="student_stock_data" >
          

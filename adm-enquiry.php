@@ -36,7 +36,7 @@
                                 <br>
 
 
-                                <select class="form-control" id="sourse" style="height: 40px;" required="">
+                                <select class="form-control" id="sourse" style="height: 40px;" required=""  onchange="ShowDivSource(this.value);">
                                     <option value="">Select Sourse</option>
                                     <option value="News Paper">News Paper</option>
                                     <option value="Website">Website</option>
@@ -44,7 +44,12 @@
                                     <option value="Teacher">Teacher</option>
                                     <option value="Self Motivated">Self Motivated</option>
                                 </select>
+
                                 <br>
+                                <div id="SourceName1" style='display:none'>
+                                <input type="text" placeholder="Teacher Name" class="form-control" id="SourceName" >
+                                <br>
+</div>
                                 <select class="form-control" id="counter" style="height: 40px;" required="">
                                     <option value="">Select Counter</option>
                                     <option value="1">1</option>
@@ -109,6 +114,21 @@
 </section>
 <p id="ajax-loader"></p>
 <script>
+    function ShowDivSource(id)
+{
+   // alert(id);
+   if (id=='Teacher')
+    {
+   $('#SourceName1').show('Slow');
+}
+else
+{
+    $('#SourceName1').hide('Slow');
+    document.getElementById('SourceName').value="";
+
+    }
+
+}
     getRecord();
 function submitEnquiry() {
     var code = 409;
@@ -118,17 +138,18 @@ function submitEnquiry() {
     var course = document.getElementById('course').value;
     var source = document.getElementById('sourse').value;
     var counter = document.getElementById('counter').value;
+    var SourceName = document.getElementById('SourceName').value;
     
     if(name=='')
     {
         ErrorToast('Please enter name.', 'bg-warning');
         return;
     }
-    if(email=='')
-    {
-        ErrorToast('Please enter email.', 'bg-warning');
-        return;
-    }
+    // if(email=='')
+    // {
+    //     ErrorToast('Please enter email.', 'bg-warning');
+    //     return;
+    // }
     if(mobile=='')
     {
         ErrorToast('Please enter mobile.', 'bg-warning');
@@ -161,7 +182,8 @@ function submitEnquiry() {
             mobile: mobile,
             course: course,
             source: source,
-            counter: counter
+            counter: counter,
+            SourceName:SourceName
         },
         success: function(response) {
             console.log(response);

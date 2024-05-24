@@ -4907,11 +4907,12 @@ if($count>0)
    {       
    
    $studentId=$_POST['id'];
-   $sql="SELECT * from hostel_student_summary where student_id='$studentId' and status='0'";
+   $session=$_POST['session'];
+   $sql="SELECT * from hostel_student_summary where student_id='$studentId' and status='0' and session='$session' ";
    $res=mysqli_query($conn,$sql);
    while($data=mysqli_fetch_array($res))
    {
-   echo "User Already Assigned";
+   echo "1";
    }
    
    
@@ -4925,8 +4926,9 @@ if($count>0)
    $studentId=$_POST['id'];
    $session=$_POST['session'];
    $studentRemark=$_POST['studentRemark'];
+   $feeType=$_POST['feeType'];
    
-   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed' and status='0'";
+   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed'";
    $bedCheckRes=mysqli_query($conn,$bedCheckQry);
    if (mysqli_num_rows($bedCheckRes)>0) 
    {
@@ -4967,7 +4969,7 @@ if($count>0)
    {
    $description_insert="INSERT INTO stock_description (IDNo,Date_issue,Direction,LocationID,OwerID,Remarks,WorkingStatus,DeviceSerialNo,Updated_By,reference_no) values ('$bed','$date','Issued','$locationId','$studentId','Issued','0','0','$EmployeeID','$result')";
    mysqli_query($conn, $description_insert);
-   $hostelIns="INSERT INTO hostel_student_summary (article_no, student_id, location_id, session , status,  check_in_date, reference_no) VALUES ( '$bed', '$studentId', '$locationId','$session', '0',  '$date',  '$result')";
+   $hostelIns="INSERT INTO hostel_student_summary (FeeType,article_no, student_id, location_id, session , status,  check_in_date, reference_no) VALUES ('$feeType','$bed', '$studentId', '$locationId','$session', '0',  '$date',  '$result')";
    mysqli_query($conn,$hostelIns);
    
    echo '<div class="alert alert-success">
@@ -5428,7 +5430,7 @@ if($count>0)
                {
 ?>
 
- <i class="fa fa-edit fa-lg" onclick="student_stock(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock" style="color:blue;"> </i>
+ <i class="fa fa-edit fa-lg" onclick="student_stockF(<?=$locationID?>,<?=$IDNo?>);" data-toggle="modal" data-target="#student_stock1" style="color:blue;"> </i>
 
             <?php    }
       ?>
@@ -6705,7 +6707,7 @@ if($count>0)
        $type_run = mysqli_query($conn, $room_type_insert);
        if ($type_run == true) 
        {
-       echo   $description_insert="INSERT INTO stock_description (IDNo,Date_issue,Direction,LocationID,OwerID,Remarks,WorkingStatus,DeviceSerialNo,Updated_By,reference_no) values ('$item','$date','Issued','$LocationID','0','Issued','0','0','$EmployeeID','$result')";
+          $description_insert="INSERT INTO stock_description (IDNo,Date_issue,Direction,LocationID,OwerID,Remarks,WorkingStatus,DeviceSerialNo,Updated_By,reference_no) values ('$item','$date','Issued','$LocationID','0','Issued','0','0','$EmployeeID','$result')";
            mysqli_query($conn, $description_insert);
            echo '<div class="alert alert-success">
                <strong>Bed Added Successfully in Room No.: '.$room.' </strong> 

@@ -27829,21 +27829,47 @@ session_destroy();
 }
 elseif ($code==392) {
    ?>
+   
+
    <table class="table">
     <thead>
         <tr>
+        <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" ></th>
             <th>SrNo</th>
             <th>Image</th>
+            <th>Status</th>
             <th>UserName</th>
             <th>Name</th>
             <th>Designation</th>
             <th>Department</th>
-            <!-- <th>Status</th> -->
             <th>Action</th>
         </tr>
 </thead>
         <tbody id="users">
             <?php 
+            function is_secure_password($password) {
+    
+                $min_length = 8;
+                
+                
+                if (strlen($password) < $min_length) {
+                    return false;
+                }
+                
+                
+                $contains_uppercase = preg_match('/[A-Z]/', $password);
+                $contains_lowercase = preg_match('/[a-z]/', $password);
+                $contains_digit = preg_match('/\d/', $password);
+                $contains_special = preg_match('/[\W]/', $password); 
+                
+                
+                if (!$contains_uppercase || !$contains_lowercase || !$contains_digit || !$contains_special) {
+                    return false;
+                }
+                
+                return true;
+             }
+        
              $time=time();
              $sr=1;
              $checkUserOnline="SELECT * FROM UserMaster inner join Staff ON UserMaster.UserName=Staff.IDNo Where UserMaster.ApplicationType='Web' 
@@ -27856,11 +27882,31 @@ elseif ($code==392) {
 
              while($checkUserOnlineRow=sqlsrv_fetch_array($checkUserOnlineRun,SQLSRV_FETCH_ASSOC))
              {
+                    
+             $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 and IDNo='".$checkUserOnlineRow['IDNo']."' ";
+           
+             $stmt2 = sqlsrv_query($conntest,$sql1);
+                  if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                  {
+                    $password=$row['Password'];
+                    $Name=$row['Name'];
+                    $IDNo=$row['IDNo'];
+                    if(!is_secure_password($password))
+                    {
+                   
+                     $countSecure="<b class='text-danger'>Not Secure</b>";
+                    }
+                    else{
+                    
+                     $countSecure="<b class='text-success'>Secure</b>";
+                    }
+                  }
                 $Emp_Image=$checkUserOnlineRow['Snap'];
                 $emp_pic=base64_encode($Emp_Image);
 
                 ?>
                  <tr>
+                 <td><input type="checkbox" class="checkbox v_check" value="<?=$checkUserOnlineRow['IDNo'];?>"></td>
                      <td><?=$sr;?></td>
                      <td>
                      <div class="img-box">
@@ -27870,6 +27916,7 @@ elseif ($code==392) {
     </a>
 </div>
                     </td>
+                     <td><?=$countSecure;?></td>
                      <td><?=$checkUserOnlineRow['UserName'];?></td>
                      <td><?=$checkUserOnlineRow['Name'];?></td>
                      <td><?=$checkUserOnlineRow['Designation'];?></td>
@@ -27888,6 +27935,11 @@ elseif ($code==392) {
              <?php 
              $sr++;
              }?>
+             <tr>
+                <td colspan="9">
+                    <button type="button" onclick="logoutAll();" class="btn btn-danger">Logout</button>
+                </td>
+             </tr>
 </tbody>
 </table>
    <?php 
@@ -28553,6 +28605,42 @@ $mobile=$_REQUEST['mobile'];
 $course=$_REQUEST['course'];
 $source=$_REQUEST['source'];
 $counter=$_REQUEST['counter'];
+$SourceName=$_REQUEST['SourceName'];
+if($counter==1)
+{
+$counsellor="170937";
+}
+elseif($counter==2)
+{
+    $counsellor="171218";
+}else if($counter==3)
+{
+    $counsellor="171217";
+}
+elseif($counter==4)
+{
+    $counsellor="171810";
+}
+elseif($counter==5)
+{
+    $counsellor="171776";
+}
+elseif($counter==6)
+{
+    $counsellor="";
+}
+elseif($counter==7)
+{
+    $counsellor="";
+}
+elseif($counter==8)
+{
+    $counsellor="";
+}
+else
+{
+    $counsellor="";
+}
 
 $submit_date=date('Y-m-d');
     $query = "SELECT TOP 1 TokenNo FROM Enquiry where CONVERT(DATE, DateEntry) = '$submit_date' ORDER BY TokenNo DESC";
@@ -28566,7 +28654,7 @@ $submit_date=date('Y-m-d');
     $token = 100;
   }
 
-     $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token')";       
+      $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo,IDNo,SourceName,CreatedBy) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token','$counsellor','$SourceName','$EmployeeID')";       
          $result =sqlsrv_query($conntest,$q);
          if($result===true)
          {
@@ -28613,7 +28701,8 @@ elseif ($code=='410') {
     <form action="print-enquiry-slip.php" method="post">
 
 
-        <input type="hidden" value="<?=$row['ID'];?>" name="id"><button
+        <input type="hidden" value="<?=$row['ID'];?>" name="id">
+        <button class="btn btn-primary"
             type="submit" name="print"><i
                 class="fa fa-print fa-lg"></i></button>
     </form>
@@ -28711,7 +28800,7 @@ else if($code==412)
       $counter=$_REQUEST['counter'];
       $sourse=$_REQUEST['source'];
       $response=$_REQUEST['responseA'];
-       $q="UPDATE Enquiry set Name='$name',Email='$email',MobileNo='$number',Course='$course',TokenNo='$token',CounterNo='$counter',Source='$sourse',Response='$response' where ID='$id'";
+       $q="UPDATE Enquiry set Name='$name',Email='$email',MobileNo='$number',Course='$course',TokenNo='$token',CounterNo='$counter',Source='$sourse',Response='$response',UpdatedBy='$EmployeeID',UpdatedOn='$timeStampS' where ID='$id'";
  $result = sqlsrv_query($conntest,$q);
          if ($result==true)
           {
@@ -29023,6 +29112,39 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                          {
                            ?>
    <div class="row">
+   <table class="table" style='font-size:12px;'>
+              
+                <?php 
+      $dateToday = date('Y-m-d');
+      $query1 = "SELECT id,SemId, ExamType, Month, Year, Validupto FROM ExamPermission  WHERE Validupto >= '$dateToday'  AND IDNo = '".$row_student['IDNo']."'";
+      $query111=sqlsrv_query($conntest,$query1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $countIF=sqlsrv_num_rows($query111);
+      if($countIF>0)
+      {
+?>
+  <tr>
+                    <th>Semster</th>
+                    <th>Type</th>
+                    <th>Examination</th>
+                    <th>End Date</th>
+                    <th>Action</th>
+                </tr><?php 
+      }
+                                    
+                                     while($rowAleady=sqlsrv_fetch_array($query111))
+                                     {
+                                        ?>
+            <tr>
+                <td><?=$rowAleady['SemId'];?></td>
+                <td><?=$rowAleady['ExamType'];?></td>
+                <td><?=$rowAleady['Month']." ".$rowAleady['Year'];?></td>
+                <td><?=$rowAleady['Validupto']->format('d-m-Y');?></td>
+                <td><i class="fa fa-trash text-danger" onclick="deleteSepecialPermissions(<?=$rowAleady['id'];?>)"></i></td>
+            </tr>
+                                        <?php 
+                                     }
+                ?>
+            </table>
    <div class="col-lg-12">
                 <div class="col-lg-12">
                     <label>Student Name</label>
@@ -29099,12 +29221,13 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
             </div>
                 <div class="col-lg-6">
                 <label for="">Action</label><br>
-                <button class="btn btn-success" onclick="submitSpecial(<?=$row_student['UniRollNo'];?>);">Submit</button>
+                <button class="btn btn-success" onclick="submitSpecial('<?=$row_student['UniRollNo'];?>',<?=$row_student['IDNo'];?>);">Submit</button>
             </div>
             <br>
             <br>
             <br>
             <br>
+           
                
                 </div>
                 </div>
@@ -29120,13 +29243,14 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
 }
 elseif ($code=='419') {
             $id=$_REQUEST['id'];
+            $IDNo=$_REQUEST['IDNo'];
             $SemesterSepecial=$_REQUEST['SemesterSepecial'];
             $TypeSepcial=$_REQUEST['TypeSepcial'];
             $MonthSepecial=$_REQUEST['MonthSepecial'];
             $YearSepecial=$_REQUEST['YearSepecial'];
             $validDate=$_REQUEST['validDate'];
-            $updatePermisions="INSERT into ExamPermission (UniRollNo,SemId,ExamType,Month,Year,Validupto) 
-            VALUES('$id','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
+            $updatePermisions="INSERT into ExamPermission (IDNo,UniRollNo,SemId,ExamType,Month,Year,Validupto) 
+            VALUES('$IDNo','$id','$SemesterSepecial','$TypeSepcial','$MonthSepecial','$YearSepecial','$validDate') ";
                 $updatePermisions_run=sqlsrv_query($conntest,$updatePermisions);
                 if($updatePermisions_run==true)
                 {
@@ -29136,6 +29260,218 @@ elseif ($code=='419') {
                 {
                     echo "0";
                 }
+}
+elseif($code=='421')
+{
+  $ids=$_POST['subjectIDs'];
+  foreach($ids as $key => $id)
+  {
+     $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
+    $getDefalutMenuRun=sqlsrv_query($conntest, $updateLoggedIn);
+  }
+  if ($getDefalutMenuRun==true)
+  {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
+}
+elseif($code=='422')
+{
+    $BatchOpen = $_REQUEST['BatchOpen'];
+    $DurationOpen = $_REQUEST['DurationOpen'];
+    $TypeOpen = $_REQUEST['TypeOpen'];
+    $numberOfSem = array();
+    ?>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row text-center">
+          <?php   $semesters = [];
+    $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+                  INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
+                   WHERE MasterCourseStructure.Batch = '$BatchOpen' AND MasterCourseCodes.Duration = '$DurationOpen' AND MasterCourseStructure.$TypeOpen = '1'  
+                  ORDER BY SemesterID ASC";
+    $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
+    while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
+        $semesters[] = $row['SemesterID'];
+    }
+    
+    for ($i = 1; $i <= $DurationOpen * 2; $i++) {
+        $checked = in_array($i, $semesters) ? "checked" : "";
+        $val = in_array($i, $semesters) ? "1" : "0";
+    ?>
+        <div class="col-lg-2 col-sm-6 custom-control custom-checkbox"><br><?= $i; ?>
+            <input type="hidden" class="form-control sel22" value="<?= $i; ?>">
+            <input type="checkbox" class="form-control sel11" id="customCheckbox<?= $i; ?>" value="<?= $val; ?>" <?= $checked; ?>>
+        </div>
+    <?php
+    }
+    ?>
+    <div class="col-lg-12 col-sm-12"><br>
+        <button class="btn btn-success" style="float:right;" onclick="openSubmit();">Submit</button>
+    </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+
+elseif($code == 423) {
+    $semester = $_REQUEST['id_array_main'];
+    $BatchOpen = $_REQUEST['BatchOpen'];
+    $DurationOpen = $_REQUEST['DurationOpen'];
+    $TypeOpen = $_REQUEST['TypeOpen'];
+    $lenarraySem_main = $_REQUEST['lenarraySem_main'];
+    $success = true;
+
+    foreach($semester as $key => $val) {
+        $update_permission = "UPDATE MasterCourseStructure  SET $TypeOpen = '$val'   FROM MasterCourseStructure mcs  
+        INNER JOIN MasterCourseCodes mcc   ON mcs.CourseId = mcc.CourseId   WHERE mcs.Batch = '$BatchOpen'   AND mcc.Duration = '$DurationOpen' 
+                              AND mcs.SemesterID = '".$lenarraySem_main[$key]."'";
+        $update_run = sqlsrv_query($conntest, $update_permission);
+        if ($update_run === false) {
+            $success = false;
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+            break;
+        }
+    }
+
+    if ($success) {
+        echo "1";
+    } else {
+        echo "0";
+    }
+}
+
+   elseif($code=='424')
+{
+    $BatchOpen=$_REQUEST['BatchOpen'];
+    $DurationOpen=$_REQUEST['DurationOpen'];
+    $TypeOpen=$_REQUEST['TypeOpen'];
+     $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
+    inner join MasterCourseCodes mcc on mcs.CourseId=mcc.CourseId where mcs.Batch='$BatchOpen' ANd Duration='$DurationOpen' and $TypeOpen='1'";
+   $update_run=sqlsrv_query($conntest,$update_permission);
+   if($update_run==true)
+   {
+    echo "1";
+   }
+   else{
+    echo "0";
+   }
+
+}
+
+elseif($code==425)
+{
+    $id=$_REQUEST['id'];
+       $specialPermisisons="DELETE From ExamPermission  WHERE id='$id'";
+        $specialPermisisons_run=sqlsrv_query($conntest,$specialPermisisons);  
+  if ($specialPermisisons_run==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+
+} 
+elseif ($code=='426') {
+    $i=0;
+    ?>
+     <table class="table" id="example" >
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <!-- <th>Email</th> -->
+                                        <th>Course </th>
+                                        <th>Source</th>
+                                        <th>Token </th>
+                                        <th>Cabin</th>
+                                        <th>Response</th>
+                                        <th>Action</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody ><?php 
+    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID'  Order by ID desc";
+    $select_add_q=sqlsrv_query($conntest,$select_add);
+    while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
+    {
+    $i++;
+    if($row['Response']!='')
+    {
+    $color='#8ccb8c';
+    }
+    else
+    {
+    $color='#e5070761';
+    }
+    ?>
+<tr style="background-color:<?=$color;?>">
+<td><?=$i;?></td>
+<td><?=$row['Name'];?></td>
+<td><?=$row['MobileNo'];?></td>
+<td><?=$row['Course'];?></td>
+<td><?=$row['Source'];?></td>
+<td><?=$row['TokenNo'];?></td>
+<td><?=$row['CounterNo'];?></td>
+<td><?=$row['Response'];?></td>
+<td><select name="" id="responseCon<?=$row['ID'];?>" class="form-control" onchange="responseSubmitByConsullar(<?=$row['ID'];?>);">
+    <option value="">Select</option>
+    <option value="Admitted">Admitted</option>
+    <option value="Enquiry">Enquiry</option>
+</select></td>
+</tr>
+<?php
+        }
+        ?>
+       <tr>
+        <td colspan="8">
+        <?php 
+        if($i<1)
+        {
+            echo "<center>No record</center>";
+        }
+
+        ?>
+        </td>
+        </tr>
+         </tbody>
+</table>
+        <?php 
+
+}
+elseif($code=='427')
+{
+    $id=$_REQUEST['IDNo'];	
+    $response=$_REQUEST['res'];
+          $q="UPDATE Enquiry set Response='$response',UpdatedBy='$EmployeeID',UpdatedOn='$timeStampS' where ID='$id'";
+   $result = sqlsrv_query($conntest,$q);
+           if ($result==true)
+            {
+            
+               echo "1";
+                     
+           }
+           else
+           {
+             echo "0";
+           }
+}
+elseif($code==428)
+{
+    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID' and (Response='' or Response is Null)   Order by ID desc";
+    $countcheck=sqlsrv_query($conntest,$select_add,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    echo $count=sqlsrv_num_rows($countcheck);
+   
 }
    else
    {

@@ -21,18 +21,75 @@
                               <a class="btn btn-primary" id="btn3"
                             style="background-color:#223260; color: white; border: 5px solid;"
                             onclick="creditcardAdmission(),bg(this.id);"> Credit Card </a>
+                            
                     </div>
                    
              
             </div>
+           
         </div> 
+        
          <div class="card card-primary">
+            <div>
+            <a class="btn btn-app bg-primary btn-sm" data-toggle="modal" data-target="#visitroModal"
+        onclick="visitroRecord();" style=" float:right; color: white;">
+                  <span class="badge bg-danger" id="countVisitor" style="font-size:15px;">0</span>
+                  <i class="fas fa-eye"></i> Visitors
+                </a>
+            <!-- <button class="btn btn-danger" data-toggle="modal" data-target="#visitroModal"
+        onclick="visitroRecord();" > <b id="countVisitor"></b><i class="fa fa-eye"></i>
+    
+    
+    </button> -->
+    
+    </div>
          <div class="card-body" id="admissionForm" style="">
                     </div>
                 </div>
     </div>
     <!-- /.col -->
 </section>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- <form method="post" action="post_action.php"> -->
+                    <div class="modal-body" id="other">
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+<div class="modal fade" id="visitroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:left">
+                <div class="row" id="modalVistorRecordshow">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -299,9 +356,9 @@ function creditcardsearch() {
 
 
 
+visitorCount();
 
-
-
+setInterval(function () {visitorCount();}, 60000);
 
 
 
@@ -744,8 +801,76 @@ function submitNewAdmissions() {
         }
     });
 }
+function visitroRecord()
+ {
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    var code = 426;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById('modalVistorRecordshow').innerHTML = response;
+        }
+    });
+}
+function visitorCount()
+ {
+    // var spinner = document.getElementById('ajax-loader');
+    // spinner.style.display = 'block';
+    var code = 428;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            // spinner.style.display = 'none';
+            document.getElementById('countVisitor').innerHTML = response;
+        }
+    });
+}
 
 // successModal(9618233885);
+function responseSubmitByConsullar(IDNo)
+ {
+    var res=document.getElementById('responseCon'+IDNo).value;
+    if(res!='')
+    {
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    var code = 427;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            IDNo: IDNo,
+            res:res,
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+                SuccessToast('Successfully');
+                visitroRecord();
+            }else{
+                ErrorToast('try again','bg-warning');
+            }
+            // document.getElementById('testingQuery').innerHTML = response;
+        }
+    });
+}
+else{
+    ErrorToast('select response','bg-warning');
+}
+}
 function successModal(IDNo)
  {
     var spinner = document.getElementById('ajax-loader');
