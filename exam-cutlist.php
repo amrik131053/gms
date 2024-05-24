@@ -397,7 +397,7 @@ function exportCutListPdf() {
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
+    var Type = document.getElementById('Type').value; 
     var Group = document.getElementById('Group').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
