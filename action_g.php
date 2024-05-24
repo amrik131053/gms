@@ -18902,7 +18902,7 @@ elseif($code==270)  // search student
     $query .= "AND  LateralEntry='$LateralEntry'";
     }
 
-//    echo  $query;
+    echo  $query;
 
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
