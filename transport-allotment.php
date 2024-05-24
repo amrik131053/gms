@@ -337,6 +337,26 @@ function bydriver()
 
     }
 
+    function seachReport() {
+    var fromDateForIdCard = document.getElementById("fromDateForIdCard").value;
+    var toDateFromIdCard = document.getElementById("toDateFromIdCard").value;
+    if (fromDateForIdCard != '' && toDateFromIdCard!='') {
+    
+        window.open("export.php?exportCode="+68+"&from="+fromDateForIdCard+"&to="+toDateFromIdCard, '_blank');
+    } else {
+        ErrorToast('Please Select status/date', 'bg-warning');
+
+    }
+
+           }
+
+
+
+
+
+
+
+
 
  </script>
 
@@ -350,8 +370,25 @@ function bydriver()
 
         <div class="card-header">
 
-          <h3 class="card-title">All Requests</h3>
-
+          <!-- <h3 class="card-title">All Requests</h3> -->
+          <div class="btn-group ">
+                            
+                          
+                            <input type="date" class="form-control form-control-sm" id="fromDateForIdCard">
+                            &nbsp;
+                            &nbsp;
+                            <input type="date" class="form-control form-control-sm" id="toDateFromIdCard">
+                            <div class="input-group-append">
+                               &nbsp;
+                               &nbsp;
+                               <button type="button" onclick="seachReport();"
+                                  class="form-control form-control-sm bg-success">
+                               Search
+                               </button>
+                           
+                              
+                            </div>
+                         </div>
           <div class="card-tools">
          
            
@@ -377,7 +414,7 @@ function bydriver()
                         Reject</a>
                      </li>
                   </ul>
-        <div class="card-body table-responsive " id="verification_allot" style="height:400px;">
+        <div class="card-body table-responsive " id="verification_allot">
       
         </div>
         
@@ -396,7 +433,7 @@ function bydriver()
           </div>
         </div>
        
-        <div class="card-body table-responsive " id="timeline_allotment" style="height:440px;font-size: 12px!important;" >
+        <div class="card-body table-responsive " id="timeline_allotment" style="font-size: 12px!important;" >
      
         </div>
         
@@ -415,7 +452,7 @@ function bydriver()
           </div>
         </div>
        
-        <div class="card-body table-responsive " id="action_button_dynamic"  style="height:440px;">
+        <div class="card-body table-responsive " id="action_button_dynamic"  >
         
           </div>
         

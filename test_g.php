@@ -24,8 +24,9 @@ function is_secure_password($password) {
     return true;
  }
 
- $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 ";
+ $sql1 = "SELECT * FROM UserMaster Inner JOin Staff on UserMaster.UserName=Staff.IDNO WHERE ApplicationType='Web' and JobStatus=1 order by  IDNo ASC ";
 $countSecure=0;
+$SrNo=0;
 $countNotSecure=0;
 $stmt2 = sqlsrv_query($conntest,$sql1);
 	 while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -35,15 +36,16 @@ $stmt2 = sqlsrv_query($conntest,$sql1);
        $IDNo=$row['IDNo'];
        if(!is_secure_password($password))
        {
-        echo "<b style='color:red;'>Password Not Secure</b> ".$Name."(".$IDNo.")";
+        echo $SrNo."<b style='color:red;'>Password Not Secure</b> ".$Name."(".$IDNo.")";
         $countNotSecure++;
        }
        else{
-        echo " <b style='color:green;'>Password Fully  Secure</b> ".$Name."(".$IDNo.")";
+        echo $SrNo." <b style='color:green;'>Password Fully  Secure</b> ".$Name."(".$IDNo.")";
         $countSecure++;
        }
 
        echo "</br>";
+       $SrNo++;
      }
      echo "Total Secure :".$countSecure;
      echo "Total Not Secure :".$countNotSecure;

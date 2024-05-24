@@ -1,14 +1,14 @@
 <?php 
    ini_set('max_execution_time', '0');
    include "header.php";  
-   include '../gkuadmin/DB_connection/connection.php';
+   include 'connection/connection.php';
    // include "connection/connection.php"; 
 
 if (isset($_POST['checkin_redy'])) {
   $intime=$_POST['intime'];
   $id=$_POST['id'];
      $sql = "UPDATE vehicle_allotment SET action='1' , in_time='$intime' where id='$id'";
-$result = mysqli_query($connection_local, $sql);
+$result = mysqli_query($conn, $sql);
 if ($result) 
 {
    ?>
@@ -29,7 +29,7 @@ if (isset($_POST['checkin_in'])) {
   $id=$_POST['id'];
     $sql = "UPDATE vehicle_allotment SET action='2', out_time='$intime'  where id='$id'";
 
-$result = mysqli_query($connection_local, $sql);
+$result = mysqli_query($conn, $sql);
 if ($result) 
 {
    ?>
@@ -73,14 +73,10 @@ if ($result)
                   <tbody>
 
 <?php
-
- $result = mysqli_query($connection_local," SELECT  *,va.action as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.number as vno
-    FROM vehicle_allotment va
-    INNER JOIN vehicle_details vd  
-         ON vd.id = va.vehicle_no  WHERE 
-        va.status='4'  ORDER BY va.id DEsC  limit 50");
-
-                // $result = mysqli_query($connection_local,"SELECT * FROM vehicle_allotment where status='4' ORDER BY status ASC");
+echo $ss=" SELECT  *,va.action as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.number as vno
+FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_no  WHERE 
+      va.status='4'  ORDER BY va.id DEsC  limit 50";
+ $result = mysqli_query($conn,$ss);
                     $counter = 1;
                    while($row=mysqli_fetch_array($result))
                     {
