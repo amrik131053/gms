@@ -21,7 +21,7 @@ $EmployeeID=$_SESSION['usr'];
             <th>Memory</th>
          </tr>
       </thead>
-      <tbody>
+      <tbody> 
          <?php 
             $building_num=0;
             $building="  SELECT * FROM master_calegories c INNER JOIN master_article a ON c.ID=a.CategoryCode  INNER JOIN stock_summary s ON s.ArticleCode=a.ArticleCode  WHERE s.IDNo='$id'";
@@ -4845,7 +4845,7 @@ $start=3;
                 </tr>
  <?php
  $i='1';
-$j=1;
+$srno=1;
 
 
  $CourseID = $_GET['course'];
@@ -4879,7 +4879,7 @@ $j=1;
                   
 ?>
 <tr>
-<td><?= $j;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<td><?= $srno;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
@@ -5037,7 +5037,7 @@ if($dateover>0)
                         </td> </tr>
 
 <?php 
-$j++;
+$srno++;
 }
   $flag=$i-1;
 

@@ -6,7 +6,7 @@ $output = '';
 $ctime = date("d-m-Y");
 $nowtime = strtotime($ctime);
 
-  $College = $_GET['CollegeId'];
+  $College = $_GET['CollegeId']; 
   $Course = $_GET['Course'];
   $Batch = $_GET['Batch'];
   $Semester = $_GET['Semester'];
@@ -212,7 +212,7 @@ $Subjects1=array();
 $conntest = $GLOBALS['conntest'];
 
 
- $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' ";
+ $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' AND SGroup='$Group' ";
   $subcount=0;
  $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                   
@@ -270,7 +270,23 @@ if($subcount>22 && $subcount<=33)
 }
 else
 {
-   $pagethree=33; 
+  $pagethree=33;
+}
+if($subcount>23 && $subcount<=44)
+{
+   $pagefour=$subcount;
+}
+else
+{
+  $pagefour=44;
+}
+if($subcount>44 && $subcount<=55)
+{
+   $pagefive=$subcount;
+}
+else
+{
+   $pagethree=55; 
 }
 
 
@@ -356,7 +372,8 @@ else
 
         for($sub=0;$sub<$pageone;$sub++)
         {
-        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd 
+        SubjectCode='$Subjects[$sub]' AND ExternalExam='Y' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -434,7 +451,7 @@ else
 
         for($sub=$pageone;$sub<$pagetwo;$sub++)
         {
-        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]'AND ExternalExam='Y' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -510,9 +527,9 @@ else
 
        $ExternalExam=array();
 
-        for($sub=$pageone;$sub<$pagetwo;$sub++)
+        for($sub=$pagetwo;$sub<$pagethree;$sub++)
         {
-        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]' ";  
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]'AND ExternalExam='Y' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
@@ -543,7 +560,162 @@ else
 
 }
 
+//page=4
+ if($subcount>33)
+ {
+  for ($p = 0; $p < $totalStudent / 25; $p++) 
 
+    {
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', 'b', 10);
+        $x = 79;
+        
+        for($key=$pagethree;$key<$pagefour;$key++)
+        
+         {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
+        $x += 19.3; 
+
+    }
+   
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 30);
+    $r=79;
+    $g=38;
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25,$totalStudent); $i++)
+     {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(15,$y);
+        $smal =strtolower($StudentNames[$i]);
+      $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+      $pdf->SetXY(15,$y);
+      $pdf->Cell(35,6,"",1,0,'C',0);
+      $pdf->Cell(29,6,"",1,0,'C',0);
+      $pdf->SetXY(50,$y);
+      $pdf->SetFont('Times','b',6);
+      $pdf->MultiCell(29,3,ucwords($smal),0,'l');
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',8);
+        $pdf->SetXY(79,$y);
+
+       $ExternalExam=array();
+
+        for($sub=$pagethree;$sub<$pagefour;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]'AND ExternalExam='Y' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,$row_exam['ExternalExam'],1, 'C');
+            $r += 19.3; 
+                          }
+                          else 
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3,6,'N',1,'C');
+            $r += 19.3; 
+                          }
+          }
+
+ //print_r($ExternalExam);
+  // echo "<br>";
+
+                    
+        $y = $y + 6;
+        $r=79;
+        $g=$g+6; 
+    }
+
+ } 
+
+}
+//page 5
+ if($subcount>44)
+ {
+  for ($p = 0; $p < $totalStudent / 25; $p++) 
+
+    {
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', 'b', 10);
+        $x = 79;
+        
+        for($key=$pagefour;$key<$pagefive;$key++)
+        
+         {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
+        $x += 19.3; 
+
+    }
+   
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 30);
+    $r=79;
+    $g=38;
+    for ($i = $p * 25,$y=38; $i < min(($p + 1) * 25,$totalStudent); $i++)
+     {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(7   , 6,$i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(15,$y);
+        $smal =strtolower($StudentNames[$i]);
+      $pdf->MultiCell(35,6,$ClassRollNos[$i]."/".$UnirollNos[$i],1,'C');
+
+      $pdf->SetXY(15,$y);
+      $pdf->Cell(35,6,"",1,0,'C',0);
+      $pdf->Cell(29,6,"",1,0,'C',0);
+      $pdf->SetXY(50,$y);
+      $pdf->SetFont('Times','b',6);
+      $pdf->MultiCell(29,3,ucwords($smal),0,'l');
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',8);
+        $pdf->SetXY(79,$y);
+
+       $ExternalExam=array();
+
+        for($sub=$pagefour;$sub<$pagefive;$sub++)
+        {
+        $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid[$i]' ANd SubjectCode='$Subjects[$sub]'AND ExternalExam='Y' ";  
+        $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
+                       if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3, 6,$row_exam['ExternalExam'],1, 'C');
+            $r += 19.3; 
+                          }
+                          else 
+                          {
+                            $pdf->SetXY($r, $g);
+            $pdf->SetFont('Arial', 'b', 6);
+            $pdf->MultiCell(19.3,6,'N',1,'C');
+            $r += 19.3; 
+                          }
+          }
+
+ //print_r($ExternalExam);
+  // echo "<br>";
+
+                    
+        $y = $y + 6;
+        $r=79;
+        $g=$g+6; 
+    }
+
+ } 
+
+}
 
 
 
@@ -551,7 +723,7 @@ else
 }
 
 
-// echo $subcount;
+//echo $subcount;
 
 
 $pdf->Output();

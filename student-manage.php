@@ -238,7 +238,7 @@ function searchStudentCollegeWise() {
     var Status = document.getElementById('Status').value;
     var Eligibility = document.getElementById('Eligibility').value;
     var Lateral = document.getElementById('Lateral').value;
-    if (CollegeName != '') {
+    if (CollegeName != '') { 
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 270;

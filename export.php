@@ -3991,7 +3991,8 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 $subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd
- Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
+ Batch='$Batch' AND SemesterID='$Semester' AND SGroup='$Group' ANd Isverified='1'";
+
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
                  
              if($list_Subjects === false)
@@ -4086,17 +4087,17 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
          for($sub=0;$sub<$subCount1;$sub++)
         {
-      $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' ";  
+      $list_sql_examsubject = "SELECT * FROM ExamFormSubject WHERE Examid='$Examid' ANd SubjectCode='$Subjects[$sub]' ANd ExternalExam='Y' ";  
         $list_result_examsubject = sqlsrv_query($conntest,$list_sql_examsubject);
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
 
                             $ExternalExam=$row_exam['ExternalExam'];
-                           $exportstudy.="<td style='text-align:center;'>{$ExternalExam} </td>"; 
+                           $exportstudy.="<td style='text-align:center;'>{$ExternalExam}  </td>"; 
                           }
                           else
                           {
-                             $exportstudy.="<td style='text-align:center;'> </td>"; 
+                             $exportstudy.="<td style='text-align:center;'>N</td>"; 
                           }
                           
           }
