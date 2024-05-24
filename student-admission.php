@@ -30,8 +30,19 @@
         </div> 
         
          <div class="card card-primary">
-            <div><button class="btn btn-danger" data-toggle="modal" data-target="#visitroModal"
-        onclick="visitroRecord();" style=" float:right; color: white;"> <i class="fa fa-eye"></i></button></div>
+            <div>
+            <a class="btn btn-app bg-primary btn-sm" data-toggle="modal" data-target="#visitroModal"
+        onclick="visitroRecord();" style=" float:right; color: white;">
+                  <span class="badge bg-danger" id="countVisitor" style="font-size:15px;">0</span>
+                  <i class="fas fa-eye"></i> Visitors
+                </a>
+            <!-- <button class="btn btn-danger" data-toggle="modal" data-target="#visitroModal"
+        onclick="visitroRecord();" > <b id="countVisitor"></b><i class="fa fa-eye"></i>
+    
+    
+    </button> -->
+    
+    </div>
          <div class="card-body" id="admissionForm" style="">
                     </div>
                 </div>
@@ -347,7 +358,7 @@ function creditcardsearch() {
 
 
 
-
+setInterval(function () {visitorCount();}, 60000);
 
 
 
@@ -807,8 +818,58 @@ function visitroRecord()
         }
     });
 }
+function visitorCount()
+ {
+
+    var code = 428;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+        
+            document.getElementById('countVisitor').innerHTML = response;
+        }
+    });
+}
 
 // successModal(9618233885);
+function responseSubmitByConsullar(IDNo)
+ {
+    var res=document.getElementById('responseCon'+IDNo).value;
+    if(res!='')
+    {
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    var code = 427;
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            IDNo: IDNo,
+            res:res,
+            code: code
+        },
+        type: 'POST',
+        success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if(response==1)
+            {
+                SuccessToast('Successfully');
+                visitroRecord();
+            }else{
+                ErrorToast('try again','bg-warning');
+            }
+            // document.getElementById('testingQuery').innerHTML = response;
+        }
+    });
+}
+else{
+    ErrorToast('select response','bg-warning');
+}
+}
 function successModal(IDNo)
  {
     var spinner = document.getElementById('ajax-loader');

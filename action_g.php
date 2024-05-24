@@ -28608,7 +28608,7 @@ $counter=$_REQUEST['counter'];
 $SourceName=$_REQUEST['SourceName'];
 if($counter==1)
 {
-$counsellor="";
+$counsellor="170937";
 }
 elseif($counter==2)
 {
@@ -28654,7 +28654,7 @@ $submit_date=date('Y-m-d');
     $token = 100;
   }
 
-      $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo,IDNo,SourceName) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token','$counsellor','$SourceName')";       
+      $q="INSERT into Enquiry(Name,Email,MobileNo,Course,Source,DateEntry,CounterNo,TokenNo,IDNo,SourceName,CreatedBy) VALUES ('$name','$email','$mobile','$course','$source','$timeStamp','$counter','$token','$counsellor','$SourceName','$EmployeeID')";       
          $result =sqlsrv_query($conntest,$q);
          if($result===true)
          {
@@ -28800,7 +28800,7 @@ else if($code==412)
       $counter=$_REQUEST['counter'];
       $sourse=$_REQUEST['source'];
       $response=$_REQUEST['responseA'];
-       $q="UPDATE Enquiry set Name='$name',Email='$email',MobileNo='$number',Course='$course',TokenNo='$token',CounterNo='$counter',Source='$sourse',Response='$response' where ID='$id'";
+       $q="UPDATE Enquiry set Name='$name',Email='$email',MobileNo='$number',Course='$course',TokenNo='$token',CounterNo='$counter',Source='$sourse',Response='$response',UpdatedBy='$EmployeeID',UpdatedOn='$timeStampS' where ID='$id'";
  $result = sqlsrv_query($conntest,$q);
          if ($result==true)
           {
@@ -29387,21 +29387,21 @@ elseif ($code=='426') {
      <table class="table" id="example" >
                                 <thead>
                                     <tr>
-                                        <th>Sr. No.</th>
+                                        <th>Sr.No.</th>
                                         <th>Name</th>
-                                        <th>Mobile No</th>
-                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <!-- <th>Email</th> -->
                                         <th>Course </th>
                                         <th>Source</th>
-                                        <th>Token Number</th>
-                                        <th>Counter No</th>
+                                        <th>Token </th>
+                                        <th>Cabin</th>
                                         <th>Response</th>
                                         <th>Action</th>
                                       
                                     </tr>
                                 </thead>
                                 <tbody ><?php 
-    $select_add="SELECT * FROM Enquiry   Order by ID desc";
+    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID'  Order by ID desc";
     $select_add_q=sqlsrv_query($conntest,$select_add);
     while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
     {
@@ -29419,20 +29419,16 @@ elseif ($code=='426') {
 <td><?=$i;?></td>
 <td><?=$row['Name'];?></td>
 <td><?=$row['MobileNo'];?></td>
-<td><?=$row['Email'];?></td>
 <td><?=$row['Course'];?></td>
 <td><?=$row['Source'];?></td>
 <td><?=$row['TokenNo'];?></td>
 <td><?=$row['CounterNo'];?></td>
 <td><?=$row['Response'];?></td>
-<td><select name="" id="response" class="form-control">
+<td><select name="" id="responseCon<?=$row['ID'];?>" class="form-control" onchange="responseSubmitByConsullar(<?=$row['ID'];?>);">
     <option value="">Select</option>
     <option value="Admitted">Admitted</option>
     <option value="Enquiry">Enquiry</option>
 </select></td>
-<td>
-    <button class="btn btn-success">Submit</button>
-</td>
 </tr>
 <?php
         }
@@ -29452,6 +29448,30 @@ elseif ($code=='426') {
 </table>
         <?php 
 
+}
+elseif($code=='427')
+{
+    $id=$_REQUEST['IDNo'];	
+    $response=$_REQUEST['res'];
+          $q="UPDATE Enquiry set Response='$response',UpdatedBy='$EmployeeID',UpdatedOn='$timeStampS' where ID='$id'";
+   $result = sqlsrv_query($conntest,$q);
+           if ($result==true)
+            {
+            
+               echo "1";
+                     
+           }
+           else
+           {
+             echo "0";
+           }
+}
+elseif($code==428)
+{
+    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID' and Response=''  Order by ID desc";
+    $countcheck=sqlsrv_query($conntest,$select_add,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    echo $count=sqlsrv_num_rows($countcheck);
+   
 }
    else
    {
