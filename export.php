@@ -9441,7 +9441,7 @@ include 'result-pages/resultfooter.php';
     } 
 
 
-
+//csv
  else if($exportCode==66)
 {
 
@@ -9467,7 +9467,7 @@ $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
+    $list_sql = "SELECT ExamForm.AcceptType, ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
             $j=0;
              $list_result = sqlsrv_query($conntest,$list_sql);
                             $count = 1;
@@ -9478,7 +9478,9 @@ $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>";
                         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
                            {
                          $IDNos=$row['IDNo'];
+
                         $UnirollNos=$row['UniRollNo'];
+                          $AcceptType=$row['AcceptType'];
                         $ClassRollNos=$row['ClassRollNo'];
                          $Examid=$row['ID'];
                          $StudentNames =$row['StudentName'];     
@@ -9504,6 +9506,17 @@ $nccount=0;
 
 
 include'result-pages/grade_calculator.php';
+
+if($AcceptType>0)
+{ 
+  $grade='RLF' ; 
+  $gardep=0;
+   $color ='red';
+   $showgradefail='';
+}
+
+
+
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$subjectName}</td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$SubjectCode}</td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} {$showgradefail}</td>";
@@ -9647,14 +9660,23 @@ if($nccount>0)
 $exportstudy.="<td style='text-align:center;color:{$color}'>NC </td>";
 }
 else
- { $exportstudy.="<td style='text-align:center;'>{$sgpa}</td>";}  
+
+ { 
+if($AcceptType>0)
+{
+  $sgpa='RLF'; 
+   
+}
+
+
+    $exportstudy.="<td style='text-align:center;'>{$sgpa}</td>";}  
    $exportstudy.="</tr>";
     $SrNo++; } $exportstudy.="</table>";
         echo $exportstudy;
         $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     } 
      
-
+ // marks
 else if($exportCode==67)
 {
     include 'result-pages/result-subject-bind-new.php';
