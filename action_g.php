@@ -4765,7 +4765,7 @@ else { ?>
             vehicle_allotment_process inner join vehicle_allotment  ON 
             vehicle_allotment_process.token_no=vehicle_allotment.token_no
              inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id 
-              where  vehicle_allotment.status='5'"; 
+              where  vehicle_allotment.status='5' order by token_no DESC limit 100"; 
                  $get_pending_run=mysqli_query($conn,$get_pending);
                  while($get_row=mysqli_fetch_array($get_pending_run))
                  {

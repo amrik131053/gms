@@ -9826,7 +9826,75 @@ $exportstudy.="<td style='text-align:center'>NA</td>";
     } 
 
 
+    else if($exportCode==68)
+    {
 
+        
+
+ $from = $_GET['from'];
+ $to = $_GET['to'];
+ $sr=1; 
+
+  $get_pending = "
+  SELECT DISTINCT 
+        va.token_no, 
+        va.journey_start_date,
+        vt.name AS v_name, 
+        va.name AS e_name,
+        va.station AS station,
+        va.purpose AS purpose,
+        va.journey_end_date AS enddate,
+        vbd.from_date AS fromDate,
+        vbd.driver_id AS driverid
+    FROM  vehicle_allotment_process AS vap 
+    INNER JOIN  vehicle_allotment AS va ON vap.token_no = va.token_no 
+    INNER JOIN   vehicle_types AS vt ON va.vehicle_type = vt.id 
+    INNER JOIN  vehicle_book_details AS vbd ON vbd.TokenNo = va.token_no 
+    WHERE  va.status = '5'  AND DATE(vbd.from_date) >= '$from'   AND DATE(vbd.from_date) <= '$to'
+    ORDER BY  token_no DESC 
+ LIMIT 100";
+ 
+ 
+                 $get_pending_run=mysqli_query($conn,$get_pending);
+               
+
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<tr>
+<th>#</th>
+<th>Employee Name</th>
+<th>Driver</th>
+<th>Vehicle Name</th>
+<th>Station</th>
+<th>Purpose</th>
+<th>Departure Date/Time</th>
+</tr>";
+  $srno=1;
+  while($get_row=mysqli_fetch_array($get_pending_run))
+  {
+    $sql1 = "SELECT * FROM Staff Where IDNo='".$get_row['driverid']."'";
+    $q1 = sqlsrv_query($conntest, $sql1);
+    if ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+    {
+        $userName = $row['Name'];
+    }
+$exportstudy.="<tr>";
+$exportstudy.="<td>{$srno}</td>
+<td>{$get_row['e_name']}</td>
+<td>{$userName}</td>
+<td>{$get_row['v_name']}</td>
+ <td>{$get_row['station']}</td>
+ <td>{$get_row['purpose']}</td>
+<td>{$get_row['fromDate']}</td>";
+
+          $exportstudy.="</tr>"; 
+          $srno++;
+        }    
+        $exportstudy.="</table>";
+
+        echo $exportstudy;
+        $fileName="vehiclereport";
+    
+}
 
 
 
