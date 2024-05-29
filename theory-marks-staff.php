@@ -273,7 +273,7 @@ for($i=1;$i<=12;$i++)
           
 
          
-        var code='200';
+        var code='375';
             $.ajax({
             url:'action.php',
             data:{course:course,code:code,batch:batch,sem:sem},
@@ -285,7 +285,7 @@ for($i=1;$i<=12;$i++)
                 {
                 
                     $("#Subject").html("");
-                    $("#Subject").html(data);
+                    $("#Subject").html(data); 
                 }
             }
           });
