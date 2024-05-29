@@ -11219,7 +11219,7 @@ echo "0";
 }
 elseif($code==184)
 {
-$empid = $_POST['empid'];
+$empid = trim($_POST['empid']);
 $LoginType = $_POST['LoginType'];
 $RightsLevel = $_POST['RightsLevel'];
 $CollegeName = $_POST['college'];
