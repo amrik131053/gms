@@ -12527,7 +12527,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch'  order by SubjectCode";
+AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='T'  order by SubjectCode";
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
