@@ -406,7 +406,8 @@ while($permission_data=mysqli_fetch_array($permission_res))
             success:function(response) 
             {
                // returnStudentStock(studentID)
-               student_stock(locationID,studentID)
+               student_stock(locationID,studentID);
+               search_hostel_student();
                //alert("success");
                // location.reload(true);
             }

@@ -5664,7 +5664,12 @@ sqlsrv_close($conntest);
           $IDNo= $row['IDNo'];
       }
       $building_num=0;
-      $building="  SELECT * FROM stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID inner join master_calegories on stock_summary.CategoryID=master_calegories.ID inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode inner join building_master on building_master.ID=location_master.Block where stock_summary.Status='2'  and Corrent_owner='$IDNo' order by IDNo DESC ";
+      $building="  SELECT * FROM stock_summary  inner join location_master on stock_summary.LocationID=location_master.ID 
+      inner join master_calegories on stock_summary.CategoryID=master_calegories.ID 
+      inner join master_article on master_article.ArticleCode=stock_summary.ArticleCode 
+      inner join building_master on building_master.ID=location_master.Block  
+      inner join hostel_student_summary ON hostel_student_summary.article_no=stock_summary.IDNo 
+      where stock_summary.Status='2'  and Corrent_owner='$IDNo' order by IDNo DESC ";
       $building_run=mysqli_query($conn,$building);
       while ($building_row=mysqli_fetch_array($building_run)) 
       {
@@ -5678,6 +5683,7 @@ sqlsrv_close($conntest);
           $studentStockAssigned[$building_num][]=$building_row['IDNo'];
           $studentStockAssigned[$building_num][]=$building_row['ArticleName'];
           $studentStockAssigned[$building_num][]=$building_row['RoomNo'];
+          $studentStockAssigned[$building_num][]=$building_row['session'];
          unset($name); 
          $building_num=$building_num+1;
          }
@@ -5690,6 +5696,7 @@ sqlsrv_close($conntest);
          <th>Article No.</th>
          <th>Article Name</th>
          <th>Room No.</th>
+         <th>Session.</th>
          <th>View</th>
 
         <?php  if ($code_access=='010' || $code_access=='011' || $code_access=='110' ||   $code_access=='111') 
@@ -5703,7 +5710,7 @@ sqlsrv_close($conntest);
       </tr>
       <?php 
          }
-             // print_r($studentStockAssigned);
+            //  print_r($studentStockAssigned);
              for ($i=0; $i < $building_num ; $i++) 
              { 
                  ?>
@@ -5717,6 +5724,7 @@ sqlsrv_close($conntest);
          <?php
             }
             ?>
+            <td><?=$studentStockAssigned[$i][$j]?></td>
          <td>
             <i class="fa fa-eye fa-lg" onclick="view_assign_stock(<?=$studentStockAssigned[$i][0]?>);" data-toggle="modal" data-target="#view_assign_stock_Modal" style="color:red;"> </i>
          </td>
