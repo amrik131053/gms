@@ -216,7 +216,7 @@ function seen_webnotification(id) {
 setInterval(function(){ 
   checkSessions();
   
- }, 60000);
+ }, 100000);
 function checkSessions() {
    var code=389;
    $.ajax({
