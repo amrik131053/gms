@@ -4767,6 +4767,8 @@ elseif($RegistrationStatus==8)
                                <th style='background-color:black; color:white;'>Student Mobile No</th>
                                <th style='background-color:black; color:white;'>City</th>
                                <th style='background-color:black; color:white;'>State</th>
+                               <th style='background-color:black; color:white;'>Country</th>
+                               <th style='background-color:black; color:white;'>Nationality</th>
                                <th style='background-color:black; color:white;'>PIN</th>
                                <th style='background-color:black; color:white;'>Lateral</th>
                                <th style='background-color:black; color:white;'>Eligibility</th>
@@ -4813,6 +4815,8 @@ elseif($RegistrationStatus==8)
                                                    
                                                    $City=$row['City'];
                                                    $State=$row['State'];
+                                                   $Nationality=$row['Nationality'];
+                                                   $country=$row['country'];
                                                    $PIN=$row['PIN'];
                                              
                                                    if($row['Eligibility']==1)
@@ -4882,6 +4886,8 @@ elseif($RegistrationStatus==8)
                                                    <td>{$StudentMobileNo}</td>
                                                    <td>{$City}</td>
                                                    <td>{$State}</td>
+                                                   <td>{$country}</td>
+                                                   <td>{$Nationality}</td>
                                                    <td>{$PIN}</td>
                                                    <td>{$Lateral}</td>
                                                    <td style='background:{$clr}'>{$Eligibility}</td>
