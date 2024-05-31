@@ -338,7 +338,8 @@
             {
                if (response) 
                {
-                  alert(response);
+                  // alert('Student Already exist');
+                  ErrorToast('Student Already exist ','bg-warning');
                }
                else
                {

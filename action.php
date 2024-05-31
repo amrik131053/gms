@@ -4950,7 +4950,7 @@ sqlsrv_close($conntest);
    $studentRemark=$_POST['studentRemark'];
    $feeType=$_POST['feeType'];
    
-   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed'";
+   $bedCheckQry="Select * from hostel_student_summary where article_no='$bed' and status='0' ";
    $bedCheckRes=mysqli_query($conn,$bedCheckQry);
    if (mysqli_num_rows($bedCheckRes)>0) 
    {
