@@ -12,6 +12,7 @@ $CourseID = $_GET['course'];
  $subjectcode = $_GET['subject'];
  $DistributionTheory = $_GET['distributiontheory'];
  $exam = $_GET['examination'];
+ $group = $_GET['group'];
  $code = $_GET['code'];
  if($DistributionTheory=='ESE')
  {
@@ -39,6 +40,8 @@ class CustomPDF extends FPDF {
         $this->SetTextColor(128);
         // Page number
         // $this->Cell(0, 10, 'Page ' . $this->PageNo() . ' of {nb}', 0, 0, 'C');
+        $this->Cell(0, 10, 'Printed By ' .$GLOBALS['EmployeeID'], 0, 0, 'L');
+        $this->Cell(0, 10, 'Printed on ' .$GLOBALS['timeStampS'], 0, 0, 'R');
     }
 }
 
@@ -84,12 +87,14 @@ $pdf->Cell(64, 4,'StudentName', 1, 1, 'C');
 $pdf->SetXY($X+104, $Y+12);
 $pdf->Cell(22, 4,$DistributionTheory, 1, 1, 'C');
 $pdf->SetXY($X+126, $Y+12);
-$pdf->Cell(24, 4,'UpdatedBy', 1, 1, 'C');
-$pdf->SetXY($X+150, $Y+12);
-$pdf->Cell(40, 4,'UpdatedOn', 1, 1, 'C');
+$pdf->Cell(18, 4,'UpdatedBy', 1, 1, 'C');
+$pdf->SetXY($X+144, $Y+12);
+$pdf->Cell(31, 4,'UpdatedOn', 1, 1, 'C');
+$pdf->SetXY($X+175, $Y+12);
+$pdf->Cell(15, 4,'Status', 1, 1, 'C');
 
 $pdf->SetFont('Times', 'B', 10);
-$sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory')}";
+ $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionTheory('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
     if (!sqlsrv_execute($stmt)) {
           echo "Your code is fail!";
@@ -112,8 +117,8 @@ $pdf->Cell(64, 4,$row['StudentName'], 1, 1, 'C');
 $pdf->SetXY($X+104, $Y);
 $pdf->Cell(22, 4,$row['intmarks'], 1, 1, 'C');
 $pdf->SetXY($X+126, $Y);
-$pdf->Cell(24, 4,$row['updateby'], 1, 1, 'C');
-$pdf->SetXY($X+150, $Y);
+$pdf->Cell(18, 4,$row['updateby'], 1, 1, 'C');
+$pdf->SetXY($X+144, $Y);
 if($row['updatedDate']!='')
 {
 
@@ -122,8 +127,15 @@ if($row['updatedDate']!='')
 else{
    $updatedDate=""; 
 }
-$pdf->Cell(40, 4,$updatedDate, 1, 1, 'C');
-
+if($row['Locked']=='1')
+{
+$isLocked="Locked";
+}else{
+    $isLocked="UnLocked";   
+}
+$pdf->Cell(31, 4,$updatedDate, 1, 1, 'C');
+$pdf->SetXY($X+175, $Y);
+$pdf->Cell(15, 4,$isLocked, 1, 1, 'C');
 $pdf->SetFont('Times', 'B', 10);     
     $SrNo++;
 if($SrNo%59==0)
@@ -167,10 +179,11 @@ $pdf->Cell(64, 4,'StudentName', 1, 1, 'C');
 $pdf->SetXY($X+104, $Y+12);
 $pdf->Cell(22, 4,$DistributionTheory, 1, 1, 'C');
 $pdf->SetXY($X+126, $Y+12);
-$pdf->Cell(24, 4,'UpdatedBy', 1, 1, 'C');
-$pdf->SetXY($X+150, $Y+12);
-$pdf->Cell(40, 4,'UpdatedOn', 1, 1, 'C');
-
+$pdf->Cell(20, 4,'UpdatedBy', 1, 1, 'C');
+$pdf->SetXY($X+146, $Y+12);
+$pdf->Cell(36, 4,'UpdatedOn', 1, 1, 'C');
+$pdf->SetXY($X+175, $Y+12);
+$pdf->Cell(15, 4,'Status', 1, 1, 'C');
 }
 // $aa[]=$row;
 }

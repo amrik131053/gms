@@ -796,20 +796,29 @@ var exportCode='58';
     var  sem = document.getElementById('Semester').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
+     var  group = document.getElementById('group').value;
 
     var distributiontheory = document.getElementById('ecat').value;
 
-  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
+  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='' && group!='')
  {
   var code=1;
    
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
+  window.open("print-award-theory.php?group="+group+"&college="+college+"&course="+course+"&batch="+batch
+   +"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code, '_blank');
+
+
+  //  window.location.href="print-award-theory.php?group="+group+"&college="+college+"&course="+course+"&batch="+batch
+  //  +"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
 
     }
     else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
     {
        var code=2;
-      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code;
+       window.open("print-award-theory.php?group="+group+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+
+      sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code, '_blank');
+      // window.location.href="print-award-theory.php?group="+group+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+
+      // sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
 
     }
       else

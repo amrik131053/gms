@@ -177,6 +177,7 @@ $currentMonthInt=date('n');
     </tbody>
 </table>
 <?php
+  sqlsrv_close($conntest);
    }
    elseif($code==2)
    {
@@ -275,6 +276,7 @@ $currentMonthInt=date('n');
     </tbody>
 </table>
 <?php
+  sqlsrv_close($conntest);
    }
    elseif($code==4)
    {
@@ -383,6 +385,7 @@ $currentMonthInt=date('n');
     </td>
     <th><i class="fa fa-trash" onclick="owner_delete(<?=$empID;?>,<?=$row['ArticleCode'];?>);"></i></th>
     <?php       }
+      sqlsrv_close($conntest);
       }
       else if ($code==8) 
       {
@@ -403,6 +406,7 @@ $currentMonthInt=date('n');
               $array[]=$row_staff;
           }
       //print_r($array);
+      sqlsrv_close($conntest);
       }
        elseif($code==9)
       {
@@ -528,7 +532,7 @@ $currentMonthInt=date('n');
        }
       
       
-      
+       sqlsrv_close($conntest);
       }
       elseif($code==11)
       {
@@ -683,6 +687,7 @@ $currentMonthInt=date('n');
         </tbody>
     </table>
     <?php 
+      sqlsrv_close($conntest);
       }
       elseif($code==12)
       {
@@ -830,6 +835,7 @@ $currentMonthInt=date('n');
         </tbody>
     </table>
     <?php 
+      sqlsrv_close($conntest);
       }
          
          elseif($code==13)
@@ -1066,6 +1072,7 @@ $currentMonthInt=date('n');
         <!-- /.col -->
     </div>
     <?php 
+      sqlsrv_close($conntest);
       }
       elseif($code==15)
       {
@@ -1404,6 +1411,7 @@ $currentMonthInt=date('n');
         </tbody>
     </table>
     <?php
+      sqlsrv_close($conntest);
       }
       elseif($code==22)
       {
@@ -1523,7 +1531,7 @@ $currentMonthInt=date('n');
         }
          
       }
-      
+      sqlsrv_close($conntest);
       }
       elseif($code==24)
       {
@@ -1604,7 +1612,7 @@ $currentMonthInt=date('n');
     <?php 
       }
       
-             
+      sqlsrv_close($conntest);    
       }
       elseif($code==25)
       {
@@ -1780,6 +1788,7 @@ $currentMonthInt=date('n');
       ?>
     <div class="dropdown-divider"></div>
     <a href="all-notification.php" class="dropdown-item dropdown-footer text-success"><b>See All Notifications</b></a><?php
+      sqlsrv_close($conntest);
       }
       elseif ($code==27)
       {
@@ -2249,7 +2258,9 @@ $currentMonthInt=date('n');
             <?php $sr++; }?>
         </tbody>
     </table>
-    <?php }
+    <?php 
+      sqlsrv_close($conntest);
+}
       elseif($code==41) // pendig verification
       {
       
@@ -2379,7 +2390,9 @@ $currentMonthInt=date('n');
             <?php $sr++; }?>
         </tbody>
     </table>
-    <?php }
+    <?php 
+    
+}
       elseif($code==45) //  forward allotement
       {
       
@@ -2650,6 +2663,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
         <!-- /.col -->
     </div>
     <?php 
+      sqlsrv_close($conntest);
       }
       elseif($code==48)
       {
@@ -2735,7 +2749,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       echo "3"; // flow set please
         }
           
-      
+        sqlsrv_close($conntest);
       } 
 
 
@@ -2819,6 +2833,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
     </li>
     <?php 
       //      print_r($category);
+      sqlsrv_close($conntest);
         }
         elseif($code==53)
         {
@@ -2849,6 +2864,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       
       
       //      print_r($category);
+      sqlsrv_close($conntest);
       }
       elseif($code==55)
       {
@@ -2892,6 +2908,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
     <!-- </li>  -->
     <?php 
       }
+      sqlsrv_close($conntest);
       }     
        elseif($code==57)
       {
@@ -2915,6 +2932,7 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
     <?php 
    $emp_counsst_college=0;
       }
+      sqlsrv_close($conntest);
       }
       
       // print_r($aaa);
@@ -3009,7 +3027,8 @@ else { ?>
             } ?>
         </tbody>
     </table>
-    <?php 
+    <?php
+      sqlsrv_close($conntest); 
       }
 
   elseif($code==5800)
@@ -3152,6 +3171,7 @@ else { ?>
           
 <?php }?>
     <?php 
+      sqlsrv_close($conntest);
       }
             elseif($code==60)
       {
@@ -3229,6 +3249,7 @@ else { ?>
         </tbody>
     </table>
     <?php 
+      sqlsrv_close($conntest);
       }
       elseif($code==61)
       {
@@ -4447,6 +4468,7 @@ else { ?>
                             <!-- /.container-fluid -->
     <!-- </section> -->
     <?php 
+      sqlsrv_close($conntest);
       }
        elseif($code==62)
       {
@@ -4498,7 +4520,9 @@ else { ?>
             </center>
         </div>
     </div>
-    <?php     }
+    <?php   
+      sqlsrv_close($conntest);
+}
       elseif($code==63)
       {
          $collegeId=$_POST['collegeId'];
@@ -4547,7 +4571,7 @@ else { ?>
       {
          echo "0";
       }
-             
+      sqlsrv_close($conntest);     
       }
       
        elseif($code==65) // PENDING verification apporove
@@ -4828,7 +4852,7 @@ else { ?>
           {
              echo "0"; // error
           }
-      
+          sqlsrv_close($conntest);
        }
        elseif($code==72)
        {
@@ -5031,6 +5055,7 @@ if ($check_flow_row['status']<4) {
          }
             ?>
     <?php
+      sqlsrv_close($conntest);
       } 
       
         elseif($code==73)
@@ -5066,6 +5091,7 @@ if ($check_flow_row['status']<4) {
          }
             ?>
     <?php
+    
       }
       
       elseif($code==74)
@@ -5243,6 +5269,7 @@ if ($check_flow_row['status']<4) {
     </div>
     <?php 
       }
+      sqlsrv_close($conntest);
          }
          elseif($code==77)
          {
@@ -5321,6 +5348,7 @@ if ($check_flow_row['status']<4) {
                     
                     <?php 
                     //   print_r($data);
+                    sqlsrv_close($conntest);
       }
    elseif($code==79)
    {
@@ -5441,6 +5469,7 @@ $QrCourse=$Course.'('.$Stream.')';
    {
     echo "<small>-----------No Flow Found----------</small>";
    }
+   sqlsrv_close($conntest);
      } 
    
        elseif($code==81)
@@ -5542,6 +5571,7 @@ $QrCourse=$Course.'('.$Stream.')';
          echo "<small style='color:red;text-align:center!important;'>-----------Invalid User ID----------</small>";
    
    }
+   sqlsrv_close($conntest);
           }
    
              elseif($code==84)
@@ -5612,7 +5642,7 @@ $QrCourse=$Course.'('.$Stream.')';
                       echo "<small>-----------No Flow Found----------</small>";
    
    }
-   
+   sqlsrv_close($conntest);
      } 
    
               elseif($code==86)
@@ -5810,11 +5840,8 @@ $UniRollNo=$_POST['uni'];
     <div id="result"></div>
 
     <?php
-               
-                              
-                           
-
-                          }
+  }
+  sqlsrv_close($conntest);
  }
  else if($code==92)
  {
@@ -5852,7 +5879,7 @@ else
     echo "1";
 }
 
-
+sqlsrv_close($conntest);
  }
 
 
@@ -6028,7 +6055,7 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 //     echo "Error: " . print_r($errors, true);
 //     // echo "0";
 // } 
-
+sqlsrv_close($conntest);
 }
 elseif($code==95)
 {
@@ -6098,6 +6125,7 @@ $get_Department="SELECT  Department,Id FROM MasterDepartment Where CollegeId='$c
     <option value="<?=$get_DepartmentRow['Id'];?>">
         <?=$get_DepartmentRow['Department'];?>(<?=$get_DepartmentRow['Id'];?>)</option>
     <?php }
+      sqlsrv_close($conntest);
 }
 elseif ($code==97)  // Sic record search
 {
@@ -6184,7 +6212,7 @@ elseif ($code==97)  // Sic record search
     <?php
      
    }
-
+   sqlsrv_close($conntest);
 }
 elseif ($code==98) 
 {
@@ -6318,6 +6346,7 @@ elseif($code==99) // home sic
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==100) // sic
 {
@@ -6433,6 +6462,7 @@ elseif($code==100) // sic
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==101) //sic post
 {
@@ -6527,7 +6557,8 @@ elseif($code==101) //sic post
             ?>
         </tbody>
     </table>
-    <?php 
+    <?php
+    sqlsrv_close($conntest); 
 }
 elseif($code==102) //sic issued
 {
@@ -6624,6 +6655,7 @@ elseif($code==102) //sic issued
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==103) //sic pending
 {
@@ -6720,7 +6752,8 @@ elseif($code==103) //sic pending
             ?>
         </tbody>
     </table>
-    <?php 
+    <?php
+    sqlsrv_close($conntest); 
 }
 
 // exam document cell
@@ -6828,6 +6861,7 @@ include "document-section-tr-color.php";
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==105) // exam ready to print
 {
@@ -6932,6 +6966,7 @@ elseif($code==105) // exam ready to print
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==106) //exam reject
 {
@@ -7035,6 +7070,7 @@ elseif($code==106) //exam reject
         </tbody>
     </table>
     <?php 
+sqlsrv_close($conntest);
 }
 elseif($code==107) //exam print 
 {
@@ -7139,6 +7175,7 @@ elseif($code==107) //exam print
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 // exam verified auth 
 elseif($code==108) // home verified by printing section
@@ -7245,6 +7282,7 @@ elseif($code==108) // home verified by printing section
         </tbody>
     </table>
     <?php 
+sqlsrv_close($conntest);
 }
 elseif($code==109) // exam verified forwarded
 {
@@ -7349,6 +7387,7 @@ elseif($code==109) // exam verified forwarded
         </tbody>
     </table>
     <?php 
+sqlsrv_close($conntest);
 }
 elseif($code==110) //exam verifed ok
 {
@@ -7459,6 +7498,7 @@ elseif($code==110) //exam verifed ok
         </tbody>
     </table>
     <?php 
+sqlsrv_close($conntest);
 }
 elseif($code==111) //exam handoverto sic 
 {
@@ -7567,6 +7607,7 @@ elseif($code==111) //exam handoverto sic
         </tbody>
     </table>
     <?php 
+sqlsrv_close($conntest);
 }
 elseif($code==112) // accept by  exam branch
 {
@@ -7722,6 +7763,7 @@ elseif($code==116) //exam competed
         </tbody>
     </table>
     <?php 
+    sqlsrv_close($conntest);
 }
 elseif($code==117) // accept by  verified auth
 {
@@ -8237,6 +8279,7 @@ else
 }
 } 
 // echo"sadfgasfasd";
+sqlsrv_close($conntest);
       }  
       elseif($code==134)
       {
@@ -8319,6 +8362,7 @@ else
                      $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                      echo json_encode($pagedData);
           }
+          sqlsrv_close($conntest);
       }
           elseif($code==135)
       {
@@ -8340,7 +8384,7 @@ else
          {
             echo "0";
          }
-
+         sqlsrv_close($conntest);
       }     
        elseif($code==136)
       {
@@ -8376,7 +8420,7 @@ echo "2";
             echo "0";
          }
       }
-
+      sqlsrv_close($conntest);
       }
        
 
@@ -8416,6 +8460,7 @@ echo "2";
            }
            // $array[]=$row_staff;
        }
+       sqlsrv_close($conntest);
    }  
 
 elseif($code==139)
@@ -8826,7 +8871,7 @@ else
         </div>
     </div>
     <?php
-   
+   sqlsrv_close($conntest);
    }
            
    
@@ -8940,7 +8985,7 @@ elseif($code==141)
 
 
                      
-
+sqlsrv_close($conntest);
 }
   elseif($code==142)
   {
@@ -8972,6 +9017,7 @@ else
 {
    echo "0";
 }
+sqlsrv_close($conntest);
   }
   elseif($code==143)
   {
@@ -9119,9 +9165,8 @@ if($row_pending['SmartCardStatus']=='Applied')
                  
                   }
                  
-                    
-                    ?>
-    <?php }
+                  sqlsrv_close($conntest);          
+                   }
    elseif($code==144)
    {
       $id=$_POST['id'];
@@ -9191,7 +9236,9 @@ if($row_pending['SmartCardStatus']=='Applied')
         </div>
 
     </div>
-    <?php }
+    <?php
+    sqlsrv_close($conntest);
+ }
    }
    elseif($code==145)
    {
@@ -9207,6 +9254,7 @@ echo "1";
       {
          echo "0";
       }
+      sqlsrv_close($conntest);
    }
    elseif($code==146)
    {
@@ -9223,6 +9271,7 @@ echo "1";
       {
          echo "0";
       }
+      sqlsrv_close($conntest);
    }
    elseif($code==147)
    {
@@ -9255,7 +9304,7 @@ echo "1";
         </tbody>
     </table>
     <?php
-                  
+       sqlsrv_close($conntest);           
    }
    elseif($code==148)
    {
@@ -9290,7 +9339,7 @@ echo "1";
             <?php }?>
         </tbody>
     </table><?php
-                  
+      sqlsrv_close($conntest);            
    }
    elseif ($code==149) {
       $count=0;
@@ -9301,6 +9350,7 @@ echo "1";
          $count++;
       }
       echo $count;
+      sqlsrv_close($conntest);
    }
    elseif ($code==150) {
       $count=0;
@@ -9311,6 +9361,7 @@ echo "1";
          $count++;
       }
       echo $count;
+      sqlsrv_close($conntest);
    }
    elseif ($code==151)
     {
@@ -9426,6 +9477,7 @@ echo "1";
     </div>
     <?php 
       }
+      sqlsrv_close($conntest);
    }
    elseif($code==152)
    {
@@ -9473,6 +9525,7 @@ echo "1";
                              
   
                             }
+                            sqlsrv_close($conntest);
    }
 
    else if($code==153)
@@ -9504,6 +9557,7 @@ echo "1";
    {
       echo "1";
   }
+  
    }
 
    elseif ($code==154)
@@ -9622,6 +9676,7 @@ echo "1";
     </div>
     <?php 
       }
+      sqlsrv_close($conntest);
    }
    elseif($code==155)
    {
@@ -9701,6 +9756,7 @@ if ($CollegeName !== '') {
     $pagedData = array_slice($data, $startIndex, $recordsPerPage);
     echo json_encode($pagedData);
 }
+sqlsrv_close($conntest);
    }
 
    elseif($code==157)
@@ -9870,6 +9926,7 @@ if ($CollegeName !== '') {
     </div>
     <?php
       }
+      sqlsrv_close($conntest);
    }
    elseif($code==158)
    {
@@ -9904,6 +9961,7 @@ else
   }
 echo "0";
 }
+sqlsrv_close($conntest);
 }
 elseif($code==159)
 {
@@ -10247,6 +10305,7 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC ";
                   $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                   echo json_encode($pagedData);
        }
+       sqlsrv_close($conntest);
    }
 
    elseif($code==171)
@@ -10666,6 +10725,7 @@ else
     </div>
 </div>
 <?php
+sqlsrv_close($conntest);
    }
    elseif($code==172)
    {
@@ -10695,8 +10755,9 @@ else
 {
 echo "0";
 }
+sqlsrv_close($conntest);
 }
-if ($code == 173) {
+else if ($code == 173) {
     // Get the current date
     $todaydate = date('Y-m-d');
   
@@ -10820,6 +10881,7 @@ if ($code == 173) {
     </tbody>
 </table>
 <?php
+sqlsrv_close($conntest);
 }
 elseif($code==174)
 {
@@ -10989,7 +11051,7 @@ elseif($code==179)
                $startIndex = ($page - 1) * $recordsPerPage;
                $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                echo json_encode($pagedData);
-    
+               sqlsrv_close($conntest);
 }
 elseif($code==180)
 {
@@ -11019,7 +11081,7 @@ elseif($code==180)
                $startIndex = ($page - 1) * $recordsPerPage;
                $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                echo json_encode($pagedData);
-    
+               sqlsrv_close($conntest);
 }
 
 elseif($code==181)
@@ -11182,7 +11244,8 @@ while($getDefalutMenuRunRow=sqlsrv_fetch_array($getDefalutMenuRun,SQLSRV_FETCH_A
  }
     ?>
 </div>
-<?php      
+<?php 
+sqlsrv_close($conntest);     
 }
 
 elseif($code==182)
@@ -11199,6 +11262,7 @@ else
 {
 echo "0";
 }
+sqlsrv_close($conntest);
 }
 elseif($code==183)
 {
@@ -11216,6 +11280,7 @@ else
 {
 echo "0";
 }
+sqlsrv_close($conntest);
 }
 elseif($code==184)
 {
@@ -11233,6 +11298,7 @@ else
 {
 echo "0";
 }
+sqlsrv_close($conntest);
 }
 elseif($code==185)
 {
@@ -12148,6 +12214,7 @@ elseif ($code==186)
         }
         
     }
+    sqlsrv_close($conntest);
 }  
 
 elseif($code=='187') 
@@ -12194,6 +12261,7 @@ while($row=mysqli_fetch_array($result))
 
 
 }
+sqlsrv_close($conntest);
 }
 elseif($code==188)
 {
@@ -12214,7 +12282,7 @@ elseif($code==188)
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 } 
 elseif($code==189)
 {
@@ -12230,7 +12298,7 @@ elseif($code==189)
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 } 
 elseif($code==190)
 {
@@ -12299,6 +12367,7 @@ if($getCollegeNameRunRow=sqlsrv_fetch_array($getCollegeNameRun,SQLSRV_FETCH_ASSO
             </tr>
         </table>
         <?php 
+        sqlsrv_close($conntest);
 } 
 elseif($code==191)
 {
@@ -12380,7 +12449,7 @@ echo "1";
   }
 
 
-
+  sqlsrv_close($conntest);
 }
 
 elseif($code==192)
@@ -12424,7 +12493,7 @@ elseif($code==192)
             </div>
         </section>
         <?php
-
+sqlsrv_close($conntest);
 }
 elseif($code==193)
 {
@@ -12497,7 +12566,7 @@ $count++;
             </div>
         </section>
         <?php
-
+sqlsrv_close($conntest);
 }
 elseif($code=='194') 
 {
@@ -12512,6 +12581,7 @@ $CollegeID = $_POST['college'];
  {
    echo '1';
  } 
+ sqlsrv_close($conntest);
 }
 
 elseif($code=='195') 
@@ -12550,7 +12620,7 @@ $count=1;
         <?php 
 $count++;
 }
-
+sqlsrv_close($conntest);
 }
 elseif($code=='196') 
 {
@@ -12564,6 +12634,7 @@ $updatedep="UPDATE MasterDesignation set Designation='$fullname',Status='1' wher
 
   $stmt2 = sqlsrv_query($conntest,$updatedep);
   echo "1";
+  sqlsrv_close($conntest);
 }
 
 elseif($code=='197') 
@@ -12576,8 +12647,8 @@ $id = $_POST['id'];
  {
    echo '1';
  } 
+ sqlsrv_close($conntest);
 }
-
 elseif($code=='198') 
 {
 ?> <div class="container-fluid">
@@ -12764,6 +12835,7 @@ elseif($code=='198')
         </div>
 
         <?php 
+        sqlsrv_close($conntest);
 }
 elseif($code==199)
 {
@@ -12841,7 +12913,7 @@ else
 {
     echo "0";
 }
-
+sqlsrv_close($conntest);
 }
 elseif($code==200)
 {
@@ -13027,7 +13099,7 @@ elseif($code==203)
             </tbody>
         </table>
         <?php
-
+  sqlsrv_close($conntest);
 }
 
 elseif($code==204)
@@ -21539,7 +21611,8 @@ if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
           
 
 
-  <?php  
+  <?php
+    sqlsrv_close($conntest);  
 }
 
 elseif($code=='301')
@@ -21621,7 +21694,7 @@ elseif($code=='301')
          
    <?Php
 }   
-   
+sqlsrv_close($conntest);
    }
 
    elseif($code==302) 
@@ -21636,6 +21709,7 @@ elseif($code=='301')
    {
        echo "0";
    }
+   sqlsrv_close($conntest);
    }
 
    elseif($code==303) 
@@ -21653,7 +21727,7 @@ elseif($code=='301')
      echo "0";
    }
  
-   
+   sqlsrv_close($conntest);
    }
 
    
@@ -21700,6 +21774,7 @@ $stmt1 = sqlsrv_query($conntest,$Insert);
  }
 
 }
+sqlsrv_close($conntest);
 }
 
 elseif($code==305)
@@ -21771,6 +21846,7 @@ if ($insert_record_run === false) {
     // echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
+sqlsrv_close($conntest);
    }  
 
 
@@ -21793,7 +21869,7 @@ $update_query=sqlsrv_query($conntest,$update1);
      {
         echo "0";
      }
-  
+     sqlsrv_close($conntest);
    }
    elseif($code==314)
    {
@@ -21814,7 +21890,7 @@ $update_query=sqlsrv_query($conntest,$update1);
      {
         echo "0";
      }
-  
+     sqlsrv_close($conntest);
    }
    elseif($code==315)
    {
@@ -21835,7 +21911,7 @@ $update_query=sqlsrv_query($conntest,$update1);
      {
         echo "0";
      }
-  
+     sqlsrv_close($conntest);
    }
 
 
@@ -21928,6 +22004,7 @@ $IDNo=$row1['IDNo'];
         </tbody>
     </table>
     <?php 
+      sqlsrv_close($conntest);
 }
 elseif($code==317)  
 {?>
@@ -21958,7 +22035,7 @@ elseif($code==317)
 
 
 <?php 
-
+  sqlsrv_close($conntest);
 }
 elseif($code==318)  
 {
@@ -21997,6 +22074,7 @@ elseif($code==318)
                     </form>
               
 <?php 
+  sqlsrv_close($conntest);
 }
 elseif($code==319)
 {
@@ -22029,6 +22107,7 @@ if(sqlsrv_query($conntest, $upimage))
     echo "0";
   }
 }
+sqlsrv_close($conntest);
 }
 elseif($code==320)
 {
@@ -22069,6 +22148,7 @@ elseif($code==320)
             //     // echo "0";
             // } 
       }
+      sqlsrv_close($conntest);
 }
 
 elseif($code==321)  
@@ -22151,6 +22231,7 @@ $sr1++;
 ?>
  </tbody>
        </table><?php
+         sqlsrv_close($conntest);
 }
 
 elseif($code==322)
@@ -22173,7 +22254,7 @@ else
       else{
         echo "0";
       }
-
+      sqlsrv_close($conntest);
 }
 elseif($code==323)
 {
@@ -22352,7 +22433,7 @@ $Examination = $_POST['Examination'];
    $count[3]=$ForwardToAccount;
    $count[4]=$Accepted;
  echo json_encode($count);
-
+ sqlsrv_close($conntest);
 }
 else if($code==324)
    {
@@ -22405,7 +22486,7 @@ else if($code==324)
         echo "0";
     }
     
-
+    sqlsrv_close($conntest);
    }
 
 
@@ -22688,7 +22769,7 @@ if($Status==8)
          </tbody>
      </table>
          <?php
-
+  sqlsrv_close($conntest);
 }
 
 elseif($code==326)
@@ -22714,7 +22795,7 @@ $update_query=sqlsrv_query($conntest,$update1);
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 }
 
 elseif($code==327)
@@ -23016,7 +23097,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
 
 
-
+    sqlsrv_close($conntest);
    }
 
    else if($code==328)
@@ -23044,6 +23125,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
        echo "0";
    }
+   sqlsrv_close($conntest);
    }
 
    else if($code==329)
@@ -23071,6 +23153,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
        echo "0";
    }
+   sqlsrv_close($conntest);
    }
 
    else if($code==330)
@@ -23126,7 +23209,7 @@ $update_query=sqlsrv_query($conntest,$update1);
         echo "0";
     }
     
-
+    sqlsrv_close($conntest);
    }
    else if($code==331)
    {
@@ -23181,7 +23264,7 @@ $update_query=sqlsrv_query($conntest,$update1);
         echo "0";
     }
   
-
+    sqlsrv_close($conntest);
    }
    elseif($code==332)
    {
@@ -23193,7 +23276,7 @@ $update_query=sqlsrv_query($conntest,$update1);
     {
         echo $CurrentExamination;
     }
-       
+    sqlsrv_close($conntest); 
    }
    elseif($code==333)
    {
@@ -23337,7 +23420,7 @@ if($_POST['Examination']!='')
 </div>
 
 <?php
-       
+         sqlsrv_close($conntest);
    }
    else if($code==334)
    {
@@ -23375,7 +23458,7 @@ if($_POST['Examination']!='')
         echo "0";
     }
     
-
+    sqlsrv_close($conntest);
    }
    else if($code==335)
    {
@@ -23413,7 +23496,7 @@ if($_POST['Examination']!='')
         echo "0";
     }
     
-
+    sqlsrv_close($conntest);
    }
    else if($code==336)
    {
@@ -23451,7 +23534,7 @@ if($_POST['Examination']!='')
         echo "0";
     }
     
-
+    sqlsrv_close($conntest);
    }
    elseif($code==337)
 {
@@ -23766,7 +23849,7 @@ $ExaminationForward=sqlsrv_num_rows($getExamForward_run);
    $count[11]=$ExaminationForward;
 
     echo json_encode($count);
-
+    sqlsrv_close($conntest);
 }
 
 
@@ -23968,7 +24051,7 @@ if($Status==6)
          </tbody>
      </table>
          <?php
-
+  sqlsrv_close($conntest);
 }
 elseif($code==339)
    {
@@ -24245,6 +24328,7 @@ if($Status==6)
 
 
          <?php 
+           sqlsrv_close($conntest);
    }
 
    else if($code==340)
@@ -24264,7 +24348,7 @@ else{
 //     echo "Error: " . print_r($errors, true);
 //     // echo "0";
 // } 
-
+sqlsrv_close($conntest);
 }
 else if($code==341)
 {
@@ -24279,7 +24363,7 @@ if($getDefalutMenuRun==true)
 else{
     echo "0";
 }
-
+sqlsrv_close($conntest);
 }
    else if($code==342)
 {
@@ -24293,7 +24377,7 @@ if($getDefalutMenuRun==true)
 else{
     echo "0";
 }
-
+sqlsrv_close($conntest);
 }
 else if($code==343)
 {
@@ -24313,7 +24397,7 @@ if ($getDefalutMenuRun === false) {
     echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
-
+sqlsrv_close($conntest);
 }
 
 
@@ -24504,7 +24588,7 @@ if($Status==8)
          </tbody>
      </table>
          <?php
-
+  sqlsrv_close($conntest);
 }
 
 
@@ -24860,7 +24944,8 @@ if($Status==6)
 
 
 
-         <?php 
+         <?php
+           sqlsrv_close($conntest); 
    }
    elseif($code==346)
    {
@@ -24890,7 +24975,7 @@ if($Status==6)
       $count[2]=$ForwardToAccount;
       $count[3]=$Accepted;
     echo json_encode($count);
-   
+    sqlsrv_close($conntest);
    }
    elseif($code==347)
    {
@@ -24911,7 +24996,7 @@ if($Status==6)
       $count[1]=$Rejeted;
       $count[2]=$ForwardToAccount;
     echo json_encode($count);
-   
+    sqlsrv_close($conntest);
    }
 
    elseif ($code==348) {
@@ -25215,6 +25300,7 @@ if($Status==6)
       <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
   </div>
 <?php
+  sqlsrv_close($conntest);
    }
    elseif ($code==349) {
     ?>
@@ -25529,6 +25615,7 @@ if($Status==6)
   
     
     <?php
+      sqlsrv_close($conntest);
    }
    elseif ($code==350) {
  $Session=$_REQUEST['Session'];
@@ -25542,6 +25629,7 @@ if($Status==6)
      ?>
  <option  value="<?=$CollegeID;?>"><?= $college;?>(<?=$CollegeID;?>)</option>
  <?php    }
+   sqlsrv_close($conntest);
    }
    elseif($code==351) 
 {
@@ -25555,6 +25643,7 @@ echo "<option value=''>Course</option>";
 {
 echo "<option value='".$row["CourseID"]."'>".$row["Course"]."(".$row["CourseID"].")</option>";
 }
+sqlsrv_close($conntest);
 }
    elseif($code==352) 
 {
@@ -25576,6 +25665,7 @@ $stmt = sqlsrv_query($conntest,$sql);
         echo $row["Batch"];
     }
 }
+sqlsrv_close($conntest);
 }
    elseif($code==353) 
 {
@@ -25593,6 +25683,7 @@ $stmt = sqlsrv_query($conntest,$sql);
            echo  $ClassRollNo=$row["ClassRollNo"]+1;
         }
 }
+sqlsrv_close($conntest);
 }
    elseif($code==354) 
 {
@@ -25673,6 +25764,7 @@ $stmt = sqlsrv_query($conntest,$sql);
         }
         
     echo json_encode($Value);
+    sqlsrv_close($conntest);
 }
 elseif($code==355) 
 {
@@ -25697,6 +25789,7 @@ else{
                
 }
 echo json_encode($Value);
+sqlsrv_close($conntest);
 }
 elseif($code==356) 
 {
@@ -25717,6 +25810,7 @@ $stmt = sqlsrv_query($conntest,$sql);
 </tr>
 <?php 
 }
+sqlsrv_close($conntest);
 }
 elseif($code==357) 
 {
@@ -25942,6 +26036,7 @@ if ($stmtG === false) {
     echo "Error: " . print_r($errors, true);
     echo "0";
 } 
+sqlsrv_close($conntest);
 }
 elseif($code==358)
 {
@@ -26246,6 +26341,7 @@ $LedgerName = $rowLedger['Particulars'];
   
   
     <?php }
+      sqlsrv_close($conntest);
 }
 elseif($code==360)
 {
@@ -26278,6 +26374,7 @@ elseif($code==360)
     
 
 </table><?php
+
 }
 elseif($code==361)
 {
@@ -26296,7 +26393,7 @@ elseif($code==361)
         $value[7]=$getRefStudent['Category'];
     }
     echo json_encode($value);
-
+    sqlsrv_close($conntest);
 }
 
 
@@ -26316,7 +26413,7 @@ elseif($code==362)
   }
   if($College_ID!='')
   {
-       $verified_study="SELECT *  From UserMaster  WHERE CollegeName='$CollegeName'  and UserName='$empid'";
+       $verified_study="SELECT *  From UserMasterNew  WHERE CollegeName='$CollegeName'  and UserName='$empid'";
     $verified_study_run=sqlsrv_query($conntest,$verified_study);
      $stmt4=sqlsrv_query($conntest,$verified_study,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));  
       $ifexist=sqlsrv_num_rows($stmt4);
@@ -26351,6 +26448,7 @@ if ($ifexist>0)
     }
     
   }
+  sqlsrv_close($conntest);
   }
   elseif($code==363)
 {
@@ -26417,6 +26515,7 @@ while($getUserMasterRunRow=sqlsrv_fetch_array($getUserMasterRun,SQLSRV_FETCH_ASS
             </tr>
         </table>
         <?php 
+          sqlsrv_close($conntest);
 } 
 elseif($code==364)
 {
@@ -26431,7 +26530,7 @@ elseif($code==364)
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 } 
 elseif($code==365)
 {
@@ -26450,7 +26549,7 @@ elseif($code==365)
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 } 
 elseif($code==366)
 {
@@ -26472,6 +26571,7 @@ else{
     echo "0";
 }
  }
+ sqlsrv_close($conntest);
 }
 
 
@@ -26734,6 +26834,7 @@ else if($code==367)
   <div class="card-footer">
       <center><button class="btn btn-success" onclick="submitNewAdmissions();">Submit</button></center>
   </div><?php 
+    sqlsrv_close($conntest);
 }
 
 elseif($code==368)
@@ -26792,7 +26893,7 @@ $value[19]=$degree_row['id'];
 
 }
     echo json_encode($value);
-
+    sqlsrv_close($conntest);
 }
 else if($code=='369')
     {
@@ -26803,6 +26904,7 @@ else if($code=='369')
      {
         echo "1";
      }
+     sqlsrv_close($conntest);
 }
 elseif($code==370)
 {
@@ -26828,6 +26930,7 @@ else
 {
     echo "0";
 }
+sqlsrv_close($conntest);
 }
 elseif($code==371)
 {
@@ -26888,7 +26991,7 @@ if($row11 = sqlsrv_fetch_array($stmt21, SQLSRV_FETCH_ASSOC) )
                 </div>
                     <?php 
 
-
+sqlsrv_close($conntest);
 
 }
 elseif($code==372){
@@ -26935,6 +27038,7 @@ elseif($code==372){
                                     </tr>
                                     <?php 
     }
+    sqlsrv_close($conntest);
 }
 elseif($code==373)
 {
@@ -26982,7 +27086,7 @@ elseif($code==373)
             </tbody>
         </table>
         <?php
-
+  sqlsrv_close($conntest);
 }
 else if($code==374)
 {
@@ -27069,6 +27173,7 @@ $IDNo=$_POST['uni'];
    <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
    <?php
                          }
+                         sqlsrv_close($conntest);
 }
 
 elseif ($code==378) 
@@ -27198,7 +27303,7 @@ $stmtsqlDist = mysqli_query($conn,$sqlDist);
          </tbody>
      </table>
          <?php
-
+  sqlsrv_close($conntest);
 }
 
 
@@ -27341,7 +27446,7 @@ while ($row=mysqli_fetch_array($getLOcationRun)) {
       {
          echo 'Not valid Input';
       }
-   
+      sqlsrv_close($conntest);
 
 }
 elseif ($code==380) 
@@ -27470,7 +27575,7 @@ $code_access=$_POST['code_access'];
           </tbody>
         </table>
    <?php
-
+  sqlsrv_close($conntest);
 }
 elseif ($code==382) {
     $id=$_POST['id'];
@@ -27526,6 +27631,7 @@ while ($row11=mysqli_fetch_array($getLOcationRun)) {
 <?php 
       }
 }
+sqlsrv_close($conntest);
 }
 elseif ($code==383) 
 {
@@ -27624,7 +27730,7 @@ elseif ($code==384)
           </tbody>
         </table>
    <?php
-
+  sqlsrv_close($conntest);
 }
 elseif ($code=='385') 
 {
@@ -27715,7 +27821,7 @@ elseif ($code=='385')
                       </div>
                    </div>
     <?php
-    
+      sqlsrv_close($conntest);
 }
 elseif ($code==386) {
    
@@ -27738,7 +27844,7 @@ echo "1";
      else{
         echo "0";
      }
-     
+     sqlsrv_close($conntest); 
     
 }
 elseif ($code==387) {
@@ -27756,7 +27862,7 @@ echo "1";
         echo "0";
      }
      
-    
+     sqlsrv_close($conntest);
 }
 elseif ($code==388) {
     $ApplyDate=date('Y-m-d h:i:s A');
@@ -27790,7 +27896,7 @@ elseif ($code==388) {
         echo 0;
       }
     //   echo "hihi";
-
+    sqlsrv_close($conntest);
 }
 elseif ($code==389)
  {  
@@ -27804,6 +27910,7 @@ else
 {
 echo "0";
 session_destroy();
+sqlsrv_close($conntest);
 } 
  }
  elseif($code==390) // logout all 
@@ -27818,6 +27925,7 @@ session_destroy();
      $updateLoggedIn = "UPDATE  UserMaster SET LoggedIn='1' where  UserName='$id' and  ApplicationType='Web' and ApplicationName='Campus' ";
      sqlsrv_query($conntest, $updateLoggedIn);
     }
+    sqlsrv_close($conntest);
 }
 
  elseif($code==391) // onlone Status
@@ -27943,6 +28051,7 @@ elseif ($code==392) {
 </tbody>
 </table>
    <?php 
+   sqlsrv_close($conntest);
 }
 elseif ($code==393) {
     $time=time();
@@ -27950,6 +28059,7 @@ elseif ($code==393) {
     and UserMaster.ApplicationName='Campus' and Staff.JobStatus='1' and UserMaster.ActivityStatus>$time ";
     $countTotalOnlineUsers=sqlsrv_query($conntest,$checkUserOnline,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
    echo  $TotalActiveUsers=sqlsrv_num_rows($countTotalOnlineUsers);
+   sqlsrv_close($conntest);
 }
 
  else if($code==394)
@@ -27974,6 +28084,7 @@ elseif ($code==393) {
    {
        echo "0";
    }
+   sqlsrv_close($conntest);
    }
 
 
@@ -28011,7 +28122,7 @@ $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=
 
 
        
-
+ sqlsrv_close($conntest);
 
 }
 
@@ -28024,7 +28135,7 @@ elseif($code==396)
       {
         echo "1";
       }
-
+      sqlsrv_close($conntest);
 }
 
 elseif($code==397)  // 397
@@ -28067,6 +28178,7 @@ ftp_close($conn_id);
             }else{
                 echo "2";
             }
+            sqlsrv_close($conntest);
 }
 
 elseif($code==398) 
@@ -28159,6 +28271,7 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
     ?>
             </tbody>
         </table><?php 
+          sqlsrv_close($conntest);
 }
 elseif($code==399)  
 {
@@ -28232,7 +28345,7 @@ ftp_close($conn_id);
             else{
                 echo "2"; //file type wrong
             }
-
+            sqlsrv_close($conntest);
 
 
 }
@@ -28345,6 +28458,7 @@ $sql1 = "SELECT DISTINCT Course FROM MasterCourseCodes WHERE CourseID ='".$row['
     ?>
             </tbody>
         </table><?php 
+          sqlsrv_close($conntest);
 }
 
 elseif($code==401)
@@ -28356,9 +28470,9 @@ elseif($code==401)
       {
         echo "1";
       }
-
+      sqlsrv_close($conntest);
 }
-elseif($code==402)
+elseif($code==402) // under process
 {
 $EmpName=$_REQUEST['EmpName'];
 $CollegeName=$_REQUEST['CollegeName'];
@@ -28416,11 +28530,8 @@ if($row=sqlsrv_fetch_array($result))
    <div id="result">ff</div>
 
    <?php
-              
-                             
-                          
-
-                         }
+               }
+               sqlsrv_close($conntest);
 }
 else if($code==404)
 {
@@ -28454,7 +28565,7 @@ else
    echo "1";
 }
 
-
+sqlsrv_close($conntest);
 }
 else if($code==405)
 {
@@ -28487,7 +28598,7 @@ $stmt1 = sqlsrv_query($conntest, $result1, $params);
           echo "1"; // Success
       }
 
-
+      sqlsrv_close($conntest);
 }
 elseif($code==406)
 {
@@ -28552,7 +28663,7 @@ echo "<b>".$Emp_Name=$row_staff['Name']."</b>";
                      <?php 
                         }
      }
-                       
+     sqlsrv_close($conntest);                 
    }
    elseif($code=='408')
    {
@@ -28663,7 +28774,7 @@ $submit_date=date('Y-m-d');
          else{
             echo "1";
          }
-     
+         sqlsrv_close($conntest);
 }
 elseif ($code=='410') {
     $i=0;
@@ -28710,7 +28821,7 @@ elseif ($code=='410') {
 </tr>
 <?php
         }
-
+        sqlsrv_close($conntest);
 }
 else if($code==411)
 {
@@ -28786,7 +28897,7 @@ while($row=sqlsrv_fetch_array($select_add_q))
        </div>    
 
 <?php
-
+  sqlsrv_close($conntest);
 }
 else if($code==412)
 {
@@ -28812,6 +28923,7 @@ else if($code==412)
          {
            echo "0";
          }
+         sqlsrv_close($conntest);
 }
 
 elseif ($code==413) {
@@ -28876,6 +28988,7 @@ elseif ($code==413) {
                                         ?>
                             </table>
                             <?php 
+                              sqlsrv_close($conntest);
 }
 elseif ($code==414) {
     ?>
@@ -28936,6 +29049,7 @@ elseif ($code==414) {
                                         ?>
                             </table>
                             <?php 
+                              sqlsrv_close($conntest);
 }
 elseif ($code==415) {
     ?>
@@ -29007,6 +29121,7 @@ elseif ($code==415) {
                                         ?>
                             </table>
                             <?php 
+                              sqlsrv_close($conntest);
 }
 elseif ($code==416) {
     ?>
@@ -29076,6 +29191,7 @@ elseif ($code==416) {
                                         ?>
                             </table>
                             <?php 
+                              sqlsrv_close($conntest);
 }
 elseif ($code=='417') {
 
@@ -29101,7 +29217,7 @@ elseif ($code=='417') {
         echo "Error: " . print_r($errors, true);
         
     } 
-
+    sqlsrv_close($conntest);
 }
 elseif($code=='418')
 {
@@ -29240,6 +29356,7 @@ $query = "SELECT UniRollNo,IDNo,StudentName,FatherName,CollegeName,Course FROM A
                          else{
                             echo "<center><b class='text-danger'>No Record Fund!</b></center><br>";
                          }
+                         sqlsrv_close($conntest);
 }
 elseif ($code=='419') {
             $id=$_REQUEST['id'];
@@ -29260,6 +29377,7 @@ elseif ($code=='419') {
                 {
                     echo "0";
                 }
+                sqlsrv_close($conntest);
 }
 elseif($code=='421')
 {
@@ -29277,7 +29395,7 @@ elseif($code=='421')
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 }
 elseif($code=='422')
 {
@@ -29318,6 +29436,7 @@ elseif($code=='422')
         </div>
     </div>
     <?php
+      sqlsrv_close($conntest);
 }
 
 
@@ -29347,6 +29466,7 @@ elseif($code == 423) {
     } else {
         echo "0";
     }
+    sqlsrv_close($conntest);
 }
 
    elseif($code=='424')
@@ -29364,7 +29484,7 @@ elseif($code == 423) {
    else{
     echo "0";
    }
-
+   sqlsrv_close($conntest);
 }
 
 elseif($code==425)
@@ -29379,7 +29499,7 @@ elseif($code==425)
   {
      echo "0";
   }
-
+  sqlsrv_close($conntest);
 } 
 elseif ($code=='426') {
     $i=0;
@@ -29447,7 +29567,7 @@ elseif ($code=='426') {
          </tbody>
 </table>
         <?php 
-
+  sqlsrv_close($conntest);
 }
 elseif($code=='427')
 {
@@ -29465,13 +29585,14 @@ elseif($code=='427')
            {
              echo "0";
            }
+           sqlsrv_close($conntest);
 }
 elseif($code==428)
 {
     $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID' and (Response='' or Response is Null)   Order by ID desc";
     $countcheck=sqlsrv_query($conntest,$select_add,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
     echo $count=sqlsrv_num_rows($countcheck);
-   
+    sqlsrv_close($conntest);
 }
 
 
