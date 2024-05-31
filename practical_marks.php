@@ -135,7 +135,6 @@ for($i=1;$i<=12;$i++)
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
 
-       
      $Sgroup = $row1['Examination']; 
      
     ?>
