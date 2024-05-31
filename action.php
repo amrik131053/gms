@@ -69,6 +69,7 @@ if($code==147)
       } else {
           echo "Ohh yaar ";
       }
+      mysqli_close($conn);
       } else if ($code == 2) {
       $ArticleName = $_POST['ArticleName'];
       $CategoryID = $_POST['CategoryID'];
@@ -82,6 +83,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 3) {
    $BuildingName = $_POST['BuildingName'];
    
@@ -94,6 +96,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 4) {
    $RoomType = $_POST['RoomType'];
    $Block = $_POST['Block'];
@@ -111,6 +114,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 5) {
    $ID = $_POST['CategoryID'];
    
@@ -124,7 +128,7 @@ if($code==147)
 <option value ="<?=$article_row['CategoryCode']?>" > <?=$article_row['ArticleName'];?></option>
 <?php
    }
-   
+   mysqli_close($conn);
    } else if ($code == 6) {
    $ArticleName = $_POST['ArticleName'];
    $CategoryID = $_POST['CategoryID'];
@@ -137,7 +141,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
-   
+   mysqli_close($conn);
    } else if ($code == 7) {
    $id = $_POST['id'];
    
@@ -149,7 +153,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
-   
+   mysqli_close($conn);
    } else if ($code == 8) {
    $ID = $_POST['CategoryID'];
    
@@ -163,6 +167,7 @@ if($code==147)
 <option value = "<?=$article_row['ArticleCode']?>" > <?=$article_row['ArticleName'];?></option>
 <?php
    }
+   mysqli_close($conn);
    } else if ($code == 9) {
    $ID = $_POST['buildingID'];
    ?>
@@ -175,7 +180,7 @@ if($code==147)
 <option value = "<?=$article_row['Floor']?>" > <?=$article_row['Floor'];?> </option>
 <?php
    }
-   
+   mysqli_close($conn);
    } else if ($code == 10) {
    $ArticleName = $_POST['ArticleName'];
    $CategoryID = $_POST['CategoryID'];
@@ -192,7 +197,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
-   
+   mysqli_close($conn);
    }
    else if ($code == 11) {
    $IDNo = $_POST['IDNo'];
@@ -216,6 +221,7 @@ if($code==147)
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    }
    
    else if ($code == 12) {
@@ -230,6 +236,7 @@ if($code==147)
 <option value = "<?=$article_row['RoomNo']?>" > <?=$article_row['RoomNo'];?> </option>
 <?php
    }
+   mysqli_close($conn);
    } else if ($code == 13) {
    $ID = $_POST['Floor'];
    $block = $_POST['block'];
@@ -245,7 +252,7 @@ option value = "" > Select < /option> <?php
 <option value = "<?=$article_row['RoomNo']?>" > <?=$article_row['RoomNo'];?> </option>
 <?php
    }
-   
+   mysqli_close($conn);
    } else if ($code == 14) {
    $ID = $_POST['Floor'];
    ?>
@@ -258,6 +265,7 @@ option value = "" > Select < /option> <?php
 <option value = "<?=$article_row['FloorID']?>" > <?=$article_row['Floor'];?> </option>
 <?php
    }
+   mysqli_close($conn);
    } 
    else if ($code==15) 
    {
@@ -302,7 +310,7 @@ option value = "" > Select < /option> <?php
    {
    echo "Already Assigned or ";
    }
-   
+   mysqli_close($conn);
    } else if ($code == 16) {
    $room_Name = $_POST['room_type_Name'];
    $room_type_insert = "INSERT into room_name_master (RoomName)values ('$room_Name')";
@@ -314,7 +322,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "please Try After Sometime... ";
    }
-   
+   mysqli_close($conn);
    } else if ($code == 17) {
    $ID = $_POST['Floor'];
    $block = $_POST['block'];
@@ -329,7 +337,7 @@ option value = "" > Select < /option> <?php
 <option value = "<?=$article_row['Type']?>"> <?=$article_row['RoomType'];?>  </option>
 <?php
    }
-   
+   mysqli_close($conn);
    } else if ($code == 18) {
    $ID = $_POST['id'];
    $Articlename = $_POST['Articlename'];
@@ -340,6 +348,7 @@ option value = "" > Select < /option> <?php
 <script > window.location.href = 'article-manage.php'; </script> 
 <?php
    }
+   mysqli_close($conn);
    } else if ($code == 19) {
    $ID = $_POST['id'];
    $CategoryName = $_POST['CategoryName'];
@@ -402,7 +411,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "Ohh yaar ";
    }
-   
+   mysqli_close($conn);
    } else if ($code == 21) {
    $id = $_POST['id'];
    $RoomType = $_POST['RoomType'];
@@ -415,6 +424,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 22) {
    $id = $_POST['id'];
    $Roomname = $_POST['Roomname'];
@@ -427,6 +437,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 23) {
    $id = $_POST['id'];
    $col1 = $_POST['col1'];
@@ -446,6 +457,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    } else if ($code == 24) {
    $id = $_POST['id'];
    $col1 = $_POST['col1'];
@@ -463,6 +475,7 @@ option value = "" > Select < /option> <?php
    } else {
        echo "Ohh yaar ";
    }
+   mysqli_close($conn);
    }
    elseif($code==25)        
    {
@@ -521,6 +534,7 @@ option value = "" > Select < /option> <?php
    }
    
    echo "<script>window.close();</script>";
+   mysqli_close($conn);
    }
    elseif ($code==26) {
    $room_type_Name = $_POST['room_type_Name'];
@@ -534,7 +548,7 @@ option value = "" > Select < /option> <?php
    {
        echo "please Try After Sometime... ";
    }
-   
+   mysqli_close($conn);
    } 
    elseif($code==27)
    {
@@ -563,6 +577,7 @@ option value = "" > Select < /option> <?php
        echo "Ohh yaar ";
    }
    } 
+   mysqli_close($conn);
    }
    elseif ($code==28) {
 
@@ -586,9 +601,8 @@ option value = "" > Select < /option> <?php
    else {
        echo "0";
    }
-   
+   mysqli_close($conn);
    }
-   
    else if ($code == 29) {
    // echo $RoomTypeID = $_POST['RoomType'];
    $officeOwnerID= $_POST['officeOwnerID'];
@@ -777,6 +791,7 @@ option value = "" > Select < /option> <?php
    <!-- /.card -->
 </form>
 <?php
+mysqli_close($conn);
    }
    else if ($code == 30) 
    {
@@ -1052,6 +1067,7 @@ if ($co<2)
 </div>
 <?php
 sqlsrv_close($conntest);
+mysqli_close($conn);
    }
    else if ($code == 31) {
         $empID = $_POST['emp_id'];
@@ -1241,6 +1257,7 @@ sqlsrv_close($conntest);
 <?php
    }
    sqlsrv_close($conntest);
+   mysqli_close($conn);
    }
    else if ($code == 32) {
      $emp_id=$_POST['emp'];
@@ -1347,6 +1364,7 @@ sqlsrv_close($conntest);
 </div>
 <?php
 sqlsrv_close($conntest);
+mysqli_close($conn);
    }
    else if ($code == 33) {
         $locationOwnerID = $_POST['locationOwnerID'];
@@ -1428,6 +1446,7 @@ sqlsrv_close($conntest);
    <!-- /.card -->
 </form>
 <?php
+mysqli_close($conn);
    }
    else if ($code == 34) {
        if (isset($_POST['emp'])) {
@@ -1520,6 +1539,7 @@ sqlsrv_close($conntest);
    </table>
 </div>
 <?php
+mysqli_close($conn);
    }
    elseif($code == 35)
    {
@@ -1686,10 +1706,8 @@ sqlsrv_close($conntest);
    <!-- /.card -->
 </form>
 <?php
+mysqli_close($conn);
    }
-    
-   
-   
    else if ($code == 37) {
        $CategoryID=$_POST['CategoryID'];
        $ArticleCode=$_POST['ArticleCode'];
@@ -1777,6 +1795,7 @@ sqlsrv_close($conntest);
 </div>
 <?php
 sqlsrv_close($conntest);
+mysqli_close($conn);
    }
    
    else if ($code == 38) 
@@ -1862,6 +1881,7 @@ sqlsrv_close($conntest);
    <!-- /.card-body -->
 </div>
 <?php
+mysqli_close($conn);
    }
    elseif ($code=='39') 
    {                       
@@ -1926,7 +1946,8 @@ sqlsrv_close($conntest);
    </div>
    <!-- /.card-body -->
 </div>
-<?php        
+<?php
+mysqli_close($conn);        
    }
    
    elseif ($code==40) {
@@ -1943,7 +1964,7 @@ sqlsrv_close($conntest);
    } else {
        echo "Ohh yaar ";
    }
-   
+   mysqli_close($conn);
    }elseif ($code==41) {
    
     $articleID=$_POST['ID'];
@@ -2028,6 +2049,7 @@ if($count>0)
    
    }
    sqlsrv_close($conntest);
+   mysqli_close($conn);
    }
    elseif($code==42)
    {
@@ -2153,6 +2175,7 @@ if($count>0)
    </div>
 </div>
 <?php
+mysqli_close($conn);
    }
    elseif ($code=='43') 
    {
@@ -2354,6 +2377,7 @@ if($count>0)
 <?php
    }
    sqlsrv_close($conntest);
+   mysqli_close($conn);
    }
    elseif ($code=='44') 
    {
@@ -2384,7 +2408,7 @@ if($count>0)
 <script > window.location.href='reports.php'; </script> 
 <?php
    }
-   
+   mysqli_close($conn);
    }
    
    
@@ -2490,11 +2514,8 @@ if($count>0)
 <input type="hidden" name="serial_no" value="<?=$sr?>" id='serial_no'>
 <?php
    unset($maxValue);
+   mysqli_close($conn);
    }
-   
-   
-   
-   
    else if ($code == 46) {
        $locationID = $_POST['location_id'];
    
@@ -2597,7 +2618,7 @@ if($count>0)
 <?php
    unset($maxValue);
  
-   
+   mysqli_close($conn);
    }
    elseif($code=='47')
    {
@@ -2833,6 +2854,7 @@ if($count>0)
 </div>
 <?php
 sqlsrv_close($conntest);
+mysqli_close($conn);
    }
 
    elseif($code=='48')
@@ -2875,7 +2897,7 @@ sqlsrv_close($conntest);
    
        }
    
-   
+       mysqli_close($conn);
    }
    
    
@@ -3037,6 +3059,7 @@ sqlsrv_close($conntest);
 <?php
 
 sqlsrv_close($conntest);
+mysqli_close($conn);
    }
    else if ($code == 50) {
      $EmployeeID=$_POST['emp'];
@@ -3113,6 +3136,7 @@ sqlsrv_close($conntest);
    </form>
 </div>
 <?php
+mysqli_close($conn);
    }
    
    
@@ -3201,6 +3225,7 @@ sqlsrv_close($conntest);
 <?php
    }
    }
+   mysqli_close($conn);
    }
    
    else if ($code==53) 
@@ -3289,7 +3314,7 @@ sqlsrv_close($conntest);
    $staff="Delete FROM category_permissions Where ID='$ID'";
    mysqli_query($conn,$staff);  
    
-   
+   mysqli_close($conn);
    }
    else if ($code==55) 
    {
