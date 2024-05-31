@@ -6446,7 +6446,7 @@ sqlsrv_close($conntest);
        $room=$_POST['room'];
        if ($building!='' && $floor=='' && $room=='') 
        {
-        $sql="SELECT distinct location_master.RoomNo,Name,location_master.ID as location_id, room_master.Floor as FloorName, room_master.RoomNo as RoomName from location_master  inner join room_master  on room_master.RoomNo=location_master.RoomNo inner join building_master  on building_master.ID=location_master.Block  INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner  join stock_summary on stock_summary.LocationID=location_master.ID inner JOIN master_article  on master_article.ArticleCode=stock_summary.ArticleCode where ArticleName='Bed' and Block='$building' ";
+         $sql="SELECT distinct location_master.RoomNo,Name,location_master.ID as location_id, room_master.Floor as FloorName, room_master.RoomNo as RoomName from location_master  inner join room_master  on room_master.RoomNo=location_master.RoomNo inner join building_master  on building_master.ID=location_master.Block  INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner  join stock_summary on stock_summary.LocationID=location_master.ID inner JOIN master_article  on master_article.ArticleCode=stock_summary.ArticleCode where ArticleName='Bed' and Block='$building' ";
        }
        elseif ($building!='' && $floor=='' && $room!='') 
        {
@@ -6469,7 +6469,7 @@ sqlsrv_close($conntest);
          <th>Floor</th>
          <th>Room No.</th>
         <!--  <th>Bed</th> -->
-        <!--  <th>Students</th> -->
+         <th>Assigned</th>
          <th>Availability</th>
       </tr>
    </thead>
@@ -6526,7 +6526,7 @@ sqlsrv_close($conntest);
         <!--  <td>
             <?=$bedCount;?>
          </td> -->
-       <!--   <td>
+         <!-- <td>
             <?php 
                if ($studentClassRollNo!='') 
                {
@@ -6538,6 +6538,9 @@ sqlsrv_close($conntest);
                }
                ?>
          </td> -->
+         <td>
+            <?=$studentCount;?>
+            </td>
          <td>
             <?php
                $availability=$bedCount-$studentCount;
