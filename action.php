@@ -12570,6 +12570,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 <option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
 <?php 
 }
+
   }
   elseif ($code ==200.2)
   {

@@ -22883,7 +22883,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  if($Status>6 && $AcceptType>0){?>
 <p style="color:red;font-size: 20px">Rejected by accounts Due to <u> <?=$AccountantRejectReason;?></u></p>
 <br>
-            <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
+            <button type="submit" id="type" onclick="reverify(<?=$formid;?>);" name="update" class="btn btn-danger ">Re-Verify</button>
 
             <!-- <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button> -->
             <?php }
@@ -29473,6 +29473,31 @@ elseif($code==428)
     echo $count=sqlsrv_num_rows($countcheck);
    
 }
+
+
+ else if($code==429)
+   {
+       $ExamFromID=$_POST['ExamFromID'];
+   $getDefalutMenu="UPDATE  ExamForm  SET AcceptType='0',ReVerifyAccount='$timeStampS' Where ID='$ExamFromID'";
+   $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
+   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
+   if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
+       $IDNo=$row['IDNo'];
+   }
+   $desc= "UPDATE  ExamForm  SET Status:  Provisional Verified,AccountantVerificationDate: ".$timeStampS;
+   $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
+   if($getDefalutMenuRun==true)
+   {
+       echo 1;
+   }
+   else
+   {
+       echo 0;
+   }
+   }
    else
    {
    
