@@ -406,6 +406,51 @@ function pverify(ExamFromID)
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);
                     fetchCutList();
+
+                    $('.bd-example-modal-xl').modal('hide');
+                  
+                } else {
+                    ErrorToast('Try Again', 'bg-danger');
+                }
+
+            }
+        });
+  //  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function reverify(ExamFromID)
+ {
+    // var r = confirm("Do you really want to Verifiy");
+    // if (r == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = 429;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ExamFromID: ExamFromID
+            },
+            success: function(response) {
+                // console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Successfully Verify');
+                    edit_stu(ExamFromID);
+                    fetchCutList();
+                    
                     $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
