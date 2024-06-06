@@ -472,21 +472,33 @@ function savemarks(id)
 
   var marks=document.getElementById('marks_'+id).value;
    var ecat=document.getElementById('ecat').value;
+     var  sem = document.getElementById('Semester').value;
 
   $.ajax({
       url:'action.php',
       type:'post',
       data:{
-        id:id,marks:marks,ecat:ecat,code:'360'
+        id:id,marks:marks,ecat:ecat,sem:sem,code:'360'
       },
       success:function(response)
       {
-        console.log(response);
- 
+       if(response==1)
+        {
+
+         SuccessToast('Successfully Updated');
+        }
+        else if(response==0)
+        {
+           ErrorToast('something went wrong','bg-danger');
+
+        }
+         else if(response==2)
+        {
+ ErrorToast('Date Over','bg-danger');
+        }
 
 
-        SuccessToast('Successfully Updated');
-        //select_mst(); 
+     
        
        
       }
