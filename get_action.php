@@ -4791,7 +4791,6 @@ else if($ecat=='Attendance')
 $max=5;
 $start=3;
 }
-
 ?>
 <!-- <form action="post_action.php" method="post"> -->
 
@@ -4845,9 +4844,7 @@ $start=3;
                 </tr>
  <?php
  $i='1';
-$srno=1;
-
-
+ $srno=1;
  $CourseID = $_GET['course'];
  $CollegeID = $_GET['college'];
  $Batch=$_GET['batch']; 
@@ -4864,18 +4861,14 @@ $srno=1;
     echo sqlsrv_errors($sql1);
     die;
     } 
-
-        $count=0;
-
-     while($row = sqlsrv_fetch_array($stmt)){
+  $count=0;
+  while($row = sqlsrv_fetch_array($stmt)){
 
  //$declare= $row['11'];
 
 // print_r($row);
 
-
-
-               
+          
                   
 ?>
 <tr>
@@ -5001,7 +4994,9 @@ if($dateover>0)
 
                            <td><?=$row['updateby'];?></td>
                            <td><?php 
-                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                           If($row['updatedDate']!='')
+                           {
+                            echo $row['updatedDate']->format('Y-m-d H:i:s');
                         }?></td>
                             
                             
@@ -5175,7 +5170,7 @@ else if($code=='52')
 
 <?php
 
- $getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
+$getdistri="Select Id from DDL_TheroyExamination where Value='PracticalNO'" ;
 $list_resultdi = sqlsrv_query($conntest,$getdistri);
       
         while( $rowdi = sqlsrv_fetch_array($list_resultdi, SQLSRV_FETCH_ASSOC) )
@@ -5188,6 +5183,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
 
 
      $exam_type=$DistributionTheory;
+
    $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
 
@@ -5217,9 +5213,43 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
 
    <select  name="emst[]"  id='emarks_<?=$iidd;?>' class='emarks' onchange="savepmarks(<?=$iidd;?>)" >
        <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+
+
+
+
+<?php 
+
+ if($row['Locked']>0||$dateover>0)
+  {
+                               
+   if($row['experiment']!='')
+{
+   ?>
+    <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['experiment']!='')
+{
+   ?>
+    <option value="<?=$row['experiment'];?>"><?=$row['experiment'];?></option>
+
+<?php
+}
+?>
+
+
+
  <option value="">Select</option>
-   <!--  <option value='S'>S</option>
-    <option value='US'>US</option> -->
+  
         <?php 
 
 for($j=$start;$j<=10;$j++)
@@ -5227,6 +5257,7 @@ for($j=$start;$j<=10;$j++)
      <option value='<?=$j;?>'><?=$j;?></option>
 
  <?php 
+}
 }
 ?>
 </select>
@@ -5236,6 +5267,89 @@ for($j=$start;$j<=10;$j++)
 
    <select  name="vmst[]"  id='vmarks_<?=$iidd;?>' class='vmarks' onchange="savepmarks(<?=$iidd;?>)" >
         <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+   <?php 
+
+ if($row['Locked']>0||$dateover>0)
+  {
+                               
+   if($row['viva']!='')
+{
+   ?>
+    <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['viva']!='')
+{
+   ?>
+    <option value="<?=$row['viva'];?>"><?=$row['viva'];?></option>
+
+<?php
+}
+?> <option value="">Select</option>
+
+        <?php 
+
+for($j=$start;$j<=5;$j++)
+{?>
+     <option value='<?=$j;?>'><?=$j;?></option>
+
+ <?php 
+}
+}
+?>
+</select>
+</td>
+<td>
+
+   <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>)" >
+       <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+ 
+
+
+   <?php 
+
+ if($row['Locked']>0||$dateover>0)
+  {
+                               
+   if($row['filem']!='')
+{
+   ?>
+    <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+
+<?php
+}
+
+  
+
+
+   }
+   else
+   {
+   if($row['filem']!='')
+{
+   ?>
+    <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
+
+<?php
+}
+?>
+
+
+
+
+
+
+
+
  <option value="">Select</option>
    <!--  <option value='S'>S</option>
     <option value='US'>US</option> -->
@@ -5247,23 +5361,6 @@ for($j=$start;$j<=5;$j++)
 
  <?php 
 }
-?>
-</select>
-</td>
-<td>
-
-   <select  name="fmst[]"  id='fmarks_<?=$iidd;?>' class='fmarks' onchange="savepmarks(<?=$iidd;?>)" >
-       <option value="<?=$row['filem'];?>"><?=$row['filem'];?></option>
- <option value="">Select</option>
-   <!--  <option value='S'>S</option>
-    <option value='US'>US</option> -->
-        <?php 
-
-for($j=$start;$j<=5;$j++)
-{?>
-     <option value='<?=$j;?>'><?=$j;?></option>
-
- <?php 
 }
 ?>
 </select>

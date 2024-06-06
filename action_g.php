@@ -18532,7 +18532,8 @@ $tcredit=$rowww['totalcredit'];
                                     <div class="col-lg-12">
                                        <table class="table">
                                         <tr><th>IDNo </th><th>Name  </th>  <th>Mobile  </th><th>Type</th>
-    </tr> <?php
+    </tr>
+     <?php
    $sqlConsultant="SELECT * from MasterConsultantRef  Where StudentIDNo='$IDNo'";
    $stmtConsultant = sqlsrv_query($conntest,$sqlConsultant);
    while($rowConsultant = sqlsrv_fetch_array($stmtConsultant) )
@@ -18600,13 +18601,10 @@ $tcredit=$rowww['totalcredit'];
            }
            ?>
 
-<div class="row" style="border: 1px solid red">
+
       
 
-  <div class="row" style="border: 1px solid red">
-     
-<table class="table"><tr><th>IDNo </th><th>Name  </th>  <th>Mobile  </th>
-    </tr><tr>
+<tr>
  <th><?=$RefIDNo;?> </th>
    
 <th><?=$RefName;?> </th> 
@@ -18616,12 +18614,12 @@ $tcredit=$rowww['totalcredit'];
 </table>
 
 
-   </div>
+
     
     
 
 
-   </div>
+   
 
 
 
@@ -19061,10 +19059,12 @@ elseif($code==270)  // search student
 
     // }
     if ($LateralEntry != '') {
-    $query .= "AND  LateralEntry='$LateralEntry'";
+    $query .= "AND  LateralEntry='$LateralEntry' order by ClassRollNo";
     }
 
+
       $query;
+
 
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )

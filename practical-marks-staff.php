@@ -299,12 +299,10 @@ function select_mst()
   var  course = document.getElementById('Course').value;
    var  batch = document.getElementById('Batch').value;
     var  sem = document.getElementById('Semester').value;
-         var subject = document.getElementById('Subject').value;
+    var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
      var  group = document.getElementById('group').value;
-   
-
-    var distributiontheory = document.getElementById('ecat').value;
+       var distributiontheory = document.getElementById('ecat').value;
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
  {
@@ -331,81 +329,7 @@ else
       
   } 
 
-function Examination_theory_types(){
-var code=44;
 
-var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {     
-     
-          document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
-
-        }
-    }
-
-      xmlhttp.open("GET", "get_action.php?code="+code,true);
-        xmlhttp.send();
-
-
-} 
-
-
-$(document).ready(function(e) { // image upload form submit
-    $("#submit_csv_marks").on('submit', (function(e) {
-        e.preventDefault();
-
-   var  college = document.getElementById('College').value;
-   var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-   var  sem = document.getElementById('Semester').value;
-   var subject = document.getElementById('Subject').value;
-   var  examination = document.getElementById('Examination').value;
-   var distributiontheory = document.getElementById('ecat').value;
-
-var form_data = new FormData(this);   
-form_data.append('file_exl', file_exl);
-form_data.append('code',361);
-form_data.append('college',college);
-form_data.append('course',course) ;             
-form_data.append('batch',batch) ;
-form_data.append('DistributionTheory',distributiontheory) ;
-form_data.append('subject',subject) ;
-form_data.append('examination',examination) ;
-form_data.append('sem',sem) ;
-
-var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        $.ajax({
-            url: "action.php",
-            type: "POST",
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function(data) {
-                console.log(data);
-                spinner.style.display = 'none';
-                if (data==1) {
-                    SuccessToast('Successfully Uploaded');
-                    
-                    //search_exam_form();
-
-                } 
-                else if(data==0)
-                {
-                    ErrorToast('Invalid CSV File ', 'bg-danger');
-                    
-                }
-
-                    else {
- ErrorToast('Failed to Upload', 'bg-warning');
-                    
-                }
-            },
-        });
-    }));
-});
 
 
 
@@ -459,8 +383,8 @@ else {
        select_mst() ;
       }
     });
-
 }
+
 }
 
 
@@ -472,6 +396,7 @@ function savepmarks(id)
    var vmarks=document.getElementById('vmarks_'+id).value
     var fmarks=document.getElementById('fmarks_'+id).value
      var ecat=document.getElementById('ecat').value;
+       var  sem = document.getElementById('Semester').value;
   
 
     if(emarks!='' && vmarks!=''&& fmarks!='')
@@ -489,13 +414,25 @@ document.getElementById('marks_'+id).value='';
       url:'action.php',
       type:'post',
       data:{
-        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,code:'361'
+        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,sem:sem,code:'361'
       },
       success:function(response)
       {
-        console.log(response);
+        if(response==1)
+        {
+
          SuccessToast('Successfully Updated');
-        //select_mst();      
+        }
+        else if(response==0)
+        {
+           ErrorToast('something went wrong','bg-danger');
+
+        }
+         else if(response==2)
+        {
+ ErrorToast('Date Over','bg-danger');
+        }
+         
       }
       });
 
@@ -506,257 +443,12 @@ else{
 
 }
 
-function unlock(id)
-{
-
-  var marks=document.getElementsByClassName('marks');
-  var ecat=document.getElementById('ecat').value;
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        id:id,ecat:ecat,code:'206'
-      },
-      success:function(response)
-      {
- 
 
 
-        SuccessToast('Successfully Unlocked');
-        select_mst(); 
-       
-       
-      }
-    });
-}
-
-function lock(id)
-{
-
-  var marks=document.getElementsByClassName('marks');
-  var ecat=document.getElementById('ecat').value;
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        id:id,ecat:ecat,code:'207'
-      },
-      success:function(response)
-      {
- 
-      SuccessToast('Successfully Locked');
-        select_mst(); 
-        
-      }
-    });
-}
-
-function lockall()
-{
-
-  var examination=document.getElementById('Examination').value;
-  var ecat=document.getElementById('ecat').value;
-
- if(examination!='' && ecat!='')
- {
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,ecat:ecat,code:'209'
-      },
-      success:function(response)
-      {
-        if(response>0)
-        { 
-       SuccessToast('Successfully Locked'+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Lock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination and Theory Distibution',"bg-danger" );
-}
-}
-
-
-function unlockall()
-{
-
-  var examination=document.getElementById('Examination').value;
-  var semester=document.getElementById('Semester').value;
-  var ecat=document.getElementById('ecat').value;
-
- if(examination!='' && ecat!='' && semester!='')
- {
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,ecat:ecat,semester:semester,code:'215'
-      },
-      success:function(response)
-      {
-        if(response>0)
-        { 
-      SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Unlock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution and Semester',"bg-danger" );
-}
-}
-
-
-function unlockpending()
-{
-
-  var examination=document.getElementById('Examination').value;
-  var ecat=document.getElementById('ecat').value;
-   var semester=document.getElementById('Semester').value;
-
- if(examination!='' && ecat!='' && semester!='')
- {
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,ecat:ecat,semester:semester,code:'216'
-      },
-      success:function(response)
-      {
-
-        if(response>0)
-        { 
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Unlock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution and Semester',"bg-danger" );
-}
-}
 
 //Semester unlock
 
-function unlockSemester()
-{
-  var college=document.getElementById('College').value;
-  var course=document.getElementById('Course').value;
-  var examination=document.getElementById('Examination').value;
-  var batch=document.getElementById('Batch').value;
-  var semester=document.getElementById('Semester').value;
 
-  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
-  var len_distribution= distributiontheory.length;
-  var distributiontheory_str=[];
-    for(i=0;i<len_distribution;i++)
-     {
-      if(distributiontheory[i].checked===true)
-       {
-        distributiontheory_str.push(distributiontheory[i].value);
-        }
-     }
-if(typeof  distributiontheory_str[0]== 'undefined') 
-  {
-    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
-  }
-  else{   
-
-  if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
- {
-  alert(distributiontheory_str[0]);
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,code:'217'
-      },
-      success:function(response)
-      {
-
- 
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-       
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
-}
-}
-}
-
-function unlockSemesterpending()
-{  
-  var college=document.getElementById('College').value;
-  var course=document.getElementById('Course').value;
-  var examination=document.getElementById('Examination').value;
-  var batch=document.getElementById('Batch').value;
-  var semester=document.getElementById('Semester').value;
-  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
-  var len_distribution= distributiontheory.length;
-  var distributiontheory_str=[];
-    for(i=0;i<len_distribution;i++)
-     {
-      if(distributiontheory[i].checked===true)
-       {
-        distributiontheory_str.push(distributiontheory[i].value);
-        }
-     }
-if(typeof  distributiontheory_str[0]== 'undefined') 
-  {
-    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
-  }
-  else{   
-
-  if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
- {
-  alert(distributiontheory_str[0]);
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,code:'218'
-      },
-      success:function(response)
-      {
-    
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-       
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
-}
-}
-}
 
 
 

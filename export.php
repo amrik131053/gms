@@ -3814,7 +3814,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>District </th>
     <th>Nationality </th>
     <th>Remarks </th>
-    <th>Status </th>
+    <th>Status</th>
 
     </tr>
         </thead>";
@@ -3846,7 +3846,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $query .= " AND Eligibility='$Eligibility'";
         }
         if ($LateralEntry != '') {
-            $query .= " AND LateralEntry='$LateralEntry'";
+            $query .= " AND LateralEntry='$LateralEntry'  Order By ClassRollNo ";
         }
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
