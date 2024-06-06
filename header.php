@@ -280,7 +280,7 @@ window.location.href = "index.php";
                                     <a href="task-manager.php" class=" btn btn-warning btn-xs">My Task</a>
                                 </div>
                                 <div class="col-4 text-center">
-                                    <a href="employee-articles.php" class=" btn btn-info btn-xs">My Stock</a>
+                                    <a href="staff-attendance.php" class=" btn btn-info btn-xs">My Team</a>
                                 </div>
                             </div>
                             <!-- /.row -->
