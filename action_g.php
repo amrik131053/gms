@@ -29497,6 +29497,9 @@ elseif($code=='422')
     $DurationOpen = $_REQUEST['DurationOpen'];
     $TypeOpen = $_REQUEST['TypeOpen'];
     $numberOfSem = array();
+
+    if($DurationOpen!='' && $TypeOpen!='')
+    {
     ?>
    
     <div class="row">
@@ -29530,6 +29533,43 @@ elseif($code=='422')
         </div>
     </div>
     <?php
+    }
+    else{
+
+        ?>
+   
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row text-center">
+              <?php   $semesters = [];
+        $checkOpen = "SELECT DISTINCT MasterCourseStructure.SemesterID FROM MasterCourseStructure 
+                      INNER JOIN MasterCourseCodes  ON MasterCourseStructure.CourseID = MasterCourseCodes.CourseID 
+                       WHERE MasterCourseStructure.Batch = '$BatchOpen' and MasterCourseStructure.$TypeOpen = '1'  
+                      ORDER BY SemesterID ASC";
+        $checkOpenRun = sqlsrv_query($conntest, $checkOpen);
+        while ($row = sqlsrv_fetch_array($checkOpenRun, SQLSRV_FETCH_ASSOC)) {
+            $semesters[] = $row['SemesterID'];
+        }
+        
+        for ($i = 1; $i <= 12; $i++) {
+            $checked = in_array($i, $semesters) ? "checked" : "";
+            $val = in_array($i, $semesters) ? "1" : "0";
+        ?>
+            <div class="col-lg-2 col-sm-6 custom-control custom-checkbox"><br><?= $i; ?>
+                <input type="hidden" class="form-control sel22" value="<?= $i; ?>">
+                <input type="checkbox" class="form-control sel11" id="customCheckbox<?= $i; ?>" value="<?= $val; ?>" <?= $checked; ?>>
+            </div>
+        <?php
+        }
+        ?>
+        <div class="col-lg-12 col-sm-12"><br>
+            <button class="btn btn-success" style="float:right;" onclick="openSubmit();">Submit</button>
+        </div>
+                </div>
+            </div>
+        </div>
+        <?php 
+    }
       sqlsrv_close($conntest);
 }
 
@@ -29541,7 +29581,8 @@ elseif($code == 423) {
     $TypeOpen = $_REQUEST['TypeOpen'];
     $lenarraySem_main = $_REQUEST['lenarraySem_main'];
     $success = true;
-
+if($DurationOpen!='')
+{
     foreach($semester as $key => $val) {
         $update_permission = "UPDATE MasterCourseStructure  SET $TypeOpen = '$val'   FROM MasterCourseStructure mcs  
         INNER JOIN MasterCourseCodes mcc   ON mcs.CourseId = mcc.CourseId   WHERE mcs.Batch = '$BatchOpen'   AND mcc.Duration = '$DurationOpen' 
@@ -29554,6 +29595,22 @@ elseif($code == 423) {
             break;
         }
     }
+}
+else{
+    foreach($semester as $key => $val) {
+        $update_permission = "UPDATE MasterCourseStructure  SET $TypeOpen = '$val'   FROM MasterCourseStructure mcs  
+        INNER JOIN MasterCourseCodes mcc   ON mcs.CourseId = mcc.CourseId   WHERE mcs.Batch = '$BatchOpen' 
+                              AND mcs.SemesterID = '".$lenarraySem_main[$key]."'";
+        $update_run = sqlsrv_query($conntest, $update_permission);
+        if ($update_run === false) {
+            $success = false;
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+            break;
+        }
+    }
+
+}
 
     if ($success) {
         echo "1";

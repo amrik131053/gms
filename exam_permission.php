@@ -148,6 +148,7 @@
                                         <div class="col-lg-3">
                                             <label>Duration</label>
                                             <select class="form-control" id="DurationOpen">
+                                            <option value="">Select</option>
                                                         <?PHP 
                                                              $checkOpen="SELECT Distinct Duration  FROM  MasterCourseCodes where Duration!='' and Duration!='0'  order by  Duration ASC";
                                                              $checkOpenRun=sqlsrv_query($conntest,$checkOpen);
@@ -162,6 +163,7 @@
                                         <div class="col-lg-3">
                                             <label>Type</label>
                                             <select class="form-control" id="TypeOpen">
+                                                <!-- <option value="">Select</option> -->
                                                 <option value="Regular">Regular</option>
                                                 <option value="Reappear">Reappear</option>
                                                 <!-- <option value="Improvement">Improvement</option>
@@ -377,6 +379,11 @@ function searchSemesterRecord() {
     var BatchOpen = document.getElementById('BatchOpen').value;
     var DurationOpen = document.getElementById('DurationOpen').value;
     var TypeOpen = document.getElementById('TypeOpen').value;
+    if(TypeOpen=='Reappear' && DurationOpen=='')
+     {
+    ErrorToast('Please select a Duration.', 'bg-warning');
+     return;
+     }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code = '422';
@@ -776,7 +783,7 @@ function openSubmit() {
 
     if (checkboxValues.length === 0) {
         ErrorToast('Select at least one sem', 'bg-warning');
-    } else if (BatchOpen !== '' && DurationOpen !== '' && TypeOpen !== '' && checkboxes.length > 0) {
+    } else if (BatchOpen !== '' && checkboxes.length > 0) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 423;
