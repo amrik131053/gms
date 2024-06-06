@@ -4861,18 +4861,14 @@ $start=3;
     echo sqlsrv_errors($sql1);
     die;
     } 
-
-        $count=0;
-
-     while($row = sqlsrv_fetch_array($stmt)){
+  $count=0;
+  while($row = sqlsrv_fetch_array($stmt)){
 
  //$declare= $row['11'];
 
 // print_r($row);
 
-
-
-               
+          
                   
 ?>
 <tr>
@@ -4998,7 +4994,9 @@ if($dateover>0)
 
                            <td><?=$row['updateby'];?></td>
                            <td><?php 
-                           If($row['updatedDate']!=''){ echo $row['updatedDate']->format('Y-m-d H:i:s');
+                           If($row['updatedDate']!='')
+                           {
+                            echo $row['updatedDate']->format('Y-m-d H:i:s');
                         }?></td>
                             
                             
