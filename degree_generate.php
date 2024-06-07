@@ -453,6 +453,7 @@ var upload_date = document.getElementById('upload_date').value;
 var FatherName = document.getElementById('FatherName').value;
 var Gender = document.getElementById('Gender').value;
 var Stream_ = document.getElementById('Stream_').value;
+var Cgpa = document.getElementById('CGPA').value;
 if (Name != '' && FatherName != '') {
     var code = 142;
     var data = {
@@ -463,6 +464,7 @@ if (Name != '' && FatherName != '') {
         Gender: Gender,
         UniRollNo: UniRollNo,
         upload_date: upload_date,
+        Cgpa: Cgpa,
         code: code
     };
 
@@ -472,7 +474,7 @@ if (Name != '' && FatherName != '') {
         data: data,
         type: 'POST',
         success: function(response) {
-            // console.log(response); // Log the response for debugging
+            console.log(response); // Log the response for debugging
             if (response == 1) {
                 SuccessToast('Data Updated successfully');
                 // date_by_search();

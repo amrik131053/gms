@@ -1167,7 +1167,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                              $yoa=$row_student['Batch']+1;
 
                                           }
-                                          $gender=$row_student['Sex'];
+                                           $gender=$row_student['Sex'];
                                           $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }

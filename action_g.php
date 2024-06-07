@@ -9049,6 +9049,11 @@ elseif($code==141)
                     <textarea class="form-control" id="Stream_"><?=$Stream;?></textarea>
                     <!-- <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control"> -->
                 </div>
+                <div class="col-lg-12">
+                    <label>CGPA</label>
+                    <input type="text" value="<?=$CGPA;?>" id="CGPA" class="form-control">
+                  
+                </div>
 
                 <div class="col-lg-4">
                     <label>&nbsp;</label>
@@ -9074,7 +9079,8 @@ $Stream = $_POST['Stream'];
 $Gender = $_POST['Gender'];
 $UniRollNo = $_POST['UniRollNo'];
 $upload_date = $_POST['upload_date'];
-  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date'  where id='$id'";
+$Cgpa = $_POST['Cgpa'];
+  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 
  $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
