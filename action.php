@@ -12910,6 +12910,10 @@ FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo ORDER BY 
                 {
                   echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
                 }
+                 elseif($Status==22)
+                {
+                  echo "<b style='color:red'>Rejected<br>By<br>Registration Branch</b>";
+                }
                  elseif($Status==3)
                 {
                   echo "<b style='color:red'>Rejected<br>By<br>Dean</b>";
@@ -20678,7 +20682,7 @@ elseif($code=='336')
 
 <div class="card-body ">
     <div class="card-header ">
-<center><h6>Apply Winter Vacation Slot</h6></center><a href="formats/vacation.csv" class="btn btn-primary btn-xs">Format</a>
+<center><h6>Apply Vacation Slot</h6></center><a href="formats/vacation.csv" class="btn btn-primary btn-xs">Format</a>
 
 </div>
 <br>
