@@ -8839,6 +8839,13 @@ elseif ($code==138)
 
    }
 
+ elseif($examName=='10')
+   {
+   // for B PHARMACY End Semester
+  $questionCountQry="Select * from question_generate_count where  unit='6' ";
+      $flag=1;
+
+   }
 
    else
    {
@@ -8963,6 +8970,10 @@ $gene=1;
     {
 $gene=1;
     }
+       elseif($examName==10 && $countarray>=36)
+    {
+$gene=1;
+    } 
     else
     {
       $gene=0;
