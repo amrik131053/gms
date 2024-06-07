@@ -241,7 +241,7 @@ $pdf = new PDF();
 $pdf->AddPage();
 $pdf->SetFont('Times','b',16);
 $pdf->SetXY(4,10);
-$pdf->Image('https://recruitment.gurukashiuniversity.in/images/logo-blue.png', 11, 11, 40);
+$pdf->Image('dist/img/new-logo.png', 11, 11, 40);
 $pdf->MultiCell(200,18,'',1,'C',False);
 $pdf->SetXY(4,10);
 $pdf->MultiCell(200,9,'Guru Kashi University',0,'C',False);

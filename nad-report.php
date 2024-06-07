@@ -123,7 +123,7 @@ $key2=$key1;
 
      $exportstudy .= "<th>  SUB{$key2}NM    </th>
    <th> SUB{$key2}  </th>
-   <th> SUB{$key2}_TH_MAX   </th>
+   <th> SUB{$key2}_TH_MAX  $subject2 </th>
    <th> SUB{$key2}_PR_MAX   </th>
    <th> SUB{$key2}_CE_MAX   </th>
    <th> SUB{$key2}_TH_MRKS  </th>
