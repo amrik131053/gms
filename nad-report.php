@@ -90,6 +90,8 @@ $list_resultsubn = sqlsrv_query($conntest, $subjectn);
 $PID=$rown["PID"];
 $CourseName=$rown["Course"];
 $CollegeName=$rown["CollegeName"];
+$CollegeID=$rown["CollegeID"];
+$CourseID=$rown["CourseID"];
 }
 
 //  echo $subject="SELECT * from MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd Isverified='1'";
@@ -116,14 +118,14 @@ $key1=1;
 // $key1++;
 
 // }
-$subject2="SELECT  Distinct SubjectCode from ExamFormSubject  where CollegeName='$CollegeName' ANd Course='$CourseName' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd ExternalExam='Y' ";
+$subject2="SELECT  Distinct SubjectCode from MasterCourseStructure  where CollegeID='$CollegeID' ANd CourseID='$CourseID' ANd Batch='$Batch' ANd SemesterID='$Semester'  ";
 $list_resultsubs = sqlsrv_query($conntest, $subject2);
 $key2=$key1;
  while ($rowss = sqlsrv_fetch_array($list_resultsubs, SQLSRV_FETCH_ASSOC)) {
 
      $exportstudy .= "<th>  SUB{$key2}NM    </th>
    <th> SUB{$key2}  </th>
-   <th> SUB{$key2}_TH_MAX  $subject2 </th>
+   <th> SUB{$key2}_TH_MAX</th>
    <th> SUB{$key2}_PR_MAX   </th>
    <th> SUB{$key2}_CE_MAX   </th>
    <th> SUB{$key2}_TH_MRKS  </th>
@@ -187,7 +189,7 @@ else
 {
 $p='FAIL';
 }
-
+$CourseNameU=strtoupper($CourseName);
  $orderdate = explode(" ", $Examination);
                             $ExaminationMonth = strtoupper($orderdate[0]);
                             $ExaminationYear = $orderdate[1];
@@ -195,7 +197,7 @@ $p='FAIL';
                             <td></td>
                             <td></td>
                             <td>{$PID}</td>
-                            <td>{$CourseName}</td>
+                            <td>{strtoupper($CourseNameU)}</td>
                             <td></td>
                             <td></td>
                             <td></td>
