@@ -52,7 +52,7 @@ class PDF extends FPDF
         $exitTime[] = $GLOBALS['exitTime'];
         $entryTime[] = $GLOBALS['entryTime'];
         /* Move to the right */
-        $this->Image('https://gurukashiuniversity.in/gku/images/logo-blue.png', 10, 10, 38, 10);
+        $this->Image('dist/img/new-logo.jpg', 10, 10, 38, 10);
         // $this->SetFont('Arial','B',12);
         // $this->SetXY(85,16.5);
         // $this->SetFont('Arial','',7.5);
