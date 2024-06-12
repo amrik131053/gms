@@ -15821,6 +15821,7 @@ elseif($code==252)
       while($row=sqlsrv_fetch_array($verified_study_run,SQLSRV_FETCH_ASSOC))
       {
 
+               $DepartmentId=$row['DepartmentId'];
                $subject_name=$row['SubjectName'];
                $subject_code=$row['SubjectCode'];
                $subject_type=$row['SubjectType'];
@@ -15833,7 +15834,7 @@ elseif($code==252)
                $tutorials=$row['Tutorial'];
                $credits=$row['NoOFCredits'];
 
-         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0')";
+         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId')";
          $verified_study_run1=sqlsrv_query($conntest,$verified_study1);  
       }
 
