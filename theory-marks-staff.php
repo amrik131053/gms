@@ -318,7 +318,7 @@ var xmlhttp = new XMLHttpRequest();
           document.getElementById("live_data").innerHTML=xmlhttp.responseText;
 //Examination_theory_types(); 
         }
-    }
+    } 
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+51,true);
         xmlhttp.send();
  }
@@ -772,13 +772,14 @@ else
     var  sem = document.getElementById('Semester').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
+      var  group = document.getElementById('group').value;
 var exportCode='58';
     var distributiontheory = document.getElementById('ecat').value;
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
  {
    
-   window.location.href="export.php?exportCode="+exportCode+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory;
+   window.location.href="export.php?exportCode="+exportCode+"&college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group;
 
     }
       else
@@ -798,20 +799,22 @@ var exportCode='58';
     var  sem = document.getElementById('Semester').value;
          var subject = document.getElementById('Subject').value;
      var  examination = document.getElementById('Examination').value;
-
+ var  group = document.getElementById('group').value;
     var distributiontheory = document.getElementById('ecat').value;
+
+
 
   if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
  {
   var code=1;
    
-   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
+   window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&code="+code,"_blank";
 
     }
     else if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='')
     {
        var code=2;
-      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&code="+code,"_blank";
+      window.location.href="print-award-theory.php?college="+college+"&course="+course+"&batch="+batch+"&sem="+sem+"&subject="+subject+"&examination="+examination+"&distributiontheory="+distributiontheory+"&group="+group+"&code="+code,"_blank";
 
     }
       else
