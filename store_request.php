@@ -38,10 +38,8 @@
                         </div>
                         <div class="col-lg-3">
                            <label>Category</label>
-                           <?php
-                              if($a=='121031'|| $a=='131053'||$a =='170129'||$a=='170675'||$a=='170236'||$a=='101155'||$a=='171791' ||$a=='171575')
-                              {
-                              ?>
+                          
+                           
                            <select class="form-control" id ="category" required="">
                               <option value="">Select Category</option>
                               <?php 
@@ -56,39 +54,7 @@
                                  }
                                  ?>
                            </select>
-                           <?php }/*else if($a =='170129'){?>
-                           <select class="form-control" id ="category" required="">
-                              <option value="">Select Category</option>
-                              <option value="Stationery">Stationery</option>
-                              <option value="Electrical"> Electrical</option>
-                              <option value="Carpentory"> Carpentory</option>
-                           </select>
-                           <?php
-                            // }
-                              else if($a=='170675'){?>
-                           <select class="form-control" id ="category" required="">
-                              <option value="">Select Category</option>
-                              <option value="Stationery">Stationery</option>
-                              <option value="Carpentory"> Carpentory</option>
-                              <option value="Plumbing"> Plumbing</option>
-                              <option value="Miscellaneous">Miscellaneous</option>
-                              <option value="Electrical"> Electrical</option>
-                           </select>
-                           <?php }*/
-                              else
-                              {
-                              ?>
-                           <select class="form-control" id ="category" required="">
-                              <option value="">Select Category</option>
-                              <option value="Stationery">Stationery</option>
-                              <option value="Information Technology">Information Technology</option>
-                              <option value="Miscellaneous">Miscellaneous</option>
-                              <option value="House Keeping">House Keeping</option>
-                              <option value="Sports">Sports</option>
-                           </select>
-                           <?php 
-                              }
-                              ?>
+                           
                            
                         </div>
                         <div class="col-lg-3">
