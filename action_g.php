@@ -23210,11 +23210,11 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
-       echo "1";
+       echo 1;
    }
    else
    {
-       echo "0";
+       echo 0;
    }
    sqlsrv_close($conntest);
    }
