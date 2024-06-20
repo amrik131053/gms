@@ -23197,7 +23197,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          $getDefalutMenu="UPDATE  ExamForm  SET AccountantVerificationDate='$timeStampS',Status='5',AcceptType='' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,Examination FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
