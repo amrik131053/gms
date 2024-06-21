@@ -34,7 +34,7 @@ include "header.php";
                       
                                      <div class="input-group input-group-sm">
                    <?php 
-                  if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027')
+                  if($EmployeeID=='121031' || $EmployeeID=='131053' || $EmployeeID=='170976'  ||  $EmployeeID=='131027' )
                                      {
                                      ?>
                                      <select class="form-control" id='exbatch'>
@@ -135,7 +135,7 @@ function verified() {
                         });
                   }
 
-function by_search_studetn() {
+function by_search_studetn() { 
                     
                      var currentPage = 1;
                    var code = 170;
@@ -209,7 +209,7 @@ function by_search_studetn() {
                           table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td></td><td colspan=""> <select class="form-control" id="type"><option value="1">letter head</option><option value="2">Without letter head</option></select> </td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter 1</button >&nbsp;<button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter 2</button >&nbsp;<button onclick="printletterhead3SelectedRows();" class="btn btn-success " >letter 3</button ></td><td colspan="1"><select class="form-control" id="yearwise"><option value="1">First</option><option value="2">Second</option><option value="3">Three</option><option value="4">Four</option></select></td><td colspan="1"><button onclick="printYearWiseLAtter();" class="btn btn-success " ><i class="fa fa-print"></i></button > </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
                         // table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"></td><td colspan=""></td><td> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
                         table += '</tr>';
-                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)" style="width:50px;"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Action</th></tr>';
+                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)" style="width:50px;"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>Ref No</th><th>Batch</th><th>Action</th></tr>';
                        var userid="<?php echo $EmployeeID; ?>";
                         for (var i = 0; i < data.length; i++) {
                            var unirollno = data[i][2];
@@ -233,11 +233,12 @@ function by_search_studetn() {
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
                            table += '<td >'+ data[i][40]+'</td>';
-                           // table += '<td >'+ data[i][30]+'</td>';
+                            table += '<td >'+ data[i][39]+'</td>';
+                             table += '<td >'+ data[i][12]+'</td>';
 
 
                            table += '<td>';
-                           if(userid=='131027' ||userid=='131053' ||userid=='121031')
+                           if(userid=='131027' ||userid=='131053' ||userid=='121031'||userid=='170862')
                            {
 table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-eye"></i></button >&nbsp;';
 }

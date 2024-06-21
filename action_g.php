@@ -10353,7 +10353,7 @@ $fileName=$image_name.'.PNG';
        
          }
          }
-         // print_r($row_student);
+          //print_r($data2);
          $page = $_POST['page'];
          $recordsPerPage = 50;
          $startIndex = ($page - 1) * $recordsPerPage;
@@ -10361,12 +10361,12 @@ $fileName=$image_name.'.PNG';
          // echo json_encode($pagedData);
       
              echo json_encode($pagedData);
-         
+         //print_r($pagedData);
       }
       else
       {
           
-$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC "; 
+$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 30 "; 
                 $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
