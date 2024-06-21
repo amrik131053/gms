@@ -10034,7 +10034,7 @@ sqlsrv_close($conntest);
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
-echo "1";
+echo "1"; 
 }
 else
 {
@@ -10083,7 +10083,10 @@ elseif($code=='161')
 {
 $state_id=$_POST['state_id'];
 
- $sql = "SELECT  id,name FROM cities WHERE state_id='$state_id' order by name ASC";
+ //$sql = "SELECT  id,name FROM cities WHERE state_id='$state_id'  order by name ASC";
+
+  $sql = "SELECT  cities.id AS id,name FROM cities INNER JOIN offer_admission_count ON cities.id=offer_admission_count.District   WHERE state_id='5' AND offer_admission_count.count>0 order by name ASC";
+
 $stmt = mysqli_query($conn,$sql); 
 ?>
     <option value=''>State</option>
