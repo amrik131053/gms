@@ -8344,6 +8344,41 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
     
 
 }
+$dist_count = 0;
+    $count = 0;
+    $sql1 = "SELECT `count` FROM offer_admission_count WHERE District = ?";
+    $stmt1 = $conn->prepare($sql1);
+    $stmt1->bind_param("s", $District);
+    $stmt1->execute();
+    $stmt1->store_result();
+
+    if ($stmt1->num_rows > 0) {
+        $stmt1->bind_result($count);
+        $stmt1->fetch();
+    }
+
+    $stmt1->close();
+
+    $sql2 = "SELECT State, District, COUNT(*) AS `dist` FROM offer_latter WHERE District = ? AND Batch = '2024'";
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->bind_param("s", $District);
+    $stmt2->execute();
+    $stmt2->store_result();
+    if ($stmt2->num_rows > 0) {
+        $stmt2->bind_result($state, $district, $dist_count);
+        $stmt2->fetch();
+    }
+    
+    $stmt2->close();
+
+    if ($count>= $dist_count) {
+        $ID_Proof_No = $data['ID_Proof_No'];
+        $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
+        $check_exit_run=mysqli_query($conn,$check_exit);
+        $numof_exit=mysqli_num_rows($check_exit_run);
+        if ($numof_exit>0) {
+           echo "2";
+        }
 
 
 
@@ -8356,6 +8391,11 @@ if ($insert_record_run==true)
 else
 {
    echo "0";
+}
+}
+else
+{
+    echo "3"
 }
 } 
 // echo"sadfgasfasd";
