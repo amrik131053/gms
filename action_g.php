@@ -29776,6 +29776,72 @@ elseif($code==428)
        echo 0;
    }
    }
+   elseif ($code==430)
+    {
+    $employeeID=$_REQUEST['empID'];
+    $Type=$_REQUEST['Type'];
+    $sr=1;
+    if($Type==1)
+    {
+        $sql_att="SELECT * from IssueRegister where AccessionNo='$employeeID'";
+    }
+    else
+    {
+        $sql_att="SELECT * from IssueRegister where IDNo='$employeeID'";
+    }
+    ?>
+    <thead>
+                                    <tr>
+                                        <th>Sr. No</th>
+                                        <th>Staff Details</th>
+                                        <th>AccessionNo</th>
+                                        <th>IssueDate</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <!-- <th>Category</th> -->
+                                        <th>Return Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody ><?php 
+    $stmt = sqlsrv_query($conntest,$sql_att);  
+                while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+               {
+               $AccessionNo=$row_staff_att['AccessionNo'];      
+               $IssueDate=$row_staff_att['IssueDate']->format('d-M-Y');      
+               $IDNo=$row_staff_att['IDNo'];      
+               $Title=$row_staff_att['Title'];      
+               $Author=$row_staff_att['Author'];      
+               $CollegeName=$row_staff_att['CollegeName'];      
+               $Category=$row_staff_att['Category'];  
+               $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
+               ?>
+                                        <tr>
+                                            <td><?=$sr;?></td>
+                                            <td> <b><?php echo getEmployeeName($IDNo);?></b> (<?=$IDNo;?>)</td>
+                                            <td><?=$AccessionNo;?></td>
+                                            <td><?=$IssueDate;?></td>
+                                            <td><?=$Title;?></td>
+                                            <td><?=$Author;?></td>
+                                            <!-- <td><?=$Category;?></td> -->
+                                            <td><?=$LastReturnDate;?></td>
+                                        </tr>
+                                        <?php 
+       $sr++; 
+   }
+   if($sr<2)
+   {
+    ?>
+    <tr>
+        <td colspan="7"><center class="text-danger">No Record </center></td>
+        
+    </tr>
+    <?php 
+   }
+   ?>
+</tbody>
+</table>
+   <?php 
+}
    else
    {
    
