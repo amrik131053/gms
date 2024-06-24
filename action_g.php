@@ -8326,6 +8326,7 @@ $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
 $ID_Proof_No=$AdharCardNo.$PassportNo;
+
 $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
 $check_exit_run=mysqli_query($conn,$check_exit);
 $numof_exit=mysqli_num_rows($check_exit_run);
@@ -8372,7 +8373,8 @@ $dist_count = 0;
     $stmt2->close();
 
     if ($count>= $dist_count) {
-        $ID_Proof_No = $data['ID_Proof_No'];
+
+      
         $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
         $check_exit_run=mysqli_query($conn,$check_exit);
         $numof_exit=mysqli_num_rows($check_exit_run);

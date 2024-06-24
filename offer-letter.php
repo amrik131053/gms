@@ -1361,7 +1361,7 @@ success:function(data)
 {
 if(data != "")
 {
-     console.log(data);
+     //console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
 }
