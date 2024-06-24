@@ -10127,7 +10127,7 @@ $state_id=$_POST['state_id'];
 
  //$sql = "SELECT  id,name FROM cities WHERE state_id='$state_id'  order by name ASC";
 
-  $sql = "SELECT  cities.id AS id,name FROM cities INNER JOIN offer_admission_count ON cities.id=offer_admission_count.District   WHERE state_id='$state_id'  order by name ASC";
+  $sql = "SELECT  cities.id AS id,name FROM cities    WHERE state_id='$state_id'  order by name ASC";
 
 $stmt = mysqli_query($conn,$sql); 
 ?>
