@@ -405,9 +405,8 @@ function pverify(ExamFromID)
                 if (response == 1) {
                     SuccessToast('Successfully Verify');
                     edit_stu(ExamFromID);
+                    $('.bd-example-modal-xl').modal('hide'); 
                     fetchCutList();
-
-                    $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -448,10 +447,9 @@ function reverify(ExamFromID)
                 spinner.style.display = 'none';
                 if (response == 1) {
                     SuccessToast('Successfully Verify');
-                    edit_stu(ExamFromID);
-                    fetchCutList();
-                    
+                    edit_stu(ExamFromID);                            
                     $('.bd-example-modal-xl').modal('hide');
+                    fetchCutList();
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');
@@ -461,6 +459,7 @@ function reverify(ExamFromID)
         });
   //  }
 }
+
 function verify(ExamFromID)
  {
     // var r = confirm("Do you really want to Verifiy");
@@ -476,16 +475,19 @@ function verify(ExamFromID)
                 ExamFromID: ExamFromID
             },
             success: function(response) {
-                // console.log(response);
+                 console.log(response);
                 spinner.style.display = 'none';
-                if (response == 1) {
+
+                if (response ==1) {
                     SuccessToast('Successfully Verify');
-                    edit_stu(ExamFromID);
-                    fetchCutList();
+                   
+                    //edit_stu(ExamFromID);
+                   
                     $('.bd-example-modal-xl').modal('hide');
-                  
+
+                   fetchCutList();
                 } else {
-                    ErrorToast('Try Again', 'bg-danger');
+                    ErrorToast('Try again Exam Form', 'bg-danger');
                 }
 
             }
@@ -541,8 +543,9 @@ function reject(ExamFromID) {
 
                         SuccessToast('Successfully rejected');
                         edit_stu(ExamFromID);
-                        fetchCutList();
+                      
                         $('.bd-example-modal-xl').modal('hide');
+                          fetchCutList();
                     } else {
                         ErrorToast('Try Again', 'bg-danger');
                     }

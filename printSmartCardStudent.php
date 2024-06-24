@@ -82,7 +82,7 @@ if($CourseShortName!='')
         $pdf->SetTextColor(255,255,255);
         $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,9);
         $pdf-> Image('dist\img\idcardbg.png',0,80,53.98,6);
-        $pdf-> Image('dist\img\signn.jpg',20.5,75,13,4); 
+        $pdf-> Image('dist\img\signn.jpg',18,73,20,5); 
         $collegeLen=strlen($rowgetCourseDetails['CollegeName']);
         if($collegeLen<25)
         {

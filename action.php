@@ -20103,8 +20103,18 @@ elseif($code=='330')
 {
 
 $CollegeID = $_POST['college']; 
-      $shortname = $_POST['department'];   
- $updatedep="INSERT  into MasterDepartment (CollegeName,Department,DepartmentID,CollegeID) Values('$CollegeID','$shortname','0','$CollegeID')";
+$shortname = $_POST['department'];   
+           
+   $sql="SELECT  MasterCourseCodes.CollegeName from MasterCourseCodes where CollegeID='$CollegeID'";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         { 
+     $college = $row1['CollegeName']; 
+   
+  }
+
+
+$updatedep="INSERT  into MasterDepartment (CollegeName,Department,DepartmentID,CollegeID) Values('$college','$shortname','0','$CollegeID')";
 
   $stmt2 = sqlsrv_query($conntest,$updatedep);
  if($stmt2)

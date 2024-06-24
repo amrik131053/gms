@@ -8326,6 +8326,7 @@ $session = $_POST['session'];
 $AdharCardNo = $_POST['AdharCardNo'];
 $PassportNo = $_POST['PassportNo'];
 $ID_Proof_No=$AdharCardNo.$PassportNo;
+
 $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
 $check_exit_run=mysqli_query($conn,$check_exit);
 $numof_exit=mysqli_num_rows($check_exit_run);
@@ -8344,6 +8345,42 @@ if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
     
 
 }
+$dist_count = 0;
+    $count = 0;
+    $sql1 = "SELECT `count` FROM offer_admission_count WHERE District = ?";
+    $stmt1 = $conn->prepare($sql1);
+    $stmt1->bind_param("s", $District);
+    $stmt1->execute();
+    $stmt1->store_result();
+
+    if ($stmt1->num_rows > 0) {
+        $stmt1->bind_result($count);
+        $stmt1->fetch();
+    }
+
+    $stmt1->close();
+
+    $sql2 = "SELECT State, District, COUNT(*) AS `dist` FROM offer_latter WHERE District = ? AND Batch = '2024'";
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->bind_param("s", $District);
+    $stmt2->execute();
+    $stmt2->store_result();
+    if ($stmt2->num_rows > 0) {
+        $stmt2->bind_result($state, $district, $dist_count);
+        $stmt2->fetch();
+    }
+    
+    $stmt2->close();
+
+    if ($count>= $dist_count) {
+
+      
+        $check_exit="SELECT * FROM offer_latter where ID_Proof_No='$ID_Proof_No' AND Status='0'";
+        $check_exit_run=mysqli_query($conn,$check_exit);
+        $numof_exit=mysqli_num_rows($check_exit_run);
+        if ($numof_exit>0) {
+           echo "2";
+        }
 
 
 
@@ -8356,6 +8393,11 @@ if ($insert_record_run==true)
 else
 {
    echo "0";
+}
+}
+else
+{
+    echo "3";
 }
 } 
 // echo"sadfgasfasd";
@@ -10034,7 +10076,7 @@ sqlsrv_close($conntest);
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {
-echo "1";
+echo "1"; 
 }
 else
 {
@@ -10083,7 +10125,10 @@ elseif($code=='161')
 {
 $state_id=$_POST['state_id'];
 
- $sql = "SELECT  id,name FROM cities WHERE state_id='$state_id' order by name ASC";
+ //$sql = "SELECT  id,name FROM cities WHERE state_id='$state_id'  order by name ASC";
+
+  $sql = "SELECT  cities.id AS id,name FROM cities    WHERE state_id='$state_id'  order by name ASC";
+
 $stmt = mysqli_query($conn,$sql); 
 ?>
     <option value=''>State</option>
@@ -10350,7 +10395,7 @@ $fileName=$image_name.'.PNG';
        
          }
          }
-         // print_r($row_student);
+          //print_r($data2);
          $page = $_POST['page'];
          $recordsPerPage = 50;
          $startIndex = ($page - 1) * $recordsPerPage;
@@ -10358,12 +10403,12 @@ $fileName=$image_name.'.PNG';
          // echo json_encode($pagedData);
       
              echo json_encode($pagedData);
-         
+         // print_r($pagedData);
       }
       else
       {
           
-$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC "; 
+$degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 30 "; 
                 $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
@@ -23197,7 +23242,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          $getDefalutMenu="UPDATE  ExamForm  SET AccountantVerificationDate='$timeStampS',Status='5',AcceptType='' Where ID='$ExamFromID'";
    $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu);
 
-   $getStudentID="SELECT IDNo FROM ExamForm WHERE ID='$ExamFromID'";
+   $getStudentID="SELECT IDNo,Examination FROM ExamForm WHERE ID='$ExamFromID'";
    $getStudentIDRun=sqlsrv_query($conntest,$getStudentID);
    if ($row = sqlsrv_fetch_array($getStudentIDRun, SQLSRV_FETCH_ASSOC)) {
        $IDNo=$row['IDNo'];
@@ -23210,11 +23255,11 @@ $update_query=sqlsrv_query($conntest,$update1);
 
    if($getDefalutMenuRun==true)
    {
-       echo "1";
+       echo 1;
    }
    else
    {
-       echo "0";
+       echo 0;
    }
    sqlsrv_close($conntest);
    }

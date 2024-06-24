@@ -8651,7 +8651,8 @@ $exportstudy.="</table>";
 else if($exportCode==63)
 {
   
-include 'result-pages/result-subject-bind-new.php';
+//include 'result-pages/result-subject-bind-new.php';
+include 'result-pages/result-subject-bind-new2.php';
 
 $subCount=(count($Subjects)*4)+4;
 $subCount1=count($Subjects);
@@ -8677,7 +8678,7 @@ $exportstudy.="<th colspan=2>Grade Detail
      $gtcerdit=0;
     foreach ($Subjects as $key => $SubjectsCode) {
 
-   $amrikc = "SELECT TOP(1) NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ANd SemesterID='$Semester' Order BY SrNo Desc "; 
+    $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' ANd SemesterID='$Semester' AND CourseID='$Course' "; 
 
 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -8694,6 +8695,29 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
         }
    
 }
+  foreach ($SubjectsNew as $key => $SubjectsCodeop) {
+
+  $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
+  
+$list_resultamrikop = sqlsrv_query($conntest,$amrikop);  
+
+while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
+         {
+        $credit=$row7c['NoOFCredits'];
+        if(is_numeric($credit))
+        {
+        $gtcerdit=$gtcerdit+$credit;
+        }
+ 
+         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+            }
+   
+}
+
+
+
+
+
 
 
   $exportstudy.="<th colspan=2>Total Credit :{$gtcerdit}
@@ -8915,8 +8939,8 @@ include 'result-pages/resultfooter.php';
 else if($exportCode==64)
 {
    
-include 'result-pages/result-subject-bind-new.php';
-
+//include 'result-pages/result-subject-bind-new.php';
+include 'result-pages/result-subject-bind-new2.php';
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
@@ -8942,7 +8966,7 @@ $exportstudy.="<th colspan=2>Grade Detail
 
   
 
-       $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' AND SemesterID='$Semester' "; 
+       $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch' AND SemesterID='$Semester' AND CourseID='$Course' "; 
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -8958,6 +8982,24 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
    
 }
 
+  foreach ($SubjectsNew as $key => $SubjectsCodeop) {
+
+  $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
+  
+$list_resultamrikop = sqlsrv_query($conntest,$amrikop);  
+
+while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
+         {
+        $credit=$row7c['NoOFCredits'];
+        if(is_numeric($credit))
+        {
+        $gtcerdit=$gtcerdit+$credit;
+        }
+ 
+         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+            }
+   
+}
 
   $exportstudy.="<th colspan=2>Total Credit :{$gtcerdit}
     
@@ -9176,7 +9218,7 @@ include 'result-pages/resultfooter.php';
 
  else if($exportCode==65)
 {
-    include 'result-pages/result-subject-bind-new.php';
+    include 'result-pages/result-subject-bind-new2.php';
 
 $subCount=(count($Subjects)*5)+6;
 $subCount1=count($Subjects);
@@ -9197,7 +9239,9 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
 $exportstudy.="<th colspan=2>Grade Detail
     
-  </th></tr>   <tr>
+  </th></tr>  
+
+   <tr>
     <th></th>
     <th></th>
     <th></th>
@@ -9207,10 +9251,30 @@ $exportstudy.="<th colspan=2>Grade Detail
 
     foreach ($Subjects as $key => $SubjectsCode) {
 
-  $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch'AND SemesterID='$Semester' ";  
+  $amrikc = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCode' ANd Batch='$Batch'AND SemesterID='$Semester' AND CourseID='$Course'";  
+
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
 
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+         {
+        $credit=$row7c['NoOFCredits'];
+        if(is_numeric($credit))
+        {
+        $gtcerdit=$gtcerdit+$credit;
+        }
+ 
+         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+            }
+   
+}
+
+    foreach ($SubjectsNew as $key => $SubjectsCodeop) {
+
+  $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
+  
+$list_resultamrikop = sqlsrv_query($conntest,$amrikop);  
+
+while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
         $credit=$row7c['NoOFCredits'];
         if(is_numeric($credit))
@@ -9451,8 +9515,8 @@ include 'result-pages/resultfooter.php';
  else if($exportCode==66)
 {
 
-include 'result-pages/result-subject-bind-new.php';
-
+//include 'result-pages/result-subject-bind-new.php';
+include 'result-pages/result-subject-bind-new2.php';
 
 
 
@@ -9612,7 +9676,7 @@ $totalcredit=$totalcredit+$credit;
 
 if($credit>0)
 {
- $gradevalue=$gardep*$credit;
+ $gradevalue=$gardep*$credit; 
  if($gradevalue>0)
  {
 $gradevaluetotal=$gradevaluetotal+$gradevalue;

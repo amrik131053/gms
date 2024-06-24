@@ -1206,7 +1206,11 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
    else if(response==2)
    {
 ErrorToast('ID Proof Already Exist','bg-warning');
+   } else if(response==3)
+   {
+ErrorToast('Seats Full ','bg-warning');
    }
+
    else
    {
 ErrorToast('Try  after some time','bg-danger');
@@ -1357,7 +1361,7 @@ success:function(data)
 {
 if(data != "")
 {
-     console.log(data);
+     //console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
 }

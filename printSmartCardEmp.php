@@ -54,7 +54,7 @@ if ($code==1)
         $pdf->SetTextColor(255,255,255);
         $pdf-> Image('dist\img\idcardbg.png',0,17,53.98,8);
         $pdf-> Image('dist\img\idcardbg.png',0,80,53.98,6);
-        $pdf-> Image('dist\img\signn.jpg',22.5,75,10,3); 
+        $pdf-> Image('dist\img\signn.jpg',18,73,20,5); 
         $pdf->SetXY(1,18.5);
         $pdf->MultiCell(52,3,$row['CollegeName'],'','C');
     $img= $row['Snap'];
