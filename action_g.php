@@ -3252,7 +3252,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row1['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -5381,13 +5381,14 @@ if ($check_flow_row['status']<4) {
                     $StudentName=$row_pending['StudentName'];
                     $FatherName=$row_pending['FatherName'];
                     $Sex=$row_pending['Sex'];
+                    $IDNo=$row_pending['IDNo'];
                   } 
 
                   ?>
                   <tr>
                   <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
                       <td><?=$srNo;?></td>
-                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
                       <td><?=$StudentName;?></td>
                       <td><?=$FatherName;?></td>
                       <td><?=$degree_row['Examination'];?></td>
@@ -5867,7 +5868,7 @@ $QrCourse=$Course.'('.$Stream.')';
  elseif($code==91)
  {
 $UniRollNo=$_POST['uni'];
-     $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where UniRollNo='$UniRollNo'";
+      $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
@@ -5911,7 +5912,7 @@ $UniRollNo=$_POST['uni'];
  {
  
    $UniRollNo=$_POST['unirollno'];
-    $get_student_details="SELECT IDNo FROM Admissions where UniRollNo='$UniRollNo'";
+    $get_student_details="SELECT IDNo FROM Admissions where IDNo='$UniRollNo'";
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
@@ -5930,7 +5931,7 @@ $UniRollNo=$_POST['uni'];
    file_put_contents($destdir.$image_name.'.PNG',$file_data);
    ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
-   $upimage = "UPDATE Admissions SET Snap = ? WHERE UniRollNo = ?";
+   $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
 $params = array($file_data, $UniRollNo);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 if ($upimage_run === false) {
@@ -17746,7 +17747,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                 
                 <td><?=$row['IDNo'];?></td>
@@ -19134,7 +19135,7 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>

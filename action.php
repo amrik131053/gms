@@ -23584,6 +23584,49 @@ while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  sqlsrv_close($conntest);
 }
 
+else if($code==376)
+{       
+$ids =$_POST['ids']; 
+$mst=$_POST['mst'];
+$ecat=$_POST['ecat'];
+$flag=$_POST['flag'];
+
+if($ecat=='ESE')
+{
+
+$update='MOOCupdateby'; 
+$locked="MoocLocked";
+  $updatedate="MOOCupdatedDate"; 
+}
+elseif($ecat=='Attendance')
+{
+   $update=$ecat."updateyby"; 
+   $locked=$ecat."Locked";
+  $updatedate=$ecat."updatedDate"; 
+
+}
+else
+{
+  $update=$ecat."updateby"; 
+  $locked=$ecat."Locked";
+  $updatedate=$ecat."updatedDate"; 
+}
+
+ for($i=0;$i<$flag;$i++)
+  {
+$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
+//   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+ if ($stmt1==true) 
+ {
+   echo "1";
+ }
+ else
+ {
+  echo "0";
+ }
+}
+sqlsrv_close($conntest);
+}
  else
 {
 echo "select code";
