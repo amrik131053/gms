@@ -210,6 +210,7 @@
                     <form action="print-custom.php" method="post" target="_blank">
                     <input type="hidden" name="code" value="4">
                         <div class="card-body">
+                           <div class="row">
                         <div class="col-lg-12">
                                     <label for="inputEmail3" required="" class="col-sm-12 col-form-label">Size</label>
                                     <select class="form-control" required="" name="size">
@@ -220,10 +221,11 @@
 
 
                                 </div>
+                                </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <label>Array(Optional)</label>
-                                    <input type="text" class="form-control" name="articlesArray" value="">
+                                    <textarea type="text" class="form-control" name="articlesArray" ></textarea>
                                 </div>
 
                             </div>
