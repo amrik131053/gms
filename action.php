@@ -23586,45 +23586,33 @@ while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 
 else if($code==376)
 {       
-$ids =$_POST['ids']; 
-$mst=$_POST['mst'];
-$ecat=$_POST['ecat'];
-$flag=$_POST['flag'];
+$examID=$_POST['id']; 
+$SubjectCode=$_POST['SubjectCode']; 
+$IDNo=$_POST['IDNo']; 
+$ca1=$_POST['ca1'];
+$ca2=$_POST['ca2'];
+$ca3=$_POST['ca3'];
+$attendance=$_POST['attendance'];
+$marks=$_POST['marks'];
 
-if($ecat=='ESE')
-{
-
-$update='MOOCupdateby'; 
-$locked="MoocLocked";
-  $updatedate="MOOCupdatedDate"; 
-}
-elseif($ecat=='Attendance')
-{
-   $update=$ecat."updateyby"; 
-   $locked=$ecat."Locked";
-  $updatedate=$ecat."updatedDate"; 
-
-}
-else
-{
-  $update=$ecat."updateby"; 
-  $locked=$ecat."Locked";
-  $updatedate=$ecat."updatedDate"; 
-}
-
- for($i=0;$i<$flag;$i++)
-  {
-$list_sqlw= "update ExamFormSubject set $ecat='$mst[$i]',$locked='1'  where ID='$ids[$i]'";
-//   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
- if ($stmt1==true) 
- {
-   echo "1";
- }
- else
- {
-  echo "0";
- }
-}
+  $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
+ CE2='$ca2',CE2updateby='$EmployeeID',CE2updatedDate='$timeStamp',CE2Locked='1',
+ CE3='$ca3',CE3updateby='$EmployeeID',CE3updatedDate='$timeStamp',CE3Locked='1',
+ ESE='$marks',MOOCupdateby='$EmployeeID',MOOCupdatedDate='$timeStamp',MoocLocked='1',
+ Attendance='$attendance',Attendanceupdateyby='$EmployeeID', AttendanceupdatedDate='$timeStamp', AttendanceLocked='1'
+  where ID='$examID'";
+    $stmt = sqlsrv_query($conntest,$setSync);
+    if($stmt==true)
+    {
+      echo "1";
+    }
+    else{
+      echo "0";
+    }
+    if ($stmt === false) {
+      $errors = sqlsrv_errors();
+      echo "Error: " . print_r($errors, true);  
+  } 
 sqlsrv_close($conntest);
 }
  else

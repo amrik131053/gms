@@ -110,7 +110,7 @@ for($i=1;$i<=12;$i++)
 
 
 
-     <div class="col-md-2">
+     <!-- <div class="col-md-2">
             <div class="form-group">
               <label>Subject</label>
               <select name="subject" id="Subject" class="form-control" required="">
@@ -119,7 +119,7 @@ for($i=1;$i<=12;$i++)
                 
               </select>
             </div>
-          </div>
+          </div> -->
 
 
             <!-- <div class="col-md-1">
@@ -276,13 +276,13 @@ function select_mst()
   var  course = document.getElementById('Course').value;
    var  batch = document.getElementById('Batch').value;
     var  sem = document.getElementById('Semester').value; 
-         var subject = document.getElementById('Subject').value;
+         var subject = "";
      var  examination = document.getElementById('Examination').value;
 var  group = document.getElementById('group').value;
 
     var distributiontheory = "";
 
-  if(college!=''&& batch!='' && sem!='' && subject!=''&& examination!='')
+  if(college!=''&& batch!='' && sem!='' && examination!='')
  {
    var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
@@ -307,40 +307,76 @@ else
   }
 
 
+function updateMarks(id,IDNo,SubjectCode) 
+{
+
+  var ca1=document.getElementById('ca1'+id).value;
+  var ca2=document.getElementById('ca2'+id).value;
+  var ca3=document.getElementById('ca3'+id).value;
+  var attendance=document.getElementById('attendance'+id).value;
+  var marks=document.getElementById('marks'+id).value;
+  if(marks!='')
+  {
+  var spinner= document.getElementById("ajax-loader");
+     spinner.style.display='block';
+    $.ajax({
+      url:'action.php', 
+      type:'post',
+      data:{
+        id:id,IDNo:IDNo,SubjectCode:SubjectCode,ca1:ca1,ca2:ca2,ca3:ca3,attendance:attendance,marks:marks,code:'376'
+      },
+      success:function(response)
+      {
+// console.log(response);
+        spinner.style.display='none';
+        if(response=='1')
+        {
+          SuccessToast('Successfully Saved');
+
+        }else{
+          ErrorToast('Try Again','bg-danger');
+        }
+        select_mst() ;
+      }
+    });
+  }
+  else{
+    
+    ErrorToast('enter reappear marks ','bg-warning');
+  }
+}
 function testing() 
 {
 var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var idNos=document.getElementsByClassName('IdNos');
-  var marks=document.getElementsByClassName('marks');
-  var ecat=document.getElementById('ecat').value;
+  var subjectcode=document.getElementsByClassName('subjectcode');
+  // var subcode=document.getElementById('subcode').value;
   var len_student= idNos.length; 
-  var len_marks= marks.length; 
-
+  var len_subjectcode= subjectcode.length; 
   var student_str=[];
-  var marks_str=[];
-    for(i=0;i<len_student;i++)
+  var subjectcodeArray=[];
+  for(i=0;i<len_student;i++)
+  {
+    student_str.push(idNos[i].value);
+  }
+  // alert(student_str);
+     for(i=0;i<len_subjectcode;i++)
      {
-        student_str.push(idNos[i].value);
+        subjectcodeArray.push(subjectcode[i].value);
      }
-     for(i=0;i<len_marks;i++)
-     {
-        marks_str.push(marks[i].value);
-     }
-    // alert(student_str);
-
     $.ajax({
       url:'action.php', 
       type:'post',
       data:{
-        ids:student_str,mst:marks_str,ecat:ecat,flag:len_student,code:'376'
+        ids:student_str,subcode:subjectcodeArray,code:'376'
       },
       success:function(response)
       {
 console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
-       select_mst() ;
+      //  select_mst() ;
       }
     });
 }

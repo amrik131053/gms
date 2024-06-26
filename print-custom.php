@@ -1,13 +1,14 @@
 <?php
 require('fpdf/fpdf.php');
-$servername1 = "localhost";
-$username1 = "bhagi";
-$password1 = "@Sarbjot@98157";
-$dbname1 = "lims";
+include "connection/connection.php";
+// $servername1 = "localhost";
+// $username1 = "bhagi";
+// $password1 = "@Sarbjot@98157";
+// $dbname1 = "lims";
 
 $code=$_POST['code'];
 
-$conn = new mysqli($servername1, $username1, $password1, $dbname1);   
+// $conn = new mysqli($servername1, $username1, $password1, $dbname1);   
 
     $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
     
@@ -99,6 +100,31 @@ $size=$_POST['size'];
         $d++;
                            }
  }
+ elseif ($code==4)
+  {
+
+$size=$_POST['size'];
+ $articlecodes = explode(",",$_POST['articlesArray']);
+//  print_r($articlecodes);
+foreach ($articlecodes as $key => $value) {
+   
+   $building="SELECT * FROM stock_summary AS ss INNER JOIN master_article AS ma ON ss.ArticleCode=ma.ArticleCode  WHERE ss.IDNo='$value'";
+  //$building="  SELECT * FROM  stock_summary WHERE IDNo BETWEEN $From AND $To;";
+                           $building_run=mysqli_query($conn,$building);
+                           while ($building_row=mysqli_fetch_array($building_run)) 
+                           {
+        $_REQUEST['data']=$building_row['IDNo'];
+            $id[]=$building_row['IDNo'];
+            $ArticleShortName[]=$building_row['ArticleShortName'];
+             $ArticleName[]=$building_row['ArticleName'];
+        // user data
+        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        QRcode::png($_REQUEST['data'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);    
+        $fname[]=$filename;
+        $d++;
+   }
+}
+}
  else
  {
     
