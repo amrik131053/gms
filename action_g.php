@@ -9893,6 +9893,7 @@ sqlsrv_close($conntest);
       if($row=sqlsrv_fetch_array($baseQuery_run))
       {
          $ValidUpTo=$row[9];
+           $creditcardisactive=$row['CreditCardOpen'];
 ?>
     <div class="row">
         <div class="col-lg-12">
@@ -10044,6 +10045,14 @@ sqlsrv_close($conntest);
                         <option value="Ph.D">Ph.D</option>
                     </select>
                 </div>
+                  <div class="col-lg-2">
+                    <label> For Credit Card</label>
+                    <select class="form-control" id="creditcardactive"    style="border: 2px solid <?php if($creditcardisactive=='1'){echo 'red';}else{ echo 'green';};?>">
+                        <option value="<?=$creditcardisactive;?>"><?php if($creditcardisactive=='1'){echo 'Closed';}else{ echo 'Open';};?></option>
+                        <option value="1">Closed</option>
+                        <option value="0">Open</option>
+                    </select>
+                </div>
 
 
                 <input type="hidden" id="master_id" class="form-control" value="<?=$row[0];?>">
@@ -10058,6 +10067,7 @@ sqlsrv_close($conntest);
    {
  $id=$_POST['id'];
  $Session=$_POST['Session'];
+ $creditcardactive=$_POST['creditcardactive'];
  $CollegeName=$_POST['CollegeName'];
  $Course=$_POST['Course'];
  $CourseShortName=$_POST['CourseShortName'];
@@ -10072,7 +10082,7 @@ sqlsrv_close($conntest);
  $Duration=$_POST['Duration'];
  $CourseType=$_POST['CourseType'];
   $ValidUpTo=$_POST['ValidUpTo'];
-  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo' where Id='$id'";
+  $insert_record = "UPDATE  MasterCourseCodes SET Session='$Session', CollegeName='$CollegeName',  Course='$Course', CourseShortName='$CourseShortName', DepartmentId='$DepartmentId', CollegeID='$CollegeID', Batch='$Batch',LateralEntry='$LateralEntry',ClassRollNo='$ClassRollNo',EndClassRollNo='$EndClassRollNo',Isopen='$Isopen',Status='$Status',CourseType='$CourseType',Duration='$Duration',ValidUpto='$ValidUpTo',CreditCardOpen='$creditcardactive' where Id='$id'";
  $insert_record_run = sqlsrv_query($conntest, $insert_record);
 if ($insert_record_run==true) 
 {

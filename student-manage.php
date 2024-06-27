@@ -673,11 +673,11 @@ function movefee(nid) {
             nid: nid
         },
         success: function(response) {
-            //console.log(response);
+            console.log(response);
             spinner.style.display = 'none';
             SuccessToast('Successfully Moved');
 
-        }
+        } 
     });
 
 
