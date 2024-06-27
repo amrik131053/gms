@@ -23584,6 +23584,37 @@ while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  sqlsrv_close($conntest);
 }
 
+else if($code==376)
+{       
+$examID=$_POST['id']; 
+$SubjectCode=$_POST['SubjectCode']; 
+$IDNo=$_POST['IDNo']; 
+$ca1=$_POST['ca1'];
+$ca2=$_POST['ca2'];
+$ca3=$_POST['ca3'];
+$attendance=$_POST['attendance'];
+$marks=$_POST['marks'];
+
+  $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
+ CE2='$ca2',CE2updateby='$EmployeeID',CE2updatedDate='$timeStamp',CE2Locked='1',
+ CE3='$ca3',CE3updateby='$EmployeeID',CE3updatedDate='$timeStamp',CE3Locked='1',
+ ESE='$marks',MOOCupdateby='$EmployeeID',MOOCupdatedDate='$timeStamp',MoocLocked='1',
+ Attendance='$attendance',Attendanceupdateyby='$EmployeeID', AttendanceupdatedDate='$timeStamp', AttendanceLocked='1'
+  where ID='$examID'";
+    $stmt = sqlsrv_query($conntest,$setSync);
+    if($stmt==true)
+    {
+      echo "1";
+    }
+    else{
+      echo "0";
+    }
+    if ($stmt === false) {
+      $errors = sqlsrv_errors();
+      echo "Error: " . print_r($errors, true);  
+  } 
+sqlsrv_close($conntest);
+}
  else
 {
 echo "select code";

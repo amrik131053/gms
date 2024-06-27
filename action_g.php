@@ -3252,7 +3252,7 @@ else { ?>
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row1['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -5381,13 +5381,14 @@ if ($check_flow_row['status']<4) {
                     $StudentName=$row_pending['StudentName'];
                     $FatherName=$row_pending['FatherName'];
                     $Sex=$row_pending['Sex'];
+                    $IDNo=$row_pending['IDNo'];
                   } 
 
                   ?>
                   <tr>
                   <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
                       <td><?=$srNo;?></td>
-                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
                       <td><?=$StudentName;?></td>
                       <td><?=$FatherName;?></td>
                       <td><?=$degree_row['Examination'];?></td>
@@ -5867,7 +5868,7 @@ $QrCourse=$Course.'('.$Stream.')';
  elseif($code==91)
  {
 $UniRollNo=$_POST['uni'];
-     $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where UniRollNo='$UniRollNo'";
+      $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
@@ -5911,7 +5912,7 @@ $UniRollNo=$_POST['uni'];
  {
  
    $UniRollNo=$_POST['unirollno'];
-    $get_student_details="SELECT IDNo FROM Admissions where UniRollNo='$UniRollNo'";
+    $get_student_details="SELECT IDNo FROM Admissions where IDNo='$UniRollNo'";
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
@@ -5930,7 +5931,7 @@ $UniRollNo=$_POST['uni'];
    file_put_contents($destdir.$image_name.'.PNG',$file_data);
    ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
    ftp_close($conn_id);
-   $upimage = "UPDATE Admissions SET Snap = ? WHERE UniRollNo = ?";
+   $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
 $params = array($file_data, $UniRollNo);
 $upimage_run = sqlsrv_query($conntest, $upimage, $params);
 if ($upimage_run === false) {
@@ -17756,7 +17757,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                 
                 <td><?=$row['IDNo'];?></td>
@@ -19144,7 +19145,7 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['UniRollNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -29831,6 +29832,72 @@ elseif($code==428)
        echo 0;
    }
    }
+   elseif ($code==430)
+    {
+    $employeeID=$_REQUEST['empID'];
+    $Type=$_REQUEST['Type'];
+    $sr=1;
+    if($Type==1)
+    {
+        $sql_att="SELECT * from IssueRegister where AccessionNo='$employeeID'";
+    }
+    else
+    {
+        $sql_att="SELECT * from IssueRegister where IDNo='$employeeID'";
+    }
+    ?>
+    <thead>
+                                    <tr>
+                                        <th>Sr. No</th>
+                                        <th>Staff Details</th>
+                                        <th>AccessionNo</th>
+                                        <th>IssueDate</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <!-- <th>Category</th> -->
+                                        <th>Return Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody ><?php 
+    $stmt = sqlsrv_query($conntest,$sql_att);  
+                while($row_staff_att=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+               {
+               $AccessionNo=$row_staff_att['AccessionNo'];      
+               $IssueDate=$row_staff_att['IssueDate']->format('d-M-Y');      
+               $IDNo=$row_staff_att['IDNo'];      
+               $Title=$row_staff_att['Title'];      
+               $Author=$row_staff_att['Author'];      
+               $CollegeName=$row_staff_att['CollegeName'];      
+               $Category=$row_staff_att['Category'];  
+               $LastReturnDate=$row_staff_att['LastReturnDate']->format('d-M-Y');  
+               ?>
+                                        <tr>
+                                            <td><?=$sr;?></td>
+                                            <td> <b><?php echo getEmployeeName($IDNo);?></b> (<?=$IDNo;?>)</td>
+                                            <td><?=$AccessionNo;?></td>
+                                            <td><?=$IssueDate;?></td>
+                                            <td><?=$Title;?></td>
+                                            <td><?=$Author;?></td>
+                                            <!-- <td><?=$Category;?></td> -->
+                                            <td><?=$LastReturnDate;?></td>
+                                        </tr>
+                                        <?php 
+       $sr++; 
+   }
+   if($sr<2)
+   {
+    ?>
+    <tr>
+        <td colspan="7"><center class="text-danger">No Record </center></td>
+        
+    </tr>
+    <?php 
+   }
+   ?>
+</tbody>
+</table>
+   <?php 
+}
    else
    {
    

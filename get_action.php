@@ -6375,6 +6375,158 @@ else
 
 
 
+else if($code=='56')
+{
+
+
+ $allow=0;
+ $ucourse = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $sem = $_GET['sem'];
+//  $subject = $_GET['subject'];
+ $ecat = $_GET['DistributionTheory'];
+ $group = $_GET['group'];
+?>
+
+<!-- <form action="post_action.php" method="post"> -->
+
+
+<table  class="table table-striped "  style="border: 2px solid black;  ">  
+
+ <tr><td colspan="5" style="text-align: center;"></td></tr>
+   
+
+ <?php if($sem==1) {$ext="<sup>st</sup>"; } elseif($sem==2){ $ext="<sup>nd</sup>";}
+  elseif($sem==3) {$ext="<sup>rd</sup>"; } else { $ext="<sup>th</sup>";}?>
+
+
+
+     <tr><td  style="text-align: left;"><b>Course<b></td><td  style="text-align: left;"><?=$ucourse."(<b>".$batch."</b>)";?></td><td></td><td  style="text-align:left;"><b>Semester<b></td><td  style="text-align: center;"><b><?=$sem.$ext;?>()<b>
+
+
+
+
+     </td>
+
+<input type="hidden" value="<?= $batch;?>" name="batch">
+<input type="hidden" value="<?= $ucourse;?>" name="course">
+
+<input type="hidden" value="<?=$sem;?>" name="sem">
+<input type="hidden" value="11" name="code">
+<input type="hidden" name="ecat" id="ecat" value="<?= $ecat;?>"> 
+
+
+     </tr>
+
+ 
+              </table>
+
+<table   class="table"  style="border: 2px solid black"  >
+ <tr>
+                 
+ 
+                  <th >Sr No </th>
+                <th  >Uni Roll No</th>
+                                                
+                      
+                       <th > Name </th>
+                         <th> Subject </th>
+                         <th> CA 1 </th>
+                         <th> CA 2 </th>
+                         <th> CA 3 </th>
+                         <th> Attendance </th>
+                   <th >Reappear </th>
+                   <th >ESE </th>
+                 
+                  <th >Lock </th>
+                  <!-- <th >Action </th> -->
+                      
+                </tr>
+ <?php
+ $i='1';
+ $CourseID = $_GET['course'];
+ $CollegeID = $_GET['college'];
+ $Batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $subjectcode = $_GET['subject'];
+ $DistributionTheory = $_GET['DistributionTheory'];
+ $exam = $_GET['examination'];
+ 
+  $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
+  WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
+ ExamForm.Examination='$exam' and ExamForm.SGroup='$group' order by Admissions.UniRollNo ASC";
+    $stmt = sqlsrv_query($conntest,$sql1);
+   if ($stmt === false) {
+      $errors = sqlsrv_errors();
+      echo "Error: " . print_r($errors, true);  
+  } 
+        $count=0;
+     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+      $subCode=$row['SubjectCode']; 
+      $clr="";
+      if($row['ESE']!="")
+      {
+         $clr="success";
+      }
+      else{
+         $clr="warning";
+      }
+?>
+<tr class="bg-<?=$clr;?>" >
+<td><?= $i++;?>
+<input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
+<input type="hidden" value="<?= $row['IDNo'];?>"  id="ids" > 
+<input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode" > 
+</td>
+<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+               <td><?=$row['SubjectCode'];?>
+             <?php  $iidd=$row['ID'];?></td>               
+       <?php 
+        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Type='Regular' and IDNo='".$row['IDNo']."'
+        group by CE1,CE2,CE3,Attendance  ";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {
+       ?>    
+<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA1'];?>" id="ca1<?= $row['ID'];?>" readonly ></td>
+<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA2'];?>" id="ca2<?= $row['ID'];?>" readonly ></td>
+<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA3'];?>" id="ca3<?= $row['ID'];?>" readonly ></td>
+<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['Attendance'];?>" id="attendance<?= $row['ID'];?>" readonly ></td>
+<?php
+       }?>
+<td>  
+<input type="text"     value="<?=$row['pmarks'];?>"  id="marks<?= $row['ID'];?>" class='form-control' readonly ></td> 
+<td><input type="text"     value="<?=$row['ESE'];?>"  class='form-control' readonly ></td> 
+                           
+                        <td>
+                           <input type="button" value="Update" class="btn btn-primary btn-sm" onclick="updateMarks('<?=$row['ID'];?>','<?= $row['IDNo'];?>','<?= $row['SubjectCode'];?>');">
+                        </td>
+                     </tr>
+
+<?php 
+$clr="";
+}
+//   $flag=$i-1; 
+
+?>
+<!-- <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'> -->
+
+</table>
+
+<!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing1();" class="btn btn-danger "  > -->
+<?php 
+
+
+
+
+}
+   
 
 
 
