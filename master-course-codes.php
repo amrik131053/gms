@@ -267,7 +267,8 @@ for($s1='0';$s1<='6';$s1++)
                     </div>
                     <script>
                     function by_search_studetn() {
-
+ var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
                         var currentPage = 1;
                         var code = 156;
                         var searchQuery = '';
@@ -292,10 +293,10 @@ for($s1='0';$s1<='6';$s1++)
                                 search: searchQuery // Pass the search query to the server
                             },
                             success: function(data) {
-
+ spinner.style.display = 'none';
                                 buildTable(data);
                                 updatePagination(currentPage);
-                                console.log(data);
+                                //console.log(data);
                             },
                             error: function() {
                                 // Handle error response
@@ -449,6 +450,7 @@ function edit_record() {
     var Status = document.getElementById('Status').value;
     var CourseType = document.getElementById('CourseType').value;
     var Duration = document.getElementById('Duration').value;
+        var creditcardactive = document.getElementById('creditcardactive').value;
     if (CollegeID != '' && Department != '') {
         var code = 158;
         var data = {
@@ -467,7 +469,7 @@ function edit_record() {
             EndClassRollNo: EndClassRollNo,
             CourseType: CourseType,
             Duration: Duration,ValidUpTo:ValidUpTo,
-            Status: Status
+            Status: Status,creditcardactive:creditcardactive
         };
         // Send the AJAX request
         $.ajax({
@@ -716,7 +718,7 @@ $('#typeCourseDiv').show();
 $('#DurationDiv').show();
 $('#TypeDiv').show();
 }
-else
+else 
 {
        $('#typeCourseDiv').hide();
        $('#DurationDiv').hide();
