@@ -6513,21 +6513,89 @@ else if($code=='56')
 $clr="";
 }
 //   $flag=$i-1; 
-
 ?>
 <!-- <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'> -->
-
 </table>
-
 <!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing1();" class="btn btn-danger "  > -->
 <?php 
-
-
-
-
 }
    
+else if ($code == 57) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from StaffAcademicDetails WHERE Id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Qualification:<span style="color: #223260;"><?php echo "   ".$data['StandardType'];?></span></label></br>
+      <label>Course:<span style="color: #223260;"><?php echo  "   ".$data['Course'];?></span></label>
+      <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image">
+                  <?php
 
+   }
+}
+else if ($code == 58) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from StaffExperienceDetails WHERE Id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Experience Type:<span style="color: #223260;"><?php echo "   ".$data['ExperienceType'];?></span></label></br>
+      <label>Organisation:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
+      <!-- <label>Designation:<span style="color: #223260;"><?php echo  "   ".$data['Designation'];?></span></label>
+      <label>Date of Joining:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
+      <label>Date of Leaving:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label> -->
+      <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Experience Image">
+                  <?php
+
+   }
+}
+else if ($code == 59) {
+
+   
+
+
+
+
+   $id = $_GET['id'];
+   $document = $_GET['document'];
+   $sql = "SELECT $document from Staff WHERE IDNo= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      if($document=='PANCardpath')
+      {
+         ?>
+         <embed class="pdf" 
+               src=
+"http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/<?=$data['PANCardpath']?>"
+            width="100%" height="600">
+                     <?php
+      }elseif($document=='AadharPath')
+      {
+         ?>
+          <embed class="pdf" 
+               src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/<?=$data['AadharPath']?>"
+            width="100%" height="600">
+                     <?php
+      }
+      elseif($document=='Imagepath')
+      {
+         ?>
+         <embed class="pdf" 
+               src="http://erp.gku.ac.in:86/Images/Staff/<?=$data['Imagepath']?>"
+            width="100%" height="600">
+   
+                     <?php
+      }
+      elseif($document=='Bankpassbookpath')
+      {
+         ?>
+          <embed class="pdf" src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/<?=$data['Bankpassbookpath']?>"
+            width="100%" height="600">
+                     <?php
+      }
+     
+   }
+}
 
 
 
