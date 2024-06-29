@@ -84,7 +84,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 )
+ if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441)
 {
        include "connection/ftp-erp.php";
 }
@@ -29897,6 +29897,1347 @@ elseif($code==428)
 </tbody>
 </table>
    <?php 
+}
+elseif($code==431)
+      {
+        $DateOfBirth="01-01-1900";
+      ?>
+<?php 
+                        $emp_id=$EmployeeID;
+                         $emp_count="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id as DepartmentId FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id  Where  IDNo='$emp_id' ";
+                        $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
+                        if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
+                        {
+                        $emp_pic=base64_encode($row1['Snap']);
+                        $DateOfBirth=$row1['DateOfBirth'];
+                        $DateOfJoining=$row1['DateOfJoining'];
+                        $DateOfLeaving=$row1['DateOfLeaving'];
+                         
+            ?>
+  <div class="row">
+    <div class="col-md-3">
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center">
+
+                    <?php echo  "<img class='profile-user-img img-fluid img-circle' src='data:image/jpeg;base64,".$emp_pic."' alt='User profile picture'>";?>
+                </div>
+
+                <h3 class="profile-username text-center"><?=$row1['Name'];?></h3>
+
+                <p class="text-muted text-center"><?=$row1['Designation'];?></p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Employee ID</b> <a class="float-right"><?=$row1['IDNo'];?></a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Email ID</b> <a class="float-right"><?=$row1['EmailID'];?></a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Department</b> <a class="float-right"><?=$row1['Department'];?></a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>College</b> <a class="float-right"><?=$row1['CollegeName'];?></a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <div class="card"> -->
+                        <div class="card-header p-2" style="background-color:white!important">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#personal_details<?=$emp_id;?>"
+                                        data-toggle="tab">Basic</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>"
+                                        data-toggle="tab">Contact</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#employment<?=$emp_id;?>"
+                                        data-toggle="tab">Employment</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#idcard<?=$emp_id;?>"
+                                        data-toggle="tab">ID Card</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#Academic<?=$emp_id;?>"
+                                        data-toggle="tab">Academic</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#Experience<?=$emp_id;?>"
+                                        data-toggle="tab">Experience </a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#Documents<?=$emp_id;?>"
+                                        data-toggle="tab">Documents </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="personal_details<?=$emp_id;?>">
+                                    <!-- /.login-logo -->
+                                  
+                                        <!-- <input type="hidden" name="code" value="437"> -->
+                       
+                                        <div class="row">
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Emp. ID</label>
+                                                    <input type="text" class="form-control" id="loginId"
+                                                        value="<?=$row1['IDNo'];?>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Father's Name</label>
+                                                    <input type="text" class="form-control" id="fatherName"
+                                                        placeholder="Enter father's name"
+                                                        value="<?=$row1['FatherName'];?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Mother's Name</label>
+                                                    <input type="text" class="form-control" id="motherName"
+                                                        placeholder="Enter mother's name"
+                                                        value="<?=$row1['MotherName'];?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Date of Birth</label>
+                                                    <input type="date" class="form-control" id="dob"
+                                                        value="<?php if($row1['DateOfBirth']!='') {echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <select class="form-control" id="gender">
+                                                        <option value="<?=$row1['Gender'];?>"><?=$row1['Gender'];?>
+                                                        </option>
+                                                        <option>Male</option>
+                                                        <option>Female</option>
+                                                        <option>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Category</label>
+                                                    <select class="form-control" id="category">
+                                                        <option value="<?=$row1['Category'];?>"><?=$row1['Category'];?>
+                                                        </option>
+                                                        <option>SC</option>
+                                                        <option>ST</option>
+                                                        <option>OBC</option>
+                                                        <option>General</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>PAN Card Number</label>
+                                                    <input type="text" class="form-control" id="panNumber"
+                                                        placeholder="Enter PAN card number"
+                                                        value="<?=$row1['PANNo'];?>">
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Aadhar Card Number</label>
+                                                    <input type="text" class="form-control" id="aadharNumber"
+                                                        value="<?=$row1['AadhaarCard'];?>"
+                                                        placeholder="Enter Aadhar card number">
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label> Identification Mark</label>
+                                                    <textarea rows="1" class="form-control"
+                                                    id="personalIdentificationMark"
+                                                        rows="3"><?=$row1['PersonalIdentificationMark'];?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                                    </div>
+                                                    <div class="tab-pane" id="contact<?=$emp_id;?>">
+
+                                            <div class="row">
+
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Personal Email ID</label>
+                                                <input type="email" class="form-control" id="personalEmail"
+                                                    placeholder="Enter personal email" value="<?=$row1['EmailID'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Official Email ID</label>
+                                                <input type="email" class="form-control" id="officialEmail"
+                                                    placeholder="Enter official email"
+                                                    value="<?=$row1['OfficialEmailID'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Mobile Number</label>
+                                                <input type="text" class="form-control" id="mobileNumber"
+                                                    placeholder="Enter mobile number" value="<?=$row1['MobileNo'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>WhatsApp Number</label>
+                                                <input type="text" class="form-control" id="whatsappNumber"
+                                                    placeholder="Enter WhatsApp number"
+                                                    value="<?=$row1['WhatsAppNumber'];?>">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Emergency Contact No</label>
+                                                <input type="text" class="form-control" name="emergencyContactNumber"
+                                                    placeholder="Enter emergency contact number"
+                                                    value="<?=$row1['EmergencyContactNo'];?>">
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Official Mobile Number</label>
+                                                <input type="text" class="form-control" name="officialMobileNumber"
+                                                    placeholder="Enter official mobile number"
+                                                    value="<?=$row1['OfficialMobileNo'];?>">
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Address Line 1</label>
+                                            <input type="text" class="form-control" name="addressLine1"
+                                                placeholder="Enter address line 1" value="<?=$row1['AddressLine1'];?>">
+                                        </div>
+                                                </div> -->
+                                                    <!-- <div class="col-lg-3 col-12">
+                                                    <div class="form-group">
+                                                        <label>Address Line 2</label>
+                                                        <input type="text" class="form-control" name="addressLine2"
+                                                            placeholder="Enter address line 2" value="<?=$row1['AddressLine2'];?>">
+                                                    </div>
+                                                </div> -->
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Permanent Address</label>
+                                                <input type="text" class="form-control" id="permanentAddress"
+                                                    placeholder="Enter permanent address"
+                                                    value="<?=$row1['PermanentAddress'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Correspondence Address</label>
+                                                <input type="text" class="form-control" id="correspondenceAddress"
+                                                    placeholder="Enter correspondence address"
+                                                    value="<?=$row1['CorrespondanceAddress'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Postal Code</label>
+                                                <input type="text" class="form-control" id="postalCode"
+                                                    onkeyup="postcode();" id="pincode-input"
+                                                    value="<?=$row1['PostalCode'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>State</label>
+                                                <input type="text" class="form-control" value="<?=$row1['State'];?>"
+                                                    id="state_by_post" disabled>
+                                                <input type="hidden" class="form-control" name="state"
+                                                    id="state_by_post">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>District</label>
+                                                <input type="text" class="form-control" value="<?=$row1['District'];?>"
+                                                    id="district_by_post" placeholder="Enter district" disabled>
+                                                <input type="hidden" class="form-control" name="district"
+                                                    id="district_by_post" placeholder="Enter district">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-3">
+                                            <div class="form-group">
+                                                <label>Nationality</label>
+                                                <input type="text" id="nationality" class="form-control"
+                                                    name="nationality_by_post" id="nationality_by_post" value="<?=$row1['Nationality'];?>"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                        <!--  <div class="col-lg-3 col-12">
+                                                    <div class="form-group">
+                                                    <label for="villageCity">Village/City</label>
+                                                    
+                                                    <select class="form-control" name="villageCity" id="village_by_post">
+                                                        <option value=""><?=$row1['Vila'];?></option>
+                                                    </select>
+                                                    </div>
+                                                </div> -->
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Post Office</label>
+                                                                <input type="text" class="form-control" id="postOffice"
+                                                                    placeholder="Enter post office">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="tab-pane" id="employment<?=$emp_id;?>">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Name of Organisation</label>
+
+
+                                                                <input type="text" class="form-control"
+                                                                    value="<?=$row1['CollegeName'];?>(<?=$row1['CollegeId'];?>)"
+                                                                    readonly>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Name of Department</label>
+
+
+                                                <input type="text" class="form-control"
+                                                    value="<?=$row1['DepartmentName'];?>(<?=$row1['DepartmentId'];?>)"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Designation</label>
+                                                <input type="text" class="form-control"
+                                                    value=" <?=$row1['Designation'];?>" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Date of Joining</label>
+                                                <input type="date" class="form-control" readonly
+                                                    value="<?php if($row1['DateOfJoining']!=''){ echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));}?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2 col-12">
+                                            <div class="form-group">
+                                                <label>Salary Decided</label>
+                                                <input type="text" class="form-control" placeholder="Enter salary"
+                                                    value="<?=$row1['SalaryAtPresent'];?>" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-12">
+                                            <div class="form-group">
+                                                <label>Type of Employment</label>
+
+                                                <input type="text" class="form-control" value="<?=$row1['Type'];?>"
+                                                    readonly>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-12">
+                                            <div class="form-group">
+                                                <label>Status of Employment</label>
+
+                                                <?php if ($row1['JobStatus']==1) {?>
+                                                <input type="text" class="form-control" value="Active" readonly>
+                                                <?php }else
+                                             {
+                                             ?>
+
+                                                <input type="text" class="form-control" value="DeActive" readonly>
+                                                <?php }
+                                             ?>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Emp Category </label>
+                                                <?php  
+                                                                    $get_defalut_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp Where CategoryId='".$row1['CategoryId']."' ";
+                                            $get_defalut_category_run=sqlsrv_query($conntest,$get_defalut_category);
+                                            if($row_cate=sqlsrv_fetch_array($get_defalut_category_run,SQLSRV_FETCH_ASSOC))
+                                            {?>
+
+                                                <input type="text" class="form-control"
+                                                    value="<?=$row_cate['CategoryFName'];?>" readonly>
+                                                <?php }?>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-4 col-12">
+                                            <div class="form-group">
+                                                <label>Leave Recommending Authority
+                                                </label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter leave sanction authority"
+                                                    value="<?=$row1['LeaveRecommendingAuthority'];?>"
+                                                    onkeyup="emp_detail_verify2(this.value);" readonly>
+                                                <?php  
+                                                                                        $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+                                            $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+                                            if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+                                            {
+                                            ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
+                                            }?>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="form-group">
+                                                <label>Leave Sanction Authority</label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter leave recommending authority"
+                                                    value="<?=$row1['LeaveSanctionAuthority'];?>"
+                                                    onkeyup="emp_detail_verify1(this.value);" readonly>
+
+                                                <?php  
+                                                                                    $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
+                                        $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+                                        if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+                                        {
+                                            ?>
+                                                <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
+                                                <?php 
+                                        
+                                        }?>
+
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-4 col-12">
+                                        <div class="form-group">
+                                            <label>Upload Appointment Letter</label>
+                                            <input type="file" class="form-control-file" name="appointmentLetter">
+                                        </div>
+                                    </div> -->
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Bank Account No</label>
+                                                <input type="text" class="form-control" id="bankAccountNo"
+                                                    placeholder="Enter bank account number">
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label> Bank Name</label>
+                                                <input type="text" class="form-control" id="employeeBankName"
+                                                    placeholder="Enter employee bank name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group">
+                                                <label>Bank IFSC code</label>
+                                                <input type="text" class="form-control" id="bankIFSC"
+                                                    placeholder="Enter bank IFSC code">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="tab-pane" id="idcard<?=$emp_id;?>">
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <table class="table  table-bordered">
+                                                <tr>
+                                                    <th colspan="7">
+                                                        <center> ID Card</center>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>IDNO</td>
+                                                    <td>Status</td>
+                                                    <td>Date</td>
+                                                </tr>
+                                                <?php 
+                                                $IdCard="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row1['IDNo']."' "; 
+                                        $getUseridcard=sqlsrv_query($conntest,$IdCard);
+                                        $countPerms=0;
+                                        if($getUseridcardRow=sqlsrv_fetch_array($getUseridcard,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
+                                                <tr>
+                                                    <td><?= $getUseridcardRow['IDNo'];?></td>
+                                                    <td><?= $getUseridcardRow['PrintStatus'];?></td>
+                                                    <td><?= $getUseridcardRow['UpdateDate']->format('d-m-Y h:i:s A');?>
+                                                    </td>
+                                                </tr><?php }?>
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="Documents<?=$emp_id;?>">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                        <table class="table table-bordered">
+                                    <tr>
+                                        <th>
+                                            <form action="action_g.php" method="POST">
+                                                <input type="hidden" name="code" value="438">
+                                                <!-- <input type="text" name="document" value="panCard"> -->
+                                            <label>Upload PAN Card</label>
+                                            <input type="file" class="form-control-file" name="panCard">
+                                            <small style="color: red">*Document must be in jpg/jpeg/png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                                            <input  class="btn btn-success" onclick="uploadPanCard(this.form);" value="Upload">
+                                            <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'PANCardpath');"><i class="fa fa-eye" 
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
+                                                </form>
+                                        </th>
+                                        <th>
+                                            <img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/<?=$row1['PANCardpath'];?>" alt="Pan Card" width="100" height="100"></th>
+                                        <th>
+                                        <form action="action_g.php" method="POST">
+                                                <input type="hidden" name="code" value="439">
+                                            <label>Upload Aadhar Card</label>
+                                            <input type="file" class="form-control-file" name="aadharCard">
+                                            <small style="color: red">*Document must be in
+                                                .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must
+                                                be less than 500kb.</small><br>
+                                                <input class="btn btn-success" onclick="uploadAdharCard(this.form);" value="Upload">
+                                                <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'AadharPath');"><i class="fa fa-eye" 
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
+                                        </form>
+                                        </th>
+                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/<?=$row1['AadharPath'];?>" alt="Aadhar card" width="100" height="100"></th>
+                                    <tr>
+                                        <th>  <form action="action_g.php" method="POST">
+                                                <input type="hidden" name="code" value="440">
+                                                <!-- <input type="text" name="document" value="photo"> -->
+                                                <label>Image</label>
+                                            <input type="file" class="form-control-file" name="photoIMage" >
+                                            <small style="color: red">*Document must be in
+                                                .jpg/.jpeg/.png format. &nbsp; *Size must
+                                                be less than 500kb.</small><br>
+                                                 <input  class="btn btn-success" onclick="uploadImage(this.form);" value="Upload">
+                                                <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Imagepath');"> <i class="fa fa-eye" 
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
+                                                </form>
+                                        </th>
+                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/<?=$row1['Imagepath'];?>" alt="Image Path" width="100" height="100"></th>
+                                        <th>  <form action="action_g.php" method="POST">
+                                                <input type="hidden" name="code" value="441">
+                                                <!-- <input type="text" name="document" value="passbookCopy"> -->
+                                                 <label>Upload Passbook Copy</label>
+                                        <input type="file" class="form-control-file" name="passbookCopy">
+                                        <small style="color: red">*Document must be in
+                                                .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must
+                                                be less than 500kb.</small><br>
+                                         <input  class="btn btn-success" onclick="uploadPassBook(this.form);" value="Upload">
+                                                <button class="btn btn-primary" type="button"  onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Bankpassbookpath');"> <i class="fa fa-eye"
+                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
+                                                </form>
+                                        </th>
+                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/<?=$row1['Bankpassbookpath'];?>" alt="Bank PassBook" width="100" height="100"></th>
+                                    </tr>
+                                </table>
+                                        
+                                            
+                                        
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="Academic<?=$emp_id;?>">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <section class="content">    
+                                                <!-- 
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-4 col-sm-4">
+                                                        <a href="#marks_type">
+                                                            <button onclick="academic_detail()" id="add_button" class="btn btn-primary">
+                                                                Academics</button>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                    </div>
+                                                </div> -->
+                                                <div class="row">
+                                                    <div class="col-lg-12" >
+                                                            <div id="marks_type" style="display: block ;margin-top:-20px;"><br>
+                                                                <input type="radio" class="btn" id="percentage"
+                                                                    name="marks_type" value='percentage' hidden=""
+                                                                    required="">
+                                                                <label for="percentage" class="btn btn-info btn-sm"
+                                                                    onclick="marks()">Percentage</label>
+                                                                <input type="radio" id="cgpa" value='cgpa' class="btn "
+                                                                    name="marks_type" hidden="" required="">
+                                                                <label for="cgpa" class="btn btn-outline-info btn-sm"
+                                                                    required="" onclick="cgpa_detail()">CGPA</label>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div id="qualification" style="display:none;">
+                                                <form  action="action_g.php" method="POST" enctype="multipart/form-data">
+                                                     <input type="hidden" name="code" value="436">
+                                                     <input type="hidden" name="employeeID" value="<?=$EmployeeID;?>">
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Qualification</label>
+                                                                <select class="form-control" name="qualification"
+                                                                    id='Programs' required>
+                                                                    <option value="">Choose Qualification</option>
+                                                                    <option value="10th">10th</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Course</label>
+                                                                <select class="form-control" required name="course"
+                                                                    id="course">
+                                                                    <option value=" ">Choose Course</option>
+                                                                    <option value="Arts">Arts</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label>Subjects </label>
+                                                                <input class="form-control" required type="text"
+                                                                    pattern="[A-Za-z\s]*"
+                                                                    placeholder="Enter Subjects..." name="subjects">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Mode </label>
+                                                                <select class="form-control" name="mode" required>
+                                                                    <option value="">Choose Mode of Study</option>
+                                                                    <option value="Regular">Regular</option>
+                                                                    <option value="Private">Private</option>
+                                                                    <option value="Correspondence">Correspondence
+                                                                    </option>
+                                                                    <option value="Distance">Distance</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label>School/College </label>
+                                                                <input class="form-control" required type="text"
+                                                                    pattern="[A-Za-z\s]*"
+                                                                    placeholder="Enter School/College..."
+                                                                    name="school_clg">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> University/Board </label>
+                                                                <input class="form-control" required type="text"
+                                                                    pattern="[A-Za-z\s]*"
+                                                                    placeholder="Enter University/Board..."
+                                                                    name="uni_board">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Date of Passing</label>
+                                                                <input class="form-control" required type="date"
+                                                                    name="passing_date">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Obtained Marks</label>
+                                                                <input class="form-control" value="" type="number"
+                                                                    placeholder="Enter Obtained Marks..."
+                                                                    name="marks_obtained" id="obtained_marks">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> Total Marks </label>
+                                                                <input class="form-control" value="0" type="number"
+                                                                    placeholder="Enter Total Marks..."
+                                                                    name="total_marks" id="total_marks"
+                                                                    onchange="calculate_percentage()">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label> CGPA</label>
+                                                                <input class="form-control" value="0" type="number"
+                                                                    placeholder="Enter CGPA..." name="cgpa"
+                                                                    id="cgpa_value">
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-6">
+                                                                <label>Percentage</label>
+                                                                <input class="form-control" value="0" disabled
+                                                                    type="text" placeholder="Percentage..."
+                                                                    name="percent" id="percent">
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                                <label>Choose File </label>
+                                                                <input class="form-control" required type="file"
+                                                                    name="academicfile">
+                                                            </div>
+                                                            <div class="col-lg-1 col-md-1 col-sm-6">
+                                                            <label>Action </label><br>
+                                                      
+                                                        <input type="button" type="submit" onclick="addAcademic(this.form)" class="btn btn-primary" value="ADD">
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9 col-sm-6"
+                                                                style=" text-align: center;">
+                                                                <label>
+                                                                    &nbsp;
+                                                                </label>
+                                                                <b>
+                                                                    <p style="color: red">*Document must be in
+                                                                        jpg/jpeg/png format. &nbsp; *Size must
+                                                                        be less than 500kb.</p>
+                                                                </b>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                             
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                               
+                                                <br>
+                                                <div class="row">
+                                                    <div class="table-responsive col-lg-12" >
+                                                                                <?php
+                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
+                                        
+                                        
+                                            if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
+                                            ?>
+                                                        <table class="table " style="font-size:14px;">
+                                                            <tr >
+                                                                <th>Qualification</th>
+                                                                <th>Course</th>
+                                                                
+                                                                <th>Mode</th>
+                                                                <th>School / College</th>
+                                                                <th>University / Board</th>
+                                                                <th>Date of Passing</th>
+                                                                <th>Obtained </th>
+                                                                <th>Total </th>
+                                                                <th>CGPA/%</th>
+                                                              
+                                                               
+                                                                <th>Action</th>
+                                                            </tr>
+                                                            <tbody>
+                                                            <?php
+                              $res = sqlsrv_query($conntest, $sql);
+                              while ($data = sqlsrv_fetch_array($res)) { ?>
+                               <tr>
+                              <td><?=$data['StandardType']; ?></td>
+                              <td><?=$data['Course']; ?></td>
+                              <td><?=$data['Type']; ?></td>
+                              <td><?=$data['University']; ?></td>
+                              <td><?=$data['Institute']; ?></td>
+                              <td><?php if($data['YearofPassing']!=''){echo $data['YearofPassing']->format('d-m-Y');} else{ echo "";} ?></td>
+                              <td><?=$data['ObtainedMarls']; ?></td>
+                              <td><?=$data['TotalMarks']; ?></td>
+                              <td><?=$data['Percentage']; ?></td>
+                              <td>
+                                 <i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i>
+                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i> 
+                              </td>
+                           </tr>
+                           <?php
+                              }
+                              ?>
+                                                            </tbody>
+                                                        </table>
+                                                        <?php }?>
+                                                    </div>
+                                                </div>
+
+                                        </div>
+                                        </section>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane" id="Experience<?=$emp_id;?>">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <section class="content">
+                                                <div class="container-fluid">
+                                                    <div id="experience">
+                                                        <div class="row">
+                                                        <form  action="action_g.php" method="POST" enctype="multipart/form-data" id="experienceForm">
+                                    <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
+                                    <input type="hidden" name="code" value="433">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <label>Experience Type</label>
+                                            <select name="experienceType" class="form-control">
+                                                <option value="">Select</option>
+                                                <option value="Industry Experience">Industry Experience</option>
+                                                <option value="Research Experience">Research Experience</option>
+                                                <option value="Teaching Experience">Teaching Experience</option>
+                                                <option value="Other Experience">Other Experience</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <label>Designation</label>
+                                            <input type="text" name="designation" class="form-control" placeholder="Enter Designation...">
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <label>Department/Organization</label>
+                                            <input type="text" name="department" class="form-control" placeholder="Enter Department Name...">
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <label>Date of Joining</label>
+                                            <input class="form-control" type="date" name="from_date"  id='doj'>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-6">
+                                            <label>Date of Leaving</label>
+                                            <input class="form-control" type="date" name="to_date" id='dor' onchange="dateOnChnage();">
+                                            <input class="form-control" type="hidden" name="exp_total" id='exp_total'>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-6">
+                                            <label>Salary</label>
+                                            <input class="form-control" type="number" placeholder="Enter Salary Amount..." name="salary">
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <label>Reason of Leaving</label>
+                                            <input class="form-control" type="text" name="left_reason" placeholder="Reason of Leaving...">
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <label>Choose File</label>
+                                            <input class="form-control" type="file" name="experiencefile">
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-6">
+                                            <label>Action</label><br>
+                                            <input type="button" type="submit" onclick="addExperience(this.form)" class="btn btn-primary" value="ADD">        </div>
+                                        
+                                    </div>
+                        </form></div>
+                        
+                        </div>
+                    </div>
+
+            </section>
+            <br>
+            <div class="row">
+                <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
+                    <?php
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $EmployeeID ";
+                  if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
+                  ?>
+                    <table class="table" style="font-size:14px;">
+
+                        <tr>
+                            <th>Experience Type</th>
+                            <th>Designation</th>
+                            <th>Department / Organization</th>
+                            <th>Date of Joining</th>
+                            <th>Date of Leaving</th>
+                            <th>Total Experience</th>
+                            <th>Salary</th>
+                            <th>Reason of Leaving</th>
+                            <th>View Document</th>
+
+                        </tr>
+
+                        <tbody>
+                            <?php
+                         
+                              $res = sqlsrv_query($conntest, $sql);
+                              while ($data = sqlsrv_fetch_array($res)) { ?>
+                            <tr>
+                                <td><?=$data['ExperienceType']; ?></td>
+                                <td><?=$data['Designation']; ?></td>
+                                <td><?=$data['NameofOrganisation']; ?></td>
+                                <td><?php if($data['DateofAppointment']!=''){echo $data['DateofAppointment']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td><?php if($data['DateofLeaving']!=''){echo $data['DateofLeaving']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td><?=$data['TimePeriod']; ?></td>
+                                <td><?=$data['PayScaleORConsolidated']; ?></td>
+                                <td><?=$data['Reason']; ?></td>
+                                <td><i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)"
+                                        data-toggle="modal" data-target="#modal-default-Experience"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                   
+                            
+                                    <i class=" fa fa-trash " id="dlt" type="button"
+                                        onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                   
+                                </td>
+                            </tr>
+                            <?php
+                              }
+                              ?>
+                        </tbody>
+
+                                                </table>
+                                                <?php }?>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                                <?php
+                          
+                            }
+                                     
+                            ?>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <button type="button" onclick="updateStaffSelf()" class="btn btn-primary"
+                            id="update_button<?=$emp_id;?>">Submit</button>
+
+                    </div>
+                </div>
+             </div>
+         </div>
+
+      </div>
+   </div>
+    <?php 
+      sqlsrv_close($conntest);
+      mysqli_close($conn);
+                        }
+elseif($code==432)
+{
+    $id = $_POST['ID'];
+    $qry = "SELECT DocumentPath from StaffAcademicDetails where Id = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    $data = sqlsrv_fetch_array($result);
+    if ($data)
+    {
+         $docName = $data['DocumentPath'];
+         ftp_chdir($conn_id,"Images/Staff/AcademicDocument") or die("Could not change directory");
+        if (ftp_delete($conn_id, $docName))
+        {
+            $sql = "DELETE from StaffAcademicDetails where Id= $id";
+            $res = sqlsrv_query($conntest, $sql);
+        }
+        ftp_close($conn_id);
+    }
+    sqlsrv_close($conntest);
+}
+elseif($code==433)
+{
+$employeeID=$_POST['employeeID'];
+$experienceType=$_POST['experienceType'];
+$designation=$_POST['designation'];
+$department=$_POST['department'];
+$from_date=$_POST['from_date'];
+$to_date=$_POST['to_date'];
+$exp_total=$_POST['exp_total'];
+$salary=$_POST['salary'];
+$left_reason=$_POST['left_reason'];
+
+// $experience=$_POST['experiencefile'];
+$file_name = $_FILES['experiencefile']['name'];
+$file_tmp = $_FILES['experiencefile']['tmp_name'];
+$file_size =$_FILES['experiencefile']['size'];
+$file_type = $_FILES['experiencefile']['type'];
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+ $file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['experiencefile']['name']);
+$destdir = '/Images/Staff/ExperienceDocument';
+     ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ftp_close($conn_id);
+$insertExp="INSERT into StaffExperienceDetails(ExperienceType,NameofOrganisation,DateofAppointment,DateofLeaving,TimePeriod,Status,
+UserName,DocumentPath,Reason,Designation,PayScaleORConsolidated,upddate)VALUES('$experienceType','$department','$from_date','$to_date','$exp_total','0','$employeeID','$file_name','$left_reason',
+'$designation','$salary','$timeStamp')";
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+    sqlsrv_close($conntest);
+}
+elseif ($code == 434)
+{
+    $doa = $_POST['doa'];
+    $dor = $_POST['dor'];
+    $ts1 = strtotime($doa);
+    $ts2 = strtotime($dor);
+    $year1 = date('Y', $ts1);
+    $year2 = date('Y', $ts2);
+    $month1 = date('m', $ts1);
+    $month2 = date('m', $ts2);
+    if ($month1 > $month2)
+    {
+        $month2 = $month2 + 12;
+        $year2 = $year2 - 1;
+    }
+    if ($year1 <= $year2)
+    {
+        $year = $year2 - $year1;
+        $month = $month2 - $month1;
+        echo $year . " Year " . $month . " Month";
+    }
+    else
+    {
+        echo "invalid";
+    }
+}
+elseif ($code == 435)
+{
+    $id = $_POST['ID'];
+    $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    $data = sqlsrv_fetch_array($result);
+    if($data)
+    {
+        $docName = $data['DocumentPath'];
+        ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
+        if (ftp_delete($conn_id, $docName))
+        {
+             $sql = "DELETE from StaffExperienceDetails where Id= $id";
+            $res = sqlsrv_query($conntest, $sql);
+        }
+        ftp_close($conn_id);
+    }
+    sqlsrv_close($conntest);
+}
+elseif($code==436)
+{
+    $cgpa_value="";
+    $percent="";
+    $qualification=$_POST['qualification'];
+    $course=$_POST['course'];
+    $subjects=$_POST['subjects'];
+    $mode=$_POST['mode'];
+    $school_clg=$_POST['school_clg'];
+    $uni_board=$_POST['uni_board'];
+    $passing_date=$_POST['passing_date'];
+    $marks_obtained=$_POST['marks_obtained'];
+    $total_marks=$_POST['total_marks'];
+    $cgpa_value=$_POST['cgpa'];
+    // $percent=$_POST['percent'];
+    if ($total_marks > 0)
+    {
+        $percent = round(($marks_obtained / $total_marks) * 100, 2);
+    }
+    else
+    {
+        $percent = 0;
+    }
+    if($percent==0)
+    {
+
+        $cgpa_value=$_POST['cgpa'];
+    }
+    else{
+        $cgpa_value=$percent;
+    }
+    // $academicfile=$_POST['academicfile'];
+$file_name = $_FILES['academicfile']['name'];
+$file_tmp = $_FILES['academicfile']['tmp_name'];
+$file_size =$_FILES['academicfile']['size'];
+$file_type = $_FILES['academicfile']['type'];
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d'); 
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+ $file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['academicfile']['name']);
+$destdir = '/Images/Staff/AcademicDocument';
+     ftp_chdir($conn_id, "/Images/Staff/AcademicDocument/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ftp_close($conn_id);
+  $insertExp="INSERT into StaffAcademicDetails
+(Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate)
+VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp')";
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+    }
+    else
+    {
+        echo "2"; //file size 500 kb
+    }
+    sqlsrv_close($conntest);
+}
+
+elseif($code==437)
+{
+   
+    $loginId=$_POST['loginId'];
+    $fatherName=$_POST['fatherName'];
+    $motherName=$_POST['motherName'];
+    $dob=$_POST['dob'];
+    $gender=$_POST['gender'];
+    $category=$_POST['category'];
+    $panNumber=$_POST['panNumber'];
+    $aadharNumber=$_POST['aadharNumber'];
+    $personalIdentificationMark=$_POST['personalIdentificationMark'];
+    $personalEmail=$_POST['personalEmail'];
+    $officialEmail=$_POST['officialEmail'];
+    $mobileNumber=$_POST['mobileNumber'];
+    $whatsappNumber=$_POST['whatsappNumber'];
+    $permanentAddress=$_POST['permanentAddress'];
+    $correspondenceAddress=$_POST['correspondenceAddress'];
+    $postalCode=$_POST['postalCode'];
+    $state_by_post=$_POST['state_by_post'];
+    $district_by_post=$_POST['district_by_post'];
+    $postOffice=$_POST['postOffice'];
+    $bankAccountNo=$_POST['bankAccountNo'];
+    $employeeBankName=$_POST['employeeBankName'];
+    $bankIFSC=$_POST['bankIFSC'];
+
+    $nationality_by_post=$_POST['nationality_by_post'];
+
+   $query = "UPDATE Staff SET ";
+   $query .= "FatherName = '$fatherName', ";
+   $query .= "MotherName = '$motherName', ";
+   $query .= "DateOfBirth = '$dob', ";
+   $query .= "Gender = '$gender', ";
+   $query .= "Category = '$category', ";
+   $query .= "PANNo = '$panNumber', ";
+   $query .= "AadhaarCard = '$aadharNumber', ";
+   $query .= "EmailID = '$personalEmail', ";
+   $query .= "OfficialEmailID = '$officialEmail', ";
+   $query .= "MobileNo = '$mobileNumber', ";
+   $query .= "WhatsAppNumber = '$whatsappNumber', ";
+   $query .= "PostalCode = '$postalCode', ";
+   $query .= "PermanentAddress = '$permanentAddress', ";
+   $query .= "CorrespondanceAddress = '$correspondenceAddress', ";
+   $query .= "Nationality = '$nationality_by_post', ";
+   $query .= "BankAccountNo = '$bankAccountNo', ";
+   $query .= "BankName = '$employeeBankName', ";
+   $query .= "BankIFSC = '$bankIFSC', ";
+   $query .= "State = '$state_by_post', ";
+   $query .= "District = '$district_by_post', ";
+   $query .= "PostOffice = '$postOffice', ";
+   $query .= "PersonalIdentificationMark = '$personalIdentificationMark' ";
+   $query .= "WHERE IDNo = '$loginId'";
+//  echo $query;
+   if(sqlsrv_query($conntest,$query))
+   {
+      echo "1";
+   }
+   else
+   {
+      echo "0";
+   }
+//    if ($query_run === false) {
+//     $errors = sqlsrv_errors();
+//     echo "Error: " . print_r($errors, true);
+//     // echo "0";
+// } 
+sqlsrv_close($conntest);
+}
+elseif($code==438)
+{
+$file_name = $_FILES['panCard']['name'];
+$file_tmp = $_FILES['panCard']['tmp_name'];
+$file_size =$_FILES['panCard']['size'];
+$file_type = $_FILES['panCard']['type'];
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['panCard']['name']);
+$destdir = '/Images/Staff/StaffPanCard';
+    ftp_chdir($conn_id, "/Images/Staff/StaffPanCard/") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+    $insertExp="UPDATE Staff SET PANCardpath='$file_name' where IDNo='$EmployeeID'";
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+    sqlsrv_close($conntest);
+}
+elseif($code==439)
+{
+$file_name = $_FILES['aadharCard']['name'];
+$file_tmp = $_FILES['aadharCard']['tmp_name'];
+$file_size =$_FILES['aadharCard']['size'];
+$file_type = $_FILES['aadharCard']['type'];
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['aadharCard']['name']);
+$destdir = '/Images/Staff/StaffAadharCard';
+    ftp_chdir($conn_id, "/Images/Staff/StaffAadharCard/") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+    $insertExp="UPDATE Staff SET AadharPath='$file_name' where IDNo='$EmployeeID'";
+    $result = sqlsrv_query($conntest, $insertExp);
+    if($result==true)
+    {
+        echo "1";
+    }
+    else
+    {
+        echo "0";
+    }
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+    sqlsrv_close($conntest);
+}
+elseif($code==440)
+{
+$file_name = $_FILES['photoIMage']['name'];
+$file_tmp = $_FILES['photoIMage']['tmp_name'];
+$file_size =$_FILES['photoIMage']['size'];
+$file_type = $_FILES['photoIMage']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg'
+);
+if (in_array($_FILES['photoIMage']['type'], $allowedTypes))
+    {
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['photoIMage']['name']);
+$destdir = '/Images/Staff';
+    ftp_chdir($conn_id, "/Images/Staff/") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+     $insertExp="UPDATE Staff SET Imagepath='$file_name' where IDNo='$EmployeeID'";
+    $result = sqlsrv_query($conntest, $insertExp);
+    $file_data = file_get_contents($file_tmp);
+    $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+$params = array($file_data, $EmployeeID);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+    if($result==true)
+    {
+        echo "1";
+    }
+    else
+    {
+        echo "0";
+    }
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+}
+else{
+    echo "3"; // format wrong
+}
+    sqlsrv_close($conntest);
+}
+elseif($code==441)
+{
+$file_name = $_FILES['passbookCopy']['name'];
+$file_tmp = $_FILES['passbookCopy']['tmp_name'];
+$file_size =$_FILES['passbookCopy']['size'];
+$file_type = $_FILES['passbookCopy']['type'];
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['passbookCopy']['name']);
+$destdir = '/Images/Staff/bankpassbook';
+    ftp_chdir($conn_id, "/Images/Staff/bankpassbook/") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+    $insertExp="UPDATE Staff SET Bankpassbookpath='$file_name' where IDNo='$EmployeeID'";
+    $result = sqlsrv_query($conntest, $insertExp);
+    if($result==true)
+    {
+        echo "1";
+    }
+    else
+    {
+        echo "0";
+    }
+    }
+    else
+    {
+        echo "2"; // size 500kb
+    }
+    sqlsrv_close($conntest);
 }
    else
    {

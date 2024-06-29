@@ -287,7 +287,7 @@ window.location.href = "index.php";
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="#" class="btn btn-primary btn-flat">Profile</a>
+                            <a href="profile.php" class="btn btn-primary btn-flat">Profile</a>
                             <a href="#" onclick="sessionAlllogout('0');"
                                 class="btn btn-danger btn-flat float-center">Sign out all</a>
                             <a href="sign-out.php" class="btn btn-warning btn-flat float-right">Sign out</a>
