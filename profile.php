@@ -105,6 +105,31 @@ include "header.php";
 </div>
 <!-- /.modal -->
 <script>
+                               function loadCourse(){
+                                var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+                                    var code='442';
+                                    
+                                    var academicID = $("#Programs").val();
+                                      $.ajax({
+                                        url:'action_g.php',
+                                        data:{courseID:academicID,code:code},
+                                        type:'POST',
+                                        success:function(data){
+                                            // console.log(data);
+                                            spinner.style.display = 'none';
+                                            if(data != "")
+                                            {
+                                                $("#course").html("");
+                                                $("#course").html(data);
+                                            }
+                                        }
+                                      });
+                                    }
+                                 
+                              </script>
+<script>
+    
 showProfileData();
 
 function tab()
@@ -124,8 +149,8 @@ function showProfileData() {
         },
         success: function(response) {
             tab();
-            spinner.style.display = 'none';
             document.getElementById("showData").innerHTML = response;
+            spinner.style.display = 'none';
         }
     });
 }
@@ -180,7 +205,7 @@ function addAcademic(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            // console.log(response);
+            console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
                 tab();

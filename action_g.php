@@ -30578,15 +30578,22 @@ elseif($code==431)
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Qualification</label>
                                                                 <select class="form-control" name="qualification"
-                                                                    id='Programs' required>
+                                                                    id='Programs' required onchange="loadCourse();">
                                                                     <option value="">Choose Qualification</option>
-                                                                    <option value="10th">10th</option>
+                                                                    <option value="1">10th</option>
+                                                                    <option value="2">12th</option>
+                                                                    <option value="3">Graduation</option>
+                                                                    <option value="4">Diploma</option>
+                                                                    <option value="5">Post Graduation Diploma</option>
+                                                                    <option value="6">Post Graduation</option>
+                                                                    <option value="7">Certificate Course</option>
+
 
                                                                 </select>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Course</label>
-                                                                <select class="form-control" required name="course"
+                                                                <select class="form-control" required name="course" 
                                                                     id="course">
                                                                     <option value=" ">Choose Course</option>
                                                                     <option value="Arts">Arts</option>
@@ -30729,8 +30736,17 @@ elseif($code==431)
                               <td>
                                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i>
+                                 <?php 
+                            $stop_date = new DateTime($timeStamp);
+                            $stop_date->modify('-1 day');
+                              $endDateUpdate=$stop_date->format('Y-m-d');
+                                  $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
+                                    if($endDateUpdate<=$dbDateFromUpdate)
+                                    {
+                                 ?>
                                 <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i> 
+                                 <?php }?>
                               </td>
                            </tr>
                            <?php
@@ -30852,12 +30868,19 @@ elseif($code==431)
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
                                    
-                            
+                                    <?php 
+                            $stop_date1 = new DateTime($timeStamp);
+                            $stop_date1->modify('-1 day');
+                             $endDateUpdate1=$stop_date1->format('Y-m-d');
+                                 $dbDateFromUpdate1=$data['upddate']->format('Y-m-d');
+                                    if($endDateUpdate1<=$dbDateFromUpdate1)
+                                    {
+                                 ?>
                                     <i class=" fa fa-trash " id="dlt" type="button"
                                         onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
-                                   
+                                   <?php }?>
                                 </td>
                             </tr>
                             <?php
@@ -30943,7 +30966,7 @@ $allowedTypes = array(
     'image/jpeg',
     'application/pdf'
 );
-if (in_array($_FILES['panCard']['type'], $allowedTypes))
+if (in_array($_FILES['experiencefile']['type'], $allowedTypes))
     {
 if ($file_size < 550000)
     { 
@@ -31066,7 +31089,7 @@ $allowedTypes = array(
     'image/jpeg',
     'application/pdf'
 );
-if (in_array($_FILES['panCard']['type'], $allowedTypes))
+if (in_array($_FILES['academicfile']['type'], $allowedTypes))
     {
 if ($file_size < 550000)
     { 
@@ -31079,7 +31102,7 @@ $destdir = '/Images/Staff/AcademicDocument';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-  $insertExp="INSERT into StaffAcademicDetails
+ echo  $insertExp="INSERT into StaffAcademicDetails
 (Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate)
 VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp')";
 $result = sqlsrv_query($conntest, $insertExp);
@@ -31354,6 +31377,18 @@ $destdir = '/Images/Staff/bankpassbook';
     echo "3"; // file format
 }
     sqlsrv_close($conntest);
+}
+elseif ($code == 442)
+{
+    $id = $_POST['courseID'];
+    $sql = "SELECT * FROM DocumentDetail  WHERE SID= $id";
+    $res = sqlsrv_query($conntest, $sql);
+    while ($data = sqlsrv_fetch_array($res))
+    {
+?>
+ <option value='<?=$data['Course']; ?>'><?=$data['Course']; ?></option>  
+  <?php
+    }
 }
    else
    {
