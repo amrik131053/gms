@@ -73,9 +73,8 @@ if ($result)
                   <tbody>
 
 <?php
-echo $ss=" SELECT  *,va.action as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.number as vno
-FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_no  WHERE 
-      va.status='4'  ORDER BY va.id DEsC  limit 50";
+echo $ss=" SELECT  *,va.status as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.vehicle_number as vno
+FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_id   ORDER BY va.id DEsC  limit 50";
  $result = mysqli_query($conn,$ss);
                     $counter = 1;
                    while($row=mysqli_fetch_array($result))

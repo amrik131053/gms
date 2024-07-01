@@ -3804,6 +3804,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Mobile No </th>
     <th>Category </th>
     <th>Religion </th>
+     <th>Gender</th>
     <th>EmailID </th>
     <th>College </th>
     <th>Course </th>
@@ -3872,8 +3873,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Refrence=$row['FeeWaiverScheme'];
             $Category=$row['Category'];
             $Religion=$row['Religion'];
-
-
+            $gender=$row['Sex'];
             if($StatusType>0)
             {
                 $StatusType='Provisional';
@@ -3932,6 +3932,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$StudentMobileNo}</td>
          <td>{$Category}</td>
           <td>{$Religion}</td>
+           <td>{$gender}</td>
          <td>{$EmailID}</td>
          <td>{$CollegeName}</td>
          <td>{$Course}</td>
