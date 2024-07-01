@@ -106,18 +106,12 @@ include "header.php";
 <!-- /.modal -->
 <script>
 showProfileData();
-tab();
+
 function tab()
 {
-   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
- localStorage.setItem('lastTab', $(this).attr('href'));
-});
-var lastTab = localStorage.getItem('lastTab');
 
-if (lastTab) {
- $('[href="' + lastTab + '"]').tab('show');
 }
-}
+
 function showProfileData() {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -158,7 +152,12 @@ function addExperience(form) {
             }else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
                 
-            } else {
+            }
+            else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
+                
+            }
+             else {
                 ErrorToast('All inputs required','bg-danger');
             }
         },
@@ -190,6 +189,9 @@ function addAcademic(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
@@ -226,6 +228,9 @@ function uploadPanCard(form) {
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
                 
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
+                
             }
 
             else {
@@ -260,6 +265,9 @@ function uploadAdharCard(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
@@ -333,6 +341,9 @@ function uploadPassBook(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
