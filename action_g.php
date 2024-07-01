@@ -29954,7 +29954,7 @@ elseif($code==431)
                     <div class="col-md-12">
                         <!-- <div class="card"> -->
                         <div class="card-header p-2" style="background-color:white!important">
-                            <ul class="nav nav-pills">
+                             <ul class="nav nav-pills acTab">
                                 <li class="nav-item"><a class="nav-link active" href="#personal_details<?=$emp_id;?>"
                                         data-toggle="tab">Basic</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>"
@@ -29975,9 +29975,8 @@ elseif($code==431)
                                 <li class="nav-item"><a class="nav-link" href="#Documents<?=$emp_id;?>"
                                         data-toggle="tab">Documents </a>
                                 </li>
-
-
-                            </ul>
+                            </ul> 
+                            
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -30296,7 +30295,7 @@ elseif($code==431)
                                         </div>
 
 
-                                        <div class="col-lg-4 col-12">
+                                        <div class="col-lg-3 col-12">
                                             <div class="form-group">
                                                 <label>Leave Recommending Authority
                                                 </label>
@@ -30314,10 +30313,8 @@ elseif($code==431)
 
 
                                             </div>
-
-
                                         </div>
-                                        <div class="col-lg-4 col-12">
+                                        <div class="col-lg-3 col-12">
                                             <div class="form-group">
                                                 <label>Leave Sanction Authority</label>
                                                 <input type="text" class="form-control"
@@ -30409,52 +30406,104 @@ elseif($code==431)
                                 <div class="tab-pane" id="Documents<?=$emp_id;?>">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                        <table class="table table-bordered">
-                                    <tr>
-                                        <th>
-                                            <form action="action_g.php" method="POST">
+                                       
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-12" > <form action="action_g.php" method="POST">
                                                 <input type="hidden" name="code" value="438">
                                                 <!-- <input type="text" name="document" value="panCard"> -->
-                                            <label>Upload PAN Card</label>
+                                            <label>PAN Card</label>
                                             <input type="file" class="form-control-file" name="panCard">
                                             <small style="color: red">*Document must be in jpg/jpeg/png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
-                                            <input  class="btn btn-success" onclick="uploadPanCard(this.form);" value="Upload">
-                                            <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'PANCardpath');"><i class="fa fa-eye" 
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
-                                                </form>
-                                        </th>
-                                        <th>
-                                            <img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/<?=$row1['PANCardpath'];?>" alt="Pan Card" width="100" height="100"></th>
-                                        <th>
-                                        <form action="action_g.php" method="POST">
+                                            
+                                            <input  class="btn btn-success btn-xs" onclick="uploadPanCard(this.form);" value="Upload">
+                                            <button class="btn btn-primary btn-xs " type="button" data-toggle="modal" data-target="#UploadImageDocument" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'PANCardpath');"><i class="fa fa-eye" 
+                                                ></i></button>
+                                                </form></div>
+                                                <div class="col-lg-2 col-sm-12" style="margin-left:'50px';">
+                                                <?php 
+                                                  $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/".$row1['PANCardpath'], PATHINFO_EXTENSION);
+                                                  if($ext=='jpg' || $ext=='png' || $ext=='jpeg')
+                                               {
+                                                ?>
+                                                <img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/<?=$row1['PANCardpath'];?>" alt="Pan Card" width="100" height="100">
+                                                <?php 
+                                               }
+                                               else{
+                                                ?>
+                                                <i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>
+                                                <?php 
+                                               }
+                                                ?>
+                                               </div>
+                                                <div class="col-lg-4 col-sm-12"> <form action="action_g.php" method="POST">
                                                 <input type="hidden" name="code" value="439">
-                                            <label>Upload Aadhar Card</label>
+                                            <label>Aadhar Card</label>
                                             <input type="file" class="form-control-file" name="aadharCard">
                                             <small style="color: red">*Document must be in
                                                 .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must
                                                 be less than 500kb.</small><br>
-                                                <input class="btn btn-success" onclick="uploadAdharCard(this.form);" value="Upload">
-                                                <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'AadharPath');"><i class="fa fa-eye" 
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
-                                        </form>
-                                        </th>
-                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/<?=$row1['AadharPath'];?>" alt="Aadhar card" width="100" height="100"></th>
-                                    <tr>
-                                        <th>  <form action="action_g.php" method="POST">
+                                                <input class="btn btn-success btn-xs" onclick="uploadAdharCard(this.form);" value="Upload">
+                                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#UploadImageDocument" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'AadharPath');"><i class="fa fa-eye" 
+                                                ></i></button>
+                                        </form></div>
+                                                <div class="col-lg-2 col-sm-12">
+                                                    
+                                                <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/<?=$row1['AadharPath'];?>" alt="Aadhar card" width="100" height="100"> -->
+                                            
+                                                <?php 
+                                                   $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/".$row1['AadharPath'], PATHINFO_EXTENSION);
+                                               if($ext=='jpg' || $ext=='png' || $ext=='jpeg')
+                                               {
+                                                ?>
+                                                
+                                                <img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/<?=$row1['AadharPath'];?>" alt="Pan Card" width="100" height="100">
+                                                <?php 
+                                               }
+                                               else{
+                                                ?>
+                                               
+                                                <i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>
+                                               
+                                                <?php 
+                                               }
+                                                ?>
+                                            
+                                            
+                                            </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-12"> <form action="action_g.php" method="POST">
                                                 <input type="hidden" name="code" value="440">
                                                 <!-- <input type="text" name="document" value="photo"> -->
-                                                <label>Image</label>
+                                                <label>Your Image</label>
                                             <input type="file" class="form-control-file" name="photoIMage" >
                                             <small style="color: red">*Document must be in
                                                 .jpg/.jpeg/.png format. &nbsp; *Size must
                                                 be less than 500kb.</small><br>
-                                                 <input  class="btn btn-success" onclick="uploadImage(this.form);" value="Upload">
-                                                <button class="btn btn-primary" type="button" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Imagepath');"> <i class="fa fa-eye" 
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
-                                                </form>
-                                        </th>
-                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/<?=$row1['Imagepath'];?>" alt="Image Path" width="100" height="100"></th>
-                                        <th>  <form action="action_g.php" method="POST">
+                                                 <input  class="btn btn-success btn-xs" onclick="uploadImage(this.form);" value="Upload">
+                                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#UploadImageDocument" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Imagepath');"> <i class="fa fa-eye" 
+                                                ></i></button>
+                                                </form></div>
+                                                <div class="col-lg-2 col-sm-12">
+                                                   
+                                                    <?php 
+                                                  $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
+                                                  if($ext=='jpg' || $ext=='png' || $ext=='jpeg')
+                                               {
+                                                ?>
+                                                <img src="http://erp.gku.ac.in:86/Images/Staff/<?=$row1['Imagepath'];?>" alt="Pan Card" width="100" height="100">
+                                                <?php 
+                                               }
+                                               else{
+                                                ?>
+                                                <i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>
+                                                <?php 
+                                               }
+                                                ?>
+                                                
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12"><form action="action_g.php" method="POST">
                                                 <input type="hidden" name="code" value="441">
                                                 <!-- <input type="text" name="document" value="passbookCopy"> -->
                                                  <label>Upload Passbook Copy</label>
@@ -30462,18 +30511,28 @@ elseif($code==431)
                                         <small style="color: red">*Document must be in
                                                 .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must
                                                 be less than 500kb.</small><br>
-                                         <input  class="btn btn-success" onclick="uploadPassBook(this.form);" value="Upload">
-                                                <button class="btn btn-primary" type="button"  onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Bankpassbookpath');"> <i class="fa fa-eye"
-                                                data-toggle="modal" data-target="#UploadImageDocument"></i></button>
-                                                </form>
-                                        </th>
-                                        <th><img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/<?=$row1['Bankpassbookpath'];?>" alt="Bank PassBook" width="100" height="100"></th>
-                                    </tr>
-                                </table>
-                                        
-                                            
-                                        
-                                            
+                                         <input  class="btn btn-success btn-xs" onclick="uploadPassBook(this.form);" value="Upload">
+                                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#UploadImageDocument"  onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Bankpassbookpath');"> <i class="fa fa-eye"
+                                                ></i></button>
+                                                </form></div>
+                                                <div class="col-lg-2 col-sm-12">
+                                                    
+                                                    <?php 
+                                                  $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/bankpassbook/".$row1['Bankpassbookpath'], PATHINFO_EXTENSION);
+                                                  if($ext=='jpg' || $ext=='png' || $ext=='jpeg')
+                                               {
+                                                ?>
+                                                <img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/<?=$row1['Bankpassbookpath'];?>" alt="Pan Card" width="100" height="100">
+                                                <?php 
+                                               }
+                                               else{
+                                                ?>
+                                                <i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>
+                                                <?php 
+                                               }
+                                                ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -30519,15 +30578,22 @@ elseif($code==431)
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Qualification</label>
                                                                 <select class="form-control" name="qualification"
-                                                                    id='Programs' required>
+                                                                    id='Programs' required onchange="loadCourse();">
                                                                     <option value="">Choose Qualification</option>
-                                                                    <option value="10th">10th</option>
+                                                                    <option value="1">10th</option>
+                                                                    <option value="2">12th</option>
+                                                                    <option value="3">Graduation</option>
+                                                                    <option value="4">Diploma</option>
+                                                                    <option value="5">Post Graduation Diploma</option>
+                                                                    <option value="6">Post Graduation</option>
+                                                                    <option value="7">Certificate Course</option>
+
 
                                                                 </select>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Course</label>
-                                                                <select class="form-control" required name="course"
+                                                                <select class="form-control" required name="course" 
                                                                     id="course">
                                                                     <option value=" ">Choose Course</option>
                                                                     <option value="Arts">Arts</option>
@@ -30670,8 +30736,17 @@ elseif($code==431)
                               <td>
                                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i>
+                                 <?php 
+                            $stop_date = new DateTime($timeStamp);
+                            $stop_date->modify('-1 day');
+                              $endDateUpdate=$stop_date->format('Y-m-d');
+                                  $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
+                                    if($endDateUpdate<=$dbDateFromUpdate)
+                                    {
+                                 ?>
                                 <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i> 
+                                 <?php }?>
                               </td>
                            </tr>
                            <?php
@@ -30793,12 +30868,19 @@ elseif($code==431)
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
                                    
-                            
+                                    <?php 
+                            $stop_date1 = new DateTime($timeStamp);
+                            $stop_date1->modify('-1 day');
+                             $endDateUpdate1=$stop_date1->format('Y-m-d');
+                                 $dbDateFromUpdate1=$data['upddate']->format('Y-m-d');
+                                    if($endDateUpdate1<=$dbDateFromUpdate1)
+                                    {
+                                 ?>
                                     <i class=" fa fa-trash " id="dlt" type="button"
                                         onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
-                                   
+                                   <?php }?>
                                 </td>
                             </tr>
                             <?php
@@ -30878,6 +30960,14 @@ $file_name = $_FILES['experiencefile']['name'];
 $file_tmp = $_FILES['experiencefile']['tmp_name'];
 $file_size =$_FILES['experiencefile']['size'];
 $file_type = $_FILES['experiencefile']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['experiencefile']['type'], $allowedTypes))
+    {
 if ($file_size < 550000)
     { 
 $date=date('Y-m-d');  
@@ -30906,6 +30996,10 @@ else
     {
         echo "2"; // size 500kb
     }
+}
+else{
+    echo "3";
+}
     sqlsrv_close($conntest);
 }
 elseif ($code == 434)
@@ -30989,6 +31083,14 @@ $file_name = $_FILES['academicfile']['name'];
 $file_tmp = $_FILES['academicfile']['tmp_name'];
 $file_size =$_FILES['academicfile']['size'];
 $file_type = $_FILES['academicfile']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['academicfile']['type'], $allowedTypes))
+    {
 if ($file_size < 550000)
     { 
 $date=date('Y-m-d'); 
@@ -31000,7 +31102,7 @@ $destdir = '/Images/Staff/AcademicDocument';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-  $insertExp="INSERT into StaffAcademicDetails
+ echo  $insertExp="INSERT into StaffAcademicDetails
 (Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate)
 VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp')";
 $result = sqlsrv_query($conntest, $insertExp);
@@ -31017,6 +31119,9 @@ else
     {
         echo "2"; //file size 500 kb
     }
+}else{
+    echo "3";
+}
     sqlsrv_close($conntest);
 }
 
@@ -31094,6 +31199,14 @@ $file_name = $_FILES['panCard']['name'];
 $file_tmp = $_FILES['panCard']['tmp_name'];
 $file_size =$_FILES['panCard']['size'];
 $file_type = $_FILES['panCard']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['panCard']['type'], $allowedTypes))
+    {
 if ($file_size < 550000)
     { 
 $date=date('Y-m-d');  
@@ -31120,6 +31233,10 @@ else
     {
         echo "2"; // size 500kb
     }
+}
+else{
+    echo "3";
+}
     sqlsrv_close($conntest);
 }
 elseif($code==439)
@@ -31128,6 +31245,14 @@ $file_name = $_FILES['aadharCard']['name'];
 $file_tmp = $_FILES['aadharCard']['tmp_name'];
 $file_size =$_FILES['aadharCard']['size'];
 $file_type = $_FILES['aadharCard']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['aadharCard']['type'], $allowedTypes))
+    {
 if ($file_size < 550000)
     { 
 $date=date('Y-m-d');  
@@ -31154,6 +31279,9 @@ $destdir = '/Images/Staff/StaffAadharCard';
     {
         echo "2"; // size 500kb
     }
+}else{
+    echo "3";
+}
     sqlsrv_close($conntest);
 }
 elseif($code==440)
@@ -31211,6 +31339,14 @@ $file_name = $_FILES['passbookCopy']['name'];
 $file_tmp = $_FILES['passbookCopy']['tmp_name'];
 $file_size =$_FILES['passbookCopy']['size'];
 $file_type = $_FILES['passbookCopy']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['passbookCopy']['type'], $allowedTypes))
+    {
 if ($file_size < 550000)
     { 
 $date=date('Y-m-d');  
@@ -31237,7 +31373,22 @@ $destdir = '/Images/Staff/bankpassbook';
     {
         echo "2"; // size 500kb
     }
+}else{
+    echo "3"; // file format
+}
     sqlsrv_close($conntest);
+}
+elseif ($code == 442)
+{
+    $id = $_POST['courseID'];
+    $sql = "SELECT * FROM DocumentDetail  WHERE SID= $id";
+    $res = sqlsrv_query($conntest, $sql);
+    while ($data = sqlsrv_fetch_array($res))
+    {
+?>
+ <option value='<?=$data['Course']; ?>'><?=$data['Course']; ?></option>  
+  <?php
+    }
 }
    else
    {

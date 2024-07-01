@@ -105,19 +105,38 @@ include "header.php";
 </div>
 <!-- /.modal -->
 <script>
+                               function loadCourse(){
+                                var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+                                    var code='442';
+                                    
+                                    var academicID = $("#Programs").val();
+                                      $.ajax({
+                                        url:'action_g.php',
+                                        data:{courseID:academicID,code:code},
+                                        type:'POST',
+                                        success:function(data){
+                                            // console.log(data);
+                                            spinner.style.display = 'none';
+                                            if(data != "")
+                                            {
+                                                $("#course").html("");
+                                                $("#course").html(data);
+                                            }
+                                        }
+                                      });
+                                    }
+                                 
+                              </script>
+<script>
+    
 showProfileData();
-tab();
+
 function tab()
 {
-   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
- localStorage.setItem('lastTab', $(this).attr('href'));
-});
-var lastTab = localStorage.getItem('lastTab');
 
-if (lastTab) {
- $('[href="' + lastTab + '"]').tab('show');
 }
-}
+
 function showProfileData() {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -130,8 +149,8 @@ function showProfileData() {
         },
         success: function(response) {
             tab();
-            spinner.style.display = 'none';
             document.getElementById("showData").innerHTML = response;
+            spinner.style.display = 'none';
         }
     });
 }
@@ -158,7 +177,12 @@ function addExperience(form) {
             }else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
                 
-            } else {
+            }
+            else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
+                
+            }
+             else {
                 ErrorToast('All inputs required','bg-danger');
             }
         },
@@ -181,7 +205,7 @@ function addAcademic(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            // console.log(response);
+            console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
                 tab();
@@ -190,6 +214,9 @@ function addAcademic(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
@@ -226,6 +253,9 @@ function uploadPanCard(form) {
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
                 
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
+                
             }
 
             else {
@@ -260,6 +290,9 @@ function uploadAdharCard(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
@@ -333,6 +366,9 @@ function uploadPassBook(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb','bg-warning');
+                
+            }else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
                 
             }
 
