@@ -3782,7 +3782,7 @@ else if($exportCode==39)
                     
             }
 $SrNo=1;
-$subCount=20;
+$subCount=23;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>  
 <tr>
@@ -3816,6 +3816,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Nationality </th>
     <th>Remarks </th>
     <th>Status</th>
+    <th>Locked</th>
 
     </tr>
         </thead>";
@@ -3874,6 +3875,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Category=$row['Category'];
             $Religion=$row['Religion'];
             $gender=$row['Sex'];
+             $locked=$row['Locked'];
             if($StatusType>0)
             {
                 $StatusType='Provisional';
@@ -3882,6 +3884,18 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             else
             {
                 $StatusType='';
+
+            }
+
+
+ if($locked>0)
+            {
+                $lockedtype='Yes';
+
+            }
+            else
+            {
+                $lockedtype='No';
 
             }
 
@@ -3912,7 +3926,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
 
                 $clr1="green";
             }
-            else{
+            else
+            {
                 $status=$StatusType." Left";
                 $clr1="red";
             }
@@ -3920,7 +3935,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
 
 
          
-         $exportstudy.="<tr >
+         $exportstudy.="<tr>
 
          <td>{$SrNo}</td>
          <td>{$IDNo}</td>
@@ -3944,6 +3959,8 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$Nationality}</td>     
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
+
+           <td>{$lockedtype}</td>     
      </tr>";
 
 
@@ -4229,7 +4246,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
 
          else if($exportCode==42)
          {
-             $College=$_GET['CollegeId'];
+         $College=$_GET['CollegeId'];
          $Course=$_GET['Course'];
          $Semester=$_GET['Semester'];
          $Type=$_GET['Type'];
@@ -4431,10 +4448,11 @@ elseif($RegistrationStatus==8)
                                    $ExaminationVerifiedDate="";
                                 }
                                 if($row['RegistraionVerifDate']!=''){
-
+ 
                                     $RegistraionVerifDate=$row['RegistraionVerifDate']->format('Y-m-d h:i:s.v');
                                     
-                                }else{
+                                }else
+                                {
                                    $RegistraionVerifDate="";
                                 }
                                 
