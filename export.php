@@ -9982,6 +9982,64 @@ $exportstudy.="<td>{$srno}</td>
 
         echo $exportstudy;
         $fileName="vehiclereport";
+}
+    else if($exportCode==69)
+    {
+ $from = $_GET['from'];
+ $to = $_GET['to'];
+ $sr=1; 
+
+ $date=date('Y-m-d');
+    $select_add="SELECT * FROM Enquiry where DateEntry BETWEEN '$from 01:09:28.000' and '$to 23:09:28.000'";
+
+                 $select_add_q=sqlsrv_query($conntest,$select_add);
+               
+
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Mobile No</th>
+<th>Email</th>
+<th>Course</th>
+<th>Source</th>
+<th>SourceName</th>
+<th>Token No</th>
+<th>Counter No</th>
+<th>Response</th>
+<th>Entry Date</th>
+</tr>";
+
+while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
+{
+if($row['Response']!='')
+{
+$color='#8ccb8c';
+}
+else
+{
+$color='#e5070761';
+}
+$dateEntry=$row['DateEntry']->format('d-m-Y H:i:s');
+$exportstudy.="<tr>";
+$exportstudy.="
+<td>{$sr}</td>
+<td>{$row['Name']}</td>
+<td>{$row['MobileNo']}</td>
+<td>{$row['Email']}</td>
+<td>{$row['Course']}</td>
+<td>{$row['Source']}</td>
+<td>{$row['SourceName']}</td>
+<td>{$row['TokenNo']}</td>
+<td>{$row['CounterNo']}</td>
+<td>{$row['Response']}</td>
+<td>{$dateEntry}</td>";
+$exportstudy.="</tr>"; 
+$sr++;
+        }    
+        $exportstudy.="</table>";
+        echo $exportstudy;
+        $fileName="admenquiry";
     
 }
 

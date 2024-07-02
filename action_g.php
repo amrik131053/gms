@@ -28935,7 +28935,7 @@ $submit_date=date('Y-m-d');
 elseif ($code=='410') {
     $i=0;
     $date=date('Y-m-d');
-    $select_add="SELECT * FROM Enquiry where CONVERT(DATE, DateEntry) = '$date'  Order by ID desc";
+    $select_add="SELECT * FROM Enquiry where DateEntry = '$date'  Order by ID desc";
     $select_add_q=sqlsrv_query($conntest,$select_add);
     while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
     {
