@@ -1,5 +1,5 @@
-  
-<?php 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><?php 
 
   include "header.php";   
 ?>
@@ -12,14 +12,234 @@ function checkall()
 
   var inputs = document.querySelectorAll('.newStudents');
 
-      for (var i = 0; i < inputs.length; i++) {
+        for (var i = 0; i < inputs.length; i++) {
             inputs[i].checked = true;
 
-      }
+        }
       document.getElementById("check").style.display = "none";
        
-      document.getElementById("check1").style.display = "block";
+        document.getElementById("check1").style.display = "block";
 }
+
+    function edit_stu(id)
+          {
+
+            //alert(id);
+               var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
+     var code=204;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+               
+               spinner.style.display='none';
+                document.getElementById("edit_stu").innerHTML=response;
+                
+              }
+           });
+          
+         }
+
+function sub_code_int_ext_type_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+      var userid = document.getElementById('userid').value;
+         var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
+         var int=document.getElementById(id+"_Int").value;
+         var ext=document.getElementById(id+"_Ext").value;
+         var intm=document.getElementById(id+"_intmarks").value;
+         var extm=document.getElementById(id+"_extmarks").value;
+         var subtype=document.getElementById(id+"_subtype").value;
+         var code=210;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype,userid:userid
+              },
+              success: function(response) 
+              {
+                console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                          Search_exam_student();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}    
+
+   function receipt_date_no_update(id)
+           {
+        var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+
+         // alert(id);
+        var spinner=document.getElementById("ajax-loader");
+          spinner.style.display='block';
+         var rdate=document.getElementById("asreceipt_date").value;
+       var rno=document.getElementById("asreceipt_no").value;
+        var userid = document.getElementById('userid').value;
+      
+         var code=211;
+         // alert(subcode+' '+subname+' '+int+' '+ext+' '+intm+' '+extm+''+subtype);
+         $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,receipt_date:rdate,receipt_no:rno,userid:userid
+              },
+              success: function(response) 
+              {
+                // console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Updated');
+                          Search_exam_student();
+                           }
+                          else
+                           {
+                           ErrorToast('Try Again','bg-danger' );
+                           }
+                
+              }
+           });
+
+  }
+}
+
+
+  function exam_type_update(id)
+    {
+         var r = confirm("Do you really want to Change");
+          if(r == true) 
+           {
+       var type=document.getElementById('type_').value;
+       var examination=document.getElementById('examination_').value;
+        var sgroup=document.getElementById('sgroup_').value;
+         var userid = document.getElementById('userid').value;
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+     // alert(type+' '+examination);
+     var code=208;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,examination:examination,type:type,sgroup:sgroup,userid:userid
+              },
+              success: function(response) 
+              {
+               console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully Update');
+                           Search_exam_student();
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+    }
+
+
+ function Delete_sub_code_int_ext_type_update(id,nid)
+    {
+         var r = confirm("Do you really want to Delete");
+          if(r == true) 
+           {
+
+     var r = confirm("it is going to Delete");
+          if(r == true) 
+           {
+      var spinner=document.getElementById("ajax-loader");
+     spinner.style.display='block';
+      var userid = document.getElementById('userid').value;
+       var subcode=document.getElementById(id+"_subcode").value;
+         var subname=document.getElementById(id+"_subname").value;
+     
+     var code=310;
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,userid:userid,subname:subname,subcode:subcode
+              },
+              success: function(response) 
+              {
+               console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully deleted');
+                           Search_exam_student();
+                          
+
+                           edit_stu(nid);
+
+
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
+       }
+   }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function uncheckall()
 {
@@ -42,7 +262,7 @@ function uncheckall()
           <div class="col-lg-2 col-md-4 col-sm-3">
 
 
-   <label>College</label>
+   <label>Colleged</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
@@ -109,26 +329,48 @@ for($i=1;$i<=12;$i++)
             </select>
 
 </div>
-
-
-
-     <div class="col-md-2">
-            <div class="form-group">
-              <label>Subject</label>
-              <select name="subject" id="Subject" class="form-control" required="">
-                <option value="">subject</option>
+ <div class="col-lg-1 col-md-4 col-sm-3">
+  <label>Type</label>
+              <select  id="Type" class="form-control" required="">
+                 <option value="">Select</option>
+                <option value="Regular">Regular</option>
+                 <option value="Reappear">Reappear</option>
+                  <option value="Additional">Additional</option>
+                   <option value="Improvement">Improvement</option>
 
                 
               </select>
-            </div>
-          </div>
 
+</div>
 
+ <div class="col-lg-2 col-md-4 col-sm-3">
+  <label>Group</label>
+              <select id="Group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
- <div class="col-lg-1 col-md-4 col-sm-3">
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+
+</div>
+
+ <div class="col-lg-2 col-md-4 col-sm-3">
   <label>Examination</label>
               <select  id="Examination" class="form-control" required="">
-                 <option value="">Examination</option>
+                 <option value="">Group</option>
                        <?php
    $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
           $stmt2 = sqlsrv_query($conntest,$sql);
@@ -148,49 +390,11 @@ for($i=1;$i<=12;$i++)
               </select>
 
 </div>
-            <div class="col-md-1">
-            <div class="form-group">
-              <label>Type</label>
-              <select name="Expeirment" id="Experiment" class="form-control" required="">
-                <option value="">Select Experiment</option>
-                
-
-                
-              </select>
-            </div>
- </div>
-
- <div class="col-lg-1 col-md-4 col-sm-3">
-  <label>Group</label>
-              <select  id="group" class="form-control" required="">
-                 <option value="">Group</option>
-                       <?php
-   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
-
-       
-     $Sgroup = $row1['Sgroup']; 
-     
-    ?>
-<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
-<?php    }
-
-?>
-
-                
-              </select>
-
-</div>
-
-
-
 
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
-            <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
+            <button class="btn btn-danger" onclick="Search_exam_student()"><i  class="fa fa-search" ></i></button>
 
 </div>
 
@@ -200,11 +404,11 @@ for($i=1;$i<=12;$i++)
       </div>
     </br>
 
-
+<p id="ajax-loader"></p>
 
  <div class="row">
           <!-- left column -->
-          <div class="col-lg-9 col-md-4 col-sm-3">
+          <div class="col-lg-8 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
@@ -213,9 +417,8 @@ for($i=1;$i<=12;$i++)
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
                 <div class="card-body">
-                  <div id="live_data">
+                  <div id="live_data_Exam_student">
                   
-
                   </div>
                 </div>
                 <div class="card-footer">
@@ -226,65 +429,24 @@ for($i=1;$i<=12;$i++)
             </div>
           </div>
 
-  <div class="col-lg-3 col-md-3 col-sm-3">
+  <div class="col-lg-4 col-md-4 col-sm-3">
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title"> Examination wise Lock / Unlock </h3>
-              </div> 
+                <h3 class="card-title">Students</h3>
+              </div>
+        
+             <!--  <form class="form-horizontal" action="" method="POST"> -->
                 <div class="card-body">
-                     <h3 class="card-title"><i class='btn btn-warning btn-xs' onclick="lockall();">Lock All</i>&nbsp;&nbsp;&nbsp;
-                  <i class='btn btn-warning btn-xs' onclick="unlockall();">Unlock All</i>&nbsp;&nbsp;&nbsp;
-                  <!-- <i class='btn btn-warning btn-xs' onclick="unlockpending();">Unlock Pending</i></h3> -->
-              
+                  <div id="live_data_Exam_subjects">
+                  
+                  </div>
                 </div>
-                <div class="card-footer"> </div>
-               
-            </div>
-
-             <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title"> Semester Wise </h3>
-              </div> 
-                <div class="card-body">
-<!--<input type="checkbox" id="CE1" name="CE1" value="1" class="semesterwisetheory">
-<label for="CE1">1</label>&nbsp;&nbsp;
-
-<input type="checkbox" id="CE2" name="CE2" value="CE2" class="semesterwisetheory">
-<label for="CE2"> 2</label>&nbsp;&nbsp;
-
-<input type="checkbox" id="CE3" name="CE3" value="CE3" class="semesterwisetheory">
-<label for="CE3"> 3</label>&nbsp;&nbsp;
-
-
-<input type="checkbox" id="MST1" name="MST1" value="MST1" class="semesterwisetheory">
-<label for="MS1"> 4</label>&nbsp;&nbsp;
-
-
-
-<input type="checkbox" id="MST2" name="MST2" value="MST2" class="semesterwisetheory">
-<label for="MS2"> 5</label>&nbsp;&nbsp;
-
-
-
-<input type="checkbox" id="ESE" name="ESE" value="ESE" class="semesterwisetheory">
-<label for="ESE"> 6</label>&nbsp;&nbsp;
-
-
-
-<input type="checkbox" id="Attendance" name="Attendance" value="Attendance" class="semesterwisetheory">
-<label for="Attendance"> 7</label><br><br>
- <h3 class="card-title">
-                  <i class='btn btn-warning btn-xs' onclick="unlockSemester();">Unlock All</i>&nbsp;&nbsp;&nbsp;
-                  <i class='btn btn-warning btn-xs' onclick="unlockSemesterpending();">Unlock Pending</i></h3> -->
-
-
-                  <!-- <div id="live_data_Exam_subjects"></div> -->
-                    
-                
+                <div class="card-footer">
+                  
                 </div>
-                <div class="card-footer"> </div>
-               
+                <!-- /.card-footer -->
+              <!-- </form> -->
             </div>
           </div>
 
@@ -295,517 +457,25 @@ for($i=1;$i<=12;$i++)
 </div>
       <!-- /.container-fluid -->
     </section>
-    <script>
-     $(function() { 
-      $("#Semester").change(function(e) {
-        e.preventDefault();
- 
-        var course = $("#Course").val();
-       var batch = $("#Batch").val();
-       var sem = $("#Semester").val();  
-          
 
-         
-        var code='200';
-            $.ajax({
-            url:'action.php',
-            data:{course:course,code:code,batch:batch,sem:sem},
-            type:'POST',
-            success:function(data)
-            { 
-
-             if(data != "")
-                {
-                
-                    $("#Subject").html("");
-                    $("#Subject").html(data);
-                }
-            }
-          });
-    });
-  });
-
-
-     $(function() { 
-      $("#Examination").change(function(e) {
-        e.preventDefault();
- 
-        var college = $("#College").val();
-       var batch = $("#Batch").val();
-       var sem = $("#Semester").val();  
-       var course = $("#Course").val();
-       var subject = $("#Subject").val();
-       var examination = $("#Examination").val();  
-          
-
-         
-        var code='263';
-            $.ajax({
-            url:'action.php',
-            data:{course:course,code:code,batch:batch,sem:sem,examination:examination,subject:subject,college:college},
-            type:'POST',
-            success:function(data)
-            { 
-
-             if(data != "")
-                {
-                
-                    $("#Experiment").html("");
-                    $("#Experiment").html(data);
-                }
-            }
-          });
-    });
-  });
-
-
-function select_mst() 
-{ 
-  var  college = document.getElementById('College').value;
-  var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value;
-      var  group = document.getElementById('group').value;
-         var subject = document.getElementById('Subject').value;
-     var  examination = document.getElementById('Examination').value;
-
-    var distributiontheory = document.getElementById('Experiment').value;
- 
-  if(college!=''&&batch!='' && sem!='' && subject!=''&& examination!='' &&distributiontheory!='')
- {
-   var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {     
-   spinner.style.display='none';
-       
-     document.getElementById("live_data").innerHTML=xmlhttp.responseText;
-//Examination_theory_types();
-        }
-    }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+46,true);
-        xmlhttp.send();
- }
-else
-{
-alert("Please Select Appropriate data");
-}
-      
-  }
-
-function Examination_theory_types(){
-var code=44;
-
-var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {     
-     
-          document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
-
-        }
-    }
-
-      xmlhttp.open("GET", "get_action.php?code="+code,true);
-        xmlhttp.send();
-
-
-}
-
-function testing() 
-{
-  
-var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-  var unirollno=document.getElementsByClassName('unirollnos');
-  var pmarks=document.getElementsByClassName('pmarksids');
-   
-                     var practicalid=document.getElementById('practicalidnum').value;
-               var internalupdatedby=document.getElementById('internalupdatedby').value;
-
-  
-  var len_student= unirollno.length; 
-
-
-  var student_str=[];
-  var pmarks_str=[];
-    
-
-    for(i=0;i<len_student;i++)
-     {
-        student_str.push(unirollno[i].value);
-         pmarks_str.push(pmarks[i].value);
-           
-     }
-    
-     
-
-    $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        student_str:student_str,pmarks_str:pmarks_str,len_student:len_student,practicalid:practicalid,internalupdatedby:internalupdatedby,code:'266'
-      },
-      success:function(response)
-      {
-console.log(response);
-        spinner.style.display='none';
-       SuccessToast('Successfully Saved');
-       select_mst() ;
-      }
-    });
-}
-
-
-function unlock(id)
-{
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        id:id,code:'270'
-      },
-      success:function(response)
-      {
- console.log(response);
-
-      SuccessToast('Successfully Unlocked');
-        select_mst(); 
-        
-      }
-    });
-}
-
-function lock(id)
-{
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        id:id,code:'269'
-      },
-      success:function(response)
-      {
- console.log(response);
-      SuccessToast('Successfully Locked');
-        select_mst(); 
-        
-      }
-    });
-}
-
-function lockall()
-{
-
-  var examination=document.getElementById('Examination').value;
- 
-
- if(examination!='')
- {
-  var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,code:267
-      },
-      success:function(response)
-      {
-        spinner.style.display='none';
-        if(response>0)
-        { 
-       SuccessToast('Successfully Locked'+"&nbsp;&nbsp;All Practicle of &nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Lock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination',"bg-danger" );
-}
-}
-
-
-function unlockall()
-{
-
-  var examination=document.getElementById('Examination').value;
- 
-
- if(examination!='')
- {
-  var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,code:268
-      },
-      success:function(response)
-      {
-        spinner.style.display='none';
-        if(response>0)
-        { 
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;All Practicle of &nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Lock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination',"bg-danger" );
-}
-}
-
-
-
-function  lockallpractical()
-{
-
-  var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-  var idNos=document.getElementsByClassName('IdNos');
-
-  var pid_length= idNos.length; 
- 
-
-  var pid_data=[];
-  
-    for(i=0;i<pid_length;i++)
-     {
-        pid_data.push(idNos[i].value);
-     }
-code=264;
-  $.ajax({
-    url:'action.php',
-    type:'post',
-    data:{code:code,pid_data:pid_data,pid_length:pid_length},
-
-    success:function(response)
-    {
-      console.log(response);
- spinner.style.display='none';
-      
-
-        if(response>0)
-        { 
-       SuccessToast('Successfully Locked');
-        select_mst();
-        }
-        else
-        {
-          ErrorToast('Unable to Lock',"bg-danger" );
-        }
-      }
-  });
-}
-
-
-function  unlocklockallpractical()
-{
-
-  var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-  var idNos=document.getElementsByClassName('IdNos');
-
-  var pid_length= idNos.length; 
- 
-
-  var pid_data=[];
-  
-    for(i=0;i<pid_length;i++)
-     {
-        pid_data.push(idNos[i].value);
-     }
-code=265;
-  $.ajax({
-    url:'action.php',
-    type:'post',
-    data:{code:code,pid_data:pid_data,pid_length:pid_length},
-
-    success:function(response)
-    {
-      console.log(response);
- spinner.style.display='none';
-      
-
-        if(response>0)
-        { 
-       SuccessToast('Successfully Unlocked');
-        select_mst();
-        }
-        else
-        {
-          ErrorToast('Unable to Lock',"bg-danger" );
-        }
-      }
-  });
-}
-
-
-
-
-
-
-
-
-
-function unlockpending()
-{
-
-  var examination=document.getElementById('Examination').value;
-  var ecat=document.getElementById('ecat').value;
-   var semester=document.getElementById('Semester').value;
-
- if(examination!='' && ecat!='' && semester!='')
- {
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,ecat:ecat,semester:semester,code:'216'
-      },
-      success:function(response)
-      {
-
-        if(response>0)
-        { 
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-        }
-        else
-        {
-          ErrorToast('Unable to Unlock',"bg-danger" );
-        }
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution and Semester',"bg-danger" );
-}
-}
-
-//Semester unlock
-
-function unlockSemester()
-{
-  var college=document.getElementById('College').value;
-  var course=document.getElementById('Course').value;
-  var examination=document.getElementById('Examination').value;
-  var batch=document.getElementById('Batch').value;
-  var semester=document.getElementById('Semester').value;
-  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
-  var len_distribution= distributiontheory.length;
-  var distributiontheory_str=[];
-    for(i=0;i<len_distribution;i++)
-     {
-      if(distributiontheory[i].checked===true)
-       {
-        distributiontheory_str.push(distributiontheory[i].value);
-        }
-     }
-if(typeof  distributiontheory_str[0]== 'undefined') 
-  {
-    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
-  }
-  else{   
-
-  if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
- {
-  alert(distributiontheory_str[0]);
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,code:'217'
-      },
-      success:function(response)
-      {
-
- 
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-       
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
-}
-}
-}
-
-function unlockSemesterpending()
-{
-  var college=document.getElementById('College').value;
-  var course=document.getElementById('Course').value;
-  var examination=document.getElementById('Examination').value;
-  var batch=document.getElementById('Batch').value;
-  var semester=document.getElementById('Semester').value;
-  var distributiontheory=document.getElementsByClassName('semesterwisetheory');
-  var len_distribution= distributiontheory.length;
-  var distributiontheory_str=[];
-    for(i=0;i<len_distribution;i++)
-     {
-      if(distributiontheory[i].checked===true)
-       {
-        distributiontheory_str.push(distributiontheory[i].value);
-        }
-     }
-if(typeof  distributiontheory_str[0]== 'undefined') 
-  {
-    ErrorToast('Please select atleast one theory distribution',"bg-danger" );
-  }
-  else{   
-
-  if(examination!='' && batch!='' && semester!='' && college!='' && course!='')
- {
-  alert(distributiontheory_str[0]);
- $.ajax({
-      url:'action.php',
-      type:'post',
-      data:{
-        examination:examination,college:college,course:course,batch:batch,semester:semester,distributiontheory_str:distributiontheory_str,code:'218'
-      },
-      success:function(response)
-      {
-    
-       SuccessToast('Successfully Unlocked'+"&nbsp;&nbsp;"+semester+"&nbsp;&nbsp;"+ecat+"&nbsp; of &nbsp;"+examination);
-       
-      }
-    });
-}
-else
-{
-
-   ErrorToast('Select Examination , Theory Distibution,Batch,College and Semester',"bg-danger" );
-}
-}
-}
-
-
-
-
-
-
-
-</script>
-
-<div>
+   <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" >
+     <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Exam From Submit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body" id="edit_stu">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div
     <?php include "footer.php";  ?>
