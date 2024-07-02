@@ -2,8 +2,8 @@
 session_start();
 include_once("connection/connection.php");
 $status=0;
-    $email_id = $_POST['email_id'];
-    $username = $_POST['username'];
+    $email_id = $_REQUEST['email_id'];
+    $username = $_REQUEST['username'];
    $sql = "SELECT * FROM Staff WHERE IDNo = '$username' and EmailID = '$email_id' and JobStatus='1' ";
    $result=sqlsrv_query($conntest,$sql);
      $stmt4=sqlsrv_query($conntest,$sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));  
