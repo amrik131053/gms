@@ -26099,7 +26099,7 @@ if($ifexitIDNoAdhaar<1)
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
 {    
-    $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
+     $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
  VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
  if ($newAdmissionInsertRun === false) {
