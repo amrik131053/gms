@@ -4,14 +4,15 @@ include_once("connection/connection.php");
 $status=0;
     $email_id = $_REQUEST['email_id'];
     $username = $_REQUEST['username'];
-   $sql = "SELECT * FROM Staff WHERE IDNo = '$username' and EmailID = '$email_id' and JobStatus='1' ";
+   $sql = "SELECT * FROM Admissions WHERE (IDNo = '$username' or UniRollNo='$username' or ClassRollNo='$username') and EmailID='$email_id' and Status='1' ";
    $result=sqlsrv_query($conntest,$sql);
      $stmt4=sqlsrv_query($conntest,$sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));  
       $ifexist=sqlsrv_num_rows($stmt4);
 		if ($ifexist>0) {
 			while ($row = sqlsrv_fetch_array($result)) {
-				$receviername = $row['Name'];
+				$receviername = $row['StudentName'];
 				$recevieremail = $row['EmailID'];
+				$IDNo = $row['IDNo'];
 			}
 			$status = 1;
 		}
@@ -21,7 +22,7 @@ $status=0;
     }
         if($status == 1)
 		{
-			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$username' and ApplicationName='Campus'";
+			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$IDNo' and ApplicationName='Campus'";
 			$userdeptres = sqlsrv_query($conntest, $userdeptqry);
 			$userdeptdata = sqlsrv_fetch_array($userdeptres);
 			$password  = $userdeptdata['Password']; 
