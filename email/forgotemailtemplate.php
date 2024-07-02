@@ -19,13 +19,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--<![endif]-->
     <title></title>
-
     <style type="text/css">
     @media only screen and (min-width: 620px) {
         .u-row {
             width: 600px !important;
         }
-
         .u-row .u-col {
             vertical-align: top;
         }
@@ -282,8 +280,7 @@
                                                                     <?=$receviername;?><br /><br />We have received your
                                                                     request for a your password . As per your request,
                                                                     here are the login credentials for your
-                                                                    account:</p><br /><br /><strong>Employee
-                                                                    ID:</strong>
+                                                                    account:</p><br /><br /><strong>UserName:</strong>
                                                                 <?=$username;?></p>
                                                                 <p style="line-height: 140%;"><strong>Password:</strong>
                                                                     <?=$password;?></p>
