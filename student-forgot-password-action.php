@@ -12,6 +12,7 @@ $status=0;
 			while ($row = sqlsrv_fetch_array($result)) {
 				$receviername = $row['StudentName'];
 				$recevieremail = $row['EmailID'];
+				$IDNo = $row['IDNo'];
 			}
 			$status = 1;
 		}
@@ -21,7 +22,7 @@ $status=0;
     }
         if($status == 1)
 		{
-			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$username' and ApplicationName='Campus'";
+			$userdeptqry = "SELECT Password  FROM UserMaster where UserName='$IDNo' and ApplicationName='Campus'";
 			$userdeptres = sqlsrv_query($conntest, $userdeptqry);
 			$userdeptdata = sqlsrv_fetch_array($userdeptres);
 			$password  = $userdeptdata['Password']; 
