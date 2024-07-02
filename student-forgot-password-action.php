@@ -4,7 +4,7 @@ include_once("connection/connection.php");
 $status=0;
     $email_id = $_REQUEST['email_id'];
     $username = $_REQUEST['username'];
-   $sql = "SELECT * FROM Admissions WHERE (IDNo = '$username' or UniRollNo='$username' or ClassRollNo='$username') and Status='1' ";
+   $sql = "SELECT * FROM Admissions WHERE (IDNo = '$username' or UniRollNo='$username' or ClassRollNo='$username') and EmailID='$email_id' and Status='1' ";
    $result=sqlsrv_query($conntest,$sql);
      $stmt4=sqlsrv_query($conntest,$sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));  
       $ifexist=sqlsrv_num_rows($stmt4);

@@ -280,7 +280,7 @@
                                                                     <?=$receviername;?><br /><br />We have received your
                                                                     request for a your password . As per your request,
                                                                     here are the login credentials for your
-                                                                    account:</p><br /><br /><strong>UserName:</strong>
+                                                                    account:</p></br></br><strong>UserName:</strong>
                                                                 <?=$username;?></p>
                                                                 <p style="line-height: 140%;"><strong>Password:</strong>
                                                                     <?=$password;?></p>
