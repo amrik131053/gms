@@ -492,13 +492,11 @@ else
         $x = 79;
         
         for($key=$pagetwo;$key<$pagethree;$key++)
-        
          {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
         $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
         $x += 19.3; 
-
     }
    
     $pdf->SetFont('Arial', 'b', 10);
