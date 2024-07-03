@@ -177,7 +177,7 @@ $pdf->multicell(190, 5,"I have read all the regulations and it's amendments in r
 $YBottom=$pdf->GETY();
 $pdf->SetXY(10,$YBottom+5);
 $pdf->SetFont('Arial', 'B', 10);
-$imageUrl = 'http://10.0.10.11/images/signature/'.$IDNo.'.PNG';
+$imageUrl = 'http://erp.gku.ac.in:86/images/signature/'.$IDNo.'.PNG';
 if($imageUrl!=''){
 $type = pathinfo($imageUrl, PATHINFO_EXTENSION);
 $data = file_get_contents($imageUrl);
