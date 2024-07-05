@@ -148,6 +148,7 @@ function view_image(id) {
                         }
                      });
                   }
+
  function uploadImage(form, id) {
 var formData = new FormData(form);
 $.ajax({

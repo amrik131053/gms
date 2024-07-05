@@ -338,17 +338,6 @@ $.ajax({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 function bg(id) {
 $('.btn').removeClass("bg-success");
 $('#' + id).toggleClass("bg-success");
@@ -440,7 +429,7 @@ function view_image(id) {
                            code: code
                         },
                         success: function(response) {
-                        //    console.log(response);
+                            console.log(response);
                            document.getElementById("image_view").innerHTML = response;
                         }
                      });
@@ -512,7 +501,7 @@ document.getElementById('upload_date').value = upload_;
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" id="image_view">
+                <div class="row" id="image_view">22
                 </div>
             </div>
             <div class="modal-footer">
