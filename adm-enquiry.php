@@ -10,7 +10,7 @@
                 <div class="card card-info">
                     <div class="card-header ">
                         <h3 class="card-title">Enquiry</h3>
-
+                    
                     </div>
                     <div class="card-body table-responsive  ">
                         <div class="row" style="min-height:400px;">
@@ -77,8 +77,51 @@
             <div class="col-lg-9 col-md-9 col-sm-9">
                 <div class="card card-info">
                     <div class="card-header ">
-                        <h3 class="card-title">Enquiry Data</h3>
+                        <div class="col-lg-2">
+                            <h3 class="card-title">Enquiry Data</h3>
+                               
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="card-tools">
+                                    <div class="row">
+                                        <!-- <div class="col-lg-3">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" id="userId"
+                                                    placeholder="Employee ID / Roll Number"
+                                                    aria-describedby="button-addon2">
+                                                <button class="btn btn-info btn-sm" type="button" id="button-addon2"
+                                                    onclick="searchUser()"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-8">
 
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <!-- <form action="adm-enquiry-report-print.php" method="post" -->
+                                                <!-- target="_blank"> -->
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-danger"
+                                                            id="inputGroup-sizing-sm">Start</span>
+                                                    </div>
+                                                    <input required type="date" class="form-control"
+                                                        name="startDate" id="startDate" aria-describedby="button-addon2">
+                                                    &nbsp;
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-success"
+                                                            id="inputGroup-sizing-sm">End</span>
+                                                    </div>
+                                                    <input required type="date" class="form-control"
+                                                        name="endDate" id="endDate" aria-describedby="button-addon2">
+                                                    <button class="btn btn-info btn-sm" onclick="exportData();" type="button"
+                                                        id="StartD"><i class="fa fa-file-export"></i></button>
+                                                </div>
+                                            <!-- </form> -->
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <div class="card-body table-responsive  ">
                         <div class="row">
@@ -114,6 +157,16 @@
 </section>
 <p id="ajax-loader"></p>
 <script>
+    function exportData() {
+    var exportCode = 69;
+    var startDate = document.getElementById('startDate').value;
+    var endDate = document.getElementById('endDate').value;
+    if (startDate != '' && endDate != '') {
+        window.open("export.php?exportCode=" + exportCode + "&from=" + startDate + "&to=" + endDate, '_blank');
+    } else {
+        ErrorToast('All input required','bg-warning');
+    }
+}
     function ShowDivSource(id)
 {
    // alert(id);
