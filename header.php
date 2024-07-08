@@ -198,12 +198,35 @@ window.location.href = "index.php";
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-
+<style>  
+        #blink { 
+            font-size: 15px; 
+            font-family: serif; 
+            color: red; 
+            text-align: center; 
+            animation: animate  
+                1.5s linear infinite; 
+        } 
+        @keyframes animate { 
+            0% { 
+                opacity: 0; 
+            } 
+  
+            50% { 
+                opacity: 1; 
+            } 
+  
+            100% { 
+                opacity: 0; 
+            } 
+        } 
+    </style> 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
+
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -234,7 +257,7 @@ window.location.href = "index.php";
         <i class="fa fa-users" aria-hidden="true"></i>
           <span class="badge badge-danger navbar-badge" id="countOnlineUsers"></span>
         </a> -->
-                </li>
+                <!-- </li> -->
                 <li class="nav-item" id="error" style="z-index: 999;  max-height: 10px !important;padding-right: 10px;">
                 </li>
                 <li class="nav-item dropdown">
@@ -294,9 +317,11 @@ window.location.href = "index.php";
                         </li>
                     </ul>
                 </li>
+
             </ul>
 
         </nav>
+
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #223260;">
@@ -422,8 +447,9 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <br>
+              <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
+                <small id="blink" ><marquee><b>Download Our Android App on Google PlayStore<b></marquee></small>
+                </a>
             <p id="ajax-loader"></p>
 
             <?php  }?>
