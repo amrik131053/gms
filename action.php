@@ -14317,7 +14317,7 @@ elseif($code==221)
    
      
                
-                 $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
+                  $degree="SELECT * FROM degree_print where StudentName like '%$by_search%' or UniRollNo like '%$by_search%' order by Id ASC "; 
               
                   $degree_run=mysqli_query($conn,$degree);
                   $srNo=1;
@@ -14342,7 +14342,7 @@ elseif($code==221)
                <tr>
                <td><input type="checkbox" class="checkbox form-control v_check" value="<?=$degree_row['id'];?>"></td>
                    <td><?=$srNo;?></td>
-                   <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$UniRollNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                   <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row_pending['IDNo'];?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
                    <td><?=$StudentName;?></td>
                    <td><?=$FatherName;?></td>
                    <td><?=$degree_row['Examination'];?></td>

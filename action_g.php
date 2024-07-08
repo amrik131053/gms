@@ -5345,10 +5345,9 @@ if ($check_flow_row['status']<4) {
       }
       mysqli_close($conn);
          } 
-               elseif($code==78)
+    elseif($code==78)
       {
          $up_date=$_POST['upload_date'];
-        //  $by_search=$_POST['by_search'];
          $by_search_college=$_POST['by_search_college'];
          $by_search_StreamName=$_POST['by_search_StreamName'];
                  if ($by_search_college!='' && $by_search_StreamName!='')
@@ -5388,7 +5387,7 @@ if ($check_flow_row['status']<4) {
                   <tr>
                   <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
                       <td><?=$srNo;?></td>
-                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?></b></td>
+                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'].'<br>('.$row_pending['IDNo'];?>)</b></td>
                       <td><?=$StudentName;?></td>
                       <td><?=$FatherName;?></td>
                       <td><?=$degree_row['Examination'];?></td>
