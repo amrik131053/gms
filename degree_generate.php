@@ -429,7 +429,7 @@ function view_image(id) {
                            code: code
                         },
                         success: function(response) {
-                            console.log(response);
+                        //    console.log(response);
                            document.getElementById("image_view").innerHTML = response;
                         }
                      });

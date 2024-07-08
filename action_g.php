@@ -5868,7 +5868,7 @@ $QrCourse=$Course.'('.$Stream.')';
  elseif($code==91)
  {
 $UniRollNo=$_POST['uni'];
-      $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where UniRollNo='$UniRollNo'";
+      $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
 
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
@@ -5916,7 +5916,7 @@ $UniRollNo=$_POST['uni'];
  {
  
    $UniRollNo=$_POST['unirollno'];
-  $get_student_details="SELECT IDNo FROM Admissions where UniRollNo='$UniRollNo'";
+  $get_student_details="SELECT IDNo FROM Admissions where IDNo='$UniRollNo'";
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
