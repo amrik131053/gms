@@ -28,7 +28,7 @@ function checkall()
                var spinner=document.getElementById("ajax-loader");
      spinner.style.display='block';
      // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-     var code=204;
+     var code=377;
            $.ajax({
               url:'action.php',
               type:'POST',
@@ -72,12 +72,12 @@ function sub_code_int_ext_type_update(id)
               },
               success: function(response) 
               {
-                console.log(response);
+               
                spinner.style.display='none';
                   if (response=='1')
                            {
                            SuccessToast('Successfully Updated');
-                          Search_exam_student();
+                         Search_exam_student_open();
                            }
                           else
                            {
@@ -88,7 +88,7 @@ function sub_code_int_ext_type_update(id)
            });
 
   }
-}    
+}     
 
    function receipt_date_no_update(id)
            {
@@ -118,7 +118,7 @@ function sub_code_int_ext_type_update(id)
                   if (response=='1')
                            {
                            SuccessToast('Successfully Updated');
-                          Search_exam_student();
+                         Search_exam_student_open();
                            }
                           else
                            {
@@ -158,7 +158,7 @@ function sub_code_int_ext_type_update(id)
                   if (response=='1')
                            {
                            SuccessToast('Successfully Update');
-                           Search_exam_student();
+                          Search_exam_student_open();
                           }
                           else
                           {
@@ -195,18 +195,14 @@ function sub_code_int_ext_type_update(id)
               },
               success: function(response) 
               {
-               console.log(response);
+              
                spinner.style.display='none';
                   if (response=='1')
                            {
                            SuccessToast('Successfully deleted');
-                           Search_exam_student();
-                          
-
+                          Search_exam_student_open();
                            edit_stu(nid);
-
-
-                          }
+                           }
                           else
                           {
                            ErrorToast('Input Wrong ','bg-danger' );
@@ -394,7 +390,7 @@ for($i=1;$i<=12;$i++)
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
-            <button class="btn btn-danger" onclick="Search_exam_student()"><i  class="fa fa-search" ></i></button>
+            <button class="btn btn-danger" onclick="Search_exam_student_open();"><i  class="fa fa-search" ></i></button>
 
 </div>
 
@@ -433,7 +429,7 @@ for($i=1;$i<=12;$i++)
    
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Students</h3>
+                <h3 class="card-title">Subjects</h3>
               </div>
         
              <!--  <form class="form-horizontal" action="" method="POST"> -->
