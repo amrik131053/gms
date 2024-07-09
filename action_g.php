@@ -31390,6 +31390,254 @@ elseif ($code == 442)
   <?php
     }
 }
+
+elseif($code==443)  // search student  for unlock lock
+{
+    $search = $_POST['empID'];
+    $code_access = $_POST['code_access'];
+    ?>
+    <table class="table " id="example">
+                <thead>
+                    <tr>
+                    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Session</th>
+                        <th>IDNo</th>
+                        <th>ClassRoll/UniRollNo</th>
+                        <!-- <th>UniRollNo</th> -->
+                        <th>Name</th>
+                        <th>FatherName</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                      
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+      $sr=1;
+
+   
+      $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+   
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+                    <tr>
+                    <td><input type="checkbox" class="checkbox v_check" value="<?=$row['IDNo'];?>"></td>
+                        <td><?=$sr;?></td>
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                </td>
+                        <td><?=$row['Session'];?></td>
+                        <td><?=$row['IDNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                        <!-- <td><?=$row['UniRollNo'];?></td> -->
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['FatherName'];?></td>
+                        <td><?=$row['CollegeName'];?></td>
+                        <td><?=$row['Course'];?></td>         
+                        <td><?php if($row['Locked']=='' || $row['Locked']=='0'){echo "<i class='fa fa-lock-open text-success' aria-hidden='true' onclick='lockUser(".$row['IDNo'].",1)'></i>";}else{echo "<i class='fa fa-lock text-danger' aria-hidden='true' onclick='unlockUser(".$row['IDNo'].",1)'></i>";};?>
+                        </td>
+                    </tr>
+                    <?php $sr++;
+
+}
+?>
+<tr>
+    <td colspan="9"><button type="button" class="btn btn-success" onclick="lockedUnlockAll('0','1');">Unlock</button></td>
+    <td colspan="10"><button type="button" class="btn btn-danger" onclick="lockedUnlockAll('1','1');">Lock</button></td>
+</tr>
+                </tbody>
+            </table>
+    <?php 
+    sqlsrv_close($conntest);
+
+}
+elseif($code==444)  // search student 
+{
+    $StudentName = $_POST['StudentName'];
+    $Session = $_POST['Session'];
+    $CollegeID = $_POST['CollegeName'];
+    $CourseID = $_POST['Course'];
+    $Batch = $_POST['Batch'];
+    $Status = $_POST['Status'];
+    $Eligibility = $_POST['Eligibility'];
+    $LateralEntry = $_POST['LateralEntry'];
+?>
+
+
+            <table class="table " id="example">
+                <thead>
+                    <tr>
+                    <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Session</th>
+                        <th>IDNo</th>
+                        <th>ClassRoll/UniRollNo</th>
+                        <!-- <th>UniRollNo</th> -->
+                        <th>Name</th>
+                        <th>FatherName</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                      
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+      $sr=1;
+
+   
+      $query = "SELECT  *  from Admissions  WHERE 1 = 1";
+
+      if ($CollegeID != '') {
+          $query .= " AND  CollegeID='$CollegeID'";
+      }
+      
+      if ($CourseID != '') {
+          $query .= " AND  CourseID ='$CourseID'";
+      }
+      
+      if ($Batch != '') {
+          $query .= " AND  Batch='$Batch'";
+      }
+      
+      if ($Status != '') {
+          $query .= " AND  Status='$Status'";
+      }
+      
+      if ($Session != '') {
+          $query .= " AND  Session='$Session'";
+      }
+      if ($Eligibility != '') {
+          $query .= " AND  Eligibility='$Eligibility'";
+      }
+      if ($StudentName != '') {
+        $query .= " AND  StudentName like '%$StudentName%'";
+    }
+
+    if ($LateralEntry != '') {
+    $query .= "AND  LateralEntry='$LateralEntry' order by ClassRollNo";
+    }
+
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+                    <tr>
+                    <td><input type="checkbox" class="checkbox v_check" value="<?=$row['IDNo'];?>"></td>
+                        <td><?=$sr;?></td>
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                </td>
+                        <td><?=$row['Session'];?></td>
+                        <td><?=$row['IDNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                        <!-- <td><?=$row['UniRollNo'];?></td> -->
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['FatherName'];?></td>
+                        <td><?=$row['CollegeName'];?></td>
+                        <td><?=$row['Course'];?></td>         
+                        <td><?php if($row['Locked']=='' || $row['Locked']=='0'){echo "<i class='fa fa-lock-open text-success' aria-hidden='true' onclick='lockUser(".$row['IDNo'].",0)'></i>";}else{echo "<i class='fa fa-lock text-danger' aria-hidden='true' onclick='unlockUser(".$row['IDNo'].",0)'></i>";};?>
+                        </td>
+                    </tr>
+                    <?php $sr++;
+
+}
+?>
+<tr>
+    <td colspan="9"><button type="button" class="btn btn-success" onclick="lockedUnlockAll('0','0');">Unlock</button></td>
+    <td colspan="10"><button type="button" class="btn btn-danger" onclick="lockedUnlockAll('1','0');">Lock</button></td>
+</tr>
+                </tbody>
+            </table>
+            <?php 
+            sqlsrv_close($conntest);        
+}
+else if($code==445)
+{
+    $EmpIDs=$_POST['id'];
+     $UpdateRole="UPDATE Admissions SET Locked='1' Where IDNo='$EmpIDs'";
+    $UpdateRoleRun=sqlsrv_query($conntest,$UpdateRole);
+    if ($UpdateRoleRun==true) 
+    {
+        $desc= "UPDATE  Admissions  SET Locked:'Lock',UpdateDate: ".$timeStampS;
+        $update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmpIDs','$desc','$EmployeeID','$timeStamp')";
+    echo "1";
+    }
+    else
+    {
+    echo "0";
+    }
+    sqlsrv_close($conntest);
+}
+else if($code==446)
+{
+    $EmpIDs=$_POST['id'];
+     $UpdateRole="UPDATE Admissions SET Locked='0' Where IDNo='$EmpIDs'";
+    $UpdateRoleRun=sqlsrv_query($conntest,$UpdateRole);
+    if ($UpdateRoleRun==true) 
+    {
+        $desc= "UPDATE  Admissions  SET Locked:'UnLock',UpdateDate: ".$timeStampS;
+        $update1="insert into logbook(userid,remarks,updatedby,date)Values('$EmpIDs','$desc','$EmployeeID','$timeStamp')";
+       $update_query=sqlsrv_query($conntest,$update1);
+    echo "1";
+    }
+    else
+    {
+    echo "0";
+    }
+    sqlsrv_close($conntest);
+}
+elseif($code==447)
+{
+  $ids=$_POST['subjectIDs'];
+  $status=$_POST['status'];
+  foreach($ids as $key => $id)
+  {
+       $getDefalutMenu="UPDATE Admissions SET Locked='$status' Where IDNo='$id'";
+        $getDefalutMenuRun=sqlsrv_query($conntest,$getDefalutMenu); 
+        $desc= "UPDATE  Admissions  SET Locked: $status,UpdateDate: ".$timeStampS;
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+  }
+  if ($getDefalutMenuRun==true) {
+     echo "1";
+  }
+  else
+  {
+     echo "0";
+  }
+  sqlsrv_close($conntest);
+}
    else
    {
    
