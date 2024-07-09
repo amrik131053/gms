@@ -338,17 +338,6 @@ $.ajax({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 function bg(id) {
 $('.btn').removeClass("bg-success");
 $('#' + id).toggleClass("bg-success");
@@ -430,7 +419,7 @@ $.ajax({
 
 }
 function view_image(id) {
-    // alert(id);
+    alert(id);
                      var code = 91;
                      $.ajax({
                         url: 'action_g.php',
@@ -512,7 +501,7 @@ document.getElementById('upload_date').value = upload_;
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" id="image_view">
+                <div class="row" id="image_view">22
                 </div>
             </div>
             <div class="modal-footer">

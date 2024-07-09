@@ -17,8 +17,34 @@ else
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <link rel="stylesheet" href="dist/css/index-page.css">
-</head>
 
+</head>
+  <style>  
+  
+  
+        #blink { 
+            font-size: 20px; 
+            font-family: serif; 
+            color: #008000; 
+            text-align: center; 
+            animation: animate  
+                1.5s linear infinite; 
+        } 
+  
+        @keyframes animate { 
+            0% { 
+                opacity: 0; 
+            } 
+  
+            50% { 
+                opacity: 1; 
+            } 
+  
+            100% { 
+                opacity: 0; 
+            } 
+        } 
+    </style> 
 <body class="hold-transition lockscreen"
     style="background-image: url('dist/img/slider-img01.jpg') !important;   background-repeat: no-repeat !important; background-size: cover !important;">
     <br>
@@ -79,9 +105,11 @@ include "fastival.php";
                     unset($_SESSION['not_valid']);
                 ?></center>
                     <center>
-                        <p style="margin-top:30px;color:#223260;">For any technical support, please contact
+                        <p style="margin-top:10px;color:#223260;">For any technical support, please contact
                             <br><b>78146-79220</b>
+                            
                         </p>
+                        <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share"><small id="blink" ><marquee><b>Download Our Android App on Google PlayStore<b></marquee></small></a>
                     </center>
                 </form>
             </div>
