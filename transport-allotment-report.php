@@ -3,7 +3,16 @@
    include "header.php";  
    include 'connection/connection.php';
    // include "connection/connection.php"; 
-
+   function getEmployeeName($emplid) 
+   {
+     include "connection/connection.php";
+     $getEmplyeeDetailsWithFunction="SELECT Name FROM Staff Where IDNo='$emplid'";
+     $getEmplyeeDetailsWithFunction_run=sqlsrv_query($conntest,$getEmplyeeDetailsWithFunction);
+     if ($getEmplyeeDetailsWithFunction_row=sqlsrv_fetch_array($getEmplyeeDetailsWithFunction_run,SQLSRV_FETCH_ASSOC)) {
+      echo  $getEmplyeeDetailsWithFunction_row['Name'];
+     }
+       
+    }
 if (isset($_POST['checkin_redy'])) {
   $intime=$_POST['intime'];
   $id=$_POST['id'];
@@ -61,6 +70,7 @@ if ($result)
                       <th>#</th>
                       <th>  Indenter Name</th>
                       <th> Type</th>
+                      <th> Driver</th>
                       <th>Date</th>
                       <th>Station</th>
                       <th>Purpose</th>
@@ -73,15 +83,16 @@ if ($result)
                   <tbody>
 
 <?php
-echo $ss=" SELECT  *,va.status as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.vehicle_number as vno
-FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_id   ORDER BY va.id DEsC  limit 50";
+ $ss=" SELECT  *,va.action as action1 ,va.id as idd, va.name as vaname, vd.name as vdname, vd.vehicle_number as vno,vd.name as VehicleName
+FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_id inner join vehicle_book_details vbd ON vbd.TokenNo=va.token_no  WHERE va.Status='5'  ORDER BY va.id DEsC  limit 20";
  $result = mysqli_query($conn,$ss);
                     $counter = 1;
                    while($row=mysqli_fetch_array($result))
                     {
+                      $aa[]=$row;
                         $id = $row['idd'];
-                        $subject = $row['app_sub'];
-                        $desc = $row['app_desc'];
+                        // $subject = $row['app_sub'];
+                        // $desc = $row['app_desc'];
 //    if ($desc==1)
 //      {
 // $typeofvehicle="VAN";
@@ -100,15 +111,15 @@ FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_
 //       $typeofvehicle="BUS";
 //     }
                         $action = $row['action1'];
-                        $name = $row['vaname'];
+                        // $name = $row['vaname'];
                         $vdname = $row['vdname'];
-                        $vehicletype = $row['vehicletype'];
-                         $submit_date1 = $row['submit_time'];
+                        $vehicletype = $row['VehicleName'];
+                         $submit_date1 = $row['submit_date_time'];
                          $submit_date=date("d-m-Y", strtotime($submit_date1));
-                          $rec_date = $row['attachment'];
-                           $end_date = $row['submit_date'];
+                          $rec_date = $row['station'];
+                           $end_date = $row['purpose'];
                              $vno = $row['vno'];
-                           $in_time1 = $row['in_time'];
+                           $in_time1 = $row['journey_start_date'];
                            if ($in_time1!='') {
                             $in_time= date("d-m-Y h:i:sa ", strtotime($in_time1));
                            }
@@ -116,7 +127,7 @@ FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_
                           {
                             $in_time="";
                           }
-                           $out_time1 = $row['out_time'];
+                           $out_time1 = $row['journey_end_date'];
                            if ($out_time1) {
                             $out_time= date("d-m-Y h:i:sa ", strtotime($out_time1));
                            }
@@ -125,7 +136,7 @@ FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_
                             $out_time="";
                            }
                             $intime = $row['status'];
-                              if($intime=='4')
+                              if($intime=='5')
                             {
                               $colr="";
                               $status1='Allotted';
@@ -151,8 +162,9 @@ FROM vehicle_allotment va INNER JOIN vehicle vd   ON vd.id = va.vehicle_alloted_
 
                         <tr class="" style="background:<?=$color;?>; color:<?=$cl;?>">
                         <td><?php echo $counter++; ?></td>
-                        <td><?php echo $name; ?></td>
+                        <td><?php echo $row['vaname']; ?></td>
                         <td><?php echo $vehicletype.' ('.$vdname; ?>) - (<?=$vno;?>)</td>
+                        <td><?php echo getEmployeeName($row['driver_id']);?>(<?=$row['driver_id'];?>)</td>
                         <td><?=$submit_date;?></td>
                         <td><?= $rec_date; ?></td>
                          <td><?= $end_date; ?></td>
@@ -175,7 +187,9 @@ Completed
                           
                         </td>
                         </tr>
-               <?php }?>
+               <?php }
+              //  print_r($aa);
+               ?>
              </tbody></table>
             </div>
          </div>
@@ -256,19 +270,19 @@ Completed
 </div>
 <script type="text/javascript">
   
-
   function checkin(id)
   {
-  var code=5;
+    // alert(id);
+  var code=11;
   var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
       document.getElementById("checkin_redy").innerHTML=xmlhttp.responseText;
-
+      console.log(responseText);
     }
     }
-  xmlhttp.open("GET", "../gkuadmin/transport/get_actions.php?id=" + id+"&code="+code, true);
+  xmlhttp.open("GET", "get_actions.php?id=" + id+"&code="+code, true);
     xmlhttp.send();
 // refreshPage();
 
@@ -279,7 +293,7 @@ Completed
 
 
 //alert(id);
-  var code=6;
+  var code=12;
   var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState==4 && xmlhttp.status==200)
@@ -287,7 +301,7 @@ Completed
       document.getElementById("checkin_in").innerHTML=xmlhttp.responseText;
     }
     }
-  xmlhttp.open("GET", "../gkuadmin/transport/get_actions.php?id=" + id+"&code="+code, true);
+  xmlhttp.open("GET", "get_actions.php?id=" + id+"&code="+code, true);
     xmlhttp.send();
 // refreshPage1();
   }
@@ -301,7 +315,7 @@ Completed
       document.getElementById("allotment_response1").innerHTML=xmlhttp.responseText;
     }
     }
-  xmlhttp.open("GET", "../gkuadmin/transport/get_actions.php?id=" + id+"&code="+code, true);
+  xmlhttp.open("GET", "get_actions.php?id=" + id+"&code="+code, true);
     xmlhttp.send();
 }
 
