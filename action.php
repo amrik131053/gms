@@ -13275,7 +13275,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
       
    </td>
 
-   <td colspan="1"><button type="button"  onclick="exam_type_update(<?=$formid;?>);"  class="btn btn-primary"><i class="fa fa-check"></i></button></td>
+   <td colspan="1">
+      <button type="button"  onclick="exam_type_update(<?=$formid;?>);"  class="btn btn-primary"><i class="fa fa-check"></i></button></td>
  </tr>
  <th colspan="1">Receipt Date:</th>
    <td colspan="4">
@@ -23615,6 +23616,237 @@ $marks=$_POST['marks'];
   } 
 sqlsrv_close($conntest);
 }
+
+  elseif($code==377)
+   {
+  $id = $_POST['id'];
+  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+  $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
+        $i = 1;
+        while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
+        {  
+             $IDNo=$row5['IDNo'];
+             $type=$row5['Type'];
+             $examination=$row5['Examination'];
+             $examinationss=$row5['Examination'];
+             $sgroup= $row5['SGroup'];
+             $receipt_date=$row5['ReceiptDate'];
+             $receipt_no=$row5['ReceiptNo'];
+             $formid=$row5['ID'];
+             if($receipt_date!='')
+             {
+              $rdateas=$receipt_date->format('Y-m-d');}
+           else
+            {
+              $rdateas='';        
+            } 
+       }
+ $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $img= $row6['Snap'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+
+?>
+
+
+
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  border="1">
+ <tr style="border: 1px black solid" height="30" >
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <input type="hidden" value="<?=$IDNo;?>" name="" id='userid'>
+ <td> <?php echo $UniRollNo;?>/<?php echo $ClassRollNo;?>  &nbsp;(<?=$IDNo;?>)</td>
+ <td colspan="1"><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+ <td rowspan="3" colspan="2" style="border:0">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+             </td>
+ </tr>
+ <tr style="border: 1px black solid"height="30">
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td colspan="1"><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+ </tr>
+ <tr style="border: 1px black solid"height="30"  >
+   <td style="padding-left: 10px"><b>Examination :</b></td>
+   <td colspan="1">
+       <select  id="examination_" class="form-control" required="">
+                 <option value="<?=$examination;?>"><?=$examination;?></option>
+                       <?php
+   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $examination = $row1['Examination'];  
+    ?>
+<option  value="<?=$examination;?>"><?= $examination;?></option>
+<?php    }
+?>
+              </select>
+
+
+
+      <?php ?>
+         
+
+      </td>
+
+   <td><b>Type:</b></td>
+   <td colspan="3">
+             <select  id="type_" class="form-control" required="">
+                 <option value="<?=$type;?>"><?=$type;?></option>
+                       <?php
+   $sql="SELECT DISTINCT Type from ExamForm Order by Type ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $type = $row1['Type'];  
+    ?>
+<option  value="<?=$type;?>"><?= $type;?></option>
+<?php    }
+?>
+              </select>
+
+<br>
+              
+               <select  id="sgroup_" class="form-control" required="">
+
+                 <option value="<?=$sgroup;?>"><?=$sgroup;?></option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $Sgroup = $row1['Sgroup'];  
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+?>
+              </select>
+
+
+      
+   </td>
+
+  
+ </tr>
+ 
+
+</table>
+<table class="table table-striped" border="1">
+<tr>
+   <th>SrNo</th>
+  <th>Subject Name</th>
+  <th width="12%">Subject Code</th>
+  <th width="8%">Int</th>
+  <th width="8%">Ext</th>
+  <th width="8%">Type</th>
+  <!-- <th width="7%">Int Marks</th>
+  <th width="7%">Ext Marks</th> -->
+  <th width="7%">Action</th>
+</tr>
+
+
+<?php 
+
+ $amrik = "SELECT * FROM ExamFormSubject where Examid='$id' order by ExternalExam DESC";  
+$list_resultamrik = sqlsrv_query($conntest,$amrik);  
+if($list_resultamrik === false) 
+{
+    die( print_r( sqlsrv_errors(), true) );
+}
+$sr=0;
+while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
+         { $sr++;
+            ?>
+
+         <tr>
+            <td width="10"><?=$sr;?></td>
+            <?php if($examinationss<>$row7['Examination'])
+            {               $color="#ed040491";      }else $color='';
+  ?>
+  <td colspan="1" style="background-color: <?=$color;?>">
+   <input   class="form-control"  type="text" id="<?=$row7['ID'];?>_subname"  value="<?= $row7['SubjectName'];?>">
+
+</td>
+   <td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>">
+   </td>
+  <td>
+    <select  id="<?=$row7['ID'];?>_Int"  class="form-control" >
+      <option><?=$row7['InternalExam'];?></option>
+    <option value="Y">Y</option>
+    <option value="N">N</option>
+  </select></td>
+  <td>
+      <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" >  
+      <option><?php echo $row7['ExternalExam'];?></option>
+    <option value="Y">Y</option>
+    <option value="N">N</option>
+  </select>
+  </td>
+  <td>
+      <select  id="<?=$row7['ID'];?>_subtype"  class="form-control" >
+      <option><?=$row7['SubjectType'];?></option>
+      <option value="T">T</option>
+      <option value="P">P</option>
+      <option value="TP">TP</option>
+      <option value="O">O</option>
+      <option value="M">M</option>
+     </select>
+  </td>
+  <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['intmarks']; ?>" id="<?=$row7['ID'];?>_intmarks">
+    
+  
+  <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['extmarks']; ?>" id="<?=$row7['ID'];?>_extmarks">
+  
+       <td>
+  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> <br>
+<br>
+  
+
+
+
+</td>
+
+
+
+
+<p id="resuccess"></p>
+
+
+</tr>
+
+
+         <?php }
+         ?>
+</table>
+</div>
+
+
+
+
+
+
+         <?php 
+         sqlsrv_close($conntest);
+   }
  else
 {
 echo "select code";

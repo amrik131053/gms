@@ -169,7 +169,7 @@ function collegeByDepartment(College) {
 
 }
 
-function oldAdmission() {
+function oldAdmission() {  
     var code = 349;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -217,6 +217,7 @@ function searchStudentOnRollNo() {
             },
             type: 'POST',
             success: function(response) {
+              
                 spinner.style.display = 'none';
                 var data = JSON.parse(response);
                 document.getElementById("Nationality").value = data[0];

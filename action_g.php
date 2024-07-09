@@ -26191,7 +26191,7 @@ sqlsrv_close($conntest);
 mysqli_close($conn);
 }
 elseif($code==358)
-{
+{ 
     $IDNo=$_POST['IDNo'];
     $AdharCardNo="";
     // $ClassRollNo=$_POST['ClassRollNo'];
@@ -26531,7 +26531,7 @@ elseif($code==360)
 elseif($code==361)
 {
     $rollNo = $_POST['rollNo'];
-    $list_sql = "SELECT  * FROM Admissions  where  (UniRollNo='$rollNo' or ClassRollNo='$rollNo') ";
+    $list_sql = "SELECT  * FROM Admissions  where  (UniRollNo='$rollNo' or ClassRollNo='$rollNo')";
        $getIDStudent= sqlsrv_query($conntest,$list_sql);
         if($getRefStudent = sqlsrv_fetch_array($getIDStudent, SQLSRV_FETCH_ASSOC) )
     { 

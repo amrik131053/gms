@@ -3555,7 +3555,7 @@ if($list_result === false) {
 }
 ?>
 <table class="table"><tr>
-   <th>sSelect</th><th>SrNo</th> <th>Code</th>
+   <th>Select</th><th>SrNo</th> <th>Code</th>
     <th>Subject Name</th></tr>
    
    <?php 
@@ -6596,7 +6596,141 @@ else if ($code == 59) {
      
    }
 }
+  elseif ($code==60)
+     {
+$College = $_GET['College'];
+$Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+  $Type = $_GET['Type'];
+    $Group = $_GET['Group'];
+        $Examination = $_GET['Examination'];
 
+
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    // die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th><input type="checkbox" id="select_all" onclick="selectAll()">
+  </th> </th><th>SrNo</th> <th>Uni RollNo</th>
+    <th>Name</th><th>Course</th><th>Sem</th></tr>
+   <tr>
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        { 
+
+          $Status= $row['Status'];
+
+          $issueDate=$row['SubmitFormDate'];
+                echo "<tr>";
+               echo "<td><input type='checkbox' name='check[]' id='check' value='".$row['ID']."' class='checkbox' ></td>";
+                echo "<td>".$count++."</td>";
+                // echo "<td>".$row['ID']."</td>";
+                ?><td>
+                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></b>
+
+             </td><td>
+                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a></b>
+
+             </td>
+
+                  <?php 
+                echo "<td>".$row['Course']."</td>";
+                echo "<td>".$row['Semesterid']."</td>";
+                  echo "<tr>";
+
+
+}
+
+
+?>
+</tr></table>
+
+
+<?php 
+
+
+ }
+
+ elseif ($code==61) {
+
+  $College = $_GET['College'];
+$Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+
+    $Group = $_GET['Group'];
+      
+
+    ?>
+
+<tr> <td colspan="4"><h2> Open Elective</h2></td></tr>
+<?php 
+//CollegeID!='$College' AND
+$list_sql = "Select * from MasterCourseStructure where  Batch='$Batch'ANd SemesterID='$Semester'  AND Elective='O'";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th>Select</th><th>SrNo</th> <th>Code</th>
+    <th>Subject Name</th></tr>
+   
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        {?>
+
+         
+             
+             <tr>
+            
+            <td><input type='radio' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
+             
+             <td><?=$count++;?></td>
+             
+                <td>
+                <?=$row['SubjectCode'];?></td>
+                  <td><?= $row['SubjectName'];?></td>
+             
+               
+               </tr>
+
+
+
+               
+
+<?php
+}
+
+
+
+
+?>
+<tr><td colspan="4" style="text-align: center;"><input type="button" name="add_subject"  onclick="add_subject_examform()" value="Add Subject" class="btn btn-primary btn-xs"></td></tr>
+</table>
+
+
+<?php 
+
+
+ }
 
 
 

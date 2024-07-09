@@ -85,6 +85,53 @@ Examination_Subjects();
 }
 
 
+function Search_exam_student_open()
+{
+
+var code=60;
+var College=document.getElementById("College").value;
+var Course=document.getElementById("Course").value;
+var Batch=document.getElementById("Batch").value;
+var Semester=document.getElementById("Semester").value;
+var Type=document.getElementById("Type").value;
+var Group=document.getElementById("Group").value;
+var Examination=document.getElementById("Examination").value;
+
+ // if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
+ // {
+
+ //x.style.display = "block";
+var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+     
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+
+          //x.style.display = "none";
+          spinner.style.display='none';
+          document.getElementById("live_data_Exam_student").innerHTML=xmlhttp.responseText;
+Examination_Subjects_open();
+        }
+    }
+
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Course="+Course+ "&Batch=" + Batch+ "&Semester=" + Semester+ "&Type=" + Type+"&Group="+Group+"&Examination="+Examination+"&code="+code,true);
+        xmlhttp.send();
+
+
+//  }
+// else
+// {
+//   alert("Wrong Input");
+// }
+
+
+
+
+
+
+}
 
 function Examination_Subjects(){
 var code=41;
@@ -114,6 +161,33 @@ var xmlhttp = new XMLHttpRequest();
 
 }
  
+ function Examination_Subjects_open(){
+var code=61;
+
+var College=document.getElementById("College").value;
+var Course=document.getElementById("Course").value;
+var Batch=document.getElementById("Batch").value;
+var Semester=document.getElementById("Semester").value;
+var Group=document.getElementById("Group").value;
+
+
+
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+     
+ 
+          document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
+
+        }
+    }
+
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Course="+Course+ "&Batch=" + Batch+ "&Semester=" + Semester+ "&Group="+Group+"&code="+code,true);
+        xmlhttp.send();
+
+
+}
 
 
 function courseByCollege(College) 
