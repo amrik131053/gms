@@ -6551,11 +6551,6 @@ else if ($code == 58) {
 }
 else if ($code == 59) {
 
-   
-
-
-
-
    $id = $_GET['id'];
    $document = $_GET['document'];
    $sql = "SELECT $document from Staff WHERE IDNo= $id ";
@@ -6596,13 +6591,6 @@ else if ($code == 59) {
      
    }
 }
-
-
-
-
-
-
-
 
 
 
