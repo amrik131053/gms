@@ -6528,7 +6528,10 @@ else if ($code == 57) {
       ?>
       <label>Qualification:<span style="color: #223260;"><?php echo "   ".$data['StandardType'];?></span></label></br>
       <label>Course:<span style="color: #223260;"><?php echo  "   ".$data['Course'];?></span></label>
-      <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image">
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
                   <?php
 
    }
@@ -6544,7 +6547,10 @@ else if ($code == 58) {
       <!-- <label>Designation:<span style="color: #223260;"><?php echo  "   ".$data['Designation'];?></span></label>
       <label>Date of Joining:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
       <label>Date of Leaving:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label> -->
-      <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Experience Image">
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Experience Image"> -->
                   <?php
 
    }
