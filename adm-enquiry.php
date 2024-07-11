@@ -114,7 +114,10 @@
                                                     <input required type="date" class="form-control"
                                                         name="endDate" id="endDate" aria-describedby="button-addon2">
                                                     <button class="btn btn-info btn-sm" onclick="exportData();" type="button"
-                                                        id="StartD"><i class="fa fa-file-export"></i></button>
+                                                        id="StartD"><i class="fa fa-file-export"></i></button> &nbsp;
+ <button class="btn btn-info btn-sm" onclick="getRecord();" type="button"
+                                                        id="StartD"><i class="fa fa-search"></i></button>
+
                                                 </div>
                                             <!-- </form> -->
                                         </div>
@@ -300,13 +303,16 @@ function updateRecord(id) {
 }
 function getRecord() {
     var code='410';
-    var spinner = document.getElementById("ajax-loader");
+
+     var startDate = document.getElementById('startDate').value;
+    var endDate = document.getElementById('endDate').value;
+       var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
         data: {
-            code:code
+            code:code,startDate:startDate,endDate:endDate
             
         },
         success: function(response) {

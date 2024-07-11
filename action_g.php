@@ -28938,8 +28938,19 @@ $submit_date=date('Y-m-d');
 }
 elseif ($code=='410') {
     $i=0;
+$startDate=$_REQUEST['startDate'];
+$endDate=$_REQUEST['endDate'];
+ if($startDate!='' && $endDate !='')
+ {
+      $select_add="SELECT * FROM Enquiry where  CONVERT(DATE, DateEntry) between  '$startDate'  ANd '$endDate'  Order by ID desc";
+ }
+ else
+ {
     $date=date('Y-m-d');
+
     $select_add="SELECT * FROM Enquiry where CONVERT(DATE, DateEntry) = '$date'  Order by ID desc";
+ }
+    
     $select_add_q=sqlsrv_query($conntest,$select_add);
     while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
     {
@@ -29027,7 +29038,7 @@ while($row=sqlsrv_fetch_array($select_add_q))
        	<label>Course</label>
        	 <input type="text" id="courseA" class="form-control" value="<?=$course;?>" style="height: 40px;">
        	 <label>Token</label>
-          <input type="text" id="tokenA" class="form-control" value="<?=$token;?>" style="height: 40px;">
+          <input type="text" id="tokenA" class="form-control" value="<?=$token;?>" style="height: 40px;" readonly>
           <label>Counter</label>
        
         <select class="form-control" style="height: 40px;" id="counterA">
