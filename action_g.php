@@ -29749,7 +29749,7 @@ elseif ($code=='426') {
                                     </tr>
                                 </thead>
                                 <tbody ><?php 
-    $select_add="SELECT * FROM Enquiry where IDNo='$EmployeeID'  Order by ID desc";
+    $select_add="SELECT top(20)* FROM Enquiry where IDNo='$EmployeeID'  Order by ID desc ";
     $select_add_q=sqlsrv_query($conntest,$select_add);
     while($row=sqlsrv_fetch_array($select_add_q,SQLSRV_FETCH_ASSOC))
     {
@@ -29768,7 +29768,7 @@ elseif ($code=='426') {
 <td><?=$row['Name'];?></td>
 <td><?=$row['MobileNo'];?></td>
 <td><?=$row['Course'];?></td>
-<td><?=$row['Source'];?></td>
+<td><?=$row['Source'];?>/<?=$row['SourceName'];?> </td>
 <td><?=$row['TokenNo'];?></td>
 <td><?=$row['CounterNo'];?></td>
 <td><?=$row['Response'];?></td>
