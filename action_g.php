@@ -5387,7 +5387,7 @@ if ($check_flow_row['status']<4) {
                   <tr>
                   <td><input type="checkbox" class="checkbox form-control v_check " value="<?=$degree_row['id'];?>" ></td>
                       <td><?=$srNo;?></td>
-                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'].'<br>('.$row_pending['IDNo'];?>)</b></td>
+                      <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$IDNo;?>');"><b style="color:#223260;"><?=$degree_row['UniRollNo'];?>)</b></td>
                       <td><?=$StudentName;?></td>
                       <td><?=$FatherName;?></td>
                       <td><?=$degree_row['Examination'];?></td>
@@ -31641,6 +31641,218 @@ $update_query=sqlsrv_query($conntest,$update1);
      echo "0";
   }
   sqlsrv_close($conntest);
+}
+else if($code==448)
+{ 
+
+  ?>
+<table class="table">
+  <tr><th>#</th><th>Course</th><th style="width: 20px">Semester</th><th>Lecture_Time</th><th>Topic</th><th>Total Students</th><th>Present Students</th><th>Assignments given today</th><th style="width: 10px">Seminar</th><th>Class_Test Held</th><th>Platform</th></tr>
+  <?php 
+ $nol=$_POST['nol'];
+for($l=1;$l<=$nol;$l++)
+{
+?>
+<tr><th><?= $l;?></th><th>
+<input type="text" name="course[]" required="">
+</th>
+  <th style="width: 100px">
+  <select name="semester[]" class="form-control" required=""><option value="1">1</option>
+ <option value="2">2</option>
+  <option value="3">3</option>
+ <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+ <option value="8">8</option>
+ <option value="9">9</option>
+<option value="10">10</option>
+  <option value="11">11</option>
+
+ </select>
+</th>
+  <th><select name="ltime[]" class="form-control" required=""><option value="09:30 AM to 10:10 AM">09:30 AM to 10:10 AM</option>
+  <option value="10:15AM-10:55AM">10:15 AM to 10:55 AM</option>
+  <option value="11:00AM-11:40AM">11:00 AM to 11:40 AM</option>
+  <option value="11:45AM-12:25PM">11:45 AM to 12:25 PM</option>
+  <option value="12:30PM-01:10PM">12:30 PM to 01:10 PM</option>
+ <option value="01:15PM-01:55PM">01:15 PM to 01:55 PM</option>
+  <option value="02:00PM-02:40PM">02:00 PM to 02:40 PM</option>
+   <option value="02:40PM-03:20PM">02:40 PM to 03:20 PM</option>
+   <option value="03:20PM-04:00PM">03:20 PM to 04:00 PM</option>
+ </select></th><th><input type="text" style="width:150px" name="topic[]" required=""></th><th><input type="text" style="width:30px" name="total[]" required=""></th><th><input type="text" style="width:30px" name="present[]" required=""></th><th><select  class="form-control" name="assignment[]" required=""><option value="">select</option><option value="Yes">Yes</option>
+  <option value="No">No</option>
+  </select></th><th><select  class="form-control" name="seminar[]" required=""><option value="">Select</option><option value="Yes">Yes</option>
+  <option value="No">No</option>
+  </select></th><th><select  class="form-control" name="class_test[]" required=""><option value="">Select</option><option value="Yes">Yes</option>
+  <option value="No">No</option>
+  </select></th><th><select name="platform[]" class="form-control" style="width:100px" required=""><option value="">Select</option><option value="MS Team">MS Team</option>
+    <option value="Zoom">Zoom</option>
+      <option value="Google Meet">Google Meet</option>
+        <option value="Google Meet">Google Class Room</option>
+  <option value="other">Other</option>
+  </select></th></tr>
+
+<?php 
+}
+
+}
+elseif ($code==449) {
+    function test_input($data) 
+    {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+    $bnoon="";
+    $anoon="";
+$emp_id = $_POST['emp_id'];
+$admission = $_POST['admission'];
+$naac = $_POST['naac'];
+
+$sugg = $_POST['suggestion'];
+
+$bnoon =str_replace("'", '',$_POST['bnoon']);
+$anoon =str_replace("'", '',$_POST['anoon']);
+
+$emp_type = $_POST['emp_type'];
+$submit_date = $_POST['date_r'];
+
+
+ date_default_timezone_set('Asia/Kolkata'); 
+$time = date("H:i:s"); 
+ $sql1 = "SELECT * FROM ProgressReport WHERE UserID ='$emp_id' AND Date='$submit_date' ";
+
+$log=0;
+$stmt2 = sqlsrv_query($conntest,$sql1);
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+     if($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+     {
+
+$_SESSION['allready'] = "Allready submitted";
+
+echo("<script>location.href ='ppi.php';</script>");       
+
+}
+else{
+
+if($emp_type=='Non-Teaching')
+
+{
+
+if($emp_id!='')
+ {
+ $sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
+     
+$stmt2 = sqlsrv_query($conntest,$sql1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+
+      if($stmt2 != 0)
+      {
+
+        echo("<script>location.href ='ppi.php';</script>");        
+      }
+      else
+      {
+        //  echo("Error description: " . mysqli_error($connection));
+      }
+    }
+    else{
+$_SESSION['allready'] = "Something went wrong";
+echo("<script>location.href ='ppi.php';</script>");       
+    }
+}
+else{
+$nol = $_POST['nol'];
+$emp_id = $_POST['emp_id'];
+$admission = $_POST['admission'];
+$naac = $_POST['naac'];
+$practical = $_POST['practical'];
+$sugg = $_POST['suggestion'];
+$od_act =str_replace("'", '',$_POST['od_act']);
+$duty_perform = $_POST['duty_perform'];
+$perform_detail = str_replace("'", '',$_POST['perform_detail']);
+$emp_type = $_POST['emp_type'];
+$course= str_replace("'", '', $_POST['course']);
+$sem=$_POST['semester'];
+$ltime=$_POST['ltime'];
+$topic= str_replace("'", '', $_POST['topic']);
+$total=$_POST['total'];
+$present=$_POST['present'];
+$assignment=$_POST['assignment'];
+$seminar=$_POST['seminar'];
+$class_test=$_POST['class_test'];
+$platform=$_POST['platform'];
+$pcourse= str_replace("'", '', $_POST['phd_course']);
+$psem=$_POST['phd_sem'];
+$pltime=$_POST['phd_time'];
+$ptopic=str_replace("'", '', $_POST['phd_topic']);
+$ptotal=$_POST['phd_total'];
+$ppresent=$_POST['phd_present'];
+$passignment=$_POST['phd_assignment'];
+$pseminar=$_POST['phd_seminar'];
+$pclass_test=$_POST['phd_classtest'];
+$pplatform=$_POST['phd_platform'];
+
+for($i=0;$i<$nol;$i++)
+{
+
+  $sqlww = "insert into ProgressReportLectureDetails(UserID,Date,course,semester,LectureTime,Topic,TotelStudent,PresentStudent,AssignmentToday,ClassTest,Seminar,Platform) values('$emp_id','$submit_date','$course[$i]','$sem[$i]','$ltime[$i]','$topic[$i]','$total[$i]','$present[$i]','$assignment[$i]','$class_test[$i]','$seminar[$i]','$platform[$i]')";
+     
+$stmt2 = sqlsrv_query($conntest,$sqlww);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+}
+for($j=0;$j<4;$j++)
+{
+
+  if($pcourse[$j]!='')
+  {
+
+  $sqlww = "insert into ProgressReportLectureDetails(UserID,Date,course,semester,LectureTime,Topic,TotelStudent,PresentStudent,AssigmentToday,ClassTest,Seminar,Platform)  values('$emp_id','$submit_date','$time','$pcourse[$j]','$psem[$j]','$pltime[$j]','$ptopic[$j]','$ptotal[$j]','$ppresent[$j]','$passignment[$j]','$pclass_test[$j]','$pseminar[$j]','$pplatform[$j]')";
+      $stmt2 = sqlsrv_query($conntest,$sqlww);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+}
+}
+
+
+if($emp_id!='')
+ {
+
+$sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
+     
+$stmt2 = sqlsrv_query($conntest,$sql1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+      if($stmt2 != 0)
+      {
+        //echo("<script>location.href ='ppi.php';</script>");       
+      }
+      else
+      {
+        //  echo("Error description: " . mysqli_error($connection));
+      }
+    }
+}
+   	}
 }
    else
    {

@@ -109,7 +109,7 @@ include "fastival.php";
                             <br><b>78146-79220</b>
                             
                         </p>
-                        <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share"><small id="blink" ><marquee><b>Download Our Android App on Google PlayStore<b></marquee></small></a>
+                        <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share"><small id="blink" ><marquee><b>Download Our Android App on Google Play Store<b></marquee></small></a>
                     </center>
                 </form>
             </div>
