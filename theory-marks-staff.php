@@ -42,11 +42,19 @@ function uncheckall()
           <!-- left column -->
           <div class="col-lg-2 col-md-4 col-sm-3">
  
+   
+
+
    <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID'";
+  // $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID'";
+
+
+
+  $sql="SELECT DISTINCT MasterCourseStructure.CollegeName,MasterCourseStructure.CollegeID from MasterCourseStructure
+                                  INNER JOIN SubjectAllotment on  SubjectAllotment.SubjectCode = MasterCourseStructure.SubjectCode Where  SubjectAllotment.EmployeeID='$EmployeeID'";
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
@@ -59,6 +67,13 @@ function uncheckall()
 
 ?>
               </select> 
+
+
+
+
+
+
+
 
 
 
@@ -83,12 +98,12 @@ function uncheckall()
               <label>Batch</label>
             <select name="batch"  class="form-control" id="Batch" required="">
               <option value="">Batch</option>
-                       <?php 
-for($i=2013;$i<=2030;$i++)
-{?>
+             <!--           <?php 
+//for($i=2013;$i<=2030;$i++)
+//{?>
    <option value="<?=$i?>"><?=$i?></option>
-<?php }
-            ?>
+<?php //}
+            ?> -->
 
             </select>
 

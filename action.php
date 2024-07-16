@@ -22808,7 +22808,14 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
+//$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
+
+  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
+
+
+
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -23556,8 +23563,15 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch' AND SubjectType='T'   order by SubjectCode";
+//$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
+//AND SemesterID='$sem' ANd Batch='$batch' AND SubjectType='T'   order by SubjectCode";
+
+
+
+$sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='T' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
+
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -23572,8 +23586,13 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 $cname=$row["Course"];
 }
 
-$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
-SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+//$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+
+
+ $sql1 = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='O' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
+
 $stmt2 = sqlsrv_query($conntest,$sql1);
 while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {

@@ -193,7 +193,7 @@ var xmlhttp = new XMLHttpRequest();
 function courseByCollege(College) 
 {  
     // alert(College);
-var code='90';
+var code='90.1';
 $.ajax({
 url:'action.php',
 data:{College:College,code:code},
@@ -1634,3 +1634,69 @@ if (lastTab) {
 //  $('[href="' + lastTab1 + '"]').tab('show');
 // }
 // }
+
+$(function() {
+    $("#Course").change(function(e) {
+        e.preventDefault();
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        var course = $("#Course").val();
+        var College = $("#College").val();
+
+
+
+
+        var code = '200.2';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                if (data != "") {
+
+                    $("#Batch").html("");
+                    $("#Batch").html(data);
+                }
+            }
+        });
+    });
+});
+$(function() {
+    $("#Batch").change(function(e) {
+        e.preventDefault();
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        var College = $("#College").val();
+        var course = $("#Course").val();
+        var Batch = $("#Batch").val();
+
+
+
+
+        var code = '200.3';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College,
+                Batch: Batch
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                if (data != "") {
+
+                    $("#Semester").html("");
+                    $("#Semester").html(data);
+                }
+            }
+        });
+    });
+});
+

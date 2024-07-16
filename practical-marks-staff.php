@@ -46,7 +46,10 @@ function uncheckall()
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
+   //$sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
+
+   $sql="SELECT DISTINCT MasterCourseStructure.CollegeName,MasterCourseStructure.CollegeID from MasterCourseStructure
+                                  INNER JOIN SubjectAllotment on  SubjectAllotment.SubjectCode = MasterCourseStructure.SubjectCode Where  SubjectAllotment.EmployeeID='$EmployeeID'";
           $stmt2 = sqlsrv_query($conntest,$sql);
      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
          {
@@ -263,7 +266,7 @@ for($i=1;$i<=12;$i++)
       <!-- /.container-fluid -->
     </section>
     <script>
-     $(function() { 
+     $(function() {  
       $("#Semester").change(function(e) {
         e.preventDefault();
  
