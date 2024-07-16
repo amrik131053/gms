@@ -2036,10 +2036,11 @@ function resetPassword(empid,ApplicationName)
       <button type="button" onclick="manageDepartment();" class="btn btn-success btn-sm ">
       Manage Department
       </button>
+        <?php }?>
       <button type="button" onclick="manageDesignation();" class="btn btn-success btn-sm ">
       Manage Designation
       </button>
-      <?php }?>
+    
       <button type="button" onclick="addNewStaff();" class="btn btn-success btn-sm ">
      Add New Staff
       </button>

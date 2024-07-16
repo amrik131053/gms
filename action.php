@@ -23847,6 +23847,65 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
          <?php 
          sqlsrv_close($conntest);
    }
+
+
+    elseif($code==379)
+   {
+  $id = $_POST['examination'];
+
+ $resultdata="select distinct  Top(10) a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo  from ResultGKU as rg inner join
+Admissions as a  on rg.UniRollNo=a.UniRollNo 
+where rg.Examination='May 2024' order by  rg.ResultNo Asc";
+
+$list_resultamrik = sqlsrv_query($conntest,$resultdata);
+ $sr=1;?>
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  border="1">
+   <tr>
+            <td width="10"><?=$sr;?></td>
+            
+  <td>College</td>
+    <td>  Course</td>
+
+        <td>Batch</td>
+         <td>Type</td>
+          <td>Declare Date</td>
+           <td>Result No</td>
+           <td>No of Appeared </td>
+           <td>No of Passed</td>
+   
+</tr><?php 
+while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
+         { 
+?>
+
+<tr>
+            <td width="10"><?=$sr;?></td>
+            
+  <td><?= $row7['CollegeName']; ?></td>
+    <td>  <?= $row7['Course'];?></td>
+
+        <td>  <?= $row7['Batch'];?></td>
+         <td>  <?= $row7['Type'];?></td>
+          <td>  <?= $row7['DeclareDate']->format('d-m-Y');?></td>
+           <td> <?=  $no= $row7['ResultNo'];?></td>
+           <td> 
+            </td>
+           <td>  </td>
+   
+</tr>
+
+   <?php 
+
+            $sr++;
+
+         }?>
+            </table><?php
+         
+
+
+
+}
  else
 {
 echo "select code";

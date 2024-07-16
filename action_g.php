@@ -12821,7 +12821,7 @@ elseif($code=='198')
                     <select id='College3' onchange="collegeByDepartment3(this.value);" class="form-control" required>
                         <option value=''>Select Faculty</option>
                         <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNO='$EmployeeID'  ";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
@@ -31943,7 +31943,7 @@ $todaydate=$_POST['startDate'];
                                 </div>
                                 <?php
                                     }
-                            
+                            sqlsrv_close($conntest);
 
 
 
