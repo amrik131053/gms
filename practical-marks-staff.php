@@ -43,7 +43,7 @@ function uncheckall()
           <div class="col-lg-2 col-md-4 col-sm-3">
  
    <label>College</label>
-       <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
+       <select  name="College" id='College' onchange="courseByCollegeexam((this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
    //$sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
