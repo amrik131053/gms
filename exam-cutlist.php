@@ -43,6 +43,7 @@
                                     <?php
 
                                     $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where UserAccessLevel.IDNo='$EmployeeID'";
+
                                             $stmt2 = sqlsrv_query($conntest,$sql);
                                         while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                             {
@@ -66,7 +67,7 @@
 
                             <div class="col-lg-1 col-md-1 col-sm-12">
                                 <label>Batch</label>
-                                <select name="batch" class="form-control form-control-sm" id="Batch" >
+                                <select name="batch" class="form-control form-control-sm" id="Batche" >
                                     <option value="">Select</option>
                                     <?php 
                                     for($i=2013;$i<=2030;$i++)
@@ -206,7 +207,7 @@ function cutlistCountDepartment() {
     var code = 323;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Batche').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
@@ -253,7 +254,7 @@ function fetchCutList() {
     var sub_data = 2;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Batche').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
@@ -376,7 +377,7 @@ function exportCutListExcel() {
     var exportCode = 40;
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Batche').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value;
     var Group = document.getElementById('Group').value;
@@ -395,7 +396,7 @@ function exportCutListExcel() {
 function exportCutListPdf() {
     var College = document.getElementById('College').value;
     var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
+    var Batch = document.getElementById('Batche').value;
     var Semester = document.getElementById('Semester').value;
     var Type = document.getElementById('Type').value; 
     var Group = document.getElementById('Group').value;

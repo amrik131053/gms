@@ -24,7 +24,7 @@ class CustomPDF extends FPDF {
 $pdf = new CustomPDF();
 
         // $pdf->AddPage('P', 'A4');  
-$sql = "SELECT  * FROM Admissions where CollegeID='$college'AND CourseID='$course'AND Batch='$yoa'  order by UniRollNo desc";
+$sql = "SELECT  * FROM Admissions where CollegeID='$college'AND CourseID='$course'AND Batch='$yoa' AND Status>'0' order by UniRollNo desc";
 $stmt1 = sqlsrv_query($conntest,$sql);
 while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {

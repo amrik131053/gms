@@ -45,7 +45,7 @@ if ($code==1)
 {
    
     $pdf-> Image('dist\img\GKUIDCARDLogo.png',4,2,45,13);
-    $sql="SELECT *, MasterDepartment.Department as DepartmentName FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id where   IDNo='$empid'";
+  $sql="SELECT *, MasterDepartment.Department as DepartmentName FROM Staff inner join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id where   IDNo='$empid'";
     $result = sqlsrv_query($conntest,$sql);
     while($row=sqlsrv_fetch_array($result))
     {

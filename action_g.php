@@ -16449,7 +16449,7 @@ elseif($code==241)
                             </tr>
                             <?php 
 
-                         $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Session='$Semester'";
+                         $get_study_scheme="SELECT * FROM Admissions WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' AND Status>0 and Session='$Semester'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
