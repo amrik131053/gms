@@ -272,6 +272,7 @@ for($i=1;$i<=12;$i++)
 
 function select_mst() 
 { 
+
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
    var  batch = document.getElementById('Batch').value;
@@ -376,15 +377,134 @@ var spinner= document.getElementById("ajax-loader");
 console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
-      //  select_mst() ;
+      //  select_mst() ;z
       }
     });
 }
 
+function resultView(ID,SubCode,UniRollNo){
+// alert(ID);.
+var Semester=document.getElementById('Semester').value;
+var Examination=document.getElementById('Examination').value;
+var spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var code = 450;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                SubCode: SubCode,
+                UniRollNo: UniRollNo,
+                Semester: Semester,
+                Examination: Examination,
+                ID: ID
+            },
+            success: function(response) {
+                // console.log(ExaminationB+BatchB+TypeB+SemesterB)
+                spinner.style.display = 'none';
+                console.log(response);
+                    document.getElementById("ViewResultData").innerHTML = response;
+             
+                //  loadMainCount();
+            }
+        });
+}
+
+function showSubResult() {
+  
+}
+
+function submitResultCombined(ID) {
+var code=451;
+var r = confirm("Do you really want to Verifiy");
+if (r == true) {
+var Semester = document.getElementById('Semester').value;
+var Examination = document.getElementById('Examination').value;
+var Type = document.getElementById('Type').value;
+var cgpa = document.getElementById('cgpa').value;
+var creditTotal = document.getElementById('creditTotal').value;
+var subNames=document.getElementsByClassName('subNames'+ID);
+var subNameSize= subNames.length; 
+var subNameArray=[];  
+for(i=0;i<subNameSize;i++){if(subNames[i].value.trim() !== ''){ subNameArray.push(subNames[i].value); }}
+var subCodes=document.getElementsByClassName('subCodes'+ID);
+var subCodesSize= subCodes.length; 
+var subCodesArray=[];  
+for(i=0;i<subCodesSize;i++){if(subCodes[i].value.trim() !== ''){ subCodesArray.push(subCodes[i].value); }}
+var agrade=document.getElementsByClassName('agrade'+ID);
+var agradeSize= agrade.length; 
+var agradeArray=[];  
+for(i=0;i<agradeSize;i++){if(agrade[i].value.trim() !== ''){ agradeArray.push(agrade[i].value); }}
+var bgradePoint=document.getElementsByClassName('bgradePoint'+ID);
+var bgradePointSize= bgradePoint.length; 
+var bgradePointArray=[];  
+for(i=0;i<bgradePointSize;i++){if(bgradePoint[i].value.trim() !== ''){ bgradePointArray.push(bgradePoint[i].value); }}
+var ccredit=document.getElementsByClassName('ccredit'+ID);
+var ccreditSize= ccredit.length; 
+var ccreditArray=[];  
+for(i=0;i<ccreditSize;i++){if(ccredit[i].value.trim() !== ''){ ccreditArray.push(ccredit[i].value); }}
+alert(ccreditSize);
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            Semester: Semester,
+            Examination: Examination,
+            subNameArray:subNameArray,
+            subCodesArray:subCodesArray,
+            agradeArray:agradeArray,
+            bgradePointArray:bgradePointArray,
+            ccreditArray:ccreditArray,
+            Type: Type,
+            cgpa: cgpa,
+            creditTotal: creditTotal,
+            ID: ID
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);     
+            if(response==1)
+            {
+              SuccessToast('Successfully Updated');
+            }
+            else{
+              ErrorToast('try again','bg-warning');
+            }
+        },
+        error: function(xhr, status, error) {
+            spinner.style.display = 'none';
+            console.error('Error:', error); 
+        }
+    });
+  }
+}
 </script>
 
 <!-- Button trigger modal -->
-
+<div class="modal fade bd-example-modal-xl " id="ViewResult" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ViewResultData">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal -->
 

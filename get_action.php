@@ -6453,9 +6453,9 @@ else if($code=='56')
  $DistributionTheory = $_GET['DistributionTheory'];
  $exam = $_GET['examination'];
  
-  $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
+$sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
   WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
- ExamForm.Examination='$exam' and ExamForm.SGroup='$group' order by Admissions.UniRollNo ASC";
+ ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' order by Admissions.UniRollNo ASC";
     $stmt = sqlsrv_query($conntest,$sql1);
    if ($stmt === false) {
       $errors = sqlsrv_errors();
@@ -6464,6 +6464,8 @@ else if($code=='56')
         $count=0;
      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
       $subCode=$row['SubjectCode']; 
+      $UniRollNo=$row['UniRollNo']; 
+      $IDNo=$row['IDNo']; 
       $clr="";
       if($row['ESE']!="")
       {
@@ -6479,7 +6481,8 @@ else if($code=='56')
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids" > 
 <input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode" > 
 </td>
-<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['UniRollNo'];?></td>
+
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                <td><?=$row['SubjectCode'];?>
              <?php  $iidd=$row['ID'];?></td>               

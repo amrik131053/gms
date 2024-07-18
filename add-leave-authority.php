@@ -1948,25 +1948,25 @@ function resetPassword(empid,ApplicationName)
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
+   <div class="row">
          
         <div class="col-md-3">
 
       <div class="card">
-  <div class="card-header">
-    <h3 class="card-title">CATEGORY</h3>
-    <div class="card-tools">
-      <button type="button" class="btn btn-tool" data-card-widget="collapse" onclick="show_category_wise();">
-        <i class="fas fa-minus"></i>
-      </button>
-    </div>
-  </div>
-  <div class="card-body p-0">
-    <ul class="nav nav-pills flex-column" id="category_wise_show">
+          <div class="card-header">
+        <h3 class="card-title">CATEGORY</h3>
+           <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" onclick="show_category_wise();">
+              <i class="fas fa-minus"></i>
+               </button>
+           </div>
+             </div>
+       <div class="card-body p-0">
+         <ul class="nav nav-pills flex-column" id="category_wise_show">
       <!-- Some content can be added here -->
-    </ul>
-  </div>
-  <!-- /.card-body -->
+          </ul>
+       </div>
+       <!-- /.card-body -->
 </div>
  
         <div class="card collapsed-card">

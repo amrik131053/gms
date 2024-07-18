@@ -419,7 +419,7 @@ $.ajax({
 
 }
 function view_image(id) {
-    alert(id);
+    // alert(id);
                      var code = 91;
                      $.ajax({
                         url: 'action_g.php',

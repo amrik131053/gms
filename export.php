@@ -9063,6 +9063,8 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
         
          <th>{$UnirollNos}</th>";
 
+         
+
 $totalcredit=0;
 $gradevaluetotal=0;
 $nccount=0;
@@ -9149,7 +9151,6 @@ $exportstudy.="<th>NA</th>";
                        if($row_exam = sqlsrv_fetch_array($list_result_examsubject, SQLSRV_FETCH_ASSOC) )
                           {
 
-                              
                                      $CE1=$row_exam['CE1'];
                                      $CE3=$row_exam['CE3'];
                                      $att=$row_exam['Attendance'];        
@@ -9157,12 +9158,10 @@ $exportstudy.="<th>NA</th>";
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
                                      $grace= $row_exam['Grace'];
-
                                      include 'result-pages/grade_calculator.php';
 //$exportstudy.="<td style='text-align:center;'>{$totalFinal} </td>";
 $exportstudy.="<th style='color:{$color}'>{$grade} </th>"; 
 $exportstudy.="<th style='color:{$color}'>{$gardep}</th>";
-
 
  $amrikc = "SELECT * FROM MasterCourseStructure where  Batch='$Batch' ANd SubjectCode='$SubjectsNew[$sub]'";  
 $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -9170,9 +9169,7 @@ $list_resultamrikc = sqlsrv_query($conntest,$amrikc);
 while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
          {
              $credit=$row7c['NoOFCredits'];
-
             }
-
 $totalcredit=$totalcredit+$credit;
  //$exportstudy.="<td style='text-align:center;'>{$credit} </td>";  
 
