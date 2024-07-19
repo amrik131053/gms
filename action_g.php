@@ -17871,31 +17871,34 @@ elseif($code==267) //update student
             <div class="card">
                 <div class="card-header p-2" style="background-color:white!important">
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#personal_details"
-                                data-toggle="tab">Basic</a></li>
+              <li class="nav-item"><a class="nav-link active" href="#personal_details" data-toggle="tab">Basic</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
                         </li>
                       <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
-                        </li>
-                       
-                        
-                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
-
+                        </li>                      
+                      <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
                         </li>
                          <?php 
    if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
    {   ?>
-     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
-                       
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
-                        </li>
+     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a> </li>
+
+      <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a> </li>
           <?php }
-          ?>              
-                        <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a>
-                        </li>
+          else if ($role_id=='2' OR  $role_id=='22')
+           
+
+    {?>
+ <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a> </li>
+<?php }
+else
+{
+
+}
+?>
+    <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a> </li>
                     </ul>
                 </div>
                 <!-- /.card-header -->
@@ -17968,16 +17971,16 @@ elseif($code==267) //update student
 
                                         </select>
                                     </div>
-                                    <div class="col-md-12 col-lg-3">
-                                        <label>Aadhaar No</label>
+                                    <div class="col-md-12 col-lg-2">
+                                        <label>ABC ID</label>
                                         <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
-                                            <input type="number" class="form-control" name="aadharNo"
-                                            placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                            <input type="number" class="form-control" name="abcid"
+                                            placeholder="Enter ABC ID" value="<?=$row1['ABCID'];?>">
                                             <?php  } else
                                             {
-                                                ?><input type="number" class="form-control" name="aadharNo"
-                                                placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>" readonly><?php 
+                                                ?><input type="number" class="form-control" name="abcid"
+                                                placeholder="Enter ABC ID" value="<?=$row1['ABCID'];?>" readonly><?php 
                                             }
                                         ?>
                                         
@@ -18000,7 +18003,7 @@ elseif($code==267) //update student
                                             
                                         </select>
                                     </div>
-                                    <div class="col-md-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-2">
                                         <label>Religion</label>
                                        <select class="form-control" name="religion">
                                         <option value="<?= $row1['Religion'];?>"><?=$row1['Religion'];?></option>
@@ -18012,6 +18015,20 @@ elseif($code==267) //update student
                                                <option value="JAIN">JAIN</option>
                                                <option value="BUDDHISTS">BUDDHISTS</option>
                                            </select>
+                                    </div>
+                                     <div class="col-md-12 col-lg-2">
+                                        <label>Aadhaar No</label>
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="number" class="form-control" name="aadharNo"
+                                            placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="number" class="form-control" name="aadharNo"
+                                                placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Image</label>
@@ -18820,6 +18837,7 @@ elseif($code==268)
    $gender = $_POST["gender"];
    $category = $_POST["category"]; 
    $adhaar =$_POST["aadharNo"];
+    $ABCID =$_POST["abcid"];
    $BloodGroup =$_POST["bloodgroup"];
    $Religion =$_POST["religion"];
    $photo = $_FILES["photo"]["name"];
@@ -18965,6 +18983,7 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "BloodGroup ='$BloodGroup', ";
    $query .= "AadhaarNo ='$adhaar', ";
    $query .= "Religion ='$Religion', ";
+   $query .= "ABCID ='$ABCID', ";
  
  // contact
 
@@ -31959,6 +31978,119 @@ $todaydate=$_POST['startDate'];
 
 
   }
+
+
+  elseif($code==451)  // search international student 
+{
+    $StudentName = $_POST['StudentName'];
+    $Session = $_POST['Session'];
+    $CollegeID = $_POST['CollegeName'];
+    $CourseID = $_POST['Course'];
+    $Batch = $_POST['Batch'];
+    $Status = $_POST['Status'];
+    $Eligibility = $_POST['Eligibility'];
+    $LateralEntry = $_POST['LateralEntry'];
+?>
+
+
+            <table class="table " id="example">
+                <thead>
+                    <tr>
+                    
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Session</th>
+                        <th>IDNo</th>
+                        <th>ClassRoll/UniRollNo</th>
+                        <!-- <th>UniRollNo</th> -->
+                        <th>Name</th>
+                        <th>FatherName</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <!-- <th>Status</th> -->
+                      
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+      $sr=1;
+
+   
+      $query = "SELECT  *  from Admissions  WHERE 1 = 1";
+
+      if ($CollegeID != '') {
+          $query .= " AND  CollegeID='$CollegeID'";
+      }
+      
+      if ($CourseID != '') {
+          $query .= " AND  CourseID ='$CourseID'";
+      }
+      
+      if ($Batch != '') {
+          $query .= " AND  Batch='$Batch'";
+      }
+      
+      if ($Status != '') {
+          $query .= " AND  Status='$Status'";
+      }
+      
+      if ($Session != '') {
+          $query .= " AND  Session='$Session'";
+      }
+      if ($Eligibility != '') {
+          $query .= " AND  Eligibility='$Eligibility'";
+      }
+      if ($StudentName != '') {
+        $query .= " AND  StudentName like '%$StudentName%'";
+    }
+
+    if ($LateralEntry != '') {
+    $query .= "AND  LateralEntry='$LateralEntry' AND Nationality='NRI' order by ClassRollNo";
+    }
+
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+                    <tr>
+                
+                        <td><?=$sr;?></td>
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                </td>
+                        <td><?=$row['Session'];?></td>
+                        <td><?=$row['IDNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                        <!-- <td><?=$row['UniRollNo'];?></td> -->
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['FatherName'];?></td>
+                        <td><?=$row['CollegeName'];?></td>
+                        <td><?=$row['Course'];?></td>         
+                       <!--  <td><?php if($row['Locked']=='' || $row['Locked']=='0'){echo "<i class='fa fa-lock-open text-success' aria-hidden='true' onclick='lockUser(".$row['IDNo'].",0)'></i>";}else{echo "<i class='fa fa-lock text-danger' aria-hidden='true' onclick='unlockUser(".$row['IDNo'].",0)'></i>";};?>
+                        </td> -->
+                    </tr>
+                    <?php $sr++;
+
+}
+?>
+
+                </tbody>
+            </table>
+            <?php 
+            sqlsrv_close($conntest);        
+}
    else
    {
    

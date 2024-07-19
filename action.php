@@ -13830,7 +13830,7 @@ else
 sqlsrv_close($conntest);
 }
 
-   elseif($code==219)
+   elseif($code==219) 
    {                                
   
 $IDNo= $_POST['IDNo'];
