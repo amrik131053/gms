@@ -209,6 +209,25 @@ $("#Course").html(data);
 });
 
 }
+function courseByCollegeexam(College) 
+{  
+    // alert(College);
+var code='90.1';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+   
+$("#Course").html("");
+$("#Course").html(data);
+}
+}
+});
+
+}
 
 function courseByCollege1(College) 
 {  
@@ -1634,3 +1653,4 @@ if (lastTab) {
 //  $('[href="' + lastTab1 + '"]').tab('show');
 // }
 // }
+

@@ -15,7 +15,7 @@ ini_set('max_execution_time', '0');
                 <br>
                 <form action="print-student-receiving.php" method="post" target="_blank">
                <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-3"> 
               
                  <select  name="College" id='College' onchange="courseByCollege(this.value);" class="form-control">
                  <option value=''>Select Course</option>

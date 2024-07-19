@@ -26,10 +26,38 @@ ini_set('max_execution_time', '0');
                                         class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                
                                D - Detailed   , S - Summary , G - Grade , C - CSV , M  - Marks
                            
+                            </div>
+                              <div class="col-lg-2">
+                            
+                             
+                                <select id="examination2" class="form-control form-control" >
+                                    <option value="">Select</option>
+                                    <?php
+                                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                                            $stmt2 = sqlsrv_query($conntest,$sql);
+                                        while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                                            {
+
+                                        
+                                        $Sgroup = $row1['Examination']; 
+                                        
+                                        ?>
+                                    <option value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+                                    <?php    }
+
+                                    ?>
+
+
+                                </select>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" class="btn btn-info" onclick="export_exam_data()"> <i
+                                        class="fa fa-file-excel" aria-hidden="true"></i></button> <button type="button" class="btn btn-info" onclick="search_exam_data()"> <i
+                                        class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
                            
                         </div>
@@ -275,6 +303,32 @@ function search_exam_form() {
             code: code,
             rollNo: rollNo,
             sub_data: sub_data
+        },
+        success: function(response) {
+
+            // $('#modal-lg-view-question').modal('toggle');
+            spinner.style.display = 'none';
+            document.getElementById("live_data_Exam_student").innerHTML = response;
+
+        }
+    });
+}
+
+function search_exam_data() {
+    
+    var examination = document.getElementById('examination2').value;
+    var spinner = document.getElementById("ajax-loader");
+   
+    spinner.style.display = 'block';
+  
+    var code =379;
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            examination: examination
+            
         },
         success: function(response) {
 

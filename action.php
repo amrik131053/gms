@@ -22808,7 +22808,14 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
+//$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='P'  order by SubjectCode";
+
+  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
+
+
+
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -23556,8 +23563,15 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
-AND SemesterID='$sem' ANd Batch='$batch' AND SubjectType='T'   order by SubjectCode";
+//$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
+//AND SemesterID='$sem' ANd Batch='$batch' AND SubjectType='T'   order by SubjectCode";
+
+
+
+$sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='T' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
+
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -23572,8 +23586,13 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
 $cname=$row["Course"];
 }
 
-$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND
-SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+//$sql1 = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='O' ANd ExternalExam='Y' ";
+
+
+ $sql1 = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='O' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
+
 $stmt2 = sqlsrv_query($conntest,$sql1);
 while($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -23847,6 +23866,65 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
          <?php 
          sqlsrv_close($conntest);
    }
+
+
+    elseif($code==379)
+   {
+  $id = $_POST['examination'];
+
+ $resultdata="select distinct  Top(10) a.CollegeName,a.Course,a.Batch,rg.Semester,rg.Type,rg.DeclareDate,rg.DeclareType,rg.ResultNo  from ResultGKU as rg inner join
+Admissions as a  on rg.UniRollNo=a.UniRollNo 
+where rg.Examination='May 2024' order by  rg.ResultNo Asc";
+
+$list_resultamrik = sqlsrv_query($conntest,$resultdata);
+ $sr=1;?>
+ <div class="card-body table-responsive ">
+<table class="table table-bordered"  border="1">
+   <tr>
+            <td width="10"><?=$sr;?></td>
+            
+  <td>College</td>
+    <td>  Course</td>
+
+        <td>Batch</td>
+         <td>Type</td>
+          <td>Declare Date</td>
+           <td>Result No</td>
+           <td>No of Appeared </td>
+           <td>No of Passed</td>
+   
+</tr><?php 
+while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
+         { 
+?>
+
+<tr>
+            <td width="10"><?=$sr;?></td>
+            
+  <td><?= $row7['CollegeName']; ?></td>
+    <td>  <?= $row7['Course'];?></td>
+
+        <td>  <?= $row7['Batch'];?></td>
+         <td>  <?= $row7['Type'];?></td>
+          <td>  <?= $row7['DeclareDate']->format('d-m-Y');?></td>
+           <td> <?=  $no= $row7['ResultNo'];?></td>
+           <td> 
+            </td>
+           <td>  </td>
+   
+</tr>
+
+   <?php 
+
+            $sr++;
+
+         }?>
+            </table><?php
+         
+
+
+
+}
  else
 {
 echo "select code";

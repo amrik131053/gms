@@ -43,12 +43,16 @@ function uncheckall()
           <div class="col-lg-2 col-md-4 col-sm-3">
  
    <label>College</label>
-       <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
+       <select  name="College" id='College' onchange="courseByCollegeexam(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
                   <?php
-   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
+   //$sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where UserAccessLevel.IDNo='$EmployeeID' ";
+
+    $sql="SELECT DISTINCT MasterCourseStructure.CollegeName,MasterCourseStructure.CollegeID from MasterCourseStructure
+                                  INNER JOIN SubjectAllotment on  SubjectAllotment.SubjectCode = MasterCourseStructure.SubjectCode Where  SubjectAllotment.EmployeeID='$EmployeeID' ANd SubjectAllotment.Status='1' ";
+
           $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) ) 
          {
    
      $college = $row1['CollegeName']; 
@@ -423,6 +427,73 @@ else
 }
 
 
+
+$(function() {
+    $("#Course").change(function(e) {
+        e.preventDefault();
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        var course = $("#Course").val();
+        var College = $("#College").val();
+
+
+
+
+        var code = '200.2';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                if (data != "") {
+
+                    $("#Batch").html("");
+                    $("#Batch").html(data);
+                }
+            }
+        });
+    });
+});
+
+
+$(function() {
+    $("#Batch").change(function(e) {
+        e.preventDefault();
+        var spinner = document.getElementById('ajax-loader');
+        spinner.style.display = 'block';
+        var College = $("#College").val();
+        var course = $("#Course").val();
+        var Batch = $("#Batch").val();
+
+
+
+
+        var code = '200.3';
+        $.ajax({
+            url: 'action.php',
+            data: {
+                course: course,
+                code: code,
+                College: College,
+                Batch: Batch
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                if (data != "") {
+
+                    $("#Semester").html("");
+                    $("#Semester").html(data);
+                }
+            }
+        });
+    });
+});
 
 
 

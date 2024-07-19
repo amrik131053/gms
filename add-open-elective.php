@@ -12,7 +12,7 @@ function checkall()
 
   var inputs = document.querySelectorAll('.newStudents');
 
-        for (var i = 0; i < inputs.length; i++) {
+        for (var i = 0; i < inputs.length; i++) { 
             inputs[i].checked = true;
 
         }
