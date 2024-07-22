@@ -42,7 +42,7 @@ function searchStudentCollegeWise() {
     if (Batch != '') { 
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 451;
+        var code = 454;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
