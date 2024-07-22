@@ -6426,8 +6426,10 @@ else if($code=='56')
  <tr>
                  
  
+ <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
                   <th >Sr No </th>
                 <th  >Uni Roll No</th>
+                <th  >IDNo</th>
                                                 
                       
                        <th > Name </th>
@@ -6467,21 +6469,51 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
       $UniRollNo=$row['UniRollNo']; 
       $IDNo=$row['IDNo']; 
       $clr="";
+      $status=0;
+      $MSTatus=0;
       if($row['ESE']!="")
       {
          $clr="success";
+         $MSTatus=1;
       }
-      else{
+      else 
+      {
          $clr="warning";
       }
+       $query = "SELECT * FROM Admissions  Where IDNo='$IDNo'";
+      $result = sqlsrv_query($conntest,$query);
+      while($rowAdm = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+      {
+       $UniRollNo=$rowAdm['UniRollNo'];
+       $ClassRollNo=$rowAdm['ClassRollNo'];
+       $CollegeID=$rowAdm['CollegeID'];
+       $CourseID=$rowAdm['CourseID'];
+       $Batch=$rowAdm['Batch'];
+
+        $getColor="SELECT ResultStatus FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$semID' and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$exam' and Batch='$Batch' and Type='Reappear' ";
+       $resultgetColor = sqlsrv_query($conntest,$getColor);
+       if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
+       {
+          
+       if($rowresultgetColor['ResultStatus']=='0')
+       {
+          $clr="primary";
+          $status=1;
+       }
+      }
+   }
+
 ?>
 <tr class="bg-<?=$clr;?>" >
+
+<td><?php if($status==1 && $MSTatus==1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
 <input type="hidden" value="<?= $row['IDNo'];?>"  id="ids" > 
 <input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode" > 
 </td>
 <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['UniRollNo'];?></td>
+<td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['IDNo'];?></td>
 
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                <td><?=$row['SubjectCode'];?>
@@ -6511,6 +6543,7 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
                            <input type="button" value="Update" class="btn btn-primary btn-sm" onclick="updateMarks('<?=$row['ID'];?>','<?= $row['IDNo'];?>','<?= $row['SubjectCode'];?>');">
                         </td>
                      </tr>
+                     
 
 <?php 
 $clr="";
@@ -6519,7 +6552,7 @@ $clr="";
 ?>
 <!-- <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'> -->
 </table>
-<!-- <p style="text-align: right"><input   type="submit" name="submit" value="Update" onclick="testing1();" class="btn btn-danger "  > -->
+<p style="text-align: right"><input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
 <?php 
 }
    

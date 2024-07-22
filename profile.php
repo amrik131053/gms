@@ -596,6 +596,7 @@ function updateStaffSelf() {
         var employeeBankName=document.getElementById('employeeBankName').value;
         var bankIFSC=document.getElementById('bankIFSC').value;
         var nationality_by_post=document.getElementById('nationality').value;
+        var bloodgroup=document.getElementById('bloodgroup').value;
         // alert(bankIFSC);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -627,11 +628,12 @@ function updateStaffSelf() {
             bankAccountNo:bankAccountNo,
             employeeBankName:employeeBankName,
             bankIFSC:bankIFSC,
+            bloodgroup:bloodgroup,
              nationality_by_post:nationality_by_post
         },
         success: function(response) {
             tab();
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {

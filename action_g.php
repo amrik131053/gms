@@ -3456,6 +3456,20 @@ else { ?>
                                                     rows="3"><?=$row1['PersonalIdentificationMark'];?></textarea>
                                             </div>
                                         </div>
+                                        <div class="col-12 col-lg-3">
+                                        <label>Blood Greoup</label>
+                        <select class="form-control" name="bloodGroup">
+                            <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                                        </div>
 
                                         <div class="col-12 col-lg-3">
 
@@ -5989,6 +6003,7 @@ elseif($code==94)
    $PostalCode = $_POST["postalCode"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
+   $bloodGroup = $_POST["bloodGroup"];
    $organisationID = $_POST["organisationName"];
    $shiftID = $_POST["shift"];
    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
@@ -6092,7 +6107,8 @@ $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    $query .= "BankAccountNo = '$bankAccountNo', ";
    $query .= "BankName = '$employeeBankName', ";
    $query .= "BankIFSC = '$bankIFSC', ";
-   $query .= "ShiftID = '$shiftID' ";
+   $query .= "ShiftID = '$shiftID' ,";
+   $query .= "BloodGroup = '$bloodGroup' ";
    $query .= "WHERE IDNo = '$loginId'";
  $query;
    if(sqlsrv_query($conntest,$query))
@@ -12900,7 +12916,7 @@ elseif($code=='198')
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-3">
+                <div class="col-12 col-lg-2">
                     <div class="form-group">
                         <label>Emp. Categories</label>
                         <select class="form-control" id="category">
@@ -12914,7 +12930,7 @@ elseif($code=='198')
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-12">
+                <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label> Shift </label>
                                             <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
@@ -12935,7 +12951,22 @@ elseif($code=='198')
                                         </div>
                                     </div>
 
-
+                                    <div class="col-12 col-lg-2">
+                    <div class="form-group">
+                        <label>Blood Greoup</label>
+                        <select class="form-control" id="bloodGroup">
+                            <option value="Select">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
 
 
                 <div class="col-12 col-lg-3">
@@ -12975,6 +13006,7 @@ $Name=$_POST['Name'];
 $designation=$_POST['designation'];
 $CollegeId=$_POST['College3'];
 $Department3=$_POST['Department3'];
+$bloodGroup=$_POST['bloodGroup'];
 $get_leave_auth="SELECT * FROM leave_authority where DepartmentID='$Department3' and CollegeID='$CollegeId'";
 $get_leave_auth_run=mysqli_query($conn,$get_leave_auth);
 if($row_auth=mysqli_fetch_array($get_leave_auth_run))
@@ -13021,8 +13053,8 @@ else
     $RightsLevel="Staff";
     $LMSRole='12';
 }
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole');";
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
@@ -30059,6 +30091,22 @@ elseif($code==431)
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-3">
+                                            <label>Blood Group</label>
+                                        <select class="form-control" id="bloodgroup">
+                                            <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
+                                            <option value="A +ve">A +Ve</option>
+                                             <option value="A -ve">A -Ve</option>
+                                             <option value="AB +ve">AB +Ve</option>
+                                             <option value="AB -ve">AB -Ve</option>
+                                             <option value="B +ve">B +Ve</option>
+                                             <option value="B -ve">B -Ve</option>
+                                             <option value="O +ve">O +Ve</option>
+                                             <option value="O -ve">O -Ve</option>
+                                             <option value="NA">NA</option>
+                                            
+                                        </select>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
                                                 <div class="form-group">
                                                     <label>PAN Card Number</label>
                                                     <input type="text" class="form-control" id="panNumber"
@@ -31959,7 +32007,7 @@ $todaydate=$_POST['startDate'];
   }
   elseif($code==451)
   {
-  $ID=$_POST['ID'];
+   $ID=$_POST['ID'];
   $subCode=$_POST['SubCode'];
   $Semester=$_POST['Semester'];
   $Examination=$_POST['Examination'];
@@ -32192,26 +32240,26 @@ $todaydate=$_POST['startDate'];
                           <?php if($row['12']=='0')  
                        {?>
                             <td><?= $count+1;?></td>
-                          <td style='text-align:center;'><input type="text" class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['17']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['18']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
                           <?php }
                        elseif($row['12']=='1')
                        {?>
                           <td><?= $count+1;?></td>
-                          <td style='text-align:center;'><input type="text" class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['17']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['18']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
   
                           <?php  }
                        elseif($row['12']=='2')
@@ -32310,7 +32358,7 @@ $todaydate=$_POST['startDate'];
   // print_r($subNameArray);
   $cgpa=$_POST['cgpa'];
   $creditTotal=$_POST['creditTotal'];
-  $Type=$_POST['Type'];
+   $Type=$_POST['Type'];
               $query = "SELECT * FROM Admissions  Where IDNo='$ID'";
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -32322,8 +32370,8 @@ $todaydate=$_POST['startDate'];
               $Batch=$row['Batch'];
              }
             
-          $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,DeclareType) 
-             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','$Type','$timeStamp','$Type');";
+          $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,DeclareType,Timestamp,ResultStatus) 
+             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','Reappear','$timeStamp','','$timeStamp','0');";
         $result = sqlsrv_query($conntest,$insertResult);
          if ($result === false) {
       $errors = sqlsrv_errors();
@@ -32342,8 +32390,8 @@ $todaydate=$_POST['startDate'];
           $subjectGrade = $agradeArray[$key];
           $subjectCredit = $ccreditArray[$key];
           $subjectGradePoint = $bgradePointArray[$key];
-          $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID, SubjectName, SubjectCode, SubjectGrade, SubjectCredit, UniRollNo, SubjectGradePoint) 
-                                  VALUES ('$resultID', '$subjectName', '$subjectCode', '$subjectGrade', '$subjectCredit', '$UniRollNo', '$subjectGradePoint')";
+          $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+                                  VALUES ('$resultID','$subjectName','$subjectCode','$subjectGrade','$subjectCredit','$UniRollNo','$subjectGradePoint')";
           $result = sqlsrv_query($conntest, $insertResultDetails);
           if ($result === false) {
   
@@ -32363,6 +32411,15 @@ $todaydate=$_POST['startDate'];
              else{
               echo "0";
              }
+  }
+  elseif($code==453)
+  {
+    $examIDs=$_POST['examIDs'];
+
+    foreach ($examIDs as $key => $value) {
+       
+    }
+
   }
    else
    {

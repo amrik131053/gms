@@ -388,7 +388,7 @@ var Semester=document.getElementById('Semester').value;
 var Examination=document.getElementById('Examination').value;
 var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
-  var code = 450;
+  var code = 451;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -416,7 +416,7 @@ function showSubResult() {
 }
 
 function submitResultCombined(ID) {
-var code=451;
+var code=452;
 var r = confirm("Do you really want to Verifiy");
 if (r == true) {
 var Semester = document.getElementById('Semester').value;
@@ -481,6 +481,88 @@ alert(ccreditSize);
         }
     });
   }
+}
+
+function verifiy_select()
+{
+        if(document.getElementById("select_all1").checked)
+        {
+            $('.v_check').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.v_check').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.v_check').on('click',function()
+    {
+        var a=document.getElementsByClassName("v_check:checked").length;
+        var b=document.getElementsByClassName("v_check").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all1').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+} 
+
+
+function updateAll()
+{
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=453;
+  var examIDs=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            examIDs.push(verifiy[i].value);
+          }
+     }
+    //  alert(examIDs);
+     console.log(examIDs);
+  if((typeof  examIDs[0]== 'undefined'))
+  {
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{examIDs:examIDs,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+            // console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Updated');
+            //    search_study_scheme();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+}
 }
 </script>
 

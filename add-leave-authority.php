@@ -429,7 +429,7 @@ function emp_detail_verify2(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            // console.log(response);
+            console.log(response);
             if (response==1) 
             {
             SuccessToast('Successfully Updated '+loginId);
@@ -1580,10 +1580,11 @@ function addEmployee()
        var Doj=document.getElementById('Doj').value;
        var category=document.getElementById('category').value;
        var Doj=document.getElementById('Doj').value;
+       var bloodGroup=document.getElementById('bloodGroup').value;
        var Permanent=document.getElementById('Permanent').value;
        var Correspondance=document.getElementById('Correspondance').value;
        var shift=document.getElementById('shift').value;
-       if (shift!='' && loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
+       if (shift!='' && bloodGroup && loginId!='' && Name!='' && designation!='' && College3!='' && Department3!='' && Dob!='' && Gender!='' && FatherName!='' && Conatct!='' && Mobile!='' && Email!='' && Doj!='' && category!='' && Doj!='' && Permanent!='' && Correspondance!='')
        {
        var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -1592,7 +1593,7 @@ function addEmployee()
                 type:'POST',
                 data:{code:code,loginId:loginId,Name:Name,designation:designation,College3:College3,Department3:Department3,
                   Dob:Dob,Gender:Gender,FatherName:FatherName,Conatct:Conatct,Mobile:Mobile,Email:Email,Doj:Doj,
-                  category:category,Permanent:Permanent,Correspondance:Correspondance,shift:shift},
+                  category:category,Permanent:Permanent,Correspondance:Correspondance,shift:shift,bloodGroup:bloodGroup},
                 success: function(response) 
                { 
                spinner.style.display='none';
@@ -1606,6 +1607,7 @@ function addEmployee()
        document.getElementById('Department3').value="";
       
        document.getElementById('Dob').value="";
+       document.getElementById('bloodGroup').value="";
       
        document.getElementById('Gender').value="";
        document.getElementById('FatherName').value="";
