@@ -17903,31 +17903,34 @@ elseif($code==267) //update student
             <div class="card">
                 <div class="card-header p-2" style="background-color:white!important">
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#personal_details"
-                                data-toggle="tab">Basic</a></li>
+              <li class="nav-item"><a class="nav-link active" href="#personal_details" data-toggle="tab">Basic</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#employment" data-toggle="tab">Course</a>
                         </li>
                       <li class="nav-item"><a class="nav-link" href="#idcard1" data-toggle="tab">ID Card</a>
-                        </li>
-                       
-                        
-                        <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
-
+                        </li>                      
+                      <li class="nav-item"><a class="nav-link" href="#documents" data-toggle="tab">Documents</a>
                         </li>
                          <?php 
    if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
    {   ?>
-     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a>
-                       
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a>
-                        </li>
+     <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Reference</a> </li>
+
+      <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a> </li>
           <?php }
-          ?>              
-                        <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a>
-                        </li>
+          else if ($role_id=='2' OR  $role_id=='22')
+           
+
+    {?>
+ <li class="nav-item"><a class="nav-link" href="#special" data-toggle="tab">Special Comment</a> </li>
+<?php }
+else
+{
+
+}
+?>
+    <li class="nav-item"><a class="nav-link" href="#fee" data-toggle="tab">Fee</a> </li>
                     </ul>
                 </div>
                 <!-- /.card-header -->
@@ -18000,16 +18003,16 @@ elseif($code==267) //update student
 
                                         </select>
                                     </div>
-                                    <div class="col-md-12 col-lg-3">
-                                        <label>Aadhaar No</label>
+                                    <div class="col-md-12 col-lg-2">
+                                        <label>ABC ID</label>
                                         <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
-                                            <input type="number" class="form-control" name="aadharNo"
-                                            placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                            <input type="number" class="form-control" name="abcid"
+                                            placeholder="Enter ABC ID" value="<?=$row1['ABCID'];?>">
                                             <?php  } else
                                             {
-                                                ?><input type="number" class="form-control" name="aadharNo"
-                                                placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>" readonly><?php 
+                                                ?><input type="number" class="form-control" name="abcid"
+                                                placeholder="Enter ABC ID" value="<?=$row1['ABCID'];?>" readonly><?php 
                                             }
                                         ?>
                                         
@@ -18032,7 +18035,7 @@ elseif($code==267) //update student
                                             
                                         </select>
                                     </div>
-                                    <div class="col-md-12 col-lg-3">
+                                    <div class="col-md-12 col-lg-2">
                                         <label>Religion</label>
                                        <select class="form-control" name="religion">
                                         <option value="<?= $row1['Religion'];?>"><?=$row1['Religion'];?></option>
@@ -18044,6 +18047,20 @@ elseif($code==267) //update student
                                                <option value="JAIN">JAIN</option>
                                                <option value="BUDDHISTS">BUDDHISTS</option>
                                            </select>
+                                    </div>
+                                     <div class="col-md-12 col-lg-2">
+                                        <label>Aadhaar No</label>
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="number" class="form-control" name="aadharNo"
+                                            placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
+                                            <?php  } else
+                                            {
+                                                ?><input type="number" class="form-control" name="aadharNo"
+                                                placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Image</label>
@@ -18852,6 +18869,7 @@ elseif($code==268)
    $gender = $_POST["gender"];
    $category = $_POST["category"]; 
    $adhaar =$_POST["aadharNo"];
+    $ABCID =$_POST["abcid"];
    $BloodGroup =$_POST["bloodgroup"];
    $Religion =$_POST["religion"];
    $photo = $_FILES["photo"]["name"];
@@ -18997,6 +19015,7 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "BloodGroup ='$BloodGroup', ";
    $query .= "AadhaarNo ='$adhaar', ";
    $query .= "Religion ='$Religion', ";
+   $query .= "ABCID ='$ABCID', ";
  
  // contact
 

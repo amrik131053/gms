@@ -190,6 +190,8 @@ function search_all_employee_emp_name(emp_name) {
 }
 
 function search_all_employee() {
+
+   
     var code_access = '<?php echo $code_access; ?>';
     var emp_name = document.getElementById('emp_name').value;
     if (emp_name != '') {
@@ -341,7 +343,7 @@ function fetchcourse() {
 }
 
 function fetch_state1(country_id) {
-    alert(country_id);
+    //alert(country_id);
     var code = '160';
     $.ajax({
         url: 'action_g.php',
@@ -364,7 +366,7 @@ function fetch_state1(country_id) {
 
 function fetch_district1(state_id) {
     var code = '271';
-    alert(state_id);
+  //  alert(state_id);
     $.ajax({
         url: 'action_g.php',
         data: {
