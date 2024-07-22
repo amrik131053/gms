@@ -32423,6 +32423,119 @@ $todaydate=$_POST['startDate'];
     }
 
   }
+
+
+   elseif($code==454)  // search international student 
+{
+    $StudentName = $_POST['StudentName'];
+    $Session = $_POST['Session'];
+    $CollegeID = $_POST['CollegeName'];
+    $CourseID = $_POST['Course'];
+    $Batch = $_POST['Batch'];
+    $Status = $_POST['Status'];
+    $Eligibility = $_POST['Eligibility'];
+    $LateralEntry = $_POST['LateralEntry'];
+?>
+
+
+            <table class="table " id="example">
+                <thead>
+                    <tr>
+                    
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Session</th>
+                        <th>IDNo</th>
+                        <th>ClassRoll/UniRollNo</th>
+                        <!-- <th>UniRollNo</th> -->
+                        <th>Name</th>
+                        <th>FatherName</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <!-- <th>Status</th> -->
+                      
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+      $sr=1;
+
+   
+      $query = "SELECT  *  from Admissions  WHERE 1 = 1";
+
+      if ($CollegeID != '') {
+          $query .= " AND  CollegeID='$CollegeID'";
+      }
+      
+      if ($CourseID != '') {
+          $query .= " AND  CourseID ='$CourseID'";
+      }
+      
+      if ($Batch != '') {
+          $query .= " AND  Batch='$Batch'";
+      }
+      
+      if ($Status != '') {
+          $query .= " AND  Status='$Status'";
+      }
+      
+      if ($Session != '') {
+          $query .= " AND  Session='$Session'";
+      }
+      if ($Eligibility != '') {
+          $query .= " AND  Eligibility='$Eligibility'";
+      }
+      if ($StudentName != '') {
+        $query .= " AND  StudentName like '%$StudentName%'";
+    }
+
+    if ($LateralEntry != '') {
+    $query .= "AND  LateralEntry='$LateralEntry' AND Nationality='NRI' order by ClassRollNo";
+    }
+
+
+       $result = sqlsrv_query($conntest,$query);
+       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+       {
+        $aa[]=$row;
+          $emp_pic=base64_encode($row['Snap']);
+         if ($row['StudentMobileNo']!='') 
+         {
+            $mobile=$row['StudentMobileNo'];
+         }
+         else
+         {
+            $mobile=$row['FatherMobileNo'];
+         }
+         
+         ?>
+                    <tr>
+                
+                        <td><?=$sr;?></td>
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                </td>
+                        <td><?=$row['Session'];?></td>
+                        <td><?=$row['IDNo'];?></td>
+                        <td><?=$row['ClassRollNo'];?><b>/</b><?=$row['UniRollNo'];?></td>
+                        <!-- <td><?=$row['UniRollNo'];?></td> -->
+                        <td><?=$row['StudentName'];?></td>
+                        <td><?=$row['FatherName'];?></td>
+                        <td><?=$row['CollegeName'];?></td>
+                        <td><?=$row['Course'];?></td>         
+                       <!--  <td><?php if($row['Locked']=='' || $row['Locked']=='0'){echo "<i class='fa fa-lock-open text-success' aria-hidden='true' onclick='lockUser(".$row['IDNo'].",0)'></i>";}else{echo "<i class='fa fa-lock text-danger' aria-hidden='true' onclick='unlockUser(".$row['IDNo'].",0)'></i>";};?>
+                        </td> -->
+                    </tr>
+                    <?php $sr++;
+
+}
+?>
+
+                </tbody>
+            </table>
+            <?php 
+            sqlsrv_close($conntest);        
+}
    else
    {
    
