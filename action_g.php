@@ -3458,17 +3458,19 @@ else { ?>
                                         </div>
                                         <div class="col-12 col-lg-3">
                                         <label>Blood Greoup</label>
-                        <select class="form-control" name="bloodGroup">
-                            <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                        </select>
+                                        <select class="form-control" name="bloodgroup">
+                                            <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
+                                            <option value="A +ve">A +Ve</option>
+                                             <option value="A -ve">A -Ve</option>
+                                             <option value="AB +ve">AB +Ve</option>
+                                             <option value="AB -ve">AB -Ve</option>
+                                             <option value="B +ve">B +Ve</option>
+                                             <option value="B -ve">B -Ve</option>
+                                             <option value="O +ve">O +Ve</option>
+                                             <option value="O -ve">O -Ve</option>
+                                             <option value="NA">NA</option>
+                                            
+                                        </select>
                                         </div>
 
                                         <div class="col-12 col-lg-3">
@@ -6003,7 +6005,7 @@ elseif($code==94)
    $PostalCode = $_POST["postalCode"];
    $permanentAddress = $_POST["permanentAddress"];
    $correspondenceAddress = $_POST["correspondenceAddress"];
-   $bloodGroup = $_POST["bloodGroup"];
+   $bloodGroup = $_POST["bloodgroup"];
    $organisationID = $_POST["organisationName"];
    $shiftID = $_POST["shift"];
    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
