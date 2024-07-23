@@ -19032,7 +19032,7 @@ sqlsrv_query($conntest, $upimage, $params);
 
 
 
-echo  $query;
+  $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
 
