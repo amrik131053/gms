@@ -18108,7 +18108,10 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-lg-2">
                                         <label>Nationality</label>
+
                                         <select class="form-control" id="Nationality_1" name="Nationality_1">
+                                             <option value="<?=$row1['Nationality'];?>"><?=$row1['Nationality'];?>
+                                            </option>
                                             <option value="Indian">Indian</option>
                                             <option value="NRI">NRI</option>
                                           
@@ -19027,7 +19030,7 @@ sqlsrv_query($conntest, $upimage, $params);
 
 
 
- $query;
+echo  $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
 
