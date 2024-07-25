@@ -3457,7 +3457,7 @@ else { ?>
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-3">
-                                        <label>Blood Greoup</label>
+                                        <label>Blood Group</label>
                                         <select class="form-control" name="bloodgroup">
                                             <option value="<?=$row1['BloodGroup'];?>"><?=$row1['BloodGroup'];?></option>
                                             <option value="A +ve">A +Ve</option>
@@ -12955,7 +12955,7 @@ elseif($code=='198')
 
                                     <div class="col-12 col-lg-2">
                     <div class="form-group">
-                        <label>Blood Greoup</label>
+                        <label>Blood Group</label>
                         <select class="form-control" id="bloodGroup">
                             <option value="Select">Select</option>
                             <option value="A+">A+</option>
@@ -13055,8 +13055,8 @@ else
     $RightsLevel="Staff";
     $LMSRole='12';
 }
- $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,BloodGroup,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup)
-Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Group','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup');";
+ $insertEmployee="INSERT into Staff (IDNo,Name,FatherName,Designation,DepartmentID,Department,Type,Gender,CorrespondanceAddress,PermanentAddress,ContactNo,MobileNo,EmailID,DateOfBirth,DateOfJoining,CategoryId,CollegeId,CollegeName,JobStatus,LeaveRecommendingAuthority,LeaveSanctionAuthority,ShiftID,RoleID,BloodGroup)
+Values('$loginId','$Name','$FatherName','$designation','$Department3','$Department','$Type','$Gender','$Correspondance','$Permanent','$Conatct','$Mobile','$Email','$Dob','$Doj','$category','$CollegeId','$college','1','$RecommendingAuth','$SenctionAuth','$shift','$LMSRole','$bloodGroup');";
 $insertEmployeeRun=sqlsrv_query($conntest,$insertEmployee);
 if($insertEmployeeRun==true)
 {
@@ -32373,7 +32373,7 @@ $todaydate=$_POST['startDate'];
              }
             
           $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,DeclareType,Timestamp,ResultStatus) 
-             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','Reappear','$timeStamp','','$timeStamp','0');";
+             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','Reappear','$timeStamp','2','$timeStamp','0');";
         $result = sqlsrv_query($conntest,$insertResult);
          if ($result === false) {
       $errors = sqlsrv_errors();
@@ -32416,10 +32416,71 @@ $todaydate=$_POST['startDate'];
   }
   elseif($code==453)
   {
-    $examIDs=$_POST['examIDs'];
+$examIDs=$_POST['examIDs'];
+$college=$_POST['college'];
+$course=$_POST['course'];
+$batch=$_POST['batch'];
+$sem=$_POST['sem'];
+$examination=$_POST['examination'];
+$group=$_POST['group'];
+$subCodesArray=$_POST['subCodesArray'];
+    foreach ($subCodesArray as $key => $value)
+    {
+          $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE  ID='$value'
+        group by CE1,CE2,CE3,Attendance  ";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {
+          $CA1=$RowfatchMarks['CA1'];
+          $CA2=$RowfatchMarks['CA2'];
+          $CA3=$RowfatchMarks['CA3'];
+          $Attendacne=$RowfatchMarks['Attendance'];
+       }
+         $sql1 = "SELECT * FROM ExamFormSubject  WHERE ID='".$examIDs[$key]."'";
+         $stmt = sqlsrv_query($conntest,$sql1);
+        if ($stmt === false) {
+           $errors = sqlsrv_errors();
+           echo "Error: " . print_r($errors, true);  
+       }      
+          if($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+           $pmarks=$row['pmarks']; 
+          }
+          $examID=$examIDs[$key];
+          $ca1=$CA1;
+          $ca2=$CA2;
+          $ca3=$CA3;
+          $attendance=$Attendacne;
+          $marks=$pmarks;
+          if($pmarks!='')
+          {
+ 
+        $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
+           CE2='$ca2',CE2updateby='$EmployeeID',CE2updatedDate='$timeStamp',CE2Locked='1',
+           CE3='$ca3',CE3updateby='$EmployeeID',CE3updatedDate='$timeStamp',CE3Locked='1',
+           ESE='$marks',MOOCupdateby='$EmployeeID',MOOCupdatedDate='$timeStamp',MoocLocked='1',
+           Attendance='$attendance',Attendanceupdateyby='$EmployeeID', AttendanceupdatedDate='$timeStamp', AttendanceLocked='1'
+            where ID='$examID'";
+              $stmt1 = sqlsrv_query($conntest,$setSync);
+              if($stmt1==true)
+              {
+                echo "1";
+              }
+              else{
+                echo "0";
+              }
+              if ($stmt1 === false) {
+                $errors = sqlsrv_errors();
+                echo "Error: " . print_r($errors, true);  
+            } 
+        }
+        else{
+            echo "2"; // p marks emty
+        }
 
-    foreach ($examIDs as $key => $value) {
-       
     }
 
   }
@@ -32536,6 +32597,162 @@ $todaydate=$_POST['startDate'];
             <?php 
             sqlsrv_close($conntest);        
 }
+
+else if($code==455)
+{
+    $subCodesArray=$_POST['subCodesArray'];
+$IDNoArray=$_POST['IDNoArray'];
+$eIDArray=$_POST['eIDArray'];
+
+    foreach ($eIDArray as $key => $value)
+    {
+ $ID=$IDNoArray[$key];
+ $subCode=$subCodesArray[$key];
+ $Semester=$_POST['Semester'];
+$Examination=$_POST['Examination'];
+$srNo=1;
+
+$query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where 
+Admissions.IDNo='$ID'  and Semester='$Semester' order by  Semester ASC ";
+           $result = sqlsrv_query($conntest,$query);
+           while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+           {
+            // echo $row['IDNo'];
+             $IDNo= $row['IDNo'];
+             $Type= $row['Type'];
+         $sql = "{CALL GetResult('".$row['Id']."')}";
+       $stmt = sqlsrv_prepare($conntest, $sql);
+ 
+        $count=0;
+        $totalcredit=0;
+        $gradevaluetotal=0;
+          while($row = sqlsrv_fetch_array($stmt)){
+
+      $declare= $row['11'];
+    $subNames[]=$row['15'];
+    $subCodes[]=$row['16'];
+
+       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE  FROM ExamFormSubject
+      WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination'
+      group by CE1,CE2,CE3,Attendance,ESE  ";
+     $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+     if ($RunfatchMarks === false) {
+        $errors = sqlsrv_errors();
+        echo "Error: " . print_r($errors, true);
+    } 
+     if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+     {  
+      $CE1= $RowfatchMarks['CA1'];
+      $mst1=0;
+      $CE3=$RowfatchMarks['CA3'];
+      $att= $RowfatchMarks['Attendance'];
+      $ESe=$RowfatchMarks['ESE'];
+      $mst2= 0;
+      $grace=0;
+      
+      $gardep=0;
+      $grade=0;
+      $totalFinal=0;
+      $showmarks=0;
+        $nccount=0;
+      include "result-pages/grade_calculator.php";
+    } 
+    else{
+        $gardep=0;
+        $totalFinal=0;
+       
+$grade=0;
+$showmarks=0;
+} 
+if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];} 
+
+      $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
+    $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
+    while($row7co = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
+             {
+                 $credit=$row7co['NoOFCredits'];
+                 $SubjectCode=$row7co['SubjectCode'];
+                 $SubjectName=$row7co['SubjectName'];
+             }
+    
+             $nccount =0;
+             if(is_numeric($credit))
+             {
+    $totalcredit=$totalcredit+$credit;
+                    }
+        if(is_numeric($credit))
+        {
+             $credit=$credit;
+        }   
+        else
+        {
+            $credit=0;
+        }
+        if($credit>0)
+        {
+            if(is_numeric($credit))
+            {
+              $gradevalue=$gardep*$credit;
+            }
+            else
+            {
+                $gradevalue=0; 
+            }
+            if($gradevalue>0)
+            {
+            $gradevaluetotal=$gradevaluetotal+$gradevalue;
+            }
+            else
+            {
+            if($grade=='F' || $grade=='US')
+            {
+            $nccount++;
+            }
+            }
+        }
+            else
+            {
+            if($grade=='F' || $grade=='US')
+            {
+            $nccount++;
+            }
+            } 
+            if($totalcredit>0)
+            {
+            $sgpa=$gradevaluetotal/$totalcredit;   
+            }
+            else
+            {
+            $sgpa=0; 
+            }
+    if($count=='0')
+            {?>
+
+                      <?php
+
+
+            }
+
+               
+            $count++;
+            $mst2= 0;
+            $grace=0;
+            $nccount =0;
+             $gardep=0;
+            $grade=0;
+             $totalFinal=0;
+             $showmarks=0;
+          }?>
+         
+   <?php }?>
+             
+    <?php 
+
+  $srNo++;
+        }
+   }
+
+
    else
    {
    
