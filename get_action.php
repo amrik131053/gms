@@ -6457,7 +6457,7 @@ else if($code=='56')
  
 $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
   WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
- ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' order by Admissions.IDNo ASC";
+ ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' AND ExamFormSubject.ExternalExam='Y' order by Admissions.IDNo ASC";
     $stmt = sqlsrv_query($conntest,$sql1);
    if ($stmt === false) {
       $errors = sqlsrv_errors();
@@ -6466,6 +6466,7 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
         $count=0;
      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
       $subCode=$row['SubjectCode']; 
+      $subjecttype=$row['SubjectType']; 
       // $UniRollNo=$row['UniRollNo']; 
       $IDNo=$row['IDNo']; 
       $clr="";
@@ -6539,8 +6540,20 @@ if($status==2 || $MSTatus==1 )
                <td><?=$row['SubjectCode'];?>
              <?php  $iidd=$row['ID'];?></td>               
        <?php 
-        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Type='Regular' and IDNo='".$row['IDNo']."'
-        group by CE1,CE2,CE3,Attendance,ID    ";
+
+       if($subjecttype!='P')
+       {
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Type='Regular' and IDNo='".$row['IDNo']."'
+         group by CE1,CE2,CE3,Attendance,ID";
+       }
+       else{
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Examination='May 2024' and IDNo='".$row['IDNo']."'
+        group by CE1,CE2,CE3,Attendance,ID";
+
+       }
+        
+
+
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();

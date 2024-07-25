@@ -32077,9 +32077,9 @@ $todaydate=$_POST['startDate'];
       $subNames[]=$row['15'];
       $subCodes[]=$row['16'];
   
-         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE  FROM ExamFormSubject
-        WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination'
-        group by CE1,CE2,CE3,Attendance,ESE  ";
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination' AND  ExternalExam='Y'
+        group by CE1,CE2,CE3,Attendance,ESE,SubjectType  ";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -32087,8 +32087,16 @@ $todaydate=$_POST['startDate'];
       } 
        if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
        {  
+        $subjecttype=$RowfatchMarks['SubjectType']; 
         $CE1= $RowfatchMarks['CA1'];
-        $mst1=0;
+        if($subjecttype!='P')
+                {
+            $mst1=0;
+        }
+        else
+        {
+            $mst1=$RowfatchMarks['MST1'];;
+        }
         $CE3=$RowfatchMarks['CA3'];
         $att= $RowfatchMarks['Attendance'];
         $ESe=$RowfatchMarks['ESE'];
@@ -32116,10 +32124,8 @@ $todaydate=$_POST['startDate'];
   $showmarks=0;
   } 
   if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];}
-      
-
-      
-        $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
+   
+  $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
       $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
       
       while($row7co = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
@@ -32132,8 +32138,11 @@ $todaydate=$_POST['startDate'];
               
                if(is_numeric($credit))
                {
-      $totalcredit=$totalcredit+$credit;
+
+
+                  $totalcredit=$totalcredit+$credit;
                       }
+
           if(is_numeric($credit))
           {
                $credit=$credit;
@@ -32144,9 +32153,19 @@ $todaydate=$_POST['startDate'];
           }
           if($credit>0)
           {
+            
               if(is_numeric($credit))
               {
-                $gradevalue=$gardep*$credit;
+                if(is_numeric($gardep))
+                {
+                    $gradevalue=$gardep*$credit;
+                }
+                else
+                {
+                    $gradevalue=0; 
+                }
+                
+         
               }
               else
               {
@@ -32156,7 +32175,7 @@ $todaydate=$_POST['startDate'];
 
               if($gradevalue>0)
               {
-              $gradevaluetotal=$gradevaluetotal+$gradevalue;
+             echo   $gradevaluetotal=$gradevaluetotal+$gradevalue;
               }
               else
               {
@@ -32300,7 +32319,7 @@ $todaydate=$_POST['startDate'];
                           <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
                           <td style='text-align:center;' colspan="2"><b>SGPA:<?=$row['13']?></b></td>
                           <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td>
-                          <td style='text-align:center;' colspan="2"><b>SGPA:<?=$nccount;?>-<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
+                          <td style='text-align:center;' colspan="2"><b>SGPA: <?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
                           <?php }
   
                        elseif($row['12']=='1')
@@ -32309,7 +32328,7 @@ $todaydate=$_POST['startDate'];
                           <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
                           <td style='text-align:center;' colspan="2"><b>SGPA:<?=$row['13']?></b></td>
                           <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td>
-                          <td style='text-align:center;' colspan="2"><b>SGPA:-<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
+                          <td style='text-align:center;' colspan="2"><b>SGPA : <?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
                           <?php }
                     elseif($row['12']=='2'){?> <td colspan="9" style='text-align:center;'><b>Total
                                   Marks:<?=$row['14']?></b></td>
