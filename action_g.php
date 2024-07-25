@@ -32067,6 +32067,7 @@ $todaydate=$_POST['startDate'];
           die;
           } 
           $count=0;
+          $nccount =0;
           $totalcredit=0;
           $gradevaluetotal=0;
             while($row = sqlsrv_fetch_array($stmt)){
@@ -32116,7 +32117,7 @@ $todaydate=$_POST['startDate'];
   } 
   if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];}
       
-  
+
       
         $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
       $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
@@ -32128,7 +32129,7 @@ $todaydate=$_POST['startDate'];
                    $SubjectName=$row7co['SubjectName'];
                }
       
-               $nccount =0;
+              
                if(is_numeric($credit))
                {
       $totalcredit=$totalcredit+$credit;
@@ -32151,6 +32152,8 @@ $todaydate=$_POST['startDate'];
               {
                   $gradevalue=0; 
               }
+             
+
               if($gradevalue>0)
               {
               $gradevaluetotal=$gradevaluetotal+$gradevalue;
@@ -32159,15 +32162,15 @@ $todaydate=$_POST['startDate'];
               {
               if($grade=='F' || $grade=='US')
               {
-              $nccount++;
+                $nccount=$nccount+1;
               }
               }
-          }
+              }
               else
               {
               if($grade=='F' || $grade=='US')
               {
-              $nccount++;
+              $nccount=$nccount+1;
               }
               } 
               if($totalcredit>0)
@@ -32178,7 +32181,13 @@ $todaydate=$_POST['startDate'];
               {
               $sgpa=0; 
               }
-          //    echo $nccount;
+
+             //echo $nccount;
+            if($nccount>0)
+            {
+              $sgpa="NC";
+            }
+       
              
         ?>
           <div style='padding:0px 0px;' class=" table-responsive">
@@ -32247,9 +32256,9 @@ $todaydate=$_POST['startDate'];
                             <td><?= $count+1;?></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
@@ -32259,9 +32268,9 @@ $todaydate=$_POST['startDate'];
                           <td><?= $count+1;?></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control "  value="<?=$showmarks."=".$totalFinal?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
@@ -32282,7 +32291,6 @@ $todaydate=$_POST['startDate'];
                       </tr>
   
                       <?php
-  
                     if($row['21']-1==$count)
                     {
                       ?>
@@ -32292,7 +32300,7 @@ $todaydate=$_POST['startDate'];
                           <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
                           <td style='text-align:center;' colspan="2"><b>SGPA:<?=$row['13']?></b></td>
                           <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td>
-                          <td style='text-align:center;' colspan="2"><b>SGPA:<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
+                          <td style='text-align:center;' colspan="2"><b>SGPA:<?=$nccount;?>-<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
                           <?php }
   
                        elseif($row['12']=='1')
@@ -32301,7 +32309,7 @@ $todaydate=$_POST['startDate'];
                           <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
                           <td style='text-align:center;' colspan="2"><b>SGPA:<?=$row['13']?></b></td>
                           <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td>
-                          <td style='text-align:center;' colspan="2"><b>SGPA:<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
+                          <td style='text-align:center;' colspan="2"><b>SGPA:-<?php if($nccount>0){ echo 'NC';} else { echo $sgpa;}?></b></td>
                           <?php }
                     elseif($row['12']=='2'){?> <td colspan="9" style='text-align:center;'><b>Total
                                   Marks:<?=$row['14']?></b></td>
@@ -32325,7 +32333,7 @@ $todaydate=$_POST['startDate'];
               $count++;
               $mst2= 0;
               $grace=0;
-              $nccount =0;
+            //   $nccount =0;
                $gardep=0;
               $grade=0;
                $totalFinal=0;

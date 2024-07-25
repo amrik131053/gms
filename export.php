@@ -10279,6 +10279,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
 $exportstudy.="<tr>
     <th>SrNo</th>
     <th>UniRoll No</th> ";
+    // print_r($SubjectNames);
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=2>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
 }
@@ -10346,10 +10347,68 @@ $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
       $exportstudy.="<tr><th>SrNo</th><th>UniRoll No</th>";
       
           foreach ($Subjects as $key => $SubjectsCode) {
+           
       $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
       }
       $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>";
     //   $exportstudy.="</tr>";
+    $group = $_GET['Group'];
+    $CourseID = $_GET['Course'];
+     $CollegeID = $_GET['CollegeId'];
+     $Batch=$_GET['Batch']; 
+     $semID = $_GET['Semester'];
+     $exam = $_GET['Examination'];
+    $sql1 = "SELECT  DISTINCT UniRollNo,Id,TotalCredit,Sgpa FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
+    $stmt = sqlsrv_query($conntest,$sql1);
+        $SrNo=1;
+     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+      $ID=$row['Id']; 
+      $UniRollNo=$row['UniRollNo']; 
+      $exportstudy.="<tr>
+      <th>{$SrNo}</th>
+      <th>{$UniRollNo}</th> ";
+     
+
+
+foreach ($Subjects as $key => $value) {
+     $fatchMarks="SELECT  * FROM  ResultPreparationDetail WHERE  ResultID='$ID' and SubJectCode='$value' ";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {  
+    $SubjectGrade=$RowfatchMarks['SubjectGrade'];
+    $SubjectGradePoint=$RowfatchMarks['SubjectGradePoint'];
+    $SubjectCredit=$RowfatchMarks['SubjectCredit'];
+    $exportstudy.="
+    <th>".$SubjectNames[$key]."</th>
+    <th>".$SubjectsCode."</th> 
+    <th>{$SubjectGrade}</th>
+    <th>{$SubjectGradePoint}</th> 
+    <th>{$SubjectCredit}</th> ";
+      } 
+      else{
+        $exportstudy.="
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        ";
+    }
+    
+}
+$exportstudy.="
+<th>".$row['TotalCredit']."</th>
+<th>".$row['Sgpa']."</th>
+
+";
+$SrNo++;
+}
+$exportstudy.="</tr>";
+
       $exportstudy.="</table>";
 echo $exportstudy;
 $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
