@@ -18391,7 +18391,20 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                             
                                         </select>
                                     </div>
+                                    <div class="col-lg-2 col-12">
+                                        <label>Admission Type</label>
+                                        <!-- <select class="form-control" name="admissiontype" id="admissiontype" >
+                                                 -->
+<!-- <option value="<?=$row1['AdmissionType'];?>"><?=$row1['AdmissionType'];?></option> -->
+<!-- <option value="">Normal</option>
+<option value="1">Pre Requisite</option>
+              <option value="2">Foundation</option>
+                            <option value="3">Migration</option> -->
+<input type="text" name="" class="form-control"id="" value="<?=$row1['AdmissionType'];?>" disabled>
 
+
+<!-- </select> -->
+                                    </div>
 
                                 </div>
                             </div>

@@ -6520,20 +6520,10 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
 <input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode<?= $row['ID'];?>" > 
 <input type="hidden"  value="<?= $row['IDNo'];?>"  id="IDNo<?= $row['ID'];?>" > 
 </td>
-<?php 
-if($status==2 || $MSTatus==1 )
-{
-?>
-<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
-<td style="text-align: center"> <?=$row['IDNo'];?></td>
-<?php 
-}else{
-?>
+
 <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['UniRollNo'];?>
 </td>
 <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['IDNo'];?></td>
-<?php 
-}?>
 
 
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  

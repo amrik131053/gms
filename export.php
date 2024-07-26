@@ -10334,8 +10334,8 @@ $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
       else if($exportCode==72)
       {
       
-      include 'result-pages/result-subject-bind.php';
-      
+    //   include 'result-pages/result-subject-bind.php';
+      include 'result-pages/result-subject-bind-new2.php';
       $subCount=(count($Subjects)*5)+4;
       $subCount1=count($Subjects);
       
@@ -10382,9 +10382,10 @@ foreach ($Subjects as $key => $value) {
     $SubjectGrade=$RowfatchMarks['SubjectGrade'];
     $SubjectGradePoint=$RowfatchMarks['SubjectGradePoint'];
     $SubjectCredit=$RowfatchMarks['SubjectCredit'];
+    $SubjectCode=$RowfatchMarks['SubjectCode'];
     $exportstudy.="
     <th>".$SubjectNames[$key]."</th>
-    <th>".$SubjectsCode."</th> 
+    <th>".$SubjectCode."</th> 
     <th>{$SubjectGrade}</th>
     <th>{$SubjectGradePoint}</th> 
     <th>{$SubjectCredit}</th> ";
