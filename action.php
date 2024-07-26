@@ -23,7 +23,31 @@ ini_set('max_execution_time', '0');
 <?php }
    include "connection/connection.php";
 
- 
+    $employee_details="SELECT RoleID,IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+      $employee_details_run=sqlsrv_query($conntest,$employee_details);
+      if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
+         $Emp_Name=$employee_details_row['Name'];
+         $Emp_Designation=$employee_details_row['Designation'];
+         $Emp_CollegeName=$employee_details_row['CollegeName'];
+         $Emp_Department=$employee_details_row['Department'];
+          $role_id = $employee_details_row['RoleID'];
+   
+        //    $Authority=$employee_details_row['LeaveRecommendingAuthority'];
+        //   $Recommend=$employee_details_row['LeaveSanctionAuthority'];
+
+         $Authority=$employee_details_row['LeaveSanctionAuthority'];
+         $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
+         if($Emp_Designation=='Vice Chancellor')
+         {
+            $ViceChancellor=$employee_details_row['IDNo'];
+         }
+      }
+      else
+      {
+         // echo "inter net off";
+      }
+
+
 
     $permissionCount=0;
    $permission_qry="SELECT * FROM category_permissions where employee_id='$EmployeeID' and is_admin='1'";
@@ -17461,44 +17485,36 @@ else if($code==284)
 else if($code==285)
 {
 
-   ?>
+   ?>  
    <div class="card-body table-responsive">
     <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Date/Time</th><th>Action</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Check Out </th><th>Date/Time</th><th>Action</th>
 <?php 
- $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Draft'  ORDER BY id DESC";
+ $list_sql = "SELECT * FROM MovementRegister  Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Draft'  ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
- while($row = mysqli_fetch_array($result))  
+$result = sqlsrv_query($conntest,$list_sql);
+ while($row = sqlsrv_fetch_array($result))  
       {  
-
-
-$emp_image = $row['image'];
-      $empid = $row['emp_id'];
-     $name = $row['name'];
-      $college = $row['college'];
-  $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email'];
-       ?> 
-
-        <?php 
- 
-
-
-?>
+   
+      $empid = $row['EmpID'];
+      $name = $row['Name'];
       
-      <tr>
-         <td><?php echo $empid;?></td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td> 
+       ?> 
+         <tr>
+         <td><?php echo $empid;?></td> 
+         <td><?php echo  $name;?> </td>
+         <td>  <?php echo  $row['Purpose'];?> </td>
+         <td>  <?php echo   $row['LocationType'];?> </td>
+         <td>  <?php echo  $row['Reason'];?> </td>
+         <td>  <?php echo  $row['CheckOut'];?> </td>
+
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td>
 
 
+         <td> 
+ <button class="btn btn-success btn-xs" onclick="grant(<?=$row['RequestNo'];?>,<?=$empid;?>)">Grant</button>
 
-
-       <button class="btn btn-success btn-xs" onclick="grant(<?=$row['id'];?>,<?=$empid;?>)">Grant</button>
-
- <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['id'];?>,<?=$empid;?>)">Cancel</button>
+ <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['RequestNo'];?>,<?=$empid;?>)">Cancel</button>
 
        </td>
  </tr>
@@ -17514,37 +17530,49 @@ mysqli_close($conn);
 }
 else if($code==286)
 {
- $empid=$_POST['IDNo'];
+
    ?>
     <div class="card-body table-responsive"> 
  <table class="table">
   
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th><th>Action</th>
        <?php 
- $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='rejected'  ORDER BY id DESC ";
+$list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID' AND Status='Refused'  ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
+$stmt = sqlsrv_query($conntest,$list_sql);
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
   {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-       $id = $row['id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
+     $empid = $row['IDNo'];
+     $name = $row['Name'];
+     $id = $row['RequestNo'];
+     $designation = $row['Designation'];
      
-      $email = $row['email']; ?> 
-
- 
- 
+ ?>
  
 
       
       <tr>
-          <td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+         <td><?php echo $id;?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td><td>
+
+
+
+<?php 
+ if ($row['Status']=='Refused')
+{?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+
+
+
+<?php }
+?>
+
+
+
+
+            </td>
  </tr>
 
 <?php
@@ -17560,41 +17588,109 @@ while($row=mysqli_fetch_array($result))
 </table>
 </div><?php
 
-mysqli_close($conn);
+ sqlsrv_close($conntest);
   
 }
 
 else if($code==287)
 {
- $empid=$_POST['IDNo'];
    ?>
    <div class="card-body table-responsive">  
  <table class="table">
   
-        <th>Ref No</th><th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
+     <tr>  <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th>
+         <th>Staus</th><th>Action</th></tr>
        <?php 
- $list_sql = "SELECT * FROM movement where emp_id='$empid' AND status='Check-in'  ORDER BY id DESC ";
+$list_sql = "SELECT top(50)* FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID'   ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
+$stmt = sqlsrv_query($conntest,$list_sql);
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
   {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-       $id = $row['id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
+     $empid = $row['IDNo'];
+     $name = $row['Name'];
+     $id = $row['RequestNo'];
+     $designation = $row['Designation'];
      
-      $email = $row['email']; ?> 
-
- 
- 
+ ?>
  
 
-    <tr><td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+      
+      <tr>
+         <td><?php echo $id;?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td>
+         <td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td>
+
+         
+
+            <td>
+            <?php 
+if($row['Status']=='draft')
+
+{?>
+<button class="btn btn-warning btn-xs"  ><i>Waiting</i>
+         </button> 
+         &nbsp;&nbsp;&nbsp; 
+<?php }
+
+else if ($row['Status']=='Ack')
+{
+
+if($row['LocationType']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' >Check in Pending
+         </button>  
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
+
+}
+else if ($row['Status']=='Refused')
+{?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+<?php }
+else if ($row['Status']=='check-out')
+{?>
+<button class="btn btn-primary btn-xs">Checked Out
+         </button> 
+
+<?php }
+else if ($row['Status']=='Check-in')
+{?>
+<button class="btn btn-info btn-xs">Completed
+         </button> 
+
+<?php }
+else if ($row['Status']=='Self Canceled')
+{?>
+<button class="btn btn-info btn-xs">Self Canceled
+         </button> <?php 
+}
+?>
+
+
+
+
+            </td>
+            <td>
+
+
+
+
+<button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $id;?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+         </button> 
+
+
+
+
+
+            </td>
  </tr>
 
 <?php
@@ -17610,7 +17706,7 @@ while($row=mysqli_fetch_array($result))
 </table>
 </div><?php
 
-mysqli_close($conn);
+ sqlsrv_close($conntest);
   
 }
 else if($code=='288')
@@ -17669,8 +17765,10 @@ if($r1>0)
    
   $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
 
-  $Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id','$emp_id_in','cheked in','NA', 'movement-admin.php','$timeStamp','0','1')";
- mysqli_query($conn,$Notification);
+  $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id','$emp_id_in','cheked in','NA', 'movement-admin.php','$timeStamp','0','1')";
+ sqlsrv_query($conntest,$Notification);
+
+
 }
 else
 {
@@ -17847,33 +17945,59 @@ else if($code==292)
 
    ?>
      <div class="card-body table-responsive">
- <table class="table">
-  
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
-       <?php 
-   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Ack'  ORDER BY id DESC ";
+    <table class="table">
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+<?php 
+ $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Ack'  ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
-  {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email']; ?> 
+$result = sqlsrv_query($conntest,$list_sql);
+ while($row = sqlsrv_fetch_array($result))  
+      {  
+     // $emp_image = $row['image'];
+      $empid = $row['EmpID'];
+      $name = $row['Name'];
+      // $college = $row['college'];
+      // $dep = $row['department'];
+      // $designation = $row['designation'];
+      // $mob1 = $row['mobile'];
+      // $email = $row['email'];
+       ?> 
 
+        <?php 
+ 
+
+
+?>
       
       <tr>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-success btn-xs">Approved</button> </td>
+         <td><?php echo $empid;?></td> 
+         <td><?php echo  $name;?> </td>
+         <td>  <?php echo  $row['Purpose'];?> </td>
+         <td>  <?php echo   $row['LocationType'];?> </td>
+         <td>  <?php echo  $row['Reason'];?> </td>
+         <td>  <?php echo  $row['CheckOut'];?> </td>
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+
+
+
+
+ <button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $row['RequestNo'];?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+         </button> 
+
+
+
+
+ <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['RequestNo'];?>,<?=$empid;?>)">Cancel</button>
+
+       </td>
  </tr>
+
 <?php
+
       }
 ?>
-</table></div>
+</table>
+</div> 
 
 <?php
 mysqli_close($conn);
@@ -17882,66 +18006,131 @@ mysqli_close($conn);
 else if($code==293)
 {
 
+
    ?>
-     <div class="card-body table-responsive">
- <table class="table">
-  
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
-       <?php 
-   $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='Refused'  ORDER BY id DESC ";
+
+
+ <div class="card-body table-responsive">
+    <table class="table">
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+<?php 
+ $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Refused'  ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
-  {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-      $email = $row['email']; ?>    
+$result = sqlsrv_query($conntest,$list_sql);
+ while($row = sqlsrv_fetch_array($result))  
+      {  
+     // $emp_image = $row['image'];
+      $empid = $row['EmpID'];
+      $name = $row['Name'];
+      
+       ?> 
+
+        <?php 
+ 
+
+
+?>
+      
       <tr>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <button class="btn btn-danger btn-xs">Refused</button> </td>
+         <td><?php echo $empid;?></td> 
+         <td><?php echo  $name;?> </td>
+         <td>  <?php echo  $row['Purpose'];?> </td>
+         <td>  <?php echo   $row['LocationType'];?> </td>
+         <td>  <?php echo  $row['Reason'];?> </td>
+         <td>  <?php echo  $row['CheckOut'];?> </td>
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+
+
+
+
+ <button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $row['RequestNo'];?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+         </button> 
+
+
+
+
+
+
+       </td>
  </tr>
+
 <?php
+
       }
 ?>
 </table>
-</table><?php
+</div> 
 
-mysqli_close($conn);
+<?php 
+
+
+
+
+
+
   
 }
 else if($code==294)
 {
    ?>
-<table class="table">
-  
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Check in Date/Time</th><th>Time Count</th>
-       <?php 
- $list_sql = "SELECT * FROM movement where  superwiser_id='$EmployeeID' AND status='Check-in'  ORDER BY id DESC";
+
+
+ <div class="card-body table-responsive">
+    <table class="table">
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+<?php 
+ $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID'   ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
-  {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     
-      $email = $row['email']; ?> 
-    <tr><form action="#" method="POST" >
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id">  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>  <?php echo  $row['return_time']."/".$row['return_date'];?> </td><td>   <?php echo  $row['time_count'];?></td>
+$result = sqlsrv_query($conntest,$list_sql);
+ while($row = sqlsrv_fetch_array($result))  
+      {  
+     // $emp_image = $row['image'];
+      $empid = $row['EmpID'];
+      $name = $row['Name'];
+      
+       ?> 
+
+        <?php 
+ 
+
+
+?>
+      
+      <tr>
+         <td><?php echo $empid;?></td> 
+         <td><?php echo  $name;?> </td>
+         <td>  <?php echo  $row['Purpose'];?> </td>
+         <td>  <?php echo   $row['LocationType'];?> </td>
+         <td>  <?php echo  $row['Reason'];?> </td>
+         <td>  <?php echo  $row['CheckOut'];?> </td>
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+
+
+
+
+ <button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $row['RequestNo'];?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+         </button> 
+
+
+
+
+ 
+
+       </td>
  </tr>
 
 <?php
- }
+
+      }
 ?>
 </table>
+</div> 
+
+
+
+
+
+
 <?php
 mysqli_close($conn);
 }
@@ -17998,52 +18187,47 @@ echo '1';
 
 else if($code==296)
 {
- $empid=$_POST['IDNo'];
+ $from=date('Y-m-d');
    ?>
      <div class="card-body table-responsive">
  <table class="table">
   
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</t><th>Date</th><th>Action</th>
        <?php 
- $list_sql = "SELECT * FROM movement where emp_id='$empid' AND request_date='$todaydate'  ORDER BY id DESC ";
+$list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID' AND RequestTime Between '$from 01:00:00.000' and '$from 23:59:00.000'  ORDER BY RequestNo DESC";
  //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
+$stmt = sqlsrv_query($conntest,$list_sql);
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
   {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-            $id = $row['id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
+     $empid = $row['IDNo'];
+     $name = $row['Name'];
+     $id = $row['RequestNo'];
+     $designation = $row['Designation'];
      
-      $email = $row['email']; ?> 
-
- 
- 
+ ?>
  
 
       
       <tr>
          <td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $row['id'];?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td>  <?php echo  $row['purpose'];?> </td><td>  <?php echo   $row['location'];?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?> </td><td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td><td>
 
 
 
 <?php 
-if($row['status']=='draft')
+if($row['Status']=='draft')
 
 {?>
 <button class="btn btn-warning btn-xs"  ><i>Waiting</i>
          </button> 
+         &nbsp;&nbsp;&nbsp;<button class="btn btn-warning btn-xs"  name='Check-in' onclick="cancel(<?php echo  $row['RequestNo'];?>)"><i class="fa fa-trash-alt"></i>
+         </button> 
 <?php }
 
-else if ($row['status']=='Ack')
+else if ($row['Status']=='Ack')
 {
 
-if($row['location']=='Inside Campus')
+if($row['Location']=='Inside Campus')
 {?>
    
 <button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
@@ -18057,24 +18241,29 @@ else
 <?php } 
 
 }
-else if ($row['status']=='Refused')
+else if ($row['Status']=='Refused')
 {?>
 <button class="btn btn-danger btn-xs">Refused
          </button> 
 
 <?php }
-else if ($row['status']=='check-out')
+else if ($row['Status']=='check-out')
 {?>
-<button class="btn btn-primary btn-xs">Checked out
+<button class="btn btn-primary btn-xs">Checked Out
          </button> 
 
 <?php }
-else if ($row['status']=='Check-in')
+else if ($row['Status']=='Check-in')
 {?>
 <button class="btn btn-info btn-xs">Completed
          </button> 
 
 <?php }
+else if ($row['Status']=='Self Canceled')
+{?>
+<button class="btn btn-info btn-xs">Self Canceled
+         </button> <?php 
+}
 ?>
 
 
@@ -18097,19 +18286,20 @@ else if ($row['status']=='Check-in')
 </div><?php
 
 
-mysqli_close($conn); 
+ sqlsrv_close($conntest);; 
 }
 
 else if($code==297)
 {
 $id=$_POST['id'];
  $emp_id=$_POST['emp_id'];
- $result = mysqli_query($conn,"update movement set status='Ack' where id='$id'");
+ $result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Ack' where RequestNo='$id'");
 
 
+$Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out Request Accepted','', 'mytimeout.php','$timeStamp','0','1')";
+            sqlsrv_query($conntest,$Notification);
 
-$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out Request Accepted','', 'mytimeout.php','$timeStamp','0','1')";
-           mysqli_query($conn,$Notification);
+sqlsrv_close($conntest);
 
 }
 
@@ -18117,10 +18307,11 @@ else if($code==298)
 {
 $id=$_POST['id'];
  $emp_id=$_POST['emp_id'];
-$result = mysqli_query($conn,"update movement set status='Refused' where id='$id'");
+$result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Refused' where RequestNo='$id'");
 
-$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out request cancelled',' ', 'mytimeout.php','$timeStamp','0','2')";
-           mysqli_query($conn,$Notification);
+$Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out request cancelled',' ', 'mytimeout.php','$timeStamp','0','2')";
+            sqlsrv_query($conntest,$Notification);
+            sqlsrv_close($conntest);
 }
 
 
@@ -18131,24 +18322,25 @@ else if($code==299)
   
          <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
        <?php 
-    $list_sql = "SELECT * FROM movement where  (status='Ack' OR status='check-out')  AND location='Outside Campus' AND request_date='$todaydate'  ORDER BY id DESC";
- //
-$result = mysqli_query($conn,$list_sql);
-while($row=mysqli_fetch_array($result)) 
+    $list_sql = "SELECT * FROM MovementRegister where  (Status='Ack' OR Status='check-out')  AND LocationType='Outside Campus'
+     AND RequestTime='$todaydate'  ORDER BY RequestNo DESC";
+
+$result = sqlsrv_query($conntest,$list_sql);
+while($row=sqlsrv_fetch_array($result)) 
   {
-     $emp_image = $row['image'];
-      $empid = $row['emp_id'];
-      $id = $row['id'];
-      $name = $row['name'];
-      $college = $row['college'];
-      $dep = $row['department'];
-      $designation = $row['designation'];
-      $mob1 = $row['mobile'];
-     $purpose=  $row['purpose'];
-      $location=$row['location'];
-      $email = $row['email'];
-      $mleave = $row['mleave'];
-     $status= $row['status']; ?> 
+     // $emp_image = $row['image'];
+      $empid = $row['EmpID'];
+      $id = $row['RequestNo'];
+      $name = $row['Emp_Name'];
+      // $college = $row['college'];
+      // $dep = $row['department'];
+      // $designation = $row['designation'];
+      // $mob1 = $row['mobile'];
+     $purpose=  $row['Purpose'];
+      $location=$row['LocationType'];
+      // $email = $row['email'];
+      // $mleave = $row['mleave'];
+     $status= $row['Status']; ?> 
  
 
       
@@ -18158,16 +18350,15 @@ while($row=mysqli_fetch_array($result))
            style="color: red"><b><?php echo $empid;?></b></td> 
 
 
-            <td><?php echo  $name;?> </td><td> <?= $purpose; ?>  </td><td>  <?= $location; ?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['description'];?></td>
+            <td><?php echo  $name;?> </td><td> <?= $purpose; ?>  </td><td>  <?= $location; ?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['Description'];?></td>
          <td> <?php if($status=='Ack')
          {?>  
-
  <button class="btn btn-danger btn-xs" onclick="checkout('<?=$id;?>','<?=$location;?>','<?=$mleave;?>')">Check-Out</button>
 
         
       <?php 
    }
-      else if($status=='check-out' AND $row['purpose']!='Leave' ) {
+      else if($status=='check-out' AND $row['Purpose']!='Leave' ) {
          ?>
 
          <button class="btn btn-success btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
@@ -18176,14 +18367,12 @@ while($row=mysqli_fetch_array($result))
          <?php }
 
 
-         else if($status=='check-out' AND $row['purpose']=='Leave' AND $row['mleave']!='Full' ) {
+         else if($status=='check-out' AND $row['Purpose']=='Leave' AND $row['Leave']!='Full' ) {
          ?>
       
 
          <button class="btn btn-warning btn-xs" onclick="checkin(<?php echo $id;?>)">Check-in</button>
          <?php }
-
-
 
          else {
 
@@ -18218,15 +18407,15 @@ $exit_time = date('H:i');
 
 if($purpose!='Leave')
 {
- $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time' where id='$id'");
+ $result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date where id='$id'");
 }
 else if($purpose=='Leave' AND $mleave!='Full' )
 {
- $result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time'  where id='$id'");
+ $result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date  where id='$id'");
 }
 else 
 {
-$result = mysqli_query($conn,"update movement set status='check-out',out_date='$exit_date',out_time='$exit_time',return_date='$exit_date',return_time='17:00'   where id='$id'");   
+$result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date,return_date='$exit_date',return_time='17:00'   where id='$id'");   
 
 
 }
@@ -20957,8 +21146,9 @@ $query = "SELECT * FROM Staff Where Designation='Vice Chancellor' AND  JobStatus
          }
          
 
-     $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$EmployeeID','$idno','Waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
- mysqli_query($conn,$Notification);
+     $Notification="INSERT INTO Notification (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$EmployeeID','$idno','Waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
+$result = sqlsrv_query($conntest,$Notification);
+ sqlsrv_close($conntest);
 
 echo "1";
 }
@@ -21076,10 +21266,10 @@ elseif($code==344)
        }
          
 
-  $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type)
+  $Notification="INSERT INTO Notification (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type)
    VALUES ('$eid','$EmployeeID','Check in approved for meeting','NA', '#','$timeStamp','0','1')";
-   mysqli_query($conn,$Notification);
-   sqlsrv_close($conntest);
+   $result = sqlsrv_query($conntest,$Notification);
+ sqlsrv_close($conntest);
    mysqli_close($conn);
 }
 elseif($code==345)
@@ -21114,8 +21304,9 @@ $query = "SELECT * FROM Staff Where Designation='Vice Chancellor' AND  JobStatus
          }
          
 
-      $Notification="INSERT INTO notifications (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Empid','$EmployeeID','$name waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
- mysqli_query($conn,$Notification);
+      $Notification="INSERT INTO Notification (EmpID,SendBy,Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Empid','$EmployeeID','$name waiting for meeting','NA', 'visitor-admin.php','$timeStamp','0','1')";
+$result = sqlsrv_query($conntest,$Notification);
+ sqlsrv_close($conntest);
 
 echo "1";
 }
@@ -23923,8 +24114,136 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik , SQLSRV_FETCH_ASSOC) )
          
 
 
+ sqlsrv_close($conntest);
+}
+
+elseif($code==380)
+ {
+$purpose=$_POST['purpose'];
+$location= $_POST['location'];
+$leavetype= $_POST['leavetype'];
+$remarks= $_POST['remarks'];
+$exittime= $_POST['exittime'];
+$noti=$purpose."(".$location.")";
+date_default_timezone_set("Asia/Kolkata"); 
+$entrytime = date('H:i');
+$status='draft';
+$result = "INSERT into MovementRegister(EmpID,Purpose,LocationType,Reason,CheckOut,Status,Supervisor,Leave,RequestTime) values ('$EmployeeID','$purpose','$location','$remarks','$exittime','$status','$Recommend','$leavetype','$timeStamp')";
+sqlsrv_query($conntest,$result);
+$Notification="INSERT INTO Notification(EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Recommend', '$EmployeeID', 'Time out Request','$noti', 'movement-admin.php','$timeStamp','0','0')";
+           sqlsrv_query($conntest,$Notification);
+ sqlsrv_close($conntest);
+ }
+else if($code=='381')
+{
+ $id=$_POST['id'];
+ $result ="Update MovementRegister set status='Self Canceled',CanceledTime='$timeStamp' where RequestNo='$id'";
+sqlsrv_query($conntest,$result);
+ sqlsrv_close($conntest);
+}
+else if($code=='382')
+{
+  $id=$_POST['id'];
+?>
+
+
+
+    <div class="card-body table-responsive"> 
+ <table class="table">
+  
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th><th>Action</th>
+       <?php 
+$list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where  MovementRegister.RequestNo='$id'";
+ //
+$stmt = sqlsrv_query($conntest,$list_sql);
+while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
+  {
+     $empid = $row['IDNo'];
+     $name = $row['Name'];
+     $id = $row['RequestNo'];
+     $designation = $row['Designation'];
+     
+ ?>
+ 
+
+      
+      <tr>
+         <td><?php echo $id;?></td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td>
+
+         <td>
+
+
+
+ 
+    <?php 
+if($row['Status']=='draft')
+
+{?>
+<button class="btn btn-warning btn-xs"  ><i>Waiting</i>
+         </button> 
+         &nbsp;&nbsp;&nbsp; 
+<?php }
+
+else if ($row['Status']=='Ack')
+{
+
+if($row['LocationType']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' >Check in Pending
+         </button>  
+  
+<?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
 
 }
+else if ($row['Status']=='Refused')
+{?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+<?php }
+else if ($row['Status']=='check-out')
+{?>
+<button class="btn btn-primary btn-xs">Checked Out
+         </button> 
+
+<?php }
+else if ($row['Status']=='Check-in')
+{?>
+<button class="btn btn-info btn-xs">Completed
+         </button> 
+
+<?php }
+else if ($row['Status']=='Self Canceled')
+{?>
+<button class="btn btn-info btn-xs">Self Canceled
+         </button> <?php 
+}
+
+
+?></td></tr>
+</table>
+</div>
+<?php
+
+
+
+
+}
+
+sqlsrv_close($conntest);
+}
+
+
+
+
+
  else
 {
 echo "select code";

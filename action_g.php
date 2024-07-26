@@ -9,7 +9,8 @@
 window.location.href = 'index.php';
 </script>
 <?php
-   }
+   } 
+
    else
    {
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
@@ -504,17 +505,18 @@ mysqli_close($conn);
          {
             if ($EmployeeID==$assignTo) 
             {
-                $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveRecommendingAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
-              mysqli_query($conn,$Notification1);
+                $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveRecommendingAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+             $result = sqlsrv_query($conntest,$Notification1);
+
       
             }
             else
             {
-               $Notification="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
-              mysqli_query($conn,$Notification);
+               $Notification="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+                $result = sqlsrv_query($conntest,$Notification);
       
-              $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveRecommendingAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
-              mysqli_query($conn,$Notification1);
+              $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$LeaveRecommendingAuthority', '$EmployeeID', '$task_name', '$task_discription ', 'task-manager.php', '$timeStamp', '0')";
+         $result = sqlsrv_query($conntest,$Notification1);
       
             $insert_task_copy="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$task_discription', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
               mysqli_query($conn,$insert_task_copy);
@@ -880,8 +882,8 @@ mysqli_close($conn);
          $insert_task="INSERT INTO `task_master` (`AssignDate`, `CompleteDate`, `EndDate`, `TaskName`, `Description`, `AssignTo`, `AssignBy`,`EmpID`, `ForwardTo`, `Status`, `TokenNo`) VALUES ('$asign_date', '', '$end_date', '$task_name', '$forward_remarks', '$assignTo', '$EmployeeID','$assignTo', '', '0', '$token');";
          $insert_task=mysqli_query($conn,$insert_task);
       
-          $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$forward_remarks ', 'task-manager.php', '$timeStamp', '0')";
-              mysqli_query($conn,$Notification1);
+          $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$assignTo', '$EmployeeID', '$task_name', '$forward_remarks ', 'task-manager.php', '$timeStamp', '0')";
+      $result = sqlsrv_query($conntest,$Notification1);
       }
       else
            {
@@ -1720,12 +1722,18 @@ mysqli_close($conn);
           ?>
     <div class="dropdown-divider"></div>
     <?php 
-      $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID' order by ID DESC LIMIT 3";
-      $result_1 = mysqli_query($conn, $query_1);
-      $count = mysqli_num_rows($result_1);
+     $query_1 = "SELECT TOP(3)* FROM Notification WHERE Status=0 and EmpID='$EmployeeID' order by ID DESC";
+
+     $stmt1 = sqlsrv_query($conntest,$query_1, array(), array( "Scrollable" => 'static' ));  
+
+      $count = sqlsrv_num_rows($stmt1);
+
+
+
         if ($count>0) 
         {
-      while ($row=mysqli_fetch_array($result_1)) 
+     while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+  
        {?>
     <?php 
       $Noti_color="";
@@ -1774,7 +1782,7 @@ mysqli_close($conn);
 
 
 
-      $datetime=$row['DateTime'];?>
+      $datetime=$row['DateTime']->format('d-m-Y h:m:s');?>
     <?php 
       ?>
     <a href="<?=$Page_link;?>" class="dropdown-item">
@@ -1807,9 +1815,12 @@ mysqli_close($conn);
       }
       elseif ($code==27)
       {
-        $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID' ";
-       $result_1 = mysqli_query($conn, $query_1);
-        $count = mysqli_num_rows($result_1);
+       $query_1 = "SELECT * FROM Notification WHERE Status=0 and EmpID='$EmployeeID' ";
+
+             $stmt1 = sqlsrv_query($conntest,$query_1, array(), array( "Scrollable" => 'static' ));  
+
+      $count = sqlsrv_num_rows($stmt1);
+
        if($count>0)
        {
         echo  $count;
@@ -1818,14 +1829,15 @@ mysqli_close($conn);
        {
          $count=0;
        }
-       mysqli_close($conn);
+       //mysqli_close($conn);
+       sqlsrv_close($conntest);
       }
       elseif ($code==28)
       {
          $ID=$_POST['n_id'];
-        $query_1 = "UPDATE  notifications SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
-       $result_1 = mysqli_query($conn, $query_1);
-       mysqli_close($conn);
+        $query_1 = "UPDATE  Notification SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+        sqlsrv_query($conntest,$query_1);
+     sqlsrv_close($conntest);
       }
       elseif ($code==29) {
          ?>
@@ -1842,13 +1854,14 @@ mysqli_close($conn);
         </thead>
         <tbody>
             <?php 
-            $query_1 = "SELECT * FROM notifications WHERE Status=1 and EmpID='$EmployeeID'";
-            $result_1 = mysqli_query($conn, $query_1);
-            $count = mysqli_num_rows($result_1);
+            $query_1 = "SELECT * FROM Notification WHERE Status=1 and EmpID='$EmployeeID'";
+            $stmt1 = sqlsrv_query($conntest,$query_1, array(), array( "Scrollable" => 'static' ));  
+
+      $count = sqlsrv_num_rows($stmt1);
               if ($count>0) 
               {
                 $sr=1;
-            while ($row=mysqli_fetch_array($result_1)) 
+            while ($row= sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) 
              {
                 $ID=$row['ID'];
                 ?>
@@ -1857,7 +1870,7 @@ mysqli_close($conn);
                 <td><a href="<?=$row['Page_link'];?>"><b><?=$row['Subject'];?></b></a></td>
                 <td><?=$row['Discriptions'];?></td>
                 <td><?=$row['SendBy'];?></td>
-                <td><?=$row['DateTime'];?></td>
+                <td><?=$row['DateTime']->format('d-m-Y');?></td>
                 <td><button class="btn btn-warning btn-sm" onclick="mark_unread(<?=$ID;?>);">Mark UnRead</button></td>
             </tr>
             <?php $sr++; }
@@ -1895,13 +1908,19 @@ mysqli_close($conn);
         </thead>
         <tbody>
             <?php 
-            $query_1 = "SELECT * FROM notifications WHERE Status=0 and EmpID='$EmployeeID'";
-            $result_1 = mysqli_query($conn, $query_1);
-            $count = mysqli_num_rows($result_1);
+            $query_1 = "SELECT * FROM Notification WHERE Status=0 and EmpID='$EmployeeID'";
+
+
+             $stmt1 = sqlsrv_query($conntest,$query_1, array(), array( "Scrollable" => 'static' ));  
+
+      $count = sqlsrv_num_rows($stmt1);
+
+
+
               if ($count>0) 
               {
                 $sr=1;
-            while ($row=mysqli_fetch_array($result_1)) 
+            while ($row= sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) 
              {
                 $ID=$row['ID'];
                 ?>
@@ -1910,7 +1929,7 @@ mysqli_close($conn);
                 <td><a href="<?=$row['Page_link'];?>"><?=$row['Subject'];?></a></td>
                 <td><?=$row['Discriptions'];?></td>
                 <td><?=$row['SendBy'];?></td>
-                <td><?=$row['DateTime'];?></td>
+                <td><?=$row['DateTime']->format('d-m-Y');?></td>
                 <td><button class="btn btn-warning btn-sm" onclick="mark_read(<?=$ID;?>);">Mark Read</button></td>
             </tr>
             <?php $sr++; }
@@ -1935,23 +1954,25 @@ mysqli_close($conn);
       elseif ($code==31)
       {
          $ID=$_POST['id'];
-        $query_1 = "UPDATE  notifications SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
-       $result_1 = mysqli_query($conn, $query_1);
-       mysqli_close($conn);
+        $query_1 = "UPDATE  Notification SET Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+
+       $result_1 = sqlsrv_query($conntest, $query_1);
+       sqlsrv_close($conntest);
       }
+
       elseif ($code==32)
       {
          $ID=$_POST['id'];
-        $query_1 = "UPDATE  notifications SET Status='0' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
-       $result_1 = mysqli_query($conn, $query_1);
-       mysqli_close($conn);
+        $query_1 = "UPDATE  Notification SET Status='0' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+       $result_1 = sqlsrv_query($conntest, $query_1);
+       sqlsrv_close($conntest);
       }
       elseif ($code==33)
       {
          $ID=$_POST['n_id'];
-        $query_1 = "UPDATE  notifications SET Web_Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
-       $result_1 = mysqli_query($conn, $query_1);
-       mysqli_close($conn);
+        $query_1 = "UPDATE  Notification SET Web_Status='1' WHERE  EmpID='$EmployeeID' and ID='$ID' ";
+       $result_1 = sqlsrv_query($conntest, $query_1);
+       sqlsrv_close($conntest);
       }
       elseif($code==34)
       {
@@ -10141,7 +10162,7 @@ elseif($code==159)
 elseif($code=='160') 
 {
 $country_id=$_POST['country_id'];
- $sql = "SELECT  Id,name FROM states WHERE country_id='$country_id' order by name ASC";
+  $sql = "SELECT  Id,name FROM states WHERE country_id='$country_id' order by name ASC";
 $stmt = mysqli_query($conn,$sql); 
 ?>
     <option value=''>State</option>
@@ -10160,7 +10181,7 @@ $state_id=$_POST['state_id'];
 
  //$sql = "SELECT  id,name FROM cities WHERE state_id='$state_id'  order by name ASC";
 
-  $sql = "SELECT  cities.id AS id,name FROM cities    WHERE state_id='$state_id'  order by name ASC";
+ echo  $sql = "SELECT  cities.id AS id,name FROM cities    WHERE state_id='$state_id'  order by name ASC";
 
 $stmt = mysqli_query($conn,$sql); 
 ?>
@@ -10173,6 +10194,29 @@ $stmt = mysqli_query($conn,$sql);
     <option value='<?=$row["id"];?>'><?= $row["name"];?>(<?=$row["id"];?>)</option>
     <?php   }
 mysqli_close($conn);
+}
+elseif($code=='161.1') 
+{
+$state_id=$_POST['state_id'];
+
+ //$sql = "SELECT  id,name FROM cities WHERE state_id='$state_id'  order by name ASC";
+
+ echo $get_country = "SELECT  District FROM MasterDistrict  WHERE  State='$state_id' order by District ASC";
+
+$get_country_run=sqlsrv_query($conntest,$get_country);
+?>
+ <option value=''>District</option><?php
+                                                 while($row = sqlsrv_fetch_array($get_country_run, SQLSRV_FETCH_ASSOC) )
+
+                                                  {?>
+?>
+   
+   
+?>
+    <option value='<?=$row["District"];?>'><?= $row["District"];?></option>
+    <?php   }
+
+sqlsrv_close($conntest);
 }
 elseif($code=='162') 
 {
@@ -15160,8 +15204,8 @@ if($LeaveType<3 || $LeaveType==26){
   if( $status!='Approved')
   {
 
-  $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$Recommend', '$EmployeeID', 'Leave pending to approve', ' ', 'attendence-calendar.php', '$timeStamp', '0')";
-  mysqli_query($conn,$Notification1);
+  $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`) VALUES ('$Recommend', '$EmployeeID', 'Leave pending to approve', ' ', 'attendence-calendar.php', '$timeStamp', '0')";
+  sqlsrv_query($conntest,$Notification1);
 
 
   }
@@ -16233,15 +16277,15 @@ else
     {
       $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
      
-      $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
-      mysqli_query($conn,$Notification1);
+      $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
+      sqlsrv_query($conntest,$Notification1);
     }
     else
     {
         $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Approved' , RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
 
-        $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
-        mysqli_query($conn,$Notification1);
+        $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
+        sqlsrv_query($conntest,$Notification1);
  
     }
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
@@ -16280,10 +16324,10 @@ elseif($code==235)
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
-        $Notification1="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave forwarded', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
-        mysqli_query($conn,$Notification1);
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$Leave_Authority', '$StaffId', 'Leave peding to approve', ' ', 'attendence-calendar.php', '$timeStamp', '0','0')";
-        mysqli_query($conn,$Notification11);
+        $Notification1="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$EmployeeID', 'Leave forwarded', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
+        sqlsrv_query($conntest,$Notification1);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$Leave_Authority', '$StaffId', 'Leave peding to approve', ' ', 'attendence-calendar.php', '$timeStamp', '0','0')";
+        sqlsrv_query($conntest,$Notification11);
       }
       sqlsrv_close($conntest);
       mysqli_close($conn);
@@ -16306,14 +16350,14 @@ elseif($code==236)
     {
 
      $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',SanctionRemarks='$remarks', SanctionApproveDate='$timeStamp',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp'  WHERE Id='$id'";
-     $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
-        mysqli_query($conn,$Notification11);
+     $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
+        sqlsrv_query($conntest,$Notification11);
     }
     else
     {
         $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Reject',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
+        sqlsrv_query($conntest,$Notification11);
     }
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -16340,11 +16384,11 @@ elseif($code==237)
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Recom', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
+        sqlsrv_query($conntest,$Notification11);
       }
       sqlsrv_close($conntest);
-      mysqli_close($conn);
+      
 }
 elseif($code==238)
 {
@@ -16362,14 +16406,14 @@ elseif($code==238)
     if($Leave_Recom==$Leave_Authority)
     {
         $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
+        sqlsrv_query($conntest,$Notification11);
     }
     else
     {
         $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
+        sqlsrv_query($conntest,$Notification11);
     }
     $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
     if($updateLeaveAcrodingToActionRun==true)
@@ -16377,7 +16421,6 @@ elseif($code==238)
         echo "1";
     }
     sqlsrv_close($conntest);
-    mysqli_close($conn);
 }
 elseif($code==239)
 {
@@ -16410,8 +16453,8 @@ else
     if($updateLeaveAcrodingToActionRun==true)
     {
         echo "1";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Approved', ' ', 'attendence-calendar.php', '$timeStamp', '0','1')";
+        sqlsrv_query($conntest,$Notification11);
         if($LeaveTypeID<3 || $LeaveTypeID==26){
              $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$StaffId' and LeaveType_Id='$LeaveTypeID'";
              sqlsrv_query($conntest,$deductionBLance);
@@ -16423,7 +16466,6 @@ else
         echo "0";
     }
     sqlsrv_close($conntest);
-mysqli_close($conn);
 }
 elseif($code==240)
 {
@@ -16444,11 +16486,10 @@ elseif($code==240)
     if($updateLeaveAcrodingToActionRun==true)
       {
         echo "1";
-        $Notification11="INSERT INTO `notifications` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
-        mysqli_query($conn,$Notification11);
+        $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$ViceChancellor', 'Leave Rejected ', ' ', 'attendence-calendar.php', '$timeStamp', '0','3')";
+        sqlsrv_query($conntest,$Notification11);
       }
       sqlsrv_close($conntest);
-      mysqli_close($conn);
 }
 
 
@@ -19235,7 +19276,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                                 onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 
 <?php }?>
-
+  
 
                         </td>
                     </tr>
@@ -32539,6 +32580,8 @@ $todaydate=$_POST['startDate'];
             <?php 
             sqlsrv_close($conntest);        
 }
+
+
    else
    {
    

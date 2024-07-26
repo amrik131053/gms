@@ -24,7 +24,7 @@ function uploadPhotoStudent(form) {
             } else {
 
             }
-        },
+        }, 
         error: function(xhr, status, error) {
             console.log(error);
         }
@@ -365,8 +365,8 @@ function fetch_state1(country_id) {
 }
 
 function fetch_district1(state_id) {
-    var code = '271';
-  //  alert(state_id);
+    var code = '161.1';
+   alert(state_id);
     $.ajax({
         url: 'action_g.php',
         data: {
