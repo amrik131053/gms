@@ -6422,7 +6422,7 @@ else if($code=='56')
  
               </table>
 
-<table   class="table"  style="border: 2px solid black"  >
+<table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
  <tr>
                  
  
@@ -6441,7 +6441,7 @@ else if($code=='56')
                    <th >Reappear </th>
                    <th >ESE </th>
                  
-                  <th >Lock </th>
+                  <!-- <th >Lock </th> -->
                   <!-- <th >Action </th> -->
                       
                 </tr>
@@ -6457,7 +6457,7 @@ else if($code=='56')
  
 $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
   WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
- ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' order by Admissions.UniRollNo ASC";
+ ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' AND ExamFormSubject.ExternalExam='Y' order by Admissions.IDNo ASC";
     $stmt = sqlsrv_query($conntest,$sql1);
    if ($stmt === false) {
       $errors = sqlsrv_errors();
@@ -6466,21 +6466,23 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
         $count=0;
      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
       $subCode=$row['SubjectCode']; 
-      $UniRollNo=$row['UniRollNo']; 
+      $subjecttype=$row['SubjectType']; 
+      // $UniRollNo=$row['UniRollNo']; 
       $IDNo=$row['IDNo']; 
       $clr="";
       $status=0;
       $MSTatus=0;
       if($row['ESE']!="")
       {
-         $clr="success";
-         $MSTatus=1;
+         $clr="warning";
+         $MSTatus=2;
       }
       else 
       {
-         $clr="warning";
+         $clr="";
+         $MSTatus=1;
       }
-       $query = "SELECT * FROM Admissions  Where IDNo='$IDNo'";
+       $query = "SELECT * FROM Admissions  Where IDNo='$IDNo' order by UniRollNo ASC";
       $result = sqlsrv_query($conntest,$query);
       while($rowAdm = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
       {
@@ -6490,15 +6492,20 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
        $CourseID=$rowAdm['CourseID'];
        $Batch=$rowAdm['Batch'];
 
-        $getColor="SELECT ResultStatus FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$semID' and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$exam' and Batch='$Batch' and Type='Reappear' ";
+        $getColor="SELECT ResultStatus FROM ResultPreparation WHERE IDNo='$IDNo' and Semester='$semID' and CourseID='$CourseID' and CollegeID='$CollegeID' and Examination='$exam' and Batch='$Batch' and Type='Reappear'
+        order by IDNo ASC ";
        $resultgetColor = sqlsrv_query($conntest,$getColor);
        if($rowresultgetColor = sqlsrv_fetch_array($resultgetColor, SQLSRV_FETCH_ASSOC) )
        {
           
        if($rowresultgetColor['ResultStatus']=='0')
        {
-          $clr="primary";
-          $status=1;
+          $clr="success";
+          $status=2;
+         }
+         else{
+            
+            $status=1;
        }
       }
    }
@@ -6506,21 +6513,47 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
 ?>
 <tr class="bg-<?=$clr;?>" >
 
-<td><?php if($status==1 && $MSTatus==1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
+<td><?php if($MSTatus!=1){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['ID'];?>"><?php }?></td>
 <td><?= $i++;?>
 <input type="hidden"  value="<?= $row['ID'];?>"  id="ExamSubjectID"> 
-<input type="hidden" value="<?= $row['IDNo'];?>"  id="ids" > 
-<input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode" > 
+<input type="hidden" value="<?= $row['IDNo'];?>"  id="ids<?= $row['ID'];?>" > 
+<input type="hidden"  value="<?= $row['SubjectCode'];?>"  id="subcode<?= $row['ID'];?>" > 
+<input type="hidden"  value="<?= $row['IDNo'];?>"  id="IDNo<?= $row['ID'];?>" > 
 </td>
-<td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['UniRollNo'];?></td>
+<?php 
+if($status==2 || $MSTatus==1 )
+{
+?>
+<td style="text-align: center"> <?=$row['UniRollNo'];?></td>
+<td style="text-align: center"> <?=$row['IDNo'];?></td>
+<?php 
+}else{
+?>
+<td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['UniRollNo'];?>
+</td>
 <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="resultView('<?=$IDNo;?>','<?=$subCode;?>','<?=$row['UniRollNo'];?>');"> <?=$row['IDNo'];?></td>
+<?php 
+}?>
+
 
 <td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                <td><?=$row['SubjectCode'];?>
              <?php  $iidd=$row['ID'];?></td>               
        <?php 
-        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Type='Regular' and IDNo='".$row['IDNo']."'
-        group by CE1,CE2,CE3,Attendance  ";
+
+       if($subjecttype!='P')
+       {
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Type='Regular' and IDNo='".$row['IDNo']."'
+         group by CE1,CE2,CE3,Attendance,ID";
+       }
+       else{
+         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,ID as EID  FROM ExamFormSubject WHERE SubjectCode='$subCode' and Examination='May 2024' and IDNo='".$row['IDNo']."'
+        group by CE1,CE2,CE3,Attendance,ID";
+
+       }
+        
+
+
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -6529,19 +6562,19 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
        if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
        {
        ?>    
-<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA1'];?>" id="ca1<?= $row['ID'];?>" readonly ></td>
-<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA2'];?>" id="ca2<?= $row['ID'];?>" readonly ></td>
-<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['CA3'];?>" id="ca3<?= $row['ID'];?>" readonly ></td>
-<td><input class="form-control form-control-sm" type="text"  value="<?=$RowfatchMarks['Attendance'];?>" id="attendance<?= $row['ID'];?>" readonly ></td>
-<?php
-       }?>
+<td><input class="form-control form-control-sm " type="hidden"  value="<?=$RowfatchMarks['EID'];?>" id="ID<?= $row['ID'];?>" readonly >
+<?=$RowfatchMarks['CA1'];?></td>
+<td><?=$RowfatchMarks['CA2'];?></td>
+<td><?=$RowfatchMarks['CA3'];?></td>
+<td><?=$RowfatchMarks['Attendance'];?></td>
+<?php }?>
 <td>  
-<input type="text"     value="<?=$row['pmarks'];?>"  id="marks<?= $row['ID'];?>" class='form-control' readonly ></td> 
-<td><input type="text"     value="<?=$row['ESE'];?>"  class='form-control' readonly ></td> 
+<?=$row['pmarks'];?></td> 
+<td><?=$row['ESE'];?></td> 
                            
-                        <td>
+                        <!-- <td>
                            <input type="button" value="Update" class="btn btn-primary btn-sm" onclick="updateMarks('<?=$row['ID'];?>','<?= $row['IDNo'];?>','<?= $row['SubjectCode'];?>');">
-                        </td>
+                        </td> -->
                      </tr>
                      
 
@@ -6552,7 +6585,10 @@ $clr="";
 ?>
 <!-- <input type="hidden" value="<?=$flag;?>" readonly="" class="form-control" name='flag'> -->
 </table>
-<p style="text-align: right"><input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
+<p style="text-align: right">
+   <input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
+   <!-- <input   type="submit" name="submit" value="Result Update All" onclick="resultupdateAll();" class="btn btn-danger "  > -->
+
 <?php 
 }
    

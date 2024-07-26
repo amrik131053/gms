@@ -372,7 +372,8 @@ var exittime=document.getElementById('exittime').value;
 var leavetype='NA';
  }
 
-//alert(purpose+location+leavetype+remarks+exittime)
+if(exittime!='' && purpose!='' && location!=''remarks!='')
+{
 
 var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -391,7 +392,11 @@ var spinner=document.getElementById('ajax-loader');
             }
          });
 }
-
+}
+else
+{
+    
+}
 </script>
 
 

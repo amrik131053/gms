@@ -194,7 +194,8 @@ for($i=1;$i<=12;$i++)
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
-
+            <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button> 
+            <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
 </div>
 
 
@@ -306,7 +307,25 @@ else
 }
       
   }
+  function exportCutListExcelgraden() {
+    var exportCode = 71;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = "Reappear";
+    var Group = document.getElementById('group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
 
 function updateMarks(id,IDNo,SubjectCode) 
 {
@@ -444,7 +463,7 @@ var ccredit=document.getElementsByClassName('ccredit'+ID);
 var ccreditSize= ccredit.length; 
 var ccreditArray=[];  
 for(i=0;i<ccreditSize;i++){if(ccredit[i].value.trim() !== ''){ ccreditArray.push(ccredit[i].value); }}
-alert(ccreditSize);
+// alert(ccreditSize);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     $.ajax({
@@ -470,6 +489,7 @@ alert(ccreditSize);
             if(response==1)
             {
               SuccessToast('Successfully Updated');
+              select_mst();
             }
             else{
               ErrorToast('try again','bg-warning');
@@ -521,20 +541,37 @@ function verifiy_select()
 
 function updateAll()
 {
+  var  college = document.getElementById('College').value;
+  var  course = document.getElementById('Course').value;
+   var  batch = document.getElementById('Batch').value;
+    var  sem = document.getElementById('Semester').value; 
+         var subject = "";
+     var  examination = document.getElementById('Examination').value;
+var  group = document.getElementById('group').value;
+
+    var distributiontheory = "";
+
+  if(college!=''&& batch!='' && sem!='' && examination!='')
+ {
+
   var verifiy=document.getElementsByClassName('v_check');
 var len_student= verifiy.length; 
   var code=453;
   var examIDs=[];  
+  var subCodesArray=[];  
        
      for(i=0;i<len_student;i++)
      {
           if(verifiy[i].checked===true)
           {
             examIDs.push(verifiy[i].value);
+            var  eID = document.getElementById('ID'+verifiy[i].value).value; 
+            subCodesArray.push(eID);
           }
      }
-    //  alert(examIDs);
-     console.log(examIDs);
+    //  for(j=0;j<len_student1;j++){if(verifiy1[j].value.trim() !== ''){ subCodesArray.push(verifiy1[j].value); }}
+    //  alert(subCodesArray);
+    //  console.log(examIDs);
   if((typeof  examIDs[0]== 'undefined'))
   {
     ErrorToast(' Select atleast one Student' ,'bg-warning');
@@ -545,14 +582,25 @@ var len_student= verifiy.length;
          spinner.style.display='block';
   $.ajax({
          url:'action_g.php',
-         data:{examIDs:examIDs,code:code},
-         type:'POST',
-         success:function(data) {
-            spinner.style.display='none';
-            // console.log(data);
+         data:{examIDs:examIDs,college:college,
+              course:course,
+              batch:batch,
+              sem:sem,
+              examination:examination,
+              group:group,code:code,subCodesArray:subCodesArray},
+              type:'POST',
+              success:function(data) {
+                  spinner.style.display='none';
+              console.log(data);
             if (data==1) 
             {
                 SuccessToast('Successfully Updated');
+            //    search_study_scheme();
+            select_mst();
+            }
+            else if (data==2) 
+            {
+              ErrorToast('enter reappear marks' ,'bg-primary');
             //    search_study_scheme();
             }
             else
@@ -562,7 +610,89 @@ var len_student= verifiy.length;
             }
             }      
 });
+  }
 }
+else
+{
+
+}
+}
+function exportCutListExcelcsv() {
+    var exportCode = 72;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = "Reappear";
+    var Group = document.getElementById('group').value;
+    var Examination = document.getElementById('Examination').value;
+
+    if (College != '' && Course != '' && Batch != '' && Semester != ''&& Type != '' && Group != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
+
+function resultupdateAll()
+{
+  var  examination = document.getElementById('Examination').value;
+  var  sem = document.getElementById('Semester').value; 
+  var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+  var code=455;
+  var examIDs=[];  
+  var eIDArray=[];  
+  var IDNoArray=[];  
+  var subcodeArray=[];  
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            examIDs.push(verifiy[i].value);
+            var  eID = document.getElementById('ID'+verifiy[i].value).value; 
+            eIDArray.push(eID);
+            var  subcode = document.getElementById('subcode'+verifiy[i].value).value; 
+            subcodeArray.push(subcode);
+            var  IDNo = document.getElementById('IDNo'+verifiy[i].value).value; 
+            IDNoArray.push(IDNo);
+          }
+     }
+  if((typeof  examIDs[0]== 'undefined'))
+  {
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
+  }
+  else
+  {
+         var spinner=document.getElementById("ajax-loader");
+         spinner.style.display='block';
+  $.ajax({
+         url:'action_g.php',
+         data:{examIDs:examIDs,code:code,subCodesArray:subcodeArray,IDNoArray:IDNoArray,eIDArray:eIDArray,Examination:examination,Semester:sem},
+              type:'POST',
+              success:function(data) {
+                  spinner.style.display='none';
+              console.log(data);
+            if (data==1) 
+            {
+                SuccessToast('Successfully Updated');
+            //    search_study_scheme();
+            select_mst();
+            }
+            else
+            {
+                ErrorToast(' try Again' ,'bg-danger');
+
+            }
+            }      
+});
+  }
+
 }
 </script>
 

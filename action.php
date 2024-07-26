@@ -23806,7 +23806,7 @@ $ca3=$_POST['ca3'];
 $attendance=$_POST['attendance'];
 $marks=$_POST['marks'];
 
-  $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
+   $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
  CE2='$ca2',CE2updateby='$EmployeeID',CE2updatedDate='$timeStamp',CE2Locked='1',
  CE3='$ca3',CE3updateby='$EmployeeID',CE3updatedDate='$timeStamp',CE3Locked='1',
  ESE='$marks',MOOCupdateby='$EmployeeID',MOOCupdatedDate='$timeStamp',MoocLocked='1',

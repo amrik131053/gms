@@ -1596,6 +1596,10 @@ function addEmployee()
                   category:category,Permanent:Permanent,Correspondance:Correspondance,shift:shift,bloodGroup:bloodGroup},
                 success: function(response) 
                { 
+                  if(response==1)
+               {
+            
+                  console.log(response);
                spinner.style.display='none';
                 SuccessToast('Successfully Added');
                 addEmpInLms(loginId,category);
@@ -1620,7 +1624,11 @@ function addEmployee()
        document.getElementById('Permanent').value="";
        document.getElementById('Correspondance').value="";
        document.getElementById('shift').value="";
-             
+                   
+      }
+      else{
+         ErrorToast('Try after some time','bg-warning');
+      }
                }
          });
 	}

@@ -7252,11 +7252,6 @@ include 'result-pages/resultfooter.php';
 
 include 'result-pages/result-subject-bind.php';
 
-
-
-
-
-
 $subCount=(count($Subjects)*5)+4;
 $subCount1=count($Subjects);
 
@@ -10270,6 +10265,154 @@ $SrNo++;
     $fileName="Student Report ";
 }
 
+
+      
+else if($exportCode==71)
+{
+   
+include 'result-pages/result-subject-bind-new2.php';
+$subCount=(count($Subjects)*2)+4;
+$subCount1=count($Subjects);
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+        <thead>";
+ include 'result-pages/resultcopyheader.php';
+$exportstudy.="<tr>
+    <th>SrNo</th>
+    <th>UniRoll No</th> ";
+    // print_r($SubjectNames);
+foreach ($Subjects as $key => $SubjectsCode) {
+    $exportstudy.="<th colspan=2>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
+}
+$exportstudy.="</tr>";
+$group = $_GET['Group'];
+$CourseID = $_GET['Course'];
+ $CollegeID = $_GET['CollegeId'];
+ $Batch=$_GET['Batch']; 
+ $semID = $_GET['Semester'];
+ $exam = $_GET['Examination'];
+ $sql1 = "SELECT  DISTINCT UniRollNo,Id FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
+    $stmt = sqlsrv_query($conntest,$sql1);
+        $SrNo=1;
+     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+      $ID=$row['Id']; 
+      $UniRollNo=$row['UniRollNo']; 
+      $exportstudy.="<tr>
+      <th>{$SrNo}</th>
+      <th>{$UniRollNo}</th> ";
+foreach ($Subjects as $key => $value) {
+     $fatchMarks="SELECT  * FROM  ResultPreparationDetail WHERE  ResultID='$ID' and SubJectCode='$value' ";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {  
+    $SubjectGrade=$RowfatchMarks['SubjectGrade'];
+    $SubjectGradePoint=$RowfatchMarks['SubjectGradePoint'];
+        $exportstudy.="
+        <th>{$SubjectGrade}</th>
+        <th>{$SubjectGradePoint}</th> ";
+      } 
+      else{
+        $exportstudy.="
+        <th>NA</th>
+        <th>NA</th> ";
+      }
+    }
+     $exportstudy.="</tr>";
+     $SrNo++;    
+}
+// $sgpa= number_format($sgpa,2);
+// $exportstudy.="</tr>";
+include 'result-pages/resultfooter.php';            
+$exportstudy.="</table>";
+echo $exportstudy;
+$fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
+      }
+
+      else if($exportCode==72)
+      {
+      
+      include 'result-pages/result-subject-bind.php';
+      
+      $subCount=(count($Subjects)*5)+4;
+      $subCount1=count($Subjects);
+      
+      $exportstudy="<table class='table' border='1'><thead>"; 
+       $exportstudy.="<tr><th colspan='".$subCount."' ><b style='font-size:22px;'>GURU KASHI UNIVERSITY, TALWANDI SABO, BATHINDA (PUNJAB) RESULT NOTIFICATION No. GKU/COE/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;".$Examination."&nbsp;&nbsp;EXAMINATION</b></th></tr>"; 
+           $exportstudy.="<tr><th colspan='".$subCount."'><b style='font-size:16px;text-align:left;'>  &nbsp;&nbsp;&nbsp; Programme:&nbsp;&nbsp;&nbsp;".$CourseName."&nbsp;&nbsp;&nbsp;
+          <b style='text-align:center;font-size:16px;'>   &nbsp;&nbsp;&nbsp;Semester:&nbsp;&nbsp;&nbsp;".$Semester."</b>(".$Type.")  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Batch &nbsp;&nbsp;&nbsp;: <b style='text-align:right;'>".$Batch."</b></th></tr>";
+          $exportstudy.="<tr><th colspan='".$subCount."'><b style='font-size:20px;'>Consolidated Result (".$Examination.")</b></th></tr>";
+      $exportstudy.="<tr><th>SrNo</th><th>UniRoll No</th>";
+      
+          foreach ($Subjects as $key => $SubjectsCode) {
+           
+      $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+      }
+      $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>";
+    //   $exportstudy.="</tr>";
+    $group = $_GET['Group'];
+    $CourseID = $_GET['Course'];
+     $CollegeID = $_GET['CollegeId'];
+     $Batch=$_GET['Batch']; 
+     $semID = $_GET['Semester'];
+     $exam = $_GET['Examination'];
+    $sql1 = "SELECT  DISTINCT UniRollNo,Id,TotalCredit,Sgpa FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
+    $stmt = sqlsrv_query($conntest,$sql1);
+        $SrNo=1;
+     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+      $ID=$row['Id']; 
+      $UniRollNo=$row['UniRollNo']; 
+      $exportstudy.="<tr>
+      <th>{$SrNo}</th>
+      <th>{$UniRollNo}</th> ";
+     
+
+
+foreach ($Subjects as $key => $value) {
+     $fatchMarks="SELECT  * FROM  ResultPreparationDetail WHERE  ResultID='$ID' and SubJectCode='$value' ";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {  
+    $SubjectGrade=$RowfatchMarks['SubjectGrade'];
+    $SubjectGradePoint=$RowfatchMarks['SubjectGradePoint'];
+    $SubjectCredit=$RowfatchMarks['SubjectCredit'];
+    $exportstudy.="
+    <th>".$SubjectNames[$key]."</th>
+    <th>".$SubjectsCode."</th> 
+    <th>{$SubjectGrade}</th>
+    <th>{$SubjectGradePoint}</th> 
+    <th>{$SubjectCredit}</th> ";
+      } 
+      else{
+        $exportstudy.="
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        <th>NA</th>
+        ";
+    }
+    
+}
+$exportstudy.="
+<th>".$row['TotalCredit']."</th>
+<th>".$row['Sgpa']."</th>
+
+";
+$SrNo++;
+}
+$exportstudy.="</tr>";
+
+      $exportstudy.="</table>";
+echo $exportstudy;
+$fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
+    }
 
 
 
