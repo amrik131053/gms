@@ -32019,7 +32019,7 @@ $todaydate=$_POST['startDate'];
   $srNo=1;
   
   $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where 
-  Admissions.IDNo='$ID'  and Semester='$Semester' order by  Semester ASC ";
+  Admissions.IDNo='$ID'  and Semester='$Semester' order by  Admissions.IDNo ASC ";
   ?>
   <?php 
              $result = sqlsrv_query($conntest,$query);
@@ -32063,7 +32063,7 @@ $todaydate=$_POST['startDate'];
     
           if (!sqlsrv_execute($stmt)) {
                 echo "Your code is fail!";
-          echo sqlsrv_errors($sql);
+           sqlsrv_errors($sql);
           die;
           } 
           $count=0;
@@ -32175,7 +32175,7 @@ $todaydate=$_POST['startDate'];
 
               if($gradevalue>0)
               {
-             echo   $gradevaluetotal=$gradevaluetotal+$gradevalue;
+                $gradevaluetotal=$gradevaluetotal+$gradevalue;
               }
               else
               {
@@ -32206,7 +32206,11 @@ $todaydate=$_POST['startDate'];
             {
               $sgpa="NC";
             }
-       
+            else{
+
+                $sgpa= number_format($sgpa,2);
+            }
+
              
         ?>
           <div style='padding:0px 0px;' class=" table-responsive">
@@ -32310,7 +32314,9 @@ $todaydate=$_POST['startDate'];
                       </tr>
   
                       <?php
-                    if($row['21']-1==$count)
+                    //   echo $row['21'];
+                    //   echo "count=".$count;
+                    if($row['21']-1==$count+1)
                     {
                       ?>
                       <tr>
