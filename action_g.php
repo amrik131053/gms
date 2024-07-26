@@ -25384,6 +25384,20 @@ if($Status==6)
           <input type="text" id="Batch" class="form-control" readonly>
       </div>
 
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Admission Type</label>
+           <select class="form-control" name="admissiontype" id="admissiontype" >
+
+              <option value="">Normal</option>
+              <option value="1">Pre Requisite</option>
+                            <option value="2">Foundation</option>
+                                          <option value="3">Migration</option>
+          
+
+
+          </select>
+      </div>
+
     
 
   </div>
@@ -26092,6 +26106,7 @@ $Comments=$_POST['Comments'];
 $refvalue=$_POST['refvalue'];
 
 $EmIDTeam=$_POST['EmID'];
+$admissiontype=$_POST['admissiontype'];
 
 $SemesterForFee=$_POST['SemesterForFee'];
 $SemesterID=$_POST['SemesterID'];
@@ -26181,8 +26196,8 @@ if($ifexitIDNoAdhaar<1)
 $ifexitIDNo=sqlsrv_num_rows($get_card_run);
 if($ifexitIDNo<1)
 {    
-     $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality)
- VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality')";
+     $newAdmissionInsert="INSERT into Admissions(IDNo,Session,Batch,Sex,ClassRollNo,StudentName,FatherName,DOB,AadhaarNo,PassportNo,StudentMobileNo,Category,FeeCategory,ScolarShip,LateralEntry,AdmissionDate,CollegeName,CollegeID,DepartmentId,Course,CourseID,CommentsDetail,Status,UserID,Nationality,AdmissionType)
+ VALUES('$IDNo','$Session','$Batch','$Gender','$ClassRollNoUpdate','$Name','$FatherName','$Dob','$AdharCardNo','$PassportNo','$MobileNumber','$category','$feecategory','$scholaship','$LateralEntry','$timeStampS','$CollegeName','$CollegeID','','$CourseName','$Course','$Comments','1','$EmployeeID','$Nationality','$admissiontype')";
  $newAdmissionInsertRun=sqlsrv_query($conntest,$newAdmissionInsert); //
  if ($newAdmissionInsertRun === false) {
     // $errors = sqlsrv_errors();
