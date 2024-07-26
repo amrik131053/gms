@@ -633,6 +633,8 @@ function submitNewAdmissions() {
     var LateralEntry = document.getElementById('LateralEntry').value;
     var Batch = document.getElementById('Batch').value;
     var Comments = document.getElementById('Comments').value;
+    var admissiontype = document.getElementById('admissiontype').value;
+
 
     var refvalue = document.getElementById('refvalue').value;
     var EmIDTeam = document.getElementById('EmID' + refvalue + '1').value;
@@ -768,7 +770,7 @@ function submitNewAdmissions() {
             SemesterID: selectedSemesterID,
             feeparticulr: feeparticulr,
             feeTotalDebit: feeTotalDebit,
-            code: code
+            code: code,admissiontype:admissiontype
         },
         type: 'POST',
         success: function(response) {

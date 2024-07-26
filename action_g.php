@@ -25711,7 +25711,20 @@ if($Status==6)
           <input type="text" id="Batch" class="form-control" readonly>
       </div>
 
-    
+     <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Admission Type</label>
+           <select class="form-control" name="admissiontype" id="admissiontype" >
+
+              <option value="">Normal</option>
+              <option value="1">Pre Requisite</option>
+                            <option value="2">Foundation</option>
+                                          <option value="3">Migration</option>
+          
+
+
+          </select>
+      </div>
+
 
   </div>
   <br>
@@ -26986,7 +26999,20 @@ else if($code==367)
           <input type="text" id="Batch" class="form-control" readonly>
       </div>
 
-    
+     <div class="col-lg-3 col-md-3 col-sm-12">
+          <label>Admission Type</label>
+           <select class="form-control" name="admissiontype" id="admissiontype" >
+
+              <option value="">Normal</option>
+              <option value="1">Pre Requisite</option>
+                            <option value="2">Foundation</option>
+                                          <option value="3">Migration</option>
+          
+
+
+          </select>
+      </div>
+
 
   </div>
   <br>
