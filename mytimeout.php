@@ -2,42 +2,7 @@
    include "header.php"; 
     $code_access;  
     ?>
-<script>
-   $(document).ready(function(){
-   
-       $(document).on('keydown','.subject_code', function() {
-   
-           // Initialize jQuery UI autocomplete
-           $("#subject_code").autocomplete({
-                 source: function( request, response ) {
-               $.ajax({
-         
-               url: "action.php",
-                 type: 'post',
-                 dataType: "json",
-                 data: {
-                     search: request.term,code:116
-                 },
-                 success: function( data ) {
-                     response( data );
-                     // console.log(data);
-                 },
-                 error: function (error) {
-                 // console.log(error);
-                  }
-               });
-             },
-             select: function (event, ui) {
-               $(this).val(ui.item.label); // display the selected text
-               var subject_code = ui.item.value; // selected value
-   
-                       
-             return false;
-             }
-           });
-       });
-     });
-</script>
+
 <section class="content">
    <div class="container-fluid">
    <div class="card card-info">
@@ -54,26 +19,28 @@
             <!--  <form class="form-horizontal" action="" method="POST"> -->
             <div class="card-body" id="" >
              
-                <form  method="post"  class="form-horizontal" enctype="multipart/form-data">   
+              
                      <label>Purpose<b style="color:red;">*</b></label>
-
-                     <input type="hidden"  name="IDNo" id="IDNo" value="<?= $EmployeeID;?>">
-                     <select  id="purpose" class="form-control" Name='purpose' required >
+<select  id="purpose" class="form-control" Name='purpose' required >
                          <option value=''>Select </option>
                         <option value='Official'>Official</option>
                         <option value='Personal'>Personal</option>
                         <option value='Leave'>Leave</option>
                      </select>
                      <div id='leavetype'  style="display:none" >
+
               <label>Leave Type<b style="color:red;">*</b></label>
-                 <select  id="leavetype" class="form-control" Name='leavetype' required  >
-                    <option value='NA'>Select </option>
+                 <select  id="leavetype1" class="form-control" Name='leavetype' required  >
+                    <option value='NA'>Select</option>
                         <option value='Full'>Remaining Full Time</option>
 
                         <option value='Half'>Remaining Half Time</option>
                         
                      </select> 
 </div>
+
+  <label>Exit Time<b style="color:red;">*</b></label>
+  <input type="time" class="form-control" name='exittime' id='exittime'>
 
                      <label>Location <b style="color:red;">*</b></label>
                      <select  id="location" class="form-control" Name='location'  required >
@@ -83,13 +50,13 @@
                      </select>                 
                                           
                   
-                <label><b style="color:black">Enter Remarks</b></label><textarea rows="3"  class="form-control" name="remarks"></textarea>
+                <label><b style="color:black">Enter Remarks</b></label><textarea rows="3"  class="form-control" id="remarks"></textarea>
    <br>
        
      
       
-      <input type="submit" class="form-control btn btn-primary"  name="request_time_out" >
-   </form>
+      <input type="submit" class="form-control btn btn-primary"  name="request_time_out" onclick="Submit_timeout();" >
+
                     
                   </div>
                   <!-- /.row -->
@@ -111,94 +78,20 @@
                 <i class="fas fa-walking"></i> &nbsp;
 <?php 
  $count=0;
-  $list_sql = "SELECT * FROM movement where superwiser_id='$EmployeeID' AND status='draft' ";
+
+ $list_sql = "SELECT * FROM MovementRegister where Supervisor='$EmployeeID' AND Status='draft' ";
  //
-$result = mysqli_query($conn,$list_sql);
- while($row = mysqli_fetch_array($result))  
-      {
-        $count++;
-      }?>
-
-                  <span class="badge bg-purple"><?=$count;?></span>
-                </a>
-
-
-            </div>
-                </div>
-               
-
-
-                
-
-
-
-</div>
-<?php
-
-
-
-
-
-
-
-if (isset($_POST['request_time_out'])) {
-
-
-
-
- $purpose=$_POST['purpose'];
-$location= $_POST['location'];
- $leavetype= $_POST['leavetype'];
-$remarks= $_POST['remarks'];
-$exit_date =date('Y-m-d');
-
-$noti=$purpose."(".$location.")";
-
-date_default_timezone_set("Asia/Kolkata"); 
-$exit_time = date('H:i');
- $status='draft';
-
-
-  $staff="SELECT * FROM Staff Where IDNo='$EmployeeID'";
-    $stmt = sqlsrv_query($conntest,$staff);  
-   while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
-        {
-
-   //  $emp_image = $row_staff['image'];
-    $emp_image = "";
-      $empid = $row_staff['IDNo'];
-
-      $name = $row_staff['Name'];
-
-      $college = $row_staff['CollegeName'];
-      $dep = $row_staff['Department'];
-      $designation = $row_staff['Designation'];
-      $mob1 = $row_staff['ContactNo'];
-     
-      $email = $row_staff['EmailID'];
-      $superwiser_id = $row_staff['LeaveSanctionAuthority'];
-
-        }
-
-
-
-
-
-
-$result = mysqli_query($conn,"INSERT into movement(emp_id,purpose,location,description,out_date,out_time,status,superwiser_id,college,department,designation,mobile,email,image,name,mleave,request_time,request_date)
-                    values ('$EmployeeID','$purpose','$location','$remarks','$exit_date','$exit_time','$status','$superwiser_id','$college','$dep','$designation','$mob1','$email','$emp_image','$name','$leavetype','$exit_time','$exit_date')");
-
-
-
-$Notification="INSERT INTO notifications (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id', '$EmployeeID', 'Time out Request','$noti', 'movement-admin.php','$timeStamp','0','0')";
-           mysqli_query($conn,$Notification);
+$stmt1 = sqlsrv_query($conntest,$list_sql, array(), array( "Scrollable" => 'static' ));  
+$count = sqlsrv_num_rows($stmt1);
 
 ?>
-<script> window.location.href="mytimeout.php";</script>
+     <span class="badge bg-purple"><?=$count;?></span>
+     </a>
+     </div>
+     </div>
+    </div>
 
-<?php }
 
-?>
  <div class="panel-body">
  <div class="card-body" id="" >
   <div class="col-lg-12 col-md-4 col-sm-12">
@@ -287,7 +180,7 @@ function bg(id)
           {
        var code=296;
 
-       var IDNo=document.getElementById('IDNo').value;
+      
     
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -295,7 +188,7 @@ function bg(id)
             url:'action.php',
             type:'POST',
             data:{
-               code:code,IDNo:IDNo
+               code:code
                   },
             success: function(response) 
             {
@@ -324,7 +217,7 @@ function bg(id)
           {
        var code=286;
 
-       var IDNo=document.getElementById('IDNo').value;
+       
     
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -332,7 +225,7 @@ function bg(id)
             url:'action.php',
             type:'POST',
             data:{
-               code:code,IDNo:IDNo
+               code:code
                   },
             success: function(response) 
             {
@@ -347,7 +240,7 @@ function bg(id)
           {
        var code=287;
 
-       var IDNo=document.getElementById('IDNo').value;
+   
     
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -355,7 +248,7 @@ function bg(id)
             url:'action.php',
             type:'POST',
             data:{
-               code:code,IDNo:IDNo
+               code:code
                   },
             success: function(response) 
             {
@@ -393,6 +286,117 @@ function bg(id)
      }
 
 
+  function cancel(id)
+          {
+       var code=381;
+
+       
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+                  pending();
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }
+
+function view_movment_status(id)
+{
+var code=382;
+
+var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+                //console.log(response);
+                 // pending();
+
+
+               spinner.style.display='none';
+               document.getElementById("edit_stu").innerHTML=response;
+            }
+         });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function Submit_timeout()
+{
+var code=380;
+var purpose=document.getElementById('purpose').value;
+var location=document.getElementById('location').value;
+
+var remarks=document.getElementById('remarks').value;
+var exittime=document.getElementById('exittime').value;
+ if(purpose=='Leave')
+ {
+    var leavetype=document.getElementById('leavetype1').value;
+ }
+ else
+ {
+var leavetype='NA';
+ }
+
+if(exittime!='' && purpose!='' && location!=''remarks!='')
+{
+
+var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,purpose:purpose,location:location,leavetype:leavetype,remarks:remarks,exittime:exittime
+                  },
+            success: function(response) 
+            {
+                //console.log(response);
+                  pending();
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+}
+}
+else
+{
+    
+}
 </script>
 
 
@@ -406,7 +410,26 @@ function bg(id)
 
 
 
-
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"  id="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Movment Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="edit_stu">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

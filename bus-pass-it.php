@@ -22,7 +22,7 @@
               Search
             </button>
       </span>
-                    </div>
+        </div>
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-lg-2 col-md-2 col-sm-12">

@@ -150,7 +150,7 @@ function show_notification(id)
    }
   });
  }
-
+load_unseen_notification();
 //  checkSessions();
 // });
 
