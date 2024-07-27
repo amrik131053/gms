@@ -29,7 +29,9 @@ if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
 if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
 if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
 if(is_numeric($grace)){$fgrace=$grace;}else{$fgrace=0;}
+
 $totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
+
 $grade='';
 $gardep=0;
 if($ESe=='S')
@@ -46,6 +48,7 @@ $gardep=$ESe;
 $nccount++;
 $color='red';
 }
+
 else{ 
 if($totalFinal>=90)
 {   $grade= "O";

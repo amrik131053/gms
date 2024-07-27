@@ -32278,6 +32278,7 @@ $todaydate=$_POST['startDate'];
               if($grade=='F' || $grade=='US')
               {
                 $nccount=$nccount+1;
+                $grade="F-Fail(".$totalFinal.")";
               }
               }
               }
@@ -32286,6 +32287,7 @@ $todaydate=$_POST['startDate'];
               if($grade=='F' || $grade=='US')
               {
               $nccount=$nccount+1;
+              $grade="F-Fail(".$totalFinal.")";
               }
               } 
               if($totalcredit>0)
