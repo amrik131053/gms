@@ -11087,7 +11087,7 @@ elseif ($code==176)
                 <th>College</th>
                 <th>System Number</th>
                   <th>Entry Time</th>
-                  <th>Exit Time</th>
+                  <th>Requested Time</th>
                   <th>Action</th>
               </tr>
             </thead>
@@ -17484,14 +17484,17 @@ else if($code==284)
 
 else if($code==285)
 {
+   $from=date('Y-m-d')
 
    ?>  
    <div class="card-body table-responsive">
     <table class="table">
         <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Check Out </th><th>Date/Time</th><th>Action</th>
 <?php 
- $list_sql = "SELECT * FROM MovementRegister  Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Draft'  ORDER BY RequestNo DESC";
- //
+ $list_sql = "SELECT * FROM MovementRegister  Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Draft'
+
+AND RequestTime Between '$from 01:00:00.000' and '$from 23:59:00.000'  ORDER BY RequestNo DESC";  
+  
 $result = sqlsrv_query($conntest,$list_sql);
  while($row = sqlsrv_fetch_array($result))  
       {  
@@ -17508,7 +17511,7 @@ $result = sqlsrv_query($conntest,$list_sql);
          <td>  <?php echo  $row['Reason'];?> </td>
          <td>  <?php echo  $row['CheckOut'];?> </td>
 
-         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td>
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h:i:s');}else{}?> </td>
 
 
          <td> 
@@ -17535,7 +17538,7 @@ else if($code==286)
     <div class="card-body table-responsive"> 
  <table class="table">
   
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th><th>Action</th>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Requested Time</th><th>Date</th><th>Action</th>
        <?php 
 $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID' AND Status='Refused'  ORDER BY RequestNo DESC";
  //
@@ -17553,7 +17556,7 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
       
       <tr>
          <td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td><td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:i:s');?> </td><td>
 
 
 
@@ -17598,7 +17601,7 @@ else if($code==287)
    <div class="card-body table-responsive">  
  <table class="table">
   
-     <tr>  <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th>
+     <tr>  <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Requested Time</th><th>Date</th>
          <th>Staus</th><th>Action</th></tr>
        <?php 
 $list_sql = "SELECT top(50)* FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID'   ORDER BY RequestNo DESC";
@@ -17618,7 +17621,7 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
       <tr>
          <td><?php echo $id;?></td>
          <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td>
-         <td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td>
+         <td>  <?php echo  $row['RequestTime']->format('d-m-Y h:i:s');?> </td>
 
          
 
@@ -17669,7 +17672,7 @@ else if ($row['Status']=='Check-in')
 <?php }
 else if ($row['Status']=='Self Canceled')
 {?>
-<button class="btn btn-info btn-xs">Self Canceled
+<button class="btn btn-info btn-xs"> Canceled
          </button> <?php 
 }
 ?>
@@ -17713,61 +17716,67 @@ else if($code=='288')
 {
  $id=$_POST['id'];
 
-$list_sql = "SELECT * FROM movement where id='$id'";
+ $list_sql = "SELECT * FROM MovementRegister where RequestNo='$id'";
 
-$result = mysqli_query($conn,$list_sql); 
-while($row = mysqli_fetch_array($result))  
+$result = sqlsrv_query($conntest,$list_sql); 
+while($row = sqlsrv_fetch_array($result))  
       { 
-       $out_time=$row['out_time'];
-       $superwiser_id=$row['superwiser_id'];
-        $emp_id_in=$row['emp_id'];
-       $out_date=$row['out_date'];
+         $exittime=$row['ActualExittime']->format('Y-m-d H:i:s');
+       
       }
+      $date1=strtotime($exittime);
+      $date2=strtotime( $timeStampS);
 
-
-$return_date =date('Y-m-d');
-date_default_timezone_set("Asia/Kolkata"); 
-$return_time = date('H:i');
  $status='Check-in';
-$return_date=date("Y-m-d");
 
 
-  $diff = strtotime($return_date)-strtotime($out_date);
-     $days= round($diff / 86400);
+$diff= abs($date2-$date1);
 
 
- $h1=substr("$out_time",0,2)."<br>";
- $h2=substr("$return_time",0,2)."<br>";
- $m1=substr("$out_time",3,2)."<br>";
- $m2=substr("$return_time",3,2)."<br>";
 
-if($m2>=$m1)
+ $years = floor($diff / (365*60*60*24));
+
+
+$months = floor(($diff - $years * 365*60*60*24)
+                        / (30*60*60*24));
+
+ $days = floor(($diff - $years * 365*60*60*24 -
+         $months*30*60*60*24)/ (60*60*24));
+
+
+ $hours = floor(($diff - $years * 365*60*60*24
+      - $months*30*60*60*24 - $days*60*60*24)
+                           / (60*60));
+
+
+ $minutes = floor(($diff - $years * 365*60*60*24
+      - $months*30*60*60*24 - $days*60*60*24
+                     - $hours*60*60)/ 60);
+
+$seconds = floor(($diff - $years * 365*60*60*24
+      - $months*30*60*60*24 - $days*60*60*24
+            - $hours*60*60 - $minutes*60));
+
+
+
+ 
+
+if($days>0)
 {
- $r=(int)$h2-(int)$h1;
- $r1=(int)$m2-(int)$m1;
+   $count= $days."Days".$r."Hours".$r1."Minutes";
 }
 else
 {
- $r=(int)$h2-(int)$h1-1;
- $r1=(int)$m2+60-(int)$m1;
+  $count=$hours."Hours".$minutes."Minutes";
 }
-
-if($r==0)
-{
-   $count=$r1."Minutes";
-}
-else
-{
-  $count=$r."Hours".$r1."Minutes";
-}
-if($r1>0)
+if($minutes>0)
 {
    
-  $result = mysqli_query($conn,"update movement set status='$status',return_time='$return_time',return_date='$return_date',time_count='$count' where id='$id'");
+  $result = "update MovementRegister set Status='$status',TimeCount='$count' where RequestNo='$id'";
+ sqlsrv_query($conntest, $result);
 
-  $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$superwiser_id','$emp_id_in','cheked in','NA', 'movement-admin.php','$timeStamp','0','1')";
+ $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Recommend','$EmployeeID','Reached Office','NA', 'movement-admin.php','$timeStamp','0','1')";
  sqlsrv_query($conntest,$Notification);
-
 
 }
 else
@@ -17779,7 +17788,7 @@ else
 ?>
 
 <?php 
-mysqli_close($conn);
+ sqlsrv_close($conntest);
 }
 else if($code=='289')
 {
@@ -17946,7 +17955,7 @@ else if($code==292)
    ?>
      <div class="card-body table-responsive">
     <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Requested Time</th><th>Date/Time</th><th>Action</th>
 <?php 
  $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Ack'  ORDER BY RequestNo DESC";
  //
@@ -17976,7 +17985,7 @@ $result = sqlsrv_query($conntest,$list_sql);
          <td>  <?php echo   $row['LocationType'];?> </td>
          <td>  <?php echo  $row['Reason'];?> </td>
          <td>  <?php echo  $row['CheckOut'];?> </td>
-         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h:i:s');}else{}?> </td><td> 
 
 
 
@@ -17987,7 +17996,7 @@ $result = sqlsrv_query($conntest,$list_sql);
 
 
 
- <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['RequestNo'];?>,<?=$empid;?>)">Cancel</button>
+ <!-- <button class="btn btn-danger btn-xs" onclick="cancel(<?=$row['RequestNo'];?>,<?=$empid;?>)">Cancel</button> -->
 
        </td>
  </tr>
@@ -18012,7 +18021,7 @@ else if($code==293)
 
  <div class="card-body table-responsive">
     <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Requested Time</th><th>Date/Time</th><th>Action</th>
 <?php 
  $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID' AND Status='Refused'  ORDER BY RequestNo DESC";
  //
@@ -18038,7 +18047,7 @@ $result = sqlsrv_query($conntest,$list_sql);
          <td>  <?php echo   $row['LocationType'];?> </td>
          <td>  <?php echo  $row['Reason'];?> </td>
          <td>  <?php echo  $row['CheckOut'];?> </td>
-         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h:i:s');}else{}?> </td><td> 
 
 
 
@@ -18077,7 +18086,7 @@ else if($code==294)
 
  <div class="card-body table-responsive">
     <table class="table">
-        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>CheckOut</th><th>Date/Time</th><th>Action</th>
+        <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Remarks</th><th>Requested Time</th><th>Date/Time</th><th>Action</th>
 <?php 
  $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID  where Supervisor='$EmployeeID'   ORDER BY RequestNo DESC";
  //
@@ -18086,7 +18095,7 @@ $result = sqlsrv_query($conntest,$list_sql);
       {  
      // $emp_image = $row['image'];
       $empid = $row['EmpID'];
-      $name = $row['Name'];
+     $name = $row['Name'];
       
        ?> 
 
@@ -18103,12 +18112,72 @@ $result = sqlsrv_query($conntest,$list_sql);
          <td>  <?php echo   $row['LocationType'];?> </td>
          <td>  <?php echo  $row['Reason'];?> </td>
          <td>  <?php echo  $row['CheckOut'];?> </td>
-         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y h-i');}else{}?> </td><td> 
+           <td>    
+            <?php 
+if($row['Status']=='draft')
+{ $color='warning';?>
+<button class="btn btn-warning btn-xs"  ><i>Waiting</i>
+         </button> 
+         &nbsp;&nbsp;&nbsp; 
+<?php }
+
+else if ($row['Status']=='Ack')
+{
+
+if($row['LocationType']=='Inside Campus')
+{ 
+    $color='warning'; ?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' >Check in Pending
+         </button>  
+  
+<?php }
+else
+{    $color='info';?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
+
+}
+else if ($row['Status']=='Refused')
+{   $color='danger';
+
+   ?>
+<button class="btn btn-danger btn-xs">Refused
+         </button> 
+
+<?php }
+else if ($row['Status']=='check-out')
+{
+$color='primary';
+
+   ?>
+<button class="btn btn-primary btn-xs">Checked Out
+         </button> 
+
+<?php }
+else if ($row['Status']=='Check-in')
+{
+
+  $color='success';
+   ?>
+<button class="btn btn-success btn-xs">Completed
+         </button> 
+
+<?php }
+else if ($row['Status']=='Self Canceled')
+{?>
+<button class="btn btn-info btn-xs"> Canceled
+         </button> <?php 
+}
+?> </td>
+
+         <td>  <?php  if($row['RequestTime']!=''){echo  $row['RequestTime']->format('d-m-Y H:i:s');}else{}?> </td><td> 
 
 
 
 
- <button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $row['RequestNo'];?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+ <button class="btn btn-<?=$color;?> btn-xs" onclick="view_movment_status(<?php echo $row['RequestNo'];?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
          </button> 
 
 
@@ -18192,7 +18261,7 @@ else if($code==296)
      <div class="card-body table-responsive">
  <table class="table">
   
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</t><th>Date</th><th>Action</th>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Requested Time</t><th>Date</th><th>Action</th>
        <?php 
 $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where EmpID='$EmployeeID' AND RequestTime Between '$from 01:00:00.000' and '$from 23:59:00.000'  ORDER BY RequestNo DESC";
  //
@@ -18210,7 +18279,7 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
       
       <tr>
          <td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td><td>
+         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:i:s');?> </td><td>
 
 
 
@@ -18227,11 +18296,12 @@ if($row['Status']=='draft')
 else if ($row['Status']=='Ack')
 {
 
-if($row['Location']=='Inside Campus')
+if($row['LocationType']=='Inside Campus')
 {?>
    
-<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['id'];?>)">Check in 
-         </button> 
+
+         <button class="btn btn-info btn-xs"  name='Check-in' onclick="checkout(<?php echo  $row['RequestNo'];?>)">Check Out
+         </button>  
   
 <?php }
 else
@@ -18241,18 +18311,51 @@ else
 <?php } 
 
 }
+
+
+
 else if ($row['Status']=='Refused')
 {?>
 <button class="btn btn-danger btn-xs">Refused
          </button> 
 
 <?php }
-else if ($row['Status']=='check-out')
-{?>
-<button class="btn btn-primary btn-xs">Checked Out
-         </button> 
 
+
+
+
+
+
+else if ($row['Status']=='check-out')
+{
+
+if($row['LocationType']=='Inside Campus')
+{?>
+   
+<button class="btn btn-warning btn-xs"  name='Check-in' onclick="checkin(<?php echo  $row['RequestNo'];?>)">Check in 
+         </button>
+         
+  
 <?php }
+else
+{?>
+<button class="btn btn-success btn-xs">Approved
+         </button> 
+<?php } 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 else if ($row['Status']=='Check-in')
 {?>
 <button class="btn btn-info btn-xs">Completed
@@ -18261,7 +18364,7 @@ else if ($row['Status']=='Check-in')
 <?php }
 else if ($row['Status']=='Self Canceled')
 {?>
-<button class="btn btn-info btn-xs">Self Canceled
+<button class="btn btn-info btn-xs">Canceled
          </button> <?php 
 }
 ?>
@@ -18291,13 +18394,13 @@ else if ($row['Status']=='Self Canceled')
 
 else if($code==297)
 {
-$id=$_POST['id'];
+ 
+ $id=$_POST['id'];
  $emp_id=$_POST['emp_id'];
- $result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Ack' where RequestNo='$id'");
+ $result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Ack', ApproveTime='$timeStamp' where RequestNo='$id'");
+ $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID','Time out Request Accepted','', 'mytimeout.php','$timeStamp','0','1')";
 
-
-$Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out Request Accepted','', 'mytimeout.php','$timeStamp','0','1')";
-            sqlsrv_query($conntest,$Notification);
+sqlsrv_query($conntest,$Notification);
 
 sqlsrv_close($conntest);
 
@@ -18306,8 +18409,8 @@ sqlsrv_close($conntest);
 else if($code==298)
 {
 $id=$_POST['id'];
- $emp_id=$_POST['emp_id'];
-$result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Refused' where RequestNo='$id'");
+
+$result = sqlsrv_query($conntest,"UPDATE MovementRegister set Status='Refused',ApproveTime='$timeStamp' where RequestNo='$id'");
 
 $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$emp_id', '$EmployeeID', 'Time out request cancelled',' ', 'mytimeout.php','$timeStamp','0','2')";
             sqlsrv_query($conntest,$Notification);
@@ -18316,14 +18419,16 @@ $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, P
 
 
 else if($code==299)
-{?>
+{  $from=date('Y-m-d');?>
  <div class="card-body table-responsive">
  <table class="table">
   
-         <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th>
+
+
+         <th>Ref No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Requested Time</th><th>Remarks</th><th>View</th><th>Action</th>
        <?php 
-    $list_sql = "SELECT * FROM MovementRegister where  (Status='Ack' OR Status='check-out')  AND LocationType='Outside Campus'
-     AND RequestTime='$todaydate'  ORDER BY RequestNo DESC";
+    $list_sql = "SELECT * FROM MovementRegister as mr  inner join Staff  as s on mr.EmpID=s.IdNO where  (Status='Ack' OR Status='check-out')  AND LocationType='Outside Campus'
+     AND RequestTime Between '$from 01:00:00.000' and '$from 23:59:00.000'  ORDER BY RequestNo DESC";
 
 $result = sqlsrv_query($conntest,$list_sql);
 while($row=sqlsrv_fetch_array($result)) 
@@ -18331,15 +18436,11 @@ while($row=sqlsrv_fetch_array($result))
      // $emp_image = $row['image'];
       $empid = $row['EmpID'];
       $id = $row['RequestNo'];
-      $name = $row['Emp_Name'];
-      // $college = $row['college'];
-      // $dep = $row['department'];
-      // $designation = $row['designation'];
-      // $mob1 = $row['mobile'];
+      $name = $row['Name'];
+     
      $purpose=  $row['Purpose'];
       $location=$row['LocationType'];
-      // $email = $row['email'];
-      // $mleave = $row['mleave'];
+    
      $status= $row['Status']; ?> 
  
 
@@ -18350,10 +18451,12 @@ while($row=sqlsrv_fetch_array($result))
            style="color: red"><b><?php echo $empid;?></b></td> 
 
 
-            <td><?php echo  $name;?> </td><td> <?= $purpose; ?>  </td><td>  <?= $location; ?> </td><td>  <?php echo  $row['out_time']."/".$row['out_date'];?> </td><td>  <?php echo  $row['Description'];?></td>
+            <td><?php echo  $name;?> </td><td> <?= $purpose; ?>  </td><td>  <?= $location; ?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:i:s');?> </td><td>  <?php echo  $row['Reason'];?></td>
+            <td><button class="btn btn-info btn-xs" onclick="view_movment_status(<?php echo $id;?>)" data-toggle="modal" data-target="#myExtraLargeModalLabel"><i class="fa fa-eye"></i>
+         </button> </td>
          <td> <?php if($status=='Ack')
          {?>  
- <button class="btn btn-danger btn-xs" onclick="checkout('<?=$id;?>','<?=$location;?>','<?=$mleave;?>')">Check-Out</button>
+ <button class="btn btn-danger btn-xs" onclick="checkout('<?=$id;?>')">Check-Out</button>
 
         
       <?php 
@@ -18388,38 +18491,23 @@ while($row=sqlsrv_fetch_array($result))
 </div>
 <?php 
 
-mysqli_close($conn);
 }
-//gate entry checkout
+
+
+//gate entry checkout and emplyee checkout  
+
+
 else if($code==300)
 {
-   $id=$_POST['id'];
+$id=$_POST['id'];
 
- $purpose=$_POST['purpose'];
- $mleave=$_POST['mleave'];
-date_default_timezone_set("Asia/Kolkata"); 
- $exit_date =date('Y-m-d');
+ $result = sqlsrv_query($conntest,"Update MovementRegister set Status='check-out',ActualExittime='$timeStamp' where RequestNo='$id'");
 
-//$noti=$purpose."(".$location.")";
+ $Notification="INSERT INTO Notification (EmpID, SendBy, Subject, Discriptions, Page_link, DateTime, Status,Notification_type) VALUES ('$Recommend','$EmployeeID','Check out from Office','NA', 'movement-admin.php','$timeStamp','0','1')";
+ sqlsrv_query($conntest,$Notification);
 
+ sqlsrv_close($conntest);
 
-$exit_time = date('H:i');
-
-if($purpose!='Leave')
-{
- $result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date where id='$id'");
-}
-else if($purpose=='Leave' AND $mleave!='Full' )
-{
- $result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date  where id='$id'");
-}
-else 
-{
-$result = mysqli_query($conn,"update movement set status='check-out',RequestTime='$exit_date,return_date='$exit_date',return_time='17:00'   where id='$id'");   
-
-
-}
-mysqli_close($conn);
 }
 
 elseif($code==301)
@@ -18481,7 +18569,7 @@ else if($code==302)
      <div class="card-body table-responsive">
  <table class="table" id="example">
   <thead>
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Exit Date/Time</th><th>Remarks</th><th>Action</th></thead>
+       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Purpose</th><th>Location</th><th>Requested Time</th><th>Remarks</th><th>Action</th></thead>
        <tbody>
        <?php 
  $list_sql = "SELECT * FROM movement where request_date='$todaydate'  ORDER BY Status DESC ";
@@ -18546,7 +18634,8 @@ else if ($row['status']=='check-out')
 <button class="btn btn-primary btn-xs">Checked out
          </button> 
 
-<?php }
+<?php 
+}
 else if ($row['status']=='Check-in')
 {?>
 <button class="btn btn-info btn-xs">Completed
@@ -24146,13 +24235,7 @@ else if($code=='382')
   $id=$_POST['id'];
 ?>
 
-
-
-    <div class="card-body table-responsive"> 
- <table class="table">
-  
-       <th>Ref. No</th> <th>Emp ID</th><th>Name</th><th>Designation</th><th>Location</th><th>Purpose</th><th>Remarks</th><th>Exit Time</th><th>Date</th><th>Action</th>
-       <?php 
+  <?php 
 $list_sql = "SELECT * FROM MovementRegister Inner join  Staff on Staff.IDNo=MovementRegister.EmpID where  MovementRegister.RequestNo='$id'";
  //
 $stmt = sqlsrv_query($conntest,$list_sql);
@@ -24162,20 +24245,102 @@ while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
      $name = $row['Name'];
      $id = $row['RequestNo'];
      $designation = $row['Designation'];
-     
+     $Emp_Image=$row['Snap'];
+    $emp_pic=base64_encode($Emp_Image);
+   $status=$row['Status'];
+
+if($status=='draft')
+{
+$statusColor='warning';
+     }
+     elseif ($status=='Ack') {
+    $statusColor='info';
+     }
+
+   elseif ($status=='check-out') {
+    $statusColor='success';
+     }
+
+       elseif ($status=='Refused') {
+    $statusColor='danger';
+     }
+       elseif ($status=='Check-in') {
+    $statusColor='success';
+     }
+
+     elseif ($status=='Self Canceled') {
+    $statusColor='secondary';
+     }
+
+
+
+
  ?>
- 
 
-      
-      <tr>
-         <td><?php echo $id;?></td>
-         <td><?php echo $empid;?><input type="hidden" value="<?php echo  $empid;?>" name="id" id='movmentid'>  </td> <td><?php echo  $name;?> </td><td><?php echo  $designation;?> </td><td>  <?php echo  $row['LocationType'];?> </td><td>  <?php echo  $row['Purpose'];?> </td><td>  <?php echo   $row['Reason'];?> </td><td>  <?php echo  $row['CheckOut'];?> </td><td>  <?php echo  $row['RequestTime']->format('d-m-Y h:m:s');?> </td>
+      <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-<?=$statusColor;?>">
+                    <div class="widget-user-image">
+                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Name'];?>(<?=$row['IDNo'];?>)</h3>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
+                    <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
+                </div>
 
-         <td>
+                 <div class="card-footer p-0">
+                    <ul class="nav flex-column" style="color:black;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Location &nbsp;&nbsp;&nbsp;</b><?=$row['LocationType'];?>
+                            </a>
+                        </li>
+                          <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Purpose &nbsp;&nbsp;&nbsp;</b><?=$row['Purpose'];?>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Requested Time
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['CheckOut'];?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Submit Date 
+                                    &nbsp;&nbsp;&nbsp;</b><?php echo $row['RequestTime']->format("d-m-Y h:i:s");?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b>Actual Exit Time
+                                    &nbsp;&nbsp;&nbsp;</b><?php if($row['ActualExittime']!=''){echo $row['ActualExittime']->format("d-m-Y h:i:s");} else {echo "Not Checked out Yet";} ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Check in Time
 
 
+                                    &nbsp;&nbsp;&nbsp;</b><?php  if($row['CheckIn']!=''){echo $row['CheckIn']->format("d-m-Y h:i:s");}?>
+                            </a>
+                        </li>
+                      <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Description
 
- 
+
+                                    &nbsp;&nbsp;&nbsp;</b><?php  echo $row['Reason'];?>
+                            </a>
+                        </li>
+
+  <li class="nav-item">
+                            <a href="#" class="nav-link leaveViewColor">
+                                <b> Status 
     <?php 
 if($row['Status']=='draft')
 
@@ -24222,14 +24387,19 @@ else if ($row['Status']=='Check-in')
 <?php }
 else if ($row['Status']=='Self Canceled')
 {?>
-<button class="btn btn-info btn-xs">Self Canceled
+<button class="btn btn-info btn-xs">Canceled
          </button> <?php 
 }
 
 
-?></td></tr>
-</table>
-</div>
+?>
+
+</b></a></li>
+                     </ul></div>
+
+
+
+  
 <?php
 
 

@@ -1,6 +1,7 @@
 <?php 
    include "header.php"; 
     $code_access;  
+     $from=date('Y-m-d');
     ?>
 
 <section class="content">
@@ -79,8 +80,8 @@
 <?php 
  $count=0;
 
- $list_sql = "SELECT * FROM MovementRegister where Supervisor='$EmployeeID' AND Status='draft' ";
- //
+ $list_sql = "SELECT * FROM MovementRegister where Supervisor='$EmployeeID' AND Status='draft' AND RequestTime Between '$from 01:00:00.000' and '$from 23:59:00.000'  ORDER BY RequestNo DESC"; 
+
 $stmt1 = sqlsrv_query($conntest,$list_sql, array(), array( "Scrollable" => 'static' ));  
 $count = sqlsrv_num_rows($stmt1);
 
@@ -264,8 +265,9 @@ function bg(id)
   function checkin(id)
           {
        var code=288;
-
-       
+  var a=confirm('Are you reached in Office?');
+        if (a==true) {
+    
     
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
@@ -277,6 +279,7 @@ function bg(id)
                   },
             success: function(response) 
             {
+
                   pending();
                spinner.style.display='none';
                document.getElementById("table_load").innerHTML=response;
@@ -284,14 +287,14 @@ function bg(id)
          });
 
      }
+ }
 
 
   function cancel(id)
           {
-       var code=381;
-
-       
-    
+        var code=381;
+        var a=confirm('Are you sure want to cancel');
+        if (a==true) {
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
@@ -309,7 +312,7 @@ function bg(id)
          });
 
      }
-
+}
 function view_movment_status(id)
 {
 var code=382;
@@ -335,25 +338,32 @@ var spinner=document.getElementById('ajax-loader');
 
 }
 
+function checkout(id)
+          {
+            
+       var code=300; 
 
+        var a=confirm('Are you going to Leave your office now?? ');
+        if (a==true) {
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+                 pending();
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     }
+ }
 
 function Submit_timeout()
 {
@@ -372,7 +382,7 @@ var exittime=document.getElementById('exittime').value;
 var leavetype='NA';
  }
 
-if(exittime!='' && purpose!='' && location!=''remarks!='')
+if(exittime!='' && purpose!='' && location!='' && remarks!='')
 {
 
 var spinner=document.getElementById('ajax-loader');
@@ -392,10 +402,11 @@ var spinner=document.getElementById('ajax-loader');
             }
          });
 }
-}
+
 else
 {
-    
+     ErrorToast('All input Required', 'bg-danger'); 
+}
 }
 </script>
 

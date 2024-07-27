@@ -252,6 +252,8 @@ function pending()
   function cancel(id,emp_id)
             {
             var code=298;
+            var a=confirm('Are you sure want to cancel');
+        if (a==true) {
             var spinner=document.getElementById('ajax-loader');
             spinner.style.display='block';
             $.ajax({
@@ -268,20 +270,39 @@ function pending()
               }
                 });
          }
+}
 
+function checkout(id)
+          {
+            
+       var code=300; 
+  var a=confirm('Are you reached at your office??');
+        if (a==true) {
+       
+    
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action.php',
+            type:'POST',
+            data:{
+               code:code,id:id
+                  },
+            success: function(response) 
+            {
+                
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
 
-
-
-
-
-
-
-
-
+          }
+        }
 
 
   function refused()
             {
+                 
             var code=293;
             var spinner=document.getElementById('ajax-loader');
             spinner.style.display='block';
@@ -298,6 +319,7 @@ function pending()
               }
                 });
          }
+
 
  function Reports()
           {
@@ -340,6 +362,7 @@ function pending()
                   },
             success: function(response) 
             {
+                console.log(response);
                spinner.style.display='none';
                document.getElementById("table_load").innerHTML=response;
             }
