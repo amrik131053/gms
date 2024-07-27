@@ -32172,7 +32172,7 @@ $todaydate=$_POST['startDate'];
       //   echo $row['IDNo'];
       $subNames[]=$row['15'];
       $subCodes[]=$row['16'];
-  
+  // new result 
          $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
         WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination' AND  ExternalExam='Y'
         group by CE1,CE2,CE3,Attendance,ESE,SubjectType  ";
@@ -32203,22 +32203,23 @@ $todaydate=$_POST['startDate'];
         $grade=0;
         $totalFinal=0;
         $showmarks=0;
-          $nccount=0;
+       echo  $nccount=0;
         include "result-pages/grade_calculator.php";
         $totalFinal;
   
    
       } 
       else{
+          $grade='F';
           $gardep=0;
           $totalFinal=0;
          
-  $grade=0;
   // $grade=array();
   // $gardep=array();
   
   $showmarks=0;
   } 
+
   if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];}
    
   $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
@@ -32247,8 +32248,8 @@ $todaydate=$_POST['startDate'];
           {
               $credit=0;
           }
-          if($credit>0)
-          {
+        if($credit>0)
+        {
             
               if(is_numeric($credit))
               {
@@ -32277,16 +32278,17 @@ $todaydate=$_POST['startDate'];
               {
               if($grade=='F' || $grade=='US')
               {
-                $nccount=$nccount+1;
+                 $nccount=$nccount+1;
                 $grade="F-Fail(".$totalFinal.")";
               }
               }
-              }
+        }
               else
               {
+                echo $grade;
               if($grade=='F' || $grade=='US')
               {
-              $nccount=$nccount+1;
+               $nccount=$nccount+1;
               $grade="F-Fail(".$totalFinal.")";
               }
               } 
@@ -32380,7 +32382,7 @@ $todaydate=$_POST['startDate'];
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!='F'){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
                           <?php }
@@ -32392,7 +32394,7 @@ $todaydate=$_POST['startDate'];
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
+                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!='F'){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
                           <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
   
