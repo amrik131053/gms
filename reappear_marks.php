@@ -600,7 +600,7 @@ var len_student= verifiy.length;
             }
             else if (data==2) 
             {
-              ErrorToast('enter reappear marks' ,'bg-primary');
+              ErrorToast('enter reappear/ESE marks' ,'bg-primary');
             //    search_study_scheme();
             }
             else
