@@ -24209,7 +24209,7 @@ elseif($Status==6)
 
              ?>
              <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-             <td><?php if($Status=='5'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
+             <td><?php if($Status=='5' || $Status=='6'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
              <td><?= $count++;?></td>
            
              
@@ -32203,7 +32203,7 @@ $todaydate=$_POST['startDate'];
         $grade=0;
         $totalFinal=0;
         $showmarks=0;
-       echo  $nccount=0;
+         $nccount=0;
         include "result-pages/grade_calculator.php";
         $totalFinal;
   
@@ -32285,7 +32285,7 @@ $todaydate=$_POST['startDate'];
         }
               else
               {
-                echo $grade;
+                
               if($grade=='F' || $grade=='US')
               {
                $nccount=$nccount+1;
@@ -32301,7 +32301,7 @@ $todaydate=$_POST['startDate'];
               $sgpa=0; 
               }
 
-             //echo $nccount;
+             echo $nccount;
             if($nccount>0)
             {
               $sgpa="NC";
