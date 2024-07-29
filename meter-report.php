@@ -47,6 +47,10 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <select class="form-control" name="hostel" id='hostel_id' onchange="floorMeter(this.value)"  >
                                        <option value="">Select Building</option>
                                        <?php
+                                     
+
+if ($role_id=='2')
+{
                                        $hostelQry="SELECT Distinct building_master.ID as BmId, Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block";
                                        $hostelRes=mysqli_query($conn,$hostelQry);
                                        while($hostelData=mysqli_fetch_array($hostelRes))
@@ -55,8 +59,20 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                           <option value="<?=$hostelData['BmId']?>"><?=$hostelData['Name']?></option>
                                           <?php
                                        }
+                                    }else
+                                       {
+                                       $hostelQry="SELECT * FROM building_master inner join hostel_permissions on hostel_permissions.building_master_id=building_master.ID where emp_id='$EmployeeID'";
+                                       $hostelRes=mysqli_query($conn,$hostelQry);
+                                       while($hostelData=mysqli_fetch_array($hostelRes))
+                                       {
+                                          ?>
+                                          <option value="<?=$hostelData['ID']?>"><?=$hostelData['Name']?></option>
+                                          <?php
+                                       }
+                                    }
                                        ?>
                                     </select>
+
                                  </div>
                               </div>
                               <div class="col-lg-1">
@@ -79,9 +95,14 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="search_meter_at_location()" >Search</button>
                                  </div>
                               </div>
+                              <?php
+                                     
+
+if ($role_id =='2')
+{?>
                               <div class="col-lg-1">
                                  <div class="input-group-sm">
-                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations('0')" >Export All</button>
+                                      <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMeterLocations('0')" >Export All</button>
                                  </div>
                               </div>
                               <div class="col-lg-1">
@@ -102,6 +123,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="exportMetergroup()" >Group</button>
                                  </div>
                               </div>
+                              <?php } ?>
                               <div class="col-lg-2">
                                  <div class="input-group mb-3 input-group-sm">
                           <button class="btn  btn-outline-light btn-sm"  data-toggle="modal" onclick="scanMeter()" data-target="#meter_modal" type="button" id="button-addon2"><i class="fa fa-qrcode"></i></button>
