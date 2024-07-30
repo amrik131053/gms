@@ -141,7 +141,7 @@ function deleteAll()
             {
                 SuccessToast('Successfully deleted');
             //    search_study_scheme();
-            window.onload = function() {};
+               location.reload(true);
             }
             else
             {
