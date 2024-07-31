@@ -8683,6 +8683,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
      $months=$row['months'];
 
        $lStatus=$row['Status'];
+       $ReportedStatus=$row['ReportedStatus'];
     
 
     
@@ -9028,12 +9029,22 @@ else
                     <?php  }
                  ?>
                 </div>
+                <div class="col-lg-2">
+                <label>Reported</label>
+                                       <select class="form-control" id="reportedStatus">
+                                        <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?> </option>
+                                        <option value="1">No </option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                    </div>
+                </div>
+                <div class="row">
                 <div class="col-lg-1">
                     <label>&nbsp;</label>
                     <button class="btn btn-primary" onclick="edit_student_details(<?=$id;?>)">Save</button>
                 </div>
+                </div>
 
-            </div>
         </div>
     </div>
     <?php
@@ -9058,9 +9069,10 @@ $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
 $status= $_POST['status'];
+$reportedStatus= $_POST['reportedStatus'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {

@@ -618,7 +618,8 @@ function edit_student_details(id) {
   var classroll = document.getElementById('classroll').value;
   var District = document.getElementById('District1').value;
   var Status1 = document.getElementById('Status1').value;
-  
+  var reportedStatus = document.getElementById('reportedStatus').value;
+
 
 if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!=''  && Nationality!='' && State!=''&& Consultant!='' )
 {
@@ -646,6 +647,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
   leet:leet,
     months:months,
     classroll: classroll,
+    reportedStatus: reportedStatus,
     District1: District,status:Status1,
     code: code
   };
@@ -656,7 +658,7 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     data: data,
     type: 'POST',
     success: function(response) {
-       console.log(response); // Log the response for debugging
+      //  console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
