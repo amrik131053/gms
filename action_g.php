@@ -8683,6 +8683,7 @@ if ($row_course_name=sqlsrv_fetch_array($get_course_name_run))
      $months=$row['months'];
 
        $lStatus=$row['Status'];
+       $ReportedStatus=$row['ReportedStatus'];
     
 
     
@@ -9028,12 +9029,22 @@ else
                     <?php  }
                  ?>
                 </div>
+                <div class="col-lg-2">
+                <label>Reported</label>
+                                       <select class="form-control" id="reportedStatus">
+                                        <option value="<?=$ReportedStatus;?> "><?php if($ReportedStatus=='1'){echo "Yes";}else{echo "No";}?> </option>
+                                        <option value="1">No </option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                    </div>
+                </div>
+                <div class="row">
                 <div class="col-lg-1">
                     <label>&nbsp;</label>
                     <button class="btn btn-primary" onclick="edit_student_details(<?=$id;?>)">Save</button>
                 </div>
+                </div>
 
-            </div>
         </div>
     </div>
     <?php
@@ -9058,9 +9069,10 @@ $State = $_POST['State'];
 $Consultant = $_POST['Consultant'];
 $District = $_POST['District1'];
 $status= $_POST['status'];
+$reportedStatus= $_POST['reportedStatus'];
  
 $classroll = $_POST['classroll'];
-  $insert_record = "UPDATE  offer_latter SET Name='$Name', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
+  $insert_record = "UPDATE  offer_latter SET Name='$Name',ReportedStatus='$reportedStatus', FatherName='$FatherName',  Gender='$Gender', CollegeName='$CollegeName', Department='$Department', Course='$Course', Nationality='$Nationality', State='$State',Consultant_id='$Consultant',Class_RollNo='$classroll',UpdateBy='$EmployeeID',District='$District',Duration='$duration',months='$months',Status='$status',Lateral='$leet' where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -14459,8 +14471,6 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                     <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['Designation'];?></h5>
                     <h5 class="widget-user-desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$row['MobileNo'];?></h5>
                 </div>
-
-
                 <div class="card-footer p-0">
                     <ul class="nav flex-column" style="color:black;">
                         <li class="nav-item">
@@ -17941,9 +17951,6 @@ elseif($code==267) //update student
     $validUpto='NA';
     $IDNo=$row1['IDNo'];
     $statustype= $row1['StatusType'];
-
-     $EligibilityRemarks= $row1['EligibilityRemarks'];
-    
 ?>
 
     <div class="row">
@@ -18320,7 +18327,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Status  </label>
-                                        <select class="form-control" name="employmentStatus"  style="border: 2px solid <?php if($row1['Status']=='1'){echo 'green';}else{ echo 'red';};?>">
+                                        <select class="form-control" name="employmentStatus" style="border: 2px solid <?php if($row1['Status']=='1'){echo 'green';}else{ echo 'red';};?>">
                                            
 
 
@@ -18373,12 +18380,6 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                             <option value="3">Provisional Left</option>
                                         </select>
                                     </div>
-
-                                  
-
-
-
-
                                     <div class="col-lg-2 col-12">
                                         <label>Lock</label>
                                         <select class="form-control" name='ulocked' style="border: 2px solid <?php if($Locked=='0'){echo 'green';}else{ echo 'red';};?>">
@@ -18406,12 +18407,6 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                         </select>
                                     </div>
 
-  <div class="col-lg-3 col-12">
-                                        <label>Eligibility Reason</label>
-                                        
-                                       <textarea class="form-control" name="EligibilityRemarks"><?= $EligibilityRemarks ;?></textarea>
-                                    
-                                    </div>
 
                                       <div class="col-lg-2 col-12">
                                         <label>Mode of Admission</label>
@@ -18449,7 +18444,20 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                             
                                         </select>
                                     </div>
+                                    <div class="col-lg-2 col-12">
+                                        <label>Admission Type</label>
+                                        <!-- <select class="form-control" name="admissiontype" id="admissiontype" >
+                                                 -->
+<!-- <option value="<?=$row1['AdmissionType'];?>"><?=$row1['AdmissionType'];?></option> -->
+<!-- <option value="">Normal</option>
+<option value="1">Pre Requisite</option>
+              <option value="2">Foundation</option>
+                            <option value="3">Migration</option> -->
+<input type="text" name="" class="form-control"id="" value="<?=$row1['AdmissionType'];?>" disabled>
 
+
+<!-- </select> -->
+                                    </div>
 
                                 </div>
                             </div>
@@ -18963,7 +18971,6 @@ elseif($code==268)
     $scholaship =$_POST["scholaship"]; 
     $batch =$_POST["batch"]; 
 
-$EligibilityRemarks =$_POST["EligibilityRemarks"]; 
     $specialcomment =$_POST["specialcomment"]; 
     $provisional='';
     
@@ -18971,7 +18978,6 @@ if($eligible>1)
 {
    $eligible=1;
    $provisional='Provisional';
-
 }
      
 //    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CourseID='$CourseID' ANd (Status='1'  OR Status is NULL)order by Course ASC";
@@ -19087,13 +19093,12 @@ sqlsrv_query($conntest, $upimage, $params);
    $query .= "Quota ='$modeofadmission', ";
    $query .= "ScolarShip ='$scholaship',";
    $query .= "EligibilityReason='$provisional',";
-   $query .= "CommentsDetail='$specialcomment',";
-   $query .= "EligibilityRemarks='$EligibilityRemarks'";  
+   $query .= "CommentsDetail='$specialcomment'";
    $query .= "WHERE IDNo ='$loginId'";
 
 
 
-   $query;
+  $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
 
@@ -24216,7 +24221,7 @@ elseif($Status==6)
 
              ?>
              <tr style="background-color:<?=$trColor;?>;font-size:14px;">
-             <td><?php if($Status=='5'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
+             <td><?php if($Status=='5' || $Status=='6'){ ?><input type="checkbox" class="checkbox v_check" value="<?= $row['SerialNo'];?>"><?php }?></td> 
              <td><?= $count++;?></td>
            
              
@@ -32101,18 +32106,11 @@ $todaydate=$_POST['startDate'];
 
 
 
-
-
-
-
-
-
-
-
-
-
   }
-  elseif($code==451)
+ 
+
+
+ elseif($code==451)
   {
    $ID=$_POST['ID'];
   $subCode=$_POST['SubCode'];
@@ -32306,9 +32304,6 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
   include "result-pages/grade_calculator.php";
      
 
-
-
-
           if(is_numeric($credit))
           {
                $credit=$credit;
@@ -32407,81 +32402,9 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
   <?php
 
 
-
-
-
-
-
-
 }
-  elseif($code==452)
-  {
-  $ID=$_POST['ID'];
-  $Semester=$_POST['Semester'];
-  $Examination=$_POST['Examination'];
-  
-  $subNameArray=$_POST['subNameArray'];
-  $subCodesArray=$_POST['subCodesArray'];
-  $agradeArray=$_POST['agradeArray'];
-  $bgradePointArray=$_POST['bgradePointArray'];
-  $ccreditArray=$_POST['ccreditArray'];
-  // print_r($subNameArray);
-  $cgpa=$_POST['cgpa'];
-  $creditTotal=$_POST['creditTotal'];
-   $Type=$_POST['Type'];
-              $query = "SELECT * FROM Admissions  Where IDNo='$ID'";
-             $result = sqlsrv_query($conntest,$query);
-             while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-             {
-              $UniRollNo=$row['UniRollNo'];
-              $ClassRollNo=$row['ClassRollNo'];
-              $CollegeID=$row['CollegeID'];
-              $CourseID=$row['CourseID'];
-              $Batch=$row['Batch'];
-             }
-            
-          $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,DeclareType,Timestamp,ResultStatus) 
-             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','Reappear','$timeStamp','2','$timeStamp','0');";
-        $result = sqlsrv_query($conntest,$insertResult);
-         if ($result === false) {
-      $errors = sqlsrv_errors();
-      // echo "Error: " . print_r($errors, true);
-      // echo "0"; 
-  } 
-        $getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
-        $getResultIDRun = sqlsrv_query($conntest,$getResultID);
-        if($rowgetResultIDRun = sqlsrv_fetch_array($getResultIDRun, SQLSRV_FETCH_ASSOC) )
-        {
-          $resultID=$rowgetResultIDRun['Id'];
-        }
-        foreach ($subCodesArray as $key => $value) {
-          $subjectName = $subNameArray[$key];
-          $subjectCode = $subCodesArray[$key];
-          $subjectGrade = $agradeArray[$key];
-          $subjectCredit = $ccreditArray[$key];
-          $subjectGradePoint = $bgradePointArray[$key];
-          $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
-                                  VALUES ('$resultID','$subjectName','$subjectCode','$subjectGrade','$subjectCredit','$UniRollNo','$subjectGradePoint')";
-          $result = sqlsrv_query($conntest, $insertResultDetails);
-          if ($result === false) {
-  
-              die(print_r(sqlsrv_errors(), true));
-          }
-          if ($result === false) {
-              $errors = sqlsrv_errors();
-              echo "Error: " . print_r($errors, true);
-              // echo "0"; 
-          } 
-      }
-  
-             if($result==true)
-             {
-              echo "1";
-             }
-             else{
-              echo "0";
-             }
-  }
+
+
   elseif($code==453)
   {
 $examIDs=$_POST['examIDs'];
@@ -32523,7 +32446,13 @@ $subCodesArray=$_POST['subCodesArray'];
           $ca3=$CA3;
           $attendance=$Attendacne;
           $marks=$pmarks;
-          if($pmarks!='')
+
+          $checkESE="SELECT * FROM ExamFormSubject WHERE ID='$examID' ";
+          $stmt1checkESE = sqlsrv_query($conntest,$checkESE);
+          if($stmt1checkESE = sqlsrv_fetch_array($stmt1checkESE,SQLSRV_FETCH_ASSOC)){ 
+            $stmt1checkESE['ESE'];
+          }
+          if($pmarks!='' || $stmt1checkESE['ESE']!='')
           {
  
         $setSync="UPDATE ExamFormSubject SET CE1='$ca1', CE1updateby='$EmployeeID',CE1updatedDate='$timeStamp',CE1Locked='1',
@@ -32667,164 +32596,10 @@ $subCodesArray=$_POST['subCodesArray'];
 }
 
 
-else if($code==455)
-{
-    $subCodesArray=$_POST['subCodesArray'];
-    $IDNoArray=$_POST['IDNoArray'];
-    $eIDArray=$_POST['eIDArray'];
-
-    foreach ($eIDArray as $key => $value)
-    {
- $ID=$IDNoArray[$key];
- $subCode=$subCodesArray[$key];
- $Semester=$_POST['Semester'];
-$Examination=$_POST['Examination'];
-$srNo=1;
-
-$query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where 
-Admissions.IDNo='$ID'  and Semester='$Semester' order by  Semester ASC ";
-           $result = sqlsrv_query($conntest,$query);
-           while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-           {
-            // echo $row['IDNo'];
-             $IDNo= $row['IDNo'];
-             $Type= $row['Type'];
-         $sql = "{CALL GetResult('".$row['Id']."')}";
-       $stmt = sqlsrv_prepare($conntest, $sql);
- 
-        $count=0;
-        $totalcredit=0;
-        $gradevaluetotal=0;
-          while($row = sqlsrv_fetch_array($stmt)){
-
-      $declare= $row['11'];
-    $subNames[]=$row['15'];
-    $subCodes[]=$row['16'];
-
-       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE  FROM ExamFormSubject
-      WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination'
-      group by CE1,CE2,CE3,Attendance,ESE  ";
-     $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
-     if ($RunfatchMarks === false) {
-        $errors = sqlsrv_errors();
-        echo "Error: " . print_r($errors, true);
-    } 
-     if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
-     {  
-      $CE1= $RowfatchMarks['CA1'];
-      $mst1=0;
-      $CE3=$RowfatchMarks['CA3'];
-      $att= $RowfatchMarks['Attendance'];
-      $ESe=$RowfatchMarks['ESE'];
-      $mst2= 0;
-      $grace=0;
-      
-      $gardep=0;
-      $grade=0;
-      $totalFinal=0;
-      $showmarks=0;
-        $nccount=0;
-      include "result-pages/grade_calculator.php";
-    } 
-    else{
-        $gardep=0;
-        $totalFinal=0;
-       
-$grade=0;
-$showmarks=0;
-} 
-if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];} 
-
-      $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
-    $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
-    while($row7co = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-             {
-                 $credit=$row7co['NoOFCredits'];
-                 $SubjectCode=$row7co['SubjectCode'];
-                 $SubjectName=$row7co['SubjectName'];
-             }
-    
-             $nccount =0;
-             if(is_numeric($credit))
-             {
-    $totalcredit=$totalcredit+$credit;
-                    }
-        if(is_numeric($credit))
-        {
-             $credit=$credit;
-        }   
-        else
-        {
-            $credit=0;
-        }
-        if($credit>0)
-        {
-            if(is_numeric($credit))
-            {
-              $gradevalue=$gardep*$credit;
-            }
-            else
-            {
-                $gradevalue=0; 
-            }
-            if($gradevalue>0)
-            {
-            $gradevaluetotal=$gradevaluetotal+$gradevalue;
-            }
-            else
-            {
-            if($grade=='F' || $grade=='US')
-            {
-            $nccount++;
-            }
-            }
-        }
-            else
-            {
-            if($grade=='F' || $grade=='US')
-            {
-            $nccount++;
-            }
-            } 
-            if($totalcredit>0)
-            {
-            $sgpa=$gradevaluetotal/$totalcredit;   
-            }
-            else
-            {
-            $sgpa=0; 
-            }
-    if($count=='0')
-            {?>
-
-                      <?php
-
-
-            }
-
-               
-            $count++;
-            $mst2= 0;
-            $grace=0;
-            $nccount =0;
-             $gardep=0;
-            $grade=0;
-             $totalFinal=0;
-             $showmarks=0;
-          }?>
-         
-   <?php }?>
-             
-    <?php 
-
-  $srNo++;
-        }
-   }
 
 
 
-
-elseif($code==456)
+elseif($code==455)
   {
    $ID=$_POST['ID'];
   $Semester=$_POST['Semester'];
@@ -33089,14 +32864,8 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
 
 
 
-
-
-
-
-
-
-
 }
+
 
 
    else

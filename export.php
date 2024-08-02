@@ -2145,6 +2145,7 @@ cities on cities.id=offer_latter.District  where offer_latter.batch='$batch' ";
                <th>Amount</th>
               <th>UTR Number</th>
               <th>Date Of Payment</th>
+              <th>Reported</th>
 
 
               
@@ -2168,6 +2169,7 @@ while($row=mysqli_fetch_array($get_student_details_run))
           $UTRNumber=$row['UTRNumber'];
       $loan_amount=$row['loan_amount'];
        $datePayment =$row['datePayment'];
+       $ReportedStatus =$row['ReportedStatus'];
 
     $statusVerification=$row['statusVerification'];
     $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
@@ -2229,6 +2231,16 @@ else
      $colorl='';
         $mnStatus='';
 }
+if ($ReportedStatus>0)
+{
+        $colorlR='green';
+        $ReportedStatusV='Yes';
+}
+else
+{
+     $colorlR='red';
+        $ReportedStatusV='No';
+}
 
 
 
@@ -2259,6 +2271,7 @@ else
                   <td >{$loan_amount}</td>
                     <td >{$UTRNumber}</td>
                       <td >{$datePayment}</td>
+                      <td bgcolor=$colorlR>{$ReportedStatusV}</td>
        </tr>";                                    
        $count++;    
     }
