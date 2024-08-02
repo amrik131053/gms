@@ -6845,11 +6845,20 @@ if($list_result === false) {
  <?php 
  } 
  ?>
+ <tr>
+   <td colspan="6"></td>
+   <td colspan="1">
+   <label for="">ResultNo</label>
+   <input   type="text" placeholder="Result No" id="resultNum"  class="form-control"  >
+   </td>
+   <td colspan="1">
+   <label for="">Declare Date</label>   
+   <input   type="date" id="decDate"  class="form-control"  ></td>
+   <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Publish" onclick="publishResult();" class="btn btn-success "  ></td>
+ </tr>
  </table>
- <p style="text-align: right">
-    <input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
-    <!-- <input   type="submit" name="submit" value="Result Update All" onclick="resultupdateAll();" class="btn btn-danger "  > -->
- 
  <?php 
  }
 
