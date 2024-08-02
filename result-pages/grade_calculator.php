@@ -89,7 +89,7 @@ else if($totalFinal<40)
    $printmark=$totalFinal;
    $showgradefail='-Fail'.'('.$printmark.')';
     $gardep=0;
-      $color='red';
+    $color='red';
      $nccount++;
 }
 } ?>

@@ -1000,7 +1000,14 @@ function copyToClipboard(text) {
 
                 <div class="card-header">
 
+<form action="export.php" method="post" target="_blank">
+                        <input type="hidden" value="73" name="exportCode" > <div class="row"> 
 
+                        <div class="col-lg-1">Start Date</div><div class="col-lg-2"> <input type='date' class="form-control"  name='StartDate' required></div><div class="col-lg-1">End Date</div><div class="col-lg-2"><input type='date' class="form-control" name='EndDate' required></div><div class="col-lg-3"> <button type="submit" onclick="" class="btn btn-success btn-sm">
+                            Export
+                        </button></div>
+
+                        <div class="col-lg-3">
 
 
                     <span style="float:right;">
@@ -1015,9 +1022,12 @@ function copyToClipboard(text) {
                     </span>
 
                     <input type="hidden" id="CollegeID_Set">
-
-
+</div>
+</div>
+</form>
                 </div>
+
+
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     <form action="action_g.php" method="post" enctype="multipart/form-data">
