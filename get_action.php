@@ -6457,7 +6457,7 @@ else if($code=='56')
  
 $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFormSubject.ExamID inner join Admissions ON Admissions.IDNo=ExamForm.IDNo 
   WHERE ExamForm.CollegeID='$CollegeID' and ExamForm.CourseID='$CourseID' and ExamForm.SemesterId='$semID' and ExamForm.Batch='$Batch'  and
- ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' AND ExamFormSubject.ExternalExam='Y' order by Admissions.IDNo ASC";
+ ExamForm.Examination='$exam' and ExamForm.SGroup='$group' and ExamForm.Type='Reappear' ANd ExamForm.Status='8' AND ExamFormSubject.ExternalExam='Y' order by Admissions.IDNo ASC";
     $stmt = sqlsrv_query($conntest,$sql1);
    if ($stmt === false) {
       $errors = sqlsrv_errors();
