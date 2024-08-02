@@ -33019,11 +33019,15 @@ elseif($code==457)
             $result2 = sqlsrv_query($conntest, $insertResultDetails);
 
          
-            if ($result2 === false) {
-               $errors = sqlsrv_errors();
-               echo "Error: " . print_r($errors, true);
-           } 
+          
         }
+
+         $queryUpdate = "UPDATE  ResultPreparation  SET  DeclareDate='$decDate',ResultNo='$resultNum',ResultStatus='1' Where Id='$id'";
+        $runqueryUpdate=sqlsrv_query($conntest,$queryUpdate);
+        if ($runqueryUpdate === false) {
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+        } 
     }
 }
    else
