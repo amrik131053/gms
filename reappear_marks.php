@@ -194,7 +194,7 @@ for($i=1;$i<=12;$i++)
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
-            <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button>  -->
+             <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button> 
             <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
 </div>
 
@@ -454,7 +454,7 @@ function VerifyResult(ID,Examination,Semester){
 
 var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
-  var code = 456;
+  var code = 455;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
@@ -618,62 +618,7 @@ function exportCutListExcelcsv() {
     }
 }
 
-function resultupdateAll()
-{
-  var  examination = document.getElementById('Examination').value;
-  var  sem = document.getElementById('Semester').value; 
-  var verifiy=document.getElementsByClassName('v_check');
-var len_student= verifiy.length; 
-  var code=455;
-  var examIDs=[];  
-  var eIDArray=[];  
-  var IDNoArray=[];  
-  var subcodeArray=[];  
-       
-     for(i=0;i<len_student;i++)
-     {
-          if(verifiy[i].checked===true)
-          {
-            examIDs.push(verifiy[i].value);
-            var  eID = document.getElementById('ID'+verifiy[i].value).value; 
-            eIDArray.push(eID);
-            var  subcode = document.getElementById('subcode'+verifiy[i].value).value; 
-            subcodeArray.push(subcode);
-            var  IDNo = document.getElementById('IDNo'+verifiy[i].value).value; 
-            IDNoArray.push(IDNo);
-          }
-     }
-  if((typeof  examIDs[0]== 'undefined'))
-  {
-    ErrorToast(' Select atleast one Student' ,'bg-warning');
-  }
-  else
-  {
-         var spinner=document.getElementById("ajax-loader");
-         spinner.style.display='block';
-  $.ajax({
-         url:'action_g.php',
-         data:{examIDs:examIDs,code:code,subCodesArray:subcodeArray,IDNoArray:IDNoArray,eIDArray:eIDArray,Examination:examination,Semester:sem},
-              type:'POST',
-              success:function(data) {
-                  spinner.style.display='none';
-              console.log(data);
-            if (data==1) 
-            {
-                SuccessToast('Successfully Updated');
-            //    search_study_scheme();
-            select_mst();
-            }
-            else
-            {
-                ErrorToast(' try Again' ,'bg-danger');
 
-            }
-            }      
-});
-  }
-
-}
 </script>
 
 <!-- Button trigger modal -->
