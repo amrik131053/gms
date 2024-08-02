@@ -6853,7 +6853,6 @@ if($list_result === false) {
  <?php 
  }
 
-
  else
        {
    

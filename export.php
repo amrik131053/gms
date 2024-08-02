@@ -10443,6 +10443,207 @@ echo $exportstudy;
 $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
     }
 
+else if($exportCode==73)
+{
+    $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+   
+  
+$SrNo=1;
+$subCount=23;
+
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>  
+      
+    <tr style='background-color:black; color:white;'>
+    <th>SrNo</th>
+     <th>Date Of Admissions </th>
+    <th>ClassRoll No </th>
+  
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Mother Name </th>
+    <th>Mobile No </th>
+    <th>Category </th>
+    <th>Scholarship </th>
+     
+    <th>EmailID </th>
+    <th>College </th>
+    <th>Course </th>
+    <th>Batch </th>
+    <th>Eligible </th>
+    <th>Country </th>
+    <th>State </th>
+    <th>District </th>
+    <th>Nationality </th>
+    <th>Remarks </th>
+    <th>Status</th>
+    <th>Locked</th>
+
+    </tr>
+        </thead>";
+
+
+        $SrNo=1;
+    $query = "SELECT * FROM Admissions  WHERE AdmissionDate BETWEEN  '$StartDate 01:00:00' AND '$EndDate 23:59:00' Order By IDNo";
+  
+       $name='';
+         $result = sqlsrv_query($conntest,$query);
+         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+         {
+           
+            $IDNo=$row['IDNo'];
+            $ClassRollNo=$row['ClassRollNo'];
+            $UniRollNo=$row['UniRollNo'];
+            $StudentName=$row['StudentName'];
+            $FatherName=$row['FatherName'];
+            $MotherName=$row['MotherName'];
+            $StudentMobileNo=$row['StudentMobileNo'];
+            $EmailID=$row['EmailID'];
+            $CollegeName=$row['CollegeName'];
+            $Course=$row['Course'];
+            $Batch=$row['Batch'];
+            $Ereason=$row['EligibilityReason'];
+            $Country=$row['country'];
+            $State=$row['State'];
+            $StatusType=$row['StatusType'];
+            $District=$row['District'];
+            $Nationality=$row['Nationality'];
+            $Refrence=$row['FeeWaiverScheme'];
+            $Category=$row['Category'];
+            $commentdetail=$row['CommentsDetail'];
+            $Scholarship=$row['ScolarShip'];
+            $gender=$row['Sex'];
+            $AdmissionDate=$row['AdmissionDate']->format('d-m-Y');
+             $locked=$row['Locked'];
+
+            if($StatusType>0)
+            {
+                $StatusType='Provisional';
+
+            }
+            else
+            {
+                $StatusType='';
+
+            }
+
+
+ if($locked>0)
+            {
+                $lockedtype='Yes';
+
+            }
+            else
+            {
+                $lockedtype='No';
+
+            }
+
+
+            if($row['EligibilityReason']!='' && $row['Eligibility']==1)
+            {
+
+                $Eligibility="Provisional Eligible";
+                $clr="blue";
+            }
+            else if($row['Eligibility']==1)
+            {
+
+                $Eligibility="Eligible";
+                $clr="green";
+            }
+            else{
+                $Eligibility="Not Eligible";
+                $clr="yellow";
+                
+            }
+
+
+            if($row['Status']==1)
+            {
+
+                $status=$StatusType." Active";
+
+                $clr1="green";
+            }
+            else
+            {
+                $status=$StatusType." Left";
+                $clr1="red";
+            }
+
+
+
+         
+         $exportstudy.="<tr>
+
+         <td>{$SrNo}</td>
+          
+         <td>{$AdmissionDate}</td>
+     
+         <td>{$ClassRollNo}</td>
+      
+         <td>{$StudentName}</td>
+         <td>{$FatherName}</td>
+        <td>{$Course}</td>
+         <td>{$StudentMobileNo}</td>
+         <td>{$Category}</td>
+          <td>{$Scholarship}</td>
+
+           <td>{$commentdetail}</td>
+         <td>";
+  $query3 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where mcr.ID='$IDNo' AND mcr.Type='Staff'";
+  
+                $result3 = sqlsrv_query($conntest,$query3);
+       while($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC) )
+        {
+           $idno= $row3['IDNo'];
+          $name= $row3['Name'];
+
+ $exportstudy.="<tr><td>
+
+                           {$idno}({$name})
+
+
+
+      $exportstudy.=</td></tr>";
+   
+            }
+
+
+          $exportstudy.="</table></td><td> <table>";
+
+           $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where ID='$IDNo' AND mcr.Type='Staff'";
+  
+                $result2 = sqlsrv_query($conntest,$query2);
+       while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+        {
+
+ $exportstudy.="<tr><td>";
+
+{$dd=$row2['ID'];}
+
+{$row2['Name'];}
+
+      $exportstudy.="</td></tr>";
+   
+            }
+        $exportstudy.=" </table></td></tr>   
+            
+         <td>{$State}</td>     
+           
+     </tr>";
+
+
+$SrNo++;
+         }
+         
+
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Student Report ";
+}
 
 
 

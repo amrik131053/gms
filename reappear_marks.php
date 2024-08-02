@@ -39,8 +39,8 @@ function uncheckall()
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
+     
           <div class="col-lg-2 col-md-4 col-sm-3">
-
    <label>College</label>
        <select  name="College" id='College' onchange="courseByCollege(this.value)" class="form-control" required="">
                 <option value=''>Select Course</option>
@@ -58,10 +58,10 @@ function uncheckall()
 
 ?>
               </select> 
-
-
-
           </div>
+
+
+
               <div class="col-lg-2 col-md-4 col-sm-3">
    
           
@@ -294,7 +294,7 @@ var xmlhttp = new XMLHttpRequest();
       {     
    spinner.style.display='none';
        
-          document.getElementById("live_data").innerHTML=xmlhttp.responseText;
+  document.getElementById("live_data").innerHTML=xmlhttp.responseText;
 //Examination_theory_types();
         }
     }
@@ -307,6 +307,25 @@ else
 }
       
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function exportCutListExcelgraden() {
     var exportCode = 71;
     var College = document.getElementById('College').value;
@@ -422,7 +441,7 @@ var spinner= document.getElementById("ajax-loader");
             success: function(response) {
                 // console.log(ExaminationB+BatchB+TypeB+SemesterB)
                 spinner.style.display = 'none';
-                console.log(response);
+                //console.log(response);
                     document.getElementById("ViewResultData").innerHTML = response;
              
                 //  loadMainCount();
@@ -430,78 +449,39 @@ var spinner= document.getElementById("ajax-loader");
         });
 }
 
+
+function VerifyResult(ID,Examination,Semester){
+
+var spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var code = 456;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code, Semester: Semester,
+                Examination: Examination,ID: ID
+            },
+            success: function(response) {
+                // console.log(ExaminationB+BatchB+TypeB+SemesterB)
+                spinner.style.display = 'none';
+                
+                    //document.getElementById("ViewResultData").innerHTML = response;
+             
+                select_mst();
+            }
+        });
+}
+
+
+
+
+
 function showSubResult() {
   
 }
 
-function submitResultCombined(ID) {
-var code=452;
-var r = confirm("Do you really want to Verifiy");
-if (r == true) {
-var Semester = document.getElementById('Semester').value;
-var Examination = document.getElementById('Examination').value;
-var Type = document.getElementById('Type').value;
-var cgpa = document.getElementById('cgpa').value;
-var creditTotal = document.getElementById('creditTotal').value;
-var subNames=document.getElementsByClassName('subNames'+ID);
-var subNameSize= subNames.length; 
-var subNameArray=[];  
-for(i=0;i<subNameSize;i++){if(subNames[i].value.trim() !== ''){ subNameArray.push(subNames[i].value); }}
-var subCodes=document.getElementsByClassName('subCodes'+ID);
-var subCodesSize= subCodes.length; 
-var subCodesArray=[];  
-for(i=0;i<subCodesSize;i++){if(subCodes[i].value.trim() !== ''){ subCodesArray.push(subCodes[i].value); }}
-var agrade=document.getElementsByClassName('agrade'+ID);
-var agradeSize= agrade.length; 
-var agradeArray=[];  
-for(i=0;i<agradeSize;i++){if(agrade[i].value.trim() !== ''){ agradeArray.push(agrade[i].value); }}
-var bgradePoint=document.getElementsByClassName('bgradePoint'+ID);
-var bgradePointSize= bgradePoint.length; 
-var bgradePointArray=[];  
-for(i=0;i<bgradePointSize;i++){if(bgradePoint[i].value.trim() !== ''){ bgradePointArray.push(bgradePoint[i].value); }}
-var ccredit=document.getElementsByClassName('ccredit'+ID);
-var ccreditSize= ccredit.length; 
-var ccreditArray=[];  
-for(i=0;i<ccreditSize;i++){if(ccredit[i].value.trim() !== ''){ ccreditArray.push(ccredit[i].value); }}
-// alert(ccreditSize);
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            Semester: Semester,
-            Examination: Examination,
-            subNameArray:subNameArray,
-            subCodesArray:subCodesArray,
-            agradeArray:agradeArray,
-            bgradePointArray:bgradePointArray,
-            ccreditArray:ccreditArray,
-            Type: Type,
-            cgpa: cgpa,
-            creditTotal: creditTotal,
-            ID: ID
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            // console.log(response);     
-            if(response==1)
-            {
-              SuccessToast('Successfully Updated');
-              select_mst();
-            }
-            else{
-              ErrorToast('try again','bg-warning');
-            }
-        },
-        error: function(xhr, status, error) {
-            spinner.style.display = 'none';
-            console.error('Error:', error); 
-        }
-    });
-  }
-}
+
 
 function verifiy_select()
 {

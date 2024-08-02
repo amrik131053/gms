@@ -32106,40 +32106,36 @@ $todaydate=$_POST['startDate'];
 
 
 
-
-
-
-
-
-
-
-
-
-
   }
-  elseif($code==451)
+ 
+
+
+ elseif($code==451)
   {
    $ID=$_POST['ID'];
   $subCode=$_POST['SubCode'];
   $Semester=$_POST['Semester'];
   $Examination=$_POST['Examination'];
   $srNo=1;
-  
-  $query = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where 
-  Admissions.IDNo='$ID'  and Semester='$Semester' order by  Admissions.IDNo ASC ";
-  ?>
-  <?php 
+  $newcredit=0;
+  $gradevaluetotalold=0;
+  $gradevaluetotal=0;
+  $nccount=0;
+      $query = "SELECT top(1)* FROM Admissions inner join ResultGKU as rd on Admissions.UniRollNo=rd.UniRollNo   Where   Admissions.IDNo='$ID'  and Semester='$Semester'  order by  rd.ID Desc  ";
+
              $result = sqlsrv_query($conntest,$query);
              while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
              {
               // echo $row['IDNo'];
-               $ResultID= $row['Id'];
                $IDNo= $row['IDNo'];
+               $UniRollNo= $row['UniRollNo'];
+               $ResultID= $row['Id'];
                $Type= $row['Type'];
              ?>
              <table class="table" >
     <tr style="background:#223260;color:white;">
       <th>#</th>
+      <th>IDNo</th>
       <th>Semester</th>
       <th>Examination</th>
       <th>SGPA</th>
@@ -32148,11 +32144,13 @@ $todaydate=$_POST['startDate'];
       <th>Declare Date</th>
       </tr>
       <tr>
+
+       <td><?=$IDNo;?>/<?=$UniRollNo;?></td> 
           <td><?=$row['Id'];?></td>
           <td><?=$row['Semester'];?></td>
           <td><?=$row['Examination'];?></td>
           <td><?=$row['Sgpa']?></td>
-          <td><?=$row['TotalCredit'];?></td>
+          <td><?= $totalcredit= $row['TotalCredit'];?></td>
           <td><?=$row['Type'];?></td>
           <td>
               <?php if($row['DeclareDate']!='')
@@ -32162,32 +32160,101 @@ $todaydate=$_POST['startDate'];
       {
            $decdate='';
       }
-      ?>
+?>
               <?= $decdate;?></td>
+
+
+     <?php         
+  }?>
+     <table class="table" >
+    <tr style="background:#223260;color:white;">
+      <th>#</th>
+      <th>Subject Name</th>
+      <th>Subject Code</th>
+      <th>Grade</th>
+      <th>Grade Point</th>
+      <th>Total Credit</th>
+      
       </tr>
-      <?php 
-           $sql = "{CALL GetResult('".$row['Id']."')}";
-         $stmt = sqlsrv_prepare($conntest, $sql);
-    
-          if (!sqlsrv_execute($stmt)) {
-                echo "Your code is fail!";
-           sqlsrv_errors($sql);
-          die;
-          } 
-          $count=0;
-          $nccount =0;
-          $totalcredit=0;
-          $gradevaluetotal=0;
-            while($row = sqlsrv_fetch_array($stmt)){
-  
-        $declare= $row['11'];
-      //   echo $row['IDNo'];
-      $subNames[]=$row['15'];
-      $subCodes[]=$row['16'];
-  // new result 
-         $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
-        WHERE SubjectCode='".$row['16']."' and IDNo='$ID' AND Examination='$Examination' AND  ExternalExam='Y'
-        group by CE1,CE2,CE3,Attendance,ESE,SubjectType  ";
+
+ <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+              // echo $row['IDNo'];
+               // $IDNo= $row1['IDNo'];
+               // $UniRollNo= $row1['Subject'];
+               // $Type= $row1['Type'];
+             ?>
+        
+      <tr>
+          <td><?=$row1['Id'];?></td>
+          <td><?=$row1['SubjectName'];?></td>
+          <td><?=$row1['SubjectCode'];?></td>
+          <td><?=$row1['SubjectGrade'];?></td>
+          <td><?= $oldgradepoint= $row1['SubjectGradePoint'];?></td>
+          <td><?= $creditold= $row1['SubjectCredit']?></td>
+        
+          </td>
+
+</tr>
+     <?php
+      if(is_numeric($creditold))
+          {
+               $creditold=$creditold;
+          }   
+          else
+          {
+              $creditold=0;
+          }  
+      if(is_numeric($creditold))
+              {
+                if(is_numeric($oldgradepoint))
+                {
+                 $gradevalueold=$oldgradepoint*$creditold;
+                }
+                else
+                {
+                    $gradevalueold=0; 
+                }
+                         
+              }
+      if($gradevalueold>0)
+              {
+                $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
+              }
+         
+  }?>
+</table>
+
+<table class="table" >
+<tr style="background:#223260;color:white;">
+      <th>#</th>
+      <th>Subject Name</th>
+      <th>Subject Code</th>
+      <th>Old</th>
+      <th>New</th>
+       <th>Grade</th>
+      <th>Grade Point</th>
+      <th>Total Credit</th>
+      
+      </tr>
+
+ <?php  
+
+
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+        $resubjectcode=$row1['SubjectCode'];
+       $credit=$row1['SubjectCredit'];
+
+
+       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
@@ -32206,8 +32273,7 @@ $todaydate=$_POST['startDate'];
             $mst1=$RowfatchMarks['MST1'];;
         }
         $CE3=$RowfatchMarks['CA3'];
-        $CE2=$RowfatchMarks['CA2'];
-        $att= $RowfatchMarks['Attendance'];
+        $att=$RowfatchMarks['Attendance'];
         $ESe=$RowfatchMarks['ESE'];
         $mst2= 0;
         $grace=0;
@@ -32216,41 +32282,27 @@ $todaydate=$_POST['startDate'];
         $grade=0;
         $totalFinal=0;
         $showmarks=0;
-        //  $nccount=0;
-        //  $NCCount=0;
-        include "result-pages/grade_calculator.php";
+        
+   
       } 
       else{
-          $grade=0;
-          $gardep=0;
-          $totalFinal=0;
-          $showmarks=0;
-  } 
-//   echo $row['18'];
-  if($gardep!=0){ $gardep;}else{  $gardep=$row['18'];}
-  $amrikc = "SELECT NoOFCredits,SubjectCode,SubjectName FROM MasterCourseStructure where   Batch='".$row['Batch']."' ANd SubjectCode='".$row['16']."'";  
-  $list_resultamrikc = sqlsrv_query($conntest,$amrikc);  
-  
-  while($row7co = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
-  {
-      $credit=$row7co['NoOFCredits'];
-      $SubjectCode=$row7co['SubjectCode'];
-      $SubjectName=$row7co['SubjectName'];
-      
-    }
+        $CE1=0;
+        $mst1=0;
+         $CE3=0;
+        $att=0;
+        $ESe=0;
+        $mst2= 0;
+        $grace=0;
+        
+        $gardep=0;
+        $grade=0;
+        $totalFinal=0;
+        $showmarks=0;
+        
+  }
 
-    // echo " GradeValue: ".$showmarks;
-                //   echo " Credit: ".$gardep;
-              if($gardep=='NA')
-              {
-                $credit=0; 
-              }
-               if(is_numeric($credit))
-               {
-
-
-                  $totalcredit=$totalcredit+$credit;
-                      }
+  include "result-pages/grade_calculator.php";
+     
 
           if(is_numeric($credit))
           {
@@ -32260,13 +32312,14 @@ $todaydate=$_POST['startDate'];
           {
               $credit=0;
           }
-        if($credit>0)
-        {
+          if($credit>0)
+          {
+            
               if(is_numeric($credit))
               {
                 if(is_numeric($gardep))
                 {
-                    $gradevalue=$gardep*$credit;
+                 $gradevalue=$gardep*$credit;
                 }
                 else
                 {
@@ -32287,289 +32340,71 @@ $todaydate=$_POST['startDate'];
               }
               else
               {
-              if($grade=='F' || $grade=='US' || ($row['18']=='0' &&  $row['17']!='S'))
+              if($grade=='F' || $grade=='US')
               {
-                 $nccount=$nccount+1;
-                $grade="F-Fail(".$totalFinal.")";
+                $nccount=$nccount+1;
               }
               }
-        }
+              }
               else
               {
-                
-              if($grade=='F' || $grade=='US' || ($row['18']=='0' && $row['17']!='S'))
+              if($grade=='F' || $grade=='US')
               {
-               $nccount=$nccount+1;
-              $grade="F-Fail(".$totalFinal.")";
+           $nccount=$nccount+1;
               }
               } 
+
+             
               if($totalcredit>0)
               {
-              $sgpa=$gradevaluetotal/$totalcredit;   
+               $sgpa=($gradevaluetotal+$gradevaluetotalold)/$totalcredit;   
               }
               else
               {
               $sgpa=0; 
               }
 
-              if($nccount>0)
-              {
-             $sgpa="NC"; 
-                }
-                else{
-                    $sgpa= number_format($sgpa,2);
-                }
-                // if($grade!=0){
-
-                //     echo "Grade: ".$grade;
-                // }
-                // else{
-                //     echo $row['17'];
-                // }
-                // echo " GradePoint: ".$gardep;
-        ?>
-          <div style='padding:0px 0px;' class=" table-responsive">
-  
-                        <?php if($count=='0')
-              {?>
-  
-                        <?php
-  
-  
-              }
-              
-  
-              if($count=='0'){
-  
-                      ?><table class='table table-responsive' style='margin-top: 20px;'>
-                  <tbody>
-                      <?php 
-                     }?>
-  
-  
-                      <?php if($count=='0')
-                      {?>
-                      <tr>
-                          <?php if($row['12']=='0')  
-                       {?>
-                          <td><b>Sr. No.</b></td>
-                          <td><b>Subjects</b></td>
-                          <td><b>Subject Code</b></td>
-                          <td style='text-align:center;'><b> Grade (Internal)</b></td>
-                          <td style='text-align:center;'><b> Grade (External)</b></td>
-                          <td style='text-align:center;'><b>OLD Grade (Total)</b></td>
-                          <td style='text-align:center;'><b>OLD Grade Point Value</b></td>
-                          <td style='text-align:center;'><b>Marks</b></td>
-                          <td style='text-align:center;'><b>New Grade(Total)</b></td>
-                          <td style='text-align:center;'><b>New Grade Value</b></td>
-                          <td style='text-align:center;'><b> Credit</b></td>
-                          
-                          <?php }
-                       elseif($row['12']=='1')
-                       {?>
-                          <td><b>Sr. No.</b></td>
-                          <td><b>Subjects</b></td>
-                          <td><b>Subject Code</b></td>
-                          <td style='text-align:center;'><b>OLD Grade (Total)</b></td>
-                          <td style='text-align:center;'><b>OLD Grade Point Value</b></td>
-                          <td style='text-align:center;'><b>Makrs</b></td>
-                          <td style='text-align:center;'><b>New Grade(Total)</b></td>
-                          <td style='text-align:center;'><b>New Grade Value</b></td>
-                          <td style='text-align:center;'><b> Credit</b></td>
-  
-                          <?php  }
-                       elseif($row['12']=='2')
-                       {?>
-                          <td><b>Sr. No.</b></td>
-                          <td><b>Subjects/Subject Code</b></td>
-                          <td style='text-align:center;'><b>OLD Marks</b></td>
-                          <?php  }
-                       ?>
-                      </tr>
-                      <?php }?>
-  
-                      <tr>
-                          <?php if($row['12']=='0' && $row['18']!='NA')  
-                       {?>
-                            <td><?= $count+1;?></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
-                          <?php }
-                       elseif($row['12']=='1' && $row['18']!='NA')
-                       {?>
-                          <td><?= $count+1;?></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control subNames<?=$IDNo;?>" id="subNames" value="<?php echo $row['15'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control subCodes<?=$IDNo;?> " id="subCodes" value="<?php echo $row['16'];?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['17']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$row['18']?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control " value="<?=$showmarks."=".$totalFinal?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control agrade<?=$IDNo;?>" id="agrade" value="<?php if($grade!=0){echo $agrade[]=$grade;}else{echo $agrade[]=$row['17'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control bgradePoint<?=$IDNo;?>" id="bgradePoint" value="<?php if($gardep!=0){echo $bgradePoint[]=$gardep;}else{echo $bgradePoint[]=$row['18'];}?>"></td>
-                          <td style='text-align:center;'><input type="text" readonly class="form-control ccredit<?=$IDNo;?>" id="ccredit" value="<?php echo $credit;?>"></td>
-  
-                          <?php  }
-                       elseif($row['12']=='2' && $row['18']!='NA')
-                       {?>
-                          <td><b><?= $count+1;?></b></td>
-                          <td><b><?=$row['15']?> (<?=$row['16']?>)</b></td>
-  
-                          <td style='text-align:center;'><?=$row['18']?></td>
-  
-                          <?php  }
-                      else{
-  
-  
-                      }    ?>
-                      </tr>
-  
-                      <?php
-                    //   echo $row['21'];
-                    //   echo "count=".$count;
-                 
-                    if($row['21']-1==$count)
-                    {
-                      ?>
-                      <tr>
-                          <?php if($row['12']=='0')  
-                       {?>
-                          <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
-                          <td style='text-align:center;' colspan="3"><b>SGPA:<?=$row['13']?></b></td>
-                          <!-- <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td> -->
-                          <td style='text-align:center;' colspan="2"><b>New SGPA: <?php echo $sgpa;?></b></td>
-                          <?php }
-  
-                       elseif($row['12']=='1')
-                          {
-                       ?>
-                          <td colspan="3" style='text-align:center;'><b>Total Number of Credits:<?=$row['14']?></b></td>
-                          <td style='text-align:center;' colspan="3"><b>SGPA:<?=$row['13']?></b></td>
-                          <!-- <td colspan="2" style='text-align:center;'><b>Total Number of Credits:<?=$totalcredit;?></b></td> -->
-                          <td style='text-align:center;' colspan="2"><b>New SGPA : <?php echo $sgpa;?></b></td>
-                          <?php }
-                    elseif($row['12']=='2'){?> <td colspan="9" style='text-align:center;'><b>Total
-                                  Marks:<?=$row['14']?></b></td>
-                          <td style='text-align:center;'><b>Obtained Marks:<?=$row['13']?></b></td>
-                          <?php }
-                      ?>    
-                      </tr>    
-  <tr>
-  <td><input type="hidden" class="form-control form-sm" id="ResultID" value="<?=$ResultID;?>"></td>
-  <td><input type="hidden" class="form-control form-sm" id="Semester" value="<?=$Semester;?>"></td>
-  <td><input type="hidden" class="form-control form-sm" id="Examination" value="<?=$Examination;?>"></td>
-  <td><input type="hidden" class="form-control form-sm" id="cgpa" value="<?=$sgpa;?>"></td>
-  <td><input type="hidden" class="form-control form-sm" id="creditTotal" value="<?=$row['14']?>"></td>
-  <td><input type="hidden" class="form-control form-sm" id="Type" value="Reappear"></td>
-  </tr>
-  
-                      <?php  
-                      
-                  }
-                  ?>
-                  <?php 
-              $count++;
-            //   $mst2= 0;
-            //   $grace=0;
-            //   $nccount =0;
-               $gardep=0;
-              $grade=0;
-               $totalFinal=0;
-               $showmarks=0;
+             
+            if($nccount>0)
+            {
+              $sgpan="NC";
             }
-       
+            else{
+
+                $sgpan= number_format($sgpa,2);
+            }
+
              
-            ?>
-            <tr><td colspan="9">
-            
-          
-            <button class="btn btn-primary" onclick="submitResultCombined(<?=$IDNo;?>);">Update</button>
-          
-          </td></tr>
-     <?php }?>
-                  </tbody>
-              </table>
-          </div>
-      </div>
-      </div>
-      <?php 
-  
-    $srNo++;
-  
-             
-  }
-  elseif($code==452)
-  {
-  $ID=$_POST['ID'];
-  $Semester=$_POST['Semester'];
-  $Examination=$_POST['Examination'];
-  
-  $subNameArray=$_POST['subNameArray'];
-  $subCodesArray=$_POST['subCodesArray'];
-  $agradeArray=$_POST['agradeArray'];
-  $bgradePointArray=$_POST['bgradePointArray'];
-  $ccreditArray=$_POST['ccreditArray'];
-  // print_r($subNameArray);
-  $cgpa=$_POST['cgpa'];
-  $creditTotal=$_POST['creditTotal'];
-   $Type=$_POST['Type'];
-              $query = "SELECT * FROM Admissions  Where IDNo='$ID'";
-             $result = sqlsrv_query($conntest,$query);
-             while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
-             {
-              $UniRollNo=$row['UniRollNo'];
-              $ClassRollNo=$row['ClassRollNo'];
-              $CollegeID=$row['CollegeID'];
-              $CourseID=$row['CourseID'];
-              $Batch=$row['Batch'];
-             }
-            
-          $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,DeclareType,Timestamp,ResultStatus) 
-             VALUES('$UniRollNo','$ID','$Semester','$cgpa','$creditTotal','$CourseID','$CollegeID','$Examination','$Batch','Reappear','$timeStamp','2','$timeStamp','0');";
-        $result = sqlsrv_query($conntest,$insertResult);
-         if ($result === false) {
-      $errors = sqlsrv_errors();
-      // echo "Error: " . print_r($errors, true);
-      // echo "0"; 
-  } 
-        $getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
-        $getResultIDRun = sqlsrv_query($conntest,$getResultID);
-        if($rowgetResultIDRun = sqlsrv_fetch_array($getResultIDRun, SQLSRV_FETCH_ASSOC) )
-        {
-          $resultID=$rowgetResultIDRun['Id'];
-        }
-        foreach ($subCodesArray as $key => $value) {
-          $subjectName = $subNameArray[$key];
-          $subjectCode = $subCodesArray[$key];
-          $subjectGrade = $agradeArray[$key];
-          $subjectCredit = $ccreditArray[$key];
-          $subjectGradePoint = $bgradePointArray[$key];
-          $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
-                                  VALUES ('$resultID','$subjectName','$subjectCode','$subjectGrade','$subjectCredit','$UniRollNo','$subjectGradePoint')";
-          $result = sqlsrv_query($conntest, $insertResultDetails);
-          if ($result === false) {
-  
-              die(print_r(sqlsrv_errors(), true));
-          }
-          if ($result === false) {
-              $errors = sqlsrv_errors();
-              echo "Error: " . print_r($errors, true);
-              // echo "0"; 
-          } 
-      }
-  
-             if($result==true)
-             {
-              echo "1";
-             }
-             else{
-              echo "0";
-             }
-  }
+        ?>
+
+
+   
+      <tr>
+          <td><?=$row1['Id'];?></td>
+          <td><?=$row1['SubjectName'];?></td>
+           <td><?=$row1['SubjectCode'];?></td>
+          <td><?=$row1['SubjectGrade'];?></td>
+          <td>  <?=$showmarks;?>=<?= $totalFinal;?></td>
+           <td><?=$grade;?></td>
+         
+          <td><?=$gardep;?></td>
+           <td><?=$row1['SubjectCredit']?></td>
+          <td><?= $row1['TotalCredit'];?></td>
+          </td>
+
+
+     <?php  
+
+
+
+  }?>
+  <tr><td></td><td></td><td></td><td><td>Total Credit : <?= $totalcredit;?><td><td> SGPA : <?=$sgpan;?></td><td><button class="btn btn-primary" onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify Result</button></td></tr>
+  <?php
+
+
+}
+
+
   elseif($code==453)
   {
 $examIDs=$_POST['examIDs'];
@@ -32760,11 +32595,284 @@ $subCodesArray=$_POST['subCodesArray'];
             sqlsrv_close($conntest);        
 }
 
+
+
+
+
+elseif($code==455)
+  {
+   $ID=$_POST['ID'];
+  $Semester=$_POST['Semester'];
+  $Examination=$_POST['Examination'];
+  $srNo=1;
+  $newcredit=0;
+  $gradevaluetotalold=0;
+  $gradevaluetotal=0;
+  $nccount=0;
+      $query = "SELECT top(1)* FROM Admissions inner join ResultGKU as rd on Admissions.UniRollNo=rd.UniRollNo   Where   Admissions.IDNo='$ID'  and Semester='$Semester'  order by  rd.ID Desc  ";
+
+             $result = sqlsrv_query($conntest,$query);
+             while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
+             {
+              // echo $row['IDNo'];
+               $IDNo= $row['IDNo'];
+               $UniRollNo= $row['UniRollNo'];
+               $CollegeID= $row['CollegeID'];
+               $CourseID= $row['CourseID'];
+               $ResultID= $row['Id'];
+               $Type= $row['Type'];
+               $Semester=$row['Semester'];
+               $ResultColumn=$row['ResultColumn'];
+               $Batch=$row['Batch'];
+               $totalcredit= $row['TotalCredit'];
+                  
+                      
+  }
+
+  $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {              
+        
+        
+      $oldgradepoint= $row1['SubjectGradePoint'];
+      $creditold= $row1['SubjectCredit'];
+        
     
+      if(is_numeric($creditold))
+          {
+               $creditold=$creditold;
+          }   
+          else
+          {
+              $creditold=0;
+          }  
+      if(is_numeric($creditold))
+              {
+                if(is_numeric($oldgradepoint))
+                {
+                 $gradevalueold=$oldgradepoint*$creditold;
+                }
+                else
+                {
+                    $gradevalueold=0; 
+                }
+                         
+              }
+      if($gradevalueold>0)
+              {
+                $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
+              }  }
+
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+        $resubjectcode=$row1['SubjectCode'];
+       $credit=$row1['SubjectCredit'];
+
+       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {  
+        $subjecttype=$RowfatchMarks['SubjectType']; 
+        $CE1= $RowfatchMarks['CA1'];
+        if($subjecttype!='P')
+        {  $mst1=0; }
+        else
+        {  $mst1=$RowfatchMarks['MST1'];   }
+
+        $CE3=$RowfatchMarks['CA3'];
+        $att=$RowfatchMarks['Attendance'];
+        $ESe=$RowfatchMarks['ESE'];
+        $mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;
+
+        } 
+      else{
+        $CE1=$mst1=$CE3=$att=$ESe=$mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;        
+  }
+
+  include "result-pages/grade_calculator.php";
+     
+          if(is_numeric($credit))
+          {
+               $credit=$credit;
+          }   
+          else
+          {
+              $credit=0;
+          }
+          if($credit>0)
+          {
+            
+              if(is_numeric($credit))
+              {
+                if(is_numeric($gardep))
+                {
+                 $gradevalue=$gardep*$credit;
+                }
+                else
+                {
+                    $gradevalue=0; 
+                }
+                         
+              }
+              else
+              {
+                  $gradevalue=0; 
+              }
+             
+              if($gradevalue>0)
+              {
+                $gradevaluetotal=$gradevaluetotal+$gradevalue;
+              }
+              else
+              {
+              if($grade=='F' || $grade=='US')
+              {
+                $nccount=$nccount+1;
+              }
+              }
+              }
+              else
+              {
+              if($grade=='F' || $grade=='US')
+              {
+           $nccount=$nccount+1;
+              }
+              } 
+             
+              if($totalcredit>0)
+              {
+               $sgpa=($gradevaluetotal+$gradevaluetotalold)/$totalcredit;   
+              }
+              else
+              {
+              $sgpa=0; 
+              }
+
+             
+            if($nccount>0)
+            {
+              $sgpan="NC";
+            }
+            else{
+
+                $sgpan= number_format($sgpa,2);
+            }
+             
+       
+
+  }
+
+
+
+// Result Prepration 
+
+  $insertResult="INSERT into ResultPreparation (UniRollNo,IDNo,Semester,Sgpa,TotalCredit,CourseID,CollegeID,Examination,Batch,Type,DeclareDate,VerifiedBy,ResultColumn,DeclareType,Timestamp,ResultStatus) 
+             VALUES('$UniRollNo','$IDNo','$Semester','$sgpan',' $totalcredit','$CourseID','$CollegeID','$Examination','$Batch','Reappear','','$EmployeeID','$ResultColumn','1','$timeStamp','0');";
+        $result = sqlsrv_query($conntest,$insertResult);
+         if ($result === false) {
+      $errors = sqlsrv_errors();
+      // echo "Error: " . print_r($errors, true);
+      // echo "0"; 
+  } 
+        $getResultID="SELECT TOP(1)* FROM ResultPreparation ORDER by Id DESC ";
+        $getResultIDRun = sqlsrv_query($conntest,$getResultID);
+        if($rowgetResultIDRun = sqlsrv_fetch_array($getResultIDRun, SQLSRV_FETCH_ASSOC) )
+        {
+          $resultID=$rowgetResultIDRun['Id'];
+        }
+
+
+  $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+                       
+           $SubjectName=$row1['SubjectName'];
+           $SubjectCode=$row1['SubjectCode'];
+           $SubjectGrade=$row1['SubjectGrade'];
+           $SubjectGradePoint= $row1['SubjectGradePoint'];
+           $SubjectCredit= $row1['SubjectCredit'];
+    $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+                                  VALUES ('$resultID','$SubjectName','$SubjectCode','$SubjectGrade','$SubjectCredit','$UniRollNo','$SubjectGradePoint')";
+          $result = sqlsrv_query($conntest, $insertResultDetails);
+          
+  }
+
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+        $resubjectcode=$row1['SubjectCode'];
+       $credit=$row1['SubjectCredit'];
+
+
+           $SubjectName1=$row1['SubjectName'];
+           $SubjectCode1=$row1['SubjectCode'];
+           $SubjectCredit1= $row1['SubjectCredit'];
+
+
+
+       $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
+        WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
+       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+       if ($RunfatchMarks === false) {
+          $errors = sqlsrv_errors();
+          echo "Error: " . print_r($errors, true);
+      } 
+       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+       {  
+
+        $subjecttype=$RowfatchMarks['SubjectType']; 
+        $CE1= $RowfatchMarks['CA1'];
+        if($subjecttype!='P')
+        {  $mst1=0; }
+        else
+        {  $mst1=$RowfatchMarks['MST1'];   }
+
+        $CE3=$RowfatchMarks['CA3'];
+        $att=$RowfatchMarks['Attendance'];
+        $ESe=$RowfatchMarks['ESE'];
+        $mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;
+
+        } 
+      else{
+        $CE1=$mst1=$CE3=$att=$ESe=$mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;        
+  }
+
+  include "result-pages/grade_calculator.php";
+        
+
+$SubjectGradePoint1=$gardep;
+
+$SubjectGrade1=$grade;
+
+$insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+                                  VALUES ('$resultID','$SubjectName1','$SubjectCode1','$SubjectGrade1','$SubjectCredit1','$UniRollNo','$SubjectGradePoint1')";
+          $result = sqlsrv_query($conntest, $insertResultDetails);
+
+  }
+
+
+
+}
+
+
+
    else
    {
    
    }
+
    }
    
    ?>

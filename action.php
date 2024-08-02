@@ -19103,7 +19103,7 @@ $del_run = mysqli_query($conn, $query1);
 } else {
  echo "could not delete $file\n";
 }
-       echo "Successfully deleted";
+       echo "Successfully Deleted";
    } else {
        echo "Ohh yaar ";
    }
