@@ -6794,7 +6794,64 @@ if($list_result === false) {
 
 
  }
+ else if($code=='62')
+ {
+ 
+ ?>
 
+ <table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+  <tr>             
+  <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
+                 <th>Sr No </th>
+                 <th>Uni Roll No</th>
+               
+                 <th> Name </th>
+                 <th> Father Name </th>
+                 <th> Type </th>
+                 <th>Total Credit </th>
+                 <th> SGPA </th>
+                 <th> Verified By </th>
+      
+                 </tr>
+  <?php
+  $i=1;
+  $CourseID = $_GET['course'];
+  $CollegeID = $_GET['college'];
+  $Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $exam = $_GET['examination'];
+ $sql1 = "SELECT * FROM ResultPreparation as Rp inner join Admissions as Adm ON Adm.IDNo=Rp.IDNo WHERE Rp.Semester='$semID' and Rp.CourseID='$CourseID' and Rp.CollegeID='$CollegeID'
+  and Rp.Examination='$exam' and  Rp.Batch='$Batch' ";
+     $stmt = sqlsrv_query($conntest,$sql1);
+    if ($stmt === false) {
+       $errors = sqlsrv_errors();
+       echo "Error: " . print_r($errors, true);  
+   } 
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+         $IDNo=$row['IDNo'];
+ ?>
+ <tr>
+ <td><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"></td>
+ <td><?= $i++;?></td>
+ <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
+ <td><?= $row['StudentName'];?></td>             
+ <td><?= $row['FatherName'];?></td>             
+ <td><?= $row['Type'];?></td>             
+ <td><?=$row['TotalCredit'];?></td>
+ <td><?=$row['Sgpa'];?></td>
+ <td><?=$row['VerifiedBy'];?></td>
+</tr>
+ <?php 
+ } 
+ ?>
+ </table>
+ <p style="text-align: right">
+    <input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
+    <!-- <input   type="submit" name="submit" value="Result Update All" onclick="resultupdateAll();" class="btn btn-danger "  > -->
+ 
+ <?php 
+ }
 
 
  else
