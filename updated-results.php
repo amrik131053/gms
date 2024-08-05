@@ -268,54 +268,91 @@ for($i=1;$i<=12;$i++)
  
   var  college = document.getElementById('College').value;
   var  course = document.getElementById('Course').value;
-   var  batch = document.getElementById('Batch').value;
-    var  sem = document.getElementById('Semester').value; 
-     var  examination = document.getElementById('Examination').value;
-    //  var  type = document.getElementById('Type').value;
+  var  batch = document.getElementById('Batch').value;
+  var  sem = document.getElementById('Semester').value; 
+  var  examination = document.getElementById('Examination').value;
+  //  var  type = document.getElementById('Type').value;
   if(college!=''&& batch!='' && sem!='' && examination!='')
- {
+  {
    var   spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
-var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {     
-   spinner.style.display='none';
-       
-          document.getElementById("live_data").innerHTML=xmlhttp.responseText;
-//Examination_theory_types();
+   var xmlhttp = new XMLHttpRequest();
+   xmlhttp.onreadystatechange = function() {
+       if (xmlhttp.readyState==4 && xmlhttp.status==200)
+       {     
+           spinner.style.display='none';
+           
+           document.getElementById("live_data").innerHTML=xmlhttp.responseText;
+           //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+"&examination="+examination+"&code="+62,true);
-        xmlhttp.send();
- }
+    xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+"&examination="+examination+"&code="+62,true);
+    xmlhttp.send();
+}
 else
 {
- alert("Please Select Appropriate data ");
+    alert("Please Select Appropriate data ");
 }
-      
-  }
+
+}
 
 
-  function ViewResultStudent(ID){
-var spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-  var code = 451;
+function ViewResultStudent(ID){
+    var spinner= document.getElementById("ajax-loader");
+    spinner.style.display='block';
+    var code = 456;
         $.ajax({
             url: 'action_g.php',
             type: 'POST',
             data: {
                 code: code,
-                ID: ID
+                ID: ID   
             },
             success: function(response) {
                 spinner.style.display = 'none';
                 console.log(response);
                     document.getElementById("ViewResultData").innerHTML = response;
+     //  loadMainCount();
+            }
+        });
+}
+  function publishResult(ID){
+    var resultNum = document.getElementById('resultNum').value;
+    var  decDate = document.getElementById('decDate').value;
+    var verifiy = document.getElementsByClassName('v_check');
+            var len_student = verifiy.length;
+            var subjectIDs = [];
+            for (i = 0; i < len_student; i++) {
+                if (verifiy[i].checked === true) {
+                    subjectIDs.push(verifiy[i].value);
+                }
+            }
+            if ((typeof subjectIDs[0] == 'undefined')) {
+                // alert('');
+                ErrorToast(' Select atleast one Student', 'bg-warning');
+            } else {
+var spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+  var code = 457;
+        $.ajax({
+            url: 'action_g.php',
+            type: 'POST',
+            data: {
+                code: code,
+                ID: ID,
+                resultNum:resultNum,
+                decDate:decDate,
+                ResultIDs:subjectIDs
+            },
+            success: function(response) {
+                spinner.style.display = 'none';
+                console.log(response);
+                    // document.getElementById("ViewResultData").innerHTML = response;
              
                 //  loadMainCount();
             }
         });
+    }
 }
 
 

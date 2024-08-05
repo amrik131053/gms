@@ -6500,9 +6500,14 @@ $sql1 = "SELECT * FROM ExamForm inner join ExamFormSubject ON ExamForm.ID=ExamFo
           
        if($rowresultgetColor['ResultStatus']=='0')
        {
-          $clr="success";
+          $clr="primary";
           $status=2;
-         }
+       }
+      else if($rowresultgetColor['ResultStatus']=='1')
+      {
+      $clr="success";
+      $status=2;
+       }
          else{
             
             $status=1;
@@ -6828,11 +6833,19 @@ if($list_result === false) {
        echo "Error: " . print_r($errors, true);  
    } 
          $count=0;
-      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {   
          $IDNo=$row['IDNo'];
+          if($row['ResultStatus']=='1')
+          {
+         $clr="success";
+          }
+          else
+          {   
+          }
  ?>
- <tr>
- <td><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"></td>
+ <tr class="bg-<?=$clr;?>">
+<td><?php if($row['ResultStatus']=='1'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
  <td><?= $row['StudentName'];?></td>             
@@ -6843,13 +6856,23 @@ if($list_result === false) {
  <td><?=$row['VerifiedBy'];?></td>
 </tr>
  <?php 
+ $clr="";
  } 
  ?>
+ <tr>
+   <td colspan="6"></td>
+   <td colspan="1">
+   <label for="">ResultNo</label>
+   <input   type="text" placeholder="Result No" id="resultNum"  class="form-control"  >
+   </td>
+   <td colspan="1">
+   <label for="">Declare Date</label>   
+   <input   type="date" id="decDate"  class="form-control"  ></td>
+   <td colspan="1">
+   <label for="">&nbsp;</label>  <br>    
+   <input   type="submit" name="submit" value="Publish" onclick="publishResult();" class="btn btn-success "  ></td>
+ </tr>
  </table>
- <p style="text-align: right">
-    <input   type="submit" name="submit" value="Update All" onclick="updateAll();" class="btn btn-danger "  >
-    <!-- <input   type="submit" name="submit" value="Result Update All" onclick="resultupdateAll();" class="btn btn-danger "  > -->
- 
  <?php 
  }
 
