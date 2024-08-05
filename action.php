@@ -13119,8 +13119,15 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
        {
          $subjectName= $subject[$a];
        $sub_code= $SubjectCode[$a];
-      $int= 'Y';
-      $ext= 'Y';
+       
+       if($type=='Reappear'){
+         $int= 'N';
+         $ext= 'N';
+       }
+       else{
+          $int= 'Y';
+          $ext= 'Y';
+       }
       $total= $SubjectType[$a];
       if($sub_code!='')
       {
