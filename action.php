@@ -7048,19 +7048,12 @@ $update_query=sqlsrv_query($conntest,$update1);
    {
       $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
  building_master on building_master.ID=location_master.Block where Block='$building' AND stock_summary.Status='2' order by location_master.RoomNo asc";
-
    }
    elseif ($building!='' && $floor=='' && $room!='') 
    {
        $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
  building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' AND stock_summary.Status='2' order by location_master.RoomNo asc";
-
-
-
-
-
    }
-
    elseif ($building!='' && $floor!='' && $room=='') 
    {
         $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
@@ -24409,9 +24402,277 @@ else if ($row['Status']=='Self Canceled')
 
 sqlsrv_close($conntest);
 }
+elseif($code=='383')
+{   
+$count=0;
+$totalBill=0;
+$building=$_POST['building'];
+$floor=$_POST['floor'];
+$room=$_POST['room'];
+
+?>
+<div class="row">
+<div class="col-lg-1">
+   <div class="input-group-sm">
+      <button type="submit" class="btn btn-outline-danger btn-sm form-control"  onclick="exportMeterLocations(<?=$building?>)">Export</button>
+   </div>
+</div>
+</div>
+<?php
+if ($building!='' && $floor=='' && $room=='') 
+{
+   $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+building_master on building_master.ID=location_master.Block where Block='$building' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+}
+elseif ($building!='' && $floor=='' && $room!='') 
+{
+    $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+}
+elseif ($building!='' && $floor!='' && $room=='') 
+{
+     $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+building_master on building_master.ID=location_master.Block where    Block='$building'  and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+}
+elseif ($building!='' && $floor!='' && $room!='') 
+{
+    $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+}
+
+$meterLocationsData='';
+$meterLocationsData.="<table class='table table-striped table-responsive'>
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>Meter No.</th>
+            <th>Room No.</th>
+            <th>Room Name</th>
+            <th>Date</th>
+            <th>Owner</th>
+            <th>Reading</th>
+            <th>Units Consumed</th>
+            <th>Rate per Unit</th>
+            <th>Bill amount</th>
+            <th>Action</th>
+            <th>Bill</th>
+            
+        </tr>
+    </thead>";
+    
+$res=mysqli_query($conn,$sql);
+while($data=mysqli_fetch_array($res))
+{
+    $ownerTable='';
+    
+    $count++;
+    $article_num=$data['article_no'];
+    $readingQry="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where article_no='$article_num' ORDER by meter_reading.ID desc";
+    $readingRes=mysqli_query($conn,$readingQry);
+    if ($data1=mysqli_fetch_array($readingRes)) 
+    {
+        $room_no=$data1['RoomNo'];
+
+        $room_no1=$data['rmn'];
+
+        $date=date("d-M-Y", strtotime($data1['reading_date']));
+        $reading=$data1['current_reading'];
+        $unitsConsumed=$data1['unit'];
+        $unitRate=$data1['unit_rate'];
+        $billAmount=$data1['amount'];
+        $totalBill=$totalBill+$billAmount;
+        $id=$data1['mrID'];
+
+        $meterLocation=$data1['location_id'];
+        $flag=0;
+        $sr=0;
+        $locationQry="SELECT distinct Corrent_owner from stock_summary where LocationID='$meterLocation' ORDER by Corrent_owner desc";
+        $locationRes=mysqli_query($conn,$locationQry);
+        while($locationData=mysqli_fetch_array($locationRes))
+        {
+          $sr++;
+          $user='';
+          $user=$locationData['Corrent_owner'];
+          if (strlen($user)>7) 
+          {
+            $flag=1;
+            $result1 = "SELECT  * FROM Admissions where UniRollNo='$user' or ClassRollNo='$user' or IDNo='$user'";
+            $stmt1 = sqlsrv_query($conntest,$result1);
+            while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+            {
+        
+              $IDNo= $row['IDNo'];
+              $ClassRollNo= $row['ClassRollNo'];
+              $UniRollNo= $row['UniRollNo'];
+              $StudentName = $row['StudentName'];
+              $father_name = $row['FatherName'];
+              $course = $row['Course'];
+              $email = $row['EmailID'];
+              $phone = $row['StudentMobileNo'];
+              $batch = $row['Batch'];
+              $college = $row['CollegeName'];
+              $courseShortName = $row['CourseShortName'];
+
+              $ownerTable.="<tr><td>{$StudentName}</td><td>{$ClassRollNo}/{$UniRollNo}</td></tr>";
+
+            }
+          }
+          else
+          {
+            if ($flag==0) 
+            {
+              $sql1 = "SELECT * FROM Staff Where IDNo='$user'";
+              $q1 = sqlsrv_query($conntest, $sql1);
+              while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+              {
+                $userName = $row['Name'];
+                $fatherName = $row['FatherName'];
+                $CollegeName = $row['CollegeName'];
+                $Designation = $row['Designation'];
+                $EmailID = $row['EmailID'];
+                $ContactNo = $row['ContactNo'];
+                if ($ContactNo=='') 
+                {
+                  $ContactNo = $row['MobileNo'];
+                }
+                $ownerTable.="<tr><td>{$userName}</td><td>{$user}</td></tr>";
+                
+              }
+            }
+          }
+        }
 
 
 
+
+    }
+   
+        $meterLocationsData.="<tr>
+            <td >{$count}</td>
+            <td>{$article_num}</td>
+            <td>{$room_no}</td>
+            <td>{$room_no1}</td>
+            <td>{$date}</td>
+            <td>
+            <table >
+            {$ownerTable}
+            </table>
+
+
+            </td>
+            <td>{$reading}</td>
+            <td>{$unitsConsumed}</td>
+            <td>{$unitRate}</td>
+            <td>{$billAmount}</td>
+            <td><button class='btn btn-xs' type='submit' style='color:red;' onclick='meterReadings({$article_num})' data-toggle='modal'  data-target='#meter_reading_modal'><i class='fa fa-eye fa-lg'></i></button></td>
+            <td>
+                <form action='electricity-bill.php' method='post'>
+                    <input type='hidden' name='meterReadingId' value='{$id}'>
+                    <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' name='abcs' id='abc'>
+                        <i  class='fa fa-print' aria-hidden='true'></i>
+                    </button>
+                </form>
+            </td>
+            
+        </tr>";
+    
+}
+
+$meterLocationsData.="<tr>
+            <th colspan='8'>Total Amount</th>                                
+            <th>{$totalBill}</th>                                
+            <th></th>                                
+            <th></th>                                
+        </tr></table>";
+echo $meterLocationsData;
+sqlsrv_close($conntest);
+mysqli_close($conn);
+}
+elseif($code=='384')
+{   
+$count=0;
+$articleID=$_POST['meterNo'];
+?>
+<div class="row">
+<div class="col-lg-1">
+   <div class="input-group-sm">
+      <button type="submit" class="btn btn-outline-danger btn-sm form-control"  onclick="exportData(<?=$articleID?>)">Export</button>
+   </div>
+</div>
+</div>
+<?php
+$sql="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where article_no='$articleID' ORDER by meter_reading.ID desc";
+    
+$exportMeter="<table class='table table-striped table-responsive'>
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>Meter No.</th>
+            <th>Room No.</th>
+            <th>Date</th>
+            <th>Reading</th>
+            <th>Units Consumed</th>
+            <th>Rate per Unit</th>
+            <th>Bill amount</th>
+            <th>Bill</th>
+            
+        </tr>
+    </thead>";
+   
+$res=mysqli_query($conn,$sql);
+while($data=mysqli_fetch_array($res))
+{
+    
+    $count++;
+    $article_num=$data['article_no'];
+    
+        $room_no=$data['RoomNo'];
+        $date=date("d-M-Y", strtotime($data['reading_date']));
+        $reading=$data['current_reading'];
+        $unitsConsumed=$data['unit'];
+        $id=$data['mrID'];
+         $unitRate=$data['unit_rate'];
+        $billAmount=$data['amount'];
+    
+   
+        $exportMeter.="<tr>
+            <td>{$count}</td>
+            <td>{$article_num}</td>
+            <td>{$room_no}</td>
+            <td>{$date}</td>
+            <td>";
+        
+            if ($count==1) 
+            {
+                
+                $exportMeter.=$reading;
+            }
+            else
+            {
+               $exportMeter.=$reading;
+            }
+            
+            $exportMeter.="</td>
+            <td>{$unitsConsumed}</td>
+            <td>{$unitRate}</td>
+            <td>{$billAmount}</td>
+            <td>
+                <form action='electricity-bill.php' method='post'>
+                    <input type='hidden' name='meterReadingId' value='{$id}'>
+                    <button type='submit' class='btn border-0 shadow-none' style='background-color:transparent; border:display none' formtarget='_blank' >
+                        <i  class='fa fa-print' aria-hidden='true'></i>
+                    </button>
+                </form>
+            </td>
+            
+        </tr>";
+
+}
+
+$exportMeter.="</table>";
+echo $exportMeter;
+mysqli_close($conn);
+}
 
 
  else

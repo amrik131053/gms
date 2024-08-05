@@ -74,8 +74,54 @@ for($i=1;$i<=12;$i++)
                 </select>
 
             </div>
+            <div class="col-md-1">
+            <div class="form-group">
+              <label>Type</label>
+                    <select  id="Type" name="Type" class="form-control" required="">
+                 <option value="">Type</option>
+                       <?php
+   $sql="SELECT DISTINCT Type from ExamForm Order by Type ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
-    
+       
+     $Type = $row1['Type']; 
+     
+    ?>
+<option  value="<?=$Type;?>"><?= $Type;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
+            <div class="col-md-1">
+            <div class="form-group">
+              <label>Group</label>
+                    <select  id="group" name="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
 
             <div class="col-lg-1 col-md-4 col-sm-3">
                 <label>Examination</label>
@@ -387,12 +433,13 @@ function exportCutListExcelgraden() {
     var Course = document.getElementById('Course').value;
     var Batch = document.getElementById('Batch').value;
     var Semester = document.getElementById('Semester').value;
-    var Type = "Reappear";
+    var Type = document.getElementById('Type').value;
+    var group = document.getElementById('group').value;
     var Examination = document.getElementById('Examination').value;
     if (College != '' && Course != '' && Batch != '' && Semester != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Examination=" + Examination, '_blank');
+            Type + "&Examination=" +  Examination + "&Group=" +  group , '_blank');
 
     } else {
        

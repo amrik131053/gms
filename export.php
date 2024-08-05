@@ -10304,6 +10304,7 @@ $CourseID = $_GET['Course'];
  $CollegeID = $_GET['CollegeId'];
  $Batch=$_GET['Batch']; 
  $semID = $_GET['Semester'];
+ $Type = $_GET['Type'];
  $exam = $_GET['Examination'];
  $sql1 = "SELECT  DISTINCT UniRollNo,Id,TotalCredit,Sgpa FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
     $stmt = sqlsrv_query($conntest,$sql1);
