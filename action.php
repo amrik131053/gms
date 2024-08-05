@@ -24596,7 +24596,7 @@ $articleID=$_POST['meterNo'];
 <div class="row">
 <div class="col-lg-1">
    <div class="input-group-sm">
-      <!-- <button type="submit" class="btn btn-outline-danger btn-sm form-control"  onclick="exportData(<?=$articleID?>)">Export</button> -->
+      <button type="submit" class="btn btn-outline-danger btn-sm form-control"  onclick="exportData(<?=$articleID?>)">Export</button>
    </div>
 </div>
 </div>

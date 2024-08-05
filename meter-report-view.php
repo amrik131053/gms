@@ -215,6 +215,14 @@ if ($role_id=='2')
 </div>
 
    <script type="text/javascript">
+      function exportData(meterNo) 
+      {
+            var exportCode='14';
+          window.location.href="export.php?meterNo="+meterNo+"&exportCode="+exportCode;
+      }
+
+
+
 
 
       function exportMeterLocations(building)
@@ -233,6 +241,16 @@ if ($role_id=='2')
                var building=document.getElementById("hostel_id").value;
             window.open("print_bill_detail_excel.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room,"_blank");
       }
+
+
+// function groupexport(id)
+//       {
+//             var exportCode='17';
+//             //alert(id);
+//             var group=id;
+            
+//           window.location.href="export.php?building="+group+"&exportCode="+exportCode;
+//       }
 
 function groupexportpdf(id)
       {
@@ -271,7 +289,34 @@ function groupexportpdf(id)
             });  
          }
       }
-
+    //   function meterReport(meterNo)
+    //   {
+         
+    //      if (meterNo==0) 
+    //      {
+    //         meterNo=document.getElementById("meterNo").value;
+    //      }
+    //      if (meterNo!='') 
+    //      {
+    //         var code='383';
+    //          $.ajax(
+    //          {
+    //            url:'action.php',
+    //            data:{code:code,meterNo:meterNo},
+    //            type:'POST',
+    //            success:function(data)
+    //            {
+    //               if(data != "")
+    //               {
+    //                  $("#meterReportData").html("");
+    //                  $("#meterReportData").html(data);
+    //               }
+    //            }
+            
+    //         });  
+    //      }
+    //   }
+      
       function floorMeter(id)
       {  var floor='';
          meterRoom(id,floor);
@@ -339,6 +384,207 @@ function groupexportpdf(id)
             alert("Select Hostel");
          }
       }
+    
+
+//      function  exportMetergroup()
+
+// {
+          
+//          var code='284';
+         
+//          var spinner=document.getElementById("ajax-loader");
+//                               spinner.style.display='block';
+            
+//             $.ajax({
+//             url:'action.php',
+//             data:{code:code},
+//             type:'POST',
+//             success:function(data){
+//             if(data != "")
+//             {
+//                spinner.style.display='none';
+//                $("#meterReportData").html("");
+//                $("#meterReportData").html(data);
+//             }
+//             }
+//             });
+//       }
+
+    //   function student_stock(locationID,studentID)
+    //   {
+    //      // alert(studentID);
+    //       var spinner=document.getElementById("ajax-loader");
+    //                           spinner.style.display='block';
+    //      var code='85';
+    //      $.ajax({
+    //      url:'action.php',
+    //      data:{code:code,locationID:locationID,studentID:studentID},
+    //      type:'POST',
+    //      success:function(data){
+    //      if(data != "")
+    //      {
+    //         spinner.style.display='none';
+    //      $("#student_stock_data").html("");
+    //      $("#student_stock_data").html(data);
+    //      }
+    //      }
+    //      });
+    //   }
+    //   function article_at_location(categoryID,locationID)
+    //   {
+    //       var code='86';
+    //      $.ajax({
+    //      url:'action.php',
+    //      data:{code:code,locationID:locationID,categoryID:categoryID},
+    //      type:'POST',
+    //      success:function(data){
+    //      if(data != "")
+    //      {
+
+    //      $("#articleID").html("");
+    //      $("#articleID").html(data);
+    //      }
+    //      }
+    //      });
+    //   }
+    //   function article_number_at_location(articleID,locationID)
+    //   {
+    //       var code='87';
+    //      $.ajax({
+    //      url:'action.php',
+    //      data:{code:code,locationID:locationID,articleID:articleID},
+    //      type:'POST',
+    //      success:function(data){
+    //      if(data != "")
+    //      {
+               
+    //      $("#articleNum").html("");
+    //      $("#articleNum").html(data);
+    //      }
+    //      }
+    //      });
+    //   }
+    //   function assignStudentStock(locationID)
+    //   {
+    //      var code='88';
+    //      var studentID=document.getElementById("studentID").value;
+    //      var articleNum=document.getElementById("articleNum").value;
+    //      if (articleNum!='' && studentID!='') 
+    //      {
+    //         $.ajax(
+    //         {
+    //            url:'action.php',
+    //            data:{code:code,articleNum:articleNum,studentID:studentID},
+    //            type:'POST',
+    //            success:function(data)
+    //            {
+    //               // $('#student_stock').hide();
+    //               //$("[data-dismiss=modal]").trigger({ type: "click" });
+    //               // search_meter_at_location();
+    //                student_stock(locationID,studentID)
+    //            }
+    //         });
+    //      }
+    //      else
+    //      {
+    //         alert("Select all values");
+    //      }
+    //   }
+    //    function check_out(ID,studentID,locationID)
+    //          {
+     
+    //   var code=76;
+    //   var a=confirm("Are you sure to check out" + " " + ID);
+    //   if (a==true) 
+    //   {
+    //      $.ajax(
+    //      {
+    //         url:"action.php ",
+    //         type:"POST",
+    //         data:
+    //         {
+    //            code:code,id:ID,studentID:studentID
+    //         },
+    //         success:function(response) 
+    //         {
+    //            // returnStudentStock(studentID)
+    //            student_stock(locationID,studentID)
+    //            //alert("success");
+    //            // location.reload(true);
+    //         }
+    //      });
+    //   }
+    //         }
+
+    //   function returnStudentStock(rollNo)
+    //   {
+    //      code=75;
+    //            $.ajax(
+    //      {
+    //         url:"action.php ",
+    //         type:"POST",
+    //         data:
+    //         {
+    //            code:code,rollNo:rollNo
+    //         },
+    //         success:function(response) 
+    //         {
+    //            document.getElementById("return_student_stock_data").innerHTML =response;  
+    //         }
+    //      });
+    //   }
+    // function studentAttendance(studentID)
+    //   {
+    //      code=92;
+    //            $.ajax(
+    //      {
+    //         url:"action.php ",
+    //         type:"POST",
+    //         data:
+    //         {
+    //            code:code,studentID:studentID
+    //         },
+    //         success:function(response) 
+    //         {
+    //            document.getElementById("student_attendance_data").innerHTML =response;  
+    //         }
+    //      });
+    //   }
+
+
+    //   function hostelAvailability()
+    //   {
+         
+    //      var code='95';
+    //      var building=document.getElementById("hostel_id").value;
+    //      if (building!='') 
+    //      {
+    //      var spinner=document.getElementById("ajax-loader");
+    //                           spinner.style.display='block';
+    //         var floor=document.getElementById("hostelFloorID").value;
+    //         var room=document.getElementById("hostelRoomID").value;
+    //         // alert(building);
+    //         // alert(floor);
+    //         // alert(room);
+    //         $.ajax({
+    //         url:'action.php',
+    //         data:{code:code,building:building,floor:floor,room:room},
+    //         type:'POST',
+    //         success:function(data){
+    //         if(data != "")
+    //         {
+    //            spinner.style.display='none';
+    //            $("#meterReportData").html("");
+    //            $("#meterReportData").html(data);
+    //         }
+    //         }
+    //         });
+    //      }
+    //      else
+    //      {
+    //         alert("Select Hostel");
+    //      }
+    //   }
 
    </script>
 </section>
