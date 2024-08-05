@@ -32242,7 +32242,7 @@ $todaydate=$_POST['startDate'];
       </tr>
 
  <?php  
-
+$buttoncount=0;
 
 $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
 
@@ -32275,6 +32275,14 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
         $CE3=$RowfatchMarks['CA3'];
         $att=$RowfatchMarks['Attendance'];
         $ESe=$RowfatchMarks['ESE'];
+        if($ESe!='')
+        {
+            $buttoncount=0;
+        }
+        else
+        {
+             $buttoncount++;
+        }
         $mst2= 0;
         $grace=0;
         
@@ -32398,7 +32406,9 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
 
 
   }?>
-  <tr><td></td><td></td><td></td><td><td>Total Credit : <?= $totalcredit;?><td><td> SGPA : <?=$sgpan;?></td><td><button class="btn btn-primary" onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify Result</button></td></tr>
+  <tr><td></td><td></td><td><td>Total Credit : <?= $totalcredit;?><td><td> SGPA : <?=$sgpan;?></td><td colspan="2">
+    <?php  
+     if($buttoncount>0){?><button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button class="btn btn-primary" onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify Result</button> <?php }?> </td></tr>
   <?php
 
 
