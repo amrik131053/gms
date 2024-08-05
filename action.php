@@ -24441,7 +24441,7 @@ building_master on building_master.ID=location_master.Block where Block='$buildi
 }
 
 $meterLocationsData='';
-$meterLocationsData.="<table class='table table-striped table-responsive'>
+$meterLocationsData.="<table class='table  table-responsive'>
     <thead>
         <tr>
             <th>Sr. No.</th>
