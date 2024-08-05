@@ -1,4 +1,5 @@
- <?php  $College=$_GET['CollegeId'];
+ <?php  
+$College=$_GET['CollegeId'];
 $Course=$_GET['Course'];
 $Batch=$_GET['Batch'];
 $Semester=$_GET['Semester'];
@@ -36,7 +37,7 @@ $list_cllegename = sqlsrv_query($conntest,$collegename);
         }
 
 
- $subjects_sql="select SubjectCode,SubjectName from ResultPreparation inner join 
+ $subjects_sql="select  DIstinct SubjectCode,SubjectName from ResultPreparation inner join 
 ResultPreparationDetail on ResultPreparation.Id=ResultPreparationDetail.ResultID where  CollegeID='$College' ANd CourseID='$Course'  ANd Semester='$Semester'  ANd Examination='$Examination'";
 
 $list_Subjects = sqlsrv_query($conntest,$subjects_sql);

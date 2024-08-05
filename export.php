@@ -10299,39 +10299,28 @@ foreach ($Subjects as $key => $SubjectsCode) {
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th>";
 $exportstudy.="</tr>";
-$group = $_GET['Group'];
-$CourseID = $_GET['Course'];
- $CollegeID = $_GET['CollegeId'];
- $Batch=$_GET['Batch']; 
- $semID = $_GET['Semester'];
- $exam = $_GET['Examination'];
- $sql1 = "SELECT  DISTINCT UniRollNo,Id,TotalCredit,Sgpa FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
-    $stmt = sqlsrv_query($conntest,$sql1);
+
+ $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester'";
+ $stmt = sqlsrv_query($conntest,$sql1);
         $SrNo=1;
-     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC)){   
+     while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+     {   
       $ID=$row['Id']; 
       $UniRollNo=$row['UniRollNo']; 
       $exportstudy.="<tr>
       <th>{$SrNo}</th>
       <th>{$UniRollNo}</th> ";
-      $queryR = "SELECT * FROM Admissions inner join ResultGKU on Admissions.UniRollNo=ResultGKU.UniRollNo Where 
-      Admissions.UniRollNo='$UniRollNo'  and Semester='$Semester' order by  Admissions.IDNo ASC ";
-                 $resultR = sqlsrv_query($conntest,$queryR);
-                 while($rowR = sqlsrv_fetch_array($resultR, SQLSRV_FETCH_ASSOC) )
-                 {
-  $getSub="SELECT * from ResultGKU as RG inner join ResultDetailGKU as RDG ON RG.Id=RDG.ResultID WHERE RDG.ResultID='".$rowR['Id']."' ";
-$stmtgetSub = sqlsrv_query($conntest,$getSub);
-while($rowS = sqlsrv_fetch_array($stmtgetSub,SQLSRV_FETCH_ASSOC)){ 
-      $fatchMarks="SELECT  * FROM  ResultPreparationDetail WHERE  ResultID='$ID' and SubJectCode='".$rowS['SubjectCode']."' ";
-       $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
-       if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
-       {  
+foreach ($Subjects as $key => $SubjectsCode) {
+ $fatchMarks="SELECT  * FROM  ResultPreparationDetail WHERE  ResultID='$ID' and SubJectCode='$SubjectsCode' ";
+    $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
+    if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
+    {  
     $SubjectGrade=$RowfatchMarks['SubjectGrade'];
     $SubjectGradePoint=$RowfatchMarks['SubjectGradePoint'];
     $SubjectCredit=$RowfatchMarks['SubjectCredit'];
     // $SubjectName=$RowfatchMarks['SubjectName'];
     // $SubjectCode=$RowfatchMarks['SubjectCode'];
-        $exportstudy.="
+    $exportstudy.="
         <th>{$SubjectGrade}</th>
         <th>{$SubjectGradePoint}</th> ";
       } 
@@ -10341,12 +10330,11 @@ while($rowS = sqlsrv_fetch_array($stmtgetSub,SQLSRV_FETCH_ASSOC)){
         <th>NA</th> ";
       }
     }
-}
+
+
     $exportstudy.="
 <th>".$row['TotalCredit']."</th>
-<th>".$row['Sgpa']."</th>
-
-";
+<th>".$row['Sgpa']."</th>";
      $exportstudy.="</tr>";
      $SrNo++;    
 }
@@ -10356,12 +10344,10 @@ include 'result-pages/resultfooter.php';
 $exportstudy.="</table>";
 echo $exportstudy;
 $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
-      }
 
+}
 
-
-
-      else if($exportCode==72)
+else if($exportCode==72)
       {
       
     //   include 'result-pages/result-subject-bind.php';
