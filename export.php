@@ -10283,7 +10283,8 @@ $SrNo++;
 else if($exportCode==71)
 {
    
-include 'result-pages/result-subject-bind-new2.php';
+include 'result-pages/result-subject-bind-reappear.php';
+
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
@@ -10356,6 +10357,9 @@ $exportstudy.="</table>";
 echo $exportstudy;
 $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
       }
+
+
+
 
       else if($exportCode==72)
       {
