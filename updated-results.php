@@ -74,8 +74,54 @@ for($i=1;$i<=12;$i++)
                 </select>
 
             </div>
+            <div class="col-md-1">
+            <div class="form-group">
+              <label>Type</label>
+                    <select  id="Type" name="Type" class="form-control" required="">
+                 <option value="">Type</option>
+                       <?php
+   $sql="SELECT DISTINCT Type from ExamForm Order by Type ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
 
-    
+       
+     $Type = $row1['Type']; 
+     
+    ?>
+<option  value="<?=$Type;?>"><?= $Type;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
+            <div class="col-md-1">
+            <div class="form-group">
+              <label>Group</label>
+                    <select  id="group" name="group" class="form-control" required="">
+                 <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from ExamForm Order by Sgroup ASC ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {
+
+       
+     $Sgroup = $row1['Sgroup']; 
+     
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+
+?>
+
+                
+              </select>
+            </div>
+ </div>
 
             <div class="col-lg-1 col-md-4 col-sm-3">
                 <label>Examination</label>
@@ -105,8 +151,8 @@ for($i=1;$i<=12;$i++)
             <div class="col-lg-1 col-md-4 col-sm-3">
                 <label>Search</label><br>
                 <button class="btn btn-danger" onclick="select_mst()"><i class="fa fa-search"></i></button>
-                <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button>  -->
-                <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button>
+                <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG </button> 
+                <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> -->
             </div>
 
 
@@ -155,6 +201,20 @@ for($i=1;$i<=12;$i++)
         <!-- Modal -->
 
         <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         function deleteAll() {
             var verifiy = document.getElementsByClassName('v_check');
             var len_student = verifiy.length;
@@ -331,6 +391,8 @@ function ViewResultStudent(ID){
                 // alert('');
                 ErrorToast(' Select atleast one Student', 'bg-warning');
             } else {
+if(resultNum!='' && decDate!='' )
+{
 var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var code = 457;
@@ -346,15 +408,44 @@ var spinner= document.getElementById("ajax-loader");
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                console.log(response);
-                    // document.getElementById("ViewResultData").innerHTML = response;
-             
-                //  loadMainCount();
+                // console.log(response)
+                if(response=='1'){
+                    SuccessToast('Successfully Publish');
+                    select_mst();
+                }
+                else{
+                    ErrorToast('try Again','bg-danger');
+                }
+                
             }
         });
     }
-}
+    else{
+        ErrorToast('Please enter ResultNo/declareDate ','bg-warning');
 
+    }
+    }
+}
+function exportCutListExcelgraden() {
+    // alert();
+    var exportCode = 71;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var group = document.getElementById('group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '' && Course != '' && Batch != '' && Semester != '' && Examination != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Examination=" +  Examination + "&Group=" +  group , '_blank');
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
 
 
         </script>

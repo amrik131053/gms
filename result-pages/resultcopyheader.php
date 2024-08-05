@@ -1,4 +1,7 @@
 <?php 
+
+
+
 if($exportCode!='60')
 {
  $exportstudy.="<tr><th colspan='".$subCount."' ><b style='font-size:22px;'>GURU KASHI UNIVERSITY, TALWANDI SABO, BATHINDA (PUNJAB) RESULT NOTIFICATION No. GKU/COE//&nbsp;&nbsp;".$Examination."&nbsp;&nbsp;EXAMINATION</b></th>         

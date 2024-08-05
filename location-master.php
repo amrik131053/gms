@@ -73,6 +73,11 @@
           {
              $floorName='Fifth';
           } 
+          elseif ($floorValue=='-1') 
+          {
+             $floorName='Basement';
+          } 
+         
 
 
           if ($floorValue!='') 
@@ -408,6 +413,7 @@ else {
                                  <option value="2">Second</option>
                                  <option value="3">Third</option>
                                   <option value="4">Fourth</option>
+                                  <option value="-1">Basement</option>
                                 
                               </select>
 
