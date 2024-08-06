@@ -10299,21 +10299,12 @@ foreach ($Subjects as $key => $SubjectsCode) {
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th>";
 $exportstudy.="</tr>";
-<<<<<<< HEAD
+
 
  $sql1 = "SELECT  *  FROM ResultPreparation WHERE Examination='$Examination' and CollegeID='$College' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester'";
  $stmt = sqlsrv_query($conntest,$sql1);
-=======
-$group = $_GET['Group'];
-$CourseID = $_GET['Course'];
- $CollegeID = $_GET['CollegeId'];
- $Batch=$_GET['Batch']; 
- $semID = $_GET['Semester'];
- $Type = $_GET['Type'];
- $exam = $_GET['Examination'];
- $sql1 = "SELECT  DISTINCT UniRollNo,Id,TotalCredit,Sgpa FROM ResultPreparation WHERE Examination='$exam' and CollegeID='$CollegeID' and CourseID='$CourseID' and Batch='$Batch' and Semester='$semID'";
-    $stmt = sqlsrv_query($conntest,$sql1);
->>>>>>> 664ae14acdf83116a01a79d58aa3a08486a45f0d
+
+ 
         $SrNo=1;
      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
      {   
