@@ -32982,6 +32982,7 @@ $SrNo++;
 }
 elseif($code==457)
 {
+   $sgroup=$_POST['sgroup'];
    $resultNum=$_POST['resultNum'];
    $decDate=$_POST['decDate'];
     $ResultIDs=$_POST['ResultIDs'];
@@ -33012,7 +33013,7 @@ elseif($code==457)
              $resultIDNew=$rowgetResultIDRun['Id']+1;
           }
           $insertResult="INSERT into ResultGKU (Id,UniRollNo,IDNo,Semester,Sgpa,TotalCredit,Examination,Type,ResultColumn,DeclareType,ResultNo,DeclareDate) 
-          VALUES('$resultIDNew','$UniRollNo','$IDNo','$Semester','$Sgpa',' $totalcredit','$Examination','Reappear','$ResultColumn','','$resultNum','$decDate');";
+          VALUES('$resultIDNew','$UniRollNo','$IDNo','$Semester','$Sgpa',' $totalcredit','$Examination','$Type','$ResultColumn','','$resultNum','$decDate');";
      $result = sqlsrv_query($conntest,$insertResult);
      if ($result === false) {
         $errors = sqlsrv_errors();
@@ -33055,6 +33056,13 @@ elseif($code==457)
             echo "Error: " . print_r($errors, true);
         } 
     }
+         $publishResult="INSERT into ResultDeclared(CollegeID,CourseID,Batch,Semester,Type,SGroup,Examination,ResultNo,DeclareDate,PublishDate)
+        VALUES('$CollegeID','$CourseID','$Batch','$Semester','$Type','$sgroup','$Examination','$resultNum','$decDate','$timeStamp')";
+        $runqueryUpdate=sqlsrv_query($conntest,$publishResult);
+        if ($runqueryUpdate === false) {
+            $errors = sqlsrv_errors();
+            echo "Error: " . print_r($errors, true);
+        } 
 }
    else
    {

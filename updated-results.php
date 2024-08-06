@@ -377,6 +377,7 @@ function ViewResultStudent(ID){
         });
 }
   function publishResult(ID){
+    var sgroup = document.getElementById('group').value;
     var resultNum = document.getElementById('resultNum').value;
     var  decDate = document.getElementById('decDate').value;
     var verifiy = document.getElementsByClassName('v_check');
@@ -404,18 +405,19 @@ var spinner= document.getElementById("ajax-loader");
                 ID: ID,
                 resultNum:resultNum,
                 decDate:decDate,
+                sgroup:sgroup,
                 ResultIDs:subjectIDs
             },
             success: function(response) {
                 spinner.style.display = 'none';
-                // console.log(response)
-                if(response=='1'){
+                console.log(response)
+                // if(response==1){
                     SuccessToast('Successfully Publish');
                     select_mst();
-                }
-                else{
-                    ErrorToast('try Again','bg-danger');
-                }
+                // }
+                // else{
+                //     ErrorToast('try Again','bg-danger');
+                // }
                 
             }
         });
