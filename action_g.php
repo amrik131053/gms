@@ -33046,7 +33046,6 @@ elseif($code==457)
             $result2 = sqlsrv_query($conntest, $insertResultDetails);
 
          
-          
         }
 
          $queryUpdate = "UPDATE  ResultPreparation  SET  DeclareDate='$decDate',ResultNo='$resultNum',ResultStatus='1' Where Id='$id'";
@@ -33056,8 +33055,8 @@ elseif($code==457)
             echo "Error: " . print_r($errors, true);
         } 
     }
-         $publishResult="INSERT into ResultDeclared(CollegeID,CourseID,Batch,Semester,Type,SGroup,Examination,ResultNo,DeclareDate,PublishDate)
-        VALUES('$CollegeID','$CourseID','$Batch','$Semester','$Type','$sgroup','$Examination','$resultNum','$decDate','$timeStamp')";
+         $publishResult="INSERT into ResultDeclared(CollegeID,CourseID,Batch,Semester,Type,SGroup,Examination,ResultNo,DeclareDate,PublishDate,PublishBy)
+        VALUES('$CollegeID','$CourseID','$Batch','$Semester','$Type','$sgroup','$Examination','$resultNum','$decDate','$timeStamp','$EmployeeID')";
         $runqueryUpdate=sqlsrv_query($conntest,$publishResult);
         if ($runqueryUpdate === false) {
             $errors = sqlsrv_errors();

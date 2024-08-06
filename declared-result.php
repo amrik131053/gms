@@ -150,9 +150,8 @@ for($i=1;$i<=12;$i++)
 
             <div class="col-lg-1 col-md-4 col-sm-3">
                 <label>Search</label><br>
-                <button class="btn btn-danger" onclick="select_mst()"><i class="fa fa-search"></i></button>
-                <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG </button>
-                <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> -->
+                <button class="btn btn-danger" onclick="searchForPublishResult()"><i class="fa fa-search"></i></button>
+
             </div>
 
 
@@ -169,7 +168,7 @@ for($i=1;$i<=12;$i++)
 
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Students</h3>
+                        <h3 class="card-title">Publish Results</h3>
                     </div>
 
                     <!--  <form class="form-horizontal" action="" method="POST"> -->
@@ -267,57 +266,20 @@ function verifiy_select() {
 
 }
 
-function fetchCutList() {
-    var sub_data = 2;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var Examination = document.getElementById('Examination').value;
-    var Status = document.getElementById('Status').value;
-    if (Examination != '') {
-        var spinner = document.getElementById("ajax-loader");
-        spinner.style.display = 'block';
-        var code = '290';
-        $.ajax({
-            url: 'action_g.php',
-            data: {
-                code: code,
-                College: College,
-                Course: Course,
-                Semester: Semester,
-                Type: Type,
-                Status: Status,
-                Examination: Examination,
-                sub_data: sub_data
-            },
-            type: 'POST',
-            success: function(data) {
-                spinner.style.display = 'none';
-                document.getElementById("show_record").innerHTML = data;
-                pendingCount();
-                rejectCount();
-                verifiedCount();
 
 
-            }
-        });
-    } else {
-        ErrorToast('Please Select Examination', 'bg-warning');
-    }
-
-}
-
-
-function select_mst() {
+function searchForPublishResult() {
 
     var college = document.getElementById('College').value;
     var course = document.getElementById('Course').value;
     var batch = document.getElementById('Batch').value;
     var sem = document.getElementById('Semester').value;
     var examination = document.getElementById('Examination').value;
-    //  var  type = document.getElementById('Type').value;
-    if (college != '' && batch != '' && sem != '' && examination != '') {
+    var group = document.getElementById('group').value;
+    var type = document.getElementById('Type').value;
+
+
+    if (college != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var xmlhttp = new XMLHttpRequest();
@@ -330,7 +292,7 @@ function select_mst() {
             }
         }
         xmlhttp.open("GET", "get_action.php?college=" + college + "&course=" + course + "&batch=" + batch + "&sem=" +
-            sem + "&examination=" + examination + "&code=" + 62, true);
+            sem + "&examination=" + examination + "&group=" + group + "&type=" + type + "&code=" + 63, true);
         xmlhttp.send();
     } else {
         alert("Please Select Appropriate data ");
@@ -339,84 +301,17 @@ function select_mst() {
 }
 
 
-function ViewResultStudent(ID) {
-    var spinner = document.getElementById("ajax-loader");
-    spinner.style.display = 'block';
-    var code = 456;
-    $.ajax({
-        url: 'action_g.php',
-        type: 'POST',
-        data: {
-            code: code,
-            ID: ID
-        },
-        success: function(response) {
-            spinner.style.display = 'none';
-            console.log(response);
-            document.getElementById("ViewResultData").innerHTML = response;
-            //  loadMainCount();
-        }
-    });
-}
 
-function publishResult(ID) {
-    var resultNum = document.getElementById('resultNum').value;
-    var decDate = document.getElementById('decDate').value;
-    var verifiy = document.getElementsByClassName('v_check');
-    var len_student = verifiy.length;
-    var subjectIDs = [];
-    for (i = 0; i < len_student; i++) {
-        if (verifiy[i].checked === true) {
-            subjectIDs.push(verifiy[i].value);
-        }
-    }
-    if ((typeof subjectIDs[0] == 'undefined')) {
-        // alert('');
-        ErrorToast(' Select atleast one Student', 'bg-warning');
-    } else {
-        if (resultNum != '' && decDate != '') {
-            var spinner = document.getElementById("ajax-loader");
-            spinner.style.display = 'block';
-            var code = 457;
-            $.ajax({
-                url: 'action_g.php',
-                type: 'POST',
-                data: {
-                    code: code,
-                    ID: ID,
-                    resultNum: resultNum,
-                    decDate: decDate,
-                    ResultIDs: subjectIDs
-                },
-                success: function(response) {
-                    spinner.style.display = 'none';
-                    // console.log(response)
-                    if (response == 1) {
-                        SuccessToast('Successfully Publish');
-                        select_mst();
-                    } else {
-                        ErrorToast('try Again', 'bg-danger');
-                    }
 
-                }
-            });
-        } else {
-            ErrorToast('Please enter ResultNo/declareDate ', 'bg-warning');
-
-        }
-    }
-}
-
-function exportCutListExcelgraden() {
-    // alert();
+function exportCutListExcelgraden(id) {
     var exportCode = 71;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var group = document.getElementById('group').value;
-    var Examination = document.getElementById('Examination').value;
+    var College = document.getElementById('CollegeID' + id).value;
+    var Course = document.getElementById('CourseID' + id).value;
+    var Batch = document.getElementById('Batch' + id).value;
+    var Semester = document.getElementById('Semester' + id).value;
+    var Type = document.getElementById('Type' + id).value;
+    var group = document.getElementById('SGroup' + id).value;
+    var Examination = document.getElementById('Examination' + id).value;
     if (College != '' && Course != '' && Batch != '' && Semester != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
@@ -428,48 +323,7 @@ function exportCutListExcelgraden() {
     }
 }
 </script>
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Results</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="edit_stu">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-        </div>
-    </div>
-</div>
 
-
-<div class="modal fade bd-example-modal-xl " id="ViewResult" tabindex="-1" role="dialog"
-    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Results</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="ViewResultData">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-        </div>
-    </div>
-</div>
 <?php
 
  include "footer.php";  ?>
