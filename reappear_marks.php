@@ -194,8 +194,8 @@ for($i=1;$i<=12;$i++)
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
             <button class="btn btn-danger" onclick="select_mst()"><i  class="fa fa-search" ></i></button>
-             <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button> 
-            <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button> 
+             <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button>  -->
+            <!-- <button class="btn btn-success btn-sm " onclick="exportCutListExcelcsv()">CSV</button>  -->
 </div>
 
 

@@ -6875,7 +6875,122 @@ if($list_result === false) {
  </table>
  <?php 
  }
+ else if($code=='63')
+ {
+ 
+ ?>
 
+ <table   class="table table-bordered table-responsive-lg" style='text-align:center;'  >
+  <tr>             
+                 <th>Sr No </th>
+                 <th>College Name</th>
+                 <th>Course Name</th>
+                 <th>Semester</th>
+                 <th>Batch</th>
+                 <th>Type </th>
+                 <th>SGroup</th>
+                  <th>Examination</th>
+                  <th>Result No</th>
+                  <th>Declare Date</th>
+                  <th>Publish Date</th>
+                  <th>Publish By</th>
+                  <th>Action</th>
+                 </tr>
+  <?php
+  $i=1;
+  $CourseID = $_GET['course'];
+  $CollegeID = $_GET['college'];
+  $Batch=$_GET['batch']; 
+  $semID = $_GET['sem'];
+  $exam = $_GET['examination'];
+  $group = $_GET['group'];
+  $type = $_GET['type'];
+  
+
+ $sql1 = "SELECT * from ResultDeclared WHERE 1=1";
+ 
+ if($semID!='')
+ {
+ $sql1 .= " and Semester='$semID'";
+ }
+ if($CourseID!='')
+ {
+ $sql1 .= "and CourseID='$CourseID'";
+ }
+ if($CollegeID!='')
+ {
+ $sql1 .= "and CollegeID='$CollegeID'";
+ }
+ if($exam!='')
+ {
+ $sql1 .= "and Examination='$exam'";
+ }
+ if($Batch!='')
+ {
+ $sql1 .= " and  Batch='$Batch'";
+ }
+ if($group!='')
+ {
+ $sql1 .= "and SGroup='$group'";
+ }
+ if($type!='')
+ {
+ $sql1 .= " and Type='$type' ";
+ }
+
+
+     $stmt = sqlsrv_query($conntest,$sql1);
+    if ($stmt === false) {
+       $errors = sqlsrv_errors();
+       echo "Error: " . print_r($errors, true);  
+   } 
+         $count=0;
+      while($row = sqlsrv_fetch_array($stmt,SQLSRV_FETCH_ASSOC))
+      {   
+         $get_colege_College_name="SELECT * FROM MasterCourseCodes where CollegeID='".$row['CollegeID']."'";
+         $get_colege_College_name_run=sqlsrv_query($conntest,$get_colege_College_name);
+         if ($row_collegeCollege_name=sqlsrv_fetch_array($get_colege_College_name_run)) {
+             $CollegeName=$row_collegeCollege_name['CollegeName'];
+         }
+         $get_colege_course_name="SELECT * FROM MasterCourseCodes where CourseID='".$row['CourseID']."'";
+         $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
+         if ($row_collegecourse_name=sqlsrv_fetch_array($get_colege_course_name_run)) {
+             $Course=$row_collegecourse_name['CollegeName'];
+         }
+
+ ?>
+ <tr>
+ <td><?= $i++;?></td>
+ <td><?= $CollegeName;?></td>             
+ <td><?= $Course;?></td>             
+ <td><?= $row['Semester'];?></td>             
+ <td><?= $row['Batch'];?></td>             
+ <td><?= $row['Type'];?></td>             
+ <td><?=$row['SGroup'];?></td>
+ <td><?=$row['Examination'];?></td>
+ <td><?=$row['ResultNo'];?></td>
+ <td><?=$row['DeclareDate']->format('d-m-Y');?></td>
+ <td><?=$row['PublishDate']->format('d-m-Y');?></td>
+ <td><?=$row['PublishBy'];?>
+   <input type="hidden" id="CollegeID<?=$row['Id'];?>" value="<?= $row['CollegeID'];?>">
+   <input type="hidden" id="CourseID<?=$row['Id'];?>" value="<?= $row['CourseID'];?>">
+   <input type="hidden" id="Semester<?=$row['Id'];?>" value="<?= $row['Semester'];?>">
+   <input type="hidden" id="Batch<?=$row['Id'];?>" value="<?= $row['Batch'];?>">
+   <input type="hidden" id="Type<?=$row['Id'];?>" value="<?= $row['Type'];?>">
+   <input type="hidden" id="SGroup<?=$row['Id'];?>" value="<?= $row['SGroup'];?>">
+   <input type="hidden" id="Examination<?=$row['Id'];?>" value="<?= $row['Examination'];?>">
+   <input type="hidden" id="ResultNo<?=$row['Id'];?>" value="<?= $row['ResultNo'];?>">
+</td>
+ <td> <button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden(<?=$row['Id'];?>)">Geade Sheet </button></td>
+</tr>
+ <?php 
+ $clr="";
+ } 
+ ?>
+ 
+ </table>
+ <?php 
+ }
  else
        {
    
