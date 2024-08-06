@@ -1019,7 +1019,7 @@ function spotFilter()
    $.ajax(
    {
       url:"action.php ",
-      type:"POST",
+      type:"POST", 
       data:
       {
          code:code, room:room,building:building,floor:floor

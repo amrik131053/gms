@@ -12474,12 +12474,17 @@ elseif($code == 199)
        
 
 <div class="col-lg-4"><form action="export.php" method="post">
-      <input type="hidden" name="exportCode" value="1">
-      <input type="hidden" name="roomTypeID" value="<?=$RoomType?>">
-      <input type="hidden" name="office_ID" value="<?=$location_ID_?>">
+      <input type="hidden" name="exportCode" value="74">
+     
+   ?>
+
+      <input type="hidden" name="roomTypeID" value="<?=$building1?>">
+      <input type="hidden" name="office_ID" value="<?=$floor1?>">
       
        <div class="btn-group btn-group-xs" style="width: 150px;"><button type="submit" class="btn btn-primary btn-success" >Export Detail</button></div>
-   </form></div>
+   </form>
+
+</div>
 <div class="col-lg-4">
 <form action="export.php" method="post">
    <input type="hidden" name="exportCode" value="0">
