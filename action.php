@@ -12476,7 +12476,7 @@ elseif($code == 199)
 <div class="col-lg-4"><form action="export.php" method="post">
       <input type="hidden" name="exportCode" value="74">
      
-   ?>
+
 
       <input type="hidden" name="roomTypeID" value="<?=$building1?>">
       <input type="hidden" name="office_ID" value="<?=$floor1?>">
