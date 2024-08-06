@@ -12453,22 +12453,51 @@ elseif($code == 199)
    $building1= $_POST['building'];
    $floor1= $_POST['floor'];
    ?>
+ 
+
+  
+
+   <div class="card card-info">
+
+      <div class="card-header">
+          
+           
+              <div class="row">
+
+            <div class="col-lg-4">
+         <h3 class="card-title">Spot Wise Stocks</h3>
+         
+</div>
+
+       
+
+       
+
+<div class="col-lg-4"><form action="export.php" method="post">
+      <input type="hidden" name="exportCode" value="1">
+      <input type="hidden" name="roomTypeID" value="<?=$RoomType?>">
+      <input type="hidden" name="office_ID" value="<?=$location_ID_?>">
+      
+       <div class="btn-group btn-group-xs" style="width: 150px;"><button type="submit" class="btn btn-primary btn-success" >Export Detail</button></div>
+   </form></div>
+<div class="col-lg-4">
 <form action="export.php" method="post">
    <input type="hidden" name="exportCode" value="0">
    <input type="hidden" name="office_owner" value="<?=$officeOwnerID?>">
-   <div class="card card-info">
-      <div class="card-header">
-         <h3 class="card-title">Spot Wise Stocks</h3>
-         <div class="card-tools">
-            <div class="row">
+
+
                <div class="btn-group btn-group-xs" style="width: 150px;">
                   <button type="submit" class="form-control float-right btn-success" style="margin-top: -5px;">
-                  Export
+                  Export All
                   </button>
                </div>
-            </div>
+</form>
+</div>
+
+
          </div>
       </div>
+   
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0" style="height: 400px;">
          <table class="table table-head-fixed text-nowrap" id="example">

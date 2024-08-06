@@ -32393,7 +32393,14 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
            <td><?=$row1['SubjectCode'];?></td>
           <td><?=$row1['SubjectGrade'];?></td>
           <td>  <?=$showmarks;?>=<?= $totalFinal;?></td>
-           <td><?=$grade;?></td>
+           <td><?php if($grade=='F'){
+                      echo $grade.'-Fail('.$totalFinal.')';
+
+           }else
+           {
+            echo $grade;
+           }?>
+            </td>
          
           <td><?=$gardep;?></td>
            <td><?=$row1['SubjectCredit']?></td>
@@ -32702,7 +32709,6 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
         $att=$RowfatchMarks['Attendance'];
         $ESe=$RowfatchMarks['ESE'];
         $mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;
-
         } 
       else{
         $CE1=$mst1=$CE3=$att=$ESe=$mst2=$grace=$gardep=$grade=$totalFinal=$showmarks=0;        
@@ -32864,7 +32870,17 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
 
 $SubjectGradePoint1=$gardep;
 
+ if($grade=='F')
+{
+                    $SubjectGrade1= $grade.' -Fail('.$totalFinal.')';
+
+           }
+           else
+           {
 $SubjectGrade1=$grade;
+           }
+
+
 
 $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
                                   VALUES ('$resultID','$SubjectName1','$SubjectCode1','$SubjectGrade1','$SubjectCredit1','$UniRollNo','$SubjectGradePoint1')";
