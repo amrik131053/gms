@@ -5564,13 +5564,20 @@ mysqli_close($conn);
        {
            $roomNo='';
                $floor='';
-            $qry="SELECT *, location_master.RoomNo as lmRoomNo,room_master.Floor as rmFloor from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id INNER JOIN room_master ON room_master.RoomNo=location_master.RoomNo  where student_id='$IDNo' and status='0'";
+             $qry="SELECT *, location_master.RoomNo as lmRoomNo,room_master.Floor as rmFloor,location_master.ID as LID from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id INNER JOIN room_master ON room_master.RoomNo=location_master.RoomNo  where student_id='$IDNo' and status='0'";
            $run=mysqli_query($conn,$qry);
            while($data=mysqli_fetch_array($run))
            {
                $roomNo=$data['lmRoomNo'];
                $floor=$data['rmFloor'];
-           }
+               $floor=$data['rmFloor'];
+               $LID=$data['LID'];
+                  $qry1="SELECT * from location_master inner join  building_master ON building_master.ID=location_master.Block  where location_master.ID='$LID'";
+               $run1=mysqli_query($conn,$qry1);
+               if($data1=mysqli_fetch_array($run1))
+               {
+                  $hostelName=$data1['Name'];
+               }
    
    ?>
 <div class="row">
@@ -5578,12 +5585,14 @@ mysqli_close($conn);
 <table class="table">
    <thead>
       <tr>
-         <td>Name :</td>
+         <td>Name :<?=$LID;?></td>
          <td><b><?=$name?></b></td>
          <td>Father Name :</td>
          <td><b><?=$father_name?></b></td>
          <td>Class/Uni Roll No.</td>
          <td><b><?= $ClassRollNo ;?>/<?= $UniRollNo ;?></b></td>
+         <td>Hostel Name :</td>
+         <td><b><?=$hostelName;?></b></td>
          <td rowspan="2" width="12%">
             <center><img src="data:image/jpeg;base64,<?=$img?>" height="100%" width="100%" class="img-thumnail"  style="border-radius:5%"/></center>
          </td>
@@ -5595,6 +5604,7 @@ mysqli_close($conn);
          <td><b><?=$floor?></b></td>
          <td>Course :</td>
          <td><b><?= $course ;?></b></td>
+         
       </tr>
    </thead>
 </table>
@@ -5695,6 +5705,7 @@ mysqli_close($conn);
 </table>
 <?Php
    }
+}
    }   
    sqlsrv_close($conntest);
    mysqli_close($conn);
