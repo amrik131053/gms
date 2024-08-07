@@ -6,6 +6,14 @@ $Semester=$_GET['Semester'];
 $Type=$_GET['Type'];
 $Group=$_GET['Group'];
 $Examination=$_GET['Examination'];
+if(ISSET($_GET['ResultNo']))
+{
+$resultNo=$_GET['ResultNo'];
+}
+else
+{
+   $resultNo='';
+}
 $nccount=0;
 $SrNo=1;
 
