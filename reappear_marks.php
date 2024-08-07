@@ -412,7 +412,7 @@ var spinner= document.getElementById("ajax-loader");
       },
       success:function(response)
       {
-console.log(response);
+//console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
       //  select_mst() ;z
