@@ -30522,7 +30522,7 @@ elseif($code==431)
                                             <div class="form-group">
                                                 <label>Bank Account No</label>
                                                 <input type="text" class="form-control" id="bankAccountNo"
-                                                    placeholder="Enter bank account number">
+                                                    placeholder="Enter bank account number" value="<?=$row1['BankAccountNo'];?>">
                                             </div>
                                         </div>
                                        
@@ -30530,14 +30530,14 @@ elseif($code==431)
                                             <div class="form-group">
                                                 <label> Bank Name</label>
                                                 <input type="text" class="form-control" id="employeeBankName"
-                                                    placeholder="Enter employee bank name">
+                                                    placeholder="Enter employee bank name" value="<?=$row1['BankName'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-12">
                                             <div class="form-group">
                                                 <label>Bank IFSC code</label>
                                                 <input type="text" class="form-control" id="bankIFSC"
-                                                    placeholder="Enter bank IFSC code">
+                                                    placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
                                             </div>
                                         </div>
                                     </div>
@@ -30553,7 +30553,7 @@ elseif($code==431)
                                             <table class="table  table-bordered">
                                                 <tr>
                                                     <th colspan="7">
-                                                        <center> ID Card</center>
+                                                         ID Card
                                                     </th>
                                                 </tr>
                                                 <tr>
