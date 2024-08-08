@@ -15,13 +15,13 @@
 
                 <div class="card-tools">
 
-                     <!-- <form method="post" action="export.php"> -->
+                     <form method="post" action="export.php">
                   <div class="btn-group input-group-sm" style="width: 150px;">
-                     <!-- <input type="hidden" name="inchargeID" value="<?=$EmployeeID?>">
-                     <input type="hidden" name="exportCode" value="10">
-                    <input type="submit" class="form-control float-right btn-danger" value="Export"> -->
+                     <input type="hidden" name="inchargeID" value="<?=$EmployeeID?>">
+                     <input type="hidden" name="exportCode" value="10.1">
+                    <input type="submit" class="form-control float-right btn-danger" value="Export"> 
                   </div>
-                     <!-- </form> -->
+                     </form> 
                 </div>
               </div>
               <!-- /.card-header -->
@@ -42,7 +42,7 @@
                     <?php 
                     $arrayFaultyArticle[]='';
                         $location_num=0;
-                         $location=" SELECT distinct token_no, IDNo, Name,  RoomType, ArticleName,WorkingStatus, room_master.Floor as FloorName ,room_master.RoomNo as RoomName from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID left join building_master on building_master.ID=location_master.Block inner join room_master on room_master.RoomNo=location_master.RoomNo INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner join master_article on stock_summary.ArticleCode=master_article.ArticleCode left join faulty_track on faulty_track.article_no=stock_summary.IDNo Where Corrent_owner='$EmployeeID' order by token_no desc ";
+              $location=" SELECT distinct token_no, IDNo, Name,  RoomType, ArticleName,WorkingStatus, room_master.Floor as FloorName ,room_master.RoomNo as RoomName from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID left join building_master on building_master.ID=location_master.Block inner join room_master on room_master.RoomNo=location_master.RoomNo INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner join master_article on stock_summary.ArticleCode=master_article.ArticleCode left join faulty_track on faulty_track.article_no=stock_summary.IDNo Where Corrent_owner='$EmployeeID' order by token_no desc ";
 
                        
                         $location_run=mysqli_query($conn,$location);
