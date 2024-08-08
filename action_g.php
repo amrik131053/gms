@@ -30377,7 +30377,7 @@ elseif($code==431)
                                                             <div class="form-group">
                                                                 <label>Post Office</label>
                                                                 <input type="text" class="form-control" id="postOffice"
-                                                                    placeholder="Enter post office">
+                                                                    placeholder="Enter post office" value="<?=$row1['PostOffice'];?>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -31327,7 +31327,7 @@ elseif($code==437)
     $bankAccountNo=$_POST['bankAccountNo'];
     $employeeBankName=$_POST['employeeBankName'];
     $bankIFSC=$_POST['bankIFSC'];
-
+    $bloodGroup = $_POST["bloodgroup"];
     $nationality_by_post=$_POST['nationality_by_post'];
 
    $query = "UPDATE Staff SET ";
@@ -31352,6 +31352,7 @@ elseif($code==437)
    $query .= "State = '$state_by_post', ";
    $query .= "District = '$district_by_post', ";
    $query .= "PostOffice = '$postOffice', ";
+   $query .= "BloodGroup = '$bloodGroup', ";
    $query .= "PersonalIdentificationMark = '$personalIdentificationMark' ";
    $query .= "WHERE IDNo = '$loginId'";
 //  echo $query;
