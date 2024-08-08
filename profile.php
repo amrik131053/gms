@@ -1,7 +1,6 @@
 <?php 
 include "header.php";
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <style>
                                            
 
@@ -667,12 +666,12 @@ function dlt_data(id) {
         success: function(data) {
             console.log(data);
             spinner.style.display = 'none';
-            if (data == 1) {
+            // if (data == 1) {
                 SuccessToast('Successfully Deleted');
                 showProfileData();
-            } else {
-                ErrorToast('try again','bg-danger');
-            }
+            // } else {
+            //     ErrorToast('try again','bg-danger');
+            // }
         }
     });
 }
@@ -681,6 +680,7 @@ else
 }
 }
 </script>
+
 <script>
 function dateOnChnage() {
         var doa = $("#doj").val();
@@ -724,7 +724,21 @@ if (lastTab) {
 }
 }
 </script>
+    <script>
+        $(document).ready(function() {
+            // Restore the active tab from localStorage
+            const activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('a[href="' + activeTab + '"]').tab('show');
+            }
 
+            // Save the active tab to localStorage when a tab is shown
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                const target = $(e.target).attr('href');
+                localStorage.setItem('activeTab', target);
+            });
+        });
+    </script>
 <?php
 include "footer.php";
 ?>
