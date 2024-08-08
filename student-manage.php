@@ -14,159 +14,152 @@ function uploadPhotoStudent(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-             console.log(response);
+            console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Updated');
-                updateStudent(empID) 
+                updateStudent(empID)
                 search_all_employee();
             } else if (response == 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else {
 
             }
-        }, 
+        },
         error: function(xhr, status, error) {
             console.log(error);
         }
     });
 }
 
-function passwordreset(id)
- {
-   
-if (confirm("Really want to Reset Password") == true) {
- 
+function passwordreset(id) {
 
-   var code=231;   
-   var  spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,id:id
-            },
-            success:function(response) 
-            {
-             
-               spinner.style.display='none';
-                if (response==1) {
-                           SuccessToast('Password Reset to 12345678');
-                           
-                          }
-                          else
-                          {
-                           ErrorToast('Something went worng','bg-danger' );
-                          }
-              student_search();
-            }
-         });
- }
- else 
-
-{
-  
-}
-  
-}
-
-function abcidreset(id)
- {
-   if (confirm("Really want to Reset ABCID") == true) {
- 
-   var code=232;   
-   var  spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,id:id
-            },
-            success:function(response) 
-            {
-             
-               spinner.style.display='none';
-                if (response==1) {
-                           SuccessToast('ABCID Cleared');
-                           
-                          }
-                          else
-                          {
-                           ErrorToast('Something went worng','bg-danger' );
-                          }
-              student_search();
-            }
-         }); 
- }
+    if (confirm("Really want to Reset Password") == true) {
 
 
-}
-function  UpdateDocumentStatus(id,srno,idno)
-{
-     var spinner = document.getElementById("ajax-loader");
+        var code = 231;
+        var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 350;
         $.ajax({
-            url: 'action.php',
-            type: 'POST',
+            url: "action.php ",
+            type: "POST",
             data: {
                 code: code,
-               idno:idno,srno:srno,
-                id:id,
+                id: id
             },
             success: function(response) {
-                console.log(response);
-                spinner.style.display = 'none'; if (response == 1) {
+
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('Password Reset to 12345678');
+
+                } else {
+                    ErrorToast('Something went worng', 'bg-danger');
+                }
+                student_search();
+            }
+        });
+    } else
+
+    {
+
+    }
+
+}
+
+function abcidreset(id) {
+    if (confirm("Really want to Reset ABCID") == true) {
+
+        var code = 232;
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        $.ajax({
+            url: "action.php ",
+            type: "POST",
+            data: {
+                code: code,
+                id: id
+            },
+            success: function(response) {
+
+                spinner.style.display = 'none';
+                if (response == 1) {
+                    SuccessToast('ABCID Cleared');
+
+                } else {
+                    ErrorToast('Something went worng', 'bg-danger');
+                }
+                student_search();
+            }
+        });
+    }
+
+
+}
+
+function UpdateDocumentStatus(id, srno, idno) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code = 350;
+    $.ajax({
+        url: 'action.php',
+        type: 'POST',
+        data: {
+            code: code,
+            idno: idno,
+            srno: srno,
+            id: id,
+        },
+        success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
+            if (response == 1) {
                 SuccessToast('Successfully Updated');
 
             } else {
                 ErrorToast('Something went worng', 'bg-danger');
             }
-       
 
-            }
-        });
+
+        }
+    });
 }
+
 function view_image(id) {
     // alert(id);
-                     var code = 91;
-                     $.ajax({
-                        url: 'action_g.php',
-                        type: 'post',
-                        data: {
-                           uni: id,
-                           code: code
-                        },
-                        success: function(response) {
-                        //    console.log(response);
-                           document.getElementById("image_view").innerHTML = response;
-                        }
-                     });
-                  }
-
- function uploadImage(form, id) {
-var formData = new FormData(form);
-$.ajax({
-    url: form.action,
-    type: form.method,
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(response) {
-        // console.log(response);
-        SuccessToast('Successfully Uploaded');
-        view_image(id);
-    },
-    error: function(xhr, status, error) {
-        console.log(error);
-    }
-});
+    var code = 91;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'post',
+        data: {
+            uni: id,
+            code: code
+        },
+        success: function(response) {
+            //    console.log(response);
+            document.getElementById("image_view").innerHTML = response;
+        }
+    });
 }
+
+function uploadImage(form, id) {
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            // console.log(response);
+            SuccessToast('Successfully Uploaded');
+            view_image(id);
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
 function search_all_employee_emp_name(emp_name) {
     var code_access = '<?php echo $code_access; ?>';
     if (emp_name != '') {
@@ -191,7 +184,7 @@ function search_all_employee_emp_name(emp_name) {
 
 function search_all_employee() {
 
-   
+
     var code_access = '<?php echo $code_access; ?>';
     var emp_name = document.getElementById('emp_name').value;
     if (emp_name != '') {
@@ -225,14 +218,14 @@ function searchStudentCollegeWise() {
 
     //     var Session = session1 + '-' + session2 + '-' + session3;
     // } 
-//     else if(session1 != '' && session2 != '')
-//     {
-//  var Session = session1 + '-' + session2 ;
-//     }
-// else
-//      {
-//         var Session = "";
-//     }
+    //     else if(session1 != '' && session2 != '')
+    //     {
+    //  var Session = session1 + '-' + session2 ;
+    //     }
+    // else
+    //      {
+    //         var Session = "";
+    //     }
     var StudentName = document.getElementById('StudentName1').value;
     var CollegeName = document.getElementById('CollegeName1').value;
 
@@ -241,7 +234,7 @@ function searchStudentCollegeWise() {
     var Status = document.getElementById('Status').value;
     var Eligibility = document.getElementById('Eligibility').value;
     var Lateral = document.getElementById('Lateral').value;
-    if (CollegeName != '') { 
+    if (CollegeName != '') {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 270;
@@ -267,10 +260,8 @@ function searchStudentCollegeWise() {
 
             }
         });
-    }
-    else
-    {
-        ErrorToast("Select College","bg-warning");
+    } else {
+        ErrorToast("Select College", "bg-warning");
     }
 }
 
@@ -280,7 +271,7 @@ function updateStudent(empID) {
     spinner.style.display = 'block';
     var code_access = '<?php echo $code_access; ?>';
 
-syncdocuments(empID);
+    syncdocuments(empID);
     var code = 267;
     $.ajax({
         url: 'action_g.php',
@@ -366,7 +357,7 @@ function fetch_state1(country_id) {
 
 function fetch_district1(state_id) {
     var code = '161.1';
-   alert(state_id);
+    alert(state_id);
     $.ajax({
         url: 'action_g.php',
         data: {
@@ -388,47 +379,45 @@ function fetch_district1(state_id) {
 }
 
 
-function Studentsignup(id,college)
-   {
-     
-      var code=308;
-          
-   var  spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,id:id,college:college
-            },
-            success:function(response) 
-            {
-               //console.log(response);
-               spinner.style.display='none';
-              student_search();
-            }
-         });
-      }
+function Studentsignup(id, college) {
 
+    var code = 308;
 
-      
-      function showDivName() {
-            var displayDiv = document.getElementById('unhide');
-            var button = document.getElementById('expand');
-            var studentNameInput = document.getElementById('StudentName1');
-
-            var displayValue = (displayDiv.style.display === "block") ? "none" : "block";
-            button.innerHTML = (displayValue === "block") ? "Search without name" : "Search by name";
-
-            if (displayValue === "none") {
-                studentNameInput.value = "";
-            }
-
-            displayDiv.style.display = displayValue;
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,
+            id: id,
+            college: college
+        },
+        success: function(response) {
+            //console.log(response);
+            spinner.style.display = 'none';
+            student_search();
         }
-    
+    });
+}
+
+
+
+function showDivName() {
+    var displayDiv = document.getElementById('unhide');
+    var button = document.getElementById('expand');
+    var studentNameInput = document.getElementById('StudentName1');
+
+    var displayValue = (displayDiv.style.display === "block") ? "none" : "block";
+    button.innerHTML = (displayValue === "block") ? "Search without name" : "Search by name";
+
+    if (displayValue === "none") {
+        studentNameInput.value = "";
+    }
+
+    displayDiv.style.display = displayValue;
+}
+
 function search() {
     var code = 327;
 
@@ -462,10 +451,10 @@ function printEmpIDCard(id) {
     }
 
 }
-function printSmartCardForStudent(id) 
-{
+
+function printSmartCardForStudent(id) {
     var code = 248;
-        var print = 0;
+    var print = 0;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -476,7 +465,7 @@ function printSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == '1') {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
+                window.open("printSmartCardStudent.php?id=" + id + "&code=" + 1 + "&print=" + 0, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
@@ -486,10 +475,9 @@ function printSmartCardForStudent(id)
     });
 }
 
-function reprintSmartCardForStudent(id) 
-{
+function reprintSmartCardForStudent(id) {
     var code = 248;
-     var print = 1;
+    var print = 1;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -500,7 +488,7 @@ function reprintSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == 1) {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+1, '_blank');
+                window.open("printSmartCardStudent.php?id=" + id + "&code=" + 1 + "&print=" + 1, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
@@ -509,6 +497,7 @@ function reprintSmartCardForStudent(id)
         }
     });
 }
+
 function StudentUpdatedata(id) {
 
     var code = 219;
@@ -605,26 +594,28 @@ function updateStudentdata(id) {
 }
 
 
-    function fetchcourse(id)
-{   
-       
+function fetchcourse(id) {
 
-var code='325';
-$.ajax({
-url:'action.php',
-data:{College:id,code:code},
-type:'POST',
-success:function(data){
-if(data != "")
-{
-     
-$("#coursechange").html("");
-$("#coursechange").html(data);
-}
-}
-});
+
+    var code = '325';
+    $.ajax({
+        url: 'action.php',
+        data: {
+            College: id,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            if (data != "") {
+
+                $("#coursechange").html("");
+                $("#coursechange").html(data);
+            }
+        }
+    });
 
 }
+
 function student_search1() {
 
     var code = 323;
@@ -680,7 +671,7 @@ function movefee(nid) {
             spinner.style.display = 'none';
             SuccessToast('Successfully Moved');
 
-        } 
+        }
     });
 
 
@@ -712,24 +703,23 @@ function changecourse(id) {
 
 
 
-function syncdocuments(idno)
-{
+function syncdocuments(idno) {
 
 
-   
 
- var code = 304;
+
+    var code = 304;
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
         data: {
             code: code,
-            idno:idno
+            idno: idno
         },
         success: function(response) {
 
             console.log(response);
-           
+
 
         }
     });
@@ -739,8 +729,7 @@ function syncdocuments(idno)
 }
 
 
-function generateSmartCardForStudent(id) 
-{
+function generateSmartCardForStudent(id) {
     //alert(id);
     var code = 351;
     $.ajax({
@@ -751,14 +740,12 @@ function generateSmartCardForStudent(id)
             id: id
         },
         success: function(response) {
-             //console.log(response);
+            //console.log(response);
             if (response == '1') {
-                
+
                 SuccessToast('Successfuly Generated');
 
-            }
-
-             else {
+            } else {
                 ErrorToast(response, 'bg-warning');
             }
 
@@ -856,18 +843,20 @@ function copyToClipboard(text) {
                 <div class="card-header">
                     <h3 class="card-title">Search Student </h3>
                     <div class="card-tools">
-                    <button id="expand" class="btn btn-success btn-xs" name="expand" onclick="showDivName();">Search by name</button>
+                        <button id="expand" class="btn btn-success btn-xs" name="expand" onclick="showDivName();">Search
+                            by name</button>
                     </div>
                 </div>
                 <div class="card-body p-2">
                     <form action="export.php" method="post">
                         <input type="hidden" value="39" name="exportCode">
                         <div class="col-lg-12" id="unhide" style="display:none;">
-        <label>Name</label>
-        <input type="text" class="form-control" name="StudentName1" id="StudentName1" placeholder="Enter Student Name like..">
-    </div>
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="StudentName1" id="StudentName1"
+                                placeholder="Enter Student Name like..">
+                        </div>
                         <div class="col-lg-12">
-                            
+
                             <label>College Name</label>
                             <select name="CollegeName" id='CollegeName1' onchange="fetchcourse1(this.value);"
                                 class="form-control" required>
@@ -887,35 +876,35 @@ function copyToClipboard(text) {
                         </div>
                         <div class="col-lg-12">
                             <label>Course</label>
-                            <select id="Course1" name="Course1" class="form-control" >
+                            <select id="Course1" name="Course1" class="form-control">
                                 <option value=''>Select Course</option>
                             </select>
                         </div>
 
 
                         <div class="col-lg-12 col-12">
-                           
-                                <label>Batch</label>
 
-                                <select id="Batch" name="Batch" class="form-control" >
-                                    <option value="">Batch</option>
-                                    <?php 
+                            <label>Batch</label>
+
+                            <select id="Batch" name="Batch" class="form-control">
+                                <option value="">Batch</option>
+                                <?php 
                               for($i=2011;$i<=2030;$i++)
                                  {?>
-                                    <option value="<?=$i?>"><?=$i?></option>
-                                    <?php }
+                                <option value="<?=$i?>"><?=$i?></option>
+                                <?php }
                                   ?>
-                                </select>
-                           
+                            </select>
+
                         </div>
-<div class="container">
-<div class="row">
-                        <div class="col-lg-6" >
-                            <label>Session</label>
-                           
-                            <select id="session1" name="session1" class="form-control">
-                                <option value=''>Select Session </option>
-                      <?php         
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Session</label>
+
+                                    <select id="session1" name="session1" class="form-control">
+                                        <option value=''>Select Session </option>
+                                        <?php         
 
  $sql="SELECT DISTINCT Session from Admissions ORDER By Session Desc";
                      $stmt2 = sqlsrv_query($conntest,$sql);
@@ -924,28 +913,28 @@ function copyToClipboard(text) {
                         $session = $row['Session']; 
                         
                         ?>
-                                <option value="<?=$session;?>"><?=$session;?></option>
-                                <?php }
+                                        <option value="<?=$session;?>"><?=$session;?></option>
+                                        <?php }
                         ?>
 
-                              
-                            </select>
-                           
+
+                                    </select>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Lateral</label>
+
+                                    <select id="Lateral" name="Lateral" class="form-control">
+
+                                        <option value='No'>No </option>
+                                        <option value='Yes'>Yes </option>
+
+
+                                    </select>
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-6" >
-                            <label>Lateral</label>
-                           
-                            <select id="Lateral" name="Lateral" class="form-control">
-                              
-                                <option value='No'>No </option>
-                                <option value='Yes'>Yes </option>
-                      
-                              
-                            </select>
-                           
-                        </div>
-                      </div>
-                      </div>
 
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
@@ -977,12 +966,12 @@ function copyToClipboard(text) {
                                 <button type="button" class="btn btn-success"
                                     onclick="searchStudentCollegeWise();">Search</button>
 
-    
-                                    <button type="submit"  class="btn btn-success  float-right">
-                                    
+
+                                <button type="submit" class="btn btn-success  float-right">
+
                                     <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
 
-                               
+
 
 
                                 </button>
@@ -996,115 +985,76 @@ function copyToClipboard(text) {
         </div>
         <!-- /.col -->
         <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12">
-            <div class="card card-outline">
+            <div class="card ">
 
                 <div class="card-header">
 
-<!-- <form action="export.php" method="post" target="_blank"> -->
-    
-    <!--  <div class="col-lg-1">Start Date</div>
-    <div class="col-lg-2"> 
-        </div><div class="col-lg-1">End Date</div><div class="col-lg-2">
-            </div><div class="col-lg-3"> 
-                <button type="submit" onclick="" class="btn btn-success btn-sm">
-                    Export
-                </button>
-                -->
-            <!-- </div> -->
-<!--             
-            <div class="col-lg-8">
-               
-              
-
-                    <span style="float:left;"> -->
-                    <!-- <input type="hidden" value="73" name="exportCode" >
-                    <button class="btn btn-sm ">
-                    
-                    <input type='date' class="form-control form-control-sm" name='EndDate' required>
-                    <button class="btn btn-sm ">
-                  <input type='date' class="form-control form-control-sm"  name='StartDate' required>
-                    </button>
-                    <button type="submit" onclick="" class="btn btn-success btn-sm">
-                    Export
-                </button> -->
-                <!-- <button class="btn btn-sm ">
-                    <input type="search" 
-                    class="form-control form-control-sm" name="emp_name" id="emp_name"
-                    placeholder="Search here">
-                </button>
-                <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
-                    Search
-                </button>
-            </span>
-        </div> -->
-                                        <div class="row">
-                                        <div class="col-lg-5">
-                                            <?php if($role_id==2 || $role_id==20)
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <?php if($role_id==2 || $role_id==20)
                                             {?>
-                                            <form action="export.php" method="post"
-                                                target="_blank">
-                                                <input type="hidden" value="73" name="exportCode" >
-                                                <div class="input-group input-group-sm">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-danger"
-                                                            id="inputGroup-sizing-sm">Start</span>
-                                                    </div>
-                                                    <input required type="date" class="form-control"
-                                                        name="StartDate" aria-describedby="button-addon2">
-                                                    &nbsp;
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-success"
-                                                            id="inputGroup-sizing-sm">End</span>
-                                                    </div>
-                                                    <input required type="date" class="form-control"
-                                                        name="EndDate" aria-describedby="button-addon2">
-                                                    <button class="btn btn-info btn-sm" type="submit"
-                                                        id="button-addon2"><i class="fa fa-file-export"></i></button>
-                                                </div>
-                                            </form>
-                                            <?php }?>
-                                        </div>
-                                         <div class="col-lg-7">
-                                            <span style="float:right;"> 
-                                            <button class="btn btn-sm ">
-                                            <input type="search" 
-                                            class="form-control form-control-sm" name="emp_name" id="emp_name"
-                                            placeholder="Search here">
-                                             </button>
-                                              <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
-                                              Search
-                                              </button>
-                                            </span>
-                                        </div>
+                            <form action="export.php" method="post" target="_blank">
+                                <input type="hidden" value="73" name="exportCode">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
                                     </div>
-            
+                                    <input required type="date" class="form-control" name="StartDate"
+                                        aria-describedby="button-addon2">
+                                    &nbsp;
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-success" id="inputGroup-sizing-sm">End</span>
+                                    </div>
+                                    <input required type="date" class="form-control" name="EndDate"
+                                        aria-describedby="button-addon2">
+                                    <button class="btn btn-info btn-sm" type="submit" id="button-addon2"><i
+                                            class="fa fa-file-export"></i></button>
+                                </div>
+                            </form>
+                            <?php }?>
+                        </div>
+                        <div class="col-lg-7">
+                            <span style="float:right;">
+                                <button class="btn btn-sm ">
+                                    <input type="search" class="form-control form-control-sm" name="emp_name"
+                                        id="emp_name" placeholder="Search here">
+                                </button>
+                                <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                                    Search
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
                     <input type="hidden" id="CollegeID_Set">
-</div>
-</div>
-<!-- </form> -->
                 </div>
 
-
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <form action="action_g.php" method="post" enctype="multipart/form-data">
-                        <div class="table-responsive" id="show_record1" style="height:auto;">
-                            <!-- Your table to display employee records goes here -->
-                        </div>
-                        <div class="table-responsive" id="show_record" style="height:auto;">
-                            <!-- Your table to display employee records goes here -->
-                        </div>
-                    </form>
-                    <!-- /.mail-box-messages -->
-                </div>
-                <!-- /.card-body -->
-
-
-
-                <!-- Additional footer content if needed -->
+           
+            <div class="card-body p-0">
+                <form action="action_g.php" method="post" enctype="multipart/form-data">
+                    <div class="table-responsive" id="show_record1" style="height:auto;">
+                        <!-- Your table to display employee records goes here -->
+                    </div>
+                    <div class="table-responsive" id="show_record" style="height:auto;">
+                        <!-- Your table to display employee records goes here -->
+                    </div>
+                </form>
+                <!-- /.mail-box-messages -->
             </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- </form> -->
+
+            <!-- /.card-header -->
+
+
+            <!-- Additional footer content if needed -->
         </div>
-        <!-- /.card -->
+    </div>
+
+
+
+    <!-- /.card -->
     </div>
 
     <!-- /.col -->
