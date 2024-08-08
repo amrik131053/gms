@@ -1001,26 +1001,80 @@ function copyToClipboard(text) {
                 <div class="card-header">
 
 <!-- <form action="export.php" method="post" target="_blank"> -->
-                        <!-- <input type="hidden" value="73" name="exportCode" > <div class="row">  -->
+    
+    <!--  <div class="col-lg-1">Start Date</div>
+    <div class="col-lg-2"> 
+        </div><div class="col-lg-1">End Date</div><div class="col-lg-2">
+            </div><div class="col-lg-3"> 
+                <button type="submit" onclick="" class="btn btn-success btn-sm">
+                    Export
+                </button>
+                -->
+            <!-- </div> -->
+<!--             
+            <div class="col-lg-8">
+               
+              
 
-                       <!--  <div class="col-lg-1">Start Date</div><div class="col-lg-2"> <input type='date' class="form-control"  name='StartDate' required></div><div class="col-lg-1">End Date</div><div class="col-lg-2"><input type='date' class="form-control" name='EndDate' required></div><div class="col-lg-3"> <button type="submit" onclick="" class="btn btn-success btn-sm">
-                            Export
-                        </button></div> -->
-
-                        <div class="col-lg-3">
-
-
-                    <span style="float:right;">
-                        <button class="btn btn-sm ">
-                            <input type="search" 
-                                class="form-control form-control-sm" name="emp_name" id="emp_name"
-                                placeholder="Search here">
-                        </button>
-                        <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
-                            Search
-                        </button>
-                    </span>
-
+                    <span style="float:left;"> -->
+                    <!-- <input type="hidden" value="73" name="exportCode" >
+                    <button class="btn btn-sm ">
+                    
+                    <input type='date' class="form-control form-control-sm" name='EndDate' required>
+                    <button class="btn btn-sm ">
+                  <input type='date' class="form-control form-control-sm"  name='StartDate' required>
+                    </button>
+                    <button type="submit" onclick="" class="btn btn-success btn-sm">
+                    Export
+                </button> -->
+                <!-- <button class="btn btn-sm ">
+                    <input type="search" 
+                    class="form-control form-control-sm" name="emp_name" id="emp_name"
+                    placeholder="Search here">
+                </button>
+                <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                    Search
+                </button>
+            </span>
+        </div> -->
+                                        <div class="row">
+                                        <div class="col-lg-5">
+                                            <form action="export.php" method="post"
+                                                target="_blank">
+                                                <input type="hidden" value="73" name="exportCode" >
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-danger"
+                                                            id="inputGroup-sizing-sm">Start</span>
+                                                    </div>
+                                                    <input required type="date" class="form-control"
+                                                        name="StartDate" aria-describedby="button-addon2">
+                                                    &nbsp;
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-success"
+                                                            id="inputGroup-sizing-sm">End</span>
+                                                    </div>
+                                                    <input required type="date" class="form-control"
+                                                        name="EndDate" aria-describedby="button-addon2">
+                                                    <button class="btn btn-info btn-sm" type="submit"
+                                                        id="button-addon2"><i class="fa fa-file-export"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                         <div class="col-lg-7">
+                                            <span style="float:right;"> 
+                                            <button class="btn btn-sm ">
+                                            <input type="search" 
+                                            class="form-control form-control-sm" name="emp_name" id="emp_name"
+                                            placeholder="Search here">
+                                             </button>
+                                              <button type="button" onclick="search_all_employee();" class="btn btn-success btn-sm">
+                                              Search
+                                              </button>
+                                            </span>
+                                        </div>
+                                    </div>
+            
                     <input type="hidden" id="CollegeID_Set">
 </div>
 </div>
