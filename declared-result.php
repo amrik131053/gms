@@ -312,10 +312,14 @@ function exportCutListExcelgraden(id) {
     var Type = document.getElementById('Type' + id).value;
     var group = document.getElementById('SGroup' + id).value;
     var Examination = document.getElementById('Examination' + id).value;
+    var ResultNo = document.getElementById('ResultNo' + id).value;
+
+alert(ResultNo);
+
     if (College != '' && Course != '' && Batch != '' && Semester != '' && Examination != '') {
         window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
             "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Examination=" + Examination + "&Group=" + group, '_blank');
+            Type + "&Examination=" + Examination + "&Group=" + group+ "&ResultNo=" + ResultNo, '_blank');
 
     } else {
 

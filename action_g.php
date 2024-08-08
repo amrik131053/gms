@@ -19702,6 +19702,7 @@ elseif($code==274)
              $receipt_date=$row5['ReceiptDate'];
              $receipt_no=$row5['ReceiptNo'];
              $Semester=$row5['Semesterid'];
+           
              $formid=$row5['ID'];
              if($receipt_date!='')
              {
@@ -19759,7 +19760,8 @@ $stmt1 = sqlsrv_query($conntest,$sql);
             $CourseID=$row6['CourseID'];
             $CollegeID=$row6['CollegeID'];
           }
-          $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' ";
+
+          $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' AND ExamType='$type'";
 
           $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
 
@@ -19957,8 +19959,8 @@ else if ($Status==22){
 
 <?php
 
- $CurrentExaminationLastDate ;
- $CurrentExaminationGetDate;
+  $CurrentExaminationLastDate ;
+  $CurrentExaminationGetDate;
  $CurrentExaminationExamType;
 if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { 
@@ -19987,7 +19989,7 @@ if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $
 
       Examination cum Registraion  form for Examination <?=$examination;?> is verfied on  <?=$DepartmentVerifiedDate;?>.<br><br>
      
-    
+
    
    <?php if($Status==1 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
 { ?>
