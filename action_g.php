@@ -19959,7 +19959,7 @@ else if ($Status==22){
 
 <?php
 
- echo  $CurrentExaminationLastDate ;
+  $CurrentExaminationLastDate ;
   $CurrentExaminationGetDate;
  $CurrentExaminationExamType;
 if($Status==0 &&  $CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department' && $CurrentExamination==$examination)
