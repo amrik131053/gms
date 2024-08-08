@@ -1039,6 +1039,8 @@ function copyToClipboard(text) {
         </div> -->
                                         <div class="row">
                                         <div class="col-lg-5">
+                                            <?php if($role_id==2 || $role_id==20)
+                                            {?>
                                             <form action="export.php" method="post"
                                                 target="_blank">
                                                 <input type="hidden" value="73" name="exportCode" >
@@ -1060,6 +1062,7 @@ function copyToClipboard(text) {
                                                         id="button-addon2"><i class="fa fa-file-export"></i></button>
                                                 </div>
                                             </form>
+                                            <?php }?>
                                         </div>
                                          <div class="col-lg-7">
                                             <span style="float:right;"> 
