@@ -3,8 +3,6 @@
    ?>
    <script>
 
-
-
 function select_mst() 
 { 
   var  college = document.getElementById('College').value;
@@ -40,7 +38,7 @@ else
 alert("Please Select Appropriate data");
 }
       
-  }
+}
 
    </script>
 <section class="content">

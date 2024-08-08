@@ -265,7 +265,7 @@ function fetchCutList() {
             spinner.style.display = 'block';
         var code = '273';
         $.ajax({
-            url: 'action_g.php',
+            url: 'action_g.php', 
             data: {
                 code: code,
                 College: College,

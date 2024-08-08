@@ -652,6 +652,78 @@ if ($exportCode == 10)
         $arrayIndex++;
     }
 }
+
+
+if ($exportCode == 10.1)
+{
+    $count = 1;
+    $inchargeID= $_POST['inchargeID'];
+
+ $article = "SELECT distinct IDNo, Name, RoomType, ArticleName,WorkingStatus, room_master.Floor as FloorName ,room_master.RoomNo as RoomName,Corrent_Owner from stock_summary inner join location_master on location_master.ID=stock_summary.LocationID left join building_master on building_master.ID=location_master.Block inner join room_master on room_master.RoomNo=location_master.RoomNo INNER join room_type_master as rtm ON rtm.ID=location_master.Type inner join master_article on stock_summary.ArticleCode=master_article.ArticleCode left join faulty_track on faulty_track.article_no=stock_summary.IDNo Where Corrent_owner='$inchargeID'";
+
+   
+    echo 'Sr No' ."\t" . 'QR NO' . "\t" .  'Floor' . "\t" . 'Room Name' . "\t" . 'Block' . "\t" . 'Room No.' . "\t". 'Location Owner ID' . "\t";   
+     echo "\n";
+    $article_run = mysqli_query($conn, $article);
+    while ($article_row = mysqli_fetch_array($article_run))
+    {
+         $article_row['ArticleName'] ;
+    
+
+
+    $lm_ID=$article_row['IDNo'];
+    $OfficeName = $article_row['RoomName'];
+    $block = $article_row['Name'];
+    $RoomType = $article_row['RoomType'];
+
+    $Floor = $article_row['FloorName'];
+    $RoomNo = $article_row['RoomName'];
+    //$Floor = $article_row['Floor_name'];
+
+    $EmpName=$article_row['Corrent_Owner'];
+
+     if ($Floor == 0)
+    {
+        $FloorName = 'Ground';
+    }
+    elseif ($Floor == 1)
+    {
+        $FloorName = 'First';
+    }
+    elseif ($Floor == 2)
+    {
+        $FloorName = 'Second';
+    }
+    elseif ($Floor == 3)
+    {
+        $FloorName = 'Third';
+    }
+    elseif ($Floor == 4)
+    {
+        $FloorName = 'Fourth';
+    }
+       
+        $building_num = 0;
+        $arrayCount=0;
+         
+        
+
+        echo $count ."\t". $lm_ID . "\t" . $Floor . "\t". $OfficeName . "\t". $block . "\t". $RoomNo . "\t".  $EmpName . "\t";
+            
+        echo "\n";
+             $count++;
+        }
+             
+   
+    
+    }
+
+
+
+
+
+
+
 elseif ($exportCode == 11)
 {
     $locationID = $_POST['locationID'];
