@@ -30909,6 +30909,7 @@ elseif($code==431)
                                 <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i> 
                                  <?php }?>
+                                 
                               </td>
                            </tr>
                            <?php
@@ -31043,6 +31044,7 @@ elseif($code==431)
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
                                    <?php }?>
+                                   
                                 </td>
                             </tr>
                             <?php
