@@ -30592,10 +30592,17 @@ elseif($code==431)
                 <td>
                     <div>
                     <?php 
-                    $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/".$row1['PANCardpath'], PATHINFO_EXTENSION);
-                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg') {
+                     $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/".$row1['PANCardpath'], PATHINFO_EXTENSION);
+                    if ($ext == 'pdf' || $ext == 'PDF' ) {
+                        // echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                    }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
                         echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
-                    } else {
+                        // echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                    }
+                     else {
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                     }
                     ?>
@@ -30622,9 +30629,16 @@ elseif($code==431)
                 <div>
                     <?php 
                     $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/".$row1['AadharPath'], PATHINFO_EXTENSION);
-                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg') {
-                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
-                    } else {
+                    if ( $ext == 'pdf' || $ext == 'PDF') {
+                        // echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                    
+                }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                    echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                    echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                }
+                     else {
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                     }
                     ?>
@@ -30649,14 +30663,19 @@ elseif($code==431)
                 </td>
                 <td>
                 <div data-toggle="modal" data-target="#UploadImageDocument" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Imagepath');" >
-
+                <i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>
                     <?php 
                     $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
-                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg') {
+                   if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
                         echo '<img src="http://erp.gku.ac.in:86/Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
-                    } else {
-                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     }
+                    else {
+                        echo '<i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>';
+                       
+                       
+                    }
+                    
                     ?>
                     </div>
 
@@ -30681,10 +30700,17 @@ elseif($code==431)
                 <div>
                     <?php 
                     $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/bankpassbook/".$row1['Bankpassbookpath'], PATHINFO_EXTENSION);
-                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg') {
-                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/'.$row1['Bankpassbookpath'].'" alt="Passbook Copy" width="100" height="100">';
-                    } else {
+                    if ( $ext == 'pdf' || $ext == 'PDF') {
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                    } 
+                    else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/'.$row1['Bankpassbookpath'].'" alt="Passbook Copy" width="100" height="100">';
+                        echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                    } 
+                    else {
+                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+
                     }
                     ?>
                     </div>
