@@ -204,7 +204,7 @@ function addAcademic(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            console.log(response);
+            // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
                 tab();

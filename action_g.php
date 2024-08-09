@@ -30603,7 +30603,7 @@ elseif($code==431)
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     }
                      else {
-                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
                     }
                     ?>
                    </div>
@@ -30639,7 +30639,7 @@ elseif($code==431)
                     echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                 }
                      else {
-                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
                     }
                     ?>
                     </div>
@@ -30709,7 +30709,7 @@ elseif($code==431)
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     } 
                     else {
-                        echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                        echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
 
                     }
                     ?>
