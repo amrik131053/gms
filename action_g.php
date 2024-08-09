@@ -31278,6 +31278,11 @@ else
 {
     echo "0";
 }
+//    if ($result === false) {
+//     $errors = sqlsrv_errors();
+//     echo "Error: " . print_r($errors, true);
+//     // echo "0";
+// } 
     }
     else
     {
