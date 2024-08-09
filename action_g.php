@@ -31266,7 +31266,7 @@ $destdir = '/Images/Staff/AcademicDocument';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
- echo  $insertExp="INSERT into StaffAcademicDetails
+   $insertExp="INSERT into StaffAcademicDetails
 (Course,Type,University,Institute,YearofPassing,Percentage,Status,UserName,DocumentPath,StandardType,TotalMarks,ObtainedMarls,updateddate)
 VALUES('$course','$mode','$school_clg','$uni_board','$passing_date','$cgpa_value','0','$EmployeeID','$file_name','$qualification','$total_marks','$marks_obtained','$timeStamp')";
 $result = sqlsrv_query($conntest, $insertExp);
@@ -31283,7 +31283,9 @@ else
     {
         echo "2"; //file size 500 kb
     }
-}else{
+}
+else
+{
     echo "3";
 }
     sqlsrv_close($conntest);

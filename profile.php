@@ -382,7 +382,7 @@ function uploadPassBook(form) {
     });
 }
 
-function postcode(pincode) {
+function postcode() {
     var pincode = document.getElementById("pincode-input").value;
     var countryDisplay = document.getElementById("nationality");
     var stateDisplay = document.getElementById("state_by_post");
