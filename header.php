@@ -68,6 +68,9 @@ SalaryAtPresent,SalaryAtPresent,
 BankAccountNo,
 BankName,
 BankIFSC,
+State,
+District,
+PostOffice,
 BloodGroup
  FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
@@ -95,12 +98,15 @@ BloodGroup
         'Postal Code' => $row_staff['PostalCode'],
         'Permanent Address' => $row_staff['PermanentAddress'],
         'Correspondance Address' => $row_staff['CorrespondanceAddress'],
-        'Nationality' => $row_staff['Nationality'],
         'Bank Account No' => $row_staff['BankAccountNo'],
         'Bank Name' => $row_staff['BankName'],
         'Identification Mark' => $row_staff['personalIdentificationMark'],
         'Bank IFSC' => $row_staff['BankIFSC'],
         'Salary Decided' => $row_staff['SalaryAtPresent'],
+        'Country' => $row_staff['Nationality'],
+        'State' => $row_staff['State'],
+        'District' => $row_staff['District'],
+        'PostOffice' => $row_staff['PostOffice'],
         'Blood Group' => $row_staff['BloodGroup']
     ];
     $emptyFields = []; 
