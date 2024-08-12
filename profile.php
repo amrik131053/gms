@@ -602,7 +602,7 @@ function updateStaffSelf() {
         var bankAccountNo=document.getElementById('bankAccountNo').value;
         var employeeBankName=document.getElementById('employeeBankName').value;
         var bankIFSC=document.getElementById('bankIFSC').value;
-        var nationality_by_post=document.getElementById('nationality').value;
+        var nationality_by_post=document.getElementById('nationality_by_post').value;
         var bloodgroup=document.getElementById('bloodgroup').value;
         var salary=document.getElementById('salary').value;
         // alert(bankIFSC);

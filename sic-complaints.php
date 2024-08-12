@@ -8,7 +8,7 @@ function pending_requests()
  
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=41;
+           var code=458;
            $.ajax({
               url:'action_g.php',
               type:'POST',

@@ -30329,7 +30329,7 @@ elseif($code==431)
                                             <div class="form-group">
                                                 <label>State</label>
                                                 <input type="text" class="form-control" value="<?=$row1['State'];?>"
-                                                    id="state_by_post" disabled>
+                                                    id="state_by_post" >
                                                 <input type="hidden" class="form-control" name="state"
                                                     id="state_by_post">
 
@@ -30338,18 +30338,18 @@ elseif($code==431)
                                         <div class="col-lg-3 col-12">
                                             <div class="form-group">
                                                 <label>District</label>
-                                                <input type="text" class="form-control" value="<?=$row1['District'];?>"
-                                                    id="district_by_post" placeholder="Enter district" disabled>
-                                                <input type="hidden" class="form-control" name="district"
-                                                    id="district_by_post" placeholder="Enter district">
+                                                <input type="text" class="form-control" id="district_by_post" value="<?=$row1['District'];?>"
+                                                     placeholder="Enter district" >
+                                                <!-- <input type="hidden" class="form-control" name="district"
+                                                    id="district_by_post" placeholder="Enter district"> -->
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group">
-                                                <label>Nationality</label>
-                                                <input type="text" id="nationality" class="form-control"
+                                                <label>Country</label>
+                                                <input type="text"  class="form-control"
                                                     name="nationality_by_post" id="nationality_by_post" value="<?=$row1['Nationality'];?>"
-                                                    readonly>
+                                                    >
                                             </div>
                                         </div>
                                         <!--  <div class="col-lg-3 col-12">
@@ -33095,10 +33095,10 @@ elseif($code==458) // sic pendig complaint
 <table class="table" id="example">
   <thead>
       <tr>
-          <th>#</th>
-          <th>Token</th>
-          <th>Subject</th>
-          <th>Requested By</th>
+          <th>Complain NO</th>
+          <th>Complaint Date</th>
+          <th>Title</th>
+          <th>Details</th>
       </tr>
   </thead>
   <tbody>
