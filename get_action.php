@@ -6809,7 +6809,6 @@ if($list_result === false) {
   <th><input type="checkbox" id="select_all1" onclick="verifiy_select();" class="form-control"></th>
                  <th>Sr No </th>
                  <th>Uni Roll No</th>
-               
                  <th> Name </th>
                  <th> Father Name </th>
                  <th> Type </th>

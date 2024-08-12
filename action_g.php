@@ -30413,8 +30413,8 @@ elseif($code==431)
                                         <div class="col-lg-2 col-12">
                                             <div class="form-group">
                                                 <label>Salary Decided</label>
-                                                <input type="text" class="form-control" placeholder="Enter salary"
-                                                    value="<?=$row1['SalaryAtPresent'];?>" readonly>
+                                                <input type="text" class="form-control" id="salary" placeholder="Enter salary"
+                                                    value="<?=$row1['SalaryAtPresent'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-12">
@@ -31349,6 +31349,7 @@ elseif($code==437)
     $bankIFSC=$_POST['bankIFSC'];
     $bloodGroup = $_POST["bloodgroup"];
     $nationality_by_post=$_POST['nationality_by_post'];
+    $salary=$_POST['salary'];
 
    $query = "UPDATE Staff SET ";
    $query .= "FatherName = '$fatherName', ";
@@ -31373,6 +31374,7 @@ elseif($code==437)
    $query .= "District = '$district_by_post', ";
    $query .= "PostOffice = '$postOffice', ";
    $query .= "BloodGroup = '$bloodGroup', ";
+   $query .= "SalaryAtPresent = '$salary', ";
    $query .= "PersonalIdentificationMark = '$personalIdentificationMark' ";
    $query .= "WHERE IDNo = '$loginId'";
 //  echo $query;
@@ -33085,6 +33087,41 @@ elseif($code==457)
             $errors = sqlsrv_errors();
             echo "Error: " . print_r($errors, true);
         } 
+}
+elseif($code==458) // sic pendig complaint 
+{
+
+  ?>
+<table class="table" id="example">
+  <thead>
+      <tr>
+          <th>#</th>
+          <th>Token</th>
+          <th>Subject</th>
+          <th>Requested By</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id "; 
+   // and vehicle_allotment.status<3
+      $get_pending_run=mysqli_query($conn,$get_pending);
+      while($get_row=mysqli_fetch_array($get_pending_run))
+      {
+      
+      ?>
+      <tr>
+          <td><?=$sr;?></td>
+          <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><a href="#"><B
+                      class="text-primary"><?=$get_row['token_no'];?></B></a></td>
+          <td><?=$get_row['v_name'];?></td>
+          <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
+          <td><?=$get_row['e_name'];?></td>
+      </tr>
+      <?php $sr++; }?>
+  </tbody>
+</table>
+<?php 
+mysqli_close($conn);
 }
    else
    {

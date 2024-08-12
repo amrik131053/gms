@@ -26,8 +26,11 @@ window.location.href = "index.php";
 }
 else
 {
+    
 $EmployeeID=$_SESSION['usr'];
 $passSecureFlag=$_SESSION['secure'];
+// $_SESSION['profileIncomplete']="";
+$updatedFlag=$_SESSION['profileIncomplete'];
 $spoc_per=0;
 
 $sqlspoc="SELECT * FROM user_login_master where  username='$EmployeeID'";
@@ -54,33 +57,67 @@ window.location.href = "index.php";
    $p[]= ""; 
       $id=""; 
 
-       // $result = mysqli_query($conn,"SELECT * FROM user  where emp_id=$EmployeeID");
-       // while($row=mysqli_fetch_array($result)) 
-       // {
-       //     $user_id = $row['user_id'];
-       //     $emp_id = $row['emp_id'];
-       //     $name = $row['name'];
-       //     $emp_image = $row['image'];
-       //     $status = $row['status'];
-       //     // -------------------------------------
-       //     $role_id = $row['role_id'];
-       //     // -------------------------------------
-       // }
-       
-
- $staff="SELECT Name,Snap,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID FROM Staff Where IDNo='$EmployeeID'";
+ $staff="SELECT Name,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,
+EmergencyContactNo,
+OfficialMobileNo,
+PostalCode,
+PermanentAddress,
+CorrespondanceAddress,
+Nationality,
+SalaryAtPresent,SalaryAtPresent,
+BankAccountNo,
+BankName,
+BankIFSC,
+BloodGroup
+ FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
         {
-   $Emp_Name=$row_staff['Name'];
-   $Emp_Image=$row_staff['Snap'];
+    $Emp_Name=$row_staff['Name'];
+    $Emp_Image=$row_staff['Snap'];
     $Emp_Department=$row_staff['Department'];
-     $Emp_Designation=$row_staff['Designation'];
-     $Emp_CollegeID=$row_staff['CollegeID'];
+    $Emp_Designation=$row_staff['Designation'];
+    $Emp_CollegeID=$row_staff['CollegeID'];
     $DateOfJoining=$row_staff['DateOfJoining'];
     $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
-    $role_id = $row_staff['RoleID'];
+    $role_id =$row_staff['RoleID'];
+
+    $fields = [
+        'Father Name' => $row_staff['FatherName'],
+        'Mother Name' => $row_staff['MotherName'],
+        'Date Of Birth' => $row_staff['DateOfBirth']->format('Y-m-d'),
+        'Gender' => $row_staff['Gender'],
+        'PANNo' => $row_staff['PANNo'],
+        'EmailID' => $row_staff['EmailID'],
+        'Official EmailID' => $row_staff['OfficialEmailID'],
+        'MobileNo' => $row_staff['MobileNo'],
+        'WhatsApp Number' => $row_staff['WhatsAppNumber'],
+        'Postal Code' => $row_staff['PostalCode'],
+        'Permanent Address' => $row_staff['PermanentAddress'],
+        'Correspondance Address' => $row_staff['CorrespondanceAddress'],
+        'Nationality' => $row_staff['Nationality'],
+        'Bank Account No' => $row_staff['BankAccountNo'],
+        'Bank Name' => $row_staff['BankName'],
+        'Identification Mark' => $row_staff['personalIdentificationMark'],
+        'Bank IFSC' => $row_staff['BankIFSC'],
+        'Salary Decided' => $row_staff['SalaryAtPresent'],
+        'Blood Group' => $row_staff['BloodGroup']
+    ];
+    $emptyFields = []; 
+    $arrayValue=array();
+    foreach ($fields as $key => $value) {
+        if (empty($value)) {
+            $_SESSION['profileIncomplete']=1;
+            $emptyFields[] = $key;
+            // break;
         }
+      
+    }
+    $emptyFieldsList = implode(', ', $emptyFields);
+        $alertMessage = "Please update the following fields: $emptyFieldsList";
+
+}
+
 
 
 
@@ -120,8 +157,16 @@ window.location.href = "index.php";
        else if($passSecureFlag==1)
        {
          header('Location:password-change.php');
-         
        }
+       if($updatedFlag==1)
+       {
+       ?><script>
+         alert("<?php echo addslashes($alertMessage); ?>");
+         window.location.href='profile.php';
+            </script><?php 
+            $_SESSION['profileIncomplete']=0;
+       }
+
       
     }
    
