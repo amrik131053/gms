@@ -71,6 +71,7 @@ BankIFSC,
 State,
 District,
 PostOffice,
+Imagepath,
 BloodGroup
  FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
@@ -78,6 +79,7 @@ BloodGroup
         {
     $Emp_Name=$row_staff['Name'];
     $Emp_Image=$row_staff['Snap'];
+    $ImagePath=$row_staff['Imagepath'];
     $Emp_Department=$row_staff['Department'];
     $Emp_Designation=$row_staff['Designation'];
     $Emp_CollegeID=$row_staff['CollegeID'];
@@ -102,11 +104,12 @@ BloodGroup
         'Bank Name' => $row_staff['BankName'],
         'Identification Mark' => $row_staff['personalIdentificationMark'],
         'Bank IFSC' => $row_staff['BankIFSC'],
-        'Salary Decided' => $row_staff['SalaryAtPresent'],
+        'Current Salary' => $row_staff['SalaryAtPresent'],
         'Country' => $row_staff['Nationality'],
         'State' => $row_staff['State'],
         'District' => $row_staff['District'],
-        'PostOffice' => $row_staff['PostOffice'],
+        'Post Office' => $row_staff['PostOffice'],
+        'Upload latest Passport Size Image' => $row_staff['Imagepath'],
         'Blood Group' => $row_staff['BloodGroup']
     ];
     $emptyFields = []; 
@@ -120,8 +123,8 @@ BloodGroup
       
     }
     $emptyFieldsList = implode(', ', $emptyFields);
-        $alertMessage = "Please update the following fields: $emptyFieldsList";
-
+        $alertMessage = "Please update the following fields:  $emptyFieldsList ";
+$_SESSION['RequiredData']=$alertMessage;
 }
 
 
@@ -167,7 +170,7 @@ BloodGroup
        if($updatedFlag==1)
        {
        ?><script>
-         alert("<?php echo addslashes($alertMessage); ?>");
+         //alert("<?php echo addslashes($alertMessage); ?>");
          window.location.href='profile.php';
             </script><?php 
             $_SESSION['profileIncomplete']=0;
@@ -326,7 +329,7 @@ BloodGroup
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
 
-                        <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
+                        <?php echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
 
 
 
@@ -336,7 +339,7 @@ BloodGroup
                         <!-- User image -->
                         <li class="user-header bg-primary">
 
-                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
+                            <?php echo '<img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" class="user-image img-circle elevation-2"  style="border-radius:50%"/>';?>
 
 
                             <p>
@@ -385,7 +388,7 @@ BloodGroup
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                        <?php echo '<center><img src="data:image/jpeg;base64,'.base64_encode($Emp_Image).'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
+                        <?php echo '<center><img src="'.$BasURL.'Images/Staff/'.$ImagePath.'" height="100" width="100" class="img-thumnail"  style="border-radius:50%"/></center>';?>
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?=$Emp_Name;?>(<?=$EmployeeID;?>)</a>

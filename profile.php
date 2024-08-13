@@ -2,10 +2,21 @@
 include "header.php";
 
 ?>
+
  <style>
                                            
 
-                                           
+        .blink {
+            animation: blinker 0.5s linear infinite;
+            
+           
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }                                 
 
                                            input[type=radio]+label {
                                                background-color: #a62535;
@@ -22,6 +33,7 @@ include "header.php";
 
     <div id="showData">
     </div>
+    
 </section>
 
 <div class="modal fade" id="UploadImageDocument">

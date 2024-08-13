@@ -601,15 +601,14 @@ mysqli_close($conn);
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <?php
-                        $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='".$show_task_row['AssignBy']."'";
+                        $get_emp_details="SELECT Imagepath,Name FROM Staff Where IDNo='".$show_task_row['AssignBy']."'";
                          $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                          if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                          {
-                         $Emp_Image=$row_staff['Snap'];
-                         $emp_pic=base64_encode($Emp_Image);
-                         
+                         $Emp_Image=$row_staff['Imagepath'];
+                       
                         
-                                        echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";} ?>
+                                        echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image'>";} ?>
                         </li>
                     </ul>
                     <b> <?=$row_staff['Name'];?></b>
@@ -768,15 +767,14 @@ mysqli_close($conn);
                      ?>
                         <li class="list-inline-item" style="">
                             <?php
-                        $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$AssignTo_ui'";
+                        $get_emp_details="SELECT Imagepath,Name FROM Staff Where IDNo='$AssignTo_ui'";
                          $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                          while($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                          {
-                         $Emp_Image=$row_staff['Snap'];
-                         $emp_pic=base64_encode($Emp_Image);
-                         
+                         $Emp_Image=$row_staff['Imagepath'];
+                       
                         
-                                        echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";
+                                        echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image'>";
                                      } ?>
                             <!-- <SMALL> <?=$show_task_row_['AssignBy'];?></SMALL><BR> -->
                         </li>
@@ -1359,15 +1357,13 @@ mysqli_close($conn);
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <?php
-                        $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='".$show_daily_task_row['AssignBy']."'";
+                        $get_emp_details="SELECT Imagepath,Name FROM Staff Where IDNo='".$show_daily_task_row['AssignBy']."'";
                          $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                          if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                          {
-                         $Emp_Image=$row_staff['Snap'];
-                         $emp_pic=base64_encode($Emp_Image);
-                         
-                        
-                                        echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";} ?>
+                         $Emp_Image=$row_staff['Imagepath'];
+                       
+                                        echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image'>";} ?>
                         </li>
                     </ul>
                     <b> <?=$row_staff['Name'];?></b>
@@ -1743,13 +1739,13 @@ mysqli_close($conn);
       $comment_status=$row['Status'];
       $Page_link=$row['Page_link'];
       $SendBy=$row['SendBy'];
-      $get_emp_details="SELECT Snap,Name FROM Staff Where IDNo='$SendBy'";
+      $get_emp_details="SELECT Imagepath,Name FROM Staff Where IDNo='$SendBy'";
                     $get_emp_details_run=sqlsrv_query($conntest,$get_emp_details);
                     if($row_staff=sqlsrv_fetch_array($get_emp_details_run,SQLSRV_FETCH_ASSOC))
                     {
-                    $Emp_Image=$row_staff['Snap'];
+                    $Emp_Image=$row_staff['Imagepath'];
                     $SendByName=$row_staff['Name'];
-                    $emp_pic=base64_encode($Emp_Image);
+                  
                                 }
       $Notification_type=$row['Notification_type'];
       
@@ -1787,7 +1783,7 @@ mysqli_close($conn);
       ?>
     <a href="<?=$Page_link;?>" class="dropdown-item">
         <div class="media">
-            <?php echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' >";?>
+            <?php echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' >";?>
             <div class="media-body" onclick="seen_notification(<?=$ID;?>);">
                 <h3 class="dropdown-item-title">
                     &nbsp;&nbsp;<b class="<?=$Noti_color;?>"> <?=$comment_subject;?></b>
@@ -3028,11 +3024,11 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
-                $emp_pic=base64_encode($row1['Snap']);
+                $emp_pic=$row1['Imagepath'];
                ?>
             <tr>
                 <td><?=$sr;?></td>
-                <td><?php if($row1['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
+                <td><?php if($row1['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -3139,7 +3135,7 @@ else { ?>
         $result = sqlsrv_query($conntest,$query);
         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
         {
-           $emp_pic=base64_encode($row['Snap']);
+           $emp_pic=$row['Imagepath'];
           if ($row['ContactNo']!='') 
           {
              $mobile=$row['ContactNo'];
@@ -3153,7 +3149,7 @@ else { ?>
             <div class="card card-widget collapsed-card">
               <div class="card-header" style="background-color:white!important;">
                 <div class="user-block">
-                <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
+                <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
                      </div>
                      <span class="username"><a href="#"><?=$row['Name'];?> (<?=$row['IDNo'];?>)</a></span>
                   <span class="description"><?=$row['Designation'];?></span>
@@ -3269,11 +3265,11 @@ else { ?>
             $get_category_run1=sqlsrv_query($conntest,$get_category1);
             while($row1=sqlsrv_fetch_array($get_category_run1,SQLSRV_FETCH_ASSOC))
             { 
-                $emp_pic=base64_encode($row1['Snap']);
+                $emp_pic=$row1['Imagepath'];
                ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row1['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row1['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border:3px solid <?=$borderColor;?>;'>";?>
                 </td>
                 <td><?=$row1['Name'];?></td>
                 <td><?=$row1['IDNo'];?></td>
@@ -3328,7 +3324,7 @@ else { ?>
                         $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
                         {
-                        $emp_pic=base64_encode($row1['Snap']);
+                        $emp_pic=$row1['Snap'];
                         $DateOfBirth=$row1['DateOfBirth'];
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
@@ -5627,12 +5623,12 @@ $QrCourse=$Course.'('.$Stream.')';
      elseif($code==83)
      {
        $emp_id=$_POST['emp_id'];
-          $staff="SELECT Name,Department,Designation,CollegeName,Snap,ContactNo FROM Staff Where IDNo='$emp_id'";
+          $staff="SELECT Name,Department,Designation,CollegeName,Imagepath,ContactNo FROM Staff Where IDNo='$emp_id'";
    $stmt = sqlsrv_query($conntest,$staff);  
    if($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    {
    
-   $emp_image = $row_staff['Snap'];
+   $emp_image = $row_staff['Imagepath'];
    
    
    $name = $row_staff['Name'];
@@ -5651,7 +5647,7 @@ $QrCourse=$Course.'('.$Stream.')';
             <div class="row">
                 <div class="col-lg-11 col-sm-10">
                     <div class="widget-user-image">
-                        <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($emp_image).'" height="30px" width="30px" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                        <?php echo '<img src="'.$BasURL.'Images/Staff/'.$emp_image.'" height="30px" width="30px" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                     </div>
                     <!-- /.widget-user-image -->
                     <h6 class="widget-user-desc"><?=$name; ?> </h6>
@@ -5904,31 +5900,17 @@ $QrCourse=$Course.'('.$Stream.')';
  elseif($code==91)
  {
 $UniRollNo=$_POST['uni'];
-      $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
+      $get_student_details="SELECT IDNo,Image,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
 
                           $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
-                              $snap=$row_student['Snap'];
-                                 $finfo = new finfo(FILEINFO_MIME_TYPE);
-    $mime_type = $finfo->buffer($snap);
-    $extension = '';
-    switch ($mime_type) {
-        case 'image/jpeg':
-            $extension = 'jpg';
-            break;
-        case 'image/png':
-            $extension = 'png';
-            break;
-        
-    }
-    // echo $extension;
-    $pic = base64_encode($snap);
-    // $pic = base64_encode($pic);
+                              $snap=$row_student['Image'];
+                               
     ?>
-    <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+    <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="300" height="300">
     <br>
-    <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>"
+    <a href="<?=$BasURL.'Images/Students/'.$snap;?>"
         download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>">
         <button class="btn btn-success btn-sm">Download
             Image</button></a>
@@ -5961,21 +5943,18 @@ $UniRollNo=$_POST['uni'];
      $file_name = $_FILES['image']['name'];
     $file_tmp = $_FILES['image']['tmp_name'];
     $type = $_FILES['image']['type'];
-     $file_data = file_get_contents($file_tmp);
-    $characters = '';
-   $result = $IDNo;
-   $image_name =$result;
-     $destdir = 'Students';
-   ftp_chdir($conn_id,"Images/Students/") or die("Could not change directory");
-   ftp_pasv($conn_id,true);
-   file_put_contents($destdir.$image_name.'.PNG',$file_data);
-   ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
-   ftp_close($conn_id);
-
-   $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data,$IDNo);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
-if ($upimage_run === false) {
+    $date=date('Y-m-d');  
+    $string = bin2hex(openssl_random_pseudo_bytes(4));
+    $file_data = file_get_contents($file_tmp);
+    $file_name = $IDNo."_".strtotime($date)."_".$string."_".basename($_FILES['image']['name']);
+    $destdir = '/Images/Students';
+        ftp_chdir($conn_id, "/Images/Students/") or die("Could not change directory");
+        ftp_pasv($conn_id,true);
+        ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+        ftp_close($conn_id);
+         $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
+        $result = sqlsrv_query($conntest, $insertExp);
+if ($result === false) {
     $errors = sqlsrv_errors();
     // echo "Error: " . print_r($errors, true);
     // echo "0"; 
@@ -6076,17 +6055,21 @@ elseif($code==94)
    }
    if ($photo) {
     include "connection/ftp-erp.php";
+
       $photoTmp = $_FILES["photo"]["tmp_name"];
-
       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-  $ImageName=$loginId.'.jpg';
+
+      $date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['photo']['name']);
    ftp_put($conn_id, "Images/Staff/$ImageName", $photoTmp, FTP_BINARY);
+   $insertExp="UPDATE Staff SET Imagepath='$ImageName' where IDNo='$loginId'";
+   $result = sqlsrv_query($conntest, $insertExp);
+    // $file_data = file_get_contents($photoTmp);
 
-    $file_data = file_get_contents($photoTmp);
-
-        $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $loginId);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+//         $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+// $params = array($file_data, $loginId);
+// $upimage_run = sqlsrv_query($conntest, $upimage, $params);
    }
    if ($signature) {
     include "connection/ftp-erp.php";
@@ -6239,8 +6222,8 @@ elseif ($code==97)  // Sic record search
       {
         $IDNo= $row['IDNo'];
          $StudentName = $row['StudentName'];
-         $img= $row['Snap'];
-      $pic = 'data://text/plain;base64,' . base64_encode($img);
+         $img= $row['Imagepath'];
+      
          $ClassRollNo= $row['ClassRollNo'];
          $UniRollNo= $row['UniRollNo'];
          $father_name = $row['FatherName'];
@@ -6306,7 +6289,7 @@ elseif ($code==97)  // Sic record search
             </div>
         </div>
         <div class="col-lg-1">
-            <img src="<?=$pic?>" width='90px' height='90%'>
+            <img src="<?=$BasURL.'Images/Staff/'.$img?>" width='90px' height='90%'>
 
         </div>
     </div>
@@ -6373,14 +6356,14 @@ elseif($code==99) // home sic
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $snap= $row1['Image'];
+                        
  include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -6494,15 +6477,14 @@ elseif($code==100) // sic
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                           
                            include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -6611,15 +6593,14 @@ elseif($code==101) //sic post
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $img= $row1['Image'];
+                          
                            include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -6708,15 +6689,14 @@ elseif($code==102) //sic issued
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $img= $row1['Image'];
+                         
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -6806,15 +6786,14 @@ elseif($code==103) //sic pending
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                           
                            include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -6907,14 +6886,14 @@ elseif($code==104) // home exam
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $snap= $row1['Image'];
+                         
 include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7014,15 +6993,14 @@ elseif($code==105) // exam ready to print
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                        
                            include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7120,15 +7098,14 @@ elseif($code==106) //exam reject
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                          
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7225,15 +7202,14 @@ elseif($code==107) //exam print
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Snap'];
+                          
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7332,14 +7308,14 @@ elseif($code==108) // home verified by printing section
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $snap= $row1['Image'];
+                         
  include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7439,15 +7415,14 @@ elseif($code==109) // exam verified forwarded
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                          
                            include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7545,15 +7520,14 @@ elseif($code==110) //exam verifed ok
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                          
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7657,15 +7631,14 @@ elseif($code==111) //exam handoverto sic
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                          
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -7823,15 +7796,14 @@ elseif($code==116) //exam competed
                            $college = $row1['CollegeName'];
                            $batch = $row1['Batch'];
                            $Department = $row1['Course'];                           
-                           $img= $row1['Snap'];
-                           $pic = 'data://text/plain;base64,' . base64_encode($img);
-
+                           $snap= $row1['Image'];
+                         
                           include "document-section-tr-color.php";
                            ?>
             <tr style='background:<?=$clr;?>'>
 
                 <td><?=$count++?></td>
-                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$pic?>"
+                <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Students/'.$snap;?>"
                         alt="User Avatar"></td>
                 <td><?=$userId?></td>
                 <td><?=$name?></td>
@@ -9222,19 +9194,8 @@ mysqli_close($conn);
         $CourseShortName=$rowgetCourseDetails['CourseShortName'];
     }
       $UniRollNo=$row_pending['IDNo'];
-      $Snap=$row_pending['Snap'];
-      $s_pic=base64_encode($Snap);
-      $finfo = new finfo(FILEINFO_MIME_TYPE);
-      $mime_type = $finfo->buffer($Snap);
-      $extension = '';
-      switch ($mime_type) {
-          case 'image/jpeg':
-              $extension = 'jpg';
-              break;
-          case 'image/png':
-              $extension = 'png';
-              break;
-      }
+      $Snap=$row_pending['Image'];
+    
 ?>
     <div class="container">
         <div class="container-fluid">
@@ -9271,12 +9232,12 @@ if($row_pending['SmartCardStatus']=='Applied')
                             <h5 style="background-color: #223260; color: white">
                                 <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                             </h5>
-                            <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
+                            <?php echo "<img width='100' src='" .$BasURL.'Images/Students/'.$Snap . "' alt='message user image' style='border:groove black;'>"; ?>
                             <br>
 
 
                             <br>
-                            <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>"
+                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
                                 download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
                                     class="btn btn-success btn-sm">Download Image</button></a>
                             <br><br>
@@ -9358,8 +9319,8 @@ if($row_pending['SmartCardStatus']=='Applied')
       if($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
-         $Snap=$row_pending['Snap'];
-         $s_pic=base64_encode($Snap);
+         $Snap=$row_pending['Image'];
+        
  ?>
     <div class="container">
         <div class="container-fluid">
@@ -9375,7 +9336,7 @@ if($row_pending['SmartCardStatus']=='Applied')
                             <h5 style="background-color: #223260; color: white">
                                 <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                             </h5>
-                            <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
+                            <?php echo "<img width='100' src='" .$BasURL.'Images/Students/'.$Snap . "' alt='message user image' style='border:groove black;'>"; ?>
                             <br>
                             Name: <span id="StudentName" readonly="true"><?= $row_pending['StudentName']; ?></span>
                             <br>
@@ -9506,14 +9467,14 @@ echo "1";
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   while($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
-                     $Snap=$row_pending['Snap'];
-                     $s_pic=base64_encode($Snap);   
+                     $Snap=$row_pending['Image'];
+                   
                      ?>
 
             <tr>
                 <td><?=$row_pending['ClassRollNo'];?></td>
                 <td><?=$row_pending['ApplyDate']->format('d-M-Y');?></td>
-                <td> <?php echo "<img width='40' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image'>"; ?>
+                <td> <?php echo "<img width='40' src='" . $BasURL.'Images/Students/'.$Snap . "' alt='message user image'>"; ?>
                 </td>
                 <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"
                         onclick="view_pending(<?=$row_pending['IDNO'];?>);"><i class="fa fa-eye"></i></button></td>
@@ -9553,21 +9514,8 @@ echo "1";
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
-         $Snap=$row_pending['Snap'];
-         $s_pic=base64_encode($Snap);
+         $Snap=$row_pending['Image'];
         
-         $finfo = new finfo(FILEINFO_MIME_TYPE);
-         $mime_type = $finfo->buffer($Snap);
-         $extension = '';
-         switch ($mime_type) {
-             case 'image/jpeg':
-                 $extension = 'jpg';
-                 break;
-             case 'image/png':
-                 $extension = 'png';
-                 break;
-             
-         }
    ?>
     <div class="container">
         <div class="container-fluid">
@@ -9583,12 +9531,12 @@ echo "1";
                             <h5 style="background-color: #223260; color: white">
                                 <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                             </h5>
-                            <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
+                            <?php echo "<img width='100' src='" .$BasURL.'Images/Students/'.$Snap . "' alt='message user image' style='border:groove black;'>"; ?>
                             <br>
 
 
                             <br>
-                            <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>"
+                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
                                 download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
                                     class="btn btn-success btn-sm">Download Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
@@ -9664,31 +9612,17 @@ echo "1";
    elseif($code==152)
    {
   $UniRollNo=$_POST['uni'];
-       $get_student_details="SELECT IDNo,Snap,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
+       $get_student_details="SELECT IDNo,Image,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
                             $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                             if($row_student=sqlsrv_fetch_array($get_student_details_run))
                             {
-                                $snap=$row_student['Snap'];
-                                   $finfo = new finfo(FILEINFO_MIME_TYPE);
-      $mime_type = $finfo->buffer($snap);
-      $extension = '';
-      switch ($mime_type) {
-          case 'image/jpeg':
-              $extension = 'jpg';
-              break;
-          case 'image/png':
-              $extension = 'png';
-              break;
-          
-      }
-      // echo $extension;
-      $pic = base64_encode($snap);
-      // $pic = base64_encode($pic);
+                                $Snap=$row_student['Image'];
+                             
       ?>
-    <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300"
+    <img src="<?php echo $BasURL.'Images/Students'.$Snap; ?>" width="300" height="300"
         style='border:groove black;'>
     <br>
-    <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>"
+    <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
         download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download
             Image</button></a>
 
@@ -9717,23 +9651,23 @@ echo "1";
       $file_tmp = $_FILES['image']['tmp_name'];
       $type = $_FILES['image']['type'];
        $file_data = file_get_contents($file_tmp);
-      $characters = '';
-     $result = $IDNo;
-     $image_name =$result;
-     
-     $destdir = 'Students';
-     ftp_chdir($conn_id, "Images/Students/") or die("Could not change directory");
-     ftp_pasv($conn_id,true);
-     file_put_contents($destdir.$image_name.'.PNG',$file_data);
-     ftp_put($conn_id,$image_name.'.PNG',$destdir.$image_name.'.PNG',FTP_BINARY) or die("Could not upload to $ftp_server1");
-     ftp_close($conn_id);
-     $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-  $params = array($file_data, $IDNo);
-  $upimage_run = sqlsrv_query($conntest, $upimage, $params);
-  if ($upimage_run === false) {
+
+       $date=date('Y-m-d');  
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+$file_name = $IDNo."_".strtotime($date)."_".$string."_".basename($_FILES['image']['name']);
+$destdir = '/Images/Students';
+    ftp_chdir($conn_id, "/Images/Students/") or die("Could not change directory");
+    ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+    ftp_close($conn_id);
+     $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
+    $result = sqlsrv_query($conntest, $insertExp);
+
+  if ($result === false) {
       $errors = sqlsrv_errors();
       // echo "Error: " . print_r($errors, true);
-      // echo "0";
+      echo "0";
   } 
   else
    {
@@ -9750,21 +9684,8 @@ echo "1";
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
-         $Snap=$row_pending['Snap'];
-         $s_pic=base64_encode($Snap);
+         $Snap=$row_pending['Image'];
         
-         $finfo = new finfo(FILEINFO_MIME_TYPE);
-         $mime_type = $finfo->buffer($Snap);
-         $extension = '';
-         switch ($mime_type) {
-             case 'image/jpeg':
-                 $extension = 'jpg';
-                 break;
-             case 'image/png':
-                 $extension = 'png';
-                 break;
-             
-         }
    ?>
     <div class="container">
         <div class="container-fluid">
@@ -9784,12 +9705,12 @@ echo "1";
                             <h5 style="background-color: #223260; color: white">
                                 <span id="CollegeName" readonly="true"><?= $row_pending['CollegeName']; ?></span>
                             </h5>
-                            <?php echo "<img width='100' src='data:image/jpeg;base64," . $s_pic . "' alt='message user image' style='border:groove black;'>"; ?>
+                            <?php echo "<img width='100' src='" .$BasURL.'Images/Students/'.$Snap . "' alt='message user image' style='border:groove black;'>"; ?>
                             <br>
 
 
                             <br>
-                            <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $s_pic; ?>"
+                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
                                 download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
                                     class="btn btn-success btn-sm">Download Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
@@ -11011,13 +10932,13 @@ else if ($code == 173) {
             <td rowspan='<?= $count; ?>' class="employee-info">
                 <?php
                         
-                        $staff = "SELECT Name, IDNo, Snap FROM Staff WHERE IDNo='" . $r1['emp_id'] . "'";
+                        $staff = "SELECT Name, IDNo, Imagepath FROM Staff WHERE IDNo='" . $r1['emp_id'] . "'";
                         $stmt = sqlsrv_query($conntest, $staff);
 
                         if ($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-                            $Emp_Image = $row_staff['Snap'];
-                            $emp_pic = base64_encode($Emp_Image);
-                            echo "<label><b><img class='direct-chat-img' src='data:image/jpeg;base64," . $emp_pic . "' alt='message user image'></b></label>";
+                            $Emp_Image = $row_staff['Imagepath'];
+                            
+                            echo "<label><b><img class='direct-chat-img' src='" . $BasURL.'Images/Staff/'.$emp_pic . "' alt='message user image'></b></label>";
                             echo "<br><label><b>" . $Emp_Name = $row_staff['Name'] . '(' . $Emp_Name = $row_staff['IDNo'] . "</b></label>";
                         }
                         ?>
@@ -11518,8 +11439,7 @@ $Name=$getUserDetailsRow['Name'];
 $getUserDetailsRow['Snap'];
 $Designation=$getUserDetailsRow['Designation'];
 $CollegeName=$getUserDetailsRow['CollegeName'];
-$Emp_Image=$getUserDetailsRow['Snap'];
-$emp_pic=base64_encode($Emp_Image);
+$Emp_Image=$getUserDetailsRow['Imagepath'];
 
 
               
@@ -11527,7 +11447,7 @@ $emp_pic=base64_encode($Emp_Image);
 
         <tr style="background-color:#223260; color:white;">
             <td colspan="20">
-                <?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' width='100'>";?>
+                <?php   echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' width='100'>";?>
             </td>
             <td colspan="20">
                 <h5><?=$Name;?></h5>
@@ -13426,8 +13346,8 @@ elseif($code==205)
    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
    if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
    {
-    $Emp_Image=$row['Snap'];
-    $emp_pic=base64_encode($Emp_Image);
+    $Emp_Image=$row['Imagepath'];
+
      $StartDate=$row['StartDate'];
     $EndDate=$row['EndDate'];
     $ApplyDate=$row['ApplyDate'];
@@ -13464,7 +13384,7 @@ elseif($code==205)
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-<?=$statusColor;?>">
                 <div class="widget-user-image">
-                    <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username">
@@ -13543,7 +13463,7 @@ if (strpos($row['FilePath'], 'LeaveFileAttachment') !== false) {
 // {
     $fileName=str_replace('~','',$row['FilePath']);
     ?>
-    <a href="http://erp.gku.ac.in:86/<?=$fileName;?>"
+    <a href="<?=$BasURL.$fileName;?>"
     target='_blank' class="nav-link leaveViewColor">
     <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
         class="fa fa-eye fa-lg text-success"></i>
@@ -14444,8 +14364,8 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
         $statusColor="warning";
     }
 
-    $Emp_Image=$row['Snap'];
-    $emp_pic=base64_encode($Emp_Image);
+    $Emp_Image=$row['Imagepath'];
+ 
   
    
                   
@@ -14463,7 +14383,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-<?=$statusColor;?>">
                     <div class="widget-user-image">
-                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                        <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
                     </div>
                     <!-- /.widget-user-image -->
                     <h3 class="widget-user-username">
@@ -14765,16 +14685,16 @@ elseif($code==222)
                         <?php 
 if($Recommend==$Authority)
 {
-    $getUserDetailsRecomend="SELECT Name,Snap FROM Staff Where IDNo='$Recommend'";
+    $getUserDetailsRecomend="SELECT Name,Imagepath FROM Staff Where IDNo='$Recommend'";
     $getUserDetailsRecomendRun=sqlsrv_query($conntest,$getUserDetailsRecomend);
     if($getUserDetailsRecomendRow=sqlsrv_fetch_array($getUserDetailsRecomendRun,SQLSRV_FETCH_ASSOC))
     {
-        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
-        $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
+        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Imagepath'];
+                  
         ?>
                         <div class="stepwizard-step">
                             <a href="#step-1" type="button"
-                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='".$BasURL.'Images/Staff/'.$Emp_ImageRecomend."' alt='message user image' style=''>";?></a>
                             <p><?=$getUserDetailsRecomendRow['Name'];?><b>&nbsp;( Authority)</b></p>
                         </div>
                         <?php }
@@ -14790,16 +14710,16 @@ if($Recommend==$Authority)
 }
 else
 {
-    $getUserDetailsRecomend="SELECT Name,Snap FROM Staff Where IDNo='$Recommend'";
+    $getUserDetailsRecomend="SELECT Name,Imagepath FROM Staff Where IDNo='$Recommend'";
     $getUserDetailsRecomendRun=sqlsrv_query($conntest,$getUserDetailsRecomend);
     if($getUserDetailsRecomendRow=sqlsrv_fetch_array($getUserDetailsRecomendRun,SQLSRV_FETCH_ASSOC))
     {
-        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Snap'];
-        $emp_picRecomend=base64_encode($Emp_ImageRecomend);              
+        $Emp_ImageRecomend=$getUserDetailsRecomendRow['Imagepath'];
+        
         ?>
                         <div class="stepwizard-step">
                             <a href="#step-1" type="button"
-                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picRecomend."' alt='message user image' style=''>";?></a>
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='".$BasURL.'Images/Staff/'.$Emp_ImageRecomend."' alt='message user image' style=''>";?></a>
                             <p><?=$getUserDetailsRecomendRow['Name'];?></p>
                             <!-- <b>&nbsp;(Recommending Authority)</b -->
                         </div>
@@ -14814,16 +14734,16 @@ else
         
       }?>
                         <?php 
-    $getUserDetailsAuthority="SELECT Name,Snap FROM Staff Where IDNo='$Authority'";
+    $getUserDetailsAuthority="SELECT Name,Imagepath FROM Staff Where IDNo='$Authority'";
     $getUserDetailsAuthorityRun=sqlsrv_query($conntest,$getUserDetailsAuthority);
     if($getUserDetailsAuthorityRow=sqlsrv_fetch_array($getUserDetailsAuthorityRun,SQLSRV_FETCH_ASSOC))
     {
-        $Emp_ImageAuthority=$getUserDetailsAuthorityRow['Snap'];
-        $emp_picAuthority=base64_encode($Emp_ImageAuthority);     
+        $Emp_ImageAuthority=$getUserDetailsAuthorityRow['Imagepath'];
+       
         ?>
                         <div class="stepwizard-step">
                             <a href="#step-2" type="button"
-                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='data:image/jpeg;base64,".$emp_picAuthority."' alt='message user image' style=''>";?></a>
+                                class="btn btn-primary btn-circle"><?php echo  "<img class='btn-circle' src='".$BasURL.'Images/Staff/'.$Emp_ImageAuthority."' alt='message user image' style=''>";?></a>
                             <p><?=$getUserDetailsAuthorityRow['Name'];?></p>
                             <!-- <b>&nbsp;(Sanction Authority)</b> -->
                         </div>
@@ -15902,15 +15822,8 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
         $statusColor="primary";
     } 
 
-    $Emp_Image=$row['Snap'];
-    $emp_pic=base64_encode($Emp_Image);
-  
-  
-  
+    $Emp_Image=$row['Imagepath'];
     
-
-
-                  
 ?>
 
             <style>
@@ -15924,7 +15837,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-<?=$statusColor;?>">
                     <div class="widget-user-image">
-                        <?PHP  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                        <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
                     </div>
                     <!-- /.widget-user-image -->
                     <h3 class="widget-user-username">
@@ -16545,16 +16458,13 @@ elseif($code==241)
                         {
                             $count_0++;
                             $univ_rollno=$get_row['IDNo'];
-                            $photo = $get_row['Snap'];
+                            $photo = $get_row['Image'];
                           
-                            $emp_pic=base64_encode($photo);
-                            
-                           
                                        ?>
                             <tr>
                                 <td><?=$count_0;?></td>
 
-                                <td><?php  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?>
+                                <td><?php  echo  "<img class='direct-chat-img' src='".$BasURL.'Image/Students/'.$photo."' alt='message user image'>";?>
                                 </td>
                                 <td><?=$get_row['UniRollNo'];?></td>
                                 <td><?=$get_row['ClassRollNo'];?></td>
@@ -16565,7 +16475,7 @@ elseif($code==241)
                                 <td><?=$get_row['Batch'];?></td>
 
                                 <td><?=$get_row['Session'];?></td>
-                                <td> <?php echo '<a download="'.$univ_rollno.'.jpg" href="data:image/png;base64,'.base64_encode($photo).'">'; ?>
+                                <td> <?php echo '<a download="'.$univ_rollno.'.jpg" href="'.$BasURL.'Images/Students/'.$photo.'">'; ?>
                                     <BUTTON class="btn btn-danger btn-xs">Download Image</BUTTON>
                                 </td>
 
@@ -17835,7 +17745,7 @@ elseif($code==266)  // search student
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
         $aa[]=$row;
-          $emp_pic=base64_encode($row['Snap']);
+          $emp_pic=$row['Image'];
          if ($row['StudentMobileNo']!='') 
          {
             $mobile=$row['StudentMobileNo'];
@@ -17848,7 +17758,7 @@ elseif($code==266)  // search student
          ?>
             <tr>
                 <td><?=$sr;?></td>
-               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+               <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                 
                 <td><?=$row['IDNo'];?></td>
@@ -19022,35 +18932,28 @@ if($eligible>1)
    //    }
    
    if ($photo) {
-
-   
-//include "connection/ftp-erp.php";
-
-      $photoTmp = $_FILES["photo"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-      $file_data = file_get_contents($photoTmp);
-   $ImageName=$loginId.".PNG";
-   //ftp_put($conn_id, "Images/Students/$ImageName", $photoTmp, FTP_BINARY);
-
-
-        $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $loginId);
-sqlsrv_query($conntest, $upimage, $params);
+include "connection/ftp-erp.php";
+   $file_tmp = $_FILES["photo"]["tmp_name"];
+   $date=date('Y-m-d');  
+   $string = bin2hex(openssl_random_pseudo_bytes(4));
+   $file_data = file_get_contents($file_tmp);
+   $file_name = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['photo']['name']);
+   $destdir = '/Images/Students';
+       ftp_chdir($conn_id, "/Images/Students/") or die("Could not change directory");
+       ftp_pasv($conn_id,true);
+       ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+       ftp_close($conn_id);
+        $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$loginId'";
+       sqlsrv_query($conntest, $insertExp);
    }
 
    if ($signature) {
-
     include "connection/ftp-erp.php";
-    
       $signatureTmp = $_FILES["signature"]["tmp_name"];
-
-  $file_type = str_ireplace("/image/", ".", $_FILES['signature']['type']);
-
+  $file_type = str_ireplace("/image", ".", $_FILES['signature']['type']);
        $SignatureImageName=$loginId.".PNG";
    ftp_put($conn_id, "Images/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
-
    $file_data1 = file_get_contents($signatureTmp);
-
 
    $upimage1 = "UPDATE Admissions SET Signature = ? WHERE IDNo = ?";
    $params1 = array($file_data1, $loginId);
@@ -19239,7 +19142,7 @@ elseif($code==270)  // search student
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
         $aa[]=$row;
-          $emp_pic=base64_encode($row['Snap']);
+          $emp_pic=$row['Image'];
          if ($row['StudentMobileNo']!='') 
          {
             $mobile=$row['StudentMobileNo'];
@@ -19252,7 +19155,7 @@ elseif($code==270)  // search student
          ?>
                     <tr>
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -19398,7 +19301,7 @@ while($row = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                         <td><?=$row['type'];?></td>
                         <td><?=$row['batch'];?></td>
                         <td><?=$row['sheet_type'];?></td>
-                        <td><a href="http://erp.gku.ac.in:86/<?=str_replace('~', '',$row['resultfile']);?>" target="_blank"><button class="btn btn-success btn-xs"><i class="fa fa-download">&nbsp;&nbsp;Download</i></button></a></td>
+                        <td><a href="<?=$BasURL;?><?=str_replace('~', '',$row['resultfile']);?>" target="_blank"><button class="btn btn-success btn-xs"><i class="fa fa-download">&nbsp;&nbsp;Download</i></button></a></td>
                     </tr>
                 </thead>
  <?php 
@@ -19747,7 +19650,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -19802,7 +19705,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td colspan="4"><?=$name;?></td>
 
  <td  rowspan="2" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>
@@ -20562,7 +20465,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -20595,7 +20498,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td ><b>Name:</b> </td>
  <td colspan="8"><?=$name;?></td>
  <td  rowspan="2" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>
@@ -21294,7 +21197,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -21327,7 +21230,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td ><b>Name:</b> </td>
  <td colspan="8"><?=$name;?></td>
  <td  rowspan="2" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Staff/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>
@@ -21878,7 +21781,7 @@ elseif($code=='301')
    while($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
     $IDNo= $row['IDNo'];
-    $img= $row['Snap'];
+    $img= $row['Imagepath'];
     $name = $row['Name'];
     $father_name = $row['FatherName'];
     $course = $row['Department'];
@@ -21895,7 +21798,7 @@ elseif($code=='301')
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header card-header">
                 <div class="widget-user-image">
-                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                  <?php echo '<img src="'.$BasURL.'Images/Staff/'.$img.'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
@@ -22196,10 +22099,10 @@ $update_query=sqlsrv_query($conntest,$update1);
        $result = sqlsrv_query($conntest,$query);
        if($row1 = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-        $emp_pic=base64_encode($row1['Snap']);
+        $emp_pic=$row1['Image'];
         ?>
          <tr>
-         <td><?php   echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image'>";?></td>
+         <td><?php   echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image'>";?></td>
          <td><?=$row1['IDNo'];?></td>
                 <td><?=$row1['ClassRollNo'];?><b>/</b><?=$row1['UniRollNo'];?></td>
                 <td><?=$row1['StudentName'];?></td>
@@ -23114,7 +23017,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -23143,7 +23046,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <td  colspan="3"><b>Uni Roll No:  &nbsp;<?=$UniRollNo;?></td>
    <td  colspan="3"><b>IDNo:  &nbsp;<?=$IDNo;?></td>
    <td  rowspan="2" colspan="1" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
  </td>
  
  </tr>
@@ -24357,7 +24260,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             // $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -24394,7 +24297,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td colspan="4"><?=$name;?></td>
 
  <td  rowspan="2" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>
@@ -24901,7 +24804,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
          {
             // $IDNo= $row6['IDNo'];
             $ClassRollNo= $row6['ClassRollNo'];
-            $img= $row6['Snap'];
+            $img= $row6['Image'];
             $UniRollNo= $row6['UniRollNo'];
             $name = $row6['StudentName'];
             $father_name = $row6['FatherName'];
@@ -24938,7 +24841,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
  <td colspan="4"><?=$name;?></td>
 
  <td  rowspan="2" >
- <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="200" width="150" class="img-thumnail" />';?>
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>
@@ -27452,27 +27355,14 @@ foreach ($arrayY as $key => $Y) {
 elseif($code==377)
 {
 $IDNo=$_POST['uni'];
-    $get_student_details="SELECT IDNo,Snap FROM Staff where IDNo='$IDNo'";
+    $get_student_details="SELECT IDNo,Imagepath FROM Staff where IDNo='$IDNo'";
                          $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                          if($row_student=sqlsrv_fetch_array($get_student_details_run))
                          {
-                             $snap=$row_student['Snap'];
-                                $finfo = new finfo(FILEINFO_MIME_TYPE);
-   $mime_type = $finfo->buffer($snap);
-   $extension = '';
-   switch ($mime_type) {
-       case 'image/jpeg':
-           $extension = 'jpg';
-           break;
-       case 'image/png':
-           $extension = 'png';
-           break; 
-   }
-   // echo $extension;
-   $pic = base64_encode($snap);
-   // $pic = base64_encode($pic);
+                             $snap=$row_student['Imagepath'];
+        
    ?>
-   <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+   <img src="<?=$BasURL.'Images/Staff/'.$snap;?>" width="300" height="300">
    <?php
                          }
                          sqlsrv_close($conntest);
@@ -27619,8 +27509,7 @@ elseif ($code==379)
       {
          $IDNo= $row['IDNo'];
          $userName = $row['Name'];
-         $img= $row['Snap'];
-      $pic = 'data://text/plain;base64,' . base64_encode($img);
+         $img= $row['Imagepath'];
          $qry="SELECT *,building_master.Name as LocationName from guard_location_assign inner join building_master ON  building_master.ID=guard_location_assign.system_number  where guard_location_assign.UserID='$IDNo' and status='0' and guard_location_assign.entry_time like '$date%'";
         $run=mysqli_query($conn,$qry);
         if (mysqli_num_rows($run)<1) 
@@ -27687,7 +27576,7 @@ while ($row=mysqli_fetch_array($getLOcationRun)) {
   <div class="flex-item-right">
   <div class="row">
             <div class="col-lg-6" style="text-align: center;" >
-               <img src="<?=$pic?>" width='100px' height='100%'>
+               <img src="<?=$BasURL.'Images/Staff/'.$snap?>" width='100px' height='100%'>
             </div>
             <div class="col-lg-6 col-md-6"  >
                <input type='hidden' name='userImageCaptured' id='userImageCaptured'  class='image-tag form-control'>
@@ -27832,8 +27721,8 @@ $code_access=$_POST['code_access'];
                            {
                               $ContactNo = $row1['MobileNo'];
                            }
-                           $img= $row1['Snap'];
-                        $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $img= $row1['Imagepath'];
+                        
                         }
                     
                     if($row["status"] == "1")
@@ -27850,7 +27739,7 @@ $code_access=$_POST['code_access'];
                      }
                      ?>
                       <td><?=$count++?></td>
-                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="http://gurukashiuniversity.co.in/data-server/gate_entry/<?=$row['image']?>"  alt="User Avatar"></td>
+                       <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Staff/'.$img;?>"  alt="User Avatar"></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$Department?></td>
@@ -27907,8 +27796,8 @@ elseif ($code==382) {
                {
                   $ContactNo = $row1['MobileNo'];
                }
-               $img= $row1['Snap'];
-            $pic = 'data://text/plain;base64,' . base64_encode($img);
+               $img= $row1['Imagepath'];
+          
             }
             ?>
         <div class="row">
@@ -27995,8 +27884,8 @@ elseif ($code==384)
                            {
                               $ContactNo = $row1['MobileNo'];
                            }
-                           $img= $row1['Snap'];
-                        $pic = 'data://text/plain;base64,' . base64_encode($img);
+                           $img= $row1['Imagepath'];
+                      
                         }
                     
                     if($row["status"] == "1")
@@ -28013,7 +27902,7 @@ elseif ($code==384)
                      }
                      ?>
                       <td><?=$count++?></td>
-                      <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="http://gurukashiuniversity.co.in/data-server/gate_entry/<?=$row['image']?>"  alt="User Avatar"></td>
+                      <td><img class="img-circle elevation-2" width="50" height="50" style="border-radius:50%" src="<?=$BasURL.'Images/Staff/'.$img;?>"  alt="User Avatar"></td>
                        <td><?=$userId?></td>
                        <td><?=$name?></td>
                        <td><?=$Department?></td>
@@ -28021,10 +27910,7 @@ elseif ($code==384)
                     <td><?=$row['LocationName']?></td>
                       <td><?=$row['entry_time']?></td>
                       <td><i class="fa fa-edit" data-toggle="modal" data-target="#EditGuardLocation"
-                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i></td>
-               
-
-                      
+                            data-whatever="@mdo" onclick="editGuardLocation(<?=$row['id']?>);"></i></td> 
                   </tr>
                       <?php
                   }
@@ -28314,9 +28200,8 @@ elseif ($code==392) {
                      $countSecure="<b class='text-success'>Secure</b>";
                     }
                   }
-                $Emp_Image=$checkUserOnlineRow['Snap'];
-                $emp_pic=base64_encode($Emp_Image);
-
+                $Emp_Image=$checkUserOnlineRow['Imagepath'];
+                
                 ?>
                  <tr>
                  <td><input type="checkbox" class="checkbox v_check" value="<?=$checkUserOnlineRow['IDNo'];?>"></td>
@@ -28324,7 +28209,7 @@ elseif ($code==392) {
                      <td>
                      <div class="img-box">
     <a class="avatar-link" href="#">
-         <?php echo  "<img class='direct-chat-img'  src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' class='user-avatar'>";?>
+         <?php echo  "<img class='direct-chat-img'  src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' class='user-avatar'>";?>
          <div class="user-status"></div>
     </a>
 </div>
@@ -28802,26 +28687,12 @@ $sql="SELECT * FROM MastercontractorIdCard  where ID='$UniRollNo' ";
 $result = sqlsrv_query($conntest,$sql); 
 if($row=sqlsrv_fetch_array($result))
 {
-                             $snap=$row['Snap'];
-                                $finfo = new finfo(FILEINFO_MIME_TYPE);
-   $mime_type = $finfo->buffer($snap);
-   $extension = '';
-   switch ($mime_type) {
-       case 'image/jpeg':
-           $extension = 'jpg';
-           break;
-       case 'image/png':
-           $extension = 'png';
-           break;
-       
-   }
-   // echo $extension;
-   $pic = base64_encode($snap);
-   // $pic = base64_encode($pic);
+                             $snap=$row['Imagepath'];
+                                
    ?>
-   <img src="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>" width="300" height="300">
+   <img src="<?=$BasURL.'Images/Staff/'.$snap;?>" width="300" height="300">
    <br>
-   <a href="data:<?php echo $mime_type; ?>;base64,<?php echo $pic; ?>"
+   <a href="<?=$BasURL.'Images/Staff/'.$snap;?>"
        download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button class="btn btn-success btn-sm">Download
            Image</button></a>
 
@@ -30070,7 +29941,7 @@ elseif($code==431)
                         $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
                         if($row1=sqlsrv_fetch_array($emp_count_run,SQLSRV_FETCH_ASSOC))
                         {
-                        $emp_pic=base64_encode($row1['Snap']);
+                        $ImagePath=$row1['Imagepath'];
                         $DateOfBirth=$row1['DateOfBirth'];
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
@@ -30082,7 +29953,7 @@ elseif($code==431)
             <div class="card-body box-profile">
                 <div class="text-center">
 
-                    <?php echo  "<img class='profile-user-img img-fluid img-circle' src='data:image/jpeg;base64,".$emp_pic."' alt='User profile picture'>";?>
+                    <?php echo '<img class="profile-user-img img-fluid img-circle" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                 </div>
 
                 <h3 class="profile-username text-center"><?=$row1['Name'];?></h3>
@@ -30112,9 +29983,9 @@ elseif($code==431)
         <div class="card card-primary card-outline">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <!-- <div class="col-md-12"> -->
                         <!-- <div class="card"> -->
-                        <div class="card-header p-2" style="background-color:white!important">
+                        <div class="card-header" style="background-color:white!important">
                         <ul class="nav nav-pills acTab">
             <li class="nav-item"><a class="nav-link active" href="#personal_details<?=$emp_id;?>" data-toggle="tab">Basic</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>" data-toggle="tab">Contact</a></li>
@@ -30412,7 +30283,7 @@ elseif($code==431)
 
                                         <div class="col-lg-2 col-12">
                                             <div class="form-group">
-                                                <label>Salary Decided</label>
+                                                <label>Current Salary</label>
                                                 <input type="text" class="form-control" id="salary" placeholder="Enter salary"
                                                     value="<?=$row1['SalaryAtPresent'];?>" >
                                             </div>
@@ -30592,13 +30463,13 @@ elseif($code==431)
                 <td>
                     <div>
                     <?php 
-                     $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/".$row1['PANCardpath'], PATHINFO_EXTENSION);
+                     $ext = pathinfo($BasURL."Images/Staff/StaffPanCard/".$row1['PANCardpath'], PATHINFO_EXTENSION);
                     if ($ext == 'pdf' || $ext == 'PDF' ) {
-                        // echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                        // echo '<img src="'.$BasURL.'Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                        echo '<img src="'.$BasURL.'Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
                         // echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     }
@@ -30628,14 +30499,14 @@ elseif($code==431)
                 <td>
                 <div>
                     <?php 
-                    $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/".$row1['AadharPath'], PATHINFO_EXTENSION);
+                    $ext = pathinfo($BasURL."Images/Staff/StaffAadharCard/".$row1['AadharPath'], PATHINFO_EXTENSION);
                     if ( $ext == 'pdf' || $ext == 'PDF') {
-                        // echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                        // echo '<img src="'.$BasURL.'Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     
                 }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                    echo '<img src="http://erp.gku.ac.in:86/Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                    echo '<img src="'.$BasURL.'Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
                     echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                 }
                      else {
@@ -30665,9 +30536,9 @@ elseif($code==431)
                 <div data-toggle="modal" data-target="#UploadImageDocument" onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Imagepath');" >
                 <i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>
                     <?php 
-                    $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
+                    $ext = pathinfo($BasURL."Images/Staff/".$row1['Imagepath'], PATHINFO_EXTENSION);
                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                        echo '<img src="'.$BasURL.'Images/Staff/'.$row1['Imagepath'].'" alt="Your Image" width="100" height="100">';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     }
                     else {
@@ -30699,13 +30570,13 @@ elseif($code==431)
                 <td>
                 <div>
                     <?php 
-                    $ext = pathinfo("http://erp.gku.ac.in:86/Images/Staff/bankpassbook/".$row1['Bankpassbookpath'], PATHINFO_EXTENSION);
+                    $ext = pathinfo($BasURL."Images/Staff/bankpassbook/".$row1['Bankpassbookpath'], PATHINFO_EXTENSION);
                     if ( $ext == 'pdf' || $ext == 'PDF') {
                         echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     } 
                     else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
-                        echo '<img src="http://erp.gku.ac.in:86/Images/Staff/bankpassbook/'.$row1['Bankpassbookpath'].'" alt="Passbook Copy" width="100" height="100">';
+                        echo '<img src="'.$BasURL.'Images/Staff/bankpassbook/'.$row1['Bankpassbookpath'].'" alt="Passbook Copy" width="100" height="100">';
                         echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
                     } 
                     else {
@@ -31085,7 +30956,7 @@ elseif($code==431)
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                             </div>
                                 <?php
                           
@@ -31093,9 +30964,15 @@ elseif($code==431)
                                      
                             ?>
 
-                            </div>
-                        </div>
-                    </div>
+</div>
+</div> 
+</div>
+<?php if($_SESSION['RequiredData']!='')
+{?>
+<div class="alert alert-danger" role="alert">
+<b class="blink"><?php echo $_SESSION['RequiredData'];?></b>
+</div>   
+<?php }?>           
                     <!-- /.row -->
                 </div>
                 <div class="card-footer">
@@ -31386,6 +31263,8 @@ elseif($code==437)
    {
       echo "0";
    }
+
+   $_SESSION['RequiredData']="";
 //    if ($query_run === false) {
 //     $errors = sqlsrv_errors();
 //     echo "Error: " . print_r($errors, true);
@@ -31510,10 +31389,10 @@ $destdir = '/Images/Staff';
     ftp_close($conn_id);
      $insertExp="UPDATE Staff SET Imagepath='$file_name' where IDNo='$EmployeeID'";
     $result = sqlsrv_query($conntest, $insertExp);
-    $file_data = file_get_contents($file_tmp);
-    $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $EmployeeID);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+    // $file_data = file_get_contents($file_tmp);
+//     $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
+// $params = array($file_data, $EmployeeID);
+// $upimage_run = sqlsrv_query($conntest, $upimage, $params);
     if($result==true)
     {
         echo "1";
@@ -31627,7 +31506,7 @@ elseif($code==443)  // search student  for unlock lock
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
         $aa[]=$row;
-          $emp_pic=base64_encode($row['Snap']);
+          $emp_pic=$row['Image'];
          if ($row['StudentMobileNo']!='') 
          {
             $mobile=$row['StudentMobileNo'];
@@ -31641,7 +31520,7 @@ elseif($code==443)  // search student  for unlock lock
                     <tr>
                     <td><input type="checkbox" class="checkbox v_check" value="<?=$row['IDNo'];?>"></td>
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -31742,7 +31621,7 @@ elseif($code==444)  // search student
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
         $aa[]=$row;
-          $emp_pic=base64_encode($row['Snap']);
+          $emp_pic=$row['Snap'];
          if ($row['StudentMobileNo']!='') 
          {
             $mobile=$row['StudentMobileNo'];
@@ -31756,7 +31635,7 @@ elseif($code==444)  // search student
                     <tr>
                     <td><input type="checkbox" class="checkbox v_check" value="<?=$row['IDNo'];?>"></td>
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -32061,7 +31940,7 @@ $todaydate=$_POST['startDate'];
                                                     $stmt = sqlsrv_query($conntest,$staff);  
                                                 while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                                                         {
-                                                    $emp_image = $row_staff['Snap'];
+                                                    $emp_image = $row_staff['Imagepath'];
                                                     $empid = $row_staff['IDNo'];
                                                     $name = $row_staff['Name'];
                                                     $college = $row_staff['CollegeName'];
@@ -32109,7 +31988,7 @@ $todaydate=$_POST['startDate'];
                                                 </div>
                                                 <div class="col-5 text-center">
                                                     <br>
-                                                    <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($emp_image).'" height="100px" width="100px" alt="user-avatar" class="img-circle"/>';?>
+                                                    <?php echo '<img src="'.$BasURL.'Images/Staff/'.$emp_image.'" height="100px" width="100px" alt="user-avatar" class="img-circle"/>';?>
                                                 </div>
                                             </div>
                                         </div>
@@ -32599,7 +32478,7 @@ $subCodesArray=$_POST['subCodesArray'];
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
         $aa[]=$row;
-          $emp_pic=base64_encode($row['Snap']);
+          $emp_pic=$row['Image'];
          if ($row['StudentMobileNo']!='') 
          {
             $mobile=$row['StudentMobileNo'];
@@ -32613,7 +32492,7 @@ $subCodesArray=$_POST['subCodesArray'];
                     <tr>
                 
                         <td><?=$sr;?></td>
-                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='data:image/jpeg;base64,".$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
+                        <td data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['Status']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Students/'.$emp_pic."' alt='message user image' style='border:3px solid ".$borderColor.";' >";?> 
                 </td>
                         <td><?=$row['Session'];?></td>
                         <td><?=$row['IDNo'];?></td>
@@ -32914,7 +32793,7 @@ $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName
   }
 
 
-
+  sqlsrv_close($conntest);        
 }
 
 elseif($code==456)
@@ -33003,7 +32882,7 @@ $SrNo++;
 }?>
 </table>
 <?php 
-
+sqlsrv_close($conntest);        
 }
 elseif($code==457)
 {
@@ -33087,12 +32966,13 @@ elseif($code==457)
             $errors = sqlsrv_errors();
             echo "Error: " . print_r($errors, true);
         } 
+        sqlsrv_close($conntest);        
 }
 elseif($code==458) // sic pendig complaint 
 {
 
   ?>
-<table class="table" id="example">
+<table class="table table-bordered" id="example" style="font-size:12px;">
   <thead>
       <tr>
           <th>Complain NO</th>
@@ -33102,26 +32982,123 @@ elseif($code==458) // sic pendig complaint
       </tr>
   </thead>
   <tbody>
-      <?php  $sr=1; $get_pending="SELECT *,vehicle_types.name as v_name,vehicle_allotment.name as e_name FROM vehicle_allotment_process inner join vehicle_allotment  ON vehicle_allotment_process.token_no=vehicle_allotment.token_no inner join vehicle_types ON vehicle_allotment.vehicle_type=vehicle_types.id "; 
+      <?php  $sr=1; $get_pending="SELECT Complaint,ComplaintNo,ComplaintDate from StudentComplaints where ComplaineeIDNo='101144' and Action='Pending'"; 
    // and vehicle_allotment.status<3
-      $get_pending_run=mysqli_query($conn,$get_pending);
-      while($get_row=mysqli_fetch_array($get_pending_run))
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($get_row=sqlsrv_fetch_array($get_pending_run))
       {
       
       ?>
       <tr>
-          <td><?=$sr;?></td>
-          <td onclick="show_timeline_verification(<?=$get_row['token_no'];?>);"><a href="#"><B
-                      class="text-primary"><?=$get_row['token_no'];?></B></a></td>
-          <td><?=$get_row['v_name'];?></td>
-          <!-- <td><?=date("d-m-Y h:i:A", strtotime($get_row['submit_date_time']));?></td> -->
-          <td><?=$get_row['e_name'];?></td>
+          <td><?=$get_row['ComplaintNo'];?></B></a></td>
+          <td><?=$get_row['ComplaintDate']->format('d-m-Y');?></td>
+          <td><?=$get_row['Complaint'];?></td>
+          <td><button class="btn btn-primary btn-sm" onclick="viewComplaints(<?=$get_row['ComplaintNo'];?>);">View</button></td>
       </tr>
       <?php $sr++; }?>
   </tbody>
 </table>
 <?php 
-mysqli_close($conn);
+sqlsrv_close($conntest);        
+}
+elseif($code==459) // sic completed complaint 
+{
+
+  ?>
+<table class="table table-bordered" id="example" style="font-size:12px;">
+  <thead>
+      <tr>
+          <th>Complain NO</th>
+          <th>Complaint Date</th>
+          <th>Title</th>
+          <th>Details</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php  $sr=1; $get_pending="SELECT Complaint,ComplaintNo,ComplaintDate from StudentComplaints where ComplaineeIDNo='101144' and Action='completed'"; 
+   // and vehicle_allotment.status<3
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($get_row=sqlsrv_fetch_array($get_pending_run))
+      {
+      
+      ?>
+      <tr>
+          <td><?=$get_row['ComplaintNo'];?></B></a></td>
+          <td><?=$get_row['ComplaintDate']->format('d-m-Y');?></td>
+          <td><?=$get_row['Complaint'];?></td>
+          <td><button class="btn btn-primary btn-sm" onclick="viewComplaints(<?=$get_row['ComplaintNo'];?>);">View</button></td>
+      </tr>
+      <?php $sr++; }?>
+  </tbody>
+</table>
+<?php 
+sqlsrv_close($conntest);        
+}
+elseif($code==460) // sic forwarded complaint 
+{
+
+  ?>
+<table class="table table-bordered" id="example" style="font-size:12px;">
+  <thead>
+      <tr>
+          <th>Complain NO</th>
+          <th>Complaint Date</th>
+          <th>Title</th>
+          <th>Details</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php  $sr=1; $get_pending="SELECT Complaint,ComplaintNo,ComplaintDate from StudentComplaints where ComplaineeIDNo='101144' and Action='Forwarded'"; 
+   // and vehicle_allotment.status<3
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($get_row=sqlsrv_fetch_array($get_pending_run))
+      {
+      
+      ?>
+      <tr>
+          <td><?=$get_row['ComplaintNo'];?></B></a></td>
+          <td><?=$get_row['ComplaintDate']->format('d-m-Y');?></td>
+          <td><?=$get_row['Complaint'];?></td>
+          <td><button class="btn btn-primary btn-sm" onclick="viewComplaints(<?=$get_row['ComplaintNo'];?>);">View</button></td>
+      </tr>
+      <?php $sr++; }?>
+  </tbody>
+</table>
+<?php 
+sqlsrv_close($conntest);        
+}
+elseif($code==461) // sic inprogreess complaint 
+{
+
+  ?>
+<table class="table table-bordered" id="example" style="font-size:12px;">
+  <thead>
+      <tr>
+          <th>Complain NO</th>
+          <th>Complaint Date</th>
+          <th>Title</th>
+          <th>Details</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php  $sr=1; $get_pending="SELECT Complaint,ComplaintNo,ComplaintDate from StudentComplaints where ComplaineeIDNo='101144' and Action='Forwarded'"; 
+   // and vehicle_allotment.status<3
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($get_row=sqlsrv_fetch_array($get_pending_run))
+      {
+      
+      ?>
+      <tr>
+          <td><?=$get_row['ComplaintNo'];?></B></a></td>
+          <td><?=$get_row['ComplaintDate']->format('d-m-Y');?></td>
+          <td><?=$get_row['Complaint'];?></td>
+          <td><button class="btn btn-primary btn-sm" onclick="viewComplaints(<?=$get_row['ComplaintNo'];?>);">View</button></td>
+      </tr>
+      <?php $sr++; }?>
+  </tbody>
+</table>
+<?php 
+sqlsrv_close($conntest);        
 }
    else
    {

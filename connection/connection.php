@@ -55,6 +55,6 @@ if ($conntest)
 
 
 
-
+$BasURL="http://erp.gku.ac.in:86/";
 
 ?>
