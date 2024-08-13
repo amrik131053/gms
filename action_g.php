@@ -8828,7 +8828,7 @@ else
                      while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
-                        <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
+                        <option value="<?=$row['id'];?>"><?=$row['Name'];?></option>
 
                         <?php }?>
                     </select>
