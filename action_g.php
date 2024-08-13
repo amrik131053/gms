@@ -8696,12 +8696,13 @@ if ($row_fee=mysqli_fetch_array($fee_details_run))
     $after_concession=$row_fee['after_concession'];
  }    
 
- $consultant_details="SELECT * FROM MasterConsultant where id='$Consultant_id'";
+
+ $consultant_details="SELECT * FROM MasterConsultant where ID='$Consultant_id'";
 $consultant_details_run=sqlsrv_query($conntest,$consultant_details);
 if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
  {
     $consultant=$row_consultant['Name'];
-   
+   $Consultant_id=$row_consultant['ID'];
  }
 
 
@@ -8800,7 +8801,7 @@ else
                      while($row=sqlsrv_fetch_array($get_consultant_run))
                      {?>
 
-                        <option value="<?=$row['id'];?>"><?=$row['state'];?></option>
+                        <option value="<?=$row['ID'];?>"><?=$row['Name'];?></option>
 
                         <?php }?>
                     </select>
@@ -8853,7 +8854,7 @@ else
 
                         <?php
                      
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
