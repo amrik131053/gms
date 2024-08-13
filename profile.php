@@ -1,7 +1,7 @@
 <?php 
 include "header.php";
+
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <style>
                                            
 
@@ -132,9 +132,16 @@ include "header.php";
     
 showProfileData();
 
-function tab()
+function tab1()
 {
+   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+ localStorage.setItem('lastTab', $(this).attr('href'));
+});
+var lastTab = localStorage.getItem('lastTab');
 
+if (lastTab) {
+ $('[href="' + lastTab + '"]').tab('show');
+}
 }
 
 function showProfileData() {
@@ -148,7 +155,7 @@ function showProfileData() {
             code: code
         },
         success: function(response) {
-            tab();
+            tab1();
             document.getElementById("showData").innerHTML = response;
             spinner.style.display = 'none';
         }
@@ -170,7 +177,7 @@ function addExperience(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -205,10 +212,10 @@ function addAcademic(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            console.log(response);
+            // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -246,7 +253,7 @@ function uploadPanCard(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -284,7 +291,7 @@ function uploadAdharCard(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -322,7 +329,7 @@ function uploadImage(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -360,7 +367,7 @@ function uploadPassBook(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab();
+                tab1();
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
@@ -383,7 +390,7 @@ function uploadPassBook(form) {
     });
 }
 
-function postcode(pincode) {
+function postcode() {
     var pincode = document.getElementById("pincode-input").value;
     var countryDisplay = document.getElementById("nationality");
     var stateDisplay = document.getElementById("state_by_post");
@@ -554,7 +561,7 @@ function deleteAcademics(id) {
             spinner.style.display = 'none';
             console.log(data);
                 SuccessToast('Successfully Deleted');
-                tab();
+                tab1();
                 showProfileData();
             // if (data == 1) {
             //     showProfileData();
@@ -595,8 +602,9 @@ function updateStaffSelf() {
         var bankAccountNo=document.getElementById('bankAccountNo').value;
         var employeeBankName=document.getElementById('employeeBankName').value;
         var bankIFSC=document.getElementById('bankIFSC').value;
-        var nationality_by_post=document.getElementById('nationality').value;
+        var nationality_by_post=document.getElementById('nationality_by_post').value;
         var bloodgroup=document.getElementById('bloodgroup').value;
+        var salary=document.getElementById('salary').value;
         // alert(bankIFSC);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -629,15 +637,16 @@ function updateStaffSelf() {
             employeeBankName:employeeBankName,
             bankIFSC:bankIFSC,
             bloodgroup:bloodgroup,
+            salary:salary,
              nationality_by_post:nationality_by_post
         },
         success: function(response) {
-            tab();
+            tab1();
             // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
-                tab();
+                tab1();
                 showProfileData();
                 SuccessToast('Successfully Updated','bg-success');
             }
@@ -667,12 +676,12 @@ function dlt_data(id) {
         success: function(data) {
             console.log(data);
             spinner.style.display = 'none';
-            if (data == 1) {
+            // if (data == 1) {
                 SuccessToast('Successfully Deleted');
                 showProfileData();
-            } else {
-                ErrorToast('try again','bg-danger');
-            }
+            // } else {
+            //     ErrorToast('try again','bg-danger');
+            // }
         }
     });
 }
@@ -681,6 +690,7 @@ else
 }
 }
 </script>
+
 <script>
 function dateOnChnage() {
         var doa = $("#doj").val();
@@ -715,7 +725,7 @@ function dateOnChnage() {
 // tab active when page reload
 function tab1()
 {
-   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
  localStorage.setItem('lastTab', $(this).attr('href'));
 });
 var lastTab = localStorage.getItem('lastTab');
@@ -724,7 +734,7 @@ if (lastTab) {
 }
 }
 </script>
-
+  
 <?php
 include "footer.php";
 ?>

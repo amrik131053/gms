@@ -6,6 +6,7 @@ $user=$_POST["user"];
 $pass=$_POST["pass"];
 $u_permissions = "";
 $college = "";
+$_SESSION['profileIncomplete']=0;
 function is_secure_password($password) {
     
    $min_length = 8;
