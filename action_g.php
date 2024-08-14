@@ -29956,9 +29956,13 @@ elseif($code==431)
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-
-                    <?php echo '<img class="profile-user-img img-fluid img-circle" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
+                    <?php echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                 </div>
+                <center><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#uploadPasspoerImage" >
+                <i class="fa fa-edit"></i>Edit Image</button></center>
+              
+
+                      
 
                 <h3 class="profile-username text-center"><?=$row1['Name'];?></h3>
 
@@ -30461,7 +30465,8 @@ elseif($code==431)
                         <input type="hidden" name="code" value="438">
                         <label>PAN Card</label>
                         <input type="file" class="form-control-file" name="panCard">
-                        <small style="color: red">*Document must be in jpg/jpeg/png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <small style="color: green">*Document must be in jpg/jpeg/png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="panerror" style="color: red"></strong><br>
                         <input  class="btn btn-success btn-xs" onclick="uploadPanCard(this.form);" value="Upload">
                     </form>
                 </td>
@@ -30497,7 +30502,8 @@ elseif($code==431)
                         <input type="hidden" name="code" value="439">
                         <label>Aadhar Card</label>
                         <input type="file" class="form-control-file" name="aadharCard">
-                        <small style="color: red">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="adharerror" style="color: red"></strong><br>
                         <input class="btn btn-success btn-xs" onclick="uploadAdharCard(this.form);" value="Upload">
                     </form>
                 </td>
@@ -30533,7 +30539,9 @@ elseif($code==431)
                         <input type="hidden" name="code" value="440">
                         <label>Your Image</label>
                         <input type="file" class="form-control-file" name="photoIMage">
-                        <small style="color: red">*Document must be in .jpg/.jpeg/.png format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="imgerror" style="color: red"></strong><br>
+                       
                         <input  class="btn btn-success btn-xs" onclick="uploadImage(this.form);" value="Upload">
                     </form>
                 </td>
@@ -30568,7 +30576,8 @@ elseif($code==431)
                         <input type="hidden" name="code" value="441">
                         <label>Upload Passbook Copy</label>
                         <input type="file" class="form-control-file" name="passbookCopy">
-                        <small style="color: red">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="bnkerror" style="color: red"></strong><br>
                         <input  class="btn btn-success btn-xs" onclick="uploadPassBook(this.form);" value="Upload">
                     </form>
                 </td>
@@ -30801,12 +30810,11 @@ elseif($code==431)
                                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i>
                                  <?php 
+                            if($data['updateddate']!='')
+                            {
                             $stop_date = new DateTime($timeStamp);
                             $stop_date->modify('-1 day');
                               $endDateUpdate=$stop_date->format('Y-m-d');
-                              if($data['updateddate']!='')
-                              {
-
                                   $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
                                     if($endDateUpdate<=$dbDateFromUpdate)
                                     {
@@ -30938,10 +30946,13 @@ elseif($code==431)
                                     </i>
                                    
                                     <?php 
+                                    if($data['upddate']!=''){
                             $stop_date1 = new DateTime($timeStamp);
                             $stop_date1->modify('-1 day');
                              $endDateUpdate1=$stop_date1->format('Y-m-d');
+
                                  $dbDateFromUpdate1=$data['upddate']->format('Y-m-d');
+
                                     if($endDateUpdate1<=$dbDateFromUpdate1)
                                     {
                                  ?>
@@ -30949,7 +30960,9 @@ elseif($code==431)
                                         onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
-                                   <?php }?>
+                                   <?php 
+                                
+                                }}?>
                                    
                                 </td>
                             </tr>
@@ -33102,6 +33115,53 @@ elseif($code==461) // sic inprogreess complaint
           <td><?=$get_row['ComplaintDate']->format('d-m-Y');?></td>
           <td><?=$get_row['Complaint'];?></td>
           <td><button class="btn btn-primary btn-sm" onclick="viewComplaints(<?=$get_row['ComplaintNo'];?>);">View</button></td>
+      </tr>
+      <?php $sr++; }?>
+  </tbody>
+</table>
+<?php 
+sqlsrv_close($conntest);        
+}
+elseif($code==462) // book search
+{
+    $collegeName=$_POST['collegeName'];
+    $sortBy=$_POST['sortBy'];
+    $searchType=$_POST['searchType'];
+    $searchValue=$_POST['searchValue'];
+  ?>
+<table class="table table-bordered" id="example" style="font-size:14px;">
+  <thead>
+      <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>AccessionNo</th>
+          <th>Author</th>
+          <th>Edition</th>
+          <th>Publisher</th>
+          <th>Year</th>
+          <th>Category</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php  $sr=1;
+      
+      
+      $get_pending="SELECT * from StockRegister where $searchType like '%$searchValue%'"; 
+      $get_pending_run=sqlsrv_query($conntest,$get_pending);
+      while($get_row=sqlsrv_fetch_array($get_pending_run))
+      {
+      
+      ?>
+      <tr>
+          <td><?=$sr;?></td>
+          <td><?=$get_row['Title'];?></a></td>
+          <td><?=$get_row['AccessionNo'];?></a></td>
+          <td><?=$get_row['Author'];?></a></td>
+          <td><?=$get_row['Edition'];?></a></td>
+          <td><?=$get_row['Publisher'];?></a></td>
+          <td><?=$get_row['Year'];?></a></td>
+          <td><?=$get_row['Category'];?></a></td>
+        
       </tr>
       <?php $sr++; }?>
   </tbody>

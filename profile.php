@@ -4,6 +4,7 @@ include "header.php";
 ?>
 
 <style>
+    
 .blink {
     animation: blinker 0.5s linear infinite;
 
@@ -33,6 +34,36 @@ input[type=radio]:checked+label {
     </div>
 
 </section>
+
+<div class="modal fade" id="uploadPasspoerImage">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Image</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="action_g.php" method="POST" enctype="multipart/form-data">
+            <div class="modal-body " >
+                        <input type="hidden" name="code" value="440">
+                         <label>Latest Passport Size Image</label>
+                        <input type="file" class="form-control-file" name="photoIMage">
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="imgerror1" style="color: red"></strong><br>
+                        
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button  type="button" class="btn btn-success " onclick="uploadImage(this.form);">Upload</button>
+                    </div>
+                </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 
 <div class="modal fade" id="UploadImageDocument">
     <div class="modal-dialog">
@@ -255,10 +286,12 @@ function uploadPanCard(form) {
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb', 'bg-warning');
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+                document.getElementById("panerror").innerHTML = 'Please Upload size must be less than 500kb';
 
             } else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                document.getElementById("panerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
 
             } else {
                 ErrorToast('All inputs required', 'bg-danger');
@@ -293,10 +326,12 @@ function uploadAdharCard(form) {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
                 ErrorToast('size must be less than 500kb', 'bg-warning');
-
+                document.getElementById("adharerror").innerHTML = 'Please Upload size must be less than 500kb';
+               
             } else if (response == 3) {
                 ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
-
+                
+                document.getElementById("adharerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
             } else {
                 ErrorToast('All inputs required', 'bg-danger');
             }
@@ -324,16 +359,19 @@ function uploadImage(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-
+                $('#uploadPasspoerImage').modal('hide');
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb', 'bg-warning');
+                ErrorToast('Please Upload Image size must be less than 500kb', 'bg-warning');
+                document.getElementById("imgerror").innerHTML = 'Please Upload Image size must be less than 500kb';
+                document.getElementById("imgerror1").innerHTML = 'Please Upload Image size must be less than 500kb';
 
             } else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png format. ', 'bg-warning');
-
+                ErrorToast('Please Upload must be in jpg/jpeg/png format. ', 'bg-warning');
+                document.getElementById("imgerror").innerHTML = 'Please Upload Image must be in jpg/jpeg/png format';
+                document.getElementById("imgerror1").innerHTML = 'Please Upload Image must be in jpg/jpeg/png format';
             } else {
                 ErrorToast('All inputs required', 'bg-danger');
             }
@@ -366,11 +404,12 @@ function uploadPassBook(form) {
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb', 'bg-warning');
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+                document.getElementById("bnkerror").innerHTML = 'Please Upload size must be less than 500kb';
 
             } else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
-
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                document.getElementById("bnkerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
             } else {
                 ErrorToast('All inputs required', 'bg-danger');
             }
