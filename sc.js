@@ -1642,15 +1642,5 @@ if (lastTab) {
  $('[href="' + lastTab + '"]').tab('show');
 }
 }
-// function tab1()
-// {
-//    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-//  localStorage.setItem('lastTab1', $(this).attr('href'));
-//  alert(localStorage);
-// });
-// var lastTab1 = localStorage.getItem('lastTab1');
-// if (lastTab1) {
-//  $('[href="' + lastTab1 + '"]').tab('show');
-// }
-// }
+
 

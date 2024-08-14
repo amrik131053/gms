@@ -3,37 +3,35 @@ include "header.php";
 
 ?>
 
- <style>
-                                           
+<style>
+.blink {
+    animation: blinker 0.5s linear infinite;
 
-        .blink {
-            animation: blinker 0.5s linear infinite;
-            
-           
-        }
 
-        @keyframes blinker {
-            50% {
-                opacity: 0;
-            }
-        }                                 
+}
 
-                                           input[type=radio]+label {
-                                               background-color: #a62535;
-                                               color: white;
-                                           }
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
 
-                                           input[type=radio]:checked+label {
-                                               color: white;
-                                               background-color: #223260;
-                                           }
-                                           </style>
-                                          
+input[type=radio]+label {
+    background-color: #a62535;
+    color: white;
+}
+
+input[type=radio]:checked+label {
+    color: white;
+    background-color: #223260;
+}
+</style>
+
 <section class="content">
 
     <div id="showData">
     </div>
-    
+
 </section>
 
 <div class="modal fade" id="UploadImageDocument">
@@ -77,27 +75,27 @@ include "header.php";
 </div>
 <!-- /.modal -->
 <div class="modal fade" id="modal-default-Experience">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Experience Document</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h4 class="modal-title">Experience Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" id="data-exp">
-              
+
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-             
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
             </div>
-          </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <div class="modal fade" id="modal-delete">
     <div class="modal-dialog">
@@ -117,44 +115,32 @@ include "header.php";
 </div>
 <!-- /.modal -->
 <script>
-                               function loadCourse(){
-                                var spinner = document.getElementById("ajax-loader");
+function loadCourse() {
+    var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
-                                    var code='442';
-                                    
-                                    var academicID = $("#Programs").val();
-                                      $.ajax({
-                                        url:'action_g.php',
-                                        data:{courseID:academicID,code:code},
-                                        type:'POST',
-                                        success:function(data){
-                                            // console.log(data);
-                                            spinner.style.display = 'none';
-                                            if(data != "")
-                                            {
-                                                $("#course").html("");
-                                                $("#course").html(data);
-                                            }
-                                        }
-                                      });
-                                    }
-                                 
-                              </script>
+    var code = '442';
+
+    var academicID = $("#Programs").val();
+    $.ajax({
+        url: 'action_g.php',
+        data: {
+            courseID: academicID,
+            code: code
+        },
+        type: 'POST',
+        success: function(data) {
+            // console.log(data);
+            spinner.style.display = 'none';
+            if (data != "") {
+                $("#course").html("");
+                $("#course").html(data);
+            }
+        }
+    });
+}
+</script>
 <script>
-    
 showProfileData();
-
-function tab1()
-{
-   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
- localStorage.setItem('lastTab', $(this).attr('href'));
-});
-var lastTab = localStorage.getItem('lastTab');
-
-if (lastTab) {
- $('[href="' + lastTab + '"]').tab('show');
-}
-}
 
 function showProfileData() {
     var spinner = document.getElementById("ajax-loader");
@@ -167,12 +153,13 @@ function showProfileData() {
             code: code
         },
         success: function(response) {
-            tab1();
+
             document.getElementById("showData").innerHTML = response;
             spinner.style.display = 'none';
         }
     });
 }
+
 function addExperience(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -189,20 +176,18 @@ function addExperience(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
-            }else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }
-            else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
-                
-            }
-             else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 2) {
+                ErrorToast('size must be less than 500kb', 'bg-warning');
+
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -211,6 +196,7 @@ function addExperience(form) {
         }
     });
 }
+
 function addAcademic(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -227,20 +213,18 @@ function addAcademic(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Added');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
-                
-            }
+                ErrorToast('size must be less than 500kb', 'bg-warning');
 
-            else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -249,6 +233,7 @@ function addAcademic(form) {
         }
     });
 }
+
 function uploadPanCard(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -265,20 +250,18 @@ function uploadPanCard(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
-                
-            }
+                ErrorToast('size must be less than 500kb', 'bg-warning');
 
-            else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -287,6 +270,7 @@ function uploadPanCard(form) {
         }
     });
 }
+
 function uploadAdharCard(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -303,20 +287,18 @@ function uploadAdharCard(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
-                
-            }
+                ErrorToast('size must be less than 500kb', 'bg-warning');
 
-            else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -325,6 +307,7 @@ function uploadAdharCard(form) {
         }
     });
 }
+
 function uploadImage(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -341,20 +324,18 @@ function uploadImage(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png format. ','bg-warning');
-                
-            }
+                ErrorToast('size must be less than 500kb', 'bg-warning');
 
-            else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -363,6 +344,7 @@ function uploadImage(form) {
         }
     });
 }
+
 function uploadPassBook(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -379,20 +361,18 @@ function uploadPassBook(form) {
             // console.log(response);
             if (response == 1) {
                 SuccessToast('Successfully Uploaded');
-                tab1();
+
                 showProfileData();
             } else if (response === 'Could not connect to 10.0.10.11') {
                 ErrorToast('FTP Server Off', 'bg-warning');
             } else if (response == 2) {
-                ErrorToast('size must be less than 500kb','bg-warning');
-                
-            }else if (response == 3) {
-                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ','bg-warning');
-                
-            }
+                ErrorToast('size must be less than 500kb', 'bg-warning');
 
-            else {
-                ErrorToast('All inputs required','bg-danger');
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
@@ -428,12 +408,6 @@ function postcode() {
                 stateDisplay.value = State;
                 districtDisplay.value = District;
 
-                // for (var i = 0; i < response[0].PostOffice.length; i++) {
-                //   var option = document.createElement("option");
-                //   option.value = i;
-                //   option.text = response[0].PostOffice[i].Name;
-                //   dropdown.add(option);
-                // }
             }
         }
     };
@@ -455,7 +429,8 @@ function viewAcademicDocumentExp(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
-function view_uploaded_document(id,documentP) {
+
+function view_uploaded_document(id, documentP) {
     var code = 59;
     //alert(id);
     var xmlhttp = new XMLHttpRequest();
@@ -464,7 +439,7 @@ function view_uploaded_document(id,documentP) {
             document.getElementById("documentData").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code+ "&document=" + documentP, true);
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code + "&document=" + documentP, true);
     xmlhttp.send();
 }
 
@@ -529,6 +504,7 @@ function calculate_percentage() {
         }
     }
 }
+
 function viewAcademicDocument(id) {
     var code = 57;
     //alert(id);
@@ -541,83 +517,84 @@ function viewAcademicDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
- function viewTestDocument(id){
-                            var code=1;
-                            //alert(id);
-                            var xmlhttp = new XMLHttpRequest();
-                              xmlhttp.onreadystatechange = function() {
-                              if (xmlhttp.readyState==4 && xmlhttp.status==200)
-                              {
-                                document.getElementById("data").innerHTML=xmlhttp.responseText;
-                              }
-                              }
-                            xmlhttp.open("GET", "get-action.php?id=" + id+"&code="+code, true);
-                              xmlhttp.send();
-                           }
-function deleteAcademics(id) {
-    var a=confirm('Are you sure you want to delete');
-   if (a==true) {
-      var spinner = document.getElementById("ajax-loader");
-      spinner.style.display = 'block';
-    var code = '432';
-    var academicID = id;
-    //alert(academicID);
-    $.ajax({
-        url: 'action_g.php',
-        data: {
-            ID: academicID,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            spinner.style.display = 'none';
-            console.log(data);
-                SuccessToast('Successfully Deleted');
-                tab1();
-                showProfileData();
-            // if (data == 1) {
-            //     showProfileData();
-            // } 
-            //  else {
-            //     ErrorToast('try again','bg-danger');
-            // }
-            
-        }
-    });
-}else{
 
+function viewTestDocument(id) {
+    var code = 1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get-action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
 }
+
+function deleteAcademics(id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432';
+        var academicID = id;
+        //alert(academicID);
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+
+                showProfileData();
+                // if (data == 1) {
+                //     showProfileData();
+                // } 
+                //  else {
+                //     ErrorToast('try again','bg-danger');
+                // }
+
+            }
+        });
+    } else {
+
+    }
 }
 
 
 function updateStaffSelf() {
-   
-        var loginId=document.getElementById('loginId').value;
-        var fatherName=document.getElementById('fatherName').value;
-        var motherName=document.getElementById('motherName').value;
-        var dob=document.getElementById('dob').value;
-        var gender=document.getElementById('gender').value;
-        var category=document.getElementById('category').value;
-        var panNumber=document.getElementById('panNumber').value;
-        var aadharNumber=document.getElementById('aadharNumber').value;
-        var personalIdentificationMark=document.getElementById('personalIdentificationMark').value;
-        var personalEmail=document.getElementById('personalEmail').value;
-        var officialEmail=document.getElementById('officialEmail').value;
-        var mobileNumber=document.getElementById('mobileNumber').value;
-        var whatsappNumber=document.getElementById('whatsappNumber').value;
-        var permanentAddress=document.getElementById('permanentAddress').value;
-        var correspondenceAddress=document.getElementById('correspondenceAddress').value;
-        var postalCode=document.getElementById('postalCode').value;
-        var state_by_post=document.getElementById('state_by_post').value;
-        var district_by_post=document.getElementById('district_by_post').value;
-        var postOffice=document.getElementById('postOffice').value;
-        var bankAccountNo=document.getElementById('bankAccountNo').value;
-        var employeeBankName=document.getElementById('employeeBankName').value;
-        var bankIFSC=document.getElementById('bankIFSC').value;
-        var nationality_by_post=document.getElementById('nationality_by_post').value;
-        var bloodgroup=document.getElementById('bloodgroup').value;
-        var salary=document.getElementById('salary').value;
-        // alert(bankIFSC);
+
+    var loginId = document.getElementById('loginId').value;
+    var fatherName = document.getElementById('fatherName').value;
+    var motherName = document.getElementById('motherName').value;
+    var dob = document.getElementById('dob').value;
+    var gender = document.getElementById('gender').value;
+    var category = document.getElementById('category').value;
+    var panNumber = document.getElementById('panNumber').value;
+    var aadharNumber = document.getElementById('aadharNumber').value;
+    var personalIdentificationMark = document.getElementById('personalIdentificationMark').value;
+    var personalEmail = document.getElementById('personalEmail').value;
+    var officialEmail = document.getElementById('officialEmail').value;
+    var mobileNumber = document.getElementById('mobileNumber').value;
+    var whatsappNumber = document.getElementById('whatsappNumber').value;
+    var permanentAddress = document.getElementById('permanentAddress').value;
+    var correspondenceAddress = document.getElementById('correspondenceAddress').value;
+    var postalCode = document.getElementById('postalCode').value;
+    var state_by_post = document.getElementById('state_by_post').value;
+    var district_by_post = document.getElementById('district_by_post').value;
+    var postOffice = document.getElementById('postOffice').value;
+    var bankAccountNo = document.getElementById('bankAccountNo').value;
+    var employeeBankName = document.getElementById('employeeBankName').value;
+    var bankIFSC = document.getElementById('bankIFSC').value;
+    var nationality_by_post = document.getElementById('nationality_by_post').value;
+    var bloodgroup = document.getElementById('bloodgroup').value;
+    var salary = document.getElementById('salary').value;
+    // alert(bankIFSC);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code = 437;
@@ -626,44 +603,42 @@ function updateStaffSelf() {
         type: 'POST',
         data: {
             code: code,
-            loginId:loginId,
-            fatherName:fatherName,
-            motherName:motherName,
-            dob:dob,
-            gender:gender,
-            category:category,
-            panNumber:panNumber,
-            aadharNumber:aadharNumber,
-            personalIdentificationMark:personalIdentificationMark,
-            personalEmail:personalEmail,
-            officialEmail:officialEmail,
-            mobileNumber:mobileNumber,
-            whatsappNumber:whatsappNumber,
-            permanentAddress:permanentAddress,
-            correspondenceAddress:correspondenceAddress,
-            postalCode:postalCode,
-            state_by_post:state_by_post,
-            district_by_post:district_by_post,
-            postOffice:postOffice,
-            bankAccountNo:bankAccountNo,
-            employeeBankName:employeeBankName,
-            bankIFSC:bankIFSC,
-            bloodgroup:bloodgroup,
-            salary:salary,
-             nationality_by_post:nationality_by_post
+            loginId: loginId,
+            fatherName: fatherName,
+            motherName: motherName,
+            dob: dob,
+            gender: gender,
+            category: category,
+            panNumber: panNumber,
+            aadharNumber: aadharNumber,
+            personalIdentificationMark: personalIdentificationMark,
+            personalEmail: personalEmail,
+            officialEmail: officialEmail,
+            mobileNumber: mobileNumber,
+            whatsappNumber: whatsappNumber,
+            permanentAddress: permanentAddress,
+            correspondenceAddress: correspondenceAddress,
+            postalCode: postalCode,
+            state_by_post: state_by_post,
+            district_by_post: district_by_post,
+            postOffice: postOffice,
+            bankAccountNo: bankAccountNo,
+            employeeBankName: employeeBankName,
+            bankIFSC: bankIFSC,
+            bloodgroup: bloodgroup,
+            salary: salary,
+            nationality_by_post: nationality_by_post
         },
         success: function(response) {
-            tab1();
+
             // console.log(response);
             spinner.style.display = 'none';
-            if(response==1)
-            {
-                tab1();
+            if (response == 1) {
+
                 showProfileData();
-                SuccessToast('Successfully Updated','bg-success');
-            }
-            else{
-                ErrorToast('Try again','bg-warning');
+                SuccessToast('Successfully Updated', 'bg-success');
+            } else {
+                ErrorToast('Try again', 'bg-warning');
             }
         }
     });
@@ -673,80 +648,66 @@ function updateStaffSelf() {
 <script>
 function dlt_data(id) {
     var code = '435';
-    var a=confirm('Are you sure you want to delete');
-   if (a==true) {
-      var spinner = document.getElementById("ajax-loader");
-      spinner.style.display = 'block';
-    var ID = id;
-    $.ajax({
-        url: 'action_g.php',
-        data: {
-            ID: ID,
-            code: code
-        },
-        type: 'POST',
-        success: function(data) {
-            console.log(data);
-            spinner.style.display = 'none';
-            // if (data == 1) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var ID = id;
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: ID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                console.log(data);
+                spinner.style.display = 'none';
+                // if (data == 1) {
                 SuccessToast('Successfully Deleted');
                 showProfileData();
-            // } else {
-            //     ErrorToast('try again','bg-danger');
-            // }
-        }
-    });
-}
-else
-{
-}
+                // } else {
+                //     ErrorToast('try again','bg-danger');
+                // }
+            }
+        });
+    } else {}
 }
 </script>
 
 <script>
 function dateOnChnage() {
-        var doa = $("#doj").val();
-        var dor = $("#dor").val();
-        var code = 434;
-        if (doa == null || doa == "" || dor == null || dor == "") {
-            // alert("Select Date of Joining");
-            ErrorToast('Select Date of Joining','bg-warning');
-            document.getElementById("dor").value = '';
-        } else if (doa > dor) {
-            ErrorToast('Date of Joining must be older that date of leaving','bg-warning');
-            document.getElementById("dor").value = '';
-            document.getElementById("doj").value = '';
-        } else {
+    var doa = $("#doj").val();
+    var dor = $("#dor").val();
+    var code = 434;
+    if (doa == null || doa == "" || dor == null || dor == "") {
+        // alert("Select Date of Joining");
+        ErrorToast('Select Date of Joining', 'bg-warning');
+        document.getElementById("dor").value = '';
+    } else if (doa > dor) {
+        ErrorToast('Date of Joining must be older that date of leaving', 'bg-warning');
+        document.getElementById("dor").value = '';
+        document.getElementById("doj").value = '';
+    } else {
 
-            $.ajax({
-                url: 'action_g.php',
-                data: {
-                    doa: doa,
-                    dor: dor,
-                    code: code
-                },
-                type: 'POST',
-                success: function(data) {
-                    console.log(data)
-                    document.getElementById("exp_total").value = data;
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                doa: doa,
+                dor: dor,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                console.log(data)
+                document.getElementById("exp_total").value = data;
 
-                }
-            });
-        }
+            }
+        });
     }
-// tab active when page reload
-function tab1()
-{
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
- localStorage.setItem('lastTab', $(this).attr('href'));
-});
-var lastTab = localStorage.getItem('lastTab');
-if (lastTab) {
- $('[href="' + lastTab + '"]').tab('show');
-}
 }
 </script>
-  
+
 <?php
 include "footer.php";
 ?>

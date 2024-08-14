@@ -18950,15 +18950,18 @@ include "connection/ftp-erp.php";
 
    if ($signature) {
     include "connection/ftp-erp.php";
-      $signatureTmp = $_FILES["signature"]["tmp_name"];
-  $file_type = str_ireplace("/image", ".", $_FILES['signature']['type']);
-       $SignatureImageName=$loginId.".PNG";
-   ftp_put($conn_id, "Images/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
-   $file_data1 = file_get_contents($signatureTmp);
-
-   $upimage1 = "UPDATE Admissions SET Signature = ? WHERE IDNo = ?";
-   $params1 = array($file_data1, $loginId);
-   sqlsrv_query($conntest, $upimage1, $params1);
+    $file_tmp = $_FILES["signature"]["tmp_name"];
+   $date=date('Y-m-d');  
+   $string = bin2hex(openssl_random_pseudo_bytes(4));
+   $file_data = file_get_contents($file_tmp);
+   $file_name = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['signature']['name']);
+   $destdir = '/Images/Students';
+       ftp_chdir($conn_id, "/Images/Signature/") or die("Could not change directory");
+       ftp_pasv($conn_id,true);
+       ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+       ftp_close($conn_id);
+        $insertExp="UPDATE Admissions SET Signaturepath='$file_name' where IDNo='$loginId'";
+       sqlsrv_query($conntest, $insertExp);
    }
 
 
@@ -29984,17 +29987,17 @@ elseif($code==431)
         <div class="card card-primary card-outline">
             <div class="card-body">
                 <div class="row">
-                    <!-- <div class="col-md-12"> -->
+                    <div class="col-md-12">
                         <!-- <div class="card"> -->
                         <div class="card-header" style="background-color:white!important">
                         <ul class="nav nav-pills acTab">
-            <li class="nav-item"><a class="nav-link active" href="#personal_details<?=$emp_id;?>" data-toggle="tab">Basic</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>" data-toggle="tab">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="#employment<?=$emp_id;?>" data-toggle="tab">Employment</a></li>
-            <li class="nav-item"><a class="nav-link" href="#idcard<?=$emp_id;?>" data-toggle="tab">ID Card</a></li>
-            <li class="nav-item"><a class="nav-link" href="#academic<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
-            <li class="nav-item"><a class="nav-link" href="#experience<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
-            <li class="nav-item"><a class="nav-link" href="#documents<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#personal_details1<?=$emp_id;?>" data-toggle="tab">Basic</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact1<?=$emp_id;?>" data-toggle="tab">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="#employment1<?=$emp_id;?>" data-toggle="tab">Employment</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idcard1<?=$emp_id;?>" data-toggle="tab">ID Card</a></li>
+            <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience1<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
         </ul>
                              
                             
@@ -30002,7 +30005,7 @@ elseif($code==431)
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="active tab-pane" id="personal_details<?=$emp_id;?>">
+                                <div class="active tab-pane" id="personal_details1<?=$emp_id;?>">
                                     <!-- /.login-logo -->
                                   
                                         <!-- <input type="hidden" name="code" value="437"> -->
@@ -30109,7 +30112,7 @@ elseif($code==431)
                                         </div>
 
                                                     </div>
-                                                    <div class="tab-pane" id="contact<?=$emp_id;?>">
+                                                    <div class="tab-pane" id="contact1<?=$emp_id;?>">
 
                                             <div class="row">
 
@@ -30243,7 +30246,7 @@ elseif($code==431)
                                                     </div>
 
                                                 </div>
-                                                <div class="tab-pane" id="employment<?=$emp_id;?>">
+                                                <div class="tab-pane" id="employment1<?=$emp_id;?>">
 
                                                     <div class="row">
                                                         <div class="col-lg-3 col-12">
@@ -30405,7 +30408,7 @@ elseif($code==431)
 
 
                                 </div>
-                                <div class="tab-pane" id="idcard<?=$emp_id;?>">
+                                <div class="tab-pane" id="idcard1<?=$emp_id;?>">
 
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -30440,7 +30443,8 @@ elseif($code==431)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="documents<?=$emp_id;?>">
+                                
+                                <div class="tab-pane" id="documents1<?=$emp_id;?>">
                                 <div class="container">
     <table class="table table-bordered table-condensed">
         <thead>
@@ -30597,7 +30601,7 @@ elseif($code==431)
 </div>
                                 </div>
 
-                                <div class="tab-pane" id="academic<?=$emp_id;?>">
+                                <div class="tab-pane" id="academic1<?=$emp_id;?>">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <section class="content">    
@@ -30800,13 +30804,17 @@ elseif($code==431)
                             $stop_date = new DateTime($timeStamp);
                             $stop_date->modify('-1 day');
                               $endDateUpdate=$stop_date->format('Y-m-d');
+                              if($data['updateddate']!='')
+                              {
+
                                   $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
                                     if($endDateUpdate<=$dbDateFromUpdate)
                                     {
                                  ?>
                                 <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i> 
-                                 <?php }?>
+                                 <?php }
+                                 }?>
                                  
                               </td>
                            </tr>
@@ -30825,7 +30833,7 @@ elseif($code==431)
                                 </div>
 
 
-                                <div class="tab-pane" id="experience<?=$emp_id;?>">
+                                <div class="tab-pane" id="experience1<?=$emp_id;?>">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <section class="content">
@@ -30967,13 +30975,13 @@ elseif($code==431)
 
 </div>
 </div> 
-</div>
 <?php if($_SESSION['RequiredData']!='')
 {?>
 <div class="alert alert-danger" role="alert">
-<b class="blink"><?php echo $_SESSION['RequiredData'];?></b>
+<b class="blink">Please update the following fields:  <?php echo $_SESSION['RequiredData'];?></b>
 </div>   
 <?php }?>           
+</div>
                     <!-- /.row -->
                 </div>
                 <div class="card-footer">

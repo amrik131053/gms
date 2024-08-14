@@ -123,7 +123,7 @@ BloodGroup
       
     }
     $emptyFieldsList = implode(', ', $emptyFields);
-        $alertMessage = "Please update the following fields:  $emptyFieldsList ";
+        $alertMessage = $emptyFieldsList;
 $_SESSION['RequiredData']=$alertMessage;
 }
 
@@ -167,7 +167,7 @@ $_SESSION['RequiredData']=$alertMessage;
        {
          header('Location:password-change.php');
        }
-       if($updatedFlag==1)
+       if($updatedFlag==1 && $alertMessage!='')
        {
        ?><script>
          //alert("<?php echo addslashes($alertMessage); ?>");
@@ -175,6 +175,8 @@ $_SESSION['RequiredData']=$alertMessage;
             </script><?php 
             $_SESSION['profileIncomplete']=0;
        }
+       
+     
 
       
     }
