@@ -375,7 +375,7 @@ for($l=1;$l<=4;$l++)
           { ?>
 <input type="hidden" value="<?= $_SESSION['usr'];?>" name='emp_id'>
   <br>
- <input type="text"  value="<?= date('Y-m-d');?>" name='date_r'   min='<?= $lastMonth = date("Y-m-d", strtotime("-5 day"));  ?>' max="<?= date('Y-m-d');?>">
+ <input type="date"  value="<?= date('Y-m-d');?>" name='date_r'   min='<?= $lastMonth = date("Y-m-d", strtotime("-5 day"));  ?>' max="<?= date('Y-m-d');?>">
 <!--<select name='date_r' class="form-control">><option value="2021-06-15">2021-06-15</option><option value="2021-06-16">2021-06-16</option></select>-->
          <?php  }?>
     	
