@@ -2356,7 +2356,7 @@ mysqli_close($conn);
                           <h6>
                             <b>
                                 <hr style='background-color: #223260'>
-                          <a href='http://gurukashiuniversity.co.in/lms' style='color: #223260;   font-size: 20px'>Click here to login.</a>
+                          <a href='http://gurukashiuniversity.co.in/GMS' style='color: #223260;   font-size: 20px'>Click here to login.</a>
                                 <hr style='background-color: #223260'>
                             </b>
                           </h6>
@@ -4162,7 +4162,7 @@ mysqli_close($conn);
                           <h6>
                             <b>
                                 <hr style='background-color: #223260'>
-                          <a href='http://gurukashiuniversity.co.in/lms' style='color: #223260;   font-size: 20px'>Click here to login.</a>
+                          <a href='http://gurukashiuniversity.co.in/GMS' style='color: #223260;   font-size: 20px'>Click here to login.</a>
                           <hr style='background-color: #223260'>
    
                             </b>
@@ -17962,7 +17962,7 @@ elseif ($code==290)
                         $sessions=$row1['myexm'];
                          $PaperFile=$row1['PaperFile'];  ;
                         ?>
-<a href="http://10.0.8.10/LMS/QuestionPaper/<?= $Course;?>/<?= $Batch;?>/<?= $semester;?>/<?=$SubjectCode;?>/<?= $PaperFile;?>"> <?= $sessions; ?> </a><br>           
+<a href="http://10.0.8.10/GMS/QuestionPaper/<?= $Course;?>/<?= $Batch;?>/<?= $semester;?>/<?=$SubjectCode;?>/<?= $PaperFile;?>"> <?= $sessions; ?> </a><br>           
                     <?php
                     } ?>
 
