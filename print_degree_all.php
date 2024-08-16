@@ -107,11 +107,11 @@
                                     $RegistrationNo=$degree_row['RegistrationNo'];
                                     
 
-                                  $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
-                                      $snap=$row_student['Snap'];
+                                      $snap=$row_student['Image'];
                                       if($row_student['LateralEntry']=='No')
                                       {
                                       $yoa=$row_student['Batch'];
@@ -123,7 +123,7 @@
                                       }
 
                                       $gender=$row_student['Sex'];
-                                      $pic=base64_encode($snap);
+                                    //   $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
@@ -160,7 +160,7 @@
                  <div class="row">
                     <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                        <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                       <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                       <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                     </div>
                  </div>
                  <div class="row">
@@ -264,11 +264,11 @@
                                 $ExtraRow=$degree_row['ExtraRow'];
                                 $Examination=$degree_row['Examination'];
                                 $RegistrationNo=$degree_row['RegistrationNo'];
-                                  $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
-                                      $snap=$row_student['Snap'];
+                                      $snap=$row_student['Image'];
                                       if($row_student['LateralEntry']=='No')
                                       {
                                       $yoa=$row_student['Batch'];
@@ -278,7 +278,7 @@
 
                                       }
                                       $gender=$row_student['Sex'];
-                                      $pic=base64_encode($snap);
+                                    //   $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
                                   }
                                   }
@@ -324,7 +324,7 @@
          <div class="row">
             <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-               <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+               <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
             </div>
          </div>
          <div class="row">
@@ -438,11 +438,11 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                   $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                    $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                    if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                    {
-                                       $snap=$row_student['Snap'];
+                                       $snap=$row_student['Image'];
                                        if($row_student['LateralEntry']=='No')
                                        {
                                        $yoa=$row_student['Batch'];
@@ -452,7 +452,7 @@ $ms1="<strike>Mr.</strike>";    // code...
 
                                        }
                                        $gender=$row_student['Sex'];
-                                       $pic=base64_encode($snap);
+                                       // $pic=base64_encode($snap);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
@@ -497,7 +497,7 @@ $ms1="<strike>Mr.</strike>";    // code...
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -625,11 +625,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                   $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                    $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                    if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                    {
-                                       $snap=$row_student['Snap'];
+                                       $snap=$row_student['Image'];
                                        if($row_student['LateralEntry']=='No')
                                        {
                                        $yoa=$row_student['Batch'];
@@ -639,7 +639,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
                                        }
                                        $gender=$row_student['Sex'];
-                                       $pic=base64_encode($snap);
+                                       // $pic=base64_encode($snap);
                                        $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
@@ -683,7 +683,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -788,11 +788,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $RegistrationNo=$degree_row['RegistrationNo'];
                                     $QrCourse=$degree_row['QrCourse'];
                                    
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -811,7 +811,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                              $CollegeName=$row_student['CollegeName'];
 
                                           }
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       } $CGPA = number_format($CGPA, 2);
@@ -854,7 +854,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -969,11 +969,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -983,7 +983,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
                                           }
                                           $gender=$row_student['Sex'];
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
@@ -1028,7 +1028,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -1154,11 +1154,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -1168,7 +1168,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
                                           }
                                            $gender=$row_student['Sex'];
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
@@ -1204,7 +1204,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -1318,11 +1318,11 @@ else{
                                         $ExtraRow=$degree_row['ExtraRow'];
                                         $Examination=$degree_row['Examination'];
                                         $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -1370,7 +1370,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1483,11 +1483,11 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -1506,7 +1506,7 @@ else{
                                              $CollegeName=$row_student['CollegeName'];
 
                                           }
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
@@ -1551,7 +1551,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1664,11 +1664,11 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -1687,7 +1687,7 @@ else{
                                              $CollegeName=$row_student['CollegeName'];
 
                                           }
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                     //   print_r($row_student);
@@ -1734,7 +1734,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1848,11 +1848,11 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Snap,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
-                                          $snap=$row_student['Snap'];
+                                          $snap=$row_student['Image'];
                                           if($row_student['LateralEntry']=='No')
                                           {
                                           $yoa=$row_student['Batch'];
@@ -1862,7 +1862,7 @@ else{
 
                                           }
                                           $gender=$row_student['Sex'];
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
@@ -1908,7 +1908,7 @@ else{
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?php echo "data:image/jpeg;base64,".$pic;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">

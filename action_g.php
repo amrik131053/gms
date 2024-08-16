@@ -5980,6 +5980,11 @@ $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extens
         ftp_close($conn_id);
          $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
         $result = sqlsrv_query($conntest, $insertExp);
+        
+//         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
+// $params = array($file_data, $IDNo);
+// sqlsrv_query($conntest, $upimage, $params);
+        
 if ($result === false) {
     $errors = sqlsrv_errors();
     // echo "Error: " . print_r($errors, true);
