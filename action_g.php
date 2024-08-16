@@ -13441,7 +13441,7 @@ elseif($code==205)
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-<?=$statusColor;?>">
                 <div class="widget-user-image">
-                    <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username">
