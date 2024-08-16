@@ -22,11 +22,11 @@ function pending_requests()
               }
            });
 }
-function forwarded_requests()
+function completed_requests()
 {
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=42;
+           var code=459;
            $.ajax({
               url:'action_g.php',
               type:'POST',
@@ -40,11 +40,29 @@ function forwarded_requests()
               }
            });
 }
-function rejected_requests()
+function forwarded_requests()
 {
       var spinner=document.getElementById("ajax-loader");
    spinner.style.display='block';
-           var code=43;
+           var code=460;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("verification").innerHTML=response;
+              }
+           });
+}
+function inProgress_requests()
+{
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=461;
            $.ajax({
               url:'action_g.php',
               type:'POST',
@@ -213,15 +231,19 @@ function reject_by_verify()
                         <i class="fa fa-clock fa-lg text-success"></i>&nbsp;&nbsp;Pending</a>
                      </li>
                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="completed_requests();">
+                        <i class="fa fa-check fa-lg text-success"></i>&nbsp;&nbsp;Completed</a>
+                     </li> 
+                     <li class="nav-item">
                         <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="forwarded_requests();">
                         <i class="fa fa-share fa-lg text-warning"></i>&nbsp;&nbsp;Forwarded</a>
                      </li> 
                      <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="rejected_requests();">
-                        <i class="fa fa-times fa-lg text-danger"></i>&nbsp;&nbsp;Reject</a>
+                        <a class="nav-link" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" onclick="inProgress_requests();">
+                        <i class="fa fa-hourglass-half fa-lg text-danger"></i>&nbsp;&nbsp;In Process</a>
                      </li>
                   </ul>
-        <div class="card-body table-responsive " id="verification" style="height:400px;">
+        <div class="card-body table-responsive " id="verification" >
       
         </div>
         
