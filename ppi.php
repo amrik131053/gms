@@ -226,9 +226,7 @@
 
 
 <br>
- <input type="hidden"  value="<?= date('Y-m-d');?>" name='date_r'   max="<?= date('Y-m-d');?>">
-
-  <!-- min='<?= $lastMonth = date("Y-m-d", strtotime("0 day"));  ?>' -->
+ <input type="date"  value="<?= date('Y-m-d');?>" name='date_r'   max="<?= date('Y-m-d');?>" class='form-control' min='<?= $lastMonth = date("Y-m-d", strtotime("-15 day"));  ?>' >
 <!--<select name='date_r' class="form-control">><option value="2021-06-15">2021-06-15</option><option value="2021-06-16">2021-06-16</option></select>-->
 
          <?php  }?>
@@ -375,7 +373,7 @@ for($l=1;$l<=4;$l++)
           { ?>
 <input type="hidden" value="<?= $_SESSION['usr'];?>" name='emp_id'>
   <br>
- <input type="date"  value="<?= date('Y-m-d');?>" name='date_r'   min='<?= $lastMonth = date("Y-m-d", strtotime("-5 day"));  ?>' max="<?= date('Y-m-d');?>">
+ <input type="date"  value="<?= date('Y-m-d');?>" name='date_r'   min='<?= $lastMonth = date("Y-m-d", strtotime("-5 day"));  ?>' max="<?= date('Y-m-d');?>" class='form-control'>
 <!--<select name='date_r' class="form-control">><option value="2021-06-15">2021-06-15</option><option value="2021-06-16">2021-06-16</option></select>-->
          <?php  }?>
     	
