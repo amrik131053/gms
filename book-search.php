@@ -14,14 +14,14 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                            <div class="col-lg-2 col-md-2 col-sm-12">
+                            <!-- <div class="col-lg-2 col-md-2 col-sm-12">
 
                                 <div class="form-group">
                                     <label for="collegeName">College Name</label>
                                     <input class="form-control" type="text" id="collegeName" name="collegeName"
                                         value="Guru Kashi University" readonly>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-lg-2 col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <label for="sortBy">Sort By</label>
@@ -39,10 +39,11 @@
                                     <label for="searchType">Search By</label>
                                     <select class="form-control" id="searchType" name="searchType"
                                         onchange="updateTextBox()">
+           <option value="" selected="selected">Select</option>
            <option value="Title">Title</option>
                                         <option value="AccessionNo">AccessionNo</option>
                                         <option value="Author">Author</option>
-                                        <option value="Edition" selected="selected">Edition</option>
+                                        <option value="Edition" >Edition</option>
                                         <option value="Publisher">Publisher</option>
                                     </select>
                                 </div>
@@ -87,6 +88,9 @@ function updateTextBox() {
 
     // Update placeholder text based on selected search type
     switch (searchType) {
+        case "Edition":
+            textBox.placeholder = "Enter Edition";
+            break;
         case "Title":
             textBox.placeholder = "Enter Title";
             break;
@@ -95,9 +99,6 @@ function updateTextBox() {
             break;
         case "Author":
             textBox.placeholder = "Enter Author";
-            break;
-        case "Edition":
-            textBox.placeholder = "Enter Edition";
             break;
         case "Publisher":
             textBox.placeholder = "Enter Publisher";
@@ -111,7 +112,6 @@ function updateTextBox() {
 
 function search()
           {
-            var collegeName=document.getElementById('collegeName').value;
             var sortBy=document.getElementById('sortBy').value;
             var searchType=document.getElementById('searchType').value;
             var searchValue=document.getElementById('searchValue').value;
@@ -124,16 +124,17 @@ function search()
               url:'action_g.php',
               type:'POST',
               data:{
-                 code:code,collegeName:collegeName,sortBy:sortBy,searchType:searchType,searchValue:searchValue
+                 code:code,sortBy:sortBy,searchType:searchType,searchValue:searchValue
               },
               success: function(response) 
               {
+                console.log(response);
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
-         // document.getElementById('emp_name').value="";
               }
            });
            }
+         
           } 
 </script>
 <?php

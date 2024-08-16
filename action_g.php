@@ -5899,6 +5899,23 @@ $QrCourse=$Course.'('.$Stream.')';
       } 
  elseif($code==91)
  {
+
+    function imageUrlToBase64($url) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+        curl_close($ch);
+        if ($imageData === false) {
+            return 'Error: Unable to fetch the image.';
+        }
+        $tempFile = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempFile, $imageData);
+        $mimeType = mime_content_type($tempFile);
+        unlink($tempFile);
+        $base64Encoded = base64_encode($imageData);
+        $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+        return $dataUrl;
+    }
 $UniRollNo=$_POST['uni'];
       $get_student_details="SELECT IDNo,Image,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
 
@@ -5906,14 +5923,23 @@ $UniRollNo=$_POST['uni'];
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
                               $snap=$row_student['Image'];
-                               
+        
+                              $imageUrl = $BasURL.'Images/Students/'.$snap;
+$base64String = imageUrlToBase64($imageUrl);
+
+$extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
     ?>
     <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="300" height="300">
     <br>
-    <a href="<?=$BasURL.'Images/Students/'.$snap;?>"
-        download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>">
+    <a href="<?=$base64String;?>"
+        download="<?php echo $UniRollNo; ?>">
         <button class="btn btn-success btn-sm">Download
             Image</button></a>
+            <?php
+?>
+
+
+
 
     <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
         <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -9178,6 +9204,22 @@ mysqli_close($conn);
   elseif($code==143)
   {
    
+      function imageUrlToBase64($url) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+        curl_close($ch);
+        if ($imageData === false) {
+            return 'Error: Unable to fetch the image.';
+        }
+        $tempFile = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempFile, $imageData);
+        $mimeType = mime_content_type($tempFile);
+        unlink($tempFile);
+        $base64Encoded = base64_encode($imageData);
+        $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+        return $dataUrl;
+    }
    $id=$_POST['id'];
     $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
@@ -9196,7 +9238,6 @@ mysqli_close($conn);
     }
       $UniRollNo=$row_pending['IDNo'];
       $Snap=$row_pending['Image'];
-    
 ?>
     <div class="container">
         <div class="container-fluid">
@@ -9238,9 +9279,24 @@ if($row_pending['SmartCardStatus']=='Applied')
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+
+
+
+
+
+
+<?php 
+
+                            $imageUrl = $BasURL.'Images/Students/'.$Snap;
+$base64String = imageUrlToBase64($imageUrl);
+
+$extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
+    ?>
+
+    <a href="<?=$base64String;?>"
+        download="<?php echo $UniRollNo; ?>">
+        <button class="btn btn-success btn-sm">Download
+            Image</button></a>
                             <br><br>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
@@ -9473,7 +9529,7 @@ echo "1";
                      ?>
 
             <tr>
-                <td><?=$row_pending['ClassRollNo'];?></td>
+                <td><?=$row_pending['ClassRollNo'].$Snap;?></td>
                 <td><?=$row_pending['ApplyDate']->format('d-M-Y');?></td>
                 <td> <?php echo "<img width='40' src='" . $BasURL.'Images/Students/'.$Snap . "' alt='message user image'>"; ?>
                 </td>
@@ -33124,7 +33180,6 @@ sqlsrv_close($conntest);
 }
 elseif($code==462) // book search
 {
-    $collegeName=$_POST['collegeName'];
     $sortBy=$_POST['sortBy'];
     $searchType=$_POST['searchType'];
     $searchValue=$_POST['searchValue'];
@@ -33145,12 +33200,33 @@ elseif($code==462) // book search
   <tbody>
       <?php  $sr=1;
       
-      
-      $get_pending="SELECT * from StockRegister where $searchType like '%$searchValue%'"; 
+        if($sortBy=='all' && $searchType=='')
+        {
+        $get_pending="SELECT sr.* FROM StockRegister sr LEFT JOIN IssueRegister ir ON sr.AccessionNo = ir.AccessionNo"; 
+        }
+        else if($sortBy=='issued' && $searchType=='')
+        {  
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE EXISTS ( SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo);";     
+        }
+        else if($sortBy=='unissued' && $searchType=='')
+        {
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE NOT EXISTS (SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo);"; 
+        }
+        else if($sortBy=='all' && $searchType!='')
+        {
+        $get_pending="SELECT sr.* FROM StockRegister sr LEFT JOIN IssueRegister ir ON sr.AccessionNo = ir.AccessionNo WHERE sr.$searchType like '%$searchValue%' "; 
+        }
+        else if($sortBy=='issued' && $searchType!='')
+        {  
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE EXISTS ( SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo and sr.$searchType like '%$searchValue%');";   
+        }
+        else if($sortBy=='unissued' && $searchType!='')
+        {
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE NOT EXISTS (SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo and sr.$searchType like '%$searchValue%');"; 
+        }
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($get_row=sqlsrv_fetch_array($get_pending_run))
       {
-      
       ?>
       <tr>
           <td><?=$sr;?></td>
@@ -33160,8 +33236,7 @@ elseif($code==462) // book search
           <td><?=$get_row['Edition'];?></a></td>
           <td><?=$get_row['Publisher'];?></a></td>
           <td><?=$get_row['Year'];?></a></td>
-          <td><?=$get_row['Category'];?></a></td>
-        
+          <td><?=$get_row['Category'];?></a></td>   
       </tr>
       <?php $sr++; }?>
   </tbody>
