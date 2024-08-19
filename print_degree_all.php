@@ -160,7 +160,7 @@
                  <div class="row">
                     <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                        <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                       <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                       <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                     </div>
                  </div>
                  <div class="row">
@@ -324,7 +324,7 @@
          <div class="row">
             <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-               <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+               <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
             </div>
          </div>
          <div class="row">
@@ -497,7 +497,7 @@ $ms1="<strike>Mr.</strike>";    // code...
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -683,7 +683,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -854,7 +854,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -1028,7 +1028,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -1204,7 +1204,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
@@ -1370,7 +1370,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1551,7 +1551,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1734,7 +1734,7 @@ else{
                      <div class="row">
                         <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                            <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                           <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                           <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                         </div>
                      </div>
                      <div class="row">
@@ -1908,7 +1908,7 @@ else{
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
-                <img src="<?=$BasURL.'Images/Students'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
+                <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
           <div class="row">
