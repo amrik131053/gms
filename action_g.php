@@ -9534,7 +9534,7 @@ echo "1";
                      ?>
 
             <tr>
-                <td><?=$row_pending['ClassRollNo'].$Snap;?></td>
+                <td><?=$row_pending['ClassRollNo'];?></td>
                 <td><?=$row_pending['ApplyDate']->format('d-M-Y');?></td>
                 <td> <?php echo "<img width='40' src='" . $BasURL.'Images/Students/'.$Snap . "' alt='message user image'>"; ?>
                 </td>
@@ -9571,12 +9571,35 @@ echo "1";
    }
    elseif ($code==151)
     {
+        function imageUrlToBase64($url) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $imageData = curl_exec($ch);
+            curl_close($ch);
+            if ($imageData === false) {
+                return 'Error: Unable to fetch the image.';
+            }
+            $tempFile = tempnam(sys_get_temp_dir(), 'img');
+            file_put_contents($tempFile, $imageData);
+            $mimeType = mime_content_type($tempFile);
+            unlink($tempFile);
+            $base64Encoded = base64_encode($imageData);
+            $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+            return $dataUrl;
+        }
+    
+  
+
       $get_pending="SELECT top(10)*,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1'";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Image'];
+         $imageUrl = $BasURL.'Images/Students/'.$Snap;
+         $base64String = imageUrlToBase64($imageUrl);
+         
+         $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
         
    ?>
     <div class="container">
@@ -9598,9 +9621,12 @@ echo "1";
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+ 
+    
+        <a href="<?=$base64String;?>"
+            download="<?php echo $UniRollNo; ?>">
+            <button class="btn btn-success btn-sm">Download
+                Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -9740,14 +9766,32 @@ $destdir = '/Images/Students';
 
    elseif ($code==154)
     {
- 
+        function imageUrlToBase64($url) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $imageData = curl_exec($ch);
+            curl_close($ch);
+            if ($imageData === false) {
+                return 'Error: Unable to fetch the image.';
+            }
+            $tempFile = tempnam(sys_get_temp_dir(), 'img');
+            file_put_contents($tempFile, $imageData);
+            $mimeType = mime_content_type($tempFile);
+            unlink($tempFile);
+            $base64Encoded = base64_encode($imageData);
+            $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+            return $dataUrl;
+        }
       $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Image'];
-        
+         $imageUrl = $BasURL.'Images/Students/'.$Snap;
+         $base64String = imageUrlToBase64($imageUrl);
+         
+
    ?>
     <div class="container">
         <div class="container-fluid">
@@ -9772,9 +9816,10 @@ $destdir = '/Images/Students';
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+                            <a href="<?=$base64String;?>"
+            download="<?php echo $UniRollNo; ?>">
+            <button class="btn btn-success btn-sm">Download
+                Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
