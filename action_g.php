@@ -31866,13 +31866,6 @@ elseif ($code==449) {
     $bnoon="";
     $anoon="";
 $emp_id = $_POST['emp_id'];
-$admission = $_POST['admission'];
-$naac = $_POST['naac'];
-
-$sugg = $_POST['suggestion'];
-
-$bnoon =str_replace("'", '',$_POST['bnoon']);
-$anoon =str_replace("'", '',$_POST['anoon']);
 
 $emp_type = $_POST['emp_type'];
 $submit_date = $_POST['date_r'];
@@ -31899,9 +31892,15 @@ echo("<script>location.href ='ppi.php';</script>");
 else{
 
 if($emp_type=='Non-Teaching')
-
 {
-
+    $admission = $_POST['admission'];
+    $naac = $_POST['naac'];
+    
+    $sugg = $_POST['suggestion'];
+    
+    $bnoon =str_replace("'", '',$_POST['bnoon']);
+    $anoon =str_replace("'", '',$_POST['anoon']);
+    
 if($emp_id!='')
  {
  $sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
@@ -31929,6 +31928,16 @@ echo("<script>location.href ='ppi.php';</script>");
     }
 }
 else{
+$course="";
+$semester="";
+$ltime="";
+$topic="";
+$total="";
+$present="";
+$assignment="";
+$seminar="";
+$class_test="";
+$platform="";
 $nol = $_POST['nol'];
 $emp_id = $_POST['emp_id'];
 $admission = $_POST['admission'];
@@ -31939,16 +31948,46 @@ $od_act =str_replace("'", '',$_POST['od_act']);
 $duty_perform = $_POST['duty_perform'];
 $perform_detail = str_replace("'", '',$_POST['perform_detail']);
 $emp_type = $_POST['emp_type'];
-$course= str_replace("'", '', $_POST['course']);
+if(isset($_POST['course']))
+{
+    $course= str_replace("'", '', $_POST['course']);
+}
+if(isset($_POST['semester']))
+{
 $sem=$_POST['semester'];
-$ltime=$_POST['ltime'];
+}
+if(isset($_POST['ltime']))
+{
+ $ltime=$_POST['ltime'];
+}
+if(isset($_POST['topic']))
+{
 $topic= str_replace("'", '', $_POST['topic']);
+}
+if(isset($_POST['total']))
+{
 $total=$_POST['total'];
+}
+if(isset($_POST['present']))
+{
 $present=$_POST['present'];
+}
+if(isset($_POST['assignment']))
+{
 $assignment=$_POST['assignment'];
+}
+if(isset($_POST['seminar']))
+{
 $seminar=$_POST['seminar'];
+}
+if(isset($_POST['class_test']))
+{
 $class_test=$_POST['class_test'];
+}
+if(isset($_POST['platform']))
+{
 $platform=$_POST['platform'];
+}
 $pcourse= str_replace("'", '', $_POST['phd_course']);
 $psem=$_POST['phd_sem'];
 $pltime=$_POST['phd_time'];
@@ -31962,9 +32001,7 @@ $pplatform=$_POST['phd_platform'];
 
 for($i=0;$i<$nol;$i++)
 {
-
   $sqlww = "insert into ProgressReportLectureDetails(UserID,Date,course,semester,LectureTime,Topic,TotelStudent,PresentStudent,AssignmentToday,ClassTest,Seminar,Platform) values('$emp_id','$submit_date','$course[$i]','$sem[$i]','$ltime[$i]','$topic[$i]','$total[$i]','$present[$i]','$assignment[$i]','$class_test[$i]','$seminar[$i]','$platform[$i]')";
-     
 $stmt2 = sqlsrv_query($conntest,$sqlww);
 
 if( $stmt2  === false) {
@@ -31974,7 +32011,6 @@ if( $stmt2  === false) {
 }
 for($j=0;$j<4;$j++)
 {
-
   if($pcourse[$j]!='')
   {
 
@@ -31992,8 +32028,10 @@ if( $stmt2  === false) {
 if($emp_id!='')
  {
 
-$sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
+$sql1 = "INSERT INTO ProgressReport(EmploymentType,Date,LasteModifyDate,WorkDoneBefore,WorkDoneAfter,ExtraActivity,AdmissionWork,NAACWork,FutureVision,UserID,UserName,LectureDeliveredToday,VirtualPracticalLab,DutyPerFormAs,PerformDutyDetails)
+     VALUES('$emp_type','$submit_date','$timeStamp','','','$od_act','$admission','$naac','$sugg','$EmployeeID','$Emp_Name','$nol','$practical','$duty_perform','$perform_detail')";
      
+
 $stmt2 = sqlsrv_query($conntest,$sql1);
 
 if( $stmt2  === false) {
@@ -32002,7 +32040,7 @@ if( $stmt2  === false) {
 }
       if($stmt2 != 0)
       {
-        //echo("<script>location.href ='ppi.php';</script>");       
+        echo("<script>location.href ='ppi.php';</script>");       
       }
       else
       {
