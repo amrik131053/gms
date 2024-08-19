@@ -1332,7 +1332,7 @@ else{
 
                                           }
                                           $gender=$row_student['Sex'];
-                                          $pic=base64_encode($snap);
+                                          // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
                                       }
