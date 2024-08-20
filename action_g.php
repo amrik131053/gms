@@ -5981,9 +5981,9 @@ $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extens
          $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
         $result = sqlsrv_query($conntest, $insertExp);
         
-//         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-// $params = array($file_data, $IDNo);
-// sqlsrv_query($conntest, $upimage, $params);
+
+        $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+sqlsrv_query($conntest, $upimage);
         
 if ($result === false) {
     $errors = sqlsrv_errors();
@@ -9751,7 +9751,10 @@ $destdir = '/Images/Students';
     ftp_close($conn_id);
      $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
     $result = sqlsrv_query($conntest, $insertExp);
+    $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+    sqlsrv_query($conntest, $upimage);
 
+    
   if ($result === false) {
       $errors = sqlsrv_errors();
       // echo "Error: " . print_r($errors, true);
@@ -19052,6 +19055,8 @@ include "connection/ftp-erp.php";
        ftp_close($conn_id);
         $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$loginId'";
        sqlsrv_query($conntest, $insertExp);
+       $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$loginId'";
+       sqlsrv_query($conntest, $upimage);
    }
 
    if ($signature) {
