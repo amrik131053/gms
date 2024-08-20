@@ -100,11 +100,38 @@ if($CourseShortName!='')
         }
         $pdf->SetXY(1,$ClgY);
         $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
-        $img= $row['Snap'];
-        $pic = 'data://text/plain;base64,' . base64_encode($img);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,18,26.8,20,21,$extension);
+        $imageURL=$row['Image'];
+        $fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+        $url =$fullURL; 
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+} else {
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($httpCode != 200) {
+        echo 'HTTP error: ' . $httpCode;
+    } else {
+       
+        $base64Image = base64_encode($imageData);
+        $mimeType = 'image/jpeg'; 
+        $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+        $pdf->Image($imageSrc, 18, 26.8, 20, 21, 'JPG'); 
+      
+    }
+}
+
+curl_close($ch);
+
+        // $img= $row['Snap'];
+        // $pic = 'data://text/plain;base64,' . base64_encode($img);
+        // $info = getimagesize($pic);
+        // $extension = explode('/', mime_content_type($pic))[1];
+        // $pdf-> Image($imageSrc,18,26.8,20,21);
+
+
         $YCount=strlen(strtoupper($row['StudentName']));
         if($YCount>18)
         {
@@ -270,11 +297,36 @@ elseif($code==2)
         }
         $pdf->SetXY(1,$ClgY);
         $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
-        $img= $row['Snap'];
-        $pic = 'data://text/plain;base64,' . base64_encode($img);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,18,26.8,20,21,$extension);
+        // $img= $row['Snap'];
+        // $pic = 'data://text/plain;base64,' . base64_encode($img);
+        // $info = getimagesize($pic);
+        // $extension = explode('/', mime_content_type($pic))[1];
+        // $pdf-> Image($pic,18,26.8,20,21,$extension);
+        $imageURL=$row['Image'];
+        $fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+        $url =$fullURL; 
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+} else {
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($httpCode != 200) {
+        echo 'HTTP error: ' . $httpCode;
+    } else {
+       
+        $base64Image = base64_encode($imageData);
+        $mimeType = 'image/jpeg'; 
+        $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+        $pdf->Image($imageSrc, 18, 26.8, 20, 21, 'JPG'); 
+      
+    }
+}
+
+curl_close($ch);
+
         $YCount=strlen(strtoupper(trim($row['StudentName'])));
         if($YCount>18)
         {
