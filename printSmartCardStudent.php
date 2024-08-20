@@ -100,11 +100,11 @@ if($CourseShortName!='')
         }
         $pdf->SetXY(1,$ClgY);
         $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
-        $img= $row['Image'];
-        $pic = $BasURL.'Images/Students/'.$img;
-        // $info = getimagesize($pic);
-        // $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,18,26.8,20,21);
+        $img= $row['Snap'];
+        $pic = 'data://text/plain;base64,' . base64_encode($img);
+        $info = getimagesize($pic);
+        $extension = explode('/', mime_content_type($pic))[1];
+        $pdf-> Image($pic,18,26.8,20,21,$extension);
         $YCount=strlen(strtoupper($row['StudentName']));
         if($YCount>18)
         {
@@ -270,12 +270,11 @@ elseif($code==2)
         }
         $pdf->SetXY(1,$ClgY);
         $pdf->MultiCell(52,$ClgC,$rowgetCourseDetails['CollegeName'],'0','C');
-        $img= $row['Image'];
-        $pic = $BasURL.'Images/Students/'.$img;
-        // $pic = 'data://text/plain;base64,' . base64_encode($img);
-        // $info = getimagesize($pic);
-        // $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,18,26.8,20,21);
+        $img= $row['Snap'];
+        $pic = 'data://text/plain;base64,' . base64_encode($img);
+        $info = getimagesize($pic);
+        $extension = explode('/', mime_content_type($pic))[1];
+        $pdf-> Image($pic,18,26.8,20,21,$extension);
         $YCount=strlen(strtoupper(trim($row['StudentName'])));
         if($YCount>18)
         {
