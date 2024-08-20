@@ -57,11 +57,12 @@ if ($code==1)
         $pdf-> Image('dist\img\signn.jpg',33,75,18,5); 
         $pdf->SetXY(1,18.5);
         $pdf->MultiCell(52,3,$row['CollegeName'],'','C');
-    $img= $row['Snap'];
-    $pic = 'data://text/plain;base64,' . base64_encode($img);
-    $info = getimagesize($pic);
-    $extension = explode('/', mime_content_type($pic))[1];
-    $pdf-> Image($pic,18,25.8,20,22,$extension);
+    $img= $row['Imagepath'];
+    $pic = $BasURL.'Images/Staff/'.$img;
+    // $pic = 'data://text/plain;base64,' . base64_encode($img);
+    // $info = getimagesize($pic);
+    // $extension = explode('/', mime_content_type($pic))[1];
+    $pdf-> Image($pic,18,25.8,20,22);
     $YCount=strlen(strtoupper(trim($row['Name'])));
     if($YCount>24)
     {
