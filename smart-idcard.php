@@ -84,6 +84,24 @@
 
 
 <script>
+    function uploadImage(form, id) {
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            // console.log(response);
+            SuccessToast('Successfully Uploaded');
+            viewLeaveModalSmartCard(id);
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
 function searchStudentForIDcard() {
     var valodation=0;
     var statusForIdCard = document.getElementById("statusForIdCard").value;
@@ -155,7 +173,7 @@ function viewLeaveModalSmartCard(id) {
             id: id
         },
         success: function(response) {
-            //  console.log(response);
+             console.log(response);
             spinner.style.display = 'none';
             document.getElementById("view_record").innerHTML = response;
 

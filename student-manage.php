@@ -153,6 +153,7 @@ function uploadImage(form, id) {
             // console.log(response);
             SuccessToast('Successfully Uploaded');
             view_image(id);
+            search_all_employee();
         },
         error: function(xhr, status, error) {
             console.log(error);
