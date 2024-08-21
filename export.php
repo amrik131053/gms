@@ -3887,6 +3887,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Father Name </th>
     <th>Mother Name </th>
     <th>Mobile No </th>
+    <th>Aadhar Card No </th>
     <th>Category </th>
     <th>Religion </th>
      <th>Gender</th>
@@ -3946,6 +3947,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $FatherName=$row['FatherName'];
             $MotherName=$row['MotherName'];
             $StudentMobileNo=$row['StudentMobileNo'];
+            $AdharCardNo=$row['AadhaarNo'];
             $EmailID=$row['EmailID'];
             $CollegeName=$row['CollegeName'];
             $Course=$row['Course'];
@@ -4030,6 +4032,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$FatherName}</td>
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
+         <td>{$AdharCardNo}</td>
          <td>{$Category}</td>
           <td>{$Religion}</td>
            <td>{$gender}</td>
@@ -10527,6 +10530,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
     <th>Mother Name </th>
     <th>Gender </th>
     <th>Mobile No </th>
+    <th>Aadhar card  No </th>
     <th>Category </th>
     <th>Scholarship </th>
     <th>EmailID </th>
@@ -10562,6 +10566,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
             $FatherName = $row['FatherName'];
             $MotherName = $row['MotherName'];
             $StudentMobileNo = $row['StudentMobileNo'];
+            $AdharcardNo = $row['AadhaarNo'];
             $EmailID = $row['EmailID'];
             $CollegeName = $row['CollegeName'];
             $Course = $row['Course'];
@@ -10589,6 +10594,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
                 <td>{$MotherName}</td>
                 <td>{$gender}</td>
                 <td>{$StudentMobileNo}</td>
+                <td>{$AdharcardNo}</td>
                 <td>{$Category}</td>
                 <td>{$Scholarship}</td>
                 <td>{$EmailID}</td>
