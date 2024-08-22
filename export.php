@@ -10703,6 +10703,8 @@ else if($exportCode==75)
       <th style='background-color:black; color:white;'>Course</th>
       <th style='background-color:black; color:white;'>Batch</th>
       <th style='background-color:black; color:white;'>Semester</th>
+      <th style='background-color:black; color:white;'>Type</th>
+      <th style='background-color:black; color:white;'>Examination</th>
       <th style='background-color:black; color:white;'>Student Name</th>
       <th style='background-color:black; color:white;'>Gender</th>
       <th style='background-color:black; color:white;'>Category</th>
@@ -10854,6 +10856,8 @@ foreach ($CollegeID as $key => $value) {
                                         <td>{$Course}</td>
                                         <td>{$Batch}</td>
                                         <td>{$SemesterId}</td>
+                                        <td>{$Type}</td>
+                                        <td>{$Examination}</td>
                                         <td>{$StudentName}</td>
                                         <td>{$Gender}</td>
                                         <td>{$Category}</td>
