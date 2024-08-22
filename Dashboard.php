@@ -315,15 +315,15 @@ while ($dataIncharge=mysqli_fetch_array($resl))
    $incID=$dataIncharge['Incharge'];
    $Emp_Name='';
                              $Emp_Image='';
-                             $emp_pic='';
+                            //  $emp_pic='';
                   $staff="SELECT * FROM Staff Where IDNo='$incID'";
                            $stmt = sqlsrv_query($conntest,$staff);  
                            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                            {
                              $EmailID=$row_staff['EmailID'];
                              $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
+                             $Emp_Image=$row_staff['Imagepath'];
+                            //  $emp_pic=base64_encode($Emp_Image);
                              $Designation=$row_staff['Designation'];
                              $Department=$row_staff['Department'];
                              $ContactNo=$row_staff['ContactNo'];
@@ -353,7 +353,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                       </ul>
                     </div>
                     <div class="col-5 text-center">
-                      <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
                     </div>
                   </div>
                 </div>
@@ -384,15 +384,15 @@ while ($dataIncharge=mysqli_fetch_array($resl))
    $incID=$dataIncharge['electrical_incharge'];
    $Emp_Name='';
                              $Emp_Image='';
-                             $emp_pic='';
+                            //  $emp_pic='';
                   $staff="SELECT * FROM Staff Where IDNo='$incID'";
                            $stmt = sqlsrv_query($conntest,$staff);  
                            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                            {
                              $EmailID=$row_staff['EmailID'];
                              $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
+                             $Emp_Image=$row_staff['Imagepath'];
+                            //  $emp_pic=base64_encode($Emp_Image);
                              $Designation=$row_staff['Designation'];
                              $Department=$row_staff['Department'];
                              $ContactNo=$row_staff['ContactNo'];
@@ -422,7 +422,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                       </ul>
                     </div>
                     <div class="col-5 text-center">
-                      <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
                     </div>
                   </div>
                 </div>
@@ -455,15 +455,15 @@ while ($dataIncharge=mysqli_fetch_array($resl))
    $incID=$dataIncharge['infra_incharge'];
    $Emp_Name='';
                              $Emp_Image='';
-                             $emp_pic='';
+                            //  $emp_pic='';
                   $staff="SELECT * FROM Staff Where IDNo='$incID'";
                            $stmt = sqlsrv_query($conntest,$staff);  
                            while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
                            {
                              $EmailID=$row_staff['EmailID'];
                              $Emp_Name=$row_staff['Name'];
-                             $Emp_Image=$row_staff['Snap'];
-                             $emp_pic=base64_encode($Emp_Image);
+                             $Emp_Image=$row_staff['Imagepath'];
+                            //  $emp_pic=base64_encode($Emp_Image);
                              $Designation=$row_staff['Designation'];
                              $Department=$row_staff['Department'];
                              $ContactNo=$row_staff['ContactNo'];
@@ -493,7 +493,7 @@ while ($dataIncharge=mysqli_fetch_array($resl))
                       </ul>
                     </div>
                     <div class="col-5 text-center">
-                      <img src="data:image/jpeg;base64,<?=$emp_pic?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
+                      <img src="<?=$BasURL.'Images/Staff/'.$Emp_Image?>" alt="" style="height: 120px; width: 120px" class="img-circle img-fluid">
                     </div>
                   </div>
                 </div>

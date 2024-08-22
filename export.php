@@ -3887,6 +3887,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Father Name </th>
     <th>Mother Name </th>
     <th>Mobile No </th>
+    <th>Aadhar Card No </th>
     <th>Category </th>
     <th>Religion </th>
      <th>Gender</th>
@@ -3946,6 +3947,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $FatherName=$row['FatherName'];
             $MotherName=$row['MotherName'];
             $StudentMobileNo=$row['StudentMobileNo'];
+            $AdharCardNo=$row['AadhaarNo'];
             $EmailID=$row['EmailID'];
             $CollegeName=$row['CollegeName'];
             $Course=$row['Course'];
@@ -4030,6 +4032,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$FatherName}</td>
          <td>{$MotherName}</td>
          <td>{$StudentMobileNo}</td>
+         <td>{$AdharCardNo}</td>
          <td>{$Category}</td>
           <td>{$Religion}</td>
            <td>{$gender}</td>
@@ -10527,6 +10530,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
     <th>Mother Name </th>
     <th>Gender </th>
     <th>Mobile No </th>
+    <th>Aadhar card  No </th>
     <th>Category </th>
     <th>Scholarship </th>
     <th>EmailID </th>
@@ -10562,6 +10566,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
             $FatherName = $row['FatherName'];
             $MotherName = $row['MotherName'];
             $StudentMobileNo = $row['StudentMobileNo'];
+            $AdharcardNo = $row['AadhaarNo'];
             $EmailID = $row['EmailID'];
             $CollegeName = $row['CollegeName'];
             $Course = $row['Course'];
@@ -10589,6 +10594,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
                 <td>{$MotherName}</td>
                 <td>{$gender}</td>
                 <td>{$StudentMobileNo}</td>
+                <td>{$AdharcardNo}</td>
                 <td>{$Category}</td>
                 <td>{$Scholarship}</td>
                 <td>{$EmailID}</td>
@@ -10679,7 +10685,194 @@ elseif ($exportCode == 74)
         }
     }
 }
-
+else if($exportCode==75)
+{
+  $CollegeID=array();
+  $SrNo=1;
+  $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+  <thead>  
+  <tr>
+  ";
+  $SrNo=1;
+  $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+  <thead>  
+  <tr>
+  ";
+  $exportstudy.="<th style='background-color:black; color:white;'>IDNo</th>
+      <th style='background-color:black; color:white;'>College Name</th>
+      <th style='background-color:black; color:white;'>Course</th>
+      <th style='background-color:black; color:white;'>Batch</th>
+      <th style='background-color:black; color:white;'>Semester</th>
+      <th style='background-color:black; color:white;'>Student Name</th>
+      <th style='background-color:black; color:white;'>Gender</th>
+      <th style='background-color:black; color:white;'>Category</th>
+      <th style='background-color:black; color:white;'>Class Roll No</th>
+      <th style='background-color:black; color:white;'>UniRollno</th>
+      <th style='background-color:black; color:white;'>Father Name</th>
+      <th style='background-color:black; color:white;'>Mother Name</th>
+      <th style='background-color:black; color:white;'>EmailID</th>
+      <th style='background-color:black; color:white;'>Student Mobile No</th>
+      <th style='background-color:black; color:white;'>Status</th>
+      ";
+      $exportstudy.="</tr></thead>";      
+                  
+           $Type=$_REQUEST['Type'];
+           $Batch=$_REQUEST['Batch'];
+           $Semester=$_REQUEST['Semester'];
+           $Examination=$_REQUEST['Examination'];
+            $getCourse="SELECT DISTINCT CollegeID
+            FROM ExamForm  Where  Examination='$Examination' and Type='$Type'";
+            if($_REQUEST['Batch']!='')
+            {
+            $getCourse.=" AND Batch='$Batch'"; 
+            }
+            if($_REQUEST['Semester']!='')
+            {
+             $getCourse.="AND  SemesterId='$Semester'"; 
+            }
+//  echo $getCourse;
+           $getCourseRun=sqlsrv_query($conntest,$getCourse);
+           while($rowCourseName = sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
+           { 
+           $CollegeID[]=$rowCourseName['CollegeID'];
+           }
+        //    print_r($CollegeID);
+foreach ($CollegeID as $key => $value) {
+  
+    $getCourse1="SELECT DISTINCT  ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID
+    FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CollegeID=ExamForm.CollegeID Where ExamForm.CollegeID='$value' AND ExamForm.Examination='$Examination' and ExamForm.Type='$Type'";
+    if($_REQUEST['Batch']!='')
+    {
+    $getCourse1.=" AND ExamForm.Batch='$Batch'"; 
+    }
+    if($_REQUEST['Semester']!='')
+    {
+     $getCourse1.="AND  ExamForm.SemesterId='$Semester'"; 
+    }
+     $getCourse1.="order by ExamForm.Batch ASC ";
+ $getCourseRun1=sqlsrv_query($conntest,$getCourse1);
+ while($rowCourseName1 = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+ { 
+             $CourseID=$rowCourseName1['CourseID'];
+                  
+                 $list_sql = "SELECT   *,ExamForm.Status as ExamStatus,ExamForm.SemesterId
+                 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
+                 where Admissions.Status='1' ";
+                  if ($CourseID != '') 
+                  {
+                 $list_sql.=" AND ExamForm.CourseID='$CourseID' ";
+                  }
+                  if ($Batch != '') 
+                  {
+                 $list_sql.=" AND ExamForm.Batch='$Batch' ";
+                  }
+                  if ($Semester != '') 
+                  {
+                 $list_sql.=" AND ExamForm.SemesterId='$Semester' ";
+                  }
+                
+                  if ($Examination != '') {
+                  $list_sql.=" AND ExamForm.Examination='$Examination' ";
+                  }
+              
+                 $list_sql.="  ORDER BY ExamForm.Status   ASC"; 
+              
+                                     $list_result = sqlsrv_query($conntest,$list_sql);
+                                     while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                                        {  // $aa=$row;
+                                     $IDNo=$row['IDNo'];
+                                     $CollegeName=$row['CollegeName'];
+                                     $Course=$row['Course'];
+                                     $StudentName=$row['StudentName'];
+                                     $Gender=$row['Sex'];
+                                     $Category=$row['Category'];
+                                     $ClassRollNo=$row['ClassRollNo'];
+                                     $UniRollno=$row['UniRollNo'];
+                                     $FatherName=$row['FatherName'];
+                                     $MotherName=$row['MotherName'];
+                                     $EmailID=$row['EmailID'];
+                                     $StudentMobileNo=$row['StudentMobileNo'];
+                                     $Status=$row['ExamStatus'];
+                                     $Batch=$row['Batch'];
+                                     $SemesterId=$row['SemesterId'];
+                                    
+ if($Status==-1)
+              {
+                $StatusShow="<b>Pending</b>";
+ 
+              }
+               if($Status==22)
+              {
+                $StatusShow="<b>Rejected By Registration Branch</b>";
+ 
+              }
+              elseif($Status==0)
+              {
+                $StatusShow="<b>Forward to Department</b>";
+              }elseif($Status==1)
+              {
+                $StatusShow='<b>Forward to Dean</b>';
+              }
+ 
+              elseif($Status==2)
+              {
+                $StatusShow="<b style='color:red'>Rejected By Department</b>";
+              }
+               elseif($Status==3)
+              {
+                $StatusShow="<b style='color:red'>Rejected By Dean</b>";
+              }
+ 
+ elseif($Status==4)
+              {
+                $StatusShow='<b>Pending</b>';
+              }
+ elseif($Status==5)
+              {
+                $StatusShow='<b>Forward to Examination Branch</b>';
+              }
+ 
+ elseif($Status==6)
+              {
+                $StatusShow="<b style='color:red'>Rejected By Accountant</b>";
+              }
+    elseif($Status==7)
+              {
+                $StatusShow="<b style='color:red'>Rejected_By Examination Branch</b>";
+              }           
+ 
+ elseif($Status==8)
+              {
+                $StatusShow="<b style='color:green'>Accepted</b>";
+              }  
+                                        
+ 
+ 
+                                        $exportstudy.=" <tr >
+                                        <td>{$IDNo}</td>
+                                        <td>{$CollegeName}</td>
+                                        <td>{$Course}</td>
+                                        <td>{$Batch}</td>
+                                        <td>{$SemesterId}</td>
+                                        <td>{$StudentName}</td>
+                                        <td>{$Gender}</td>
+                                        <td>{$Category}</td>
+                                        <td>{$ClassRollNo}</td>
+                                        <td>{$UniRollno}</td>
+                                        <td>{$FatherName}</td>
+                                        <td>{$MotherName}</td>
+                                        <td>{$EmailID}</td>
+                                        <td>{$StudentMobileNo}</td>
+                                        <td>{$StatusShow}</td>
+                                        </tr>";
+           }
+        }
+    }
+                     $exportstudy.="</table>";
+                     echo $exportstudy;
+                     $fileName="All Students Exam Form ";
+                 
+            }
 
 
 

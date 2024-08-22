@@ -153,6 +153,7 @@ function uploadImage(form, id) {
             // console.log(response);
             SuccessToast('Successfully Uploaded');
             view_image(id);
+            search_all_employee();
         },
         error: function(xhr, status, error) {
             console.log(error);
@@ -264,7 +265,17 @@ function searchStudentCollegeWise() {
         ErrorToast("Select College", "bg-warning");
     }
 }
+function provisinalRemarks(val)
+{
+    if(val!='1')
+{
+    $('#remarksProvisional').show();
+}
+else{
+    $('#remarksProvisional').hide();
 
+}
+}
 function updateStudent(empID) {
 
     var spinner = document.getElementById("ajax-loader");

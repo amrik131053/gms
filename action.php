@@ -13908,7 +13908,7 @@ $IDNo= $_POST['IDNo'];
    {     
     $IDNo= $row['IDNo'];
     $ClassRollNo= $row['ClassRollNo'];
-    $img= $row['Snap'];
+    $img= $row['Image'];
     $UniRollNo= $row['UniRollNo'];
     $name = $row['StudentName'];
     $CourseID=$row['CourseID'];
@@ -13988,7 +13988,7 @@ $ApplyDate="";
               <div class="widget-user-header badge-success">
                 <div class="row">
                   <div class="col-lg-11 col-sm-10"> <div class="widget-user-image">
-                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                  <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="50" width="50" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h6 class="widget-user-username" ><b><?=$name; ?></b></h6>
@@ -16300,7 +16300,7 @@ elseif($code=='257')
    
     $IDNo= $row['IDNo'];
     
-    $img= $row['Snap'];
+    $img= $row['Imagepath'];
    
     $name = $row['Name'];
     $father_name = $row['FatherName'];
@@ -16318,7 +16318,7 @@ elseif($code=='257')
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header bg-warning">
                 <div class="widget-user-image">
-                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($img).'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
+                  <?php echo '<img src="'.$BasURL.'Images/Staff/'.$img.'" height="100" width="100" class="img-circle elevation-2"  style="border-radius:50%"/>';?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username"><b><?=$name; ?></b></h3>

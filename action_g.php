@@ -5899,6 +5899,23 @@ $QrCourse=$Course.'('.$Stream.')';
       } 
  elseif($code==91)
  {
+
+    function imageUrlToBase64($url) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+        curl_close($ch);
+        if ($imageData === false) {
+            return 'Error: Unable to fetch the image.';
+        }
+        $tempFile = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempFile, $imageData);
+        $mimeType = mime_content_type($tempFile);
+        unlink($tempFile);
+        $base64Encoded = base64_encode($imageData);
+        $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+        return $dataUrl;
+    }
 $UniRollNo=$_POST['uni'];
       $get_student_details="SELECT IDNo,Image,Batch,Sex FROM Admissions where IDNo='$UniRollNo'";
 
@@ -5906,14 +5923,23 @@ $UniRollNo=$_POST['uni'];
                           if($row_student=sqlsrv_fetch_array($get_student_details_run))
                           {
                               $snap=$row_student['Image'];
-                               
+        
+                              $imageUrl = $BasURL.'Images/Students/'.$snap;
+$base64String = imageUrlToBase64($imageUrl);
+
+$extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
     ?>
     <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="300" height="300">
     <br>
-    <a href="<?=$BasURL.'Images/Students/'.$snap;?>"
-        download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>">
+    <a href="<?=$base64String;?>"
+        download="<?php echo $UniRollNo; ?>">
         <button class="btn btn-success btn-sm">Download
             Image</button></a>
+            <?php
+?>
+
+
+
 
     <form id="image-upload" name="image-upload" action="action_g.php" method="post" enctype="multipart/form-data">
         <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -5954,6 +5980,11 @@ $UniRollNo=$_POST['uni'];
         ftp_close($conn_id);
          $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
         $result = sqlsrv_query($conntest, $insertExp);
+        
+
+        $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+sqlsrv_query($conntest, $upimage);
+        
 if ($result === false) {
     $errors = sqlsrv_errors();
     // echo "Error: " . print_r($errors, true);
@@ -9178,6 +9209,22 @@ mysqli_close($conn);
   elseif($code==143)
   {
    
+      function imageUrlToBase64($url) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $imageData = curl_exec($ch);
+        curl_close($ch);
+        if ($imageData === false) {
+            return 'Error: Unable to fetch the image.';
+        }
+        $tempFile = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempFile, $imageData);
+        $mimeType = mime_content_type($tempFile);
+        unlink($tempFile);
+        $base64Encoded = base64_encode($imageData);
+        $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+        return $dataUrl;
+    }
    $id=$_POST['id'];
     $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$id' ";
    $get_pending_run=sqlsrv_query($conntest,$get_pending);
@@ -9196,7 +9243,6 @@ mysqli_close($conn);
     }
       $UniRollNo=$row_pending['IDNo'];
       $Snap=$row_pending['Image'];
-    
 ?>
     <div class="container">
         <div class="container-fluid">
@@ -9238,9 +9284,24 @@ if($row_pending['SmartCardStatus']=='Applied')
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+
+
+
+
+
+
+<?php 
+
+                            $imageUrl = $BasURL.'Images/Students/'.$Snap;
+$base64String = imageUrlToBase64($imageUrl);
+
+$extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
+    ?>
+
+    <a href="<?=$base64String;?>"
+        download="<?php echo $UniRollNo; ?>">
+        <button class="btn btn-success btn-sm">Download
+            Image</button></a>
                             <br><br>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
@@ -9510,12 +9571,35 @@ echo "1";
    }
    elseif ($code==151)
     {
+        function imageUrlToBase64($url) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $imageData = curl_exec($ch);
+            curl_close($ch);
+            if ($imageData === false) {
+                return 'Error: Unable to fetch the image.';
+            }
+            $tempFile = tempnam(sys_get_temp_dir(), 'img');
+            file_put_contents($tempFile, $imageData);
+            $mimeType = mime_content_type($tempFile);
+            unlink($tempFile);
+            $base64Encoded = base64_encode($imageData);
+            $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+            return $dataUrl;
+        }
+    
+  
+
       $get_pending="SELECT top(10)*,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Applied' and Admissions.Status='1'";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Image'];
+         $imageUrl = $BasURL.'Images/Students/'.$Snap;
+         $base64String = imageUrlToBase64($imageUrl);
+         
+         $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extension
         
    ?>
     <div class="container">
@@ -9537,9 +9621,12 @@ echo "1";
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+ 
+    
+        <a href="<?=$base64String;?>"
+            download="<?php echo $UniRollNo; ?>">
+            <button class="btn btn-success btn-sm">Download
+                Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -9664,7 +9751,10 @@ $destdir = '/Images/Students';
     ftp_close($conn_id);
      $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$IDNo'";
     $result = sqlsrv_query($conntest, $insertExp);
+    $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+    sqlsrv_query($conntest, $upimage);
 
+    
   if ($result === false) {
       $errors = sqlsrv_errors();
       // echo "Error: " . print_r($errors, true);
@@ -9679,14 +9769,32 @@ $destdir = '/Images/Students';
 
    elseif ($code==154)
     {
- 
+        function imageUrlToBase64($url) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $imageData = curl_exec($ch);
+            curl_close($ch);
+            if ($imageData === false) {
+                return 'Error: Unable to fetch the image.';
+            }
+            $tempFile = tempnam(sys_get_temp_dir(), 'img');
+            file_put_contents($tempFile, $imageData);
+            $mimeType = mime_content_type($tempFile);
+            unlink($tempFile);
+            $base64Encoded = base64_encode($imageData);
+            $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+            return $dataUrl;
+        }
       $get_pending="SELECT *,SmartCardDetails.Status as SmartCardStatus FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.Status='Rejected' and Admissions.Status='1' ";
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($row_pending=sqlsrv_fetch_array($get_pending_run))
       {
          $UniRollNo=$row_pending['IDNo'];
          $Snap=$row_pending['Image'];
-        
+         $imageUrl = $BasURL.'Images/Students/'.$Snap;
+         $base64String = imageUrlToBase64($imageUrl);
+         
+
    ?>
     <div class="container">
         <div class="container-fluid">
@@ -9711,9 +9819,10 @@ $destdir = '/Images/Students';
 
 
                             <br>
-                            <a href="<?php echo $BasURL.'Images/Students'.$Snap; ?>"
-                                download="<?php echo $UniRollNo; ?>.<?php echo $extension; ?>"><button
-                                    class="btn btn-success btn-sm">Download Image</button></a>
+                            <a href="<?=$base64String;?>"
+            download="<?php echo $UniRollNo; ?>">
+            <button class="btn btn-success btn-sm">Download
+                Image</button></a>
                             <form id="image-upload" name="image-upload" action="action_g.php" method="post"
                                 enctype="multipart/form-data">
                                 <input type="file" name="image" id="image" class="form-control input-group-sm">
@@ -13385,7 +13494,7 @@ elseif($code==205)
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-<?=$statusColor;?>">
                 <div class="widget-user-image">
-                    <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
+                    <?PHP  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$Emp_Image."' alt='message user image' style='border: radius 70% !important;width:100px;height:100px;'>"; ?>
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username">
@@ -18302,7 +18411,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Eligibility</label>
-                                        <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1' && $row1['EligibilityReason']==''){echo 'green';}
+                                        <select class="form-control" name='eligible' onclick="provisinalRemarks(this.value);"  style="border: 2px solid <?php if($Eligibility=='1' && $row1['EligibilityReason']==''){echo 'green';}
                                         else if($row1['EligibilityReason']!='')
                                             {echo'#300fe5';
                                     }else{ echo 'red';}?>">
@@ -18317,7 +18426,20 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                             <option value="2">Provisional Eligible</option>
                                         </select>
                                     </div>
-
+                                    <?php
+    if($row1['EligibilityRemarks']!='')
+    {
+      ?>
+       <div class="col-lg-2 col-12" id="remarksProvisional" style="display:none;">
+                                        <label>Eligibility Remarks</label>
+                                        <input type="text" class="form-control" name="EligibilityRemarks"  value="<?=$row1['EligibilityRemarks'];?>">
+                                        </div><?php   
+    }
+                                    ?>
+                                    <div class="col-lg-2 col-12" id="remarksProvisional" style="display:none;">
+                                        <label>Eligibility Remarks</label>
+                                        <input type="text" class="form-control" name="EligibilityRemarks"  >
+                                        </div>
 
                                       <div class="col-lg-2 col-12">
                                         <label>Mode of Admission</label>
@@ -18854,6 +18976,7 @@ elseif($code==268)
    $State = $_POST["State_1"];
    $postOffice =$_POST["postOffice"]; 
    $pinCode =$_POST["pinCode"]; 
+   $EligibilityRemarks =$_POST["EligibilityRemarks"]; 
 
 //Course Tab
     $employmentStatus = $_POST["employmentStatus"];
@@ -18946,6 +19069,8 @@ include "connection/ftp-erp.php";
        ftp_close($conn_id);
         $insertExp="UPDATE Admissions SET Image='$file_name' where IDNo='$loginId'";
        sqlsrv_query($conntest, $insertExp);
+       $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$loginId'";
+       sqlsrv_query($conntest, $upimage);
    }
 
    if ($signature) {
@@ -19000,6 +19125,7 @@ include "connection/ftp-erp.php";
    $query .= "Quota ='$modeofadmission', ";
    $query .= "ScolarShip ='$scholaship',";
    $query .= "EligibilityReason='$provisional',";
+   $query .= "EligibilityRemarks='$EligibilityRemarks',";
    $query .= "CommentsDetail='$specialcomment'";
    $query .= "WHERE IDNo ='$loginId'";
 
@@ -31805,13 +31931,6 @@ elseif ($code==449) {
     $bnoon="";
     $anoon="";
 $emp_id = $_POST['emp_id'];
-$admission = $_POST['admission'];
-$naac = $_POST['naac'];
-
-$sugg = $_POST['suggestion'];
-
-$bnoon =str_replace("'", '',$_POST['bnoon']);
-$anoon =str_replace("'", '',$_POST['anoon']);
 
 $emp_type = $_POST['emp_type'];
 $submit_date = $_POST['date_r'];
@@ -31838,9 +31957,15 @@ echo("<script>location.href ='ppi.php';</script>");
 else{
 
 if($emp_type=='Non-Teaching')
-
 {
-
+    $admission = $_POST['admission'];
+    $naac = $_POST['naac'];
+    
+    $sugg = $_POST['suggestion'];
+    
+    $bnoon =str_replace("'", '',$_POST['bnoon']);
+    $anoon =str_replace("'", '',$_POST['anoon']);
+    
 if($emp_id!='')
  {
  $sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
@@ -31868,6 +31993,16 @@ echo("<script>location.href ='ppi.php';</script>");
     }
 }
 else{
+$course="";
+$semester="";
+$ltime="";
+$topic="";
+$total="";
+$present="";
+$assignment="";
+$seminar="";
+$class_test="";
+$platform="";
 $nol = $_POST['nol'];
 $emp_id = $_POST['emp_id'];
 $admission = $_POST['admission'];
@@ -31878,16 +32013,46 @@ $od_act =str_replace("'", '',$_POST['od_act']);
 $duty_perform = $_POST['duty_perform'];
 $perform_detail = str_replace("'", '',$_POST['perform_detail']);
 $emp_type = $_POST['emp_type'];
-$course= str_replace("'", '', $_POST['course']);
+if(isset($_POST['course']))
+{
+    $course= str_replace("'", '', $_POST['course']);
+}
+if(isset($_POST['semester']))
+{
 $sem=$_POST['semester'];
-$ltime=$_POST['ltime'];
+}
+if(isset($_POST['ltime']))
+{
+ $ltime=$_POST['ltime'];
+}
+if(isset($_POST['topic']))
+{
 $topic= str_replace("'", '', $_POST['topic']);
+}
+if(isset($_POST['total']))
+{
 $total=$_POST['total'];
+}
+if(isset($_POST['present']))
+{
 $present=$_POST['present'];
+}
+if(isset($_POST['assignment']))
+{
 $assignment=$_POST['assignment'];
+}
+if(isset($_POST['seminar']))
+{
 $seminar=$_POST['seminar'];
+}
+if(isset($_POST['class_test']))
+{
 $class_test=$_POST['class_test'];
+}
+if(isset($_POST['platform']))
+{
 $platform=$_POST['platform'];
+}
 $pcourse= str_replace("'", '', $_POST['phd_course']);
 $psem=$_POST['phd_sem'];
 $pltime=$_POST['phd_time'];
@@ -31901,9 +32066,7 @@ $pplatform=$_POST['phd_platform'];
 
 for($i=0;$i<$nol;$i++)
 {
-
   $sqlww = "insert into ProgressReportLectureDetails(UserID,Date,course,semester,LectureTime,Topic,TotelStudent,PresentStudent,AssignmentToday,ClassTest,Seminar,Platform) values('$emp_id','$submit_date','$course[$i]','$sem[$i]','$ltime[$i]','$topic[$i]','$total[$i]','$present[$i]','$assignment[$i]','$class_test[$i]','$seminar[$i]','$platform[$i]')";
-     
 $stmt2 = sqlsrv_query($conntest,$sqlww);
 
 if( $stmt2  === false) {
@@ -31913,7 +32076,6 @@ if( $stmt2  === false) {
 }
 for($j=0;$j<4;$j++)
 {
-
   if($pcourse[$j]!='')
   {
 
@@ -31931,8 +32093,10 @@ if( $stmt2  === false) {
 if($emp_id!='')
  {
 
-$sql1 = "insert into ProgressReport(UserID,Date,AdmissionWork,NAACWork,FutureVision,EmploymentType,WorkDoneAfter,WorkDoneBefore) values('$emp_id','$submit_date','$admission','$naac','$sugg','$emp_type','$anoon','$bnoon')";
+$sql1 = "INSERT INTO ProgressReport(EmploymentType,Date,LasteModifyDate,WorkDoneBefore,WorkDoneAfter,ExtraActivity,AdmissionWork,NAACWork,FutureVision,UserID,UserName,LectureDeliveredToday,VirtualPracticalLab,DutyPerFormAs,PerformDutyDetails)
+     VALUES('$emp_type','$submit_date','$timeStamp','','','$od_act','$admission','$naac','$sugg','$EmployeeID','$Emp_Name','$nol','$practical','$duty_perform','$perform_detail')";
      
+
 $stmt2 = sqlsrv_query($conntest,$sql1);
 
 if( $stmt2  === false) {
@@ -31941,7 +32105,7 @@ if( $stmt2  === false) {
 }
       if($stmt2 != 0)
       {
-        //echo("<script>location.href ='ppi.php';</script>");       
+        echo("<script>location.href ='ppi.php';</script>");       
       }
       else
       {
@@ -33124,7 +33288,6 @@ sqlsrv_close($conntest);
 }
 elseif($code==462) // book search
 {
-    $collegeName=$_POST['collegeName'];
     $sortBy=$_POST['sortBy'];
     $searchType=$_POST['searchType'];
     $searchValue=$_POST['searchValue'];
@@ -33145,12 +33308,33 @@ elseif($code==462) // book search
   <tbody>
       <?php  $sr=1;
       
-      
-      $get_pending="SELECT * from StockRegister where $searchType like '%$searchValue%'"; 
+        if($sortBy=='all' && $searchType=='')
+        {
+        $get_pending="SELECT sr.* FROM StockRegister sr LEFT JOIN IssueRegister ir ON sr.AccessionNo = ir.AccessionNo"; 
+        }
+        else if($sortBy=='issued' && $searchType=='')
+        {  
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE EXISTS ( SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo);";     
+        }
+        else if($sortBy=='unissued' && $searchType=='')
+        {
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE NOT EXISTS (SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo);"; 
+        }
+        else if($sortBy=='all' && $searchType!='')
+        {
+        $get_pending="SELECT sr.* FROM StockRegister sr LEFT JOIN IssueRegister ir ON sr.AccessionNo = ir.AccessionNo WHERE sr.$searchType like '%$searchValue%' "; 
+        }
+        else if($sortBy=='issued' && $searchType!='')
+        {  
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE EXISTS ( SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo and sr.$searchType like '%$searchValue%');";   
+        }
+        else if($sortBy=='unissued' && $searchType!='')
+        {
+            $get_pending="SELECT sr.* FROM StockRegister sr WHERE NOT EXISTS (SELECT 1 FROM IssueRegister ir WHERE sr.AccessionNo = ir.AccessionNo and sr.$searchType like '%$searchValue%');"; 
+        }
       $get_pending_run=sqlsrv_query($conntest,$get_pending);
       while($get_row=sqlsrv_fetch_array($get_pending_run))
       {
-      
       ?>
       <tr>
           <td><?=$sr;?></td>
@@ -33160,8 +33344,7 @@ elseif($code==462) // book search
           <td><?=$get_row['Edition'];?></a></td>
           <td><?=$get_row['Publisher'];?></a></td>
           <td><?=$get_row['Year'];?></a></td>
-          <td><?=$get_row['Category'];?></a></td>
-        
+          <td><?=$get_row['Category'];?></a></td>   
       </tr>
       <?php $sr++; }?>
   </tbody>

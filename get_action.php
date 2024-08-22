@@ -2635,7 +2635,7 @@ while($article_data=mysqli_fetch_array($ss))
    <optgroup label="Building">
       <option value="">Select</option>
    <?php 
-   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
+   if ($EmployeeID=='131053' || $EmployeeID=='121400' || $EmployeeID=='171250' || $EmployeeID=='121031' || $EmployeeID=='171307' || $EmployeeID=='101346' || $EmployeeID=='170123') 
    {
       $locationBuildingSql="Select * from building_master ";
    }

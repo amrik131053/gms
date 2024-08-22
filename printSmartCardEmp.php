@@ -57,11 +57,48 @@ if ($code==1)
         $pdf-> Image('dist\img\signn.jpg',33,75,18,5); 
         $pdf->SetXY(1,18.5);
         $pdf->MultiCell(52,3,$row['CollegeName'],'','C');
-    $img= $row['Snap'];
-    $pic = 'data://text/plain;base64,' . base64_encode($img);
-    $info = getimagesize($pic);
-    $extension = explode('/', mime_content_type($pic))[1];
-    $pdf-> Image($pic,18,25.8,20,22,$extension);
+    // $img= $row['Snap'];
+    // $pic = 'data://text/plain;base64,' . base64_encode($img);
+    // $info = getimagesize($pic);
+    // $extension = explode('/', mime_content_type($pic))[1];
+    // $pdf-> Image($pic,18,25.8,20,22,$extension);
+    $imageURL=$row['Imagepath'];
+    $fullURL = $BasURL.'Images/Staff/'. rawurlencode($imageURL);
+
+$ch = curl_init($fullURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$imageData = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo 'HTTP error: ' . $httpCode;
+    curl_close($ch);
+    exit;
+}
+curl_close($ch);
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->buffer($imageData);
+$extension = 'jpeg'; 
+switch ($mimeType) {
+    case 'image/jpeg':
+        $extension = 'jpeg';
+        break;
+    case 'image/png':
+        $extension = 'png';
+        break;
+    default:
+        echo 'Unsupported image type: ' . $mimeType;
+        exit;
+}
+
+$base64Image = base64_encode($imageData);
+$imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+$pdf-> Image($imageSrc,18,25.8,20,22,$extension);
+
     $YCount=strlen(strtoupper(trim($row['Name'])));
     if($YCount>24)
     {
