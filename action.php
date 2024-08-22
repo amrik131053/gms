@@ -13,7 +13,7 @@ ini_set('max_execution_time', '0');
    {
 
    date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
-   
+          $CurrentExaminationGetDate=date('Y-m-d'); 
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -13595,19 +13595,19 @@ elseif($code==210)
 {
  $id =$_POST['id'];
    $Ext =$_POST['Ext'];
-    $Int =$_POST['Int'];
-     $Intm =$_POST['Intm'];
+    //$Int =$_POST['Int'];
+      $Intm =$_POST['Intm'];
       $Extm =$_POST['Extm'];
        $subname =$_POST['subname'];
         $subcode =$_POST['subcode'];
         $subtype =$_POST['subtype'];
          $userid =$_POST['userid']; 
 
-      $sq="Update ExamFormSubject set ExternalExam='$Ext',InternalExam='$Int',intmarks='$Intm', extmarks='$Extm',SubjectName='$subname',SubjectCode='$subcode',SubjectType='$subtype' Where ID='$id'"; 
+     $sq="Update ExamFormSubject set ExternalExam='$Ext',intmarks='$Intm', extmarks='$Extm',SubjectName='$subname',SubjectCode='$subcode',SubjectType='$subtype' Where ID='$id'"; 
 
 
 
- $desc= "ExternalExam:".$Ext." , InternalExam: ".$Int." SubjectName=".$subname." ,SubjectCode=".$subcode." ,SubjectType=".$subtype;
+ $desc= "ExternalExam:".$Ext." , InternalExam:  SubjectName=".$subname." ,SubjectCode=".$subcode." ,SubjectType=".$subtype;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$userid','$desc','$EmployeeID','$timeStamp')";
 
@@ -15954,6 +15954,7 @@ elseif($code==252)
                               <th style="width:50px">Tutorial</th>
                               <th style="width:50px">Practical</th>
                              <th style="width:180px" >Marks Type</th>
+                             <th>Department</th>
                               <th>No of Credits</th>
                               <th>Action</th>
                            </tr>
@@ -15963,6 +15964,7 @@ elseif($code==252)
 
                 
                       $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
+
                       if($CollegeID!='')
                       {
                          $get_study_scheme.="AND CollegeID='$CollegeID'";
@@ -15979,7 +15981,8 @@ elseif($code==252)
                       {
                       $get_study_scheme.=" AND SemesterID='$Semester'";
                       }
-                        
+                 // echo     $get_study_scheme ;
+
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                         if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -16024,6 +16027,10 @@ elseif($code==252)
                                        <option value="V">V</option>
                                     </select>
                                  </td>
+
+
+
+
 
 
 
@@ -16102,6 +16109,30 @@ elseif($code==252)
                                         
                                     </select>
                                  </td>
+
+
+                                 <td>
+      
+      
+<select class="form-control" style="width:150px" id="department<?=$get_row['SrNo'];?>">
+  <?php
+$get_study_scheme1="SELECT * FROM MasterDepartment WHERE CollegeID='$CollegeID'";
+
+  $get_study_scheme_run1=sqlsrv_query($conntest,$get_study_scheme1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                       ?>
+                         <!-- <option value="<?=$get_row['Id'];?>" ><?=$get_row['Department'];?></option> -->
+                          <option value="select" >select</option><?php
+                 while($get_row1=sqlsrv_fetch_array($get_study_scheme_run1,SQLSRV_FETCH_ASSOC))
+                        {
+?>
+
+
+                                       <option value="<?=$get_row1['Id'];?>" ><?=$get_row1['Department'];?></option>
+                             <?php }?>          
+                                    </select>
+   
+</td>
+
                                  <td style="width:80px"><input type="text" id="credits<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['NoOFCredits'];?>"></td>
 
                                  <td style="width:80px"><input type="hidden" value="<?=$get_row['SrNo'];?>"><button class="btn btn-success btn-xs" onclick="update_study_scheme('<?=$get_row['SrNo'];?>');" ><i class="fa fa-check" aria-hidden="true" style="color:white;" ></i></button>
@@ -16163,8 +16194,9 @@ elseif($code==255)
                $practical=$_POST['practical'];
                $tutorials=$_POST['tutorials'];
                $credits=$_POST['credits'];
+               $department=$_POST['department'];
                       $group=$_POST['group'];
-                $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
+               $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
          $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
@@ -24100,7 +24132,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
    <th>SrNo</th>
   <th>Subject Name</th>
   <th width="12%">Subject Code</th>
-  <th width="8%">Int</th>
+  <!-- <th width="8%">Int</th> -->
   <th width="8%">Ext</th>
   <th width="8%">Type</th>
   <!-- <th width="7%">Int Marks</th>
@@ -24133,12 +24165,12 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
 </td>
    <td colspan="1"><input  class="form-control"  type="text" id="<?=$row7['ID'];?>_subcode" value="<?=$row7['SubjectCode'];?>">
    </td>
-  <td>
+<!--   <td>
     <select  id="<?=$row7['ID'];?>_Int"  class="form-control" >
       <option><?=$row7['InternalExam'];?></option>
     <option value="Y">Y</option>
     <option value="N">N</option>
-  </select></td>
+  </select></td> -->
   <td>
       <select  id="<?=$row7['ID'];?>_Ext"  class="form-control" >  
       <option><?php echo $row7['ExternalExam'];?></option>
@@ -24162,7 +24194,37 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
   <input type="hidden"  class="form-control"  style="width:" value="<?php echo $row7['extmarks']; ?>" id="<?=$row7['ID'];?>_extmarks">
   
        <td>
-  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> <br>
+
+<?php
+ $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' AND ExamType='$type'";
+
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+       $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+       $CurrentExaminationLastDate=$getCurrentExamination_row['CorrectionDate']->format('Y-m-d');
+       $CurrentExaminationType=$getCurrentExamination_row['Type'];
+       $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+
+          }
+
+if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department')
+   {?>
+
+  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> 
+<?php }
+else {
+   ?><button type="submit" id="type"  name="update" class="btn btn-danger btn-xs"><i class="fa fa-ban"></i></button> 
+   <?php  
+}?>
+
+
+
+
+
+  <br>
 <br>
   
 

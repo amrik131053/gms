@@ -85,7 +85,7 @@ Examination_Subjects();
 }
 
 
-function Search_exam_student_open()
+function Search_exam_student_open() 
 {
 
 var code=60;
@@ -169,7 +169,7 @@ var Course=document.getElementById("Course").value;
 var Batch=document.getElementById("Batch").value;
 var Semester=document.getElementById("Semester").value;
 var Group=document.getElementById("Group").value;
-
+var Type=document.getElementById("Type").value
 
 
 var xmlhttp = new XMLHttpRequest();
@@ -183,7 +183,7 @@ var xmlhttp = new XMLHttpRequest();
         }
     }
 
-      xmlhttp.open("GET", "get_action.php?College="+College+"&Course="+Course+ "&Batch=" + Batch+ "&Semester=" + Semester+ "&Group="+Group+"&code="+code,true);
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Course="+Course+ "&Batch=" + Batch+ "&Semester=" + Semester+"&Type="+Type+"&Group="+Group+"&code="+code,true);
         xmlhttp.send();
 
 

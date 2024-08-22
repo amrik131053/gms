@@ -32170,7 +32170,7 @@ $todaydate=$_POST['startDate'];
  <?php  
 $buttoncount=0;
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F'  OR  (SubjectGradePoint='0' AND SubjectGrade='US'))";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32185,7 +32185,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
        if ($RunfatchMarks === false) {
           $errors = sqlsrv_errors();
           echo "Error: " . print_r($errors, true);
-      } 
+              } 
        if($RowfatchMarks=sqlsrv_fetch_array($RunfatchMarks,SQLSRV_FETCH_ASSOC))
        {  
         $subjecttype=$RowfatchMarks['SubjectType']; 
@@ -32233,7 +32233,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
         $totalFinal=0;
         $showmarks=0;
         
-  }
+  } 
 
   include "result-pages/grade_calculator.php";
      

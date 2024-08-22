@@ -267,6 +267,7 @@
    function student_search()
    {
       var code=69;
+
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
       {
@@ -280,32 +281,33 @@
             },
             success:function(response) 
             {
+               console.log(response);
                document.getElementById("student_search_record").innerHTML =response;
-               code=70;
-               $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo
-            },dataType:"json",
-            success:function(response) 
-            {
-               var l=response.length;
-               if(l>0)
-               {
-                  var IDNo=response[0]["IDNo"];
-                  var Class=response[0]["ClassRollNo"];
-                  var Uni=response[0]["UniRollNo"];
-                  var Name=response[0]["StudentName"];
+         //       code=70;
+         //       $.ajax(
+         // {
+         //    url:"action.php ",
+         //    type:"POST",
+         //    data:
+         //    {
+         //       code:code,rollNo:rollNo
+         //    },dataType:"json",
+         //    success:function(response) 
+         //    {
+         //       var l=response.length;
+         //       if(l>0)
+         //       {
+         //          var IDNo=response[0]["IDNo"];
+         //          var Class=response[0]["ClassRollNo"];
+         //          var Uni=response[0]["UniRollNo"];
+         //          var Name=response[0]["StudentName"];
 
-               }
-               document.getElementById("student_IDNO").value =IDNo;
-               document.getElementById("studentRemark").value =Name+"("+Class+"/"+Uni+")";
+         //       }
+         //       document.getElementById("student_IDNO").value =IDNo;
+         //       document.getElementById("studentRemark").value =Name+"("+Class+"/"+Uni+")";
                
-            }
-         });
+         //    }
+         // });
 
             }
          });

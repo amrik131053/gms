@@ -1,7 +1,7 @@
 <?php
 require('fpdf/fpdf.php');
-$From=$_POST['From']=2201;
-$To=$_POST['To']=2500;
+$From=$_POST['From']=2501;
+$To=$_POST['To']=2600;
 // Extend the FPDF class to create a custom class with a footer
 class CustomPDF extends FPDF {
     function Footer() {

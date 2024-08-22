@@ -57,7 +57,7 @@ function sub_code_int_ext_type_update(id)
       var userid = document.getElementById('userid').value;
          var subcode=document.getElementById(id+"_subcode").value;
          var subname=document.getElementById(id+"_subname").value;
-         var int=document.getElementById(id+"_Int").value;
+         //var int=document.getElementById(id+"_Int").value;
          var ext=document.getElementById(id+"_Ext").value;
          var intm=document.getElementById(id+"_intmarks").value;
          var extm=document.getElementById(id+"_extmarks").value;
@@ -68,11 +68,11 @@ function sub_code_int_ext_type_update(id)
               url:'action.php',
               type:'POST',
               data:{
-                 code:code,id:id,subcode:subcode,subname:subname,Int:int,Ext:ext,Intm:intm,Extm:extm,subtype:subtype,userid:userid
+                 code:code,id:id,subcode:subcode,subname:subname,Ext:ext,Intm:intm,Extm:extm,subtype:subtype,userid:userid
               },
               success: function(response) 
               {
-               
+                //console.log(response);
                spinner.style.display='none';
                   if (response=='1')
                            {
@@ -81,7 +81,7 @@ function sub_code_int_ext_type_update(id)
                            }
                           else
                            {
-                           ErrorToast('Try Again','bg-danger' );
+                           ErrorToast('Can`t Update','bg-danger' );
                            }
                 
               }
