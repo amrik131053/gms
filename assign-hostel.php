@@ -267,6 +267,7 @@
    function student_search()
    {
       var code=69;
+
       var rollNo= document.getElementById("student_roll_no").value;
       if (rollNo!='') 
       {
@@ -280,6 +281,7 @@
             },
             success:function(response) 
             {
+               console.log(response);
                document.getElementById("student_search_record").innerHTML =response;
                code=70;
                $.ajax(

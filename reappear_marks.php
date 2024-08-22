@@ -406,7 +406,7 @@ var spinner= document.getElementById("ajax-loader");
      }
     $.ajax({
       url:'action.php', 
-      type:'post',
+      type:'post', 
       data:{
         ids:student_str,subcode:subjectcodeArray,code:'376'
       },

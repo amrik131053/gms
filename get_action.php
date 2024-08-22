@@ -1,11 +1,11 @@
 
 <?php
-
+ 
 session_start();
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 $EmployeeID=$_SESSION['usr'];
    include "connection/connection.php";
-      
+       $CurrentExaminationGetDate=date('Y-m-d'); 
       $code=$_GET['code'];
       if ($code==1)
        {
@@ -6736,13 +6736,53 @@ if($list_result === false) {
 $Course = $_GET['Course'];
   $Batch = $_GET['Batch'];
   $Semester = $_GET['Semester'];
-
+ $type = $_GET['Type'];
     $Group = $_GET['Group'];
       
 
-    ?>
 
+ $list_sql = "Select * from MasterCourseStructure where CollegeID='$College' AND CourseID='$Course' AND Batch='$Batch' ANd SemesterID='$Semester' ANd SGroup='$Group'  AND Elective!='O' ";
+
+  $list_result = sqlsrv_query($conntest,$list_sql);
+
+        $count = 1;
+
+if($list_result === false) {
+
+    // die( print_r( sqlsrv_errors(), true) );
+}
+?>
+<table class="table"><tr>
+   <th>Select</th><th>SrNo</th> <th>Code</th>
+    <th>Subject Name</th></tr>
+   
+   <?php 
+        while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+
+        {?>
+
+         
+             
+             <tr>
+            
+            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
+             
+             <td><?=$count++;?></td>
+             
+                <td>
+                <?=$row['SubjectCode'];?></td>
+                  <td><?= $row['SubjectName'];?></td>
+             
+               
+               </tr>
+
+
+
+
+<?php
+}?>
 <tr> <td colspan="4"><h2> Open Elective</h2></td></tr>
+
 <?php 
 //CollegeID!='$College' AND
 $list_sql = "Select * from MasterCourseStructure where  Batch='$Batch'ANd SemesterID='$Semester'  AND Elective='O'";
@@ -6769,7 +6809,7 @@ if($list_result === false) {
              
              <tr>
             
-            <td><input type='radio' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
+            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'><?= $row['SrNo'];?></td>
              
              <td><?=$count++;?></td>
              
@@ -6790,14 +6830,34 @@ if($list_result === false) {
 
 
 
-?>
+ $getCurrentExamination="SELECT * FROM ExamDate WHERE Type='Department' AND ExamType='$type'";
+
+          $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+
+          if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+          {
+      
+       $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+       $CurrentExaminationLastDate=$getCurrentExamination_row['CorrectionDate']->format('Y-m-d');
+       $CurrentExaminationType=$getCurrentExamination_row['Type'];
+       $CurrentExaminationExamType=$getCurrentExamination_row['ExamType'];
+
+          }
+
+if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department')
+   {?>
 <tr><td colspan="4" style="text-align: center;"><input type="button" name="add_subject"  onclick="add_subject_examform()" value="Add Subject" class="btn btn-primary btn-xs"></td></tr>
-</table>
+
 
 
 <?php 
+}else
+{?>
+   <tr><td colspan="4" style="text-align: center;"><input type="button"    value="Date Over" class="btn btn-danger btn-xs"></td></tr>
+   <?php 
 
-
+}?></table>
+<?php
  }
  else if($code=='62')
  {
