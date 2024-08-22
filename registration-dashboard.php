@@ -83,7 +83,7 @@
                         <?php }?>
                         <?php  if($code_access!='000')
                       {?>
-                        <button class="btn btn-success" onclick="loadMainCount();">
+                        <button type="button" class="btn btn-success" onclick="loadMainCount();">
                             Search</button>
                         <button type="submit" class="btn btn-success" >
                             Export</button>
