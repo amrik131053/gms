@@ -18411,7 +18411,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Eligibility</label>
-                                        <select class="form-control" name='eligible'  style="border: 2px solid <?php if($Eligibility=='1' && $row1['EligibilityReason']==''){echo 'green';}
+                                        <select class="form-control" name='eligible' onclick="provisinalRemarks(this.value);"  style="border: 2px solid <?php if($Eligibility=='1' && $row1['EligibilityReason']==''){echo 'green';}
                                         else if($row1['EligibilityReason']!='')
                                             {echo'#300fe5';
                                     }else{ echo 'red';}?>">
@@ -18426,7 +18426,20 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                             <option value="2">Provisional Eligible</option>
                                         </select>
                                     </div>
-
+                                    <?php
+    if($row1['EligibilityRemarks']!='')
+    {
+      ?>
+       <div class="col-lg-2 col-12" id="remarksProvisional" style="display:none;">
+                                        <label>Eligibility Remarks</label>
+                                        <input type="text" class="form-control" name="EligibilityRemarks"  value="<?=$row1['EligibilityRemarks'];?>">
+                                        </div><?php   
+    }
+                                    ?>
+                                    <div class="col-lg-2 col-12" id="remarksProvisional" style="display:none;">
+                                        <label>Eligibility Remarks</label>
+                                        <input type="text" class="form-control" name="EligibilityRemarks"  >
+                                        </div>
 
                                       <div class="col-lg-2 col-12">
                                         <label>Mode of Admission</label>
@@ -18963,6 +18976,7 @@ elseif($code==268)
    $State = $_POST["State_1"];
    $postOffice =$_POST["postOffice"]; 
    $pinCode =$_POST["pinCode"]; 
+   $EligibilityRemarks =$_POST["EligibilityRemarks"]; 
 
 //Course Tab
     $employmentStatus = $_POST["employmentStatus"];
@@ -19111,6 +19125,7 @@ include "connection/ftp-erp.php";
    $query .= "Quota ='$modeofadmission', ";
    $query .= "ScolarShip ='$scholaship',";
    $query .= "EligibilityReason='$provisional',";
+   $query .= "EligibilityRemarks='$EligibilityRemarks',";
    $query .= "CommentsDetail='$specialcomment'";
    $query .= "WHERE IDNo ='$loginId'";
 

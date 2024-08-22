@@ -7,9 +7,11 @@
 
         <div class="container-fluid">
             <div class="card-header">
+            <form action="export.php" method="post" target="_blank">
+            <input type="hidden" value="75" name="exportCode">
                 <div class="row">
                     <div class="col-lg-3">
-                        <select id="Type" class="form-control form-control-range">
+                        <select id="Type" name="Type" class="form-control form-control-range">
                             <?php $getType="SELECT DISTINCT  Type FROM ExamForm  order by Type DESC ";
                         $gettypeRun=sqlsrv_query($conntest,$getType);
                         while($row=sqlsrv_fetch_array($gettypeRun))
@@ -26,7 +28,7 @@
 
                     </div>
                     <div class="col-lg-3">
-                        <select id="Batch" class="form-control form-control-range">
+                        <select id="Batch" name="Batch" class="form-control form-control-range">
                             <option value="">Batch</option>
                             <?php 
                               for($i=2011;$i<=2030;$i++)
@@ -38,7 +40,7 @@
 
                     </div>
                     <div class="col-lg-2">
-                        <select id="Semester" class="form-control form-control-range">
+                        <select id="Semester" name="Semester" class="form-control form-control-range">
                             <option value="">Sem</option>
                             <?php 
                               for($i=1;$i<=12;$i++)
@@ -50,8 +52,8 @@
 
                     </div>
 
-                    <div class="col-lg-3">
-                        <select id="Examination" class="form-control form-control-range">
+                    <div class="col-lg-2">
+                        <select id="Examination" name="Examination" class="form-control form-control-range">
                             <?php
                                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination DESC ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
@@ -72,26 +74,28 @@
 
 
                     </div>
-                    <div class="col-lg-1">
-                    <?php  if($code_access!='111')
-            {?>
+                    <div class="col-lg-2">
+                        <?php  if($code_access!='111')
+                     {?>
                         <!-- <button class="btn btn-success"
                             onclick="loadDashboard();">
                             Search</button> -->
-                            <?php }?>
-                            <?php  if($code_access!='000')
-            {?>
-                        <button class="btn btn-success"
-                            onclick="loadMainCount();">
+                        <?php }?>
+                        <?php  if($code_access!='000')
+                      {?>
+                        <button class="btn btn-success" onclick="loadMainCount();">
                             Search</button>
-<?php }?>
+                        <button type="submit" class="btn btn-success" >
+                            Export</button>
+                        <?php }?>
 
                     </div>
 
                 </div>
+                      </form>
             </div>
             <br>
-            
+
 
 
 
@@ -282,7 +286,7 @@
                         </div>
                     </div>
                     <!-- /.widget-user -->
-                </div> 
+                </div>
             </div>
             <?php }
          
@@ -384,7 +388,7 @@
     <script>
     const d = new Date();
     let year = d.getFullYear();
-   
+
 
     <?php if($code_access=='111'){?>
     loadMainCount();
@@ -456,7 +460,7 @@
 
 
     function loadMainCount() {
-      
+
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var ExaminationA = document.getElementById("Examination").value;
@@ -511,7 +515,7 @@
 
 
 
- 
+
 
 
     function showBatchsFromCourse(CourseID) {

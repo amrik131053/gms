@@ -265,7 +265,17 @@ function searchStudentCollegeWise() {
         ErrorToast("Select College", "bg-warning");
     }
 }
+function provisinalRemarks(val)
+{
+    if(val!='1')
+{
+    $('#remarksProvisional').show();
+}
+else{
+    $('#remarksProvisional').hide();
 
+}
+}
 function updateStudent(empID) {
 
     var spinner = document.getElementById("ajax-loader");
