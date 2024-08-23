@@ -10722,27 +10722,10 @@ else if($exportCode==75)
            $Batch=$_REQUEST['Batch'];
            $Semester=$_REQUEST['Semester'];
            $Examination=$_REQUEST['Examination'];
-            $getCourse="SELECT DISTINCT CollegeID
-            FROM ExamForm  Where  Examination='$Examination' and Type='$Type'";
-            if($_REQUEST['Batch']!='')
-            {
-            $getCourse.=" AND Batch='$Batch'"; 
-            }
-            if($_REQUEST['Semester']!='')
-            {
-             $getCourse.="AND  SemesterId='$Semester'"; 
-            }
-//  echo $getCourse;
-           $getCourseRun=sqlsrv_query($conntest,$getCourse);
-           while($rowCourseName = sqlsrv_fetch_array($getCourseRun, SQLSRV_FETCH_ASSOC))
-           { 
-           $CollegeID[]=$rowCourseName['CollegeID'];
-           }
-        //    print_r($CollegeID);
-foreach ($CollegeID as $key => $value) {
-  
-    $getCourse1="SELECT DISTINCT  ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID
-    FROM MasterCourseCodes Inner Join ExamForm ON MasterCourseCodes.CollegeID=ExamForm.CollegeID Where ExamForm.CollegeID='$value' AND ExamForm.Examination='$Examination' and ExamForm.Type='$Type'";
+           $Confirmation=$_REQUEST['Confirmation'];
+
+    $getCourse1=" SELECT Admissions.*,  ExamForm.Batch,ExamForm.SemesterId,ExamForm.Examination,ExamForm.Course,ExamForm.CourseID,ExamForm.Status as ExamStatus
+    FROM Admissions Inner Join ExamForm ON Admissions.IDNo=ExamForm.IDNo Where  ExamForm.Examination='$Examination' and ExamForm.Type='$Type'";
     if($_REQUEST['Batch']!='')
     {
     $getCourse1.=" AND ExamForm.Batch='$Batch'"; 
@@ -10751,37 +10734,15 @@ foreach ($CollegeID as $key => $value) {
     {
      $getCourse1.="AND  ExamForm.SemesterId='$Semester'"; 
     }
+    if($_REQUEST['Confirmation']=='Yes')
+    {
+     $getCourse1.="AND  ExamForm.CourseID!='188'"; 
+    }
      $getCourse1.="order by ExamForm.Batch ASC ";
+    //  echo $getCourse1;
  $getCourseRun1=sqlsrv_query($conntest,$getCourse1);
- while($rowCourseName1 = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+ while($row = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
  { 
-             $CourseID=$rowCourseName1['CourseID'];
-                  
-                 $list_sql = "SELECT   *,ExamForm.Status as ExamStatus,ExamForm.SemesterId
-                 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo 
-                 where Admissions.Status='1' ";
-                  if ($CourseID != '') 
-                  {
-                 $list_sql.=" AND ExamForm.CourseID='$CourseID' ";
-                  }
-                  if ($Batch != '') 
-                  {
-                 $list_sql.=" AND ExamForm.Batch='$Batch' ";
-                  }
-                  if ($Semester != '') 
-                  {
-                 $list_sql.=" AND ExamForm.SemesterId='$Semester' ";
-                  }
-                
-                  if ($Examination != '') {
-                  $list_sql.=" AND ExamForm.Examination='$Examination' ";
-                  }
-              
-                 $list_sql.="  ORDER BY ExamForm.Status   ASC"; 
-              
-                                     $list_result = sqlsrv_query($conntest,$list_sql);
-                                     while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
-                                        {  // $aa=$row;
                                      $IDNo=$row['IDNo'];
                                      $CollegeName=$row['CollegeName'];
                                      $Course=$row['Course'];
@@ -10870,8 +10831,6 @@ foreach ($CollegeID as $key => $value) {
                                         <td>{$StatusShow}</td>
                                         </tr>";
            }
-        }
-    }
                      $exportstudy.="</table>";
                      echo $exportstudy;
                      $fileName="All Students Exam Form ";

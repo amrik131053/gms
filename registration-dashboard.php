@@ -10,7 +10,7 @@
             <form action="export.php" method="post" target="_blank">
             <input type="hidden" value="75" name="exportCode">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <select id="Type" name="Type" class="form-control form-control-range">
                             <?php $getType="SELECT DISTINCT  Type FROM ExamForm  order by Type DESC ";
                         $gettypeRun=sqlsrv_query($conntest,$getType);
@@ -27,7 +27,7 @@
 
 
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <select id="Batch" name="Batch" class="form-control form-control-range">
                             <option value="">Batch</option>
                             <?php 
@@ -74,6 +74,12 @@
 
 
                     </div>
+                    <div class="col-lg-2">
+                    <select id="Confirmation" name="Confirmation" class="form-control form-control-range">
+                <option value="All">All</option>                            
+                <option value="Yes">Without Diploma Agri</option>                            
+                </select>
+                                            </div>
                     <div class="col-lg-2">
                         <?php  if($code_access!='111')
                      {?>
@@ -467,6 +473,7 @@
         var TypeA = document.getElementById("Type").value;
         var BatchA = document.getElementById("Batch").value;
         var SemesterA = document.getElementById("Semester").value;
+        var Confirmation = document.getElementById("Confirmation").value;
 
         var code = 337;
         $.ajax({
@@ -477,6 +484,7 @@
                 Examination: ExaminationA,
                 Batch: BatchA,
                 Type: TypeA,
+                Confirmation: Confirmation,
                 Semester: SemesterA
 
             },

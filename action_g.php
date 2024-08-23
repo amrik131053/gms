@@ -23831,10 +23831,12 @@ $count=array();
 $Batch = $_POST['Batch'];
 $Semester = $_POST['Semester'];
 $Type = $_POST['Type'];
+$Confirmation = $_POST['Confirmation'];
 if($_POST['Examination']!='')
 {
      $Examination=$_POST['Examination'];
-}else{
+}else
+{
     $Examination=$CurrentExamination;
 
 }
@@ -23851,6 +23853,10 @@ if($_POST['Examination']!='')
    if($Semester!='')
    {
        $getActiveTotal.="and  ExamForm.SemesterId='$Semester' ";
+   }
+   if($Confirmation=='Yes')
+   {
+    $getActiveTotal.="and  ExamForm.CourseID!='188'"; 
    }
    if($Examination!='')
    {
@@ -23877,6 +23883,10 @@ $getRegReject="SELECT Distinct IDNo FROM  ExamForm WHERE
  {
      $getRegReject.="and  ExamForm.SemesterId='$Semester' ";
  }
+ if($Confirmation=='Yes')
+ {
+  $getRegReject.="and  ExamForm.CourseID!='188'"; 
+ }
  if($Examination!='')
  {
      $getRegReject.="and  ExamForm.Examination='$Examination' ";
@@ -23901,11 +23911,15 @@ $getRegForward="SELECT Distinct IDNo FROM  ExamForm  WHERE
   {
       $getRegForward.="and  ExamForm.SemesterId='$Semester' ";
   }
+  if($Confirmation=='Yes')
+  {
+   $getRegForward.="and  ExamForm.CourseID!='188'"; 
+  }
   if($Examination!='')
   {
       $getRegForward.="and  ExamForm.Examination='$Examination' ";
   }
- 
+//  echo $getRegForward;
 $getRegForward_run=sqlsrv_query($conntest,$getRegForward,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
 
@@ -23925,6 +23939,10 @@ $RegistrationForward=sqlsrv_num_rows($getRegForward_run);
   if($Semester!='')
   {
       $getdpPending.="and  ExamForm.SemesterId='$Semester' ";
+  }
+  if($Confirmation=='Yes')
+  {
+   $getdpPending.="and  ExamForm.CourseID!='188'"; 
   }
   if($Examination!='')
   {
@@ -23951,6 +23969,10 @@ $getDpReject="SELECT Distinct IDNo FROM  ExamForm WHERE
   {
       $getDpReject.="and  ExamForm.SemesterId='$Semester' ";
   }
+  if($Confirmation=='Yes')
+  {
+   $getDpReject.="and  ExamForm.CourseID!='188'"; 
+  }
   if($Examination!='')
   {
       $getDpReject.="and  ExamForm.Examination='$Examination' ";
@@ -23973,6 +23995,10 @@ $getDpForward="SELECT Distinct IDNo FROM  ExamForm WHERE
    if($Semester!='')
    {
        $getDpForward.="and  ExamForm.SemesterId='$Semester' ";
+   }
+   if($Confirmation=='Yes')
+   {
+    $getDpForward.="and  ExamForm.CourseID!='188'"; 
    }
    if($Examination!='')
    {
@@ -23998,6 +24024,10 @@ $getACPending="SELECT Distinct IDNo FROM  ExamForm  WHERE
       {
           $getACPending.="and  ExamForm.SemesterId='$Semester' ";
       }
+      if($Confirmation=='Yes')
+      {
+       $getACPending.="and  ExamForm.CourseID!='188'"; 
+      }
       if($Examination!='')
       {
           $getACPending.="and  ExamForm.Examination='$Examination' ";
@@ -24020,6 +24050,10 @@ $getACReject="SELECT Distinct IDNo FROM  ExamForm  WHERE
        if($Semester!='')
        {
            $getACReject.="and  ExamForm.SemesterId='$Semester' ";
+       }
+       if($Confirmation=='Yes')
+       {
+        $getACReject.="and  ExamForm.CourseID!='188'"; 
        }
        if($Examination!='')
        {
@@ -24044,6 +24078,10 @@ $getACForward="SELECT Distinct IDNo FROM  ExamForm  WHERE
     {
         $getACForward.="and  ExamForm.SemesterId='$Semester' ";
     }
+    if($Confirmation=='Yes')
+    {
+     $getACForward.="and  ExamForm.CourseID!='188'"; 
+    }
     if($Examination!='')
     {
         $getACForward.="and  ExamForm.Examination='$Examination' ";
@@ -24066,6 +24104,10 @@ $getExamPending="SELECT Distinct IDNo FROM ExamForm  WHERE
     if($Semester!='')
     {
         $getExamPending.="and  ExamForm.SemesterId='$Semester' ";
+    }
+    if($Confirmation=='Yes')
+    {
+     $getExamPending.="and  ExamForm.CourseID!='188'"; 
     }
     if($Examination!='')
     {
@@ -24090,6 +24132,10 @@ $getExamReject="SELECT Distinct IDNo FROM  ExamForm  WHERE
      {
          $getExamReject.="and  ExamForm.SemesterId='$Semester' ";
      }
+     if($Confirmation=='Yes')
+     {
+      $getExamReject.="and  ExamForm.CourseID!='188'"; 
+     }
      if($Examination!='')
      {
          $getExamReject.="and  ExamForm.Examination='$Examination' ";
@@ -24112,6 +24158,10 @@ $getExamForward="SELECT Distinct IDNo FROM ExamForm  WHERE
      if($Semester!='')
      {
          $getExamForward.="and  ExamForm.SemesterId='$Semester' ";
+     }
+     if($Confirmation=='Yes')
+     {
+      $getExamForward.="and  ExamForm.CourseID!='188'"; 
      }
      if($Examination!='')
      {
