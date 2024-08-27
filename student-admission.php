@@ -130,7 +130,7 @@ function bg(id) {
 function bg1(id) {
     $('.btnG').removeClass("bg-success");
     $('#' + id).toggleClass("bg-success");
-}
+} 
 function newAdmission() {
     var code = 348;
     var spinner = document.getElementById('ajax-loader');

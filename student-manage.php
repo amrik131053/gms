@@ -229,11 +229,11 @@ function searchStudentCollegeWise() {
     //     }
     var StudentName = document.getElementById('StudentName1').value;
     var CollegeName = document.getElementById('CollegeName1').value;
-
     var Course = document.getElementById('Course1').value;
     var Batch = document.getElementById('Batch').value;
     var Status = document.getElementById('Status').value;
     var Eligibility = document.getElementById('Eligibility').value;
+    var admissiontype = document.getElementById('admissiontype').value;
     var Lateral = document.getElementById('Lateral').value;
     if (CollegeName != '') {
         var spinner = document.getElementById("ajax-loader");
@@ -251,17 +251,18 @@ function searchStudentCollegeWise() {
                 Eligibility: Eligibility,
                 LateralEntry: Lateral,
                 StudentName: StudentName,
-                Status: Status
+                Status: Status,admissiontype:admissiontype
             },
             success: function(response) {
-                console.log(response);
+                //console.log(response);
                 spinner.style.display = 'none';
                 document.getElementById("show_record1").innerHTML = response;
                 document.getElementById('show_record').innerHTML = "";
 
             }
         });
-    } else {
+    } 
+    else {
         ErrorToast("Select College", "bg-warning");
     }
 }
@@ -969,6 +970,23 @@ function copyToClipboard(text) {
                                     <option value="0">Not Eligible</option>
                                     <option value="1">Eligible</option>
                                 </select>
+                            </div>
+                        </div>
+
+                           <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                                <label>Admission Type </label>
+                                <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                <select class="form-control" id="admissiontype" name="admissiontype">
+
+                                   <option value="">Normal</option>
+              <option value="1">Pre Requisite</option>
+              <option value="2">Foundation</option>
+              <option value="3">Migration</option>
+
+
+                                </select>
+
                             </div>
                         </div>
                         <div class="col-lg-12 col-12">

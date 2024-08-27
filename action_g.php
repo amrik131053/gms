@@ -18429,6 +18429,7 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                     <?php
     if($row1['EligibilityRemarks']!='')
     {
+
       ?>
        <div class="col-lg-2 col-12" id="remarksProvisional" style="display:none;">
                                         <label>Eligibility Remarks</label>
@@ -18479,14 +18480,36 @@ for($i=$Batch-5;$i<$Batch+5;$i++)
                                     </div>
                                     <div class="col-lg-2 col-12">
                                         <label>Admission Type</label>
-                                        <!-- <select class="form-control" name="admissiontype" id="admissiontype" >
-                                                 -->
-<!-- <option value="<?=$row1['AdmissionType'];?>"><?=$row1['AdmissionType'];?></option> -->
-<!-- <option value="">Normal</option>
-<option value="1">Pre Requisite</option>
-              <option value="2">Foundation</option>
-                            <option value="3">Migration</option> -->
-<input type="text" name="" class="form-control"id="" value="<?=$row1['AdmissionType'];?>" disabled>
+<?php  if($row1['AdmissionType']==1)
+{
+    $atype='Pre Requisite';
+}
+else if($row1['AdmissionType']==2)
+{
+ $atype='Foundation';
+}
+else if($row1['AdmissionType']==3)
+{
+     $atype='Migration';
+
+}
+else{
+    $atype='Normal';
+}
+    ?>
+
+    <select class="form-control" name="admissiontype" id="admissiontype" >
+<option value="<?=$row1['AdmissionType'];?>"><?=$atype;?></option>
+              <option value="">Normal</option>
+              <option value="1">Pre Requisite</option>
+                            <option value="2">Foundation</option>
+                                          <option value="3">Migration</option>
+          
+
+
+          </select>
+                                    
+
 
 
 <!-- </select> -->
@@ -18977,7 +19000,7 @@ elseif($code==268)
    $postOffice =$_POST["postOffice"]; 
    $pinCode =$_POST["pinCode"]; 
    $EligibilityRemarks =$_POST["EligibilityRemarks"]; 
-
+   $admissiontype =$_POST["admissiontype"]; 
 //Course Tab
     $employmentStatus = $_POST["employmentStatus"];
      
@@ -19126,11 +19149,9 @@ include "connection/ftp-erp.php";
    $query .= "ScolarShip ='$scholaship',";
    $query .= "EligibilityReason='$provisional',";
    $query .= "EligibilityRemarks='$EligibilityRemarks',";
-   $query .= "CommentsDetail='$specialcomment'";
+   $query .= "CommentsDetail='$specialcomment',";
+   $query .= "AdmissionType='$admissiontype'";
    $query .= "WHERE IDNo ='$loginId'";
-
-
-
   $query;
    if($rrrrr=sqlsrv_query($conntest,$query))
    {
@@ -19203,6 +19224,7 @@ elseif($code==270)  // search student
     $Status = $_POST['Status'];
     $Eligibility = $_POST['Eligibility'];
     $LateralEntry = $_POST['LateralEntry'];
+        $admissiontype = $_POST['admissiontype'];
 ?>
             <table class="table " id="example">
                 <thead>
@@ -19245,6 +19267,9 @@ elseif($code==270)  // search student
       
       if ($Status != '') {
           $query .= " AND  Status='$Status'";
+      }
+      if ($admissiontype != '') {
+          $query .= " AND  AdmissionType='$admissiontype'";
       }
       
       if ($Session != '') {
@@ -25450,8 +25475,8 @@ if($Status==6)
 
               <option value="">Normal</option>
               <option value="1">Pre Requisite</option>
-                            <option value="2">Foundation</option>
-                                          <option value="3">Migration</option>
+              <option value="2">Foundation</option>
+              <option value="3">Migration</option>
           
 
 
@@ -25792,7 +25817,7 @@ if($Status==6)
   <!-- <hr style="background-color:#002149"><h6 style="color:red;text-align: center;">-- Reference Detail --</h6> <hr style="background-color:#002149"> -->
  
 
-  <div class="row">
+<div class="row">
 
 
       
@@ -25816,7 +25841,7 @@ if($Status==6)
           </div>
       </div>
      
-  </div>
+</div>
 
  
 
