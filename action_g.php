@@ -32876,7 +32876,7 @@ elseif($code==455)
                       
   }
 
-  $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32912,7 +32912,7 @@ elseif($code==455)
                 $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
               }  }
 
-echo $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND SubjectGrade like'%F%'";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND SubjectGrade like'%F%'";
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
              {
@@ -33037,7 +33037,7 @@ echo $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND Su
         }
 
 
-  $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -33072,7 +33072,7 @@ echo $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND Su
   }
 
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND SubjectGrade like '%F%'  ";
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
              {
@@ -33199,7 +33199,7 @@ $decdate=$row['Timestamp']->format('d-m-Y h:i:s');
 
 </tr>
 
-<?php   $query1 = "SELECT * FROM ResultPreparationDetail Where ResultID='$ResultID'";
+<?php  $query1 = "SELECT * FROM ResultPreparationDetail Where ResultID='$ResultID'";
 $SrNo=1;
    $result1 = sqlsrv_query($conntest,$query1);
    while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
