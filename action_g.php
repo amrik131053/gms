@@ -5982,12 +5982,12 @@ $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extens
         $result = sqlsrv_query($conntest, $insertExp);
         
 
-        $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
-sqlsrv_query($conntest, $upimage);
+//         $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+// sqlsrv_query($conntest, $upimage);
 
-//         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-// $params = array($file_data, $IDNo);
-// $upimage_run = sqlsrv_query($conntest, $upimage, $params);
+        $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
+$params = array($file_data, $IDNo);
+$upimage_run = sqlsrv_query($conntest, $upimage, $params);
         
 if ($result === false) {
     $errors = sqlsrv_errors();
@@ -33405,6 +33405,29 @@ elseif($code==462) // book search
 </table>
 <?php 
 sqlsrv_close($conntest);        
+}
+elseif($code==463) 
+{
+$id_s=$_POST['id'];
+$IDNo=$_POST['IDNo'];
+
+$query1="Delete from ResultPreparation where Id='$id_s'";
+sqlsrv_query($conntest,$query1);
+$query11= "Delete from ResultPreparationDetail where ResultID='$id_s'";
+sqlsrv_query($conntest,$query11);
+$desc= "Delete from ResultPreparationDetail where ResultID='$id_s' and StudentID='$IDNo' Delete from ResultPreparation where Id='$id_s' ";
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+
+if( $update_query  === false) {
+
+ die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+echo "1";
+}
+sqlsrv_close($conntest);
 }
    else
    {
