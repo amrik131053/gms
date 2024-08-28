@@ -32352,7 +32352,7 @@ $todaydate=$_POST['startDate'];
 
       <!--Pass-->
 
- <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'";
+ <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0' AND SubjectGradePoint!='US' ";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32474,7 +32474,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND  Subject
  <?php  
 $buttoncount=0;
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  SubjectGrade like '%F%'";
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (SubjectGrade like '%F%'  OR SubjectGrade='US')";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32912,7 +32912,7 @@ elseif($code==455)
                 $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
               }  }
 
- $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND SubjectGrade like'%F%'";
+ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade like '%F%'  OR SubjectGrade='US')";
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
              {
