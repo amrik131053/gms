@@ -32413,7 +32413,7 @@ $todaydate=$_POST['startDate'];
  <?php  
 $buttoncount=0;
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F'  OR  (SubjectGradePoint='0' AND SubjectGrade='US'))";
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F'  OR  (SubjectGradePoint='0'))";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32546,7 +32546,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
             {
               $sgpan="NC";
             }
-            else{
+            else {
 
                 $sgpan= number_format($sgpa,2);
             }
