@@ -32335,7 +32335,11 @@ $todaydate=$_POST['startDate'];
 
      <?php         
   }?>
-     <table class="table" >
+     <table class="table" ><tr style="background:#223260;color:white;">
+      <th colspan="6" style="text-align:center">Pass Subject</th>
+      
+      
+      </tr>
     <tr style="background:#223260;color:white;">
       <th>#</th>
       <th>Subject Name</th>
@@ -32346,7 +32350,9 @@ $todaydate=$_POST['startDate'];
       
       </tr>
 
- <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'  ";
+      <!--Pass-->
+
+ <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0'";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32394,10 +32400,65 @@ $todaydate=$_POST['startDate'];
                 $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
               }
          
-  }?>
+  }
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND  SubjectGrade='S' ";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+              // echo $row['IDNo'];
+               // $IDNo= $row1['IDNo'];
+               // $UniRollNo= $row1['Subject'];
+               // $Type= $row1['Type'];
+             ?>
+        
+      <tr>
+          <td><?=$row1['Id'];?></td>
+          <td><?=$row1['SubjectName'];?></td>
+          <td><?=$row1['SubjectCode'];?></td>
+          <td><?=$row1['SubjectGrade'];?></td>
+          <td><?= $oldgradepoint= $row1['SubjectGradePoint'];?></td>
+          <td><?= $creditold= $row1['SubjectCredit']?></td>
+        
+          </td>
+
+</tr>
+     <?php
+      if(is_numeric($creditold))
+          {
+               $creditold=$creditold;
+          }   
+          else
+          {
+              $creditold=0;
+          }  
+      if(is_numeric($creditold))
+              {
+                if(is_numeric($oldgradepoint))
+                {
+                 $gradevalueold=$oldgradepoint*$creditold;
+                }
+                else
+                {
+                    $gradevalueold=0; 
+                }
+                         
+              }
+      if($gradevalueold>0)
+              {
+                $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
+              }
+         
+  }
+
+  ?>
 </table>
 
-<table class="table" >
+<table class="table" ><tr style="background:#223260;color:white;">
+      <th colspan="8" style="text-align:center">Reappear Subject</th>
+      
+      
+      </tr>
 <tr style="background:#223260;color:white;">
       <th>#</th>
       <th>Subject Name</th>
@@ -32413,15 +32474,13 @@ $todaydate=$_POST['startDate'];
  <?php  
 $buttoncount=0;
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F'  OR  (SubjectGradePoint='0'))";
+$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  SubjectGrade like '%F%'";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
              {
         $resubjectcode=$row1['SubjectCode'];
        $credit=$row1['SubjectCredit'];
-
-
        $fatchMarks="SELECT  MAX(CE1) as CA1,MAX(CE2) as CA2,MAX(MST1) as MST1,MAX(CE3) as CA3,MAX(Attendance) as Attendance,MAX(ESE) as ESE ,SubjectType FROM ExamFormSubject
         WHERE SubjectCode='$resubjectcode' and IDNo='$IDNo' AND Examination='$Examination' AND  ExternalExam='Y' group by CE1,CE2,CE3,Attendance,ESE,SubjectType";
        $RunfatchMarks=sqlsrv_query($conntest,$fatchMarks);
@@ -32582,9 +32641,11 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
 
 
   }?>
-  <tr><td></td><td></td><td><td>Total Credit : <?= $totalcredit;?><td><td> SGPA : <?=$sgpan;?></td><td colspan="2">
+  <tr><td></td><td></td><td><td>Total Credit : <?= $totalcredit;?><td><td> SGPA : <?=$sgpan;?></td>
+    <td colspan="2">
     <?php  
-     if($buttoncount>0){?><button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button class="btn btn-primary" onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify Result</button> <?php }?> </td></tr>
+     if($buttoncount>0){?><button class="btn btn-warning">Update End Semester Marks</button><?php } else{?><button class="btn btn-primary" onclick="VerifyResult('<?= $ID;?>','<?= $Examination;?>','<?= $Semester;?>')">Verify Result</button> <?php }?> </td>
+ </tr>
   <?php
 
 
@@ -32851,7 +32912,7 @@ elseif($code==455)
                 $gradevaluetotalold=$gradevaluetotalold+$gradevalueold;
               }  }
 
-$query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
+echo $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND SubjectGrade like'%F%'";
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
              {
@@ -32992,6 +33053,24 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (Subjec
           $result = sqlsrv_query($conntest, $insertResultDetails);
           
   }
+
+  $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  SubjectGrade='S'";
+
+             $result1 = sqlsrv_query($conntest,$query1);
+             while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
+             {
+                       
+           $SubjectName=$row1['SubjectName'];
+           $SubjectCode=$row1['SubjectCode'];
+           $SubjectGrade=$row1['SubjectGrade'];
+           $SubjectGradePoint= $row1['SubjectGradePoint'];
+           $SubjectCredit= $row1['SubjectCredit'];
+    $insertResultDetails = "INSERT INTO ResultPreparationDetail(ResultID,SubjectName,SubjectCode,SubjectGrade,SubjectCredit,UniRollNo,SubjectGradePoint) 
+                                  VALUES ('$resultID','$SubjectName','$SubjectCode','$SubjectGrade','$SubjectCredit','$UniRollNo','$SubjectGradePoint')";
+          $result = sqlsrv_query($conntest, $insertResultDetails);
+          
+  }
+
 
 $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND (SubjectGrade='F' OR  SubjectGradePoint='0')  ";
              $result1 = sqlsrv_query($conntest,$query1);
