@@ -463,7 +463,7 @@ var spinner= document.getElementById("ajax-loader");
                 Examination: Examination,ID: ID
             },
             success: function(response) {
-                // console.log(ExaminationB+BatchB+TypeB+SemesterB)
+             console.log(response)
                 spinner.style.display = 'none';
                 
                     //document.getElementById("ViewResultData").innerHTML = response;

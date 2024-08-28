@@ -6929,6 +6929,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    }
            }
    } 
+
    }
    } 
    
@@ -6937,6 +6938,9 @@ $update_query=sqlsrv_query($conntest,$update1);
    mysqli_close($conn);
    }
    
+  
+
+
    elseif($code=='102')
    {   
    $oldReading=0;

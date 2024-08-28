@@ -237,6 +237,8 @@ function sub_code_int_ext_type_update(id)
 
 
 
+
+
 function uncheckall()
 {
 
@@ -275,21 +277,12 @@ function uncheckall()
 <?php    }
 
 ?>
-              </select> 
+ </select> 
 
 
 
           </div>
-              <div class="col-lg-2 col-md-4 col-sm-3">
-   
-          
- <label>Course</label>
-              <select name="Course" id="Course" class="form-control">
-                <option value=''>Select Course</option>
-                
-              </select>
-          </div>
-
+             
 
           <div class="col-lg-1 col-md-4 col-sm-3">
             
@@ -311,86 +304,15 @@ for($i=2013;$i<=2030;$i++)
 
         </div>
 
- <div class="col-lg-1 col-md-4 col-sm-3">
-<label> Semester</label>
-            <select   id='Semester' class="form-control" required="">
-              <option value="">Sem</option>
-            <?php 
-for($i=1;$i<=12;$i++)
-{?>
-   <option value="<?=$i?>"><?=$i?></option>
-<?php }
-            ?>
-             
-            </select>
 
-</div>
- <div class="col-lg-1 col-md-4 col-sm-3">
-  <label>Type</label>
-              <select  id="Type" class="form-control" required="">
-                 <option value="">Select</option>
-                <option value="Regular">Regular</option>
-                 <option value="Reappear">Reappear</option>
-                  <option value="Additional">Additional</option>
-                   <option value="Improvement">Improvement</option>
 
-                
-              </select>
 
-</div>
 
- <div class="col-lg-2 col-md-4 col-sm-3">
-  <label>Group</label>
-              <select id="Group" class="form-control" required="">
-                 <option value="">Group</option>
-                       <?php
-   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure Order by Sgroup ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
-
-       
-     $Sgroup = $row1['Sgroup']; 
-     
-    ?>
-<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
-<?php    }
-
-?>
-
-                
-              </select>
-
-</div>
-
- <div class="col-lg-2 col-md-4 col-sm-3">
-  <label>Examination</label>
-              <select  id="Examination" class="form-control" required="">
-                 <option value="">Examination</option>
-                       <?php
-   $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
-          $stmt2 = sqlsrv_query($conntest,$sql);
-     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
-         {
-
-       
-     $Sgroup = $row1['Examination']; 
-     
-    ?>
-<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
-<?php    }
-
-?>
-
-                
-              </select>
-
-</div>
 
 
  <div class="col-lg-1 col-md-4 col-sm-3">
   <label>Search</label><br>
-            <button class="btn btn-danger" onclick="Search_exam_student_open();"><i  class="fa fa-search" ></i></button>
+            <button class="btn btn-danger" onclick="Search_exam_student_pre();"><i  class="fa fa-search" ></i></button>
 
 </div>
 

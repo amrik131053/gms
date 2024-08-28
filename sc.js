@@ -90,12 +90,9 @@ function Search_exam_student_open()
 
 var code=60;
 var College=document.getElementById("College").value;
-var Course=document.getElementById("Course").value;
+
 var Batch=document.getElementById("Batch").value;
-var Semester=document.getElementById("Semester").value;
-var Type=document.getElementById("Type").value;
-var Group=document.getElementById("Group").value;
-var Examination=document.getElementById("Examination").value;
+
 
  // if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
  // {
@@ -116,7 +113,52 @@ Examination_Subjects_open();
         }
     }
 
-      xmlhttp.open("GET", "get_action.php?College="+College+"&Course="+Course+ "&Batch=" + Batch+ "&Semester=" + Semester+ "&Type=" + Type+"&Group="+Group+"&Examination="+Examination+"&code="+code,true);
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Batch=" + Batch+"&code="+code,true);
+        xmlhttp.send();
+
+
+//  }
+// else
+// {
+//   alert("Wrong Input");
+// }
+
+
+
+
+
+
+}
+
+function Search_exam_student_pre() 
+{
+
+var code=65;
+var College=document.getElementById("College").value;
+
+var Batch=document.getElementById("Batch").value;
+
+
+ // if(Batch!='' && Semester!='' && College!=''&& Course!=''&&Type!=''&&Group!=''&&Examination!='')
+ // {
+
+ //x.style.display = "block";
+var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+     
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+
+          //x.style.display = "none";
+          spinner.style.display='none';
+          document.getElementById("live_data_Exam_student").innerHTML=xmlhttp.responseText;
+Examination_Subjects_pre();
+        }
+    }
+
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Batch=" + Batch+"&code="+code,true);
         xmlhttp.send();
 
 
@@ -188,6 +230,33 @@ var xmlhttp = new XMLHttpRequest();
 
 
 }
+
+ function Examination_Subjects_pre(){
+var code=66;
+
+var College=document.getElementById("College").value;
+var Batch=document.getElementById("Batch").value;
+
+
+
+var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {     
+     
+ 
+          document.getElementById("live_data_Exam_subjects").innerHTML=xmlhttp.responseText;
+
+        }
+    }
+
+      xmlhttp.open("GET", "get_action.php?College="+College+"&Batch=" + Batch+ "&code="+code,true);
+        xmlhttp.send();
+
+
+}
+
+
 
 
 function courseByCollege(College) 
@@ -321,6 +390,56 @@ var len_subject= subjects.length;
 });
 }
 }
+
+function add_subject_prerequite()
+{
+var students=document.getElementsByClassName('checkbox');
+var subjects=document.getElementsByClassName('newSubject');
+var len_student= students.length; 
+var len_subject= subjects.length;
+
+
+  var code=101.1;
+  var student_str=[];
+  var subject_str=[];
+    
+    for(i=0;i<len_subject;i++)
+     {
+      if(subjects[i].checked===true)
+       {
+        subject_str.push(subjects[i].value);
+        }
+     }
+       
+     for(i=0;i<len_student;i++)
+     {
+          if(students[i].checked===true)
+          {
+            student_str.push(students[i].value);
+          }
+       }
+     
+
+
+  if((typeof  student_str[0]== 'undefined') || (typeof subject_str[0]== 'undefined') )
+  {
+    alert('Select atleast one student and subject to proceed');
+  }else{
+    var spinner=document.getElementById("ajax-loader");
+                                  spinner.style.display='block';
+  $.ajax({
+         url:'action.php',
+         data:{students:student_str,subjects:subject_str,code:code},
+         type:'POST',
+         success:function(data) {
+            spinner.style.display='none';
+             console.log(data);
+            alert('Inserted Successfully.') 
+                                }      
+});
+}
+}
+
 
 function page_open(id)
 {
