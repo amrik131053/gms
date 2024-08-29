@@ -3198,6 +3198,8 @@ else { ?>
                         ?>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCardNew(<?=$row['IDNo'];?>);"></i>
                     <?php 
                         }
                         else { ?>

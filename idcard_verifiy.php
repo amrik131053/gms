@@ -167,11 +167,11 @@
               },
               success: function(response) 
               {
-                   pending_show_idcard();
-                   reject_show_idcard();
-                   set_count_pending();
-                   set_count_reject();
-                   show_all();
+                  //  pending_show_idcard();
+                  //  reject_show_idcard();
+                  //  set_count_pending();
+                  //  set_count_reject();
+                  //  show_all();
                if(response=='1')
                {
                    SuccessToast('Success Verifiy');
@@ -197,11 +197,11 @@
                 },
                 success: function(response) 
                 {
-                     pending_show_idcard();
-                     reject_show_idcard();
-                     set_count_pending();
-                     set_count_reject();
-                     show_all();
+                     // pending_show_idcard();
+                     // reject_show_idcard();
+                     // set_count_pending();
+                     // set_count_reject();
+                     // show_all();
                  if(response=='1')
                  {
                      SuccessToast('Success Verifiy');
@@ -227,11 +227,11 @@ function left_idcard(id){
                 },
                 success: function(response) 
                 {
-                     pending_show_idcard();
-                     reject_show_idcard();
-                     set_count_pending();
-                     set_count_reject();
-                     show_all();
+                     // pending_show_idcard();
+                     // reject_show_idcard();
+                     // set_count_pending();
+                     // set_count_reject();
+                     // show_all();
                    
                      
                  if(response=='1')
@@ -263,11 +263,11 @@ function left_idcard(id){
               },
               success: function(response) 
               {
-                   reject_show_idcard();
-                   set_count_pending();
-                   set_count_reject();
-                   show_all();
-                   pending_show_idcard();
+                  //  reject_show_idcard();
+                  //  set_count_pending();
+                  //  set_count_reject();
+                  //  show_all();
+                  //  pending_show_idcard();
                   
             //    spinner.style.display='none';
                if(response=='1')
@@ -303,9 +303,9 @@ function left_idcard(id){
               {
               
                spinner.style.display='none';
-               set_count_pending();
-               set_count_reject();
-               show_all();
+               // set_count_pending();
+               // set_count_reject();
+               // show_all();
                
                document.getElementById("pending_record").innerHTML=response;
          

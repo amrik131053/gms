@@ -1646,6 +1646,21 @@ function printEmpIDCard(id) {
          {  
          //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
           window.open("printSmartCardEmp.php?code="+code+"&id="+id,'_blank');
+         //  window.open("newidcard.php?code="+code+"&id="+id,'_blank');
+         }
+         else
+         {
+            alert("Select ");
+         }
+      
+}
+function printEmpIDCardNew(id) {
+   var code=1;
+        if (id!='') 
+         {  
+         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
+         //  window.open("printSmartCardEmp.php?code="+code+"&id="+id,'_blank');
+          window.open("newidcard.php?code="+code+"&id="+id,'_blank');
          }
          else
          {
