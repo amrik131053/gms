@@ -6871,6 +6871,7 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
                  <th>Total Credit </th>
                  <th> SGPA </th>
                  <th> Verified By </th>
+                 <th> Action </th>
       
                  </tr>
   <?php
@@ -6903,12 +6904,13 @@ if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentE
 <td><?php if($row['ResultStatus']=='1'){}else{?><input type="checkbox" class="checkbox v_check" value="<?= $row['Id'];?>"><?php }?></td>
  <td><?= $i++;?></td>
  <td style="text-align: center" data-toggle="modal" data-target="#ViewResult" onclick="ViewResultStudent(<?= $row['Id'];?>);"> <?=$row['UniRollNo'];?></td>
- <td><?= $row['StudentName'];?></td>             
+ <td><?= $row['StudentName'];?>=<?= $row['Id'];?></td>             
  <td><?= $row['FatherName'];?></td>             
  <td><?= $row['Type'];?></td>             
  <td><?=$row['TotalCredit'];?></td>
  <td><?=$row['Sgpa'];?></td>
  <td><?=$row['VerifiedBy'];?></td>
+ <td><button class="btn btn-danger"  onclick="deleteResultOne(<?= $row['Id'];?>,<?= $row['IDNo'];?>);"><i class="fa fa-trash"></i></button></td>
 </tr>
  <?php 
  $clr="";

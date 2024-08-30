@@ -204,7 +204,39 @@ for($i=1;$i<=12;$i++)
 
 
 
+function deleteResultOne(id,IDNo)
+{
+    var r = confirm("Do you really want to delete");
+          if(r == true) 
+           {
+            var code=463;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id,IDNo:IDNo
+              },
+              success: function(response) 
+              {
+               console.log(response);
+               spinner.style.display='none';
+                  if (response=='1')
+                           {
+                           SuccessToast('Successfully deleted');
+                          }
+                          else
+                          {
+                           ErrorToast('Input Wrong ','bg-danger' );
+                          }
+                
+              }
+           });
 
+           }
+           else{
+
+           }
+}
 
 
 
