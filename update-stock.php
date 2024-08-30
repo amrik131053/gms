@@ -1,7 +1,7 @@
 <?php 
   include "header.php";   
 ?>
- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 <script src="html5-qrcode.min.js"></script>
 <section class="content">
@@ -12,8 +12,8 @@
             <div class="card-header">
                <div class="col-lg-2">
                   <div class="input-group input-group-sm">
-                     <button class="btn  btn-outline-light btn-sm"  data-toggle="modal" onclick="scanArticle()" data-target="#scan_article_modal" type="button" id="button-addon2">
-                     <i class="fa fa-qrcode">gg</i>
+                     <button class="btn  btn-outline-light btn-sm"  data-toggle="modal" onclick="scanArticle();" data-target="#scan_article_modal" type="button" id="button-addon2">
+                     <i class="fa fa-qrcode"></i>
                      </button>
                      <input type="text" class="form-control" id='article_No' placeholder="Article No..." aria-describedby="button-addon2">
                      <button class="btn  btn-info btn-sm" type="button" id="button-addon2"  onclick="articleTask(0)">
