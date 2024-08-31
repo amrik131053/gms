@@ -32351,10 +32351,10 @@ $todaydate=$_POST['startDate'];
       <th>Total Credit</th>
       
       </tr>
-
-      <!--Pass-->
-
- <?php   $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0' AND SubjectGradePoint!='US' ";
+<!--Pass-->
+ <?php     
+$sgpan='';
+    $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID' AND SubjectGrade!='NA' AND SubjectGrade!='F'AND SubjectGradePoint!='0' AND SubjectGradePoint!='US' ";
 
              $result1 = sqlsrv_query($conntest,$query1);
              while($row1 = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC) )
@@ -32538,6 +32538,7 @@ $query1 = "SELECT * FROM ResultDetailGKU Where ResultID='$ResultID'  AND  (Subje
         $showmarks=0;
         
   } 
+  $sgpan='';
 
   include "result-pages/grade_calculator.php";
      

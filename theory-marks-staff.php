@@ -143,7 +143,8 @@ for($i=1;$i<=12;$i++)
               <label>Type</label>
               <select name="ecat" id="ecat" class="form-control" required="">
                 <option value="">Select</option>
-                <option value="CE1">CA-1 & CA-2</option>
+                <option value="CE1">CA-1 </option>
+                 <option value="CE2">CA-2</option>
                 <option value="MST1">MST-1 </option>
                <option value="MST2">MST-2</option> 
                 <option value="CE3">CA-3</option>

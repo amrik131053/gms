@@ -503,9 +503,9 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-              <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
+              <!-- <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
                 <small id="blink" ><marquee><b>Download Our Android App on Google Play Store<b></marquee></small>
-                </a>
+                </a> -->
             <p id="ajax-loader"></p>
 
             <?php  }?>
