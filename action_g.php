@@ -15211,15 +15211,29 @@ ftp_close($conn_id);
 
      if( $status!='Approved')
      {
+        // echo  $leaveStartDate." >= ".Date('Y-m-d')."&&".$leaveEndDate." >= ".Date('Y-m-d');
 
+      if($leaveStartDate>=Date('Y-m-d') && $leaveEndDate>=Date('Y-m-d') )  
+      {
 
-
+   
      $InsertLeave="INSERT into ApplyLeaveGKU (StaffId,LeaveTypeId,StartDate,EndDate,ApplyDate,LeaveReason,LeaveDuration,LeaveDurationsTime,AuthorityId,SanctionId,LeaveSchoduleTime,Status,FilePath)
  VALUES('$EmpID','$LeaveType'
   ,'$leaveStartDate','$leaveEndDate','$ApplyDate1','$leaveReasonUser','$numberDays','$leaveShort','$Authority','$Recommend','$leaveShift','$status','$file_name')";
   $InsertLeaveRun=sqlsrv_query($conntest,$InsertLeave);
-
-
+  if($InsertLeaveRun==true)
+  {
+      echo "1";
+  }
+  else
+  {
+      echo "0";
+  }
+      }
+      else
+      {
+echo "6";
+      }
 
      }
 else{
@@ -15240,10 +15254,17 @@ if($LeaveType<3 || $LeaveType==26){
     {
        $LeaveDeduction=$numberDays; 
     }
-          echo   $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
+             $deductionBLance="UPDATE LeaveBalances SET Balance=Balance-$LeaveDeduction where Balance>0  and Employee_Id='$EmpID' and LeaveType_Id='$LeaveType'";
             sqlsrv_query($conntest,$deductionBLance);
        }
-
+       if($InsertLeaveRun==true)
+       {
+           echo "1";
+       }
+       else
+       {
+           echo "0";
+       }
 
 
 }
@@ -15258,14 +15279,14 @@ if($LeaveType<3 || $LeaveType==26){
 
   }
 //   ----------------------------------------------
-                if($InsertLeaveRun==true)
-                {
-                    echo "1";
-                }
-                else
-                {
-                    echo "0";
-                }
+                // if($InsertLeaveRun==true)
+                // {
+                //     echo "1";
+                // }
+                // else
+                // {
+                //     echo "0";
+                // }
             }
            
               // }
