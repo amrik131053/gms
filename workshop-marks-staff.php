@@ -325,12 +325,12 @@ var xmlhttp = new XMLHttpRequest();
 //Examination_theory_types();
         }
     }
-      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+52,true);
+      xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+67,true);
         
         xmlhttp.send();
  }
 else
-      {
+      { 
         ErrorToast('Select Appropriate data','bg-danger');
  
       }
@@ -475,16 +475,16 @@ function savepmarks(id)
 {
 
   var emarks=document.getElementById('emarks_'+id).value;
-   var vmarks=document.getElementById('vmarks_'+id).value
-    var fmarks=document.getElementById('fmarks_'+id).value
+   // var vmarks=document.getElementById('vmarks_'+id).value
+   //  var fmarks=document.getElementById('fmarks_'+id).value
      var ecat=document.getElementById('ecat').value;
   
 
-    if(emarks!='' && vmarks!=''&& fmarks!='')
+    if(emarks!='')
     {
 
 
-      marks=parseInt(emarks)+parseInt(vmarks)+parseInt(fmarks);
+      marks=parseInt(emarks);
 
 document.getElementById('marks_'+id).value='';
 
@@ -495,7 +495,7 @@ document.getElementById('marks_'+id).value='';
       url:'action.php',
       type:'post',
       data:{
-        id:id,emarks:emarks,vmarks:vmarks,fmarks:fmarks,marks:marks,ecat:ecat,code:'361'
+        id:id,emarks:emarks,marks:marks,ecat:ecat,code:'361.1'
       },
       success:function(response)
       {
