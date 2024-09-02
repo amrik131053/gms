@@ -6666,10 +6666,15 @@ else if ($code == 59) {
 }
   elseif ($code==60)
      {
-$College = $_GET['College'];
-
-  $Batch = $_GET['Batch'];
-  
+      $College = $_REQUEST['College'];
+      $Course = $_REQUEST['Course'];
+        $Batch = $_REQUEST['Batch'];
+        $Semester = $_REQUEST['Semester'];
+       $Type = $_REQUEST['Type'];
+          $Group = $_REQUEST['Group'];
+          $Examination = $_REQUEST['Examination'];
+            
+            
 
 $list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";

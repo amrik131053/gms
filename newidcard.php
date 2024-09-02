@@ -1,10 +1,10 @@
 <?php
 session_start();
 $EmployeeID=$_SESSION['usr'];
-
 ini_set('max_execution_time', '0');
 include 'phpqrcode/qrlib.php';
 include 'connection/connection.php';
+
 $result = sqlsrv_query($conntest,"SELECT RoleID FROM Staff  where IDNo='131053'");
 if($row=sqlsrv_fetch_array($result)) 
 {
@@ -81,7 +81,7 @@ if ($code==1)
     $result = sqlsrv_query($conntest,$sql);
     while($row=sqlsrv_fetch_array($result))
     {
-        $text=$row['IDNo'];
+        $text="https://gku.ac.in/qr-verfication.php?id=".$row['IDNo'];
         $path = 'degreeqr/';
         $file = $path.$row['IDNo'].".png";
         $ecc = 'L';
@@ -92,26 +92,58 @@ if ($code==1)
         $name= $row['Name'];
         $pdf->SetFont('Arial','B',7.5);
         $pdf->SetTextColor(255,255,255);
-        $pdf-> Image($file,3,65.5,10,10);
-        // $pdf-> Image('dist\img\dummy_qr.jpg',3,65.5,10,10);
+        // $pdf-> Image($file,3,65.5,10,10);
+        $pdf-> Image($file,2.5,65.2,11,11);
          $pdf-> Image('dist\img\signn.jpg',37,63,18,5);
          $pdf-> Image('dist\img\idcardbg1.png',0,40,55,5);
          $pdf-> Image('dist\img\idcardback.png',0,-1,54,90);
-         $pdf->SetXY(13.3,35);
+         $pdf->SetXY(18.6,35.5);
          $pdf->SetTextColor(0,0,0);
-         $pdf->Rotate(90);
+        //  $pdf->Rotate(90);
          $pdf->SetFont('Arial','B',10);
-         $pdf->MultiCell(15,3,$row['IDNo'],'','C');
-         $pdf->Rotate(0);
-         $pdf-> Image('dist\img\barcode.png',5,19.5,8,15);
+         $pdf->MultiCell(17,3,$row['IDNo'],'0','C');
+        //  $pdf->Rotate(0);
+        //  $pdf-> Image('dist\img\barcode.png',5,19.5,8,15);
          $pdf->SetTextColor(0,0,0);
          $pdf->SetFont('Arial','B',7.5);
         $pdf->SetXY(0,10);
-    $img= $row['Snap'];
-    $pic = 'data://text/plain;base64,' . base64_encode($img);
-    $info = getimagesize($pic);
-    $extension = explode('/', mime_content_type($pic))[1];
-    $pdf-> Image($pic,18,16,20,22,$extension);
+    // $img= $row['Snap'];
+    $imageURL=$row['Imagepath'];
+    $fullURL = $BasURL.'Images/Staff/'. rawurlencode($imageURL);
+
+$ch = curl_init($fullURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$imageData = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo 'HTTP error: ' . $httpCode;
+    curl_close($ch);
+    exit;
+}
+curl_close($ch);
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->buffer($imageData);
+$extension = 'jpeg'; 
+switch ($mimeType) {
+    case 'image/jpeg':
+        $extension = 'jpeg';
+        break;
+    case 'image/png':
+        $extension = 'png';
+        break;
+    default:
+        echo 'Unsupported image type: ' . $mimeType;
+        exit;
+}
+
+$base64Image = base64_encode($imageData);
+$imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+    $pdf-> Image($imageSrc,18,16,18,18,$extension);
     
     $YCount=strlen(strtoupper(trim($row['Name'])));
     if($YCount>24)
@@ -172,11 +204,11 @@ elseif($strlen>23)
 $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,$XSet-12.2);
     $pdf->SetFont('Arial','B',5.7);
-    $pdf->MultiCell(52,3,$row['Designation'],'0','C');
+    $pdf->MultiCell(52,3,strtoupper($row['Designation']),'0','C');
     $pdf->SetXY(1,$XSet-9);
     $pdf->SetTextColor(34,50,96);
     $pdf->SetFont('Arial','B',6);
-    $pdf->MultiCell(52,3,$row['DepartmentName'],'0','C');
+    $pdf->MultiCell(52,3,strtoupper($row['DepartmentName']),'0','C');
     $pdf->SetTextColor(0,0,0);
    }
 
@@ -193,7 +225,9 @@ $pdf->Output();
 }
 else{
     ?>
-    <script>window.open("not_found.php");   </script>
-    <?php
+<script>
+window.open("not_found.php");
+</script>
+<?php
 }
 ?>

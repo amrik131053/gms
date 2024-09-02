@@ -793,6 +793,9 @@ function leaveSubmit(form) {
             } else if (response == 5) {
                 ErrorToast('Can`t apply leave more then balance.', 'bg-warning');
             }
+            else if (response == 6) {
+                ErrorToast('Can`t apply leave in back date.', 'bg-warning');
+            }
             else{
                 ErrorToast('Please try after sometime.', 'bg-danger');
             }
