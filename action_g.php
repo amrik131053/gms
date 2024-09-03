@@ -21232,7 +21232,7 @@ elseif($Status==8)
          <?=$row['Course'];?>
                 </td>
           <td>
-         <?=$row['Examination'];?>
+         <?=$row['Examination'];?> 
                 </td>
           <td>
          <?=$row['Type'];?>
@@ -23280,6 +23280,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
     <button type="submit" id="type" onclick="verify(<?=$formid;?>);" name="update" class="btn btn-success ">Verify</button>
 
     <button type="submit" id="reject" onclick="reject(<?=$formid;?>);" name="reject" class="btn btn-danger ">Reject</button>
+     <button type="submit" id="type" onclick="pverify(<?=$formid;?>);" name="update" class="btn btn-warning "> Provisionally Verify</button>
     <?php }?>
 
 
