@@ -6847,7 +6847,8 @@ if($list_result === false) {
 
 if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department')
    {?>
-<tr><td colspan="4" style="text-align: center;"><input type="button" name="add_subject"  onclick="add_subject_examform()" value="Add Subject" class="btn btn-primary btn-xs"></td></tr>
+<tr><td colspan="4" style="text-align: center;"><input type="button" name="add_subject"  onclick="add_subject_examform()" value="Add New Subject" class="btn btn-primary btn-xs"><p style="color:red"> Last Date <?=$CurrentExaminationLastDate;?>
+</td></tr>
 
 
 

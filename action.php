@@ -24310,9 +24310,10 @@ while($row7 = sqlsrv_fetch_array($list_resultamrik, SQLSRV_FETCH_ASSOC) )
           }
 
 if($CurrentExaminationLastDate >= $CurrentExaminationGetDate && $type==$CurrentExaminationExamType && $CurrentExaminationType=='Department')
-   {?>
+   { ?>
 
-  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> 
+  <button type="submit" id="type" onclick="sub_code_int_ext_type_update(<?=$row7['ID'];?>);" name="update" class="btn btn-success btn-xs"><i class="fa fa-check"></i>
+  </button> 
 <?php }
 else {
    ?><button type="submit" id="type"  name="update" class="btn btn-danger btn-xs"><i class="fa fa-ban"></i></button> 

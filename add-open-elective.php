@@ -7,7 +7,7 @@
 <script>
 
 
-function checkall()
+function checkall() 
 {
 
   var inputs = document.querySelectorAll('.newStudents');
@@ -394,7 +394,7 @@ for($i=1;$i<=12;$i++)
 
 </div>
 
-
+ 
 
         <!-- /.row -->
       </div>
