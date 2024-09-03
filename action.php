@@ -8829,19 +8829,19 @@ elseif ($code==138)
 {
    if($examName=='1')
    {
-      $questionCountQry="Select * from question_generate_count where unit='1' or unit='2' ";
+     $questionCountQry="Select * from question_generate_count where (unit='1' or unit='2') AND exam='1' ";
       $flag=1;
    }
 
    elseif ($examName=='2') 
    {
-         $questionCountQry="Select * from question_generate_count where unit='3'";
+         $questionCountQry="Select * from question_generate_count where unit='3' exam='2'  ";
       $flag=1;
      
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3'";
+      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3' ";
       $flag=1;
 
    }
@@ -8862,6 +8862,20 @@ elseif ($code==138)
       $flag=1;
 
    }
+    elseif($examName=='7')
+   {
+   // for B PHARMACY MST 1
+ $questionCountQry="Select * from question_generate_count where unit='1'  AND exam='7' ";
+      $flag=1;
+
+   }
+    elseif($examName=='8')
+   {
+   // for B PHARMACY End Semester
+  $questionCountQry="Select * from question_generate_count where  unit='1' ";
+      $flag=1;
+
+   }
     elseif($examName=='9')
    {
    // for B PHARMACY End Semester
@@ -8872,9 +8886,9 @@ elseif ($code==138)
 
  elseif($examName=='10')
    {
-   // for B PHARMACY End Semester
+   // sports quota
   $questionCountQry="Select * from question_generate_count where  unit='6' ";
-      $flag=1;
+      $flag=1; 
 
    }
 
@@ -8920,6 +8934,10 @@ else
                $unit=rand(1,2);
             }
 
+             elseif (($type=='1' ||$type=='2' || $type=='3')  && $unit=='1'  && $examName=='7') 
+            {
+               $unit=rand(1,2);
+            }
 
             // elseif ($type=='1' && $unit=='3') 
             // {
@@ -8937,24 +8955,21 @@ else
             }
             else
             {
-          $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+        $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
             }
         
-
          $questionBankRes1=mysqli_query($conn,$questionBankQry1);
 
              while($questionBankData1=mysqli_fetch_array($questionBankRes1))
          {
                 $questionArray[]=$questionBankData1['Id'];
          
-         }   
-                   
-         
-         }    
-          // print_r($questionArray);
+         }  
+      }    
 
-   $countarray=count($questionArray);
+//print_r($questionArray);
 
+  $countarray=count($questionArray);
 
 //  if(array_unique($questionArray))
 // {
@@ -8997,10 +9012,15 @@ $gene=1;
     {
 $gene=1;
     } 
+     elseif($examName==7 && $countarray==10)
+    {
+$gene=1;
+    }
       elseif($examName==9 && $countarray==22)
     {
 $gene=1;
     }
+
        elseif($examName==10 && $countarray>=36)
     {
 $gene=1;
@@ -9034,7 +9054,7 @@ $gene=1;
  else
  {
    echo "Cant Generate due to insufficent data ";
-   print_r($questionArray);
+   //print_r($questionArray);
  }
  }
  }
