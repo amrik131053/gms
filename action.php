@@ -1816,7 +1816,7 @@ mysqli_close($conn);
                           ?>
       </tbody>
    </table>
-</div>
+</div> 
 <?php
 sqlsrv_close($conntest);
 mysqli_close($conn);
@@ -7781,7 +7781,14 @@ mysqli_close($conn);
    elseif($code==116)
    {
        $search = $_POST['search'];
-       $query = "SELECT Distinct SubjectCode from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode like '%".$search."%' or SubjectName like '%".$search."%' ";
+
+
+//        $query = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID' and mcs.SubjectCode like '%".$search."%' or mcs.SubjectName like '%".$search."%' ";
+
+ $query = "SELECT Distinct SubjectCode from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where SubjectCode like '%".$search."%' or SubjectName like '%".$search."%' ";
+
+
        $result = sqlsrv_query($conntest,$query);
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
@@ -7794,8 +7801,16 @@ mysqli_close($conn);
    elseif($code==117)
    {
       $subject_code = $_POST['subject_code'];
-      $sql = "SELECT Distinct MasterCourseStructure.Course,MasterCourseStructure.CourseID from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'  ORDER BY Course ";
+
+//   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType,mcs.CourseID,Course  FROM MasterCourseStructure as mcs 
+// inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID'  AND mcs.SubjectCode='$subject_code' ";
+
+ $sql = "SELECT DISTINCT mcs.CollegeID,mcs.CourseID,mcs.Course  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE sa.EmployeeID='$EmployeeID' ANd sa.SubjectCode='$subject_code'";
+
+      //$sql = "SELECT Distinct MasterCourseStructure.Course,MasterCourseStructure.CourseID from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'  ORDER BY Course ";
      // echo $sql = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE SubjectCode ='$subject_code' AND Isverified='1'  ORDER BY Course ";
+
        $result = sqlsrv_query($conntest,$sql);
        echo "<option value=''>Select Course</option>";
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -7808,7 +7823,16 @@ mysqli_close($conn);
    {
        $subject_code = $_POST['subCode'];
        $course = $_POST['course'];
-      $sql = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='$subject_code' AND Isverified='1' and CourseID='$course' ";
+
+      //$sql = "SELECT DISTINCT SubjectName from MasterCourseStructure WHERE SubjectCode ='$subject_code' AND Isverified='1' and CourseID='$course' ";
+
+$sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.SubjectCode='$subject_code' ANd  mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+
+
+
+
        $result = sqlsrv_query($conntest,$sql);
        // echo "<option value=''>Select Course</option>";
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
@@ -9619,7 +9643,10 @@ elseif($code==150)
 elseif($code==151)
    {
       $subject_code = $_POST['subject_code'];
-      $sql = "SELECT Distinct MasterCourseStructure.Batch from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'";
+     // $sql = "SELECT Distinct MasterCourseStructure.Batch from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'";
+
+ $sql = "SELECT Batch  FROM  SubjectAllotment  WHERE SubjectCode ='$subject_code' ANd EmployeeID='$EmployeeID'";      
+
      // echo $sql = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE SubjectCode ='$subject_code' AND Isverified='1'  ORDER BY Course ";
        $result = sqlsrv_query($conntest,$sql);
        echo "<option value=''>Batch</option>";
@@ -9632,13 +9659,15 @@ elseif($code==151)
    elseif($code==152)
    {
       $subject_code = $_POST['subject_code'];
-      $sql = "SELECT Distinct MasterCourseStructure.SemesterID from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'";
+     // $sql = "SELECT Distinct MasterCourseStructure.SemesterID from UserAccessLevel inner join MasterCourseStructure on MasterCourseStructure.CourseID=UserAccessLevel.CourseID where IDNo='$EmployeeID' and SubjectCode ='$subject_code' AND Isverified='1'";
+
+    $sql = "SELECT Semester  FROM  SubjectAllotment  WHERE SubjectCode ='$subject_code' ANd EmployeeID='$EmployeeID'";  
      // echo $sql = "SELECT DISTINCT Course,CourseID from MasterCourseStructure WHERE SubjectCode ='$subject_code' AND Isverified='1'  ORDER BY Course ";
        $result = sqlsrv_query($conntest,$sql);
        echo "<option value=''>Sem</option>";
        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
        {
-           echo "<option value='".$row["SemesterID"]."'>".$row["SemesterID"]."</option>"; 
+           echo "<option value='".$row["Semester"]."'>".$row["Semester"]."</option>"; 
        }
        sqlsrv_close($conntest);
    }

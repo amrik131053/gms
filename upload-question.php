@@ -30,7 +30,7 @@ $(document).ready(function() {
             },
             select: function(event, ui) {
                 $(this).val(ui.item.label); // display the selected text
-                var subject_code = ui.item.value; // selected value
+                 var subject_code = ui.item.value; // selected value
 
 
                 return false;
@@ -74,6 +74,7 @@ $(document).ready(function() {
                                 <input type="hidden" name="code" value="316">
                                 <!-- left column -->
                                 <div class="col-lg-2 col-md-4 col-sm-3">
+
                                     <label>Subject Code<b style="color:red;">*</b></label>
                                     <Input type="text" class="form-control subject_code" name="subject_code"
                                         id="subject_code" required="" />
@@ -468,10 +469,11 @@ $(function() {
             },
             type: 'POST',
             success: function(data) {
+                 console.log(data);
                 if (data != "") {
                     $("#Course").html("");
                     $("#Course").html(data);
-                    // console.log(data);
+                    
                 }
 
             }
@@ -489,7 +491,7 @@ $(function() {
                 if (data != "") {
                     $("#Batch").html("");
                     $("#Batch").html(data);
-                    // console.log(data);
+                     console.log(data);
                 }
 
             }
