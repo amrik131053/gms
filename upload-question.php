@@ -139,7 +139,7 @@ $(document).ready(function() {
                                 <div class="col-lg-2 col-md-4 col-sm-3">
                                     <label>Type<b style="color:red;">*</b></label>
                                     <select id='type' name='type' class="form-control" required=""
-                                        onchange=" drop_category(); q_check_count(); total_count()">
+                                        onchange="drop_category(); q_check_count(); total_count()">
                                         <option value="">Select</option>
                                         <?php
                            $questionTypeQry="SELECT * FROM question_type";
@@ -399,6 +399,7 @@ function submitForm(form) {
                 document.getElementById("submitBtn").disabled = true;
                 $('.summer').summernote('destroy');
                 document.getElementById("question_divs").innerHTML = " ";
+
                 for (var i = 1; i < question_count; i++) {
                     var questionName = 'Question' + i;
                     var fieldElement = form.elements[questionName];
@@ -548,8 +549,8 @@ function q_check_count() {
     var type = sanitize(document.getElementById("type").value);
     var category = sanitize(document.getElementById("category").value);
 
-    if (subCode !== '' && courseId !== '' && subName !== '' && batch !== '' && sem !== '' && unit !== '' && type !==
-        '' && category !== '') {
+    if (subCode !== '' && courseId !== '' && subName !== '' && batch !== '' && sem !== '' && unit !== '' && type !=='' && category !== '') 
+    {
         var errorQuestionElement = document.getElementById('error_question');
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
@@ -575,7 +576,9 @@ function q_check_count() {
                     document.getElementById("submitBtn").disabled = true;
                     document.getElementById("question_divs").innerHTML =
                         ' <p style="color:red;" ><b>You Can`t Insert this Question. You have already uploaded for this selection</b></p>';
-                } else {
+                } else 
+
+                {
                     document.getElementById("submitBtn").disabled = false;
                     document.getElementById("question_divs").innerHTML = response;
                     $('.summer').summernote({

@@ -7936,7 +7936,7 @@ if(mysqli_num_rows($ifcodeexist_run)>0)
       ?>
         <input type="hidden" name="question_count_val" id="question_count_val" value="<?=$looptotalQuestionUploaded; ?>">
         <?php
-        for ($i = 1; $i < $looptotalQuestionUploaded; $i++) {
+        for ($i = 1; $i <= $looptotalQuestionUploaded; $i++) {
 
             if ($type == 1) {
                 ?>
