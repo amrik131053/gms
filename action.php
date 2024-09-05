@@ -5996,11 +5996,11 @@ mysqli_close($conn);
    elseif($code=='90') 
    {
    $College=$_POST['College']; 
-    //$sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
+    $sql = "SELECT DISTINCT Course,CourseID FROM MasterCourseCodes WHERE CollegeID='$College' order by Course ASC";
    // $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN SubjectAllotment on  
    // SubjectAllotment.courseid = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND
    //  SubjectAllotment.EmployeeID='$EmployeeID'  ANd (MasterCourseCodes.Status='1'  OR MasterCourseCodes.Status is NULL)order by MasterCourseCodes.Course ASC";
-   echo $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)echoorder by Course ASC";
+   //echo $sql = "SELECT DISTINCT Course,MasterCourseCodes.CourseID FROM MasterCourseCodes INNER JOIN UserAccessLevel on  UserAccessLevel.CourseID = MasterCourseCodes.CourseID WHERE MasterCourseCodes.CollegeID='$College'AND UserAccessLevel.IDNo='$EmployeeID'  ANd (Status='1'  OR Status is NULL)echoorder by Course ASC";
    $stmt = sqlsrv_query($conntest,$sql);  
    echo "<option value=''>Course</option>";
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )

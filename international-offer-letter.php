@@ -877,8 +877,7 @@ function submit_record() {
    var Batch = document.getElementById('Batch').value;
   var PinCode = document.getElementById('Pincode').value;
   var Nationality = document.getElementById('Nationality_').value;
-  var State = document.getElementById('State_').value;
-  var District = document.getElementById('District').value;
+  
   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
   //var duration = document.getElementById('duration').value;
