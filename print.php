@@ -13,9 +13,9 @@
     
 
     <div class="col-lg-3">
-       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+     
 
-    <input type="text" name="EmpID"  value="" onblur="empdatashow(this.value)"  class="form-control">
+    <input type="text" name="EmpID"  placeholder="Employee ID" value="" onblur="empdatashow(this.value)"  class="form-control">
     <span id="employee_name_show"></span>
 
     <input type="hidden" name="code" value="353">
@@ -25,7 +25,7 @@
               
                
                <div class="col-lg-3" id="SingleDate">
-               <label>Date<span class="text-danger">&nbsp;*</span></label>
+              
                    <input type="datetime-local" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d H:i:s');?>" >
                 </div>
               
@@ -33,7 +33,7 @@
             
                
                <div class="col-lg-3">
-             <br>
+          
                <input type="button" onclick="CorrectionSubmit(this.form);" name="leaveButtonSubmit" class="btn btn-success" value="Submit">
                 </div>
 </div>
@@ -54,7 +54,7 @@ function CorrectionSubmit(form) {
         success: function(response) {
             console.log(response);
             if (response == 1) {
-                SuccessToast('Correction submit successfully');
+                SuccessToast('Printed Success');
                                
                 
             }
