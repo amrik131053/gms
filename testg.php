@@ -1,4 +1,5 @@
 <?php
+include "connection/connection.php";
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 // $list=array();
 // $month = 12;
@@ -29,22 +30,38 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 //     return $rangArray;
 // }
 // print_r($dates);
- date('h:i');
 
-$startTime=32400;
-$endTime=61200;
- $currentTime=date('H')*60*60+date('i')*60+date('s');
+?>
+<form action="#" method="post" enctype="multipart/form-data" >
+    <input type="file" name="file_exl" >
+    <input type="submit" value="Submit" name="btnsubmit">
+</form>
+<?php
 
+if(isset($_POST['btnsubmit']))
+{
 
+$file = $_FILES['file_exl']['tmp_name'];
+$handle = fopen($file, 'r');
+$c = 0;
+while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+{
+      echo $empid= $filesop[0];
+      echo $blnce= $filesop[1];
+    echo "<br>";
 
-
-
-
-
-$C=$currentTime-$startTime;
-$E=$endTime-$startTime;
-//  echo "<br>".$v=($C/$E)*100
-ECHO ((date('H')*60*60+date('i')*60+date('s')-32400)/(61200-32400)) * 100;
-
-
+    echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance-$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
+    echo "<br>";
+    //   $update_study_run=sqlsrv_query($conntest,$addbalnce);  
+  if ($update_study_run==true) 
+  {
+     echo "success";
+  }
+  else
+  {
+   echo"no";
+  }
+   
+}
+}
 ?>

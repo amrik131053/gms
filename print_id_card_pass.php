@@ -511,8 +511,45 @@ $left=10;
    $down11=5;
    	 	
    	 	$pdf-> Image('dist\img\busspass.jpg',$left,$down,87,52);
-   $img=$row['image'];
-   $pdf-> Image('http://10.0.8.10/data-server/ID_Card_images/'.$img,$left+2,$down+13,17.4,20);
+  //  $img=$row['image'];
+  //  $pdf-> Image('http://10.0.8.10/data-server/ID_Card_images/'.$img,$left+2,$down+13,17.4,20);
+   $imageURL=$row['Imagepath'];
+    $fullURL = $BasURL.'Images/Staff/'. rawurlencode($imageURL);
+
+    $ch = curl_init($fullURL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $imageData = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'cURL error: ' . curl_error($ch);
+        curl_close($ch);
+        exit;
+    }
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($httpCode != 200) {
+        echo 'HTTP error: ' . $httpCode;
+        curl_close($ch);
+        exit;
+    }
+    curl_close($ch);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->buffer($imageData);
+    $extension = 'jpeg'; 
+    switch ($mimeType) {
+        case 'image/jpeg':
+            $extension = 'jpeg';
+            break;
+        case 'image/png':
+            $extension = 'png';
+            break;
+        default:
+            echo 'Unsupported image type: ' . $mimeType;
+            exit;
+    }
+    
+    $base64Image = base64_encode($imageData);
+    $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+    // $pdf-> Image($imageSrc,18,25.8,20,22,$extension);
+       $pdf-> Image($imageSrc,$left+2,$down+13,17.4,20);
    $pdf->SetTextColor(159,39,30);
     $pdf->SetXY($left+6,$down+11);
    $pdf->SetFont('Arial','',10);
@@ -1321,8 +1358,44 @@ while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
 {
   
      // $img=$row['Snap'];
-  // echo $value;
-   $pdf-> Image('http://10.0.10.11:86/Images/Staff/'.$value.'.jpg',$left+20,$down+28,27,27);
+  // echo $value; $imageURL=$row['Imagepath'];
+   $imageURL=$row['Imagepath'];
+     $fullURL = $BasURL.'Images/Staff/'. rawurlencode($imageURL);
+
+    $ch = curl_init($fullURL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $imageData = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'cURL error: ' . curl_error($ch);
+        curl_close($ch);
+        exit;
+    }
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($httpCode != 200) {
+        echo 'HTTP error: ' . $httpCode;
+        curl_close($ch);
+        exit;
+    }
+    curl_close($ch);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->buffer($imageData);
+    $extension = 'jpeg'; 
+    switch ($mimeType) {
+        case 'image/jpeg':
+            $extension = 'jpeg';
+            break;
+        case 'image/png':
+            $extension = 'png';
+            break;
+        default:
+            echo 'Unsupported image type: ' . $mimeType;
+            exit;
+    }
+    
+    $base64Image = base64_encode($imageData);
+    $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+    $pdf-> Image($imageSrc,$left+20,$down+28,27,27,$extension);
+  //  $pdf-> Image($imageSrc,$left+20,$down+28,27,27);
      $pdf->SetXY($left+20,$down+28);
     $pdf->MultiCell(27,27,'','1','C');
   
