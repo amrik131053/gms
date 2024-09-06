@@ -87,7 +87,7 @@ Examination_Subjects();
 
 function Search_exam_student_open() 
 {
-
+ 
 var code=60;
 var College=document.getElementById("College").value;
 var Course=document.getElementById("Course").value;

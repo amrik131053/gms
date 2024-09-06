@@ -385,9 +385,11 @@ $(document).ready(function(){
  $(function() { 
    $("#subject_code").blur(function(e) {
      e.preventDefault();
+
+     alert("sdfsf");
    
      var subject_code = $("#subject_code").val();
-     var code = "117";
+     var code = "117.1";
          $.ajax({
          url:'action.php',
          data:{subject_code:subject_code,code:code},
@@ -397,13 +399,13 @@ $(document).ready(function(){
              {
                  $("#CourseFatch").html("");
                  $("#CourseFatch").html(data);
-                //  console.log(data);
+                 //console.log(data);
              }
    
          }
        });
 
-         var code='152';
+         var code='152.1';
          $.ajax({
          url:'action.php',
          data:{subject_code:subject_code,code:code},
@@ -425,7 +427,7 @@ $(document).ready(function(){
    {
       var subCode=document.getElementById("subject_code").value;
       // alert(subCode);
-      var code=118;
+      var code=118.1;
       $.ajax({
          url:'action.php',
          type:'POST',
@@ -434,7 +436,7 @@ $(document).ready(function(){
          },
          success: function(response) 
          {
-            //console.log(response);
+            console.log(response);
             document.getElementById("subName").innerHTML=response;
          }
       });

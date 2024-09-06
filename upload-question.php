@@ -30,7 +30,7 @@ $(document).ready(function() {
             },
             select: function(event, ui) {
                 $(this).val(ui.item.label); // display the selected text
-                var subject_code = ui.item.value; // selected value
+                 var subject_code = ui.item.value; // selected value
 
 
                 return false;
@@ -74,6 +74,7 @@ $(document).ready(function() {
                                 <input type="hidden" name="code" value="316">
                                 <!-- left column -->
                                 <div class="col-lg-2 col-md-4 col-sm-3">
+
                                     <label>Subject Code<b style="color:red;">*</b></label>
                                     <Input type="text" class="form-control subject_code" name="subject_code"
                                         id="subject_code" required="" />
@@ -138,7 +139,7 @@ $(document).ready(function() {
                                 <div class="col-lg-2 col-md-4 col-sm-3">
                                     <label>Type<b style="color:red;">*</b></label>
                                     <select id='type' name='type' class="form-control" required=""
-                                        onchange=" drop_category(); q_check_count(); total_count()">
+                                        onchange="drop_category(); q_check_count(); total_count()">
                                         <option value="">Select</option>
                                         <?php
                            $questionTypeQry="SELECT * FROM question_type";
@@ -398,6 +399,7 @@ function submitForm(form) {
                 document.getElementById("submitBtn").disabled = true;
                 $('.summer').summernote('destroy');
                 document.getElementById("question_divs").innerHTML = " ";
+
                 for (var i = 1; i < question_count; i++) {
                     var questionName = 'Question' + i;
                     var fieldElement = form.elements[questionName];
@@ -468,10 +470,11 @@ $(function() {
             },
             type: 'POST',
             success: function(data) {
+                 console.log(data);
                 if (data != "") {
                     $("#Course").html("");
                     $("#Course").html(data);
-                    // console.log(data);
+                    
                 }
 
             }
@@ -489,7 +492,7 @@ $(function() {
                 if (data != "") {
                     $("#Batch").html("");
                     $("#Batch").html(data);
-                    // console.log(data);
+                     console.log(data);
                 }
 
             }
@@ -546,8 +549,8 @@ function q_check_count() {
     var type = sanitize(document.getElementById("type").value);
     var category = sanitize(document.getElementById("category").value);
 
-    if (subCode !== '' && courseId !== '' && subName !== '' && batch !== '' && sem !== '' && unit !== '' && type !==
-        '' && category !== '') {
+    if (subCode !== '' && courseId !== '' && subName !== '' && batch !== '' && sem !== '' && unit !== '' && type !=='' && category !== '') 
+    {
         var errorQuestionElement = document.getElementById('error_question');
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
@@ -573,7 +576,9 @@ function q_check_count() {
                     document.getElementById("submitBtn").disabled = true;
                     document.getElementById("question_divs").innerHTML =
                         ' <p style="color:red;" ><b>You Can`t Insert this Question. You have already uploaded for this selection</b></p>';
-                } else {
+                } else 
+
+                {
                     document.getElementById("submitBtn").disabled = false;
                     document.getElementById("question_divs").innerHTML = response;
                     $('.summer').summernote({
