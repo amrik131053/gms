@@ -134,7 +134,7 @@ include "header.php";
                  <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
                  <option value=''>Select Faculty</option>
                   <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
@@ -183,6 +183,13 @@ include "header.php";
                 
                </div>
             </div>
+            <div class="col-lg-3">
+                 <label>Batch / Admisison Year</label>
+                  <select  id="Batch"  class="form-control" required>
+                     <option value='2024'>2024</option>
+                       <option value='2023'>2023</option>
+                 </select>
+              </div> 
 
              <div class="col-lg-2">
                <label>Date Of Birth</label> <br>
@@ -191,7 +198,7 @@ include "header.php";
               </div>
               <div class="col-lg-2">
                <label>Mobile No</label> <br>
-                  <input type='text'  id="MobileNo"  class="form-control" pattern="{0-9}[10]" required >
+                  <input type='text'  id="MobileNo"  class="form-control" required >
                     
               </div>
               <div class="col-lg-2">
@@ -212,17 +219,17 @@ include "header.php";
           </select>
       </div>
 
-      <div class="col-lg-2" id="PassportNo_div">
+      <div class="col-lg-2" >
                <label>Registration Fee</label>
               <input type="text" class="form-control" id="RegistrationFee">
             </div>
-              <div class="col-lg-2" id="TutionFee">
+              <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee">
+              <input type="text" class="form-control" id="TutionFee">
             </div>
-              <div class="col-lg-2" id="HostelFee">
+              <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee">
+              <input type="text" class="form-control" id="HostelFee">
             </div>
 
            
@@ -401,47 +408,7 @@ function by_search_studetn() {
                      }
 
 
-                     function buildTable(data) {
-                        var table = '<table class="table table-bordered">';
-                        table += '<tr>';
-                        table += '<div id="pagination"><td colspan="1"> <button id="prev-btn" class="btn btn-primary " disabled><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button></td><td colspan="">  </td><td colspan="1"></td><td colspan="2"><button onclick="printletterhead1SelectedRows();" class="btn btn-success " >letter head 1</button >  <button onclick="printletterhead2SelectedRows();" class="btn btn-success " >letter head 2</button ></td><td colspan=""></td><td><button onclick="printSelectedRows();" class="btn btn-success " >Print</button > <button onclick="printSelectedRows_second();" class="btn btn-success " >Print 2</button> </td><td><button id="next-btn" class="btn btn-primary "><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td></div>';
-                        table += '</tr>';
-                        table += '<tr><th width="10"><input type="checkbox" id="selectAllCheckbox" class="selectAllCheckbox" onchange="toggleSelectAll(this)"></th><th width="10">ID</th><th>Class RollNo</th><th>ID Proof</th><th>Name</th><th>Father Name</th><th>Course</th><th>By</th><th>Action</th></tr>';
-
-                        for (var i = 0; i < data.length; i++) {
-                           var unirollno = data[i][2];
-                           var generate=data[i][33];
-                           table += '<tr>';
-                           table += '<td>';
-                           if(generate>0){
-
-                            table +='<input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '">';
-                        }
-
-                            table += '</td>';
-
-
-                           table += '<td>' + data[i][0] + '</td>';
-                           table += '<td>' + data[i][20] + '</td>';
-                           table += '<td>' + data[i][6] + '</td>';
-                           table += '<td>' + data[i][1] + '</td>';
-                           table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][34]+'</td>';
-                            table += '<td >'+ data[i][24]+'</td>';
-                           table += '<td>   <button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button > &nbsp;';
-                           
-                           if(generate<=0){
-
-                          table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
-                      }
-                          table +='</td>';
-                           table += '</tr>';
-                        }
-                        
-                        table += '</table>';
-
-                        $('#data-table').html(table);
-                     }
+                     
 
                      function updatePagination(page) {
                         var totalPages = Math.ceil(100000 / 50);
@@ -590,189 +557,9 @@ function by_search_studetn() {
 </div>
 <p id="ajax-loader"></p>
 <script type="text/javascript">
-function calculation() {
-   var Applicables = document.getElementById("Applicables").value;
-
-    var Hostel = document.getElementById("Hostel").value;
-    var UniversityConcession = document.getElementById("UniversityConcession").value;
-
-FeeAfterConcession_new=parseInt(Applicables)+parseInt(Hostel);
-FeeAfterConcession=parseInt(FeeAfterConcession_new)-parseInt(UniversityConcession);
-
-document.getElementById("FeeAfterConcession").value=FeeAfterConcession;
-}
-
-function submit_fee() 
-{
-   var FeeType = document.querySelector('input[name="FeeType"]:checked').value;
-   if(FeeType=='New')
-{
-    var CollegeName = document.getElementById("CollegeName").value;
-    var Department = document.getElementById("Department").value;
-       var Batch = document.getElementById("Batch").value;
-    var Course = document.getElementById("Course").value;
-    var Applicables = document.getElementById("Applicables").value;
-    var Hostel = document.getElementById("Hostel").value;
-    var UniversityConcession = document.getElementById("UniversityConcession").value;
-    var FeeAfterConcession = document.getElementById("FeeAfterConcession").value;
-    var Consultant = document.getElementById("Consultant").value;
-     var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
 
 
-if (CollegeName!='' && Department!='' && Course!='' && Applicables !='' && Hostel!='' && UniversityConcession!='') 
-{
 
-var code=136;
-      $.ajax({
-    url: 'action_g.php',
-    data: {college:CollegeName,department:Department,course:Course,applicable:Applicables,hostel:Hostel,concession:UniversityConcession,afterconcession:FeeAfterConcession,consultant_id:Consultant,code:code,Lateral:Lateral,Batch:Batch},
-    type: 'POST',
-    success: function(response) {
-      console.log(response);
-      if (response==1) {
-    
-         SuccessToast('Successfully Inserted');
-      }
-      else if(response==2)
-      {
-          ErrorToast('fee already added  ','bg-warning');
-      } else
-      {
-          ErrorToast('try after some time  ','bg-danger');
-      }
-   
-  },
-    error: function(xhr, status, error) {
-      console.error(xhr.responseText);
-   
-    }
-  });
-}
-
-else
-{
-   ErrorToast('All Input Required ','bg-warning');
-}
-}
-else
-{
-    var CollegeName = document.getElementById("CollegeName").value;
-    var Department = document.getElementById("Department").value;
-    var Course = document.getElementById("Course").value;
-    var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
-    var Consultant = document.getElementById("Consultant").value;
-    var Consultant_old = document.getElementById("Consultant_old").value;
-   //  alert(CollegeName+'-'+Department+'-'+Course+'-'+Lateral+'-'+Consultant+'-'+Consultant_old);
-    if (CollegeName!='' && Department!='' && Course!='' ) 
-{
-var code=155;
-      $.ajax({
-    url: 'action_g.php',
-    data: {Lateral:Lateral,college:CollegeName,department:Department,course:Course,consultant_id:Consultant,consultant_id_old:Consultant_old,code:code},
-    type: 'POST',
-    success: function(response) {
-      console.log(response);
-      if (response==1) {
-    
-         SuccessToast('Successfully Inserted');
-      }
-      else
-      {
-          ErrorToast('try after some time  ','bg-danger');
-      }
-   
-  },
-    error: function(xhr, status, error) {
-      console.error(xhr.responseText);
-   
-    }
-  });
-}
-
-else
-{
-   ErrorToast('All Input Required ','bg-warning');
-}
-}
-}
-
-function add_consultant() 
-{
-  // alert();
-    var consultant_name = document.getElementById("consultant_name").value;
-      var consultant_m = document.getElementById("Mobile").value;
-        var consultant_a = document.getElementById("address").value;
-          var consultant_o = document.getElementById("organisation").value;
-    if (consultant_name!='' && consultant_name!=null) 
-    {
-var code=135;
-      $.ajax({
-    url: 'action_g.php',
-    data: {consultant_name:consultant_name,consultant_m:consultant_m,consultant_a:consultant_a,consultant_o:consultant_o,code:code},
-    type: 'POST',
-    success: function(response)
-     {
-    //console.log(response);
-    if (response==1) {
-         SuccessToast('Successfully Inserted');
-   }
-   else
-   {
-      ErrorToast('Try after some time ','bg-warning');
-   }
-  },
-    error: function(xhr, status, error) {
-      console.error(xhr.responseText);
-   
-    }
-  });
-}
-else
-{
-   ErrorToast('All Input Required ','bg-warning');
-}
-}
-
-//    function postcode() {
-//   var pincode = document.getElementById("Pincode").value;
-// //   var countryDisplay = document.getElementById("Nationality");
-//   var stateDisplay = document.getElementById("State_");
-//   var districtDisplay = document.getElementById("District");
-//   // var dropdown = document.getElementById("village_by_post");
-
-//   // Clear previous data
-// //   countryDisplay.value = "";
-//   stateDisplay.value = "";
-//   districtDisplay.value = "";
-//   // dropdown.innerHTML = "";
-
-//   var xhr = new XMLHttpRequest();
-//   xhr.onreadystatechange = function() {
-//     if (xhr.readyState === 4 && xhr.status === 200) {
-//       var response = JSON.parse(xhr.responseText);
-//       if (response && response[0] && response[0].PostOffice && response[0].PostOffice.length > 0) {
-//       //   var Country = response[0].PostOffice[0].Country;
-//         var State = response[0].PostOffice[0].State;
-//         var District = response[0].PostOffice[0].District;
-
-//       //   countryDisplay.value = Country;
-//         stateDisplay.value = State;
-//         districtDisplay.value = District;
-
-//         // for (var i = 0; i < response[0].PostOffice.length; i++) {
-//         //   var option = document.createElement("option");
-//         //   option.value = i;
-//         //   option.text = response[0].PostOffice[i].Name;
-//         //   dropdown.add(option);
-//         // }
-//       }
-//     }
-//   };
-
-//   var url = "https://api.postalpincode.in/pincode/" + pincode;
-//   xhr.open("GET", url, true);
-//   xhr.send();
-// }
 function edit_student_details(id) {
 
   var Name = document.getElementById('Name').value;
@@ -788,7 +575,9 @@ function edit_student_details(id) {
   var Nationality = document.getElementById('Nationality').value;
   var State = document.getElementById('State').value;
     var months = document.getElementById('months').value;
-//   var District = document.getElementById('District1').value;
+ var RegistrationFee = document.getElementById('RegistrationFee').value;
+  var TutionFee = document.getElementById('TutionFee').value;
+   var HostelFee = document.getElementById('HostelFee').value;
   // var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
   var Consultant = document.getElementById('Consultant_').value;
    var duration = document.getElementById('Duration').value;
@@ -805,23 +594,20 @@ if(District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' &
     id: id,
     Name: Name,
     FatherName: FatherName,
-    // MotherName: MotherName,
     Gender: Gender,
-    // MobileNo: MobileNo,
     CollegeName: CollegeName,
     Department: Department,
     Course: Course,
-    // Batch: Batch,
-    // PinCode: PinCode,
     Nationality: Nationality,
     State: State,
-    // District: District,
+    RegistrationFee:RegistrationFee,
+    HostelFee:HostelFee,
+    TutionFee:TutionFee,
     Consultant: Consultant,
-    // Lateral: Lateral,
     duration: duration,
-    // session: session,
-    // AdharCardNo: AdharCardNo,
-    // PassportNo: PassportNo,
+    session: session,
+ AdharCardNo: AdharCardNo,
+    PassportNo: PassportNo,
     months:months,
     classroll: classroll,
     District1: District,  status:Status1,
@@ -859,64 +645,46 @@ ErrorToast('Try  after some time','bg-danger');
   });
 }
 else
-{
+{ 
    ErrorToast('All Input Required','bg-warning');
 }
+
 }
 function submit_record() {
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
   // var MotherName = document.getElementById('MotherName').value;
   var Gender = document.getElementById('Gender').value;
+   var CollegeName = document.getElementById('CollegeName1').value;
+   var Department = document.getElementById('Department1').value;
+   var Course = document.getElementById('Course1').value;
    var MobileNo = document.getElementById('MobileNo').value;
    var DOB = document.getElementById('DOB').value;
    var Category = document.getElementById('category').value;
-  var CollegeName = document.getElementById('CollegeName1').value;
-  var Department = document.getElementById('Department1').value;
-  var Course = document.getElementById('Course1').value;
-   var Batch = document.getElementById('Batch').value;
-  var PinCode = document.getElementById('Pincode').value;
+    var Batch = document.getElementById('Batch').value;
+    var DOB = document.getElementById('DOB').value;
   var Nationality = document.getElementById('Nationality_').value;
-  
-  var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
-  var Consultant = document.getElementById('Consultant_').value;
-  //var duration = document.getElementById('duration').value;
-   var months = document.getElementById('months').value;
+    var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+
+  var HostelFee = document.getElementById('HostelFee').value;
+  var TutionFee = document.getElementById('TutionFee').value;
+   var RegistrationFee = document.getElementById('RegistrationFee').value;
   var session = document.getElementById('session').value;
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
 
 
-if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!='' && Consultant!='' &&months!='')
+if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!=''  &&months!=''&& RegistrationFee!=''&& HostelFee!='' && TutionFee!='')
  
 {
+   
    if(AdharCardNo!='' || PassportNo!='')
    {
-  var code = 133;
+  var code = 133.1;
+   alert(HostelFee);
   var data = {
-    Name: Name,
-    FatherName: FatherName,
-    months:months,
-    // MotherName: MotherName,
-    Gender: Gender,
-    MobileNo: MobileNo,
-    CollegeName: CollegeName,
-    Department: Department,
-    Course: Course,
-    Batch: Batch,
-    PinCode: PinCode,
-    Nationality: Nationality,
-    State: State,
-    District: District,
-    Consultant: Consultant,
-    Lateral: Lateral,
-   DOB:DOB,
-    session: session,
-    AdharCardNo: AdharCardNo,
-    PassportNo: PassportNo,
-    Category:Category,
-    code: code
-  };
+    Name: Name,FatherName: FatherName,Gender: Gender,MobileNo: MobileNo,CollegeName: CollegeName,Department: Department,Course: Course,Batch: Batch,Nationality: Nationality,  
+    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,Category :Category,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee};
  
   // Send the AJAX request
   $.ajax({
@@ -924,7 +692,7 @@ if(State!='' && District!='' && Name!='' && FatherName!='' && Gender!='' && Coll
     data: data,
     type: 'POST',
     success: function(response) {
-  console.log(response); // Log the response for debugging
+        console.log(response); // Log the response for debugging
       // alert('Data submitted successfully!');
       if (response==1) {
       SuccessToast('Data submitted successfully');
@@ -948,7 +716,7 @@ ErrorToast('Try  after some time','bg-danger');
    }
     },
     error: function(xhr, status, error) {
-      // console.error(xhr.responseText);
+       console.error(xhr.responseText);
       // alert('An error occurred while submitting data. Please try again.');
     }
   });
