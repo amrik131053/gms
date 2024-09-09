@@ -15777,27 +15777,61 @@ echo "5"; //leave balance not equeal
 
 else
 {                 
- $string = bin2hex(openssl_random_pseudo_bytes(4));
-    $file_name = $_FILES['leaveFile']['name'];
-      $file_tmp = $_FILES['leaveFile']['tmp_name'];
-      $type = $_FILES['leaveFile']['type'];
-       $file_data = file_get_contents($file_tmp);
+//  $string = bin2hex(openssl_random_pseudo_bytes(4));
+//     $file_name = $_FILES['leaveFile']['name'];
+//       $file_tmp = $_FILES['leaveFile']['tmp_name'];
+//       $type = $_FILES['leaveFile']['type'];
+//        $file_data = file_get_contents($file_tmp);
 
-        $file_name = $EmpID."_".$ApplyDate."_".$string."_".basename($_FILES['leaveFile']['name']);
+//         $file_name = $EmpID."_".$ApplyDate."_".$string."_".basename($_FILES['leaveFile']['name']);
     
-   $target_dir = $file_name;
+//    $target_dir = $file_name;
 
    $ApplyDate1=date('Y-m-d h:i:s A');
+//      $destdir = 'LeaveFileAttachment';
+//      ftp_chdir($conn_id, "Images/Staff/LeaveFileAttachment/") or die("Could not change directory");
+//      ftp_pasv($conn_id,true);
+//  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
+
+// ftp_close($conn_id);
+function getFileExtension($file_name) {
+    return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+}
+ $string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_name = $_FILES['leaveFile']['name'];
+$file_tmp = $_FILES['leaveFile']['tmp_name'];
+$file_size = $_FILES['leaveFile']['size'];
+$file_extension = getFileExtension($file_name);
+
+$max_file_size = 500 * 1024; 
+$flagSuccess1=0;
+$flagSuccess=0;
+if ($file_size > $max_file_size) {
+    // die("Error: File size exceeds the limit of 500KB.");
+    echo "8";
+}
+else{
+    $flagSuccess1=1;
+}
+$allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
+
+if (!in_array($file_extension, $allowed_extensions)) {
+    // die("Error: Only JPG, JPEG, PNG, and PDF files are allowed.");
+    echo "7";
+}
+else{
+    $flagSuccess=1;
+}
+if($flagSuccess1==1 && $flagSuccess==1)
+{
+$file_name = $EmpID."_".$ApplyDate."_".$string."_".basename($_FILES['leaveFile']['name']);
+   $target_dir = $file_name;
      $destdir = 'LeaveFileAttachment';
      ftp_chdir($conn_id, "Images/Staff/LeaveFileAttachment/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
-     //file_put_contents(,$file_data);
  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
 
 ftp_close($conn_id);
-
-
-
 
 
      if( $status!='Approved')
@@ -15885,6 +15919,7 @@ if($LeaveType<3 || $LeaveType==26){
               //   {
               //       echo "3";  //back date leave apply
               //   }
+        }
             }
         else
         {
