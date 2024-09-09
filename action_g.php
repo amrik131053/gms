@@ -81,11 +81,11 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 $currentMonthString=date('F');
 $currentMonthInt=date('n');
      $code =$_POST['code'];
-   if($code==224 ||  $code==168 || $code==374  || $code==380 || $code==388 )
+   if($code==168 || $code==374  || $code==380 || $code==388 )
 {
        include "connection/ftp.php";
 }
- if( $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441)
+ if($code==224 || $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441)
 {
        include "connection/ftp-erp.php";
 }
@@ -13588,7 +13588,7 @@ if (strpos($row['FilePath'], 'LeaveFileAttachment') !== false) {
 else
 {
 ?>
-<a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+<a href='<?=$BasURL;?>/Images/Staff/LeaveFileAttachment/<?=$row['FilePath'];?>'
     target='_blank' class="nav-link leaveViewColor">
     <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
         class="fa fa-eye fa-lg text-success"></i>
@@ -14541,7 +14541,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                         </li>
                         <li class="nav-item">
 
-                            <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+                            <a href='<?=$BasURL;?>/Images/Staff/LeaveFileAttachment/<?=$row['FilePath'];?>'
                                 target='_blank' class="nav-link leaveViewColor">
                                 <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
                                     class="fa fa-eye fa-lg text-success"></i>
@@ -15198,10 +15198,10 @@ else
 
    $ApplyDate1=date('Y-m-d h:i:s A');
      $destdir = 'LeaveFileAttachment';
-     ftp_chdir($conn_id, "LeaveFileAttachment/") or die("Could not change directory");
+     ftp_chdir($conn_id, "Images/Staff/LeaveFileAttachment/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
      //file_put_contents(,$file_data);
- ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
 
 ftp_close($conn_id);
 
@@ -16023,7 +16023,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                         </li>
                         <li class="nav-item">
 
-                            <a href='http://gurukashiuniversity.co.in/data-server/LeaveFileAttachment/<?=$row['FilePath'];?>'
+                            <a href='<?=$BasURL;?>/Images/Staff/LeaveFileAttachment/<?=$row['FilePath'];?>'
                                 target='_blank' class="nav-link leaveViewColor">
                                 <b> View Adjustment File</b> &nbsp;&nbsp;&nbsp;<i
                                     class="fa fa-eye fa-lg text-success"></i>
