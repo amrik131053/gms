@@ -9017,11 +9017,11 @@ else
 
             if($unit>4)
             {
-      $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count ";
+      $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
             }
             else
             {
-        $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' order by Rand() limit $count";
+        $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
             }
         
          $questionBankRes1=mysqli_query($conn,$questionBankQry1);
