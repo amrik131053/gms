@@ -776,7 +776,7 @@ function leaveSubmit(form) {
         contentType: false,
         processData: false,
         success: function(response) {
-            console.log(response);
+            // console.log(response);
             if (response == 1) {
                 SuccessToast('Leave submit successfully');
                 pendingLeaves();
@@ -796,12 +796,21 @@ function leaveSubmit(form) {
             else if (response == 6) {
                 ErrorToast('Can`t apply leave in back date.', 'bg-warning');
             }
+            else if (response == 7) {
+                ErrorToast('Only JPG, JPEG, PNG, and PDF files are allowed', 'bg-warning');
+            }
+            else if (response == 8) {
+                ErrorToast('File size exceeds the limit of 500KB', 'bg-warning');
+            }
+            else if (response == 87) {
+                ErrorToast('Only JPG, JPEG, PNG, and PDF files are allowed and File size exceeds the limit of 500KB', 'bg-warning');
+            }
             else{
                 ErrorToast('Please try after sometime.', 'bg-danger');
             }
         },
         error: function(xhr, status, error) {
-            console.log(error);
+            // console.log(error);
         },
         complete: function() {
             submitButton.disabled = false;
