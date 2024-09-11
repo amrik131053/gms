@@ -3642,7 +3642,7 @@ else { ?>
                                         <div class="form-group">
                                             <label>Post Office</label>
                                             <input type="text" class="form-control" name="postOffice"
-                                                placeholder="Enter post office">
+                                                placeholder="Enter post office" value="<?=$row1['PostOffice'];?>">
                                         </div>
                                     </div>
                                             </div>
@@ -3859,27 +3859,28 @@ else { ?>
                                         <div class="form-group">
                                             <label>Bank Account No</label>
                                             <input type="text" class="form-control" name="bankAccountNo"
-                                                placeholder="Enter bank account number">
+                                                placeholder="Enter bank account number" value="<?=$row1['BankAccountNo'];?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label>Upload Passbook Copy</label>
-                                            <input type="file" class="form-control-file" name="passbookCopy">
+                                            <input type="file" class="form-control-file" name="passbookCopy" >
+                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label> Bank Name</label>
                                             <input type="text" class="form-control" name="employeeBankName"
-                                                placeholder="Enter employee bank name">
+                                                placeholder="Enter employee bank name" value="<?=$row1['BankName'];?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label>Bank IFSC code</label>
                                             <input type="text" class="form-control" name="bankIFSC"
-                                                placeholder="Enter bank IFSC code">
+                                                placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
                                         </div>
                                     </div>
                                 </div>
