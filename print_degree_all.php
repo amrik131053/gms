@@ -141,7 +141,7 @@
         
            <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
               <span class="notranslate">
-                 <div style="height: 60px;border: 0px solid red;" ></div>
+                 <div style="height: 55px;border: 0px solid red;" ></div>
                  <div class="row">
                     <!-- // space -->
                    <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php 
@@ -158,7 +158,7 @@
                     <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
                  </div>
                  <div class="row">
-                    <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
+                    <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 6px;">
                        <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
                        <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
                     </div>
