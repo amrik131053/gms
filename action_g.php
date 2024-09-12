@@ -18037,7 +18037,7 @@ elseif($code==257)
                                 <th>OutTime1</th>
                                 <th>OutTime2</th>
                                 <th>OutTime3</th>
-                                <!-- <th>Action</th> -->
+                                <th>Action</th>
                             </tr>
                             <?php
 
@@ -18058,7 +18058,24 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 <td><?=$row1['Outtime1']; ?></td>
                                 <td><?=$row1['Outtime2']; ?></td>
                                 <td><?=$row1['Outtime3']; ?></td>
-                                <!-- <td><button class="btn btn-dark btn-xs"><i class="fa fa-edit"></i></button></td> -->
+                                <td><?php   $dateValue = strtotime($row1['StartDate']->format('Y-m-d'));
+                                $year = date('Y',$dateValue);
+                                $monthName = date('F',$dateValue);
+                                 $monthNo = date('m',$dateValue);
+                                  
+                                if($monthNo>=date('m') && $year>=date('Y'))
+                                {
+                                ?>
+                                    <button type="button" class=" btn btn-dark btn-xs"
+                                     onclick="modalEditExceptionTiming(<?=$row1['id'];?>)" data-toggle="modal" data-target="#ExceptionChnageModal1111"><i class="fa fa-edit"></i>
+                                 </button> 
+                                  <?php }
+                                  else{
+                                    ?>
+                                    <button type="button" class="btn btn-dark btn-xs"
+                                     disabled><i class="fa fa-edit"></i>
+                                 </button> <?php 
+                                  }?></td>
                                 <?php 
 }
 ?>
@@ -18164,6 +18181,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 if($monthNo>=date('m'))
                                 {
                                 ?>
+                              
                                  <button type="button" class=" btn btn-dark btn-xs"
                                      onclick="modalEditSingleException(<?=$row1['id'];?>)" data-toggle="modal" data-target="#ExceptionChnageModal"><i class="fa fa-edit"></i>
                                  </button> 
@@ -34182,6 +34200,93 @@ if( $update_query  === false) {
 else
 {
 echo "1";
+}
+sqlsrv_close($conntest);
+}
+elseif($code==464)
+{
+$id=$_POST['id'];
+    ?>
+<div class="card-body table-responsive-lg pd" id="">
+<?php 
+ $sql11="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Id='$id'";
+ $stmt21 = sqlsrv_query($conntest,$sql11);
+if($row11 = sqlsrv_fetch_array($stmt21, SQLSRV_FETCH_ASSOC) )
+{
+    ?>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-lg-6">
+        <label>Start Date</label>
+    <input type="date" id="StartDate<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['StartDate']->format('Y-m-d');?>"></div>                               
+    <div class="col-lg-6">
+    <label>End Date</label>
+        <input type="date" id="EndDate<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['EndDate']->format('Y-m-d');?>">
+    </div>
+</div>
+</div>
+</br>
+
+                        <table class="table">
+                            <tr>
+                              
+                               
+                                <th>InTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>OutTime</th>
+                                <th>0.75</th>
+                                <th>0.50</th>
+                                <th>0.25</th>
+                                <th>Action</th>
+                            </tr>
+
+                            <tr>
+                                <td><input type="time" id="intime<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime'];?>"></td>
+                                <td><input type="time" id="intime1<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime1'];?>"></td>
+                                <td><input type="time" id="intime2<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime2'];?>"></td>
+                                <td><input type="time" id="intime3<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Intime3'];?>"></td>
+                                <td><input type="time" id="outtime<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime'];?>"></td>
+                                <td><input type="time" id="outtime1<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime1'];?>"></td>
+                                <td><input type="time" id="outtime2<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime2'];?>"></td>
+                                <td><input type="time" id="outtime3<?=$id;?>" class="form-control form-control-sm" value="<?=$row11['Outtime3'];?>"></td>
+                                <td><input type="button" class="btn btn-success btn-xs" value="Update"
+                                        onclick="saveRowSingle11(<?=$id;?>);"></td>
+</tr>
+<?php 
+}
+?>
+
+                    </table>
+                </div>
+                    <?php 
+
+sqlsrv_close($conntest);
+}
+elseif($code==465)
+{
+$id=$_POST['id'];
+$StartDate=$_POST['StartDate'];
+$EndDate=$_POST['EndDate'];
+$intime=$_POST['intime'];
+$intime1=$_POST['intime1'];
+$intime2=$_POST['intime2'];
+$intime3=$_POST['intime3'];
+$outtime=$_POST['outtime'];
+$outtime1=$_POST['outtime1'];
+$outtime2=$_POST['outtime2'];
+$outtime3=$_POST['outtime3'];
+ $updateSingleException="UPDATE MadamShiftTime SET StartDate='$StartDate',EndDate='$EndDate',Intime='$intime',
+Intime1='$intime1',Intime2='$intime2',Intime3='$intime3',Outtime='$outtime',Outtime1='$outtime1',Outtime2='$outtime2',Outtime3='$outtime3',UpdatedBy='$EmployeeID',Updatedon='$timeStamp' where Id='$id' ";
+$updateSingleExceptionRun=sqlsrv_query($conntest,$updateSingleException);
+if($updateSingleExceptionRun==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
 }
 sqlsrv_close($conntest);
 }

@@ -77,6 +77,26 @@ include "header.php";
         </div>
     </div>
 </div>
+<div class="modal fade" id="ExceptionChnageModal1111" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">View Record 111</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id='exceptionChnageModal11'>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -243,6 +263,23 @@ function modalEditSingleException(id) {
         }
     });
 }
+function modalEditExceptionTiming(id) {
+    // alert(id);
+    var code = 464;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,id:id
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("exceptionChnageModal11").innerHTML = response;
+        }
+    });
+}
 
 function saveRowSingle(id) {
     var code = 370;
@@ -276,6 +313,52 @@ var outtime3 = document.getElementById("outtime3"+id).value;
         },
         success: function(response) {
             // console.log(response);
+            if(response==1)
+            {
+            SuccessToast('Successfully Added');
+            showSingleExceptionShift();
+            }
+            else{
+                ErrorToast('Try Again','bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+function saveRowSingle11(id) {
+var code = 465;
+var StartDate = document.getElementById("StartDate"+id).value;
+var EndDate = document.getElementById("EndDate"+id).value;
+var intime = document.getElementById("intime"+id).value;
+var intime1 = document.getElementById("intime1"+id).value;
+var intime2 = document.getElementById("intime2"+id).value;
+var intime3 = document.getElementById("intime3"+id).value;
+var outtime = document.getElementById("outtime"+id).value;
+var outtime1 = document.getElementById("outtime1"+id).value;
+var outtime2 = document.getElementById("outtime2"+id).value;
+var outtime3 = document.getElementById("outtime3"+id).value;
+    $.ajax({
+        type: 'POST',
+        url: 'action_g.php',
+        data: {
+            code: code,
+            id: id,
+            StartDate:StartDate,
+            EndDate:EndDate,
+            intime: intime,
+            intime1: intime1,
+            intime2: intime2,
+            intime3: intime3,
+            outtime: outtime,
+            outtime1: outtime1,
+            outtime2: outtime2,
+            outtime3: outtime3
+           
+        },
+        success: function(response) {
+            console.log(response);
             if(response==1)
             {
             SuccessToast('Successfully Added');
