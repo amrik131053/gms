@@ -21,8 +21,35 @@ function checkall()
         document.getElementById("check1").style.display = "block";
 }
 
+function updateStudent(empID) {
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code_access = '<?php echo $code_access; ?>';
+
+    syncdocuments(empID);
+    var code = 267;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            code_access: code_access,
+            empID: empID
+        },
+        success: function(response) {
+            //  console.log(response);
+            spinner.style.display = 'none';
+            document.getElementById("updateRecord").innerHTML = response;
+            $('#update_button').show();
+            tab();
+
+        }
+    });
+}
+
     function edit_stu(id)
-          {
+          { 
 
             //alert(id);
                var spinner=document.getElementById("ajax-loader");
@@ -218,25 +245,6 @@ function sub_code_int_ext_type_update(id)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function uncheckall()
 {
 
@@ -385,7 +393,7 @@ for($i=1;$i<=12;$i++)
                 
               </select>
 
-</div>
+</div> 
 
 
  <div class="col-lg-1 col-md-4 col-sm-3">

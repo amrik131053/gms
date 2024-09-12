@@ -33483,7 +33483,7 @@ $subCodesArray=$_POST['subCodesArray'];
          {
             $mobile=$row['FatherMobileNo'];
          }
-         
+          
          ?>
                     <tr>
                 
@@ -33498,8 +33498,10 @@ $subCodesArray=$_POST['subCodesArray'];
                         <td><?=$row['FatherName'];?></td>
                         <td><?=$row['CollegeName'];?></td>
                         <td><?=$row['Course'];?></td>         
-                       <!--  <td><?php if($row['Locked']=='' || $row['Locked']=='0'){echo "<i class='fa fa-lock-open text-success' aria-hidden='true' onclick='lockUser(".$row['IDNo'].",0)'></i>";}else{echo "<i class='fa fa-lock text-danger' aria-hidden='true' onclick='unlockUser(".$row['IDNo'].",0)'></i>";};?>
-                        </td> -->
+            <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                        data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
+                            class="fa fa-edit "></i></button>
+                        </td> 
                     </tr>
                     <?php $sr++;
 
