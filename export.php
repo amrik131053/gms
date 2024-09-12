@@ -4880,7 +4880,12 @@ elseif($RegistrationStatus==8)
                                <th style='background-color:black; color:white;'>Lateral</th>
                                <th style='background-color:black; color:white;'>Eligibility</th>
                                <th style='background-color:black; color:white;'>Status</th>
+                            
                                ";
+//                                <th style='background-color:black; color:white;'>Comment detail</th>
+//                                <th>Refrence</th>
+//    <th>Team</th>
+//    <th>Consultant</th>
                                $exportstudy.="</tr></thead>";             
                                $list_sql = "SELECT * FROM Admissions  
                                where 1=1";
@@ -4919,7 +4924,8 @@ elseif($RegistrationStatus==8)
                                                    $MotherName=$row['MotherName'];
                                                    $EmailID=$row['EmailID'];
                                                    $StudentMobileNo=$row['StudentMobileNo'];
-                                                   
+                                                   $commentdetail = $row['CommentsDetail'];
+                                                   $Refrence = $row['FeeWaiverScheme'];
                                                    $City=$row['City'];
                                                    $State=$row['State'];
                                                    $Nationality=$row['Nationality'];
@@ -4998,13 +5004,38 @@ elseif($RegistrationStatus==8)
                                                    <td>{$PIN}</td>
                                                    <td>{$Lateral}</td>
                                                    <td style='background:{$clr}'>{$Eligibility}</td>
-                                                   <td style='background:{$clr1}'>{$status}</td>
-                                                   
-                                                   
-                                 
-                                               </tr>";
+                                                   <td style='background:{$clr1}'>{$status}</td>";
+                                                //    <td>{$commentdetail}</td>";
+            //                                              <td>";
+            // $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
+            // $result3 = sqlsrv_query($conntest, $query3);
+            // while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
+            //     $idno = $row3['IDNo'];
+            //     $name = $row3['Name'];
+            //     $exportstudy .= "{$idno} ({$name})<br>";
+            // }
+
+            // $exportstudy.="</td><td>";
+            // $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where StudentIDNo='$IDNo' AND mcr.Type='Staff'";
+            // $result2 = sqlsrv_query($conntest,$query2);
+            // while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            // {      
+            //     $idnoR = $row2['ID'];
+            //     $nameR = $row2['Name'];
+            //     $exportstudy .= "{$idnoR} ({$nameR})<br>";
+            // }
+            // $exportstudy.="</td><td>";
+            //  $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
+            // $result2 = sqlsrv_query($conntest,$query2);
+            // while($row21 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            // {      
+            //     $idnoC = $row21['ID'];
+            //     $nameC = $row21['Name'];
+            //     $exportstudy .= "{$nameC}<br>";
+            // }
+            $exportstudy .= "</tr>";
                                    $SrNo++;
-                                                      }
+                                                      }     
                                    $exportstudy.="</table>";
                                    echo $exportstudy;
                                    $fileName=$Batch." Total ".$fileNameA." Report ";
