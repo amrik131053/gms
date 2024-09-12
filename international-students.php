@@ -64,7 +64,7 @@ function searchStudentCollegeWise() {
                 document.getElementById('show_record').innerHTML = "";
 
             }
-        });
+        }); 
     }
     else
     {
@@ -91,6 +91,33 @@ function fetchcourse1() {
         }
     });
 }
+function updateStudent(empID) {
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var code_access = '<?php echo $code_access; ?>';
+
+   // syncdocuments(empID);
+    var code = 267;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,
+            code_access: code_access,
+            empID: empID
+        },
+        success: function(response) {
+            //  console.log(response);
+            spinner.style.display = 'none';
+            document.getElementById("updateRecord").innerHTML = response;
+            $('#update_button').show();
+            tab();
+
+        }
+    });
+}
+
 
 function fetchcourse() {
     var College = document.getElementById('CollegeName').value;

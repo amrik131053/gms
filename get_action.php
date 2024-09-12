@@ -6676,7 +6676,7 @@ else if ($code == 59) {
             
             
 
-$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type
+$list_sql = "SELECT   ExamForm.Course,ExamForm.ReceiptDate, ExamForm.Status,ExamForm.ID,ExamForm.Examination,Admissions.UniRollNo,Admissions.StudentName,Admissions.IDNo,ExamForm.SubmitFormDate,ExamForm.Semesterid,ExamForm.Batch,ExamForm.Type,Admissions.ClassRollNo
 FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ORDER BY Admissions.UniRollNo";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
@@ -6690,7 +6690,7 @@ if($list_result === false) {
 ?>
 <table class="table"><tr>
    <th><input type="checkbox" id="select_all" onclick="selectAll()">
-  </th> </th><th>SrNo</th> <th>Uni RollNo</th>
+  </th> </th><th>SrNo</th> <th>Uni RollNo / Class RollNo</th>
     <th>Name</th><th>Course</th><th>Sem</th></tr>
    <tr>
    <?php 
@@ -6706,7 +6706,7 @@ if($list_result === false) {
                 echo "<td>".$count++."</td>";
                 // echo "<td>".$row['ID']."</td>";
                 ?><td>
-                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></b>
+                 <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></a></b>
 
              </td><td>
                  <b> <a href="" onclick="edit_stu(<?= $row['ID'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a></b>
@@ -6719,7 +6719,7 @@ if($list_result === false) {
                   echo "<tr>";
 
 
-}
+      }
 
 
 ?>

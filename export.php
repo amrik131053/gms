@@ -10838,7 +10838,78 @@ else if($exportCode==75)
             }
 
 
+ else if($exportCode==76)
+    {
+ $course = $_GET['course'];
+ $college = $_GET['college'];
+ $batch=$_GET['batch']; 
+ $semID = $_GET['sem'];
+ $session = $_GET['session'];
+ 
+      $category = $_GET["category"];
+$list_sql="SELECT * FROM Admissions WHERE 1=1 ";
+if($college!=''){
+ $list_sql.= " AND CollegeID='$college' ";
+}
+if($course!=''){
+$list_sql.= "AND CourseID='$course'";
+}
+if($batch!=''){
+$list_sql.= "AND Batch='$batch'";
+} 
+if($session!=''){
+$list_sql.= "AND Session='$session' ";
+}
+if($category!=''){
+$list_sql.= "AND Category='$category' ";
+}
+$list_sql.= "AND Status='1' AND Batch='$batch' ANd Nationality='NRI'  Order BY ClassRollNo ASC";
 
+
+$q1 = sqlsrv_query($conntest,$list_sql);
+
+
+
+$exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'><tr><td>Sr No</td><td>Session</td><td>IDNo</td><td>UniRollNo</td><td>Class RollNO</td><td>Name</td>
+  <td>Father Name</td> <td>Course</td> <td>Batch</td><td>Fee Category</td><td>Debit</td><td>Credit</td><td>Balance</td></tr>";
+
+  $srno=1;
+        while ($row = sqlsrv_fetch_array($q1, SQLSRV_FETCH_ASSOC)) 
+        {
+$idno=$row['IDNo'];
+$exportstudy.="<tr>";
+
+$exportstudy.="<td>{$srno}</td><td>{$row['Session']}</td><td>{$row['IDNo']}</td><td>{$row['ClassRollNo']}</td> <td>{$row['UniRollNo']}</td>
+<td>{$row['StudentName']}</td><td>{$row['FatherName']}</td><td>{$row['Course']}</td><td>{$row['Batch']}</td><td>{$row['FeeCategory']}</td>";
+ 
+$Admiss2="SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from ledger   WHERE 1=1" ; 
+if($semID!='')
+{
+ $Admiss2.= " AND SemesterID<='$semID' ";
+}
+$Admiss2.="AND IDNo='$idno'";
+
+$q2 = sqlsrv_query($conntest, $Admiss2);
+ while ($dataw = sqlsrv_fetch_array($q2, SQLSRV_FETCH_ASSOC)) 
+ {
+  
+$tdebit=$dataw['totaldebit'];
+$tcredit=$dataw['totalcredit'];
+$balanceamount=$tdebit-$tcredit;
+$exportstudy.="<td>{$tdebit}</td><td>{$tcredit}</td><td>{$balanceamount}</td>";
+
+ }
+
+          $exportstudy.="</tr>"; 
+          $srno++;
+        }    
+        $exportstudy.="</table>";
+
+        echo $exportstudy;
+        $fileName="StudentLedger";
+    
+}
+ 
 
 
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
