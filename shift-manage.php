@@ -362,7 +362,7 @@ var outtime3 = document.getElementById("outtime3"+id).value;
             if(response==1)
             {
             SuccessToast('Successfully Added');
-            showSingleExceptionShift();
+            showExceptionShift();
             }
             else{
                 ErrorToast('Try Again','bg-danger');
