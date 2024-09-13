@@ -86,19 +86,19 @@ if ($code==1)
             $ValidUpToSess=$rowgetCourseDetails['ValidUpto']->format('y');
         }
        
-        // $text="https://gku.ac.in/qr-verfication-student.php?IDNo=".$row['IDNo'];
-        // $path = 'degreeqr/';
-        // $file = $path.$row['IDNo'].".png";
-        // $ecc = 'L';
-        // $pixel_Size = 10;
-        // $frame_Size = 10;
-        // QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
+        $text="https://gku.ac.in/qr-verfication-student.php?IDNo=".$row['IDNo'];
+        $path = 'degreeqr/';
+        $file = $path.$row['IDNo'].".png";
+        $ecc = 'L';
+        $pixel_Size = 10;
+        $frame_Size = 10;
+        QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
         
         $name= $row['StudentName'];
         $pdf->SetFont('Arial','B',7.5);
         $pdf->SetTextColor(255,255,255);
-        $pdf-> Image('dist\img\dummy_qr.jpg',3,65.5,10,10);
-        // $pdf-> Image($file,2.5,65.2,11,11);
+        // $pdf-> Image('dist\img\dummy_qr.jpg',3,65.5,10,10);
+        $pdf-> Image($file,2.5,65.2,11,11);
          $pdf-> Image('dist\img\signn.jpg',37,63,18,5);
          $pdf-> Image('dist\img\idcardbg.png',0,36,55,5);
          $pdf-> Image('dist\img\idcardbg4.png',0,-1,54,90);
@@ -147,7 +147,8 @@ switch ($mimeType) {
 $base64Image = base64_encode($imageData);
 $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf-> Image($imageSrc,18,12,18,18,$extension);
-    
+    $pdf->SetXY(18,12);
+    $pdf->MultiCell(18,18,'','1','C');
     $YCount=strlen(strtoupper(trim($row['StudentName'])));
     if($YCount>24)
     {
