@@ -83,8 +83,10 @@ if ($code==1)
             // $ValidUpTo=$rowgetCourseDetails['ValidUpto'];
             $CourseShortName=$rowgetCourseDetails['CourseShortName'];
             $ValidUpTo=$rowgetCourseDetails['ValidUpto']->format('d-m-Y');
+            $ValidUpToSess=$rowgetCourseDetails['ValidUpto']->format('y');
         }
-        $text="https://gku.ac.in/qr-verfication.php?id=".$row['IDNo'];
+       
+        $text="https://gku.ac.in/qr-verfication-student.php?IDNo=".$row['IDNo'];
         $path = 'degreeqr/';
         $file = $path.$row['IDNo'].".png";
         $ecc = 'L';
@@ -163,7 +165,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,50.7);
     $pdf->SetFont('Arial','B',5.5);
-    $pdf->MultiCell(52,3,"Mobile No:".$row['StudentMobileNo']."     Valid Up To: ".$ValidUpTo,'0','C');
+    $pdf->MultiCell(52,3,"Mobile No:".$row['StudentMobileNo']."     Valid Up to: ".$ValidUpTo,'0','C');
     $pdf->SetXY(1,55.7);
     $pdf->SetFont('Arial','B',6);
     $pdf->MultiCell(52,3,$ge.': '.$row['FatherName'].', '.$row['PermanentAddress'],'0','C');
@@ -187,7 +189,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,$XSet-16.5);
     $pdf->SetFont('Arial','B',5.7);
-    $pdf->MultiCell(52,3,strtoupper($CourseShortName).' ('.$row['Batch'].')','0','C');
+    $pdf->MultiCell(52,3,strtoupper($CourseShortName).' ('.$row['Batch'].'-'.$ValidUpToSess.')','0','C');
     $pdf->SetXY(1,$XSet-13.4);
     $pdf->SetTextColor(34,50,96);
     $pdf->SetFont('Arial','B',6);
