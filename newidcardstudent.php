@@ -173,18 +173,24 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(255,255,255);
-    $strlen=strlen(trim($row['StudentName']));
+     $strlen=strlen(trim($row['StudentName']));
     $pdf->SetXY(1,$XSet+12);
     $pdf->SetXY(1,37);
     $pdf->SetFont('Arial','B',8);
-    $strlen=strlen(trim($row['StudentName']));
+     $strlen=strlen(trim($row['StudentName']));
     if($strlen<=23)
     {
         $pdf->MultiCell(52,3,trim($row['StudentName']),'0','C');
     }
-    elseif($strlen>23)
+    elseif($strlen>23 && $strlen<=25)
     {
-        $pdf->MultiCell(52,3,trim($row['StudentName']),'0','C');
+        $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
+        $XSet=$XSet;
+    }
+    elseif($strlen>27)
+    {
+        $pdf->SetFont('Arial','B',7);
+        $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
         $XSet=$XSet;
     }
     $pdf->SetTextColor(0,0,0);
