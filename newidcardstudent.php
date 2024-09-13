@@ -197,6 +197,15 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->SetTextColor(0,0,0);
    }
     $date=date('Y-m-d H:i:s');
+    $up1="UPDATE SmartCardDetails SET Status='Printed',PrintDate='$date' WHERE IDNO='$empid' ";
+    sqlsrv_query($conntest,$up1);
+     $desc= "ID Card Print";
+   
+       $update1="insert into logbook(userid,remarks,updatedby,date)Values('$empid','$desc','$EmployeeID','$timeStamp')";
+   
+   
+   $update_query=sqlsrv_query($conntest,$update1);
+   
 // $up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$empid')";
 //  $stmt1 = sqlsrv_query($conntest,$up);
 }
