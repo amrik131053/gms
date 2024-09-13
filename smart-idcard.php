@@ -140,7 +140,7 @@ if(valodation>0)
                 RollNo: RollNo
             },
             success: function(response) {
-                set_count_verifed(statusForIdCard, fromDateForIdCard, toDateFromIdCard);
+                // set_count_verifed(statusForIdCard, fromDateForIdCard, toDateFromIdCard);
                 document.getElementById("search_record").innerHTML = response;
                 spinner.style.display = 'none';
 
