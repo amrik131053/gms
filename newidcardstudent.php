@@ -86,19 +86,19 @@ if ($code==1)
             $ValidUpToSess=$rowgetCourseDetails['ValidUpto']->format('y');
         }
        
-        $text="https://gku.ac.in/qr-verfication-student.php?IDNo=".$row['IDNo'];
-        $path = 'degreeqr/';
-        $file = $path.$row['IDNo'].".png";
-        $ecc = 'L';
-        $pixel_Size = 10;
-        $frame_Size = 10;
-        QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
+        // $text="https://gku.ac.in/qr-verfication-student.php?IDNo=".$row['IDNo'];
+        // $path = 'degreeqr/';
+        // $file = $path.$row['IDNo'].".png";
+        // $ecc = 'L';
+        // $pixel_Size = 10;
+        // $frame_Size = 10;
+        // QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
         
         $name= $row['StudentName'];
         $pdf->SetFont('Arial','B',7.5);
         $pdf->SetTextColor(255,255,255);
-        // $pdf-> Image('dist\img\dummy_qr.jpg',3,65.5,10,10);
-        $pdf-> Image($file,2.5,65.2,11,11);
+        $pdf-> Image('dist\img\dummy_qr.jpg',3,65.5,10,10);
+        // $pdf-> Image($file,2.5,65.2,11,11);
          $pdf-> Image('dist\img\signn.jpg',37,63,18,5);
          $pdf-> Image('dist\img\idcardbg.png',0,36,55,5);
          $pdf-> Image('dist\img\idcardbg4.png',0,-1,54,90);
@@ -173,7 +173,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(255,255,255);
-     $strlen=strlen(trim($row['StudentName']));
+      $strlen=strlen(trim($row['StudentName']));
     $pdf->SetXY(1,$XSet+12);
     $pdf->SetXY(1,37);
     $pdf->SetFont('Arial','B',8);
@@ -187,7 +187,13 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
         $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
         $XSet=$XSet;
     }
-    elseif($strlen>27)
+    elseif($strlen>33)
+    {
+        $pdf->SetFont('Arial','B',6);
+        $pdf->MultiCell(52,3,trim($row['StudentName']),'0','C');
+        $XSet=$XSet;
+    }
+    elseif($strlen>27 && $strlen<32 )
     {
         $pdf->SetFont('Arial','B',7);
         $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
