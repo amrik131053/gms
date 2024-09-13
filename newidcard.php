@@ -166,7 +166,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->MultiCell(56,3,strtoupper($row['CollegeName']),'0','C');
     $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,52.5);
-    $pdf->SetFont('Arial','B',6);
+    $pdf->SetFont('Arial','B',5.8);
     $pdf->MultiCell(52,3,"Emergency No:".$row['MobileNo']."     Blood Group: ".$row['BloodGroup'],'0','C');
     $pdf->SetXY(1,57);
 
