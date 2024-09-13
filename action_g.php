@@ -17575,19 +17575,19 @@ $toDateFromIdCard=$_POST['toDateFromIdCard'];
 $RollNo=$_POST['RollNo'];
 if($statusForIdCard!='' && $fromDateForIdCard!='' && $toDateFromIdCard!=''  && $RollNo=='')
 {
-      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by Admissions.Course ASC  ";
+      $GetSmartCardDetails="SELECT Top(50)*,SmartCardDetails.Status as IDcardStatus ,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' and PrintDate Between '$fromDateForIdCard 01:00:00.000' and '$toDateFromIdCard 23:59:00.000' order by SmartCardDetails.VerifyDate ASC  ";
 }
 elseif($statusForIdCard!='Printed'    && $RollNo=='' )
 {
-      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by Admissions.Course ASC  ";
+      $GetSmartCardDetails="SELECT Top(50)*,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID  FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.status='$statusForIdCard' order by SmartCardDetails.VerifyDate ASC  ";
 }
 elseif($statusForIdCard==''  && $RollNo!='' && $fromDateForIdCard=='' && $toDateFromIdCard=='')
 {
-      $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by Admissions.Course ASC  ";
+      $GetSmartCardDetails="SELECT Top(50)*,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by SmartCardDetails.VerifyDate ASC  ";
 }
 else
 {
-    $GetSmartCardDetails="SELECT *,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by Admissions.Course ASC  ";
+    $GetSmartCardDetails="SELECT Top(50)*,SmartCardDetails.Status as IDcardStatus,SmartCardDetails.IDNo as StudentSmartCardID FROM SmartCardDetails inner join Admissions ON Admissions.IDNo=SmartCardDetails.IDNO where SmartCardDetails.IDNO='$RollNo' or Admissions.ClassRollNo='$RollNo'  or Admissions.UniRollNo='$RollNo' order by SmartCardDetails.VerifyDate ASC  ";
 
 }
  $GetSmartCardDetailsRun=sqlsrv_query($conntest,$GetSmartCardDetails);
