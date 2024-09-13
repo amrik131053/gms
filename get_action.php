@@ -7075,9 +7075,12 @@ if($list_result === false) {
 }
 ?>
 <table class="table"><tr>
-   <th><input type="checkbox" id="select_all" onclick="selectAll()">
-  </th> </th><th>SrNo</th> <th>Uni RollNo</th>
-    <th>Name</th><th>Course</th></tr>
+   <th><input type="checkbox" id="select_all" onclick="selectAll()"></th>
+   <th>SrNo</th> 
+   <th>RollNo</th>
+   <th>Name</th>
+   <th>Course</th>
+</tr>
    <tr>
    <?php 
         while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
@@ -7090,11 +7093,9 @@ if($list_result === false) {
                 echo "<tr>";
                echo "<td><input type='checkbox' name='check[]' id='check' value='".$row['IDNo']."' class='checkbox' ></td>";
                 echo "<td>".$count++."</td>";
-                // echo "<td>".$row['ID']."</td>";
+                echo "<td>".$row['ClassRollNo']."</td>";
+               
                 ?><td>
-                 <b> <a href="" onclick="edit_stu(<?= $row['IDNo'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['UniRollNo'];?></a></b>
-
-             </td><td>
                  <b> <a href="" onclick="edit_stu(<?= $row['IDNo'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a></b>
 
              </td>
@@ -7151,7 +7152,7 @@ if($list_result === false) {
              
              <tr>
             
-            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SrNo'];?>'></td>
+            <td><input type='checkbox' name='subject[]'  id="subjectId" class='newSubject' value='<?= $row['SubjectCode'];?>'></td>
              
              <td><?=$count++;?></td>
              

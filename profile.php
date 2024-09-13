@@ -5,11 +5,11 @@ include "header.php";
 
 <style>
     
-.blink {
+/* .blink {
     animation: blinker 0.5s linear infinite;
 
 
-}
+} */
 
 @keyframes blinker {
     50% {

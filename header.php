@@ -57,22 +57,9 @@ window.location.href = "index.php";
    $p[]= ""; 
       $id=""; 
 
- $staff="SELECT Name,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,
-EmergencyContactNo,
-OfficialMobileNo,
-PostalCode,
-PermanentAddress,
-CorrespondanceAddress,
-Nationality,
-SalaryAtPresent,SalaryAtPresent,
-BankAccountNo,
-BankName,
-BankIFSC,
-State,
-District,
-PostOffice,
-Imagepath,
-BloodGroup
+ $staff="SELECT Name,ShiftID,Snap,personalIdentificationMark,Designation,Department,DateOfJoining,LeaveSanctionAuthority,CollegeID,RoleID,FatherName,
+ MotherName,DateOfBirth,Gender,PANNo,EmailID,OfficialEmailID,MobileNo,WhatsAppNumber,EmergencyContactNo,
+ OfficialMobileNo,PostalCode,PermanentAddress,CorrespondanceAddress,Nationality,SalaryAtPresent,SalaryAtPresent,BankAccountNo,BankName,BankIFSC,State,District,PostOffice,Imagepath,BloodGroup
  FROM Staff Where IDNo='$EmployeeID'";
     $stmt = sqlsrv_query($conntest,$staff);  
    while($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
@@ -86,6 +73,7 @@ BloodGroup
     $DateOfJoining=$row_staff['DateOfJoining'];
     $LeaveSanctionAuthority=$row_staff['LeaveSanctionAuthority'];
     $role_id =$row_staff['RoleID'];
+    $ShiftID =$row_staff['ShiftID'];
 
     $fields = [
         'Father Name' => $row_staff['FatherName'],
@@ -503,6 +491,7 @@ join master_menu on permissions.master_id=master_menu.id  WHERE permissions.id I
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <br>
               <!-- <a href="https://play.google.com/store/apps/details?id=com.GKUapp&pcampaignid=web_share">
                 <small id="blink" ><marquee><b>Download Our Android App on Google Play Store<b></marquee></small>
                 </a> -->

@@ -27,7 +27,7 @@ window.location.href = "index.php";
 
 
    include "connection/connection.php";
-       $employee_details="SELECT RoleID,IDNo,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
+       $employee_details="SELECT RoleID,IDNo,ShiftID,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
          $Emp_Name=$employee_details_row['Name'];
@@ -35,7 +35,7 @@ window.location.href = "index.php";
          $Emp_CollegeName=$employee_details_row['CollegeName'];
          $Emp_Department=$employee_details_row['Department'];
           $role_id = $employee_details_row['RoleID'];
-   
+          $ShiftID =$employee_details_row['ShiftID'];
         //    $Authority=$employee_details_row['LeaveRecommendingAuthority'];
         //   $Recommend=$employee_details_row['LeaveSanctionAuthority'];
 
@@ -15474,8 +15474,39 @@ else
                 <?php 
 if($Recommend!='0' && $Authority!='0' && $Recommend!=NULL && $Authority!=NULL)
 {
-?>
+$dateForShift=Date('Y-m-d');
+$S025="";
+$S05="";
+$S075="";
+$getGeneralShift="SELECT * FROM MadamShiftTime WHERE ShiftId = '$ShiftID'  AND StartDate <= '$dateForShift' AND EndDate >= '$dateForShift' ";
+$RungetGeneralShift=sqlsrv_query($conntest,$getGeneralShift,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));               
+if(sqlsrv_num_rows($RungetGeneralShift)>0)  
+{
+    if($getshoftrow1=sqlsrv_fetch_array($RungetGeneralShift,SQLSRV_FETCH_ASSOC))
+    {
+        $S025=$getshoftrow1['Intime1'];
+        $S05=$getshoftrow1['Intime2'];
+        $S075=$getshoftrow1['Intime3'];
+    }
+}
+else
+{
+    $getGeneralShift1="SELECT * FROM MasterShiftTime WHERE ShiftId = '$ShiftID'";
+    $RungetGeneralShift1=sqlsrv_query($conntest,$getGeneralShift1);
+    if($getshoftrow=sqlsrv_fetch_array($RungetGeneralShift1,SQLSRV_FETCH_ASSOC))
+    {
+        $S025=$getshoftrow['Intime1'];
+        $S05=$getshoftrow['Intime2'];
+        $S075=$getshoftrow['Intime3'];
+    }
+}
 
+
+
+?>
+<div class="text-center"><b >One Fourth(0.25)</b> <i class="fa fa-arrow-right" aria-hidden="true"></i> <b class="text-danger"><?=$S025;?></b> &nbsp;&nbsp;|&nbsp;&nbsp;<b >Half(0.5)</b>
+ <i class="fa fa-arrow-right" aria-hidden="true"></i> <b class="text-danger"><?=$S05;?></b> &nbsp;&nbsp; | &nbsp;&nbsp;<b >Two Third(0.75)</b>
+  <i class="fa fa-arrow-right" aria-hidden="true"></i><b class="text-danger"> <?=$S075;?></b></div>
                 <div class="card-header " style="height:auto;">
                     <center><Strong>Apply Leave Online</Strong></center>
 
@@ -18178,7 +18209,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                                 $monthName = date('F',$dateValue);
                                  $monthNo = date('m',$dateValue);
                                   
-                                if($monthNo>=date('m'))
+                                 if($monthNo>=date('m') && $year>=date('Y'))
                                 {
                                 ?>
                               
@@ -34289,6 +34320,148 @@ if($updateSingleExceptionRun==true)
 else
 {
     echo "0";
+}
+sqlsrv_close($conntest);
+}
+
+elseif($code==466)
+{
+ $type="Regular"; 
+$sem="0"; 
+$examination=$CurrentExamination;
+ $group="NA";
+$Status="-1";
+$ids=$_POST['students'];
+$subjects=$_POST['subjects'];
+
+foreach ($ids as $key => $univ_rollno) 
+{
+ 
+if ($sem==1) {   $semester='First'; } elseif ($sem==2) {   $semester='Second'; } elseif ($sem==3) {  $semester='Third';
+} elseif ($sem==4) {   $semester='Fourth'; } elseif ($sem==5) {  $semester='Fifth'; } elseif ($sem==6) {   $semester='Sixth'; } elseif ($sem==7) {
+$semester='Seventh'; } elseif ($sem==8) {    $semester='Eight'; } else {  $semester='0'; } 
+
+unset($subject);
+unset($SubjectCode);
+unset($SubjectType);
+ $sql = "SELECT  IDNo,Course,Batch,CollegeName,CourseID,CollegeID FROM Admissions where  IDNo='$univ_rollno'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+
+     if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+      {
+         $IDNo= $row['IDNo'];                         
+         $course = $row['Course'];           
+         $batch = $row['Batch'];
+         $college = $row['CollegeName'];
+         $CourseID=$row['CourseID'];
+         $CollegeID=$row['CollegeID'];
+       }
+    //    echo count($subjects);
+     for ($i=0; $i< count($subjects) ; $i++) { 
+      $result1 = "SELECT * FROM MasterCourseStructure where  SubjectCode='$subjects[$i]' ";
+     $s_counter = 0;
+     $stmt2 = sqlsrv_query($conntest,$result1);
+
+  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+      {
+       $subject[]=$row1['SubjectName'];   
+       $SubjectCode[]=$row1['SubjectCode'];
+       
+       $SubjectType[]=$row1['SubjectType'];      
+      $s_counter++;         
+      }
+    }
+    // echo "cc=".$s_counter;
+    //   print_r($SubjectCode);
+
+
+$sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
+
+$examFormAccepted_run12=sqlsrv_query($conntest,$sqlcheck,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+
+                     $countExamFormNotApply=sqlsrv_num_rows($examFormAccepted_run12);
+
+
+     if($countExamFormNotApply>0)
+      {
+
+//echo "3";
+
+       }  
+else
+{
+
+  $query="INSERT INTO ExamForm (IDNo,CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Type,SGroup,Examination,Status,SubmitFormDate,ReceiptNo,ReceiptDate,DepartmentVerifiedDate,DeanVerifiedDate, Amount,AccountantVerificationDate,ExaminationVerifiedDate,Semester)
+
+VALUES ('$IDNo','$college','$CollegeID','$course','$CourseID','$batch','$sem','$type','$group','$examination','$Status','$timeStampS','0','$timeStampS','$timeStampS','$timeStampS','0','$timeStampS','$timeStampS','$semester')";
+
+$stmt = sqlsrv_query($conntest,$query);
+if( $stmt === false) {
+ die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+$sql_limit = "SELECT TOP 1 * FROM ExamForm ORDER BY Id DESC";
+$stmt1 = sqlsrv_query($conntest,$sql_limit);
+
+if( $stmt1  === false) {
+ die( print_r( sqlsrv_errors(), true) );
+}
+while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
+
+$cutlist_id= $row1['ID'];
+}
+
+
+
+    for($a=0;$a<count($SubjectCode);$a++)
+    {
+      $subjectName= $subject[$a];
+    $sub_code= $SubjectCode[$a];
+    
+    if($type=='Reappear'){
+      $int= 'N';
+      $ext= 'N';
+    }
+    else{
+       $int= 'Y';
+       $ext= 'Y';
+    }
+   $total= $SubjectType[$a];
+   if($sub_code!='')
+   {
+
+
+    echo  $query1="INSERT INTO ExamFormSubject(IDNo,Examid,Batch,CollegeName,Course,SemesterID,SubjectName,SubjectCode,InternalExam,ExternalExam,SubmitFormDate,Status,AccountantVerificationDate,SubjectType,Examination,Semester,Type)
+       VALUES ('$IDNo','$cutlist_id','$batch','$college','$course','$sem','$subjectName','$sub_code','$int','$ext','$timeStampS','0','$timeStampS','$total','$examination','$semester','$type')";
+   $stmt2 = sqlsrv_query($conntest,$query1);
+
+
+
+   }
+    }
+
+  }
+
+       if($stmt2==true)
+       {
+         echo "1";
+       }
+      else
+       {
+         echo "0";
+       }
+    
+   
+
+
+  $desc= "Add  ExamForm by admin  set Type:".$type." , Examination: ".$examination." , Status: ".$Status."IDNo : ".$IDNo." Semester :".$sem;
+
+  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$IDNo','$desc','$EmployeeID','$timeStamp')";
+$update_query=sqlsrv_query($conntest,$update1);
+
+  }
+      
 }
 sqlsrv_close($conntest);
 }
