@@ -272,7 +272,8 @@ function printSmartCardForStudent(id)
         success: function(response) {
              console.log(response);
             if (response == 1) {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
+                // window.open("printSmartCardStudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
+                window.open("newidcardstudent.php?id=" + id+"&code="+1+"&print="+0, '_blank');
 
                 searchStudentForIDcard();
 
@@ -297,7 +298,8 @@ function printSingleSmartCardForStudent(id)
         success: function(response) {
             // console.log(response);
             if (response == '1') {
-                window.open("printSmartCardStudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
+                // window.open("printSmartCardStudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
+                window.open("newidcardstudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
