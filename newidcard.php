@@ -158,7 +158,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
         $XSet=58;
         $RowsSet=3;
     }
-    
+    $pdf->SetXY(0,10);
     $pdf->SetTextColor(0,0,0);
     // // $pdf->Rotate(180);
     // //  $pdf->Rotate(0);
