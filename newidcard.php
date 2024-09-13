@@ -81,7 +81,7 @@ if ($code==1)
     $result = sqlsrv_query($conntest,$sql);
     while($row=sqlsrv_fetch_array($result))
     {
-        $text="https://gku.ac.in/qr-verfication.php?id=".$row['IDNo'];
+        $text="https://gku.ac.in/qr-verification-staff.php?id=".$row['IDNo'];
         $path = 'degreeqr/';
         $file = $path.$row['IDNo'].".png";
         $ecc = 'L';
@@ -144,7 +144,8 @@ switch ($mimeType) {
 $base64Image = base64_encode($imageData);
 $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf-> Image($imageSrc,18,16,18,18,$extension);
-    
+    $pdf->SetXY(18,16);
+    $pdf->MultiCell(18,18,'','1','C');
     $YCount=strlen(strtoupper(trim($row['Name'])));
     if($YCount>24)
     {
@@ -158,14 +159,14 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
         $RowsSet=3;
     }
     
-    $pdf->SetTextColor(34,50,96);
+    $pdf->SetTextColor(0,0,0);
     // // $pdf->Rotate(180);
     // //  $pdf->Rotate(0);
     $pdf->SetFont('Arial','B',8);
     $pdf->MultiCell(56,3,strtoupper($row['CollegeName']),'0','C');
     $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,52.5);
-    $pdf->SetFont('Arial','B',5.5);
+    $pdf->SetFont('Arial','B',6);
     $pdf->MultiCell(52,3,"Emergency No:".$row['MobileNo']."     Blood Group: ".$row['BloodGroup'],'0','C');
     $pdf->SetXY(1,57);
 
@@ -214,7 +215,7 @@ else
      $pdf->MultiCell(52,3,$row['Designation'],'','C');
 }
     $pdf->SetXY(1,$XSet-9);
-    $pdf->SetTextColor(34,50,96);
+    $pdf->SetTextColor(0,0,0);
     $pdf->SetFont('Arial','B',6);
     $pdf->MultiCell(52,3,strtoupper($row['DepartmentName']),'0','C');
     $pdf->SetTextColor(0,0,0);
@@ -222,9 +223,9 @@ else
 
 $date=date('Y-m-d H:i:s');
 
-// $up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$empid')";
+$up="INSERT INTO TblStaffSmartCardReport(UpdateDate,PrintStatus,IDNo) values ('$date','Printed','$empid')";
 
-//  $stmt1 = sqlsrv_query($conntest,$up);
+ $stmt1 = sqlsrv_query($conntest,$up);
 
 }
 
