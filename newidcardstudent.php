@@ -168,7 +168,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf->MultiCell(52,3,"Mobile No:".$row['StudentMobileNo']."     Valid Up to: ".$ValidUpTo,'0','C');
     $pdf->SetXY(1,55.7);
     $pdf->SetFont('Arial','B',6);
-    $pdf->MultiCell(52,3,$ge.': '.$row['FatherName'].', '.$row['PermanentAddress'],'0','C');
+    $pdf->MultiCell(52,3,$ge.' '.$row['FatherName'].', '.$row['PermanentAddress'],'0','C');
     $pdf->SetXY(1,50);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(255,255,255);
