@@ -81,7 +81,7 @@ if ($code==1)
     $result = sqlsrv_query($conntest,$sql);
     while($row=sqlsrv_fetch_array($result))
     {
-        $text="https://gku.ac.in/qr-verification-staff.php?id=".$row['IDNo'];
+        $text="https://gku.ac.in/qr-verification-staff.php?IDNo=".$row['IDNo'];
         $path = 'degreeqr/';
         $file = $path.$row['IDNo'].".png";
         $ecc = 'L';
