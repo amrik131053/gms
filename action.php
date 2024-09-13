@@ -2796,7 +2796,7 @@ mysqli_close($conn);
    <select class="form-control" name="" id='locationID'  >
                                        <option value="">Select Building</option>
                                        <?php
-                                       $hostelQry="SELECT *,location_master.ID as LID,room_name_master.RoomName as LName,room_type_master.RoomType as RoomTypeName FROM building_master 
+                                       $hostelQry="SELECT *,location_master.ID as LID,room_name_master.RoomName as LName,room_type_master.RoomType as RoomTypeName,location_master.RoomNo as RmNo FROM building_master 
                                        inner join location_master ON building_master.ID=location_master.Block 
                                         inner join room_name_master ON room_name_master.ID=location_master.RoomName inner join room_type_master ON room_type_master.ID=location_master.Type
                                         where location_master.returnLocation='1' order by Name asc";
@@ -2804,11 +2804,10 @@ mysqli_close($conn);
                                        while($hostelData=mysqli_fetch_array($hostelRes))
                                        {
                                           ?>
-                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?></option>
+                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?>(<?=$hostelData['RoomNo']?>)</option>
                                           <?php
                                        }
                                        ?>
-                                    </select>
    </div>
 
       <div class="col-lg-3">
@@ -2846,7 +2845,7 @@ mysqli_close($conn);
                                        while($hostelData=mysqli_fetch_array($hostelRes))
                                        {
                                           ?>
-                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?></option>
+                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?>(<?=$hostelData['RoomNo']?>)</option>
                                           <?php
                                        }
                                        ?>
@@ -10821,7 +10820,7 @@ elseif($code==171)
                                        while($hostelData=mysqli_fetch_array($hostelRes))
                                        {
                                           ?>
-                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?></option>
+                                          <option value="<?=$hostelData['LID']?>"><?=$hostelData['Name']?>(<?=$hostelData['RoomTypeName']?>)<?=$hostelData['LName']?>(<?=$hostelData['RoomNo']?>)</option>
                                           <?php
                                        }
                                        ?>

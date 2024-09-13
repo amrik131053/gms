@@ -439,8 +439,8 @@ var len_subject= subjects.length;
          type:'POST',
          success:function(data) {
             spinner.style.display='none';
-             console.log(data);
-            // alert('Inserted Successfully.') 
+        
+            SuccessToast('Inserted Successfully');
                                 }      
 });
 }

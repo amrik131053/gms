@@ -112,7 +112,7 @@ $(document).ready(function() {
                                         onchange="q_check_count(); total_count()">
                                         <option value="">Sem</option>
                                         <?php 
-                           for($i=1;$i<=12;$i++)
+                           for($i=0;$i<=12;$i++)
                            {?>
                                         <option value="<?=$i?>"><?=$i?></option>
                                         <?php }

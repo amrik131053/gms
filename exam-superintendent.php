@@ -67,7 +67,7 @@
                                 <select id='Semester' class="form-control" required="">
                                     <option value="">Sem</option>
                                     <?php 
-                                    for($i=1;$i<=12;$i++)
+                                    for($i=0;$i<=12;$i++)
                                     {?>
                                                                         <option value="<?=$i?>"><?=$i?></option>
                                                                         <?php }

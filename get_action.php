@@ -7063,7 +7063,7 @@ $College = $_GET['College'];
   $Batch = $_GET['Batch'];
   
 
- $list_sql = "SELECT   * FROM  Admissions  where CollegeID='$College' AND Batch='$Batch' AND AdmissionType>0  ORDER BY Admissions.UniRollNo";
+ $list_sql = "SELECT   * FROM  Admissions  where CollegeID='$College' AND Batch='$Batch' AND AdmissionType>0  ORDER BY Admissions.IDNo ASC";
 
   $list_result = sqlsrv_query($conntest,$list_sql);
 

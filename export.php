@@ -1940,6 +1940,7 @@ if ($ColomName=='JobStatus') {
            <th>Department</th>
            <th>Designation</th>
           <th>Email</th> 
+          <th>Offical Email</th> 
           <th>Phone</th>
           
           
@@ -1956,6 +1957,7 @@ if ($ColomName=='JobStatus') {
       $Department = $row['Department'];
       $Designation = $row['Designation'];
       $email = $row['EmailID'];
+      $OfficialEmailID = $row['OfficialEmailID'];
       $phone = $row['MobileNo'];
             $exportMeter.="<tr>
                 <td>{$count}</td>
@@ -1967,6 +1969,7 @@ if ($ColomName=='JobStatus') {
                 <td>{$Department}</td>
                 <td>{$Designation}</td>
                 <td>{$email}</td>
+                <td>{$OfficialEmailID}</td>
                 <td>{$phone}</td>
             </tr>";
 $count++;
