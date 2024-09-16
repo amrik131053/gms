@@ -287,7 +287,6 @@ function printSmartCardForStudent(id)
 
 function printSingleSmartCardForStudent(id) 
 {
-    var code = 248;
     $.ajax({
         url: 'action_g.php',
         type: 'POST', 
@@ -299,7 +298,7 @@ function printSingleSmartCardForStudent(id)
             // console.log(response);
             if (response == '1') {
                 // window.open("printSmartCardStudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
-                window.open("newidcardstudent.php?id=" + id+"&code="+2+"&print="+1, '_blank');
+                window.open("newidcardstudent.php?id=" + id+"&code="+2+"&print="+0, '_blank');
                 searchStudentForIDcard();
             } else {
                 ErrorToast(response, 'bg-warning');
