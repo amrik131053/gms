@@ -185,7 +185,7 @@ for($i=1;$i<=12;$i++)
 
 
  <div class="col-lg-1 col-md-4 col-sm-3">
-  <label>Examination</label>
+  <label>Examination5</label>
               <select  id="Examination" class="form-control" required="">
                  <option value="">Examination</option>
                        <?php
@@ -271,7 +271,7 @@ for($i=1;$i<=12;$i++)
 
 
 
-
+ 
 
  
 
@@ -339,7 +339,7 @@ var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+51,true);
         xmlhttp.send();
  }
-else
+else 
       {
         ErrorToast('Select Appropriate data','bg-danger');
  
