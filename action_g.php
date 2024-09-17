@@ -5985,12 +5985,12 @@ $extension = pathinfo($base64String, PATHINFO_EXTENSION); // Extract file extens
         $result = sqlsrv_query($conntest, $insertExp);
         
 
-//         $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
-// sqlsrv_query($conntest, $upimage);
+        $upimage = "UPDATE Admissions SET Snap=Null WHERE IDNo='$IDNo'";
+sqlsrv_query($conntest, $upimage);
 
-        $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
-$params = array($file_data, $IDNo);
-$upimage_run = sqlsrv_query($conntest, $upimage, $params);
+//         $upimage = "UPDATE Admissions SET Snap = ? WHERE IDNo = ?";
+// $params = array($file_data, $IDNo);
+// $upimage_run = sqlsrv_query($conntest, $upimage, $params);
         
 if ($result === false) {
     $errors = sqlsrv_errors();
