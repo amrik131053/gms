@@ -143,7 +143,6 @@ switch ($mimeType) {
         echo 'Unsupported image type: ' . $mimeType;
         exit;
 }
-
 $base64Image = base64_encode($imageData);
 $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
     $pdf-> Image($imageSrc,18,12,18,18,$extension);
