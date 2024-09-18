@@ -1846,10 +1846,44 @@ $id=explode(",",$sel);
    	 	$pdf-> Image('dist\img\busspass2.png',$left,$down,87,55);
    	 	$pdf-> Image('dist\img\new-logo.png',$left+2,$down+1,40,6);
    	 	$pdf-> Image('dist\img\naac-logo.png',$left+65,$down+1,20,6);
-        $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
-        $info = getimagesize($pic);
-        $extension = explode('/', mime_content_type($pic))[1];
-        $pdf-> Image($pic,$left+2,$down+13,17.4,20,$extension);
+        $imageURL=$row['Image'];
+        $fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+   
+   $ch = curl_init($fullURL);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+   $imageData = curl_exec($ch);
+   if (curl_errno($ch)) {
+       echo 'cURL error: ' . curl_error($ch);
+       curl_close($ch);
+       exit;
+   }
+   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+   if ($httpCode != 200) {
+       echo 'HTTP error: ' . $httpCode;
+       curl_close($ch);
+       exit;
+   }
+   curl_close($ch);
+   $finfo = new finfo(FILEINFO_MIME_TYPE);
+   $mimeType = $finfo->buffer($imageData);
+   $extension = 'jpeg'; 
+   switch ($mimeType) {
+       case 'image/jpeg':
+           $extension = 'jpeg';
+           break;
+       case 'image/png':
+           $extension = 'png';
+           break;
+       default:
+           echo 'Unsupported image type: ' . $mimeType;
+           exit;
+   }
+   $base64Image = base64_encode($imageData);
+   $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+        // $pic = 'data://text/plain;base64,' . base64_encode($row['Snap']);
+        // $info = getimagesize($pic);
+        // $extension = explode('/', mime_content_type($pic))[1];
+        $pdf-> Image($imageSrc,$left+2,$down+13,17.4,20,$extension);
   
         $pdf-> Image($file,$left+69,$down+38,16,15);
         
