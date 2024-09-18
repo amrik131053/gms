@@ -3856,7 +3856,7 @@ else if($exportCode==39)
                   
                     if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
                        {
-    
+     
                        // print_r($row);
                     $CollegeName=$row_college['CollegeName'] ;
                     if($CourseID!='')
@@ -3889,7 +3889,9 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>Name </th>
     <th>Father Name </th>
     <th>Mother Name </th>
+    <th>DOB </th>
     <th>Mobile No </th>
+
     <th>Aadhar Card No </th>
     <th>Category </th>
     <th>Religion </th>
@@ -3958,7 +3960,19 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Ereason=$row['EligibilityReason'];
             $Country=$row['country'];
             $State=$row['State'];
-             $StatusType=$row['StatusType'];
+            
+
+
+if($row['DOB']!='')
+{
+   $DOB=$row['DOB']->format('d-m-Y');
+}
+else
+{
+    $DOB='';
+}
+
+            $StatusType=$row['StatusType'];
             $District=$row['District'];
             $Nationality=$row['Nationality'];
             $Refrence=$row['FeeWaiverScheme'];
@@ -4034,6 +4048,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          <td>{$StudentName}</td>
          <td>{$FatherName}</td>
          <td>{$MotherName}</td>
+         <td>{$DOB}</td>
          <td>{$StudentMobileNo}</td>
          <td>{$AdharCardNo}</td>
          <td>{$Category}</td>
