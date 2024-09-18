@@ -8,69 +8,40 @@
 
 </div>
 <br>
-<form action="action.php" method="post">
-<div class="row">
+<?php 
+
+ $subjectcode="Select Distinct SubjectCode from ExamFormSubject where SubjectType='null'  AND Examination='December 2024'";
+$get_subjectcode_run=sqlsrv_query($conntest,$subjectcode);
     
+ while($row = sqlsrv_fetch_array($get_subjectcode_run, SQLSRV_FETCH_ASSOC))
+       {
+          $subjectcode=$row["SubjectCode"];
+       
+       
 
-    <div class="col-lg-3">
-       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+$subjectcode1="Select * from MasterCourseStructure where SubjectCode='$subjectcode'";
+$get_subjectcode_run1=sqlsrv_query($conntest,$subjectcode1);
+    
+ while($row = sqlsrv_fetch_array($get_subjectcode_run1, SQLSRV_FETCH_ASSOC))
+       {
+           $subjecttype=$row["SubjectType"];
 
-    <input type="text" name="EmpID"  value="" onblur="empdatashow(this.value)"  class="form-control">
-    <span id="employee_name_show"></span>
+echo $quesryt="Update ExamFormSubject set SubjectType='$subjecttype' where SubjectCode='$subjectcode'";
+$get_subjectcode_run2=sqlsrv_query($conntest,$quesryt);
 
-    <input type="hidden" name="code" value="353">
+       }
+   }
+       
+       sqlsrv_close($conntest);
+
+
+
+
+
+
+?>
 </div>
 
-          
-              
-               
-               <div class="col-lg-3" id="SingleDate">
-               <label>Date<span class="text-danger">&nbsp;*</span></label>
-                   <input type="datetime-local" class="form-control" id="leaveDate" name="leaveDate" value="<?=date('Y-m-d H:i:s');?>" >
-                </div>
-              
-              
-            
-               
-               <div class="col-lg-3">
-             <br>
-               <input type="button" onclick="CorrectionSubmit(this.form);" name="leaveButtonSubmit" class="btn btn-success" value="Submit">
-                </div>
-</div>
-</form>
-</div>
-<script>
-function CorrectionSubmit(form) { 
-
-
-
-    var formData = new FormData(form);
-    $.ajax({
-        url: form.action,
-        type: form.method,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            console.log(response);
-            if (response == 1) {
-                SuccessToast('Correction submit successfully');
-                               
-                
-            }
-           
-             else
-              {
-                ErrorToast('Please try after sometime.','bg-danger');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-        
-    });
-}
-</script><p id="ajax-loader"></p>
 
 <!-- Modal -->
 <?php include "footer.php"; ?>

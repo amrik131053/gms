@@ -16069,25 +16069,25 @@ elseif($code==252)
                      <?php 
 
                 
-                      $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE 1=1";
+               $get_study_scheme="SELECT * FROM MasterCourseStructure inner join MasterDepartment on MasterCourseStructure.DepartmentId=MasterDepartment.Id WHERE 1=1";
 
                       if($CollegeID!='')
                       {
-                         $get_study_scheme.="AND CollegeID='$CollegeID'";
+                         $get_study_scheme.="AND MasterCourseStructure.CollegeID='$CollegeID'";
                       }
                       if($Course!='')
                       {
-                      $get_study_scheme.=" AND CourseID='$Course'";
+                      $get_study_scheme.=" AND MasterCourseStructure.CourseID='$Course'";
                       }
                       if($Batch!='')
                       {
-                      $get_study_scheme.=" AND Batch='$Batch'";
+                      $get_study_scheme.=" AND MasterCourseStructure.Batch='$Batch'";
                       }
                       if($Semester!='')
                       {
-                      $get_study_scheme.=" AND SemesterID='$Semester'";
+                      $get_study_scheme.=" AND MasterCourseStructure.SemesterID='$Semester'";
                       }
-                 // echo     $get_study_scheme ;
+                      $get_study_scheme ;
 
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
@@ -16218,22 +16218,30 @@ elseif($code==252)
 
 
                                  <td>
-      
+     <?php  $get_study_scheme1="SELECT * FROM MasterDepartment  WHERE CollegeID='$CollegeID'";?>
       
 <select class="form-control" style="width:150px" id="department<?=$get_row['SrNo'];?>">
-  <?php
-$get_study_scheme1="SELECT * FROM MasterDepartment WHERE CollegeID='$CollegeID'";
+
+
+   <option value="<?=$get_row['Id'];?>" ><?=$get_row['Department'];?></option>
+
+
+<?php 
+
+
+
+$get_study_scheme1="SELECT * FROM MasterDepartment  WHERE CollegeID='$CollegeID'";
 
   $get_study_scheme_run1=sqlsrv_query($conntest,$get_study_scheme1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                        ?>
-                         <!-- <option value="<?=$get_row['Id'];?>" ><?=$get_row['Department'];?></option> -->
-                          <option value="select" >select</option><?php
+                        
+                         <?php
                  while($get_row1=sqlsrv_fetch_array($get_study_scheme_run1,SQLSRV_FETCH_ASSOC))
                         {
 ?>
 
-
-                                       <option value="<?=$get_row1['Id'];?>" ><?=$get_row1['Department'];?></option>
+ <option value="<?=$get_row1['Id'];?>" ><?=$get_row1['Department'];?></option> 
+                                       
                              <?php }?>          
                                     </select>
    
@@ -19842,7 +19850,7 @@ $type = $_POST['type'];
 $category = $_POST['category'];
 $question_count = $_POST['question_count_val'];
 
-$getCollegeID = "SELECT CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
+ $getCollegeID = "SELECT Distinct CollegeID FROM MasterCourseStructure WHERE CourseID='$courseId'";
 $runCollegeID = sqlsrv_query($conntest, $getCollegeID);
 if ($row = sqlsrv_fetch_array($runCollegeID, SQLSRV_FETCH_ASSOC)) {
     $CollegeID = $row['CollegeID'];
@@ -19852,10 +19860,10 @@ $number = $unit . $type . $category;
 
 $question_count = 0;
 $count = 0;
-$showQuestionQry = "SELECT count(*) as qc FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId' and SubjectCode='$subCode' and Unit='$unit' and Semester='$sem'";
+ $showQuestionQry = "SELECT count(*) as qc FROM question_bank WHERE Type='$type' and Category='$category' and Batch='$batch' and CourseID='$courseId' and SubjectCode='$subCode' and Unit='$unit' and Semester='$sem'";
 $showQuestionRun = mysqli_query($conn, $showQuestionQry);
 if ($showQuestionData = mysqli_fetch_array($showQuestionRun)) {
-   $count = $showQuestionData['qc'];
+    $count = $showQuestionData['qc'];
 }
 
 $sh = "SELECT * FROM question_count WHERE number='$number' ORDER BY Id desc;";
@@ -19875,7 +19883,7 @@ if ($type == 1) {
         $optionD = str_replace("'", " ",$_POST['QuestionD' . $i]);
         
         if ($EmployeeID > 0) {
-         $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
+    $insQry ="INSERT INTO question_bank(SubjectCode,CollegeID, Type,Unit,Semester,Batch,CourseID,Category,UpdatedBy,Exam_Session,date_time) 
          VALUES ('$subCode','$CollegeID','$type','$unit','$sem','$batch','$courseId','$category','$EmployeeID','$current_session','$timeStampS');";
    // $insQry = "CALL insert_question_bank('$subCode','$CollegeID','$type','$unit','$batch','$sem','$courseId','$category','$question','$EmployeeID','$current_session','$optionA','$optionB','$optionC','$optionD')";
             $insQryRun = mysqli_query($conn, $insQry);
@@ -19885,7 +19893,7 @@ if ($type == 1) {
                if($getQ=mysqli_fetch_array($getQidRun))
                {
                   $QID=$getQ['qid'];
-                   $inQ="INSERT INTO  question_bank_details  (question_id,Question,OptionA,OptionB,OptionC,OptionD) VALUES ('$QID','$question','$optionA','$optionB','$optionC','$optionD')";
+                 $inQ="INSERT INTO  question_bank_details  (question_id,Question,OptionA,OptionB,OptionC,OptionD) VALUES ('$QID','$question','$optionA','$optionB','$optionC','$optionD')";
                                $qinRun=mysqli_query($conn,$inQ);
                                if($qinRun===true)
                                {
@@ -24104,8 +24112,6 @@ $sem= $_POST['sem'];
 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' 
 //AND SemesterID='$sem' ANd Batch='$batch' AND SubjectType='T'   order by SubjectCode";
-
-
 
 $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
