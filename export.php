@@ -3843,6 +3843,8 @@ else if($exportCode==39)
     $Status=$_POST['Status'];
     $Eligibility=$_POST['Eligibility'];
     $LateralEntry=$_POST['Lateral'];
+     $admissiontype=$_POST['admissiontype'];
+
    if($CourseID!='')
    {
     $collegename="select CollegeName,Course from MasterCOurseCodes where  CollegeID='$CollegeID' ANd CourseID='$CourseID' ";
@@ -3905,6 +3907,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
     <th>State </th>
     <th>District </th>
     <th>Nationality </th>
+     <th>ABC ID </th>
     <th>Remarks </th>
     <th>Status</th>
     <th>Locked</th>
@@ -3939,8 +3942,13 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $query .= " AND Eligibility='$Eligibility'";
         }
         if ($LateralEntry != '') {
-            $query .= " AND LateralEntry='$LateralEntry'  Order By ClassRollNo ";
+            $query .= " AND LateralEntry='$LateralEntry'";
         }
+          if ($admissiontype != '') {
+            $query .= " AND AdmissionType='$admissiontype'  Order By ClassRollNo ";
+        }
+
+       
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
          {
@@ -3961,7 +3969,7 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
             $Country=$row['country'];
             $State=$row['State'];
             
-
+$ABCID=$row['ABCID'];
 
 if($row['DOB']!='')
 {
@@ -4062,7 +4070,8 @@ else
          <td>{$Country}</td>     
          <td>{$State}</td>     
          <td>{$District}</td>     
-         <td>{$Nationality}</td>     
+         <td>{$Nationality}</td>  
+         <td>{$ABCID}</td>   
          <td>{$Ereason}</td>     
          <td style='background-color:".$clr1.";'>{$status}</td>     
 
