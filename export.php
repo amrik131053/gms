@@ -3952,7 +3952,6 @@ $exportstudy.="<th colspan='".$subCount."' ><b style='text-align:left;'>Batch:&n
          $result = sqlsrv_query($conntest,$query);
          while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
          {
-            
             $IDNo=$row['IDNo'];
             $ClassRollNo=$row['ClassRollNo'];
             $UniRollNo=$row['UniRollNo'];

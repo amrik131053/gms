@@ -129,7 +129,7 @@ function verified() {
                   spinner.style.display = 'none';
             }
         },
-                           error: function() {
+                           error: function() { 
                               // Handle error response
                            }
                         });
@@ -215,7 +215,9 @@ function by_search_studetn() {
                            var unirollno = data[i][2];
                             var status = data[i][20];
                            var unirollno = data[i][2];
-                           var generate=data[i][39];
+
+                           var generate=data[i][35];
+
                              if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
                            }
@@ -227,12 +229,12 @@ function by_search_studetn() {
                             table +='<input type="checkbox" name="selectedRows[]" value="' + data[i][0] + '">';
                         }
                             table += '</td>';               
-                           table += '<td>' + data[i][0] + '</td>';
+                           table += '<td>' + data[i][0]+'</td>';
                            table += '<td>' + data[i][22] + '</td>';
                            table += '<td>' + data[i][8] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][40]+'</td>';
+                           table += '<td >'+ data[i][41]+'</td>';
                             table += '<td >'+ data[i][39]+'</td>';
                              table += '<td >'+ data[i][12]+'</td>';
 

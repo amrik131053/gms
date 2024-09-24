@@ -11011,7 +11011,7 @@ $fileName=$image_name.'.PNG';
          // echo json_encode($pagedData);
       
              echo json_encode($pagedData);
-         // print_r($pagedData);
+          //print_r($pagedData);
       }
       else
       {
@@ -11031,7 +11031,7 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
                      }
                  
                   }
-                  // print_r($data);139
+                  // print_r($data);
                   $page = $_POST['page'];
                   $recordsPerPage = 50;
                   $startIndex = ($page - 1) * $recordsPerPage;
@@ -11054,8 +11054,11 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
          {
              $data2=$degree_row;
              $CourseID=$degree_row['Course'];
+
              $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+
              $get_course_run=sqlsrv_query($conntest,$get_course);
+
              if($row=sqlsrv_fetch_array($get_course_run))
              {
             $data1=$row;
