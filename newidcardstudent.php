@@ -198,6 +198,11 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
         $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
         $XSet=$XSet;
     }
+    else{
+        $pdf->SetFont('Arial','B',6);
+        $pdf->MultiCell(52,3,ucfirst(trim($row['StudentName'])),'0','C');
+        $XSet=$XSet;
+    }
     $pdf->SetTextColor(0,0,0);
     $pdf->SetXY(1,$XSet-16.5);
     $pdf->SetFont('Arial','B',5.7);
