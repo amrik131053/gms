@@ -12909,6 +12909,29 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
 }
+
+   elseif ($code ==200.4)
+   {
+
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
+ mcs.SemesterID='$sem' ANd mcs.Batch='$batch'  And sa.EmployeeID='$EmployeeID'";
+?>
+ <option value="">Subject</option>
+ <?php 
+$stmt2 = sqlsrv_query($conntest,$sql);
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+<?php 
+}
+
+sqlsrv_close($conntest);
+
+  }
  // multiple update masrks  
  else if($code==201)
 {       
