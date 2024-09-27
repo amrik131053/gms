@@ -9674,9 +9674,24 @@ $Gender = $_POST['Gender'];
 $UniRollNo = $_POST['UniRollNo'];
 $upload_date = $_POST['upload_date'];
 $Cgpa = $_POST['Cgpa'];
-  $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
+$Name = mysqli_real_escape_string($conn, $Name);
+$FatherName = mysqli_real_escape_string($conn, $FatherName);
+$Stream = mysqli_real_escape_string($conn, $Stream);
+$Gender = mysqli_real_escape_string($conn, $Gender);
+$upload_date = mysqli_real_escape_string($conn, $upload_date);
+$Cgpa = mysqli_real_escape_string($conn, $Cgpa);
+$id = mysqli_real_escape_string($conn, $id);
+$insert_record = "UPDATE degree_print 
+                  SET StudentName='$Name', 
+                      FatherName='$FatherName', 
+                      Stream='$Stream', 
+                      Gender='$Gender', 
+                      upload_date='$upload_date', 
+                      CGPA='$Cgpa' 
+                  WHERE id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
-
+//   $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
+// $insert_record_run = mysqli_query($conn, $insert_record);
  $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
 
 $upimage_run = sqlsrv_query($conntest,$upimage);

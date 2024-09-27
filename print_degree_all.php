@@ -815,7 +815,13 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
-                                      } $CGPA = number_format($CGPA, 2);
+                                      }
+                                      if($CGPA!='')
+                                      {
+
+                                         $CGPA = number_format($CGPA, 2);
+                                      }
+
                                                     if($RegistrationNo!='')
                                        {
                                                 $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
@@ -889,7 +895,7 @@ $ge=$ge1;
  echo "<br>";
  echo "This topic of her thesis was";
  echo "<br>";
- echo "<b style='color:#0D729C;'>".$Stream.'</b>';
+ echo "<b style='color:#244061;'>".$Stream.'</b>';
                 ?></i>
              
           </div>
