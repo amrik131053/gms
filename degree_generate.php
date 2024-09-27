@@ -334,6 +334,19 @@ $.ajax({
     }
 });
 }
+function phd() {
+var code = 176.1;
+$.ajax({
+    url: 'action_g.php',
+    type: 'post',
+    data: {
+        code: code
+    },
+    success: function(response) {
+        document.getElementById("from_show_toggle").innerHTML = response;
+    }
+});
+}
 
 
 
@@ -554,6 +567,8 @@ document.getElementById('upload_date').value = upload_;
 
                     <a class="btn" id="btn4" style="background-color:#223260; color: white; border: 1px solid;"
                         onclick="certificate();bg(this.id);">Cetrificate </a>
+                    <a class="btn" id="btn5" style="background-color:#223260; color: white; border: 1px solid;"
+                        onclick="phd();bg(this.id);">PHD </a>
 
                 </div>
 

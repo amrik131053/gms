@@ -66,7 +66,7 @@ include "header.php";
 function pending() {
                     
                     var currentPage = 1;
-                  var code = 179;
+                  var code = 179.1;
                   var searchQuery = '';
                     
                     var spinner=document.getElementById("ajax-loader");
@@ -102,7 +102,7 @@ function pending() {
 function verified() {
                     
                     var currentPage = 1;
-                  var code = 180;
+                  var code = 180.1;
                   var searchQuery = '';
                     
                     var spinner=document.getElementById("ajax-loader");
@@ -138,7 +138,7 @@ function verified() {
 function by_search_studetn() { 
                     
                      var currentPage = 1;
-                   var code = 170;
+                   var code = 170.1;
                    var searchQuery = '';
                      var by_search=document.getElementById('RollNoSearch').value;
                      var spinner=document.getElementById("ajax-loader");
@@ -350,11 +350,11 @@ table +='<button   class="btn btn-danger btn-xs " >LEFT</button >';
       if(type==1)
       {
 
-         window.open('print_offer_letter_plan.php?id_array='+id_array_main);
+         window.open('print_offer_letter-international-web.php?id_array='+id_array_main);
       }
       else{
          
-         window.open('print_offer_letter-international.php?id_array='+id_array_main);
+         window.open('print_offer_letter-international-web.php?id_array='+id_array_main);
       }
 
    } else {

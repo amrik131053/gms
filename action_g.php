@@ -5466,6 +5466,9 @@ $QrCourse="";
    $Examination=$month.' '.$year;
 
    } 
+   else{
+    $Examination=$year;
+   }
     if(isset($_POST['extra']))
    {
    $ExtraRow=$_POST['extra'];
@@ -5491,6 +5494,7 @@ $QrCourse="";
     $CGPA = $filesop[7];
     $Outof = $filesop[8];
     $Stream = $filesop[9];
+    $Title = $filesop[10];
    
     if($filesop[10]=='')
     {
@@ -5516,7 +5520,7 @@ $QrCourse=$Course.'('.$Stream.')';
     } 
     else 
     {
-        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,`Course1`,`QrCourse`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead','$QrCourse');";
+        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,`Course1`,`QrCourse`,`Title`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead','$QrCourse','$Title');";
         $insert_run = mysqli_query($conn, $insert);
     
         if ($insert_run == true) {
@@ -11771,6 +11775,53 @@ elseif($code==176)
 <?php
 
 }
+elseif($code==176.1)
+{
+?>
+<form action="action_g.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="code" value="79">
+    <div class="row container-fluid">
+        <div class="col-lg-12">
+            <label>Type</label>
+            <input type="text" name="type" class="form-control" value="PHD" readonly>
+        </div>
+    </div>
+    <div class="row container-fluid">
+       
+        <div class="col-lg-12">
+            <label>Year</label>
+            <select class="form-control" name="year" required>
+                <option value="">Select</option>
+                <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+   { ?>
+                <option value="<?=$i;?>"><?=$i;?></option>
+
+                <?php }  ?>
+            </select>
+        </div>
+        <!-- <div class="col-lg-12">
+                <label>Stream/Specialization/Topic/Thesis/Subjects (Optional)</label>
+                 <input type="text" name="stream" class="form-control" > -->
+        <!-- <textarea class="form-control" name="stream" rowspan="3"></textarea> -->
+        <!-- </div> -->
+    </div>
+    <div class="row container-fluid">
+        <div class="col-lg-12">
+            <label>File</label>
+            <input type="file" name="file" class="form-control" required>
+        </div>
+    </div>
+    <div class="row container-fluid">
+        <div class="col-lg-12">
+            <label>Action</label><br>
+            <input type="submit" class="btn btn-success" value="Upload">
+        </div>
+    </div>
+</form>
+<br>
+<?php
+
+}
 
 elseif($code==177)
 {
@@ -11890,10 +11941,71 @@ elseif($code==179)
                sqlsrv_close($conntest);
                mysqli_close($conn);
 }
+elseif($code==179.1)
+{   
+          $degree="SELECT * FROM offer_latter_international where generate='0' order by Id DESC "; 
+        //   $degree="SELECT * FROM offer_latter_international where id like '%$value%' or Class_RollNo like '%$value%' or ID_Proof_No like '%$value%' or  loanNumber like '%$value%' or RefNo like '%$value%' order by Id DESC "; 
+    
+               $degree_run=mysqli_query($conn,$degree);
+               while ($degree_row=mysqli_fetch_array($degree_run)) 
+               {
+                  $data2=$degree_row;
+                  $CourseID=$degree_row['Course'];
+                  $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                  $get_course_run=sqlsrv_query($conntest,$get_course);
+                  if($row=sqlsrv_fetch_array($get_course_run))
+                  {
+                 $data1=$row;
+                 $data[]=array_merge($data2,$data1);
+            
+              }
+              
+
+               }
+
+                print_r($data);
+
+               $page = $_POST['page'];
+               $recordsPerPage = 10000;
+               $startIndex = ($page - 1) * $recordsPerPage;
+               $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+               echo json_encode($pagedData);
+               sqlsrv_close($conntest);
+               mysqli_close($conn);
+}
 elseif($code==180)
 {
 
           $degree="SELECT * FROM offer_latter where statusVerification='1' order by Id DESC "; 
+               $degree_run=mysqli_query($conn,$degree);
+               while ($degree_row=mysqli_fetch_array($degree_run)) 
+               {
+                  $data2=$degree_row;
+                  $CourseID=$degree_row['Course'];
+                  $get_course="SELECT Course FROM MasterCourseStructure Where CourseId='$CourseID'";
+                  $get_course_run=sqlsrv_query($conntest,$get_course);
+                  if($row=sqlsrv_fetch_array($get_course_run))
+                  {
+                 $data1=$row;
+                 $data[]=array_merge($data2,$data1);
+            
+              }
+              
+               }
+               // print_r($data);139
+
+               $page = $_POST['page'];
+               $recordsPerPage = 10000;
+               $startIndex = ($page - 1) * $recordsPerPage;
+               $pagedData = array_slice($data, $startIndex, $recordsPerPage);
+               echo json_encode($pagedData);
+               sqlsrv_close($conntest);
+               mysqli_close($conn);
+}
+elseif($code==180.1)
+{
+
+          $degree="SELECT * FROM offer_latter_international where generate='1' order by Id DESC "; 
                $degree_run=mysqli_query($conn,$degree);
                while ($degree_row=mysqli_fetch_array($degree_run)) 
                {
