@@ -5484,17 +5484,17 @@ $QrCourse="";
         $firstLine = false;
         continue; // Skip processing the first line
     }
-    $StudentName = $filesop[0];
-    $UniRollNo = $filesop[1];
-    $FatherName = $filesop[2];
-    $CollegeName = $filesop[3];
-    $CourseHead = $filesop[4];
-    $Course = $filesop[5];
-    $RegistrationNo = $filesop[6];
-    $CGPA = $filesop[7];
-    $Outof = $filesop[8];
-    $Stream = $filesop[9];
-    $Title = $filesop[11];
+    $StudentName = mysqli_real_escape_string($conn, $filesop[0]);
+    $UniRollNo = mysqli_real_escape_string($conn, $filesop[1]);
+    $FatherName = mysqli_real_escape_string($conn, $filesop[2]);
+    $CollegeName = mysqli_real_escape_string($conn, $filesop[3]);
+    $CourseHead = mysqli_real_escape_string($conn, $filesop[4]);
+    $Course = mysqli_real_escape_string($conn, $filesop[5]);
+    $RegistrationNo = mysqli_real_escape_string($conn, $filesop[6]);
+    $CGPA = mysqli_real_escape_string($conn, $filesop[7]);
+    $Outof = mysqli_real_escape_string($conn, $filesop[8]);
+    $Stream = mysqli_real_escape_string($conn, $filesop[9]);
+    $Title = mysqli_real_escape_string($conn, $filesop[11]);
    
     if($filesop[10]=='')
     {
@@ -5502,7 +5502,7 @@ $QrCourse=$Course.'('.$Stream.')';
     }
     else
     {
-        $QrCourse = $filesop[10];
+        $QrCourse = mysqli_real_escape_string($conn, $filesop[10]);
     }
     
    
@@ -5520,9 +5520,10 @@ $QrCourse=$Course.'('.$Stream.')';
     } 
     else 
     {
-        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`,`CollegeCsv`,`Course1`,`QrCourse`,`Title`) VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof','$CollegeName','$CourseHead','$QrCourse','$Title');";
-        $insert_run = mysqli_query($conn, $insert);
-    
+        $insert = "INSERT INTO `degree_print` (`UniRollNo`, `CGPA`, `StudentName`, `FatherName`, `RegistrationNo`, `Course`, `Examination`, `ExtraRow`, `Type`, `Stream`, `upload_date`, `Outof`, `CollegeCsv`, `Course1`, `QrCourse`, `Title`) 
+        VALUES ('$UniRollNo', '$CGPA', '$StudentName', '$FatherName', '$RegistrationNo', '$Course', '$Examination', '$ExtraRow', '$Type', '$Stream', '$todate', '$Outof', '$CollegeName', '$CourseHead', '$QrCourse', '$Title')";
+
+$insert_run = mysqli_query($conn, $insert);
         if ($insert_run == true) {
             ?>
     <script type="text/javascript">
