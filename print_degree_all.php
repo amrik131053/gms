@@ -824,11 +824,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$ExtraRow;
                                              }
                                              else
                                              {
-                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$ExtraRow;
 
                                        }
                                                 $path = 'degreeqr/';
