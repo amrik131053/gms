@@ -831,12 +831,12 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                           $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
 
                                        }
-                                                // $path = 'degreeqr/';
-                                                // $file = $path.$UnirollNo.".png";
-                                                // $ecc = 'L';
-                                                // $pixel_Size = 10;
-                                                // $frame_Size = 10;
-                                                // QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
+                                                $path = 'degreeqr/';
+                                                $file = $path.$UnirollNo.".png";
+                                                $ecc = 'L';
+                                                $pixel_Size = 10;
+                                                $frame_Size = 10;
+                                                QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
                  
                  
                                                 $ge1="son";
@@ -881,7 +881,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                          </div>
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
-                <!-- <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;"> -->
+                <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
                 <img src="<?=$BasURL.'Images/Students/'.$snap;?>" width="80" height="90" style="margin-right: 12px;">
              </div>
           </div>
