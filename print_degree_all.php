@@ -824,11 +824,11 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
 
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$ExtraRow;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$Stream;
                                              }
                                              else
                                              {
-                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$ExtraRow;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$Stream;
 
                                        }
                                                 $path = 'degreeqr/';
@@ -842,7 +842,8 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                                 $ge1="son";
                                                 $ge="daughter";
                                                 $ms="Ms.";    
-                                                $ms1="Mr.";    
+                                                $ms1="Mr.";
+                                                $hh="";    
                                                 
                                                   if ($gender=='Male') 
                                                 {
@@ -850,11 +851,13 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                                //  $ms="<strike>Ms.</strike>";    // code...
                                                $ms=$ms1;
                                                $ge=$ge1;
+                                               $hh="his";
                                                 } 
                                                 else{
                                                //  $ge1="<strike>son</strike>"; 
                                                //  $ms1="<strike>Mr.</strike>";    // code...
                                                    // code...
+                                                   $hh="her";
                                                    $ms=$ms;
                                                    $ge=$ge;
                                                 }
@@ -893,12 +896,12 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div class="col-lg-12 " style="border:; font-size: 19px; text-align:center; margin-right: 150px;margin-left: 150px;line-height: 1.6;font-family: 'Lucida Unicode Calligraphy', sans-serif; "><i>
  <?php 
- echo "This is to certify that <b class='user-details'>".$ms." ".$name." </b> ".$ge." of <b class='user-details'>  ".$father_name."</b>, 
+ echo "This is to certify that <b class='user-details'>".$ms." ".$name." </b> ".$ge." of <b class='user-details'> Sh. ".$father_name."</b>, 
  of the<b> ".$CollegeName."</b> has been awarded the Degree of <b>".$course."</b> of this University in 
  <b>".$Examination."</b>.";
  
  echo "<br>";
- echo "The topic of his thesis was";
+ echo "The topic of ".$hh." thesis was";
  echo "<br>";
  ?>
  </i>
