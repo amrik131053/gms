@@ -869,7 +869,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
         .user-details {
             font-family: 'Times New Roman', serif;
             
-            font-weight: 700; /* Optional: makes text bold */
+            font-weight: 800; /* Optional: makes text bold */
         }
     </style>
             
@@ -903,7 +903,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
  ?>
  </i>
  </div>
-<div style="color:#244061; font-size: 19px; text-align:center; margin-right: 85px;margin-left: 67px;line-height: 1.6;font-family: 'Lucida Unicode Calligraphy', sans-serif; "><?=$Stream;?></div>
+<div style="color:#244061; font-weight: 800; font-size: 19px; text-align:center; margin-right: 85px;margin-left: 67px;line-height: 1.6;font-family: 'Lucida Unicode Calligraphy', sans-serif; "><?=$Stream;?></div>
 <!-- <div style='color:#244061;'><?=$Stream;?></b> -->
  
              
