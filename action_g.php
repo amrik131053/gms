@@ -5467,6 +5467,7 @@ $QrCourse="";
 
    } 
    else{
+    $year=$_POST['year'];
     $Examination=$year;
    }
     if(isset($_POST['extra']))
@@ -5483,7 +5484,6 @@ $QrCourse="";
         $firstLine = false;
         continue; // Skip processing the first line
     }
-    
     $StudentName = $filesop[0];
     $UniRollNo = $filesop[1];
     $FatherName = $filesop[2];
@@ -5494,7 +5494,7 @@ $QrCourse="";
     $CGPA = $filesop[7];
     $Outof = $filesop[8];
     $Stream = $filesop[9];
-    $Title = $filesop[10];
+    $Title = $filesop[11];
    
     if($filesop[10]=='')
     {
