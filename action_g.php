@@ -18770,7 +18770,16 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
 <?php// }?>
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+if($role_id=='2')
+{
+    ?>
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+onclick="printladger(<?=$row['IDNo'];?>);"></i>
 
+<?php 
+}
+?>
                 </td>
             </tr>
             <?php $sr++;
