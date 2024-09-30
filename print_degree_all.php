@@ -6,6 +6,7 @@
      <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" class="notranslate" translate="no">
    <head>
+   <link href="https://fonts.cdnfonts.com/css/lucida-unicode-calligraphy" rel="stylesheet">
       <meta name="google" content="notranslate" />
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
       <script type="text/javascript" language="javascript1.2"> 
@@ -814,14 +815,20 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
                                       }
-                                      } $CGPA = number_format($CGPA, 2);
+                                      }
+                                      if($CGPA!='')
+                                      {
+
+                                         $CGPA = number_format($CGPA, 2);
+                                      }
+
                                                     if($RegistrationNo!='')
                                        {
-                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$Stream;
                                              }
                                              else
                                              {
-                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegn. cum Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                          $text = "Course:".$QrCourse."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$UnirollNo."\nThesis Title:".$Stream;
 
                                        }
                                                 $path = 'degreeqr/';
@@ -830,27 +837,51 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                                 $pixel_Size = 10;
                                                 $frame_Size = 10;
                                                 QRcode::png($text, $file, $ecc, $pixel_Size, 2); 
-                    ?>
-             
+                 
+                 
+                                                $ge1="son";
+                                                $ge="daughter";
+                                                $ms="Ms.";    
+                                                $ms1="Mr.";
+                                                $hh="";    
+                                                
+                                                  if ($gender=='Male') 
+                                                {
+                                               //  $ge="<strike>daughter</strike>";
+                                               //  $ms="<strike>Ms.</strike>";    // code...
+                                               $ms=$ms1;
+                                               $ge=$ge1;
+                                               $hh="his";
+                                                } 
+                                                else{
+                                               //  $ge1="<strike>son</strike>"; 
+                                               //  $ms1="<strike>Mr.</strike>";    // code...
+                                                   // code...
+                                                   $hh="her";
+                                                   $ms=$ms;
+                                                   $ge=$ge;
+                                                }
+                                               
+                 
+                 
+                 
+                 
+                 ?>
+               <style>
+      
+        .user-details {
+            font-family: 'Times New Roman', serif;
+            
+            font-weight: 800; /* Optional: makes text bold */
+        }
+    </style>
             
              <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
        <span class="notranslate">
           <div style="height: 74px;"></div>
           <div class="row">
-             <!-- // space -->
-    <?php   if($RegistrationNo!='')
-                         {
-                          ?>
-                          <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right;margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration No. ".$RegistrationNo;?></b></div>
-                         <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
-                         <?php 
-                         }
-                         else
-                         {
-                           ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
-                         <?php
-                         }
-                         ?> </div>
+            <div class="col-lg-12 " style="font-family: Arial, Helvetica, sans-serif; line-height: 1.2; width:auto; font-size: 15.5px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration-cum-University Roll No: ".$UnirollNo;?></b></div>
+                         </div>
           <div class="row">
              <div class="col-lg-12 " style="border:; width:auto; text-align:right;margin-right: 90px;margin-left: 50px;margin-top: 8px;">
                 <img src="<?=$file;?>" width="90" height="90" style="margin-right: 704px;">
@@ -860,54 +891,37 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
           <div class="row">
              <div style="height: 152px;"></div>
              <!-- // space -->
-             <div class="col-lg-12 " style="border:; font-size: 33px; text-align:center; margin-right: 85px;margin-left: 67px; font-family: Baskerville Old Face; color: red;"><i><?php echo $course_head;?></i></div>
+             <div class="col-lg-12 " style=" border:; font-size: 25px; text-align:center; margin-right: 85px;margin-left: 67px; font-family:Lucida Calligraphy;color:red'font-family: 'Lucida Unicode Calligraphy', sans-serif; "><i><?php echo $course_head;?></i></div>
           </div>
           <div class="row">
-             <div class="col-lg-12 " style="border:; font-size: 21.5px; text-align:center; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+             <div class="col-lg-12 " style="border:; font-size: 19px; text-align:center; margin-right: 150px;margin-left: 150px;line-height: 1.6;font-family: 'Lucida Unicode Calligraphy', sans-serif; "><i>
  <?php 
- $ge1="son";
- $ge="daughter";
- $ms="Ms.";    
- $ms1="Mr.";    
- 
-   if ($gender=='Male') 
- {
- $ge="<strike>daughter</strike>";
- $ms="<strike>Ms.</strike>";    // code...
- } 
- else{
- $ge1="<strike>son</strike>"; 
- $ms1="<strike>Mr.</strike>";    // code...
-    // code...
- 
- }
- 
-
-  
-            
-
- echo "This is to certify that ".$ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."</b>, 
- and of the<b> ".$CollegeName."</b> has been awarded the Degree of <b>".$course."</b> of this University in 
- ".$Examination.";";
+ echo "This is to certify that <b class='user-details'>".$ms." ".$name." </b> ".$ge." of <b class='user-details'> Sh. ".$father_name."</b>, 
+ of the<b> ".$CollegeName."</b> has been awarded the Degree of <b>".$course."</b> of this University in 
+ <b>".$Examination."</b>.";
  
  echo "<br>";
- echo "This topic of his/her thesis was";
+ echo "The topic of ".$hh." thesis was";
  echo "<br>";
- echo '"<b>'.$Stream.'</b>"';
-                ?></i>
+ ?>
+ </i>
+ </div>
+<div style="color:#244061; font-weight: 800; font-size: 19px; text-align:center; margin-right: 85px;margin-left: 67px;line-height: 1.6;font-family: 'Lucida Unicode Calligraphy', sans-serif; "><?=$Stream;?></div>
+<!-- <div style='color:#244061;'><?=$Stream;?></b> -->
+ 
              
-          </div>
+         
           <div style="height: 3px;"></div>
  
-             <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; "><i>
+             <div class="col-lg-12 " style="border:; font-size: 19px; text-align:justify; margin-right: 85px;margin-left: 67px;line-height: 1.6;  font-family: Baskerville Old Face; ">
                 <?php  //echo $ExtraRow;?>
-                </i>
+              
              </div>
           </div>
           <div style="height: 30px;"></div>
  
           <div class="row">
-             <div class="col-lg-12 " style="border:; font-family: Baskerville Old Face; font-size: 22px; text-align:center; margin-right: 85px;margin-left: 67px;"><i><?php  echo "Given under the seal of the University";?></i></div>
+             <div class="col-lg-12 " style="border:; font-family: Arial, Helvetica, sans-serif; font-size: 16.5px; text-align:center; margin-right: 85px;margin-left: 67px;"><?php  echo "Given under the seal of the University";?></div>
           </div>
           <div style="height: 70px;"></div>
           <!-- // space -->
