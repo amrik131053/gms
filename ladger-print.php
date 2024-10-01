@@ -79,7 +79,7 @@ $stmt1 = sqlsrv_query($conntes,$sql);
  <td colspan="4"><?=$name;?></td>
 
  <td  rowspan="2" >
- <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
+ <?php //echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
  </td>
  </tr>
  <tr>

@@ -50,9 +50,9 @@ while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
       echo $blnce= $filesop[1];
     echo "<br>";
 
-    echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance-$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
+    echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance+$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
     echo "<br>";
-    //   $update_study_run=sqlsrv_query($conntest,$addbalnce);  
+      // $update_study_run=sqlsrv_query($conntest,$addbalnce);  
   if ($update_study_run==true) 
   {
      echo "success";
