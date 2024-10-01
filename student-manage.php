@@ -486,6 +486,11 @@ function printSmartCardForStudent(id) {
         }
     });
 }
+function printladger(id) {
+                window.open("ladger-print.php?IDNo=" + id, '_blank');
+                searchStudentForIDcard();
+}
+
 
 function reprintSmartCardForStudent(id) {
     var code = 248;

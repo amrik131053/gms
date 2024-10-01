@@ -15636,7 +15636,7 @@ else
 
 ?>
 <div class="text-center"><b >One Fourth(0.25)</b> <i class="fa fa-arrow-right" aria-hidden="true"></i> <b class="text-danger"><?=$S025;?></b> &nbsp;&nbsp;|&nbsp;&nbsp;<b >Half(0.5)</b>
- <i class="fa fa-arrow-right" aria-hidden="true"></i> <b class="text-danger"><?=$S05;?></b> &nbsp;&nbsp; | &nbsp;&nbsp;<b >Two Third(0.75)</b>
+ <i class="fa fa-arrow-right" aria-hidden="true"></i> <b class="text-danger"><?=$S05;?></b> &nbsp;&nbsp; | &nbsp;&nbsp;<b >Three Fourth(0.75)</b>
   <i class="fa fa-arrow-right" aria-hidden="true"></i><b class="text-danger"> <?=$S075;?></b></div>
                 <div class="card-header " style="height:auto;">
                     <center><Strong>Apply Leave Online</Strong></center>
@@ -18770,7 +18770,16 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
 <?php// }?>
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+<?php 
+if($role_id=='2')
+{
+    ?>
+<i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+onclick="printladger(<?=$row['IDNo'];?>);"></i>
 
+<?php 
+}
+?>
                 </td>
             </tr>
             <?php $sr++;
