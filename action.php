@@ -19440,7 +19440,8 @@ mysqli_close($conn);
   $start_date=$_POST['start_date'];
   $end_date=$_POST['end_date'];
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where status='success' AND batch='2024' ANd Created_date Between '$start_date' AND  '$end_date' ");
+
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where status='success'  ANd Created_date Between '$start_date' AND  '$end_date' ");
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {
