@@ -20712,7 +20712,7 @@ mysqli_close($conn);
 
  elseif($code=='333') 
    {
- $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='4th Convocation' ");
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' ");
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {

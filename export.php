@@ -2813,7 +2813,7 @@ elseif($exportCode=='28')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='4th Convocation'");
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation'");
     $counter = 1; 
      
     
