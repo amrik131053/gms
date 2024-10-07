@@ -18932,7 +18932,23 @@ elseif($code==267) //update student
                                         ?>
                                         
                                     </div>
+                                       <div class="col-md-12 col-lg-3">
+                                        <label>ABC ID</label>
+                                        <?php if($role_id=='2' OR  $role_id=='15'){
+                                            ?>
+                                            <input type="number" class="form-control" name="abcid"
+                                            placeholder="Enter ABC ID" value="<?=$abcid;?>">
+                                            <?php  } else
+                                            {
+                                                ?>
+                                                <input type="number" class="form-control" name="abcid"
+                                                placeholder="Enter ABC ID" value="<?=$abcid;?>" readonly><?php 
+                                            }
+                                        ?>
+                                        
+                                    </div>
 
+                                
 
                                      <div class="col-md-12 col-lg-2">
                                         <label>Blood Group</label>
@@ -19822,10 +19838,13 @@ elseif($code==268)
    $gender = $_POST["gender"];
    $category = $_POST["category"]; 
    $adhaar =$_POST["aadharNo"];
+   $abcid =$_POST["abcid"];
    $BloodGroup =$_POST["bloodgroup"];
    $Religion =$_POST["religion"];
    $photo = $_FILES["photo"]["name"];
    $signature = $_FILES["signature"]["name"];
+
+   
 
 //Tab contact
    $personalEmail = $_POST["personalEmail"];
@@ -19966,6 +19985,8 @@ include "connection/ftp-erp.php";
    $query .= "BloodGroup ='$BloodGroup', ";
    $query .= "AadhaarNo ='$adhaar', ";
    $query .= "Religion ='$Religion', ";
+   $query .= "ABCID ='$abcid', ";
+   
  
  // contact
 

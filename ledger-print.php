@@ -33,8 +33,8 @@
  <?php 
    $timeStamp=date('Y-m-d H:i:s.v');
    $timeStampS=date('Y-m-d H:i:s');
-$serverName = "10.0.10.11"; 
-$connectionInfo = array( "Database"=>"DBgurukashiimp", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
+$serverName = "10.0.10.15"; 
+$connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"Amrik@123");
 $conntes = sqlsrv_connect($serverName,$connectionInfo);
 $IDNo=$_REQUEST['IDNo'];
 $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
