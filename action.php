@@ -20725,7 +20725,7 @@ mysqli_close($conn);
       $course = $row['course'];
       $sem = $row['sem'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['remarks'];
       $remarks=$row['remarks'];
       $status=$row['status'];
       $Created_date=$row['Created_date'];
