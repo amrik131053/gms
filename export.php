@@ -2863,7 +2863,7 @@ elseif($exportCode=='28')
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['remarks'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];
