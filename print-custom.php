@@ -140,7 +140,7 @@ foreach ($articlecodes as $key => $value) {
 if ($size=='Large') {
 $pdf = new PDF();
 $x=10;
-$y=20;
+$y=15;
 $pdf->AddPage();
 $pdf->SetFont('Times','',8);
 for($j=1;$j<=$d;$j++)
