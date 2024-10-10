@@ -9609,7 +9609,7 @@ elseif($code==141)
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   if($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
-                  echo  $Gender= $row_pending['Sex'];
+                  $Gender= $row_pending['Sex'];
                   }                 
 ?>
     <div class="row">
@@ -9618,14 +9618,14 @@ elseif($code==141)
                 <div class="col-lg-6">
                     <label>Student Name</label>
                     <input type="text" value="<?=$StudentName;?>" id="Name" class="form-control">
-                    <label>Uni Roll NOe</label>
+                    <label>Uni Roll NO</label>
                     <input type="text" value="<?=$UniRollNo;?>" id="unirollno" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Father Name</label>
                     <input type="text" value="<?=$FatherName;?>" id="FatherName" class="form-control">
                     <label>Upload Date</label>
-                    <input type="date" value="<?=$upload_date;?>" id="upload_date" class="form-control">
+                    <input type="date" value="<?=$upload_date;?>" id="upload_date21" class="form-control">
                 </div>
                 <div class="col-lg-6">
                     <label>Gender</label>
@@ -9673,21 +9673,21 @@ $FatherName = $_POST['FatherName'];
 $Stream = $_POST['Stream'];
 $Gender = $_POST['Gender'];
 $UniRollNo = $_POST['UniRollNo'];
-$upload_date = $_POST['upload_date'];
+$upload_date11 = $_POST['upload_date'];
 $Cgpa = $_POST['Cgpa'];
 $Name = mysqli_real_escape_string($conn, $Name);
 $FatherName = mysqli_real_escape_string($conn, $FatherName);
 $Stream = mysqli_real_escape_string($conn, $Stream);
 $Gender = mysqli_real_escape_string($conn, $Gender);
-$upload_date = mysqli_real_escape_string($conn, $upload_date);
+//$upload_date = mysqli_real_escape_string($conn,$upload_date11);
 $Cgpa = mysqli_real_escape_string($conn, $Cgpa);
 $id = mysqli_real_escape_string($conn, $id);
-$insert_record = "UPDATE degree_print 
+ $insert_record = "UPDATE degree_print 
                   SET StudentName='$Name', 
                       FatherName='$FatherName', 
                       Stream='$Stream', 
                       Gender='$Gender', 
-                      upload_date='$upload_date', 
+                      upload_date='$upload_date11', 
                       CGPA='$Cgpa' 
                   WHERE id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
@@ -16214,7 +16214,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             }
             elseif($ifLEaveRow1['SanctionId']==$ifLEaveRow1['AuthorityId'])
             {
-                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023'  AND   LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+             echo    $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023'  AND   LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
             else
@@ -18714,7 +18714,7 @@ elseif($code==266)  // search student
                 <td><?=$row['Course'];?></td>
                 
                        
-                       
+                        
                 <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
                         </td> -->
                 <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"

@@ -20170,11 +20170,13 @@ elseif($code==322)
   $IDNo= $_POST['IDNo'];
 
 ?>
-<input type="hidden" id="oldid" class="form-control" value="<?=$IDNo;?>">
 
 
-                     <br>
+
+                   
                         <div class="btn-group input-group-sm">
+                           <input type="text" id="oldid" class="form-control" value="<?=$IDNo;?>" readonly>
+
                   <input type="text" name="student_roll_no" class="form-control" id='student_roll_no1' placeholder="Uni/Class Roll No." aria-describedby="button-addon2" value="">
 
                              
@@ -20195,9 +20197,9 @@ elseif($code=='323')
   if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
     {                                 
 
- $univ_rollno=$_POST['rollNo'];
+ echo $univ_rollno=$_POST['rollNo'];
 
-$type=$_POST['option'];
+echo $type=$_POST['option'];
 
  if($type==1)
  {
@@ -20211,6 +20213,7 @@ $type=$_POST['option'];
  {
   $result1 = "SELECT  * FROM Admissions where UniRollNo='$univ_rollno'";
  }
+
   $stmt1 = sqlsrv_query($conntest,$result1, array(), array( "Scrollable" => 'static' ));  
 $row_count = sqlsrv_num_rows($stmt1);
 
@@ -20381,11 +20384,11 @@ elseif($code=='324')
           while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
    {
    
-  $course=$row["Course"];
-    $college=$row["CollegeName"];
-      $classroll=$row["ClassRollNo"];
+       $course=$row["Course"];
+       $college=$row["CollegeName"];
+       $classroll=$row["ClassRollNo"];
    }
-  echo  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo',CollegeName='$college',Course='$course',ClassRollNo='$classroll' where IDNo='$OLDIDNo'";
+  $update_studentb="UPDATE Ledger  SET IDNo='$IDNo',CollegeName='$college',Course='$course',ClassRollNo='$classroll' where IDNo='$OLDIDNo'";
 
    $update_runb=sqlsrv_query($conntest,$update_studentb);
 

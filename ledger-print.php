@@ -36,7 +36,8 @@
 $serverName = "10.0.10.15"; 
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"Amrik@123");
 $conntes = sqlsrv_connect($serverName,$connectionInfo);
-$IDNo=$_REQUEST['IDNo'];
+$IDNo=$_REQUEST['IDNo'
+];
 $sql = "SELECT  * FROM Admissions where IDNo='$IDNo'";
 $stmt1 = sqlsrv_query($conntes,$sql);
         while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
