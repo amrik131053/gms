@@ -451,11 +451,13 @@ function edit_student_details(id) {
 // alert(id);
 var Name = document.getElementById('Name').value;
 var UniRollNo = document.getElementById('unirollno').value;
-var upload_date = document.getElementById('upload_date').value;
+var upload_date = document.getElementById('upload_date21').value;
 var FatherName = document.getElementById('FatherName').value;
 var Gender = document.getElementById('Gender').value;
 var Stream_ = document.getElementById('Stream_').value;
 var Cgpa = document.getElementById('CGPA').value;
+
+
 if (Name != '' && FatherName != '') {
     var code = 142;
     var data = {

@@ -2744,7 +2744,7 @@ elseif($exportCode=='27')
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['remarks'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];
@@ -2813,7 +2813,7 @@ elseif($exportCode=='28')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Convocation 2023'");
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation'");
     $counter = 1; 
      
     
@@ -2863,7 +2863,7 @@ elseif($exportCode=='28')
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['purpose'];
+      $purpose=$row['remarks'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];

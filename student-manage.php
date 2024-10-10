@@ -285,7 +285,7 @@ function updateStudent(empID) {
 
     syncdocuments(empID);
     var code = 267;
-    $.ajax({
+    $.ajax({ 
         url: 'action_g.php',
         type: 'POST',
         data: {
@@ -487,7 +487,7 @@ function printSmartCardForStudent(id) {
     });
 }
 function printladger(id) {
-                window.open("ladger-print.php?IDNo=" + id, '_blank');
+                window.open("ledger-print.php?IDNo=" + id, '_blank');
                 searchStudentForIDcard();
 }
 
