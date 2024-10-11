@@ -18,7 +18,7 @@
             
                          
                           <input type="date"  class="form-control" value="" id="upload_date">
-                          <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search();" value="Search">
+                          <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search()" value="Search">
                            &nbsp;
                            &nbsp;
                            &nbsp;
@@ -199,7 +199,7 @@ function verifiy_select() {
 
 
 function date_by_search() {
- 
+
  var spinner = document.getElementById("ajax-loader");
  spinner.style.display = 'block';
  var code = 78;
@@ -208,6 +208,7 @@ function date_by_search() {
  var by_search=document.getElementById('RollNoSearch').value;
  var by_search_college=document.getElementById('CourseName').value;
  var by_search_StreamName=document.getElementById('StreamName').value;
+  // alert(by_search_StreamName);
  $.ajax({
      url: 'action_g.php',
      type: 'POST',
@@ -430,7 +431,7 @@ $.ajax({
     }
 });
 
-}
+} 
 function view_image(id) {
     // alert(id);
                      var code = 91;
@@ -456,7 +457,7 @@ var FatherName = document.getElementById('FatherName').value;
 var Gender = document.getElementById('Gender').value;
 var Stream_ = document.getElementById('Stream_').value;
 var Cgpa = document.getElementById('CGPA').value;
-
+var examination = document.getElementById('examination').value;
 
 if (Name != '' && FatherName != '') {
     var code = 142;
@@ -468,7 +469,7 @@ if (Name != '' && FatherName != '') {
         Gender: Gender,
         UniRollNo: UniRollNo,
         upload_date: upload_date,
-        Cgpa: Cgpa,
+        Cgpa: Cgpa,examination:examination,
         code: code
     };
 

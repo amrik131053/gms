@@ -9649,6 +9649,11 @@ elseif($code==141)
                     <input type="text" value="<?=$CGPA;?>" id="CGPA" class="form-control">
                   
                 </div>
+                <div class="col-lg-12">
+                    <label>Passing Examination</label>
+                    <input type="text" value="<?=$Examination;?>" id="examination" class="form-control">
+                  
+                </div>
 
                 <div class="col-lg-4">
                     <label>&nbsp;</label>
@@ -9675,6 +9680,7 @@ $Gender = $_POST['Gender'];
 $UniRollNo = $_POST['UniRollNo'];
 $upload_date11 = $_POST['upload_date'];
 $Cgpa = $_POST['Cgpa'];
+$examination = $_POST['examination'];
 $Name = mysqli_real_escape_string($conn, $Name);
 $FatherName = mysqli_real_escape_string($conn, $FatherName);
 $Stream = mysqli_real_escape_string($conn, $Stream);
@@ -9688,7 +9694,7 @@ $id = mysqli_real_escape_string($conn, $id);
                       Stream='$Stream', 
                       Gender='$Gender', 
                       upload_date='$upload_date11', 
-                      CGPA='$Cgpa' 
+                      CGPA='$Cgpa',Examination='$examination' 
                   WHERE id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 //   $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
