@@ -796,15 +796,15 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                           $snap=$row_student['Image'];
                                             $row_student['LateralEntry'];
                                             $yoa=$row_student['Batch'];
-                                          if($row_student['LateralEntry']=="No")
-                                          {
-                                           $yoa=$row_student['Batch'];
-                                          }
-                                          else
-                                          {
-                                         $yoa=$row_student['Batch']+1;
+                                       //    if($row_student['LateralEntry']=="No")
+                                       //    {
+                                       //     $yoa=$row_student['Batch'];
+                                       //    }
+                                       //    else
+                                       //    {
+                                       //   $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
