@@ -794,12 +794,15 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
+                                            $row_student['LateralEntry'];
+                                            $yoa=$row_student['Batch'];
+                                          if($row_student['LateralEntry']=="No")
                                           {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                           $yoa=$row_student['Batch'];
+                                          }
+                                          else
+                                          {
+                                         $yoa=$row_student['Batch']+1;
 
                                           }
                                           $gender=$row_student['Sex'];
