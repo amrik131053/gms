@@ -143,6 +143,7 @@ $x=10;
 $y=15;
 $pdf->AddPage();
 $pdf->SetFont('Times','',8);
+
 for($j=1;$j<=$d;$j++)
 {
     for($i=1;$i<=1;$i++)
