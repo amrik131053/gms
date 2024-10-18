@@ -213,7 +213,7 @@ $(document).ready(function() {
                             required>
                             <option value=''>Select Faculty</option>
                             <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID  where IDNo='$EmployeeID'";
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN SubjectAllotment on  SubjectAllotment.CollegeID = MasterCourseCodes.CollegeID where SubjectAllotment.EmployeeID='$EmployeeID'";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
@@ -297,7 +297,7 @@ $(document).ready(function() {
                             class="form-control" required>
                             <option value=''>Select Faculty</option>
                             <?php
-                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID'";
+                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN SubjectAllotment on  SubjectAllotment.CollegeID = MasterCourseCodes.CollegeID where SubjectAllotment.EmployeeID='$EmployeeID'";
                      $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                       {   
@@ -670,7 +670,7 @@ function fetchcourse() {
         },
         type: 'POST',
         success: function(data) {
-
+console.log(data);
             if (data != "") {
 
                 $("#Coursecopy").html("");
@@ -764,6 +764,7 @@ function fetchcodesnew() {
         },
         type: 'POST',
         success: function(data) {
+            // console.log(data);
             if (data != "") {
 
                 $("#Subjectcodecopy1").html("");
