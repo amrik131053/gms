@@ -16220,7 +16220,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             }
             elseif($ifLEaveRow1['SanctionId']==$ifLEaveRow1['AuthorityId'])
             {
-             echo    $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023'  AND   LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+                 $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023'  AND   LeaveRecommendingAuthority='$EmployeeID' and  LeaveSanctionAuthority='$EmployeeID' and  StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
             else
