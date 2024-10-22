@@ -881,7 +881,7 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
             
              <body style="margin:0px; background-image: url('dgree_format1.jpg');background-size: 297mm 210mm; background-repeat: no-repeat; ">
        <span class="notranslate">
-          <div style="height: 74px;"></div>
+          <div style="height: 80px;"></div>
           <div class="row">
             <div class="col-lg-12 " style="font-family: Arial, Helvetica, sans-serif; line-height: 1.2; width:auto; font-size: 15.5px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Registration-cum-University Roll No: ".$UnirollNo;?></b></div>
                          </div>
