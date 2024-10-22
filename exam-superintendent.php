@@ -153,7 +153,7 @@
                                                 <div class="col-lg-4 col-md-12 col-sm-13">
 
                                                         <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMagec()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Sort By Class Roll NO</i></button>
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Sort By Class Roll No</i></button>
                                             <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button> -->
                                             &nbsp;
