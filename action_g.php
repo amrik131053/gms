@@ -8483,7 +8483,12 @@ $HostelFee = $_POST['HostelFee'];
 $TutionFee = $_POST['TutionFee'];
 $RegistrationFee = $_POST['RegistrationFee'];
 
-
+$SecurityDeposit=$_POST['SecurityDeposit'];
+$MessCharges=$_POST['MessCharges'];
+$otherCharges=$_POST['otherCharges'];
+$totalAnual=$_POST['totalAnual'];
+$pstartDate=$_POST['pstartDate'];
+$deadline=$_POST['deadline'];
 
 $Category= $_POST['Category'];
 $DOB= $_POST['DOB'];
@@ -8549,7 +8554,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -8592,6 +8598,62 @@ mysqli_close($conn);
 
 
 
+
+      elseif($code==133.2)
+      {
+        $CollegeName = $_POST['CollegeName'];
+        $Department = $_POST['Department'];
+        $Course = $_POST['Course'];
+        $Batch = $_POST['Batch'];
+        $Lateral = $_POST['Lateral'];
+        
+        $fee_details = "SELECT * FROM master_fee_international WHERE Lateral='$Lateral' AND course='$Course' AND batch='$Batch'";
+        $fee_details_run = mysqli_query($conn, $fee_details);
+        
+        if ($row_fee = mysqli_fetch_array($fee_details_run)) {
+            $data = [
+                'TutionFee'=>$row_fee['TutionFee'],
+                'HostelFee'=>$row_fee['HostelFee'],
+                'RegistrationFee'=>$row_fee['RegistrationFee'],
+                'SecurityDeposit' => $row_fee['SecurityDeposit'],
+                'MessCharges' => $row_fee['MessCharges'],
+                'otherCharges' => $row_fee['otherCharges'],
+                'totalAnual' => $row_fee['totalAnual']
+              
+            ];
+        } else {
+            $fee_details1 = "SELECT * FROM master_fee_international WHERE Lateral='$Lateral' AND course='$Course' AND batch='$Batch'";
+            $fee_details1_run = mysqli_query($conn, $fee_details1);
+            
+            if ($row_fee1 = mysqli_fetch_array($fee_details1_run)) {
+                $data = [
+                   'TutionFee'=>$row_fee['TutionFee'],
+                'HostelFee'=>$row_fee['HostelFee'],
+                'RegistrationFee'=>$row_fee['RegistrationFee'],
+                    'SecurityDeposit' => $row_fee1['SecurityDeposit'],
+                    'MessCharges' => $row_fee1['MessCharges'],
+                    'otherCharges' => $row_fee1['otherCharges'],
+                    'totalAnual' => $row_fee1['totalAnual']
+                   
+                ];
+            } else {
+                $data = [
+                  'TutionFee'=>"0",
+                'HostelFee'=>"0",
+                'RegistrationFee'=>"0",
+                    'SecurityDeposit' => '0',
+                    'MessCharges' => '0',
+                    'otherCharges' => '0',
+                    'totalAnual' => '0'
+                  
+                ];
+            }
+        }
+        
+        // Return the array as JSON
+        echo json_encode($data);
+        
+      }
 
       elseif($code==134)
       {
@@ -8723,6 +8785,47 @@ echo "2";
           // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
 
           $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`,`batch`,`updatedby`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral','$Batch','$EmployeeID');";
+         $insert_consultant_run=mysqli_query($conn,$insert_consultant);
+         if ($insert_consultant_run==true)
+          {
+         echo "1";   
+         }
+         else
+         {
+            echo "0";
+         }
+      }
+      sqlsrv_close($conntest);
+      mysqli_close($conn);
+      }
+       elseif($code==136.1)
+      {
+         $college=$_POST['college'];
+         $department=$_POST['department'];
+         $course=$_POST['course'];
+          $Lateral=$_POST['Lateral'];
+          $Batch=$_POST['Batch'];
+          $HostelFee=$_POST['HostelFee'];
+            $TutionFee=$_POST['TutionFee'];
+            $RegistrationFee=$_POST['RegistrationFee'];
+            $SecurityDeposit=$_POST['SecurityDeposit'];
+            $MessCharges=$_POST['MessCharges'];
+            $otherCharges=$_POST['otherCharges'];
+            $totalAnual=$_POST['totalAnual'];
+         $iffeesalready="SELECT * FROM  master_fee_international where college='$college' and department='$department' and course='$course' ANd batch='$Batch' ";
+         $iffeesalready_run=mysqli_query($conn,$iffeesalready);
+         if (mysqli_num_rows($iffeesalready_run)>0) 
+         {
+echo "2";
+         }
+          else
+          {
+          // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
+
+          $insert_consultant="INSERT INTO `master_fee_international` ( `college`, `department`, `course`,`Lateral`,`batch`,`updatedby`,
+          `HostelFee`,`TutionFee`,`RegistrationFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`
+          ) VALUES ('$college', '$department', '$course','$Lateral','$Batch','$EmployeeID',
+          '$HostelFee','$TutionFee','$RegistrationFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
           {

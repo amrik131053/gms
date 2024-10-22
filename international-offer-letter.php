@@ -60,7 +60,135 @@ include "header.php";
     </div>
   </div>
 </div>
+<div class="modal fade" id="for_fee" tabindex="-1" role="dialog" aria-labelledby="for_feeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="for_feeLabel">Fee Strucutre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  
+            <div class="row" >
+              
+              <div class="col-lg-3">
+                <label>College Name</label>
+                 <select   id='CollegeName' onchange="collegeByDepartment(this.value);" class="form-control" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+              </div>
+               <div class="col-lg-3">
+                 <label>Department s</label>
+                  <select  id="Department"  class="form-control"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+              </div>  
 
+
+              <div class="col-lg-3">
+                 <label>Course</label>
+                  <select   id="Course" class="form-control" required >
+                     <option value=''>Select Course</option>
+                 </select>
+              </div>
+             
+               
+   
+             
+              <div class="col-lg-3 new_fee_div" id='new_fee_div'>
+                 <label>Applicables Fee</label>
+                  <input type="number" id="FApplicables"  value="0" class="form-control"   required >
+              </div>  
+
+        
+      <div class="col-lg-2" >
+               <label>Registration Fee</label>
+              <input type="text" class="form-control" id="FRegistrationFee">
+            </div>
+              <div class="col-lg-2" >
+               <label>Tution Fee</label>
+              <input type="text" class="form-control" id="FTutionFee">
+            </div>
+              <div class="col-lg-2">
+               <label>Hostel Fee</label>
+              <input type="text" class="form-control" id="FHostelFee">
+            </div>
+              <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="text" class="form-control" id="FSecurityDeposit">
+            </div>
+              <div class="col-lg-2">
+               <label>Mess Charges</label>
+              <input type="text" class="form-control" id="FMessCharges">
+            </div>
+              <div class="col-lg-2">
+               <label>Other Academic Charges</label>
+              <input type="text" class="form-control" id="FotherCharges">
+            </div>
+              <div class="col-lg-2">
+               <label>Total Annual Fee</label>
+              <input type="text" class="form-control" id="FtotalAnual">
+            </div>
+                     <div class="col-lg-2">
+              <label>Lateral Entry</label> <br>
+
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb20"  value="No" name="Lateral1" checked="">
+                     <label for="radioPrimaryb20">
+                     No
+                     </label>
+                 
+               </div>
+              
+                  <div class="icheck-primary d-inline">
+                     <input type="radio" id="radioPrimaryb21"  value="Yes" name="Lateral1">
+                     <label for="radioPrimaryb21">
+                     Yes
+                     </label>
+                
+               </div>
+            </div>
+
+<div class="col-lg-3">
+                 <label>Batch / Admisison Year</label>
+                  <select  id="Batch"  class="form-control" required>
+                     <option value='2024'>2024</option>
+                       <option value='2023'>2023</option>
+                 </select>
+              </div> 
+
+            <!--   <div class="col-lg-1">
+                 <label>Action</label><br>
+                 
+                 <button class="btn btn-success" onclick="submit_fee();">Submit</button>
+              </div>   -->
+            </div>
+           
+              
+
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button class="btn btn-success" onclick="submit_fee();">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section class="content">
    <div class="container-fluid">
@@ -72,9 +200,10 @@ include "header.php";
               <div class="card-tools">
                      
                         <div class="input-group input-group-sm">
-                           Offer Letter
+                           <!-- Offer Letter -->
+                           <button class="btn btn-warning" data-toggle="modal" data-target="#for_fee"><i class="fa fa-plus" ></i>Fee</button>
                         </div>
-                    
+                     
                   </div>
                </div>
                <div class="card-body"  id="">
@@ -131,7 +260,7 @@ include "header.php";
 
             <div class="col-lg-2">
                 <label>College Name</label>
-                 <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);" class="form-control" required>
+                 <select   id='CollegeName1' onchange="collegeByDepartment1(this.value);fatchFee();" class="form-control" required>
                  <option value=''>Select Faculty</option>
                   <?php
                   $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID";
@@ -148,7 +277,7 @@ include "header.php";
               </div>
                <div class="col-lg-2">
                  <label>Department</label>
-                  <select  id="Department1"  class="form-control"  onchange="fetchcourse1()" required>
+                  <select  id="Department1"  class="form-control"  onchange="fetchcourse1();fatchFee();" required>
                      <option value=''>Select Department</option>
                  </select>
               </div>  
@@ -156,7 +285,7 @@ include "header.php";
 
               <div class="col-lg-2">
                  <label>Course</label>
-                  <select   id="Course1" class="form-control" required >
+                  <select   id="Course1" class="form-control" onchange="fatchFee();" required >
                      <option value=''>Select Course</option>
                  </select>
               </div>
@@ -168,7 +297,7 @@ include "header.php";
             <div class="col-lg-1">
               <label>Lateral Entry</label> <br>
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb18"  value="No" name="Lateral" checked="">
+                     <input type="radio" id="radioPrimaryb18" onchange="fatchFee();"  value="No" name="Lateral" checked="">
                      <label for="radioPrimaryb18">
                      No
                      </label>
@@ -176,7 +305,7 @@ include "header.php";
                </div>
          
                   <div class="icheck-primary d-inline">
-                     <input type="radio" id="radioPrimaryb19"  value="Yes" name="Lateral">
+                     <input type="radio" id="radioPrimaryb19" onchange="fatchFee();" value="Yes" name="Lateral">
                      <label for="radioPrimaryb19">
                      Yes
                      </label>
@@ -185,7 +314,7 @@ include "header.php";
             </div>
             <div class="col-lg-3">
                  <label>Batch / Admisison Year</label>
-                  <select  id="Batch"  class="form-control" required>
+                  <select  id="Batch"  class="form-control " onchange="fatchFee();" required>
                      <option value='2024'>2024</option>
                        <option value='2023'>2023</option>
                  </select>
@@ -218,18 +347,44 @@ include "header.php";
               <option>General</option>
           </select>
       </div>
-
+      </div>
+<hr>
+      <div class="row" >
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee">
+              <input type="text" class="form-control" id="RegistrationFee" readonly>
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="TutionFee">
+              <input type="text" class="form-control" id="TutionFee" readonly>
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="HostelFee">
+              <input type="text" class="form-control" id="HostelFee" readonly>
+            </div>
+              <div class="col-lg-2">
+               <label>Security Deposit</label>
+              <input type="text" class="form-control" id="SecurityDeposit" readonly>
+            </div>
+              <div class="col-lg-2">
+               <label>Mess Charges</label>
+              <input type="text" class="form-control" id="MessCharges" readonly>
+            </div>
+              <div class="col-lg-2">
+               <label>Other Academic Charges</label>
+              <input type="text" class="form-control" id="otherCharges" readonly>
+            </div>
+              <div class="col-lg-2">
+               <label>Total Annual Fee</label>
+              <input type="text" class="form-control" id="totalAnual" readonly>
+            </div>
+              <div class="col-lg-2">
+               <label>Program Start Date</label>
+              <input type="date" class="form-control" id="pstartDate">
+            </div>
+              <div class="col-lg-6">
+               <label>Deadline</label>
+              <input type="text" class="form-control" id="deadline">
             </div>
 
            
@@ -650,6 +805,34 @@ else
 }
 
 }
+function fatchFee()
+{
+   var CollegeName = document.getElementById('CollegeName1').value;
+   var Department = document.getElementById('Department1').value;
+   var Course = document.getElementById('Course1').value;
+   var Batch = document.getElementById('Batch').value;
+   var Lateral = document.querySelector('input[name="Lateral"]:checked').value;
+
+   // alert(CollegeName+"="+Department+"="+Course+"="+Batch+"="+Lateral);
+var code=133.2;
+   $.ajax({
+    url: 'action_g.php',
+    data:{code:code,CollegeName:CollegeName,Department:Department,Course:Course,Batch:Batch,Lateral:Lateral},
+    type: 'POST',
+    dataType: 'json',
+    success: function(response) {
+        console.log(response); 
+      
+                document.getElementById('TutionFee').value=response.TutionFee;
+                document.getElementById('HostelFee').value=response.HostelFee;
+                document.getElementById('RegistrationFee').value=response.RegistrationFee;
+                document.getElementById('SecurityDeposit').value=response.SecurityDeposit;
+                document.getElementById('MessCharges').value=response.MessCharges;
+                document.getElementById('otherCharges').value=response.otherCharges;
+                document.getElementById('totalAnual').value=response.totalAnual;
+    }
+   })
+}
 function submit_record() {
   var Name = document.getElementById('Name').value;
   var FatherName = document.getElementById('FatherName').value;
@@ -672,19 +855,35 @@ function submit_record() {
   var session = document.getElementById('session').value;
   var AdharCardNo = document.getElementById('AdharCardNo').value;
   var PassportNo = document.getElementById('PassportNo').value;
+  var SecurityDeposit=document.getElementById('SecurityDeposit').value;
+var MessCharges=document.getElementById('MessCharges').value;
+var otherCharges=document.getElementById('otherCharges').value;
+var totalAnual=document.getElementById('totalAnual').value;
+var pstartDate=document.getElementById('pstartDate').value;
+var deadline=document.getElementById('deadline').value;
 
-
-if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!=''  &&months!=''&& RegistrationFee!=''&& HostelFee!='' && TutionFee!='')
+if( Name!='' && FatherName!='' && Gender!='' && CollegeName!='' && Department!='' && Course!='' && session!=''  &&months!=''&& RegistrationFee!=''&& HostelFee!='' && TutionFee!='' && SecurityDeposit!='' && MessCharges!='' &&
+otherCharges!='' &&
+totalAnual!='' &&
+pstartDate!='' &&
+deadline!='')
  
 {
    
    if(AdharCardNo!='' || PassportNo!='')
    {
   var code = 133.1;
-   alert(HostelFee);
+   // alert(HostelFee);
   var data = {
     Name: Name,FatherName: FatherName,Gender: Gender,MobileNo: MobileNo,CollegeName: CollegeName,Department: Department,Course: Course,Batch: Batch,Nationality: Nationality,  
-    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,Category :Category,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee};
+    Lateral: Lateral,DOB:DOB,session: session,AdharCardNo: AdharCardNo,PassportNo: PassportNo,Category :Category,code:code,RegistrationFee:RegistrationFee,TutionFee:TutionFee,HostelFee:HostelFee
+   ,SecurityDeposit:SecurityDeposit,
+MessCharges:MessCharges,
+otherCharges:otherCharges,
+totalAnual:totalAnual,
+pstartDate:pstartDate,
+deadline:deadline
+   };
  
   // Send the AJAX request
   $.ajax({
@@ -784,7 +983,66 @@ document.getElementById('all_record_report').innerHTML=data;
 }
 });
 }
+function submit_fee() 
+{
+    var CollegeName = document.getElementById("CollegeName").value;
+    var Department = document.getElementById("Department").value;
+    var Batch = document.getElementById("Batch").value;
+    var Course = document.getElementById("Course").value;
+    var HostelFee = document.getElementById('FHostelFee').value;
+    var TutionFee = document.getElementById('FTutionFee').value;
+   var RegistrationFee = document.getElementById('FRegistrationFee').value;
+   var SecurityDeposit=document.getElementById('FSecurityDeposit').value;
+   var MessCharges=document.getElementById('FMessCharges').value;
+   var otherCharges=document.getElementById('FotherCharges').value;
+   var totalAnual=document.getElementById('FtotalAnual').value;
+     var Lateral = document.querySelector('input[name="Lateral1"]:checked').value;
+if (CollegeName!='' && Department!='' && Course!='' && HostelFee!='' &&
+TutionFee!='' && RegistrationFee!='' && SecurityDeposit!='' && MessCharges!='' && otherCharges!='' && totalAnual!='') 
+{
+var code=136.1;
+      $.ajax({
+    url: 'action_g.php',
+    data: {college:CollegeName,department:Department,course:Course,code:code,
+      Lateral:Lateral,
+      Batch:Batch,
+      HostelFee:HostelFee,
+      TutionFee:TutionFee,
+      RegistrationFee:RegistrationFee,
+      SecurityDeposit:SecurityDeposit,
+      MessCharges:MessCharges,
+      otherCharges:otherCharges,
+      totalAnual:totalAnual
+    },
+    type: 'POST',
+    success: function(response) {
+      console.log(response);
+      if (response==1) {
+    
+         SuccessToast('Successfully Inserted');
+      }
+      else if(response==2)
+      {
+          ErrorToast('fee already added  ','bg-warning');
+      } else
+      {
+          ErrorToast('try after some time  ','bg-danger');
+      }
+   
+  },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+   
+    }
+  });
+}
 
+else
+{
+   ErrorToast('All Input Required ','bg-warning');
+}
+
+}
 function edit_student(id) 
 {  
 var code='139';
@@ -827,7 +1085,7 @@ url:'action.php',
 data:{College:College,code:code},
 type:'POST',
 success:function(data){
-   // console.log(data);
+   console.log(data);
 if(data != "")
 {
      
@@ -838,18 +1096,34 @@ $("#Department1").html(data);
 });
 
 }
+function collegeByDepartment(College) 
+{  
+     
+var code='304';
+$.ajax({
+url:'action.php',
+data:{College:College,code:code},
+type:'POST',
+success:function(data){
+   console.log(data);
+if(data != "")
+{
+     
+$("#Department").html("");
+$("#Department").html(data);
+}
+}
+});
+
+}
 
 
 
 
     function fetchcourse()
-{   
-   
-  
-
- var College=document.getElementById('CollegeName').value;
+      {  
+      var College=document.getElementById('CollegeName').value;
        var department=document.getElementById('Department').value;
-
 var code='305';
 $.ajax({
 url:'action.php',
@@ -859,7 +1133,7 @@ success:function(data)
 {
 if(data != "")
 {
-     //console.log(data);
+     console.log(data);
 $("#Course").html("");
 $("#Course").html(data);
 }
