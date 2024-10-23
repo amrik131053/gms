@@ -19113,7 +19113,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 <?php 
-if($role_id=='2')
+if($role_id=='2' || $role_id=='22')
 {
     ?>
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
