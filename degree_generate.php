@@ -13,12 +13,9 @@
                   <div class="card-tools">
                      <!-- <form action="action_g.php" method="post" enctype="multipart/form-data"> -->
                         <div class="input-group input-group-sm">
-                            
-                       
-            
-                         
-                          <input type="date"  class="form-control" value="" id="upload_date">
-                          <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search()" value="Search">
+
+                          <input type="date"  class="form-control" id="upload_date">
+                          <input type="button" class="btn btn-secondary btn-xs" onclick="date_by_search();" value="Search">
                            &nbsp;
                            &nbsp;
                            &nbsp;
@@ -458,6 +455,7 @@ var Gender = document.getElementById('Gender').value;
 var Stream_ = document.getElementById('Stream_').value;
 var Cgpa = document.getElementById('CGPA').value;
 var examination = document.getElementById('examination').value;
+var YearOfAdmission = document.getElementById('YearOfAdmission').value;
 
 if (Name != '' && FatherName != '') {
     var code = 142;
@@ -469,6 +467,7 @@ if (Name != '' && FatherName != '') {
         Gender: Gender,
         UniRollNo: UniRollNo,
         upload_date: upload_date,
+        YearOfAdmission:YearOfAdmission,
         Cgpa: Cgpa,examination:examination,
         code: code
     };

@@ -108,20 +108,20 @@
                                     $RegistrationNo=$degree_row['RegistrationNo'];
                                     
 
-                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
                                       $snap=$row_student['Image'];
-                                      if($row_student['LateralEntry']=='No')
-                                      {
-                                      $yoa=$row_student['Batch'];
-                                   }
-                                   else
-                                   {
-                                         $yoa=$row_student['Batch']+1;
+                                    //   if($row_student['LateralEntry']=='No')
+                                    //   {
+                                      $yoa=$row_student['YearOfAdmission'];
+                                 //   }
+                                 //   else
+                                 //   {
+                                 //         $yoa=$row_student['Batch']+1;
 
-                                      }
+                                 //      }
 
                                       $gender=$row_student['Sex'];
                                     //   $pic=base64_encode($snap);
@@ -265,24 +265,24 @@
                                 $ExtraRow=$degree_row['ExtraRow'];
                                 $Examination=$degree_row['Examination'];
                                 $RegistrationNo=$degree_row['RegistrationNo'];
-                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                  $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                   {
                                       $snap=$row_student['Image'];
-                                      if($row_student['LateralEntry']=='No')
-                                      {
-                                      $yoa=$row_student['Batch'];
-                                   }else
-                                   {
-                                         $yoa=$row_student['Batch']+1;
-
-                                      }
+                                      $yoa=$row_student['YearOfAdmission'];
                                       $gender=$row_student['Sex'];
-                                    //   $pic=base64_encode($snap);
                                       $RegNo= $degree_row['RegistrationNo'];
-                                  }
-                                  }
+                                    }
+                                    }
+                                    //   if($row_student['LateralEntry']=='No')
+                                    //   {
+                                 //   }else
+                                 //   {
+                                 //         $yoa=$row_student['Batch']+1;
+
+                                 //      }
+                                    //   $pic=base64_encode($snap);
                                   $CGPA = number_format($CGPA, 2);
 
                                                    if($RegistrationNo!='')
@@ -439,22 +439,14 @@ $ms1="<strike>Mr.</strike>";    // code...
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
-                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
-                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
-                                   {
-                                       $snap=$row_student['Image'];
-                                       if($row_student['LateralEntry']=='No')
-                                       {
-                                       $yoa=$row_student['Batch'];
-                                    }else
-                                    {
-                                          $yoa=$row_student['Batch']+1;
-
-                                       }
-                                       $gender=$row_student['Sex'];
-                                       // $pic=base64_encode($snap);
-                                       $RegNo= $degree_row['RegistrationNo'];
+                                 $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
+                                 $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                                 if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                                 {
+                                     $snap=$row_student['Image'];
+                                     $yoa=$row_student['YearOfAdmission'];
+                                     $gender=$row_student['Sex'];
+                                     $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
                                    $CGPA = number_format($CGPA, 2);
@@ -626,22 +618,14 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                  $ExtraRow=$degree_row['ExtraRow'];
                                  $Examination=$degree_row['Examination'];
                                  $RegistrationNo=$degree_row['RegistrationNo'];
-                                   $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
-                                   $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
-                                   if($row_student=sqlsrv_fetch_array($get_student_details_run))
-                                   {
-                                       $snap=$row_student['Image'];
-                                       if($row_student['LateralEntry']=='No')
-                                       {
-                                       $yoa=$row_student['Batch'];
-                                    }else
-                                    {
-                                          $yoa=$row_student['Batch']+1;
-
-                                       }
-                                       $gender=$row_student['Sex'];
-                                       // $pic=base64_encode($snap);
-                                       $RegNo= $degree_row['RegistrationNo'];
+                                 $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
+                                 $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
+                                 if($row_student=sqlsrv_fetch_array($get_student_details_run))
+                                 {
+                                     $snap=$row_student['Image'];
+                                     $yoa=$row_student['YearOfAdmission'];
+                                     $gender=$row_student['Sex'];
+                                     $RegNo= $degree_row['RegistrationNo'];
                                    }
                                    }
                                     $CGPA = number_format($CGPA, 2);
@@ -789,13 +773,13 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $RegistrationNo=$degree_row['RegistrationNo'];
                                     $QrCourse=$degree_row['QrCourse'];
                                    
-                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
                                             $row_student['LateralEntry'];
-                                            $yoa=$row_student['Batch'];
+                                            $yoa=$row_student['YearOfAdmission'];
                                        //    if($row_student['LateralEntry']=="No")
                                        //    {
                                        //     $yoa=$row_student['Batch'];
@@ -986,19 +970,19 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
@@ -1171,19 +1155,19 @@ echo $ms1."/".$ms."<b> ".$name." </b> ".$ge1."/".$ge." of <b>  ".$father_name."<
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                            $gender=$row_student['Sex'];
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
@@ -1335,19 +1319,19 @@ else{
                                         $ExtraRow=$degree_row['ExtraRow'];
                                         $Examination=$degree_row['Examination'];
                                         $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];
@@ -1500,19 +1484,19 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
@@ -1681,19 +1665,19 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,CollegeName,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           if($degree_row['CollegeCsv']!='')
                                           {
@@ -1865,19 +1849,19 @@ else{
                                     $ExtraRow=$degree_row['ExtraRow'];
                                     $Examination=$degree_row['Examination'];
                                     $RegistrationNo=$degree_row['RegistrationNo'];
-                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry FROM Admissions where UniRollNo='$UnirollNo'";
+                                      $get_student_details="SELECT Image,Batch,Sex,LateralEntry,YearOfAdmission FROM Admissions where UniRollNo='$UnirollNo'";
                                       $get_student_details_run=sqlsrv_query($conntest,$get_student_details);
                                       if($row_student=sqlsrv_fetch_array($get_student_details_run))
                                       {
                                           $snap=$row_student['Image'];
-                                          if($row_student['LateralEntry']=='No')
-                                          {
-                                          $yoa=$row_student['Batch'];
-                                       }else
-                                       {
-                                             $yoa=$row_student['Batch']+1;
+                                          // if($row_student['LateralEntry']=='No')
+                                          // {
+                                          $yoa=$row_student['YearOfAdmission'];
+                                       // }else
+                                       // {
+                                       //       $yoa=$row_student['Batch']+1;
 
-                                          }
+                                       //    }
                                           $gender=$row_student['Sex'];
                                           // $pic=base64_encode($snap);
                                           $RegNo= $degree_row['RegistrationNo'];

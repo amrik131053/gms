@@ -127,7 +127,8 @@ $Ref=$RefNo;
     $Duration_leet=$Duration_leet-1;
     $Leet_Duration="".$Duration_leet." Years Lateral Entry)";
   }
-  else{
+  else
+  {
     $Leet_Duration=$Duration." Years)";
   }
 

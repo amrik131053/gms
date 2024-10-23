@@ -2,8 +2,8 @@
 <?php 
    session_start(); 
    ini_set('max_execution_time', '0');
-      if(!(ISSET($_SESSION['usr']))) 
-      {     
+   if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['profileIncomplete']))) 
+   {  
    ?>
 <script>
 window.location.href = 'index.php';
@@ -8483,7 +8483,12 @@ $HostelFee = $_POST['HostelFee'];
 $TutionFee = $_POST['TutionFee'];
 $RegistrationFee = $_POST['RegistrationFee'];
 
-
+$SecurityDeposit=$_POST['SecurityDeposit'];
+$MessCharges=$_POST['MessCharges'];
+$otherCharges=$_POST['otherCharges'];
+$totalAnual=$_POST['totalAnual'];
+$pstartDate=$_POST['pstartDate'];
+$deadline=$_POST['deadline'];
 
 $Category= $_POST['Category'];
 $DOB= $_POST['DOB'];
@@ -8549,7 +8554,8 @@ $dist_count = 0;
 
 
 
- $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee');";
+ $insert_record = "INSERT INTO `offer_latter_international` (`Name`, `FatherName`,  `Gender`, `CollegeName`, `Department`, `Course`, `Lateral`, `Nationality`,`Session`,`Duration`,`ID_Proof_No`,`AddedBy`,`SubmitDate`,`Batch`,`DOB`,`MobileNo`,`Category`,`RegistrationFee`,`HostelFee`,`TutionFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`,`pstartDate`,`deadline`
+ ) VALUES ('$Name','$FatherName','$Gender','$CollegeName','$Department','$Course','$Lateral','$Nationality','$session','$duration','$ID_Proof_No','$EmployeeID','$timeStamp','$Batch','$DOB','$MobileNo','$Category','$RegistrationFee','$HostelFee','$TutionFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual','$pstartDate','$deadline');";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -8592,6 +8598,62 @@ mysqli_close($conn);
 
 
 
+
+      elseif($code==133.2)
+      {
+        $CollegeName = $_POST['CollegeName'];
+        $Department = $_POST['Department'];
+        $Course = $_POST['Course'];
+        $Batch = $_POST['Batch'];
+        $Lateral = $_POST['Lateral'];
+        
+        $fee_details = "SELECT * FROM master_fee_international WHERE Lateral='$Lateral' AND course='$Course' AND batch='$Batch'";
+        $fee_details_run = mysqli_query($conn, $fee_details);
+        
+        if ($row_fee = mysqli_fetch_array($fee_details_run)) {
+            $data = [
+                'TutionFee'=>$row_fee['TutionFee'],
+                'HostelFee'=>$row_fee['HostelFee'],
+                'RegistrationFee'=>$row_fee['RegistrationFee'],
+                'SecurityDeposit' => $row_fee['SecurityDeposit'],
+                'MessCharges' => $row_fee['MessCharges'],
+                'otherCharges' => $row_fee['otherCharges'],
+                'totalAnual' => $row_fee['totalAnual']
+              
+            ];
+        } else {
+            $fee_details1 = "SELECT * FROM master_fee_international WHERE Lateral='$Lateral' AND course='$Course' AND batch='$Batch'";
+            $fee_details1_run = mysqli_query($conn, $fee_details1);
+            
+            if ($row_fee1 = mysqli_fetch_array($fee_details1_run)) {
+                $data = [
+                   'TutionFee'=>$row_fee['TutionFee'],
+                'HostelFee'=>$row_fee['HostelFee'],
+                'RegistrationFee'=>$row_fee['RegistrationFee'],
+                    'SecurityDeposit' => $row_fee1['SecurityDeposit'],
+                    'MessCharges' => $row_fee1['MessCharges'],
+                    'otherCharges' => $row_fee1['otherCharges'],
+                    'totalAnual' => $row_fee1['totalAnual']
+                   
+                ];
+            } else {
+                $data = [
+                  'TutionFee'=>"0",
+                'HostelFee'=>"0",
+                'RegistrationFee'=>"0",
+                    'SecurityDeposit' => '0',
+                    'MessCharges' => '0',
+                    'otherCharges' => '0',
+                    'totalAnual' => '0'
+                  
+                ];
+            }
+        }
+        
+        // Return the array as JSON
+        echo json_encode($data);
+        
+      }
 
       elseif($code==134)
       {
@@ -8723,6 +8785,47 @@ echo "2";
           // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
 
           $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`,`Lateral`,`batch`,`updatedby`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id','$Lateral','$Batch','$EmployeeID');";
+         $insert_consultant_run=mysqli_query($conn,$insert_consultant);
+         if ($insert_consultant_run==true)
+          {
+         echo "1";   
+         }
+         else
+         {
+            echo "0";
+         }
+      }
+      sqlsrv_close($conntest);
+      mysqli_close($conn);
+      }
+       elseif($code==136.1)
+      {
+         $college=$_POST['college'];
+         $department=$_POST['department'];
+         $course=$_POST['course'];
+          $Lateral=$_POST['Lateral'];
+          $Batch=$_POST['Batch'];
+          $HostelFee=$_POST['HostelFee'];
+            $TutionFee=$_POST['TutionFee'];
+            $RegistrationFee=$_POST['RegistrationFee'];
+            $SecurityDeposit=$_POST['SecurityDeposit'];
+            $MessCharges=$_POST['MessCharges'];
+            $otherCharges=$_POST['otherCharges'];
+            $totalAnual=$_POST['totalAnual'];
+         $iffeesalready="SELECT * FROM  master_fee_international where college='$college' and department='$department' and course='$course' ANd batch='$Batch' ";
+         $iffeesalready_run=mysqli_query($conn,$iffeesalready);
+         if (mysqli_num_rows($iffeesalready_run)>0) 
+         {
+echo "2";
+         }
+          else
+          {
+          // $insert_consultant="INSERT INTO `master_fee` ( `college`, `department`, `course`, `applicables`, `hostel`, `concession`, `after_concession`, `consultant_id`) VALUES ('$college', '$department', '$course', '$applicable', '$hostel', '$concession', '$afterconcession', '$consultant_id');";
+
+          $insert_consultant="INSERT INTO `master_fee_international` ( `college`, `department`, `course`,`Lateral`,`batch`,`updatedby`,
+          `HostelFee`,`TutionFee`,`RegistrationFee`,`SecurityDeposit`,`MessCharges`,`otherCharges`,`totalAnual`
+          ) VALUES ('$college', '$department', '$course','$Lateral','$Batch','$EmployeeID',
+          '$HostelFee','$TutionFee','$RegistrationFee','$SecurityDeposit','$MessCharges','$otherCharges','$totalAnual');";
          $insert_consultant_run=mysqli_query($conn,$insert_consultant);
          if ($insert_consultant_run==true)
           {
@@ -9599,17 +9702,19 @@ elseif($code==141)
                      $CGPA=$degree_row['CGPA'];
                      $upload_date=$degree_row['upload_date'];
                      $ExtraRow=$degree_row['ExtraRow'];
+                     
                     
                      $Type=$degree_row['Type'];
 
    } 
 
- $get_pending="SELECT Sex FROM Admissions where UniRollNo='$UniRollNo'";
+  $get_pending="SELECT Sex,YearOfAdmission FROM Admissions where UniRollNo='$UniRollNo'";
 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   if($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
                   $Gender= $row_pending['Sex'];
+                  $YearOfAdmission=$row_pending['YearOfAdmission'];
                   }                 
 ?>
     <div class="row">
@@ -9654,6 +9759,11 @@ elseif($code==141)
                     <input type="text" value="<?=$Examination;?>" id="examination" class="form-control">
                   
                 </div>
+                <div class="col-lg-12">
+                    <label>Year Of Admission</label>
+                    <input type="text" value="<?=$YearOfAdmission;?>" id="YearOfAdmission" class="form-control">
+                  
+                </div>
 
                 <div class="col-lg-4">
                     <label>&nbsp;</label>
@@ -9681,6 +9791,7 @@ $UniRollNo = $_POST['UniRollNo'];
 $upload_date11 = $_POST['upload_date'];
 $Cgpa = $_POST['Cgpa'];
 $examination = $_POST['examination'];
+$YearOfAdmission = $_POST['YearOfAdmission'];
 $Name = mysqli_real_escape_string($conn, $Name);
 $FatherName = mysqli_real_escape_string($conn, $FatherName);
 $Stream = mysqli_real_escape_string($conn, $Stream);
@@ -9699,7 +9810,7 @@ $id = mysqli_real_escape_string($conn, $id);
 $insert_record_run = mysqli_query($conn, $insert_record);
 //   $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
 // $insert_record_run = mysqli_query($conn, $insert_record);
- $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
+ $upimage = "UPDATE Admissions SET Sex='$Gender',YearOfAdmission='$YearOfAdmission' where UniRollNo='$UniRollNo'";
 
 $upimage_run = sqlsrv_query($conntest,$upimage);
 
@@ -9707,7 +9818,7 @@ $upimage_run = sqlsrv_query($conntest,$upimage);
 if ($insert_record_run==true) 
 {
    echo "1";
-     $desc= "UPDATE Admissions SET Gender".$Gender;
+     $desc= "UPDATE Admissions SET Gender".$Gender.'YearOfAdmission'.$YearOfAdmission;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
@@ -17431,6 +17542,229 @@ elseif($code==241)
                 <?php
     sqlsrv_close($conntest);
 }
+elseif($code==241.1)
+{
+    
+function imageUrlToBase64($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $imageData = curl_exec($ch);
+    curl_close($ch);
+    if ($imageData === false) {
+        return 'Error: Unable to fetch the image.';
+    }
+    $tempFile = tempnam(sys_get_temp_dir(), 'img');
+    file_put_contents($tempFile, $imageData);
+    $mimeType = mime_content_type($tempFile);
+    unlink($tempFile);
+    $base64Encoded = base64_encode($imageData);
+    $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+    return $dataUrl;
+}
+                  $CollegeID=$_POST['CollegeID'];
+                  $Course=$_POST['Course'];
+                  $Batch=$_POST['Batch'];
+             
+?>
+                <div class="col-lg-12 ">
+                    <div class="card-header">
+                        Student Reports
+                    </div>
+                    <div class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                            <tr>
+                                <th>Srno</th>
+
+                                <th>Image</th>
+                                <th>UniRollNo</th>
+                                <th>ClassRollNo</th>
+                                <th>Name</th>
+                                <th>FatherName</th>
+                                <th>MotherName</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+
+                                <th>Session</th>
+                                <th>Action</th>
+
+                            </tr>
+                            <?php 
+
+                         $get_study_scheme="SELECT * FROM Admissions WHERE  Status>0";
+                         if($CollegeID!='')
+                         {
+                          $get_study_scheme.="AND CollegeID='$CollegeID'";
+                         }
+                         if($Course!='')
+                         {
+                             $get_study_scheme.="and CourseID='$Course'";
+                         }  
+                         if($Batch!='')
+                         {
+                            $get_study_scheme.="and Batch='$Batch'";
+                         }
+                       
+                            
+
+
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_0++;
+                            $univ_rollno=$get_row['IDNo'];
+                            $snap=$get_row['Image'];
+                            $imageUrl = $BasURL.'Images/Students/'.$snap;
+                            $base64String = imageUrlToBase64($imageUrl);
+                            $extension = pathinfo($base64String, PATHINFO_EXTENSION); 
+                                       ?>
+                            <tr>
+                                <td><?=$count_0;?></td>
+
+                                <td><?php  echo  "<img class='direct-chat-img' src='".$imageUrl."' alt='message user image'>";?>
+                                </td>
+                                <td><?=$get_row['UniRollNo'];?></td>
+                                <td><?=$get_row['ClassRollNo'];?></td>
+                                <td><?=$get_row['StudentName'];?></td>
+                                <td><?=$get_row['FatherName'];?></td>
+                                <td><?=$get_row['MotherName'];?></td>
+                                <td><?=$get_row['Course'];?></td>
+                                <td><?=$get_row['Batch'];?></td>
+
+                                <td><?=$get_row['Session'];?></td>
+                                <td>
+                    <a href="<?=$base64String;?>"
+        download="<?=$get_row['ClassRollNo'];?>">
+        <button class="btn btn-success btn-sm">Download
+            Image</button>
+        </a>
+
+                                </td>
+
+                            </tr>
+                            <?php
+                         
+                         }
+                        
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
+                       ?>
+                        </table>
+                    </div>
+
+
+                </div>
+                <?php
+    sqlsrv_close($conntest);
+}
+elseif($code==241.2)
+{
+    
+function imageUrlToBase64($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $imageData = curl_exec($ch);
+    curl_close($ch);
+    if ($imageData === false) {
+        return 'Error: Unable to fetch the image.';
+    }
+    $tempFile = tempnam(sys_get_temp_dir(), 'img');
+    file_put_contents($tempFile, $imageData);
+    $mimeType = mime_content_type($tempFile);
+    unlink($tempFile);
+    $base64Encoded = base64_encode($imageData);
+    $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+    return $dataUrl;
+}
+                  $RollNoSearch=$_POST['RollNoSearch'];  
+?>
+                <div class="col-lg-12 ">
+                    <div class="card-header">
+                        Student Reports
+                    </div>
+                    <div class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                            <tr>
+                                <th>Srno</th>
+
+                                <th>Image</th>
+                                <th>UniRollNo</th>
+                                <th>ClassRollNo</th>
+                                <th>Name</th>
+                                <th>FatherName</th>
+                                <th>MotherName</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+
+                                <th>Session</th>
+                                <th>Action</th>
+
+                            </tr>
+                            <?php 
+
+                         $get_study_scheme="SELECT * FROM Admissions WHERE  UniRollNo like '%$RollNoSearch%' or ClassRollNo like '%$RollNoSearch%'";
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_0++;
+                            $univ_rollno=$get_row['IDNo'];
+                            $snap=$get_row['Image'];
+                            $imageUrl = $BasURL.'Images/Students/'.$snap;
+                            $base64String = imageUrlToBase64($imageUrl);
+                            $extension = pathinfo($base64String, PATHINFO_EXTENSION); 
+                                       ?>
+                            <tr>
+                                <td><?=$count_0;?></td>
+
+                                <td><?php  echo  "<img class='direct-chat-img' src='".$imageUrl."' alt='message user image'>";?>
+                                </td>
+                                <td><?=$get_row['UniRollNo'];?></td>
+                                <td><?=$get_row['ClassRollNo'];?></td>
+                                <td><?=$get_row['StudentName'];?></td>
+                                <td><?=$get_row['FatherName'];?></td>
+                                <td><?=$get_row['MotherName'];?></td>
+                                <td><?=$get_row['Course'];?></td>
+                                <td><?=$get_row['Batch'];?></td>
+
+                                <td><?=$get_row['Session'];?></td>
+                                <td>
+                    <a href="<?=$base64String;?>"
+        download="<?=$get_row['ClassRollNo'];?>">
+        <button class="btn btn-success btn-sm">Download
+            Image</button>
+        </a>
+
+                                </td>
+
+                            </tr>
+                            <?php
+                         
+                         }
+                        
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
+                       ?>
+                        </table>
+                    </div>
+
+
+                </div>
+                <?php
+    sqlsrv_close($conntest);
+}
 elseif($code==242)
 {
                   $CollegeID=$_POST['CollegeID'];
@@ -20338,6 +20672,7 @@ $sr++;
  </tbody>
  </table>
  <?php 
+
 
 
 sqlsrv_close($conntest);

@@ -3,8 +3,8 @@ date_default_timezone_set("Asia/Kolkata");
 $timeStamp=date('Y-m-d H-i');
 $todaydate=date('Y-m-d');
 ini_set('max_execution_time', '0');
-   if(!(ISSET($_SESSION['usr']))) 
-   {
+if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['profileIncomplete']))) 
+{
 ?>
 <script> window.location.href = 'index.php'; </script> 
 <?php
