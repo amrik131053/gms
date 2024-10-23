@@ -56,7 +56,14 @@ ini_set('max_execution_time', '0');
                 
                  <button onclick="SearchReport();" class="btn btn-success">Search</button>
               </div>
-             
+              <div class="col-lg-2">
+                
+              <div class="input-group ">
+              <input required type="text" id="RollNoSearch" class="form-control" placeholder="RollNo">
+              <input  type="button" class="btn btn-success btn-xs" value="Search" onclick="by_search_studetn();">
+            </div>
+              </div>
+              
             </div>
          </div>
       
@@ -81,6 +88,27 @@ ini_set('max_execution_time', '0');
 
 
 
+function by_search_studetn()
+          {
+       var code=241.2;
+       var RollNoSearch=document.getElementById('RollNoSearch').value;
+     
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_g.php',
+            type:'POST',
+            data:{
+               code:code,RollNoSearch:RollNoSearch
+                  },
+            success: function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("table_load").innerHTML=response;
+            }
+         });
+
+     }  
 function SearchReport()
           {
        var code=241.1;
