@@ -2180,14 +2180,14 @@ elseif($exportCode==23)
     if($District>0)
     {   
      $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
-FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  where offer_latter.District='$District'ANd  offer_latter.batch='$batch' ";
+FROM offer_latter_international inner join states on states.id=offer_latter_international.State inner JOIN 
+cities on cities.id=offer_latter_international.District  where offer_latter_international.District='$District'ANd  offer_latter_international.batch='$batch' ";
 }
 else
 {
  $get_student_details="SELECT  *, states.name as StateName, cities.Name as DistrictName
-FROM offer_latter inner join states on states.id=offer_latter.State inner JOIN 
-cities on cities.id=offer_latter.District  where offer_latter.batch='$batch' ";   
+FROM offer_latter_international inner join states on states.id=offer_latter_international.State inner JOIN 
+cities on cities.id=offer_latter_international.District  where offer_latter_international.batch='$batch' ";   
 }
 
     $get_student_details_run=mysqli_query($conn,$get_student_details);

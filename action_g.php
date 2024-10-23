@@ -17534,6 +17534,127 @@ elseif($code==241)
                 <?php
     sqlsrv_close($conntest);
 }
+elseif($code==241.1)
+{
+    
+function imageUrlToBase64($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $imageData = curl_exec($ch);
+    curl_close($ch);
+    if ($imageData === false) {
+        return 'Error: Unable to fetch the image.';
+    }
+    $tempFile = tempnam(sys_get_temp_dir(), 'img');
+    file_put_contents($tempFile, $imageData);
+    $mimeType = mime_content_type($tempFile);
+    unlink($tempFile);
+    $base64Encoded = base64_encode($imageData);
+    $dataUrl = 'data:' . $mimeType . ';base64,' . $base64Encoded;
+    return $dataUrl;
+}
+                  $CollegeID=$_POST['CollegeID'];
+                  $Course=$_POST['Course'];
+                  $Batch=$_POST['Batch'];
+             
+?>
+                <div class="col-lg-12 ">
+                    <div class="card-header">
+                        Student Reports
+                    </div>
+                    <div class="table table-responsive table-bordered table-hover" style="font-size:12px;">
+                        <table class="table">
+                            <tr>
+                                <th>Srno</th>
+
+                                <th>Image</th>
+                                <th>UniRollNo</th>
+                                <th>ClassRollNo</th>
+                                <th>Name</th>
+                                <th>FatherName</th>
+                                <th>MotherName</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+
+                                <th>Session</th>
+                                <th>Action</th>
+
+                            </tr>
+                            <?php 
+
+                         $get_study_scheme="SELECT * FROM Admissions WHERE  Status>0";
+                         if($CollegeID!='')
+                         {
+                          $get_study_scheme.="AND CollegeID='$CollegeID'";
+                         }
+                         if($Course!='')
+                         {
+                             $get_study_scheme.="and CourseID='$Course'";
+                         }  
+                         if($Batch!='')
+                         {
+                            $get_study_scheme.="and Batch='$Batch'";
+                         }
+                       
+                            
+
+
+                        $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+                        $count_0=0;
+                          if(sqlsrv_num_rows($get_study_scheme_run)>0)  
+                       {
+                        while($get_row=sqlsrv_fetch_array($get_study_scheme_run,SQLSRV_FETCH_ASSOC))
+                        {
+                            $count_0++;
+                            $univ_rollno=$get_row['IDNo'];
+                            $snap=$get_row['Image'];
+                            $imageUrl = $BasURL.'Images/Students/'.$snap;
+                            $base64String = imageUrlToBase64($imageUrl);
+                            $extension = pathinfo($base64String, PATHINFO_EXTENSION); 
+                                       ?>
+                            <tr>
+                                <td><?=$count_0;?></td>
+
+                                <td><?php  echo  "<img class='direct-chat-img' src='".$imageUrl."' alt='message user image'>";?>
+                                </td>
+                                <td><?=$get_row['UniRollNo'];?></td>
+                                <td><?=$get_row['ClassRollNo'];?></td>
+                                <td><?=$get_row['StudentName'];?></td>
+                                <td><?=$get_row['FatherName'];?></td>
+                                <td><?=$get_row['MotherName'];?></td>
+                                <td><?=$get_row['Course'];?></td>
+                                <td><?=$get_row['Batch'];?></td>
+
+                                <td><?=$get_row['Session'];?></td>
+                                <td>
+                    <a href="<?=$base64String;?>"
+        download="<?=$get_row['UniRollNo'];?>">
+        <button class="btn btn-success btn-sm">Download
+            Image</button>
+        </a>
+
+                                </td>
+
+                            </tr>
+                            <?php
+                         
+                         }
+                        
+
+                       }
+                       else
+                       {
+                        echo "<tr><td colspan='16'><center>--No record found--</center></td></tr>";
+                       }
+                       ?>
+                        </table>
+                    </div>
+
+
+                </div>
+                <?php
+    sqlsrv_close($conntest);
+}
 elseif($code==242)
 {
                   $CollegeID=$_POST['CollegeID'];
@@ -20441,6 +20562,7 @@ $sr++;
  </tbody>
  </table>
  <?php 
+
 
 
 sqlsrv_close($conntest);

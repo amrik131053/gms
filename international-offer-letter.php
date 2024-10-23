@@ -352,31 +352,31 @@ include "header.php";
       <div class="row" >
       <div class="col-lg-2" >
                <label>Registration Fee</label>
-              <input type="text" class="form-control" id="RegistrationFee" readonly>
+              <input type="text" class="form-control" id="RegistrationFee" >
             </div>
               <div class="col-lg-2" >
                <label>Tution Fee</label>
-              <input type="text" class="form-control" id="TutionFee" readonly>
+              <input type="text" class="form-control" id="TutionFee" >
             </div>
               <div class="col-lg-2">
                <label>Hostel Fee</label>
-              <input type="text" class="form-control" id="HostelFee" readonly>
+              <input type="text" class="form-control" id="HostelFee" >
             </div>
               <div class="col-lg-2">
                <label>Security Deposit</label>
-              <input type="text" class="form-control" id="SecurityDeposit" readonly>
+              <input type="text" class="form-control" id="SecurityDeposit" >
             </div>
               <div class="col-lg-2">
                <label>Mess Charges</label>
-              <input type="text" class="form-control" id="MessCharges" readonly>
+              <input type="text" class="form-control" id="MessCharges" >
             </div>
               <div class="col-lg-2">
                <label>Other Academic Charges</label>
-              <input type="text" class="form-control" id="otherCharges" readonly>
+              <input type="text" class="form-control" id="otherCharges" >
             </div>
               <div class="col-lg-2">
                <label>Total Annual Fee</label>
-              <input type="text" class="form-control" id="totalAnual" readonly>
+              <input type="text" class="form-control" id="totalAnual" >
             </div>
               <div class="col-lg-2">
                <label>Program Start Date</label>
