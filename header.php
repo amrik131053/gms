@@ -14,7 +14,7 @@ $CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExaminati
 }
 
 
-if(!(ISSET($_SESSION['usr'])) && !(ISSET($_SESSION['secure']))) 
+if(!(ISSET($_SESSION['usr'])) && !(ISSET($_SESSION['secure']) && !(ISSET($_SESSION['profileIncomplete'])))) 
 {?>
 
 
