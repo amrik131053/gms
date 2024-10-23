@@ -16,7 +16,7 @@
         
       <div class="col-lg-2 col-md-2 col-sm-2">
 
-                  <h3 class="card-title">Convocation </h3>  </div>   
+                  <h3 class="card-title">Alumni Meet </h3>  </div>   
                   <!--
                      <div class="col-lg-2 col-md-2 col-sm-2">  <input type="date"  id='start_date' placeholder="mm/dd/yyyy" required class="form-control"></div>
 
@@ -44,15 +44,16 @@
          
                   <tr>
           <th>Sr. No</th>
-          <th>P ID/ Ref no</th>
+         <th>Image</th>
           <th>Uni Roll NO</th>
           <th>Name</th>
+         <th>Father Name</th>
           <th>Course</th>
-           <th>Organisation</th>
-          <th>Email</th> <th>Purpose</th>  <th><i class="fa fa-download" style="color: green"></i></th>
+           <th>Batch</th>
+          
+          <th>Email</th> 
           <th>Phone</th>
-          <th>Amount</th>
-          <th>Transaction Date/ Time</th>
+         
          </tr>
          </thead>
          <tbody style="height:1px" id="table_load" ></tbody> 
@@ -92,16 +93,15 @@
          
                   <tr>
           <th>Sr. No</th>
-          <th>P ID/ Ref no</th>
+         
           <th>Name</th>
           <th>Father Name</th>
            <th>Course/Batch</th>
           <th>Email</th> 
-          <th>Purpose</th> 
+         
           <th><i class="fa fa-download" style="color: green"></i></th>
           <th>Phone</th>
-          <th>Amount</th>
-          <th>Transaction Date/ Time</th>
+          
          </tr>
          </thead>
          <tbody style="height:1px" id="edit_stu" ></tbody> 
@@ -118,18 +118,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
  $(window).on('load', function() 
           {
@@ -139,7 +127,7 @@
 
 function load_comnference_data()
           {
-       var code=333;
+       var code=391;
 
        
          var spinner=document.getElementById('ajax-loader');
@@ -165,7 +153,7 @@ function load_comnference_data()
  
   function exportadmission() 
       {
-         var exportCode=28;
+         var exportCode=79;
 
         
           window.location.href="export.php?exportCode="+exportCode;
@@ -174,15 +162,6 @@ function load_comnference_data()
       }
 
 
-  function exportsummary() 
-      {
-         var exportCode=77;
-
-        
-          window.location.href="export.php?exportCode="+exportCode;
-        
-        
-      }
 
 
 </script>
