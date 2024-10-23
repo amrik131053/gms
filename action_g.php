@@ -9702,17 +9702,19 @@ elseif($code==141)
                      $CGPA=$degree_row['CGPA'];
                      $upload_date=$degree_row['upload_date'];
                      $ExtraRow=$degree_row['ExtraRow'];
+                     
                     
                      $Type=$degree_row['Type'];
 
    } 
 
- $get_pending="SELECT Sex FROM Admissions where UniRollNo='$UniRollNo'";
+  $get_pending="SELECT Sex,YearOfAdmission FROM Admissions where UniRollNo='$UniRollNo'";
 
                   $get_pending_run=sqlsrv_query($conntest,$get_pending);
                   if($row_pending=sqlsrv_fetch_array($get_pending_run))
                   {
                   $Gender= $row_pending['Sex'];
+                  $YearOfAdmission=$row_pending['YearOfAdmission'];
                   }                 
 ?>
     <div class="row">
@@ -9757,6 +9759,11 @@ elseif($code==141)
                     <input type="text" value="<?=$Examination;?>" id="examination" class="form-control">
                   
                 </div>
+                <div class="col-lg-12">
+                    <label>Year Of Admission</label>
+                    <input type="text" value="<?=$YearOfAdmission;?>" id="YearOfAdmission" class="form-control">
+                  
+                </div>
 
                 <div class="col-lg-4">
                     <label>&nbsp;</label>
@@ -9784,6 +9791,7 @@ $UniRollNo = $_POST['UniRollNo'];
 $upload_date11 = $_POST['upload_date'];
 $Cgpa = $_POST['Cgpa'];
 $examination = $_POST['examination'];
+$YearOfAdmission = $_POST['YearOfAdmission'];
 $Name = mysqli_real_escape_string($conn, $Name);
 $FatherName = mysqli_real_escape_string($conn, $FatherName);
 $Stream = mysqli_real_escape_string($conn, $Stream);
@@ -9802,7 +9810,7 @@ $id = mysqli_real_escape_string($conn, $id);
 $insert_record_run = mysqli_query($conn, $insert_record);
 //   $insert_record = "UPDATE  degree_print SET StudentName='$Name',FatherName='$FatherName',Stream='$Stream',Gender='$Gender',upload_date='$upload_date',CGPA='$Cgpa'  where id='$id'";
 // $insert_record_run = mysqli_query($conn, $insert_record);
- $upimage = "UPDATE Admissions SET Sex='$Gender' where UniRollNo='$UniRollNo'";
+ $upimage = "UPDATE Admissions SET Sex='$Gender',YearOfAdmission='$YearOfAdmission' where UniRollNo='$UniRollNo'";
 
 $upimage_run = sqlsrv_query($conntest,$upimage);
 
@@ -9810,7 +9818,7 @@ $upimage_run = sqlsrv_query($conntest,$upimage);
 if ($insert_record_run==true) 
 {
    echo "1";
-     $desc= "UPDATE Admissions SET Gender".$Gender;
+     $desc= "UPDATE Admissions SET Gender".$Gender.'YearOfAdmission'.$YearOfAdmission;
 
     $update1="insert into logbook(userid,remarks,updatedby,date)Values('$id','$desc','$EmployeeID','$timeStamp')";
 $update_query=sqlsrv_query($conntest,$update1);
