@@ -227,12 +227,12 @@ function edit_stu(id) {
 
 
 function exportBusPassList() {
-    var exportCode = 51;
-    var Session = document.getElementById('Session').value;
+    var exportCode = 78;
+    //var Session = document.getElementById('Session').value;
     var Status = document.getElementById('Status').value;
     
-    if (Session != '' && Status != '') {
-        window.open("export.php?exportCode=" + exportCode + "&Session=" + Session + "&Status=" + Status);
+    if (Status != '') {
+        window.open("export.php?exportCode=" + exportCode + "&Status=" + Status);
 
     } else {
        
@@ -338,7 +338,7 @@ function RejectAC(ID)
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Bus Pass</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Fee Verification</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

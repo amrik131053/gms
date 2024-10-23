@@ -17,7 +17,7 @@ elseif (isset($_GET['exportCode']))
     $exportCode = $_GET['exportCode'];
 }
 
-if($exportCode==19 ||$exportCode==27||$exportCode==28||$exportCode==77)
+if($exportCode==19 ||$exportCode==27||$exportCode==28||$exportCode==77||$exportCode==78||$exportCode==79)
    {
        include "connection/connection_web.php"; 
 
@@ -11101,6 +11101,234 @@ $count++;
 
 
  }
+
+ elseif($exportCode=='78')
+{
+    
+    $Status=$_GET['Status'];
+
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND  account_verification='$Status'");
+    $counter = 1; 
+     
+    
+        
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+       
+        <th>Faculty</th> 
+        <th>Program</th>
+         <th> Batch</th>
+         <th>Uni Roll No</th>
+          <th>Name</th>
+          <th>Father Name</th>
+          
+          
+             
+         
+          <th>Email</th> 
+             <th>Phone</th>
+          <th>Purpose</th>
+       
+             <th>Payment ID</th>
+          <th>Ref no</th>
+          <th>Amount</th>
+          <th>Transaction Date/ Time</th>
+           <th>Course Type</th>
+         
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $Designation = $row['roll_no'];
+
+
+
+
+
+      $Organisation = $row['course'];
+      $IdNo = $row['Class_rollno'];
+      $batch=$row['batch'];
+      $purpose=$row['remarks'];
+      $remarks=$row['remarks'];
+
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+       $quali=$row['quali'];
+     
+      $amount=$row['amount'];
+      $email = $row['email'];
+
+      $accomodation=$row['accomodation'];
+       $country=$row['country'];
+     
+      $acctype=$row['acctype'];
+      $start=$row['start'];
+      $endd=$row['endd'];
+
+
+      $phone = $row['phone'];
+
+
+  $query1="Select CollegeName,Course,CourseID,Batch,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions  where  UniRollNo='$Designation'";
+
+
+  
+
+$stmt2 = sqlsrv_query($conntest,$query1);
+
+if( $stmt2  === false) {
+
+    die( print_r( sqlsrv_errors(), true) );
+}
+else
+{
+ while($rowb = sqlsrv_fetch_array($stmt2))
+     {
+$courseid=$rowb['CourseID'];
+
+$query1t="Select  top(1) CourseType from MasterCourseCodes where CourseID='$courseid' order by Id desc";
+$stmtt = sqlsrv_query($conntest,$query1t);
+ while($rowt = sqlsrv_fetch_array($stmtt))
+     {
+        $CourseType=$rowt['CourseType'];
+     }
+
+$collegename= $rowb['CollegeName'];
+ $batch=$rowb['Batch'];
+ $father_name=$rowb['FatherName'];
+ $Course=$rowb['Course'];
+
+ 
+       
+            $exportMeter.="<tr>
+             <td>{$count}</td>
+             <td>{$collegename}</td>
+                 <td>{$Course}</td>
+                 <td>{$batch}</td>
+               <td>{$Designation}</td>
+                  <td>{$name}</td>
+                <td>{$father_name}</td>
+                   <td>{$email}</td>
+                <td>{$phone}</td>
+                 <td>{$purpose}</td>
+                <td>{$payment_id}</td>
+                <td>{$id}</td>               
+                <td>{$amount}</td>
+                <td>{$Created_date}&nbsp;{$Created_time}</td>
+                 <td>{$CourseType}</td>
+
+               
+            </tr>";
+$count++;
+    }
+    }
+}
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
+ elseif($exportCode=='79')
+{
+    
+
+  
+    $counter = 1; 
+     
+    
+        
+    $exportMeter="<table class='table' border='1'>
+        <thead>
+                <tr color='red'>
+          <th>Sr. No</th>
+       
+      
+       
+         <th>Uni Roll No</th>
+          <th>Name</th>
+          <th>Father Name</th>
+          
+           <th>Program</th>
+         <th> Batch</th>
+             
+         
+          <th>Email</th> 
+             <th>Phone</th>
+       
+       
+         
+         </tr>
+        </thead>";
+       
+
+         $count=1;
+    
+     $result = mysqli_query($connection_web_in_website,"SELECT * FROM alumni where id>682781  ");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['id'];
+      $image = $row['image'];
+     // $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['uni_roll_no'];
+      $course = $row['course'];
+     // $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['gender'];
+      $remarks='';
+      $status=$row['status'];
+      $Created_date='';
+      $Created_time='';
+      $amount='';
+      $email = $row['email'];
+      $phone = $row['wmobile_no'];
+
+
+  
+     
+            $exportMeter.="<tr>
+             <td>{$count}</td>
+           
+                
+             
+              <td>{$roll_no}</td>
+                  <td>{$name}</td>
+                <td>{$father_name}</td>
+                 <td>{$course}</td>
+                 <td>{$batch}</td>
+                   <td>{$email}</td>
+                <td>{$phone}</td>
+               
+               
+               
+                
+
+               
+            </tr>";
+$count++;
+    }
+    
+    $exportMeter.="</table>";
+    //echo $exportMeterHeader;
+    echo $exportMeter;
+    $fileName="Report";
+
+
+}
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();

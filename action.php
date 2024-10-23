@@ -58,7 +58,8 @@ if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['
    }
    $code = $_POST['code'];
 
-   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386'||$code=='388'||$code=='387'||$code=='389'||$code=='390')
+   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386'||$code=='388'||$code=='387'
+    ||$code=='389'||$code=='390'||$code=='391')
    {
        include "connection/connection_web.php"; 
 
@@ -25484,6 +25485,62 @@ elseif($code=='390')
 
 echo "1";
 }
+
+ elseif($code=='391') 
+   {
+ $result = mysqli_query($connection_web_in_website,"SELECT * FROM alumni where id>682781  ");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['id'];
+      $image = $row['image'];
+     // $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['uni_roll_no'];
+      $course = $row['course'];
+     // $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['gender'];
+      $remarks='';
+      $status=$row['status'];
+      $Created_date='';
+      $Created_time='';
+      $amount='';
+      $email = $row['email'];
+      $phone = $row['wmobile_no'];
+       
+      
+?>
+ <tr >
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+    <td><img src="https://www.gku.ac.in/Downloads/alumni/<?=$image;?>" width='100px' height='100px'></td>
+ <td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?></td>  
+ <td><?php echo $batch; ?></td>  
+ <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
+  
+      <td><?php echo $phone; ?></td>
+     
+
+     
+  
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+  sqlsrv_close($conntest);
+  mysqli_close($conn);
+   }
 
  else
 {
