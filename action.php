@@ -58,7 +58,7 @@ ini_set('max_execution_time', '0');
    }
    $code = $_POST['code'];
 
-   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333')
+   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386'||$code=='388'||$code=='387'||$code=='389'||$code=='390')
    {
        include "connection/connection_web.php"; 
 
@@ -25061,6 +25061,429 @@ $balanceamount=$tdebit-$tcredit;
         }
 sqlsrv_close($conntest);
  }
+
+elseif($code==386) 
+   {
+
+    
+    $sub_data=$_POST['sub_data'];
+
+    if($sub_data==2)
+    {
+      $Status=$_POST['Status'];
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND account_verification='$Status' ");
+}
+else
+{
+  $rollno=$_POST['Rollno'];
+
+ //echo  "SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND roll_no='rollno' ";
+
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND roll_no='$rollno'  ");
+}
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['remarks'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+       $admissionstatus=$row['merge'];
+
+       if($admissionstatus>0)
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+      
+if($row['confirmation']==2  AND $admissionstatus> 0  )
+{?>
+            <tr style="background-color:#dff0d8" >
+   <?php   }
+   else if($row['send_mail']==2)
+    {?>
+ <tr style="background-color:#e692a9">
+   <?php }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+     <td onclick="edit_stu(<?= $id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
+     <b><?php 
+if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+      } ?></b>
+ </td>
+ <td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
+  <td style="text-align: left;">  <?php if($row['receipt']!="")
+{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+   <?php 
+}
+?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+  
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+  sqlsrv_close($conntest);
+  mysqli_close($conn);
+   }
+
+
+ elseif($code==387)
+   {
+   $count=array(); 
+  
+  $result = mysqli_query($conn_online,"SELECT count(*)  FROM online_payment where  status='success' AND remarks='4th Convocation' ANd account_verification='0'");
+  //echo  $Pending = mysqli_fetch_assoc($result);
+   $Pending = mysqli_fetch_row($result)[0];
+
+   $result = mysqli_query($conn_online,"SELECT count(*)  FROM online_payment where  status='success' AND remarks='4th Convocation' ANd account_verification='1'");
+  //echo  $Pending = mysqli_fetch_assoc($result);
+   $Rejeted = mysqli_fetch_row($result)[0];
+   $result = mysqli_query($conn_online,"SELECT count(*)  FROM online_payment where  status='success' AND remarks='4th Convocation' ANd account_verification='2'");
+  //echo  $Pending = mysqli_fetch_assoc($result);
+   $ForwardToAccount = mysqli_fetch_row($result)[0];
+
+
+      $count[0]=$Pending;
+    
+      $count[1]=$ForwardToAccount;
+        $count[2]=$Rejeted;
+    echo json_encode($count);
+    mysqli_close($conn);
+   }
+
+elseif($code=='388')
+   {
+  $id = $_POST['id'];
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND slip_no='$id'  ");
+
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+
+
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['remarks'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+      $acverify_date=$row['AccountVerificationDate'];
+       $Status=$row['account_verification'];
+       $ac_reason=$row['AccountReason'];
+         $acrejectdate=$row['AccountRejectDate'];
+
+       
+       }
+  $sql = "SELECT  * FROM Admissions where UniRollNo='$roll_no'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            // $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $IDNo= $row6['IDNo'];
+            $img= $row6['Image'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+?>
+
+
+
+ <div class="card-body table-responsive">
+
+ <table class="table" style="border:1px solid black" >
+ <tr>
+ <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
+
+<td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
+        </tr>
+        </table>
+        <br>
+ <table class="table"  style="border:1px solid black">
+
+ <tr>
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+
+ <td  rowspan="2" >
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
+ </td>
+ </tr>
+ <tr>
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td ><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+</tr>
+ 
+
+ </table>
+
+ <div class="table table-responsive" style="height:500px;">
+        <table class="table  table-bordered  table-hover table-head-fixed table-striped" style="border:1px solid black;">
+                                      <thead >      
+                                            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>                                  
+                                            
+                                              <!-- <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td> -->
+                                            <!-- <td colspan="2"></td>
+                                                <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
+                                                </tr> -->
+                                            
+                                            
+                                                                                        <tr >
+                                                                                            <th style='background-color:#223260!important; color:white;'>Receipt Date</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Receipt No</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Particulars</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>LedgerName</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Installment</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Debit</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'>Credit</th>
+                                                                                            <th style='background-color:#223260!important; color:white;'> Remarks</th>
+                                            
+                                            </tr></thead>
+                                            <tbody>      
+                                            
+                                                                                             <?php  $sql8 = "select  * from  Ledger where IDNo='$IDNo' order by DateEntry DESC";
+                                            $stmt8 = sqlsrv_query($conntest,$sql8);
+                                            while($row8 = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                            
+                                                ?>                                        
+                                                                                         
+                                                                                       <tr>
+                                                                                          <td>
+                                                                                        <?php
+                                                                                        if($row8['DateEntry']!='')
+                                                                                        {
+                                            
+                                                                                           echo  $row8['DateEntry']->format('d-m-Y h:i:s'); 
+                                            
+                                                                                   
+                                                                                    }
+                                                                                    ?> 
+                                            
+                                            
+                                            
+                                                                                     </td><td><?= $row8['ReceiptNo'];;?></td>
+                                                                                        <td style="width: 300px"><?= $row8['Particulars'];?></td>
+                                            
+                                                                                        <td><?= $row8['LedgerName'];?>   </td><td><?= $row8['Semester'];;?></td><td><?= $row8['Debit'];?></td><td><?= $row8['Credit'];?></td><td><?= $row8['Remarks'];?>
+                                                                                           </tr> 
+                                                                                      
+                                                                                        <?php 
+                                                                                            }?>
+                                            
+                                            
+                                            
+                                            <?php $sqlww = "SELECT sum(Debit) as totaldebit ,sum(Credit)as totalcredit from Ledger where  IDNo='$IDNo'";
+                                            
+                                            $stmt8 = sqlsrv_query($conntest,$sqlww);
+                                            while($rowww = sqlsrv_fetch_array($stmt8, SQLSRV_FETCH_ASSOC) )
+                                            {
+                                                
+                                                $tdebit=$rowww['totaldebit'];
+                                            $tcredit=$rowww['totalcredit'];
+                                            
+                                              }
+                                             
+                                              $amount=$tdebit-$tcredit;
+                                                ?>                                  
+                                            
+                                              <tr><td colspan="2" style="color: red;"><b>Total Debit :   <?=$tdebit;?></b></td><td style="color: red;"><b>Total Credit :    <?=$tcredit;?></td>
+                                            <td colspan="2"></td>
+                                                <td style="color: red;" colspan="4"><b>Balance :    <?=$amount;?></td>
+                                                </tr>  
+                                            </tbody>
+                                                 </table>
+                                                </div>
+<table>
+<tr>
+   <td colspan="10" style="text-align:right; font-size: 16px;">
+                                            </tr>
+                                            </table>
+
+
+
+
+<br>
+
+
+         <table class="table"  style="border:1px solid black">
+
+            <tr>
+
+    <td colspan="5">
+    <p style="color: green;text-align: center;"> <b>Form Submission Detail(By Student)</b></p>
+
+    <h6>Form  is  Submitted  by the student on Dated :  <?=$Created_date;?></h6> </td>
+</tr>
+
+
+
+         
+
+
+
+
+
+<?php if($Status>0 && $Status<2)
+{?>
+    <tr>
+    <td colspan="5">
+<p style="color: green;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Account)</b></p>
+
+
+<h6>Form is successfully verified by Account Department  on Dated : <?=$acverify_date;?></h6> </td>
+     
+</tr>
+
+<?php }
+
+else if ($Status==2)
+{
+?>
+<tr>
+    <td colspan="5" style='font-size: 16px;'>
+
+ <p style="color: red;text-align: center;"> <b>Form Reject Detail(By Account)</b></p>
+
+        <h6>Rejected By  Account Due to <b><u><?=$ac_reason;?></u></b>on: <?=$acrejectdate;?></td></h6>
+</tr>
+
+<?php
+
+
+}
+
+
+?>    <tr>
+<?php if($Status==0 || $Status==2  )
+{ ?>
+
+<td colspan="5"><p style="color: green;text-align: center; font-size: 16px;"> <b>Form Verification Detail(By Account)</b></p>
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$id;?>);" name="update" class="btn btn-success " >Verify</button>
+    <button type="submit"  id="type" onclick="RejectAC(<?=$id;?>);" name="update" class="btn btn-danger " >Reject</button>
+    <?php };?>
+</center>
+</td>
+</tr>
+<tr>
+<?php if($Status==4 )
+{ ?>
+
+<td colspan="5">
+<textarea class=" form-control "name="" id="remarkReject"  ></textarea>
+    <small id="error-reject-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 5 characters.</small><br>
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$SerialNo;?>);" name="update" class="btn btn-success " >Verify</button>
+    <!-- <button type="submit"  id="type" onclick="RejectAC(<?=$SerialNo;?>);" name="update" class="btn btn-danger " >Reject</button> -->
+    <?php };?>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+
+
+         <?php
+          mysqli_close($conn);
+           sqlsrv_close($conntest); 
+   }
+
+
+elseif($code=='389')
+   {
+  $id = $_POST['ID'];
+
+
+ $result = mysqli_query($conn_online,"Update online_payment set account_verification='1',account_by='$EmployeeID',AccountVerificationDate='$timeStamp' where slip_no='$id' ");
+
+echo "1";
+}
+
+elseif($code=='390')
+   {
+  $id = $_POST['ID'];
+  $remarks = $_POST['remark'];
+
+ $result = mysqli_query($conn_online,"Update online_payment set account_verification='2',account_by='$EmployeeID',AccountRejectDate='$timeStamp',AccountReason='$remarks' where slip_no='$id' ");
+
+echo "1";
+}
 
  else
 {

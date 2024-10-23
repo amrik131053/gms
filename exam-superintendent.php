@@ -144,21 +144,26 @@
                                     <br>
                                     <div class="row ">
 
-                                        <div class="col-lg-5 col-md-12 col-sm-13">
+                                        <div class="col-lg-4 col-md-12 col-sm-13">
                                             <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br> -->
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br>
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet  Sort By Uni Roll No</i></button>  
+                                                </div>
+                                                <div class="col-lg-4 col-md-12 col-sm-13">
+
+                                                        <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMagec()"><i
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Sort By Class Roll No</i></button>
                                             <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button> -->
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-3 col-md-12 col-sm-13">
+                                        <div class="col-lg-2 col-md-12 col-sm-13">
                                             <button class="btn btn-success btn-xs  " onclick="exportCutListExcel()"><i
                                                     class="fa fa-file-excel">&nbsp;Cut List</i></button>
                                             &nbsp;
                                         </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-13">
+                                        <div class="col-lg-2 col-md-12 col-sm-13">
                                             <button class="btn btn-danger  btn-xs " onclick="exportCutListPdf()"><i
                                                     class="fa fa-file-pdf">&nbsp;Cut List</i></button>
 
@@ -538,6 +543,25 @@ function exportAttendancePdfWithoutIMage() {
         alert("Select ");
     }
 }
+
+function exportAttendancePdfWithoutIMagec() {
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export-attendance-pdf-newc.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+            "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+
 function exportCalculatorExcel() {
     var exportCode=41;
     var ExaminationFatch = document.getElementById('ExaminationFatch').value;
