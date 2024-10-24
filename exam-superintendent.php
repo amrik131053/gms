@@ -394,7 +394,7 @@ $(document).ready(function(){
    $("#subject_code").blur(function(e) {
      e.preventDefault();
 
-     alert("sdfsf");
+    //  alert("sdfsf");
    
      var subject_code = $("#subject_code").val();
      var code = "117.1";
