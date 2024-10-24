@@ -2842,6 +2842,7 @@ elseif($exportCode=='28')
           <th>Amount</th>
           <th>Transaction Date/ Time</th>
            <th>Course Type</th>
+           <th>Status</th>
          
          </tr>
         </thead>";
@@ -2883,7 +2884,30 @@ elseif($exportCode=='28')
 
 
       $phone = $row['phone'];
-
+      $statusn = $row['account_verification'];
+      if($statusn=='0')
+      {
+         $Statusprint='Pending at Accounts';
+      }
+      else if($statusn=='2'){
+        $Statusprint='Rejected  by Accounts Branch';
+      }
+      else if($statusn=='1'){
+        $Statusprint='Pending at Registration Branch';
+      }
+      else if($statusn=='3'){
+        $Statusprint='Rejected  by Registration Branch';
+      }
+      else if($statusn=='4'){
+        $Statusprint='Verified by Registration Branch';
+      }
+      else if($statusn=='5'){
+        $Statusprint='Attendance';
+      }
+      else
+      {
+        $Statusprint='';
+    }
 
   $query1="Select CollegeName,Course,CourseID,Batch,IDNo,UniRollNo,StudentName,FatherName,EmailID,StudentMobileNo  from Admissions  where  UniRollNo='$Designation'";
 
@@ -2932,6 +2956,7 @@ $collegename= $rowb['CollegeName'];
                 <td>{$amount}</td>
                 <td>{$Created_date}&nbsp;{$Created_time}</td>
                  <td>{$CourseType}</td>
+                   <td>{$Statusprint}</td>
 
                
             </tr>";
