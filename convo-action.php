@@ -89,7 +89,7 @@ else
     $dt= date("Y-m-d");
        date_default_timezone_set('Asia/Kolkata'); 
     $tt= date("H:i:s");
-    $purpose=$_POST['purpose'];
+    $purpose="";
     $payuid=$_POST['payuid'];
     $remarks    = '4th Convocation';
     $get_slipno = "SELECT slip_no from online_payment order by user_id desc limit 1";
