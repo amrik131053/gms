@@ -262,8 +262,7 @@ function exportCutListPdf() {
 
 function lockAC(ID)
  {
-     var r = confirm("Do you really want to Verifiy");
-     if (r == true) {
+     
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
         var code = 389;
@@ -290,7 +289,7 @@ function lockAC(ID)
 
             }
         });
-     }
+     
 }
 
 function RejectAC(ID)
