@@ -22,17 +22,44 @@
 
         <label>To</label>
         <div class="col-lg-2 col-md-2 col-sm-2"> <input type="date" id='end_date' placeholder="mm/dd/yyyy" required class="form-control"></div> -->
-     
-         <div class="col-lg-1 col-md-1 col-sm-1">
-          <!-- <button class="btn btn-info btn-xs"  onclick="searchadmission()">Search</button> --><button class="btn btn-info btn-xs" onclick="exportadmission()">Export</button> 
+       
+        <div class="col-lg-1 col-md-1 col-sm-1">
+         
+           
+         <button class="btn btn-info btn-xs" onclick="exportadmission()">Export</button> 
+       
+     </div>
+         <div class="col-lg-2 col-md-1 col-sm-1">
+         
+           
+          <!-- <button class="btn btn-info btn-xs" onclick="RejectedByAccount()">Rejected By Account</button> 
         
       </div>
+        
+      <div class="col-lg-1 col-md-1 col-sm-1">
+         
+           
+         <button class="btn btn-info btn-xs" onclick="NotEligible()">Not Eligible</button> 
+       
+     </div>
+     <div class="col-lg-1 col-md-1 col-sm-1">
+         
+           
+         <button class="btn btn-info btn-xs" onclick="Verified()">Verified</button> 
+       
+     </div>
+     <div class="col-lg-1 col-md-1 col-sm-1">
+         
+           
+         <button class="btn btn-info btn-xs" onclick="Attedance()">Final List</button> 
+       
+     </div> -->
          <!-- <div class="col-lg-1 col-md-1 col-sm-1">
        <button class="btn btn-info btn-xs" onclick="exportsummary()">Export Summary</button> 
         
       </div> -->
 
-
+</div>
       </div>
                </div>
               

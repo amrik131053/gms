@@ -34,10 +34,10 @@
                                 <label>Status</label>
                                 <select id="Status" class="form-control form-control-sm" >
                                     <!-- <option value="All">All</option> -->
-                                    <option value="0">Pending</option>
+                                    <option value="1">Pending</option>
                                   
-                                    <option value="1">Verified</option>
-                                      <option value="2">Rejected</option>
+                                    <option value="4">Verified</option>
+                                      <option value="3">Rejected</option>
                                                             
                                 </select>
 
@@ -119,7 +119,7 @@ $(function () {
 
 cutlistCountDepartment();
 function cutlistCountDepartment() {
-    var code = 387;
+    var code = 392;
     //var Session = document.getElementById('Session').value;
         $.ajax({
             url: 'action.php',
@@ -207,7 +207,7 @@ function edit_stu(id) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     // alert(SubjectCode+' '+CourseID+' '+Batch+' '+Semester);
-    var code = 388;
+    var code = 393;
     $.ajax({
         url: 'action.php',
         type: 'POST',
@@ -227,7 +227,7 @@ function edit_stu(id) {
 
 
 function exportBusPassList() {
-    var exportCode = 78;
+    var exportCode = 80;
     //var Session = document.getElementById('Session').value;
     var Status = document.getElementById('Status').value;
     
@@ -265,7 +265,7 @@ function lockAC(ID)
      
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 389;
+        var code = 394;
         $.ajax({
             url: 'action.php',
             type: 'POST',
@@ -300,7 +300,7 @@ function RejectAC(ID)
     {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = 390;
+        var code = 395;
         $.ajax({
             url: 'action.php',
             type: 'POST',
@@ -325,7 +325,7 @@ function RejectAC(ID)
             }
         });
      }
-
+ 
       else{
         $('#remarkReject').toggleClass("is-invalid");
         $('#error-reject-textarea').show();
