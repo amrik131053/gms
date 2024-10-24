@@ -102,11 +102,11 @@ else
             $slip_no  = $slip_no + 1;
         }
     }
-    echo $qry="INSERT INTO online_payment(name, father_name, roll_no, course,status,payment_id, Created_date, Created_time, amount, purpose, email,phone, slip_no,remarks,confirmation) 
+     $qry="INSERT INTO online_payment(name, father_name, roll_no, course,status,payment_id, Created_date, Created_time, amount, purpose, email,phone, slip_no,remarks,confirmation) 
     VALUES('$name','$fname','$roll_no','$course','$status','$payuid','$dt','$tt','$amount','$purpose','$from_email','$mobile','$slip_no','$remarks','1')";
 
 
-              $retval=mysqli_query($allow,$qry);
+              $retval=mysqli_query($readonly,$qry);
   
         
 }
