@@ -11200,12 +11200,13 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
              {
             $data1=$row;
             $data[]=array_merge($data2,$data1);
-       
-         }
-         }
+            
+        }
+    }
+    
           //print_r($data2);
          $page = $_POST['page'];
-         $recordsPerPage = 50;
+         $recordsPerPage = 100;
          $startIndex = ($page - 1) * $recordsPerPage;
          $pagedData = array_slice($data, $startIndex, $recordsPerPage);
          // echo json_encode($pagedData);
@@ -11216,7 +11217,7 @@ $degree="SELECT * FROM offer_latter  where Batch='2024' order by Id DESC limit 3
       else
       {
           
-$degree="SELECT * FROM offer_latter_international  where Batch='2024' order by Id DESC limit 30 "; 
+$degree="SELECT * FROM offer_latter_international  order by Id DESC limit 30 "; 
                 $degree_run=mysqli_query($conn,$degree);
                   while ($degree_row=mysqli_fetch_array($degree_run)) 
                   {
@@ -11231,9 +11232,10 @@ $degree="SELECT * FROM offer_latter_international  where Batch='2024' order by I
                      }
                  
                   }
+                //   print_r($data);
                   // print_r($data);139
                   $page = $_POST['page'];
-                  $recordsPerPage = 50;
+                  $recordsPerPage = 100;
                   $startIndex = ($page - 1) * $recordsPerPage;
                   $pagedData = array_slice($data, $startIndex, $recordsPerPage);
                   echo json_encode($pagedData);
@@ -12096,7 +12098,7 @@ elseif($code==179.1)
 
                }
 
-                print_r($data);
+                // print_r($data);
 
                $page = $_POST['page'];
                $recordsPerPage = 10000;
@@ -19111,7 +19113,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
 <?php 
-if($role_id=='2')
+if($role_id=='2' || $role_id=='22')
 {
     ?>
 <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
