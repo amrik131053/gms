@@ -295,6 +295,9 @@
                                                     class="fa fa-file-excel">&nbsp;Download</i></button>
                                             &nbsp;
                                             <button class="btn btn-warning btn-xs  " onclick="calculateResult()">&nbsp;Calculate</button>
+                                            <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubject()"><i
+                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button> 
+                                        
                                         </div>
                                        
                                         <div class="col-lg-4 col-md-12 col-sm-13">
@@ -536,6 +539,25 @@ function exportAttendancePdfWithoutIMage() {
     var Examination = document.getElementById('Examination').value;
     if (College != '') {
         window.open("export-attendance-pdf-new.php?CollegeId=" + College + "&Course=" + Course + "&Batch=" + Batch +
+            "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+function exportAttendancePdfSubject() {
+ 
+
+    var subName = document.getElementById('subName').value;
+    var subject_code = document.getElementById('subject_code').value;
+    var Course = document.getElementById('CourseFatch').value;
+    var Batch = document.getElementById('BatchFatch').value;
+    var Semester = document.getElementById('SemesterFatch').value;
+    var Type = document.getElementById('TypeFatch').value;
+    var Examination = document.getElementById('ExaminationFatch').value;
+    if (subject_code != '') {
+        window.open("export-attendance-pdf-subject.php?SubjectCode=" + subject_code + "&Course=" + Course + "&Batch=" + Batch +
             "&Semester=" + Semester + "&Type=" +
             Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
 
