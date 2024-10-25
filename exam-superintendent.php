@@ -296,7 +296,7 @@
                                             &nbsp;
                                             <button class="btn btn-warning btn-xs  " onclick="calculateResult()">&nbsp;Calculate</button>
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubject()"><i
-                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubjectc()"><i
+                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubjectc()"><i
                                             class="fa fa-file-pdf">&nbsp;Attendance Sheet Class Roll No</i></button> 
                                         
                                         </div>
