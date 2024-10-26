@@ -14451,7 +14451,7 @@ else
                 {?>
                     <li class="nav-item">
 
-                        <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                        <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
                                 <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                         </a>
@@ -14479,7 +14479,7 @@ else
                 {?>
                     <li class="nav-item">
 
-                        <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                        <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
                             &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
                                 <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                         </a>
@@ -15412,7 +15412,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
                 {?>
                         <li class="nav-item">
 
-                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];?>&nbsp;<b> On
                                     <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
@@ -15451,7 +15451,7 @@ if($row['SanctionRemarks']!='' && $row['AuthorityId']!=$row['SanctionId'])
                 {?>
                         <li class="nav-item">
 
-                            <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Vice Chancellor
+                            <a href='#' class="nav-link leaveViewColor"> <b> Remarks By Registrar
                                     &nbsp;&nbsp;&nbsp;</b><?=$row['HRRemarks'];   ?>&nbsp;<b> On
                                     <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?></b>
                             </a>
@@ -16338,7 +16338,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             }
             else
             {
-              $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023' AND   StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To VC' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+              $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023' AND   StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To Registrar' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
         //YEAR(StartDate)>='".date('Y')."' AND
@@ -16448,7 +16448,7 @@ if ($monthdown<1) {?>
         }
         if($Emp_Designation=='Vice Chancellor')
         {
-      $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='Pending To VC' order by  ApplyLeaveGKU.Id DESC "; 
+      $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='Pending To Registrar' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
     while($row=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run,SQLSRV_FETCH_ASSOC))
     {   
@@ -16960,7 +16960,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                 {?>
                         <li class="nav-item">
 
-                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
                                     <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A ');};?></b>
                             </a>
@@ -16990,7 +16990,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                 {?>
                         <li class="nav-item">
 
-                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Vice Chancellor</b>
+                            <a href='#' class="nav-link leaveViewColor"> <b>Remarks By Registrar</b>
                                 &nbsp;&nbsp;&nbsp;<?=$row['HRRemarks'];   ?>&nbsp;<b> on
                                     <?php if($row['HRApprovedate']!=''){echo $row['HRApprovedate']->format('d-m-Y h:i:s A');};?>
                             </a>
@@ -17058,7 +17058,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php if($Emp_Designation!='Vice Chancellor')
                     {?>
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To VC</button>
+                                To Registrar</button>
                             <?php }?>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
@@ -17080,7 +17080,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php if($Emp_Designation!='Vice Chancellor')
                     {?>
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To VC</button>
+                                To Registrar</button>
                             <?php }?>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
@@ -17091,7 +17091,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
            ?>
 
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To VC</button>
+                                To Registrar</button>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
@@ -17111,7 +17111,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
           ?>
 
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To VC</button>
+                                To Registrar</button>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
