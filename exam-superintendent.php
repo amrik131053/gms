@@ -148,12 +148,12 @@
                                             <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdf()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button><br><br> -->
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet  Sort By Uni Roll No</i></button>  
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet(Uni Roll No)</i></button>  
                                                 </div>
                                                 <div class="col-lg-4 col-md-12 col-sm-13">
 
                                                         <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMagec()"><i
-                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet Sort By Class Roll No</i></button>
+                                                    class="fa fa-file-pdf">&nbsp;Attendance Sheet(Class Roll No)</i></button>
                                             <!-- <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfWithoutIMage()"><i
                                                     class="fa fa-file-pdf">&nbsp;Attendance Sheet Without Image</i></button> -->
                                             &nbsp;
@@ -212,7 +212,7 @@
 
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <label>SubJect Code</label>
+                                <label>Subject Code</label>
                                 <Input type="text"  class="form-control subject_code"  name="subject_code" id="subject_code"  required="" />
 
                             </div>
@@ -290,13 +290,14 @@
                                     <div class="row ">
 
                                        
-                                        <div class="col-lg-8 col-md-12 col-sm-13">
+                                        <div class="col-lg-12 col-md-12 col-sm-13">
                                             <button class="btn btn-success btn-xs  " onclick="exportCalculatorExcel()"><i
                                                     class="fa fa-file-excel">&nbsp;Download</i></button>
                                             &nbsp;
                                             <button class="btn btn-warning btn-xs  " onclick="calculateResult()">&nbsp;Calculate</button>
                                             <button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubject()"><i
-                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button> 
+                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet</i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs " onclick="exportAttendancePdfSubjectc()"><i
+                                            class="fa fa-file-pdf">&nbsp;Attendance Sheet Class Roll No</i></button> 
                                         
                                         </div>
                                        
@@ -565,6 +566,35 @@ function exportAttendancePdfSubject() {
         alert("Select ");
     }
 }
+function exportAttendancePdfSubjectc() {
+ 
+
+ var subName = document.getElementById('subName').value;
+ var subject_code = document.getElementById('subject_code').value;
+ var Course = document.getElementById('CourseFatch').value;
+ var Batch = document.getElementById('BatchFatch').value;
+ var Semester = document.getElementById('SemesterFatch').value;
+ var Type = document.getElementById('TypeFatch').value;
+ var Examination = document.getElementById('ExaminationFatch').value;
+ if (subject_code != '') {
+     window.open("export-attendance-pdf-subjectc.php?SubjectCode=" + subject_code + "&Course=" + Course + "&Batch=" + Batch +
+         "&Semester=" + Semester + "&Type=" +
+         Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+ } else {
+     alert("Select ");
+ }
+}
+
+
+
+
+
+
+
+
+
+
 
 function exportAttendancePdfWithoutIMagec() {
     var College = document.getElementById('College').value;

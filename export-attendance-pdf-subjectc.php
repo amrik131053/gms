@@ -1,0 +1,859 @@
+<?php
+session_start();
+ini_set('max_execution_time', '0');
+include 'connection/connection.php';
+$output = '';  
+$ctime = date("d-m-Y");
+$nowtime = strtotime($ctime);
+
+  $SubjectCode = $_GET['SubjectCode'];
+  $Course = $_GET['Course'];
+  $Batch = $_GET['Batch'];
+  $Semester = $_GET['Semester'];
+  $Type = $_GET['Type'];
+  $Group = $_GET['Group'];
+  $Examination = $_GET['Examination'];
+
+  $collegename="SELECT CollegeName,Course from MasterCOurseCodes where  CourseID='$Course' ";
+$list_cllegename = sqlsrv_query($conntest,$collegename);
+                       
+                if( $row_college= sqlsrv_fetch_array($list_cllegename, SQLSRV_FETCH_ASSOC) )
+                   {
+
+                   // print_r($row);
+                $CollegeName=$row_college['CollegeName'] ;
+                $CourseName=$row_college['Course'] ;
+                
+        }
+require_once('fpdf/fpdf.php');
+class PDF extends FPDF
+{
+function subWrite($h, $txt, $link='', $subFontSize=12, $subOffset=0)
+{
+  // resize font
+  $subFontSizeold = $this->FontSizePt;
+  $this->SetFontSize($subFontSize);
+  
+  // reposition y
+  $subOffset = ((($subFontSize - $subFontSizeold) / $this->k) * 0.3) + ($subOffset / $this->k);
+  $subX        = $this->x;
+  $subY        = $this->y;
+  $this->SetXY($subX, $subY - $subOffset);
+  //Output text
+  $this->Write($h, $txt, $link);
+
+  // restore y position
+  $subX        = $this->x;
+  $subY        = $this->y;
+  $this->SetXY($subX,  $subY + $subOffset);
+
+  // restore font size
+  $this->SetFontSize($subFontSizeold);
+}
+  function Header()
+{ 
+$CourseName=$GLOBALS['CourseName'];
+
+$SubjectCode = $GLOBALS['SubjectCode'];
+  $Course = $GLOBALS['Course'];
+  $Batch = $GLOBALS['Batch'];
+  $Semester = $GLOBALS['Semester'];
+  $Type = $GLOBALS['Type'];
+  $Group = $GLOBALS['Group'];
+  $Examination = $GLOBALS['Examination'];
+ if($Semester==1) {$ext='st'; } elseif($Semester==2){ $ext='nd';}
+  elseif($Semester==3) {$ext='rd'; } else { $ext='th';}
+    /* Move to the right */
+     $this-> Image('dist/img/new-logo.jpg',10,5,50,9);
+     $this-> Image('dist/img/naac-logo.jpg',170,5,33,9);
+     $this->SetXY(60,8);
+$this->SetFont('Arial','B',10);
+$this->MultiCell(100,6,$CourseName,'0','C');
+
+       $this->SetFont('Arial','B',10);
+       $this->SetX(60,12);
+      $this->MultiCell(100,6,'Attendance Sheet Examination('.$Examination.')',0,'C');
+  if($Group!='NA')
+  {
+$this->SetFont('Arial','B',8);
+ $this->SetXY(190,0);
+      $this->Cell(123,6,$Group,0,1);
+}
+$this->SetXY(10,17);
+$this->Write(0,'Batch : ');
+$this->SetXY(24,15.8);
+$this->MultiCell(80,2.7,$Batch,'0');
+$this->SetXY(165,17);
+$this->Write(0,'Sem :');
+$this->SetXY(178,17 );
+$this->Write(0,$Semester);
+$this->subWrite(0,$ext,'',6,4);
+$this->Write(0,'('.$Type.')');
+$this->Line(8,21,200,21);
+$this->Line(8,21,8,42);
+$this->SetXY(8,23);
+$this->Cell(10,6,'Sr No',0,0,'C',0);
+$this->Line(19,21,19,42);
+ $this->SetXY(19,21);
+$this->MultiCell(35,6,'Class Roll No / Uni RollNo',0,'C');
+$this->Line(54,21,54,38);
+$this->SetXY(37,21);
+$this->SetXY(55,21);
+$this->SetFont('Arial','b',6);
+$this->MultiCell(10,6,'Image',0,'C');
+$this->SetFont('Arial','b',8);
+$this->SetXY(65,23);
+$this->Line(64,21,64,38);  //image
+// $this->Line(85.4,21,85.4,38);
+$this->SetFont('Arial','b',8);
+$this->SetXY(160,23);
+$this->MultiCell(30,6,'Signature',0,'C');
+$this->Line(150,21,150,38);  //subject name 1
+$this->Line(200,21,200,38); //subject name 3
+}
+// Page footer
+function Footer()
+{ 
+ $ctime = date("d-m-Y");
+ 
+    // Position at 1.5 cm from bottom
+    $this->SetXY(200,-10);
+    // Arial italic 8
+    $this->SetFont('Arial','I',6);
+    // Page number
+    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+    $this->SetXY(50,-10);
+$this->SetFont('Arial','',8);
+$this->Write(0,'Signature of Invigilator_______________________');
+ $this->SetXY(120,-10);
+$this->SetFont('Arial','',8);
+$this->Write(0,'Signature of Superintendent_______________________');
+ $this->SetXY(210,-10);
+$this->SetFont('Arial','',8);
+$this->Write(0,'Signature of Dean_______________________');
+
+//$a=$GLOBALS['a'];
+ $this->SetXY(10,-5);
+$this->SetFont('Arial','',6);
+$this->Write(0,'Generated on : '.$ctime.' by ');
+$this->SetXY(85,-30);
+$this->SetFont('Arial','',6);
+// $this->Write(0,'Invigilator______________________ Invigilator___________________ Invigilator_____________________ Invigilator___________________Invigilator____________________Invigilator_____________________');
+}
+}
+$pdf = new PDF();
+$pdf->SetTitle('Guru Kashi University');
+$pdf->AliasNbPages();
+$SubjectCodeExam= array();
+$InternalExam= array();
+ $ExternalExam= array();
+ $IDNos=array();
+ $SubjectNames=array();
+$SubjectTypes=array();
+$UnirollNos=array();
+$ClassRollNos=array();
+$Examid=array();
+$StudentNames=array();
+$Snap=array();
+$Gender=array();
+$conntest = $GLOBALS['conntest'];
+$subjects_sql="SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where SubjectCode='$SubjectCode' ANd CourseID='$Course'ANd
+ Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1'";
+
+
+
+
+
+
+// SELECT SubjectCode,SubjectName,SubjectType from MasterCourseStructure where CollegeID='$College' ANd CourseID='$Course'ANd Batch='$Batch' AND SemesterID='$Semester' ANd Isverified='1' and (SubjectType='T' or SubjectType='TP')";
+ 
+$subcount=0;
+ $list_Subjects = sqlsrv_query($conntest,$subjects_sql);
+                  
+              if($list_Subjects === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
+                while( $row_subject= sqlsrv_fetch_array($list_Subjects, SQLSRV_FETCH_ASSOC) )
+                   {
+                   // print_r($row);
+                $Subjects[]=$row_subject['SubjectCode'] ;
+                $SubjectNames[]=$row_subject['SubjectName'] ;
+                $SubjectTypes[]=$row_subject['SubjectType'] ;
+            $subcount++;
+}
+$sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubject where Batch='$Batch'ANd SubjectCode='$SubjectCode'  ANd Course='$CourseName'ANd SubjectType='O' ANd ExternalExam='Y' ANd SubjectCode>'100' ANd SemesterID='$Semester'";
+$sql_openq = sqlsrv_query($conntest,$sql_open);
+         
+                if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
+                   {
+                $Subjects[$subcount]=$row_subject['SubjectCode'] ;
+                $SubjectNames[$subcount]=$row_subject['SubjectName'] ;
+                $SubjectTypes[$subcount]=$row_subject['SubjectType'] ;
+                $subcount++;
+                  }
+for($as=$subcount;$as<7;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
+
+$list_sql = "SELECT  ExamForm.ID,ExamForm.AcceptType,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo,Admissions.Snap,Admissions.Sex
+FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where  ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type'   ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8' AND  Admissions.Status='1' ORDER BY Admissions.ClassRollNo";
+        $j=100;
+       
+       
+                $list_result = sqlsrv_query($conntest,$list_sql);
+                    $count = 1;
+              if($list_result === false)
+                {
+               die( print_r( sqlsrv_errors(), true) );
+               }
+                while( $row = sqlsrv_fetch_array($list_result, SQLSRV_FETCH_ASSOC) )
+                   {
+                $IDNos[]=$row['IDNo'];
+                $UnirollNos[]=$row['UniRollNo'];
+                $ClassRollNos[]=$row['ClassRollNo'];
+                 $Examid[]=$row['ID'];
+                 $StudentNames[] =$row['StudentName'];
+                 $Snap[] =$row['Snap'];
+                 $Gender[] =$row['Sex'];    
+                  $accepttype[] =$row['AcceptType'];           
+ }
+
+                // print_r($ExternalExam);
+$i=0;
+$totalStudent = count($IDNos);
+if (empty($IDNos)) {
+    $pdf = new FPDF();
+    $pdf->AddPage('P');
+    $pdf->SetXY(10, 100);
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, ' No Record Found!!!!!.', 0, 1, 'C');
+}
+else{
+for ($p = 0; $p < $totalStudent / 15; $p++) {
+    $pdf->AddPage('P');
+    $pdf->SetFont('Arial', 'b', 10);
+    $x = 87;
+    for ($subIndex = 0; $subIndex < 6; $subIndex++) {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " " . $Subjects[$subIndex] . " " . $SubjectTypes[$subIndex],0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
+        $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
+        $x += 35; 
+
+    }
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 50);
+    for ($i = $p * 15,$y=38; $i < min(($p + 1) * 15, $totalStudent); $i++) {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(11, 14, $i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(19,$y);
+        $smal =strtolower($StudentNames[$i]);
+        $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i]."/ ".ucwords($smal),0,'C');
+      $pdf->SetXY(19,$y);
+      $pdf->Cell(35,14,"",1,0,'C',0);
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',6);
+        $pdf->SetXY(54,$y);
+   
+      $pdf->SetFont('Times','',10);
+      $pdf->Cell(10,14,"",1,0,'C',0);
+    
+      
+        if($Gender[$i]=='Male')
+          {
+              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+          }
+          else{
+              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
+          }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
+
+
+
+
+$pdf->SetTextColor(255,0,0);
+        $pdf->Cell(86,14,$pr,1,0,'C',0);
+        $pdf->Cell(50,14,"",1,0,'C',0);
+    $pdf->SetTextColor(0,0,0);    
+        if($subcount<2)
+        {    
+            $pdf-> Image('dist/img/signaturedummy1.png',93,$y+4,19,10);
+            $pdf-> Image('dist/img/signaturedummy2.png',165,$y+2,19,10);
+        }
+        $y = $y + 14;
+    }
+
+    $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+  
+    if($subcount<2)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    }
+
+    
+      
+      
+}
+
+if($subcount>6)
+{
+    for($as=$subcount;$as<12;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
+for ($p = 0; $p < $totalStudent / 15; $p++) {
+    
+    $pdf->AddPage('P');
+    $pdf->SetFont('Arial', 'b', 10);
+    $x = 87;
+    for ($subIndex = 6; $subIndex < 12; $subIndex++) {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
+        $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
+        $x += 35; 
+      
+    }
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 50);
+    for ($i = $p * 15,$y=38; $i < min(($p + 1) * 15, $totalStudent); $i++) {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(11, 14, $i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(19,$y);
+        $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
+      $pdf->SetXY(19,$y);
+      $pdf->Cell(35,14,"",1,0,'C',0);
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',6);
+        $pdf->SetXY(54,$y);
+ 
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
+      
+        
+        if($Gender[$i]=='Male')
+          {
+              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+          }
+          else{
+              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
+          }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
+        $pdf->Cell(30.4,14,"",1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(28.6,14,$pr,1,0,'C',0);
+
+        
+    
+
+        $y = $y + 14;
+                }
+                // print_r($ExternalExam);
+                $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+
+    if($subcount<8)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+       
+
+    }
+    else if($subcount<9)
+    {
+        
+
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+       
+    }
+    else if($subcount<10)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+
+        
+    }
+    else if($subcount<11)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+
+    } 
+    elseif($subcount<12)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<13)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+    }
+    else 
+    {
+       
+      $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+    }
+            }   
+}
+
+if($subcount>12)
+{   
+    for($as=$subcount;$as<15;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
+for ($p = 0; $p < $totalStudent / 15; $p++) {
+    
+    $pdf->AddPage('P');
+    $pdf->SetFont('Arial', 'b', 10);
+    $x = 87;
+    for ($subIndex = 12; $subIndex < 15; $subIndex++) {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
+        $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
+        $x += 35; 
+      
+    }
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 50);
+    for ($i = $p * 15,$y=38; $i < min(($p + 1) * 15, $totalStudent); $i++) {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(11, 14, $i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(19,$y);
+        $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
+      $pdf->SetXY(19,$y);
+      $pdf->Cell(35,14,"",1,0,'C',0);
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',6);
+        $pdf->SetXY(54,$y);
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
+      
+        
+        if($Gender[$i]=='Male')
+          {
+              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+          }
+          else{
+              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
+          }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
+        $pdf->Cell(21.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(28.6,14,$pr,1,0,'C',0);
+
+
+      
+           
+       
+
+        $y = $y + 14;
+                }
+                $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    if($subcount<14)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+       
+
+    }
+    else if($subcount<15)
+    {
+        
+
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+       
+    }
+    else if($subcount<16)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+
+        
+    }
+    else if($subcount<17)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+
+    } 
+    elseif($subcount<15)
+    {
+        
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+$pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+$pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+
+        
+       
+    }
+    else if($subcount<19)
+    {
+       
+        $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+    }
+    else 
+    {
+       
+      $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+
+
+        
+    }
+                // print_r($ExternalExam);
+            }   
+}
+
+
+
+if($subcount>15)
+{   
+    for($as=$subcount;$as<24;$as++)
+{
+   $Subjects[$as]='';
+   $SubjectNames[$as]='';
+   $SubjectTypes[$as]='';
+   $ExternalExam[$as]='';
+}
+for ($p = 0; $p < $totalStudent / 15; $p++) {
+    
+    $pdf->AddPage('P');
+    $pdf->SetFont('Arial', 'b', 10);
+    $x = 87;
+    for ($subIndex = 15; $subIndex < 24; $subIndex++) {
+        $pdf->SetXY($x, 23);
+        $pdf->SetFont('Arial', 'b', 6);
+        $pdf->MultiCell(28, 3, $SubjectNames[$subIndex] . " / " . $Subjects[$subIndex] . " /" . $SubjectTypes[$subIndex], 0, 'C');
+        if($SubjectNames[$subIndex]!='')
+        {
+        $pdf-> Image('dist/img/dummyDate.png',$x+6,33,19,4);
+        }
+        $x += 35; 
+      
+    }
+    $pdf->SetFont('Arial', 'b', 10);
+    $pdf->SetXY(8, 50);
+    for ($i = $p * 15,$y=38; $i < min(($p + 1) * 15, $totalStudent); $i++) {
+        $pdf->SetXY(8, $y);
+        $pdf->SetFont('Times', '', 10);
+        $pdf->Cell(11, 14, $i+1, 1, 0, 'C', 0);
+        $pdf->SetFont('Times','b',8);
+        $pdf->SetXY(19,$y);
+        $smal =strtolower($StudentNames[$i]);
+         $provisional= $accepttype[$i];
+        if($provisional>0)
+        {
+$pr='Fee Pending';
+        }
+        else
+        {
+$pr='';
+        }
+      $pdf->MultiCell(35,5,$ClassRollNos[$i]."/".$UnirollNos[$i].ucwords($smal),0,'C');
+      $pdf->SetXY(19,$y);
+      $pdf->Cell(35,14,"",1,0,'C',0);
+        $pdf->SetXY(35,$y);
+        $pdf->SetFont('Times','B',6);
+        $pdf->SetXY(54,$y);
+ 
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,14,"",1,0,'C',0);
+      
+        
+        if($Gender[$i]=='Male')
+          {
+              $pdf-> Image('dist/img/male.png',55,$y+2,8,8);
+          }
+          else{
+              $pdf-> Image('dist/img/female.png',55,$y+2,8,8);
+          }
+        $pdf-> Image('dist/img/boxed-bg.png',65,$y+2,19,8);
+    
+        $pdf->Cell(21.4,14,$pr,1,0,'C',0);
+        $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(35.4,14,$pr,1,0,'C',0);
+        // $pdf->Cell(28.6,14,$pr,1,0,'C',0);
+
+
+      
+           
+        if($subcount<20)
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            
+           
+
+        }
+        else if($subcount<21)
+        {
+            
+
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<22)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            
+            
+        }
+        else if($subcount<23)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            
+        } 
+        elseif($subcount<24)
+        {
+            
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            
+           
+        }
+        else if($subcount<25)
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
+        else 
+        {
+           
+            $pdf-> Image('dist/img/signaturedummy.png',93,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',128,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',163,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',198,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',235,$y+2,19,10);
+            $pdf-> Image('dist/img/signaturedummy.png',266,$y+2,19,10);
+            
+        }
+        
+
+        $y = $y + 14;
+                }
+                $pdf->SetXY(1, $y+3);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+    $pdf->Cell(20.4,2,"",0,0,'C',0);
+   
+                // print_r($ExternalExam);
+                if($subcount<20)
+                {
+                   
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+                    
+                   
+        
+                }
+                else if($subcount<21)
+                {
+                    
+        
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+   
+                    
+                   
+                }
+                else if($subcount<22)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+   
+                    
+                }
+                else if($subcount<23)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+   
+                } 
+                elseif($subcount<24)
+                {
+                    
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+   
+                    
+                   
+                }
+                else if($subcount<25)
+                {
+                   
+                    $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+                    
+                }
+                else 
+                {
+                   
+                  $pdf-> Image('dist/img/InvigilatorSign.png',88,$y+2,28,8);
+    
+    $pdf-> Image('dist/img/InvigilatorSign.png',159,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',194,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',231,$y+2,28,8);
+    $pdf-> Image('dist/img/InvigilatorSign.png',262,$y+2,28,8);
+                    
+                }
+            }   
+}
+}
+$pdf->Output();
+  ?>
