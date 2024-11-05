@@ -15593,7 +15593,7 @@ elseif($row['Status']=='Reject') {
 $statusColor="danger";
 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
 }
-elseif($row['Status']=='Pending to VC') {
+elseif($row['Status']=='Pending To Registrar') {
 $statusColor="info";
 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
 }
@@ -16321,8 +16321,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
             if($ifLEaveRow1=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run))
             {
-              
-              
+
             if($ifLEaveRow1['AuthorityId']!=$EmployeeID && $ifLEaveRow1['SanctionId']==$EmployeeID)
             {
                $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023' ANd  LeaveRecommendingAuthority='$EmployeeID' and ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' and  StaffId='".$ifLEaveRow['IDNo']."' order by  ApplyLeaveGKU.Id DESC "; 
@@ -16342,9 +16341,6 @@ sqlsrv_query($conntest,$updateLeaveBalance);
                 
             }
         //YEAR(StartDate)>='".date('Y')."' AND
-
-    
-        
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
 
         while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
@@ -16357,7 +16353,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending to VC')
+            elseif($row['Status']=='Pending To Registrar')
             {
                 $statusColor="warning";
             } 
@@ -16460,7 +16456,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending to VC')
+        elseif($row['Status']=='Pending To Registrar')
         {
             $statusColor="warning";
         } 
@@ -16491,7 +16487,7 @@ if ($monthdown<1) {?>
                                     <button type="button" data-toggle="modal" data-target="#viewApprovedLeaveByAuth"
                                         data-whatever="@mdo"
                                         onclick="viewLeaveModalApprovedByAuth(<?=$row['LeaveID'];?>);"
-                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye">k</i></button>
+                                        class=" btn btn-success  btn-sm"><i class="fa fa-eye"></i></button>
 
                                 </div>
 
@@ -16558,7 +16554,7 @@ if ($monthdown<1) {?>
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending to VC')
+            elseif($row['Status']=='Pending To Registrar')
             {
                 $statusColor="warning";
             } 
@@ -16640,7 +16636,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending to VC')
+        elseif($row['Status']=='Pending To Registrar')
         {
             $statusColor="warning";
         } 
@@ -16737,7 +16733,7 @@ if ($monthdown<1) {?>
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending to VC')
+            elseif($row['Status']=='Pending To Registrar')
             {
                 $statusColor="warning";
             } 
@@ -16778,7 +16774,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending to VC')
+        elseif($row['Status']=='Pending To Registrar')
         {
             $statusColor="warning";
         } 
@@ -16858,7 +16854,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     {
         $statusColor="danger";
     }
-    elseif($row['Status']=='Pending to VC')
+    elseif($row['Status']=='Pending To Registrar')
     {
         $statusColor="warning";
     } 
@@ -17023,7 +17019,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                 $statusColor="danger";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
             }
-            elseif($row['Status']=='Pending to VC') {
+            elseif($row['Status']=='Pending To Registrar') {
                 $statusColor="info";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
             }
@@ -17051,7 +17047,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php }?>
 
 
-                            <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending to VC'){ ?>
+                            <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending To Registrar'){ ?>
 
                             <button class="btn btn-success"
                                 onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
@@ -17116,7 +17112,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
        }
-        else if($row['Status']=='Pending to VC' && $Emp_Designation=='Vice Chancellor')
+        else if($row['Status']=='Pending To Registrar' && $Emp_Designation=='Vice Chancellor')
         {
              
           ?>
@@ -17162,7 +17158,7 @@ elseif($code==233)
                             <?php 
         $Sr=1;
        
-        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending to VC' order by  ApplyLeaveGKU.StartDate DESC "; 
+        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending To Registrar' order by  ApplyLeaveGKU.StartDate DESC "; 
                 
         
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -17185,7 +17181,7 @@ elseif($code==233)
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending to VC')
+            elseif($row['Status']=='Pending To Registrar')
             {
                 $statusColor="warning";
             } 
@@ -17375,13 +17371,13 @@ elseif($code==238)
     }
     if($Leave_Recom==$Leave_Authority)
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending To Registrar',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         sqlsrv_query($conntest,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending to VC',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending To Registrar',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         sqlsrv_query($conntest,$Notification11);
     }
