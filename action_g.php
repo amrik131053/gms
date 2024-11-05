@@ -15,7 +15,8 @@ window.location.href = 'index.php';
    {
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $CurrentExaminationGetDate=date('Y-m-d');
-   
+   $Leave_Authority_ID="171881"; 
+   $Leave_Authority_Label="Pending To Registrar";
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
@@ -41,7 +42,7 @@ window.location.href = "index.php";
 
          $Authority=$employee_details_row['LeaveSanctionAuthority'];
          $Recommend=$employee_details_row['LeaveRecommendingAuthority']; //new
-         if($Emp_Designation=='Vice Chancellor')
+         if($EmployeeID==$Leave_Authority_ID)
          {
             $ViceChancellor=$employee_details_row['IDNo'];
          }
@@ -15593,7 +15594,7 @@ elseif($row['Status']=='Reject') {
 $statusColor="danger";
 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
 }
-elseif($row['Status']=='Pending To Registrar') {
+elseif($row['Status']==$Leave_Authority_Label) {
 $statusColor="info";
 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
 }
@@ -16337,7 +16338,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             }
             else
             {
-              $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023' AND   StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='Pending To Registrar' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
+              $getAllleaves="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where YEAR(StartDate)>='2023' AND   StaffId='".$ifLEaveRow['IDNo']."' and  ApplyLeaveGKU.Status='$Leave_Authority_Label' and  ApplyLeaveGKU.Status!='Approved' and ApplyLeaveGKU.Status!='Reject' order by  ApplyLeaveGKU.Id DESC "; 
                 
             }
         //YEAR(StartDate)>='".date('Y')."' AND
@@ -16353,7 +16354,7 @@ sqlsrv_query($conntest,$updateLeaveBalance);
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending To Registrar')
+            elseif($row['Status']==$Leave_Authority_Label)
             {
                 $statusColor="warning";
             } 
@@ -16442,9 +16443,9 @@ if ($monthdown<1) {?>
         }
          }
         }
-        if($Emp_Designation=='Vice Chancellor')
+        if($EmployeeID==$Leave_Authority_ID)
         {
-      $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='Pending To Registrar' order by  ApplyLeaveGKU.Id DESC "; 
+      $ifLeaveCheckWhenAuth1="SELECT  *,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where   YEAR(StartDate)>='2023' ANd ApplyLeaveGKU.Status='$Leave_Authority_Label' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
     while($row=sqlsrv_fetch_array($ifLeaveCheckWhenAuth1Run,SQLSRV_FETCH_ASSOC))
     {   
@@ -16456,7 +16457,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending To Registrar')
+        elseif($row['Status']==$Leave_Authority_Label)
         {
             $statusColor="warning";
         } 
@@ -16554,7 +16555,7 @@ if ($monthdown<1) {?>
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending To Registrar')
+            elseif($row['Status']==$Leave_Authority_Label)
             {
                 $statusColor="warning";
             } 
@@ -16622,7 +16623,7 @@ if ($monthdown<1) {?>
             $Sr++;
         }
 
-        if($Emp_Designation=='Vice Chancellor')
+        if($EmployeeID==$Leave_Authority_ID)
         {
         $ifLeaveCheckWhenAuth1="SELECT  top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND   ApplyLeaveGKU.Status='Approved' and HRRemarks!='' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
@@ -16636,7 +16637,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending To Registrar')
+        elseif($row['Status']==$Leave_Authority_Label)
         {
             $statusColor="warning";
         } 
@@ -16733,7 +16734,7 @@ if ($monthdown<1) {?>
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending To Registrar')
+            elseif($row['Status']==$Leave_Authority_Label)
             {
                 $statusColor="warning";
             } 
@@ -16760,7 +16761,7 @@ if ($monthdown<1) {?>
            
             $Sr++;
         }
-        if($Emp_Designation=='Vice Chancellor')
+        if($EmployeeID==$Leave_Authority_ID)
         {
         $ifLeaveCheckWhenAuth1="SELECT  top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)='".date('Y')."' AND   ApplyLeaveGKU.Status='Reject' and HRRemarks!='' order by  ApplyLeaveGKU.Id DESC "; 
         $ifLeaveCheckWhenAuth1Run=sqlsrv_query($conntest,$ifLeaveCheckWhenAuth1);
@@ -16774,7 +16775,7 @@ if ($monthdown<1) {?>
         {
             $statusColor="danger";
         }
-        elseif($row['Status']=='Pending To Registrar')
+        elseif($row['Status']==$Leave_Authority_Label)
         {
             $statusColor="warning";
         } 
@@ -16854,7 +16855,7 @@ if($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     {
         $statusColor="danger";
     }
-    elseif($row['Status']=='Pending To Registrar')
+    elseif($row['Status']==$Leave_Authority_Label)
     {
         $statusColor="warning";
     } 
@@ -17019,7 +17020,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                 $statusColor="danger";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-times fa-lg' aria-hidden='true'></i></b>";
             }
-            elseif($row['Status']=='Pending To Registrar') {
+            elseif($row['Status']==$Leave_Authority_Label) {
                 $statusColor="info";
                 echo "<b class='text-".$statusColor."'>".$row['Status']."&nbsp;&nbsp;&nbsp;<i class='fa fa-share' aria-hidden='true'></i></b>";
             }
@@ -17047,11 +17048,11 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                             <?php }?>
 
 
-                            <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!='Pending To Registrar'){ ?>
+                            <?php if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime<3 && $row['Status']!='Approved' && $row['Status']!='Reject' && $row['Status']!=$Leave_Authority_Label){ ?>
 
                             <button class="btn btn-success"
                                 onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
-                            <?php if($Emp_Designation!='Vice Chancellor')
+                            <?php if($EmployeeID!=$Leave_Authority_ID)
                     {?>
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
                                 To Registrar</button>
@@ -17073,7 +17074,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
             ?>
                             <button class="btn btn-success"
                                 onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
-                            <?php if($Emp_Designation!='Vice Chancellor')
+                            <?php if($EmployeeID!=$Leave_Authority_ID)
                     {?>
                             <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
                                 To Registrar</button>
@@ -17082,7 +17083,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
          }
-         else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $Emp_Designation!='Vice Chancellor')
+         else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $EmployeeID!=$Leave_Authority_ID)
          {
            ?>
 
@@ -17092,7 +17093,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
         }
-        else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $Emp_Designation=='Vice Chancellor')
+        else if($row['AuthorityId']==$row['SanctionId'] && $LeaveDurationsTime>2 && ($row['Status']=='Pending to Authority' || $row['Status']=='Pending to Sanction') && $EmployeeID==$Leave_Authority_ID)
         {
           ?>
 
@@ -17102,7 +17103,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                            <?php
        }
-        else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime>2 && $row['Status']=='Pending to Authority'  && $Emp_Designation!='Vice Chancellor')
+        else if($row['AuthorityId']==$EmployeeID && $row['SanctionId']!=$EmployeeID && $LeaveDurationsTime>2 && $row['Status']=='Pending to Authority'  && $EmployeeID!=$Leave_Authority_ID)
         {
           ?>
 
@@ -17112,7 +17113,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php
        }
-        else if($row['Status']=='Pending To Registrar' && $Emp_Designation=='Vice Chancellor')
+        else if($row['Status']==$Leave_Authority_Label && $EmployeeID==$Leave_Authority_ID)
         {
              
           ?>
@@ -17158,7 +17159,7 @@ elseif($code==233)
                             <?php 
         $Sr=1;
        
-        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='Pending To Registrar' order by  ApplyLeaveGKU.StartDate DESC "; 
+        $getAllleaves="SELECT top(20)*,LeaveTypes.Name as LeaveTypeName,Staff.Name as StaffName,ApplyLeaveGKU.Id as LeaveID FROM Staff inner join ApplyLeaveGKU ON Staff.IDNo=ApplyLeaveGKU.StaffId  inner join LeaveTypes ON LeaveTypes.Id=ApplyLeaveGKU.LeaveTypeId  where  YEAR(StartDate)>='".date('Y')."' AND  (LeaveRecommendingAuthority='$EmployeeID' or  LeaveSanctionAuthority='$EmployeeID') and    ApplyLeaveGKU.Status='$Leave_Authority_Label' order by  ApplyLeaveGKU.StartDate DESC "; 
                 
         
         $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
@@ -17181,7 +17182,7 @@ elseif($code==233)
             {
                 $statusColor="danger";
             }
-            elseif($row['Status']=='Pending To Registrar')
+            elseif($row['Status']==$Leave_Authority_Label)
             {
                 $statusColor="warning";
             } 
@@ -17371,13 +17372,13 @@ elseif($code==238)
     }
     if($Leave_Recom==$Leave_Authority)
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending To Registrar',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='$Leave_Authority_Label',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp',SanctionRemarks='$remarks',SanctionApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         sqlsrv_query($conntest,$Notification11);
     }
     else
     {
-        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='Pending To Registrar',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
+        $updateLeaveAcrodingToAction="UPDATE  ApplyLeaveGKU  SET Status='$Leave_Authority_Label',RecommendedRemarks='$remarks',RecommendedApproveDate='$timeStamp' WHERE Id='$id'";
         $Notification11="INSERT INTO `Notification` (`EmpID`, `SendBy`, `Subject`, `Discriptions`, `Page_link`, `DateTime`, `Status`,`Notification_type`) VALUES ('$StaffId', '$Leave_Authority', 'Leave forwarded to VC', ' ', 'attendence-calendar.php', '$timeStamp', '0','2')";
         sqlsrv_query($conntest,$Notification11);
     }
