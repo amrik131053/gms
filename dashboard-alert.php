@@ -1,13 +1,14 @@
 <?php
-
+$Authority_Label='Pending To Registrar';
+$Authority_ID="171881"; 
 $alertshow=0;
  $lCount=0;
- $LeaveAlert="SELECT * FROM ApplyLeaveGKU where Status!='Approved' and Status!='Reject' and Status!='Pending to VC' and SanctionId='$EmployeeID' and  AuthorityId='$EmployeeID'";
+ $LeaveAlert="SELECT * FROM ApplyLeaveGKU where Status!='Approved' and Status!='Reject' and Status!='$Authority_Label' and SanctionId='$EmployeeID' and  AuthorityId='$EmployeeID'";
  $LeaveAlertCPunt=sqlsrv_query($conntest,$LeaveAlert,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
            $emp_count=sqlsrv_num_rows($LeaveAlertCPunt);
          if($emp_count>0)
          {
-         $lCount=$lCount+$emp_count;
+        echo $lCount=$lCount+$emp_count;
          }
 
 
@@ -27,16 +28,16 @@ $alertshow=0;
      {
           $lCount=$lCount+$emp_count11;
      }
-     if($Emp_Designation=='Vice Chancellor')
+     if($EmployeeID==$Authority_ID)
      {
 
-     $LeaveAlert111="SELECT * FROM ApplyLeaveGKU where  Status='Pending to VC'  and SanctionId!='$EmployeeID' and  AuthorityId!='$EmployeeID'";
+     $LeaveAlert111="SELECT * FROM ApplyLeaveGKU where  Status='$Authority_Label'  and SanctionId!='$EmployeeID' and  AuthorityId!='$EmployeeID'";
        $LeaveAlert111CPunt=sqlsrv_query($conntest,$LeaveAlert111,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 
                  $emp_count111=sqlsrv_num_rows($LeaveAlert111CPunt);
        if($emp_count111>0)
        {
-          $lCount=$lCount+$emp_count111;
+           $lCount=$lCount+$emp_count111;
        }
      }
 
