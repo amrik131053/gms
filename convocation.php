@@ -83,7 +83,7 @@
 <select  name="CollegeName" id='CollegeName'  class="form-control form-control-sm" required="">
   <option value='All'>All</option>
     <?php
-$sql="SELECT DISTINCT CollegeName from online_payment  where remarks='4th Convocation' ";
+$sql="SELECT DISTINCT CollegeName from online_payment  where remarks='4th Convocation' and status='success' ";
 $stmt2 = mysqli_query($conn_online,$sql);
 while($row1 = mysqli_fetch_array($stmt2) )
 {
