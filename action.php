@@ -26025,14 +26025,18 @@ $clrg="";
 else{
 ?>    <tr>
 <td colspan="5">
-<b> Seat No:<?=$SeatNo;?></b><center>
+</b><center>
    <button type="submit"  id="type" onclick="lockAC(<?=$user_id;?>);" name="update" class="btn btn-success " >Present</button>
     <!-- <button type="submit"  id="type" onclick="RejectAC(<?=$user_id;?>);" name="update" class="btn btn-danger " >Reject</button> -->
 </center>
 </td>
 </tr>
 <?php }?>
-
+<tr>
+   <td>
+   <b> Seat No:<?=$SeatNo;?>
+   </td>
+</tr>
 </table>
 </div>
 
