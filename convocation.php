@@ -98,6 +98,16 @@ $college = $row1['CollegeName'];
 
 
 </div>
+<div class="col-lg-2 col-md-2 col-sm-12">
+                     <label>Type</label>
+                     <select id="Type" class="form-control form-control-sm" >
+                         <option value="All">All</option>
+                         <option value="UG">UG</option>
+                         <option value="PG">PG</option>
+                        
+                     </select>
+
+                 </div>
                  <div class="col-lg-2 col-md-2 col-sm-13">
                      <label class="" style="font-size:14px;">Action</label><br>
                      <!-- <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp; -->
@@ -211,9 +221,10 @@ $college = $row1['CollegeName'];
 <script>
 function exportAttendancePdfWithoutIMage() {
     var CollegeName = document.getElementById('CollegeName').value;
+    var Type = document.getElementById('Type').value;
     var Status = document.getElementById('Status').value;
     if (CollegeName != '') {
-        window.open("export-convo-attendance-pdf.php?CollegeName=" + CollegeName + "&Status=" + Status, '_blank');
+        window.open("export-convo-attendance-pdf.php?CollegeName=" + CollegeName + "&Status=" + Status+ "&Type=" + Type, '_blank');
 
     } else {
         alert("Select ");
