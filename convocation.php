@@ -1,7 +1,6 @@
 <?php 
    include "header.php";  
-   include "connection/connection.php"; 
-
+   include "connection/connection_web.php"; 
    ?>
 <section class="content">
    <div class="container-fluid">
@@ -64,6 +63,68 @@
                </div>
               
                   <div class="card-body" >
+                  <div class="form-group row">
+                 
+                        
+                 <div class="col-lg-2 col-md-2 col-sm-12">
+                     <label>Status</label>
+                     <select id="Status" class="form-control form-control-sm" >
+                         <option value="All">All</option>
+                         <option value="No">Absent</option>
+                         <option value="Yes">Present</option>
+                        
+                     </select>
+
+                 </div>
+                 <div class="col-lg-2 col-md-4 col-sm-3">
+
+
+<label>College</label>
+<select  name="CollegeName" id='CollegeName'  class="form-control form-control-sm" required="">
+  <option value='All'>All</option>
+    <?php
+$sql="SELECT DISTINCT CollegeName from online_payment  where remarks='4th Convocation' and status='success' ";
+$stmt2 = mysqli_query($conn_online,$sql);
+while($row1 = mysqli_fetch_array($stmt2) )
+{
+$college = $row1['CollegeName']; 
+?>
+<option  value="<?=$college;?>"><?= $college;?></option>
+<?php    }
+
+?>
+</select> 
+
+
+
+</div>
+<div class="col-lg-2 col-md-2 col-sm-12">
+                     <label>Type</label>
+                     <select id="Type" class="form-control form-control-sm" >
+                         <option value="All">All</option>
+                         <option value="UG">UG</option>
+                         <option value="PG">PG</option>
+                        
+                     </select>
+
+                 </div>
+                 <div class="col-lg-2 col-md-2 col-sm-13">
+                     <label class="" style="font-size:14px;">Action</label><br>
+                     <!-- <button class="btn btn-danger btn-sm " onclick="fetchCutList()"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp; -->
+                      <button class="btn btn-danger btn-sm " onclick="exportAttendancePdfWithoutIMage()"><i
+                                         class="fa fa-file-pdf"></i></button>&nbsp;&nbsp;<!--
+                     <button class="btn btn-danger btn-sm " onclick="exportCutListPdf()"><i
+                                         class="fa fa-file-pdf"></i></button> -->
+                 </div>
+                 <!-- <div class="col-lg-1 col-md-1 col-sm-13">
+                     <label>&nbsp;</label><br>
+                    
+                     
+                 </div> -->
+                 
+
+
+             </div>
        <div class="card-body table-responsive">          
 <table class="table" style="font-size: 14px" >
 
@@ -158,6 +219,31 @@
 
 
 <script>
+function exportAttendancePdfWithoutIMage() {
+    var CollegeName = document.getElementById('CollegeName').value;
+    var Type = document.getElementById('Type').value;
+    var Status = document.getElementById('Status').value;
+    if (CollegeName != '') {
+        window.open("export-convo-attendance-pdf.php?CollegeName=" + CollegeName + "&Status=" + Status+ "&Type=" + Type, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
+function exportBusPassList() {
+    var exportCode = 80.1;
+    //var Session = document.getElementById('Session').value;
+    var Status = document.getElementById('Status').value;
+    var CollegeName = document.getElementById('CollegeName').value;
+    
+    if (Status != '') {
+        window.open("export.php?exportCode=" + exportCode + "&Status=" + Status+ "&CollegeName=" + CollegeName);
+
+    } else {
+       
+        ErrorToast('All input required','bg-warning');
+    }
+}
  $(window).on('load', function() 
           {
             load_comnference_data();

@@ -56,33 +56,31 @@ if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['
    {
       $permissionCount++;
    }
-   $code = $_POST['code'];
-
-   if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386'||$code=='388'||$code=='387'
-    ||$code=='389'||$code=='390'||$code=='391'||$code=='392'||$code=='393'|$code=='394'|$code=='395')
-   {
+     $code = $_POST['code'];
+    if($code=='311' || $code=='312'||$code=='313' ||$code=='314' ||$code=='332'||$code=='333'||$code=='386' || $code=='386.1' || $code=='394.1' || $code=='393.1' || $code=='388'|| $code=='387'
+    ||$code=='389'||$code=='390'||$code=='391'||$code=='392'||$code=='393'|| $code=='394'|| $code=='395' || $code=='395.1' || $code=='392.1' )
+    {
        include "connection/connection_web.php"; 
-
-   }
+       
+      }
      if($code==272 || $code==276)
-{
-       include "connection/ftp-erp.php";
-}
-if($code==147)
-{
-       include "connection/ftp.php";
-}
-   
-    $get_session="SELECT * FROM question_session where session_status='1'";
+     {
+        include "connection/ftp-erp.php";
+      }
+      if($code==147)
+      {
+         include "connection/ftp.php";
+      }
+      
+      $get_session="SELECT * FROM question_session where session_status='1'";
       $get_session_run=mysqli_query($conn,$get_session);
       if ($get_row=mysqli_fetch_array($get_session_run))
-       {
-      $current_session=$get_row['id'];    // code...
-      $current_session_name=$get_row['session_name'];    // code...
+      {
+         $current_session=$get_row['id'];    // code...
+         $current_session_name=$get_row['session_name'];    // code...
       }
-   
-   
-   if ($code == 1) {
+
+   if ($code==1) {
        $CategoryName = $_POST['CategoryName'];
        $category_insert = "INSERT into master_calegories (CategoryName)values ('$CategoryName')";
        $category_run = mysqli_query($conn, $category_insert);
@@ -95,7 +93,8 @@ if($code==147)
           echo "Ohh yaar ";
       }
       mysqli_close($conn);
-      } else if ($code == 2) {
+      } 
+      else if ($code == 2) {
       $ArticleName = $_POST['ArticleName'];
       $CategoryID = $_POST['CategoryID'];
       $Article_insert = "INSERT into master_article (CategoryCode,ArticleName)values ('$CategoryID','$ArticleName')";
@@ -25170,6 +25169,108 @@ if($row['confirmation']==2  AND $admissionstatus> 0  )
   sqlsrv_close($conntest);
   mysqli_close($conn);
    }
+elseif($code=='386.1') 
+   {
+    $sub_data=$_POST['sub_data'];
+    if($sub_data==2)
+    {
+      $Status = $_POST['Status'];
+       $CollegeName = $_POST['CollegeName'];
+      $qry = "SELECT * FROM online_payment WHERE status='success' AND remarks='4th Convocation'";
+      if ($Status !== 'All') {
+          $qry .= " AND attending='$Status'";
+      }
+      if ($CollegeName != 'All') {
+          $qry .= " AND CollegeName='$CollegeName'";
+      }  
+      $result=mysqli_query($conn_online,$qry);
+      // echo $qry;
+}
+else
+{
+  $rollno=$_POST['Rollno'];
+
+ //echo  "SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND roll_no='rollno' ";
+
+ $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND roll_no='$rollno'  ");
+}
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['remarks'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+       $attending=$row['attending'];
+
+       if($attending=='Yes')
+        {
+         $adstatus="Admitted";
+        }
+        else{
+$adstatus="Pending";
+        }
+       
+      
+if($row['attending']=='Yes')
+{?>
+            <tr style="background-color:#8FBC8F" >
+   <?php   }
+   else
+    {?>
+ <tr style="background-color:#e692a9">
+   <?php }
+  ?>  
+
+  <td>  
+      <?php
+      echo $counter++;?>
+     </td>
+        <td onclick="edit_stu(<?= $user_id;?>)" style="color:#1963b1" data-toggle="modal"  data-target=".bd-example-modal-xl">
+        <b><?php 
+        if($payment_id!=''){?>
+        <?= $payment_id.'('.$id.')';?><?php 
+         } ?></b>
+      </td>
+ <td> <?php echo $roll_no ;?> </td>
+ <td> <?php echo $name ;?> </td>
+ <td><?php echo $father_name; ;?></td>
+ <td><?php echo $course; ?></td>    
+ <td><?php echo $email;?> </td>
+ <td><?php echo $purpose;?> </td>
+  <td style="text-align: left;">  <?php if($row['receipt']!="")
+{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+   <?php 
+}
+?> </td>
+      <td><?php echo $phone; ?></td>
+      <td><?php echo $amount; ?></td>
+
+      <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
+      <td><?php $adstatus; ?></td>
+  
+      </tr>
+            <?php }?>
+
+
+
+<?php 
+  sqlsrv_close($conntest);
+  mysqli_close($conn);
+   }
 
 
  elseif($code==387)
@@ -25579,6 +25680,25 @@ echo "1";
     echo json_encode($count);
     mysqli_close($conn);
    }
+   elseif($code==392.1)
+   {
+   $count=array(); 
+  
+  $result1 = mysqli_query($conn_online,"SELECT count(*)  FROM online_payment where  status='success' AND remarks='4th Convocation' ANd attending='No'");
+  //echo  $Pending = mysqli_fetch_assoc($result);
+   $Pending = mysqli_fetch_row($result1)[0];
+
+   $result = mysqli_query($conn_online,"SELECT count(*)  FROM online_payment where  status='success' AND remarks='4th Convocation' ANd attending='Yes'");
+  //echo  $Pending = mysqli_fetch_assoc($result);
+   $Rejeted = mysqli_fetch_row($result)[0];
+
+
+   $count[0]=$Pending;
+   $count[1]=$Rejeted;
+   // $count[2]=$ForwardToAccount;
+    echo json_encode($count);
+    mysqli_close($conn_online);
+   }
    elseif($code=='393')
    {
   $id = $_POST['id'];
@@ -25751,6 +25871,177 @@ else if ($Status==3)
            sqlsrv_close($conntest); 
    }
 
+   elseif($code=='393.1')
+   {
+  $id = $_POST['id'];
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='4th Convocation' AND user_id='$id'");
+    $counter = 1; 
+        while($row=mysqli_fetch_array($result)) 
+        {
+
+
+      $id = $row['slip_no'];
+        $user_id = $row['user_id'];
+      $payment_id = $row['payment_id'];
+      $name = $row['name'];
+      $father_name = $row['father_name'];
+      $roll_no = $row['roll_no'];
+      $course = $row['course'];
+      $sem = $row['sem'];
+      $batch=$row['batch'];
+      $purpose=$row['remarks'];
+      $remarks=$row['remarks'];
+      $status=$row['status'];
+      $Created_date=$row['Created_date'];
+      $Created_time=$row['Created_time'];
+      $amount=$row['amount'];
+      $email = $row['email'];
+      $phone = $row['phone'];
+      $acverify_date=$row['AccountVerificationDate'];
+       $Status=$row['account_verification'];
+       $ac_reason=$row['AccountReason'];
+         $acrejectdate=$row['AccountRejectDate'];
+         $reg_reason=$row['EligibilityReason'];
+         $statusn = $row['account_verification'];
+       $attending=$row['attending'];
+             }
+  $sql = "SELECT  * FROM Admissions where UniRollNo='$roll_no'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+        while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+         {
+            // $IDNo= $row6['IDNo'];
+            $ClassRollNo= $row6['ClassRollNo'];
+            $IDNo= $row6['IDNo'];
+            $img= $row6['Image'];
+            $UniRollNo= $row6['UniRollNo'];
+            $name = $row6['StudentName'];
+            $father_name = $row6['FatherName'];
+            $mother_name = $row6['MotherName'];
+            $course = $row6['Course'];
+            $email = $row6['EmailID'];
+            $phone = $row6['StudentMobileNo'];
+            $batch = $row6['Batch'];
+            $college = $row6['CollegeName'];
+            $CourseID=$row6['CourseID'];
+            $CollegeID=$row6['CollegeID'];
+          }
+?>
+
+
+
+ <div class="card-body table-responsive">
+
+ <table class="table" style="border:1px solid black" >
+ <tr>
+ <td colspan="2"><img src="dist/img/new-logo.png" height="40" width="200"></td>
+
+<td colspan="2"><img src="dist/img/naac-logo.png" height="40" width="100" style="float:right;"></td>
+        </tr>
+        </table>
+        <br>
+ <table class="table"  style="border:1px solid black">
+
+ <tr>
+ <td style="padding-left: 10px"><b>Rollno: </b></td>
+
+ <td> <?php echo $UniRollNo;?>/<?=$ClassRollNo;?> &nbsp;(<?=$IDNo;?>)</td>
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+
+ <td  rowspan="2" >
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="200" width="150" class="img-thumnail" />';?>
+ </td>
+ </tr>
+ <tr>
+   <td style="padding-left: 10px"><b>College:</b></td>
+   <td ><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="4"><?=$course;?></td>
+</tr>
+ 
+
+ </table>
+
+ 
+<table>
+<tr>
+   <td colspan="10" style="text-align:right; font-size: 16px;">
+                                            </tr>
+                                            </table>
+
+
+
+
+<br>
+
+
+         <table class="table"  style="border:1px solid black">
+
+            <tr>
+<?php 
+$clrg="";
+ $Statusprint="";
+  if($statusn=='0')
+  {
+     $Statusprint='Pending at Accounts';
+     $clrg="green";
+  }
+  else if($statusn=='2'){
+    $Statusprint='Rejected  by Accounts Branch';
+    $clrg="red";
+  }
+  else if($statusn=='1'){
+    $Statusprint='Pending at Registration Branch';
+    $clrg="";
+  }
+  else if($statusn=='3'){
+    $Statusprint='Rejected  by Registration Branch';
+    $clrg="red";
+  }
+  else if($statusn=='4'){
+    $Statusprint='Verified by Registration Branch';
+    $clrg="green";
+  }
+?>
+    <td colspan="5">
+    <p style="color: <?=$clrg;?>;text-align: center;"> <b><?=$Statusprint;?></b></p>
+
+    <h6>Form  is  Submitted  by the student on Dated :  <?=$Created_date;?></h6> </td>
+</tr>
+
+<?php
+ if ($attending=='Yes')
+{
+?>
+<tr>
+    <td colspan="5" style='font-size: 25px;'>
+ <p style="color: green;text-align: center;"> <b>Student Present Success</b></p>
+ <button type="submit"  id="type" onclick="RejectAC(<?=$user_id;?>);" name="update" class="btn btn-danger " >Absent</button>
+</center>
+</tr>
+<?php
+}
+else{
+?>    <tr>
+<td colspan="5">
+<center>
+    <button type="submit"  id="type" onclick="lockAC(<?=$user_id;?>);" name="update" class="btn btn-success " >Present</button>
+    <!-- <button type="submit"  id="type" onclick="RejectAC(<?=$user_id;?>);" name="update" class="btn btn-danger " >Reject</button> -->
+</center>
+</td>
+</tr>
+<?php }?>
+
+</table>
+</div>
+
+
+
+
+         <?php
+          mysqli_close($conn);
+           sqlsrv_close($conntest); 
+   }
 
    elseif($code=='394')
    {
@@ -25761,6 +26052,12 @@ else if ($Status==3)
 
 echo "1";
 }
+   elseif($code=='394.1')
+   {
+  $id = $_POST['ID'];
+  $result = mysqli_query($conn_online,"Update online_payment set attending='Yes' where user_id='$id' ");
+   echo "1";
+}
 
 elseif($code=='395')
    {
@@ -25769,6 +26066,12 @@ elseif($code=='395')
 
  $result = mysqli_query($conn_online,"Update online_payment set account_verification='3',EligibilityRejectBy='$EmployeeID',EligibilityRejectDate='$timeStamp',EligibilityReason='$remarks' where slip_no='$id' ");
 
+echo "1";
+}
+elseif($code=='395.1')
+   {
+  $id = $_POST['ID'];
+ $result = mysqli_query($conn_online,"Update online_payment set attending='No' where user_id='$id' ");
 echo "1";
 }
  else

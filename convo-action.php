@@ -3,16 +3,9 @@ date_default_timezone_set("Asia/Kolkata");
 $timeStamp=date('Y-m-d H-i');
 $todaydate=date('Y-m-d');
 ini_set('max_execution_time', '0');
-  
 
-   
-   
-     $readonly = new mysqli('119.18.54.49', 'guruk2cy_connect','Amrik@123','guruk2cy_online');
-
+  $readonly = new mysqli('119.18.54.49', 'guruk2cy_connect','Amrik@123','guruk2cy_online');
   $code = $_POST['code'];
-   
- 
-  
   if($code=='1')
   {  
        $UniRolNo=$_POST['UniRolNo'];
@@ -28,7 +21,6 @@ ini_set('max_execution_time', '0');
      {
           echo "0";
   }
-
   }
     if($code=='2')
    {
@@ -107,6 +99,13 @@ else
 
 
               $retval=mysqli_query($readonly,$qry);
+              if($retval==true)
+              {
+                echo "<div class='alert alert-success'>Registered Successfully </div>";
+              }
+              else{
+
+              }
   
         
 }

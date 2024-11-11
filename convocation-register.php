@@ -56,6 +56,10 @@
 </div>
 </div>
 </div>
+<form action="convo-slip.php" method="post" target="_blank">
+<input type="text" class="form-control" name="rollNo"  placeholder="University Roll No."> 
+<input type="submit" value="Download" >
+</form>
 </section>
 <script type="text/javascript">
 
