@@ -25904,6 +25904,7 @@ else if ($Status==3)
          $reg_reason=$row['EligibilityReason'];
          $statusn = $row['account_verification'];
        $attending=$row['attending'];
+       $SeatNo=$row['SeatNo'];
              }
   $sql = "SELECT  * FROM Admissions where UniRollNo='$roll_no'";
 $stmt1 = sqlsrv_query($conntest,$sql);
@@ -26024,8 +26025,8 @@ $clrg="";
 else{
 ?>    <tr>
 <td colspan="5">
-<center>
-    <button type="submit"  id="type" onclick="lockAC(<?=$user_id;?>);" name="update" class="btn btn-success " >Present</button>
+<b> Seat No:<?=$SeatNo;?></b><center>
+   <button type="submit"  id="type" onclick="lockAC(<?=$user_id;?>);" name="update" class="btn btn-success " >Present</button>
     <!-- <button type="submit"  id="type" onclick="RejectAC(<?=$user_id;?>);" name="update" class="btn btn-danger " >Reject</button> -->
 </center>
 </td>
