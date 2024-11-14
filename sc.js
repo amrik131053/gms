@@ -268,7 +268,7 @@ var xmlhttp = new XMLHttpRequest();
 function courseByCollege(College) 
 {  
     // alert(College);
-var code='90';
+var code='90'; 
 $.ajax({
 url:'action.php',
 data:{College:College,code:code},

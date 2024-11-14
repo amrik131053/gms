@@ -74,7 +74,7 @@ function uncheckall()
                 <option value=''>Select Course</option>
                 
               </select>
-          </div>
+          </div> 
 
 
           <div class="col-lg-1 col-md-4 col-sm-3">
@@ -421,6 +421,8 @@ document.getElementById('marks_'+id).value='';
       },
       success:function(response)
       {
+        console.log(response);
+        
         if(response==1)
         {
 
@@ -535,7 +537,7 @@ $(function() {
 
 
 
-        var code = '200.2';
+        var code = '200.5';
         $.ajax({
             url: 'action.php',
             data: {
@@ -546,6 +548,7 @@ $(function() {
             type: 'POST',
             success: function(data) {
                 spinner.style.display = 'none';
+               // console.log(data);
                 if (data != "") {
 
                     $("#Batch").html("");
@@ -555,6 +558,8 @@ $(function() {
         });
     });
 });
+
+
 
 
 $(function() {
@@ -569,7 +574,7 @@ $(function() {
 
 
 
-        var code = '200.3';
+        var code = '200.6';
         $.ajax({
             url: 'action.php',
             data: {

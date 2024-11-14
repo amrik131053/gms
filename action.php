@@ -12913,7 +12913,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
- mcs.SemesterID='$sem' ANd mcs.Batch='$batch'  And sa.EmployeeID='$EmployeeID'";
+ mcs.SemesterID='$sem' ANd mcs.Batch='$batch'  And sa.EmployeeID='$EmployeeID'"; 
 ?>
  <option value="">Subject</option>
  <?php 
@@ -12928,6 +12928,45 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 sqlsrv_close($conntest);
 
   }
+   elseif ($code ==200.5)
+  {
+$course= $_POST['course'];
+$College= $_POST['College'];
+$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.CollegeID='$College' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+ <option value="">Batch</option>
+ <?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saBatch"];?>'><?= $row1["saBatch"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+ }
+ elseif ($code ==200.6)
+ {
+$course= $_POST['course'];
+$College= $_POST['College'];
+$Batch= $_POST['Batch'];
+$sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+<option value="">Semester</option>
+<?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saSemester"];?>'><?= $row1["saSemester"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+}
  // multiple update masrks  
  else if($code==201)
 {       
@@ -22953,7 +22992,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
         }
 
 
-$list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
+ $list_sqlw5 ="SELECT * from DDL_TheroyExaminationSemester  as DTES inner join DDL_TheroyExamination as DTE  ON DTE.id=DTES.DDL_TE_ID   Where  DDL_TE_ID='$did' ANd Semesterid='$semID' order by DTES.SemesterId  ASC";
 $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )
         {  
@@ -22980,7 +23019,7 @@ $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
  }
  else
  {
- $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
+  $list_sqlw= "update ExamFormSubject set P$ecat='$emarks',V$ecat='$vmarks',F$ecat='$fmarks', $ecat='$marks',$update='$EmployeeID',$updatedate='$timeStamp' where ID='$id'";
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
  if ($stmt1==true) 
  {

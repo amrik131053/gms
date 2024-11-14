@@ -226,7 +226,7 @@ for($i=1;$i<=12;$i++)
                 </div>
                 <!-- /.card-footer -->
               <!-- </form> -->
-            </div>
+            </div> 
           </div>
 
 
