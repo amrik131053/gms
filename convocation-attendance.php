@@ -300,7 +300,7 @@ function lockAC(ID)
                     SuccessToast('Successfully Verified');
                  
                     fetchCutList();
-                    $('.bd-example-modal-xl').modal('hide');
+                    // $('.bd-example-modal-xl').modal('hide');
                   
                 } else {
                     ErrorToast('Try Again', 'bg-danger');

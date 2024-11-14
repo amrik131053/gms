@@ -73,6 +73,7 @@
                          <option value="No">Absent</option>
                          <option value="Yes">Present</option>
                         
+                        
                      </select>
 
                  </div>
@@ -104,7 +105,8 @@ $college = $row1['CollegeName'];
                          <option value="All">All</option>
                          <option value="UG">UG</option>
                          <option value="PG">PG</option>
-                        
+                         <option value="Ph.D">Ph.D</option>
+                         <option value="Diploma">Diploma</option>
                      </select>
 
                  </div>

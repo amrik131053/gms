@@ -79,10 +79,11 @@ class PDF extends FPDF {
   
         $this->SetFont('times', 'B', 10);
         $this->SetXY(9, 32);
+        $this->Cell(10, 6, 'SrNo.', 1, 0, 'C', 0);
         $this->Cell(25, 6, 'Uni Roll No.', 1, 0, 'C', 0);
-        $this->Cell(55, 6, 'Name', 1, 0, 'C', 0);
-        $this->Cell(60, 6, 'Father Name', 1, 0, 'C', 0);
-        $this->Cell(55, 6, 'Course', 1, 0, 'C', 0);
+        $this->Cell(65, 6, 'Name', 1, 0, 'C', 0);
+        $this->Cell(55, 6, 'Father Name', 1, 0, 'C', 0);
+        $this->Cell(40, 6, 'Course', 1, 0, 'C', 0);
     }
     
     function Footer() {
@@ -105,10 +106,11 @@ for ($i = 0; $i < $j; $i++) {
     }
     
     $pdf->SetXY(9, $y);
+    $pdf->Cell(10, 6, $i+1, 1, 0, 'C', 0);
     $pdf->Cell(25, 6, $IDNo[$i], 1, 0, 'C', 0);
-    $pdf->Cell(55, 6, $name[$i], 1, 0, 'C', 0);
-    $pdf->Cell(60, 6, $father_name[$i], 1, 0, 'C', 0);
-    $pdf->Cell(55, 6, $course[$i], 1, 0, 'C', 0);
+    $pdf->Cell(65, 6, $name[$i], 1, 0, 'C', 0);
+    $pdf->Cell(55, 6, $father_name[$i], 1, 0, 'C', 0);
+    $pdf->Cell(40, 6, $course[$i], 1, 0, 'C', 0);
     $y += 6;
 }
 
