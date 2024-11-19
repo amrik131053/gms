@@ -1091,14 +1091,14 @@ function copyToClipboard(text) {
 
                                 </button>
                       </br></br>
-                                <?php if($role_id==2 || $role_id==15)
+                                <!-- <?php if($role_id==2 || $role_id==15)
                                             {?>
                                 <button type="button" onclick="exportLockedBasicExcel()" class="btn btn-success btn-sm">
 
                                     <i class="fa fa-file-excel">&nbsp;&nbsp;Download Basic Locked</i>
 
                                 </button>
-                                <?php }?>
+                                <?php }?> -->
                             </div>
                         </div>
                     </form>
