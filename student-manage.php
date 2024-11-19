@@ -836,18 +836,20 @@ function basicUnLock(loginId) {
 
 
 function exportLockedBasicExcel() {
-    var exportCode = 40;
-    var College = document.getElementById('College').value;
-    var Course = document.getElementById('Course').value;
-    var Batch = document.getElementById('Batch').value;
-    var Semester = document.getElementById('Semester').value;
-    var Type = document.getElementById('Type').value;
-    var Group = document.getElementById('Group').value;
-    var Examination = document.getElementById('Examination').value;
-    if (College != '') {
-        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
-            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
-            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+    var exportCode = 81;
+   var  CollegeName1=document.getElementById('CollegeName1').value;
+   var Course1=document.getElementById('Course1').value;
+   var Batch=document.getElementById('Batch').value;
+   var session1=document.getElementById('session1').value;
+   var Lateral=document.getElementById('Lateral').value;
+   var Status=document.getElementById('Status').value;
+   var Eligibility=document.getElementById('Eligibility').value;
+  
+    if (CollegeName1 != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeName1=" + CollegeName1
+         + "&Course1=" + Course1 +
+            "&Batch=" + Batch + "&session1=" + session1 + "&Lateral=" +
+            Lateral + "&Status=" + Status + "&Eligibility=" + Eligibility, '_blank');
 
     } else {
         alert("Select ");
@@ -1091,14 +1093,14 @@ function copyToClipboard(text) {
 
                                 </button>
                       </br></br>
-                                <!-- <?php if($role_id==2 || $role_id==15)
+                                <?php if($role_id==2 || $role_id==15)
                                             {?>
                                 <button type="button" onclick="exportLockedBasicExcel()" class="btn btn-success btn-sm">
 
                                     <i class="fa fa-file-excel">&nbsp;&nbsp;Download Basic Locked</i>
 
                                 </button>
-                                <?php }?> -->
+                                <?php }?>
                             </div>
                         </div>
                     </form>

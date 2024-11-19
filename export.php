@@ -11661,6 +11661,99 @@ $count++;
 
 
 }
+
+elseif ($exportCode == 81) {
+   
+    $CollegeName1 = $_GET['CollegeName1'] ?? '';
+    $Course1 = $_GET['Course1'] ?? '';
+    $Batch = $_GET['Batch'] ?? '';
+    $session1 = $_GET['session1'] ?? '';
+    $Lateral = $_GET['Lateral'] ?? '';
+    $Status = $_GET['Status'] ?? '';
+    $Eligibility = $_GET['Eligibility'] ?? '';
+
+    $sr = 1;
+    $select_add = "SELECT * FROM Admissions WHERE (BasicLocked = '1' OR BasicLocked = '0')";
+
+    if ($CollegeName1 !== '') {
+        $select_add .= " AND CollegeID = '" . addslashes($CollegeName1) . "'";
+    }
+    if ($Course1 !== '') {
+        $select_add .= " AND CourseID = '" . addslashes($Course1) . "'";
+    }
+    if ($Batch !== '') {
+        $select_add .= " AND Batch = '" . addslashes($Batch) . "'";
+    }
+    if ($session1 !== '') {
+        $select_add .= " AND Session = '" . addslashes($session1) . "'";
+    }
+    if ($Status !== '') {
+        $select_add .= " AND Status = '" . addslashes($Status) . "'";
+    }
+    if ($Eligibility !== '') {
+        $select_add .= " AND Eligibility = '" . addslashes($Eligibility) . "'";
+    }
+    if ($Lateral !== '') {
+        $select_add .= " AND LateralEntry = '" . addslashes($Lateral) . "'";
+    }
+
+    $select_add_q = sqlsrv_query($conntest, $select_add);
+
+
+    if ($select_add_q === false) {
+        die("Query failed: " . print_r(sqlsrv_errors(), true));
+    }
+
+    $exportstudy = "<table class='table' border='1' style='font-family: Times New Roman, Times, serif;'>
+        <tr>
+            <th>#</th>
+            <th>ClassRollNo</th>
+            <th>UniRollNo</th>
+            <th>Name</th>
+            <th>FatherName</th>
+            <th>MotherName</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Adhaar Card</th>
+            <th>Status</th>
+        </tr>";
+
+    while ($row = sqlsrv_fetch_array($select_add_q, SQLSRV_FETCH_ASSOC)) {
+      
+        $dob = isset($row['DOB']) && $row['DOB'] !== '' ? $row['DOB']->format('Y-m-d') : '';
+
+        if ($row['BasicLocked'] != '1') {
+            $color = '#8ccb8c';
+            $status = "Unlocked";
+        } else {
+            $color = '#e5070761';
+            $status = "Locked";
+        }
+
+        $exportstudy .= "
+        <tr>
+            <td>{$sr}</td>
+            <td>{$row['ClassRollNo']}</td>
+            <td>{$row['UniRollNo']}</td>
+            <td>{$row['StudentName']}</td>
+            <td>{$row['FatherName']}</td>
+            <td>{$row['MotherName']}</td>
+            <td>{$dob}</td>
+            <td>{$row['Sex']}</td>
+            <td>{$row['AadhaarNo']}</td>
+            <td>{$status}</td>
+        </tr>";
+        $sr++;
+    }
+
+    $exportstudy .= "</table>";
+
+   
+    echo $exportstudy;
+
+    $fileName = "Locked Basic Details";
+}
+
 header("Content-Disposition: attachment; filename=" . $fileName . ".xls");
 unset($_SESSION['filterQry']);
 ob_end_flush();
