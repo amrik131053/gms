@@ -5132,7 +5132,7 @@ else if($code=='52')
  $exam = $_GET['examination'];
   $group = $_GET['group'];
 
- $sql1 = "{ CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
+ $sql1 = "{CALL USP_Get_studentbyCollegeInternalMarksDistributionPractical('$CollegeID','$CourseID','$semID','$Batch','$subjectcode','$exam','$DistributionTheory','$group')}";
     $stmt = sqlsrv_prepare($conntest,$sql1);
   
     if (!sqlsrv_execute($stmt)) {
@@ -5207,6 +5207,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
               
       <?php     
          }
+
          ?>
 
 <td>

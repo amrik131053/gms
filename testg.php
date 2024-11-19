@@ -1,5 +1,6 @@
 <?php
 include "connection/connection.php";
+ include "connection/connection_web.php"; 
 date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 // $list=array();
 // $month = 12;
@@ -38,6 +39,33 @@ date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
 </form>
 <?php
 
+// if(isset($_POST['btnsubmit']))
+// {
+
+// $file = $_FILES['file_exl']['tmp_name'];
+// $handle = fopen($file, 'r');
+// $c = 0;
+// while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+// {
+//       echo $empid= $filesop[0];
+//       echo $blnce= $filesop[1];
+//     echo "<br>";
+
+//     echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance+$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
+//     echo "<br>";
+//       // $update_study_run=sqlsrv_query($conntest,$addbalnce);  
+//   if ($update_study_run==true) 
+//   {
+//      echo "success";
+//   }
+//   else
+//   {
+//    echo"no";
+//   }
+   
+// }
+// }
+
 if(isset($_POST['btnsubmit']))
 {
 
@@ -50,18 +78,23 @@ while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
       echo $blnce= $filesop[1];
     echo "<br>";
 
-    echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance+$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
-    echo "<br>";
+    
+$result1 = mysqli_query($conn_online,"UPDATE online_payment set SeatNo='$empid' where roll_no='$blnce'");
+
+   // echo $addbalnce="UPDATE LeaveBalances SET Balance=Balance+$blnce where Employee_Id='$empid' and LeaveType_Id='1'";
+   // echo "<br>";
       // $update_study_run=sqlsrv_query($conntest,$addbalnce);  
-  if ($update_study_run==true) 
-  {
-     echo "success";
-  }
-  else
-  {
-   echo"no";
-  }
+  // if ($update_study_run==true) 
+  // {
+  //    echo "success";
+  // }
+  // else
+  // {
+  //  echo"no";
+  // }
    
 }
 }
+
+
 ?>

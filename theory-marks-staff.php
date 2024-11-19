@@ -867,7 +867,7 @@ $(function() {
 
                     $("#Batch").html("");
                     $("#Batch").html(data);
-                }
+                } 
             }
         });
     });
