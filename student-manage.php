@@ -1,6 +1,11 @@
 <?php  
    include "header.php";   
    ?>
+   <style>
+    .border-dark-green {
+        border: 2px solid #006400; /* Dark green color */
+    }
+</style>
 <script type="text/javascript">
 function uploadPhotoStudent(form) {
     var formData = new FormData(form);
@@ -278,7 +283,7 @@ else{
 }
 }
 function updateStudent(empID) {
-
+// alert(empID);
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var code_access = '<?php echo $code_access; ?>';
@@ -770,9 +775,84 @@ function generateSmartCardForStudent(id) {
         }
     });
 }
+function basicLock() {
+    if (confirm("Really want to Lock basic details") == true) {
 
 
+var StudentName=document.getElementById("StudentName").value;
+var fatherName=document.getElementById("fatherName").value;
+var motherName=document.getElementById("motherName").value;
+var dob=document.getElementById("dob").value;
+var gender=document.getElementById("gender").value;
+var aadharNo=document.getElementById("aadharNo").value;
+var loginId=document.getElementById("loginId").value;
+    var code = 467;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,StudentName:StudentName,fatherName:fatherName,motherName:motherName,dob:dob,gender:gender,aadharNo:aadharNo,loginId:loginId
+        },
+        success: function(response) {
+            console.log(response);
+            if (response ==1) {
 
+                SuccessToast('Successfuly Locked');
+                updateStudent(loginId);
+            } else 
+            {
+                ErrorToast('Try Again','bg-warning');
+            }
+
+        }
+    });
+}
+}
+function basicUnLock(loginId) {
+    if (confirm("Really want to Un-Lock basic details") == true) {
+
+    var code = 468;
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: {
+            code: code,loginId:loginId
+        },
+        success: function(response) {
+            console.log(response);
+            if (response==1) {
+
+                SuccessToast('Successfuly UnLocked');
+                updateStudent(loginId);
+            } else 
+            {
+                ErrorToast('Try Again','bg-warning');
+            }
+
+        }
+    });
+}
+}
+
+
+function exportLockedBasicExcel() {
+    var exportCode = 40;
+    var College = document.getElementById('College').value;
+    var Course = document.getElementById('Course').value;
+    var Batch = document.getElementById('Batch').value;
+    var Semester = document.getElementById('Semester').value;
+    var Type = document.getElementById('Type').value;
+    var Group = document.getElementById('Group').value;
+    var Examination = document.getElementById('Examination').value;
+    if (College != '') {
+        window.open("export.php?exportCode=" + exportCode + "&CollegeId=" + College + "&Course=" + Course +
+            "&Batch=" + Batch + "&Semester=" + Semester + "&Type=" +
+            Type + "&Group=" + Group + "&Examination=" + Examination, '_blank');
+
+    } else {
+        alert("Select ");
+    }
+}
 
 
 
@@ -1006,10 +1086,19 @@ function copyToClipboard(text) {
 
                                     <i class="fa fa-file-excel">&nbsp;&nbsp;Download</i>
 
-
+                        
 
 
                                 </button>
+                      </br></br>
+                                <?php if($role_id==2 || $role_id==15)
+                                            {?>
+                                <button type="button" onclick="exportLockedBasicExcel()" class="btn btn-success btn-sm">
+
+                                    <i class="fa fa-file-excel">&nbsp;&nbsp;Download Basic Locked</i>
+
+                                </button>
+                                <?php }?>
                             </div>
                         </div>
                     </form>

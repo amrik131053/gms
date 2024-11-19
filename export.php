@@ -1069,6 +1069,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 
                 <th>Units Consumed</th>
                
+                <th>Units Concession</th>                
                 <th>Bill amount</th>                
             </tr>
         </thead>";
@@ -1108,6 +1109,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
             $unitsConsumed=$data1['unit'];
             $unitRate=$data1['unit_rate'];
             $billAmount=$data1['amount'];
+            $concession=$data1['concession'];
             $totalBill=$totalBill+$billAmount;
 
 
@@ -1241,13 +1243,14 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 </td>
                 <td>{$unitsConsumed}</td>
                 
+                <td><b>{$concession}</b></td>            
                 <td><b>{$billAmount}</b></td>            
             </tr>";
         
     }
     
     $meterLocationsData.=" <tr>
-                <th colspan='9'>Total Amount</th>                                
+                <th colspan='10'>Total Amount</th>                                
                 <th>{$totalBill}</th>                                
             </tr></table>";
     echo $exportMeterHeader;

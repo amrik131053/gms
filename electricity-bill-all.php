@@ -22,6 +22,7 @@ while ($data=mysqli_fetch_array($res) )
   $id=$data['mrID'];
   $unitRate=$data['unit_rate'];
   $billAmount=$data['amount'];
+  $concession=$data['concession'];
   $building=$data['Name'];
   if ($room_no==0) 
   {
@@ -484,20 +485,20 @@ $x=$pdf->GetX()+1+48;
 $pdf->Cell(48, 8, 'Date', 1, 1, 'C');
 
 $pdf->SetXY($x,$y);
-$x=$pdf->GetX()+1+48+0.5;
+$x=$pdf->GetX()+1+48;
 $pdf->Cell(47.5, 8, 'Reading', 1, 1, 'C');
 $pdf->SetXY($x,$y);
 $x=$pdf->GetX()+1+25;
 $pdf->Cell(25, 8, 'Date', 1, 1, 'C');
 $pdf->SetXY($x,$y);
-$x=$pdf->GetX()+1+38+8;
-$pdf->Cell(38+8, 8, 'Reading', 1, 1, 'C');
+$x=$pdf->GetX()+1+38;
+$pdf->Cell(38, 8, 'Reading', 1, 1, 'C');
 $pdf->SetXY($x,$y);
-$x=$pdf->GetX()+1+17+8;
-$pdf->Cell(17+8, 8, 'Units', 1, 1, 'C');
-// $pdf->SetXY($x,$y);
-// $x=$pdf->GetX()+1+15;
-// $pdf->Cell(15, 8, 'Rate', 1, 1, 'C');
+$x=$pdf->GetX()+1+17;
+$pdf->Cell(17, 8, 'Units', 1, 1, 'C');
+$pdf->SetXY($x,$y);
+$x=$pdf->GetX()+1+15;
+$pdf->Cell(15, 8, 'Rebate', 1, 1, 'C');
 
 $y=$pdf->GetY()+1;
 $pdf->SetFont('Times','b',12);
@@ -512,14 +513,14 @@ $pdf->SetXY($x,$y);
 $x=$pdf->GetX()+1+25;
 $pdf->Cell(25, 8, $date, 1, 1, 'C');
 $pdf->SetXY($x,$y);
-$x=$pdf->GetX()+1+38+8;
-$pdf->Cell(38+8, 8, $reading, 1, 1, 'C');
+$x=$pdf->GetX()+1+38;
+$pdf->Cell(38, 8, $reading, 1, 1, 'C');
 $pdf->SetXY($x,$y);
-$x=$pdf->GetX()+1+17+8;
-$pdf->Cell(17+8, 8, $unitsConsumed, 1, 1, 'C');
-// $pdf->SetXY($x,$y);
-// $x=$pdf->GetX()+1+15;
-// $pdf->Cell(15, 8, $unitRate, 1, 1, 'C');
+$x=$pdf->GetX()+1+17;
+$pdf->Cell(17, 8, $unitsConsumed, 1, 1, 'C');
+$pdf->SetXY($x,$y);
+$x=$pdf->GetX()+1+15;
+$pdf->Cell(15, 8, $concession, 1, 1, 'C');
 
 
 

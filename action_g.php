@@ -19200,8 +19200,9 @@ elseif($code==267) //update student
                                         <label>Name</label>
                                           <?php if($role_id=='2' OR  $role_id=='15' OR  $role_id=='21'){
                                             ?>
-                                            <input type="text" class="form-control" name="StudentName"
+                                            <input type="text" class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="StudentName" id="StudentName"
                                             placeholder="Enter name" value="<?=$row1['StudentName'];?>">
+                                            
                                             <?php  } else
                                             {
                                                 ?><input type="text" class="form-control" name="StudentName"
@@ -19214,7 +19215,7 @@ elseif($code==267) //update student
                                          <label>Father's Name</label>
                                          <?php if($role_id=='2' OR  $role_id=='15'OR  $role_id=='21'){
                                             ?>
-                                          <input type="text" class="form-control" name="fatherName"
+                                          <input type="text" class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="fatherName" id="fatherName"
                                             placeholder="Enter father's name" value="<?=$row1['FatherName'];?>">
                                             <?php  } else
                                             {
@@ -19227,17 +19228,17 @@ elseif($code==267) //update student
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Mother's Name</label>
-                                        <input type="text" class="form-control" name="motherName"
+                                        <input type="text" class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="motherName" id="motherName"
                                             placeholder="Enter mother's name" value="<?=$row1['MotherName'];?>">
                                     </div>
                                     <div class="col-md-12 col-lg-3">
                                         <label>Date of Birth</label>
-                                        <input type="date" class="form-control" name="dob"
+                                        <input type="date" class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="dob" id="dob"
                                             value="<?php if($DateOfBirth!=''){echo date("Y-m-d", strtotime($DateOfBirth->format("Y-m-d")));}?>">
                                     </div>
                                     <div class="col-md-12 col-lg-2">
                                         <label>Gender</label>
-                                        <select class="form-control" name="gender">
+                                        <select class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="gender" id="gender">
                                             <option value="<?=$row1['Sex'];?>"><?=$row1['Sex'];?>
                                             </option>
                                             <option>Male</option>
@@ -19261,7 +19262,7 @@ elseif($code==267) //update student
                                         <label>Aadhaar No</label>
                                         <?php if($role_id=='2' OR  $role_id=='15'){
                                             ?>
-                                            <input type="number" class="form-control" name="aadharNo"
+                                            <input type="number" class="form-control <?= $row1['BasicLocked'] ? 'border-dark-green' : ''; ?>" name="aadharNo" id="aadharNo"
                                             placeholder="Enter Aadhaar No" value="<?=$row1['AadhaarNo'];?>">
                                             <?php  } else
                                             {
@@ -19270,6 +19271,23 @@ elseif($code==267) //update student
                                             }
                                         ?>
                                         
+                                    </div>
+                                    <div class="col-md-12 col-lg-1">
+                                        <label>Lock</label>
+                                    <?php 
+                           if(($role_id=='15' || $role_id=='2')&& $row1['BasicLocked']!=1)
+                           {
+                            ?>
+                            <button type="button" onclick="basicLock()" class="btn btn-success"
+                            ><i class="fa fa-lock" aria-hidden="true"></i></button><?php
+                           }
+                           elseif(($role_id=='15' || $role_id=='2')&& $row1['BasicLocked']==1)
+                           {
+                            ?>
+                            <button type="button" onclick="basicUnLock(<?=$row1['IDNo'];?>)" class="btn btn-danger"
+                            ><i class="fa fa-unlock" aria-hidden="true"></i></button><?php
+                           }
+                           ?>
                                     </div>
                                        <div class="col-md-12 col-lg-3">
                                         <label>ABC ID</label>
@@ -19448,7 +19466,7 @@ elseif($code==267) //update student
                                 <div class="row">
                                 <div class="col-12 col-lg-3">
                                         <label>IDNo</label>
-                                        <input type="text" class="form-control" name="loginId"
+                                        <input type="text" class="form-control" name="loginId" id="loginId"
                                             value="<?=$row1['IDNo'];?>" readonly>
                                     </div>
                                     <div class="col-12 col-lg-3">
@@ -20149,6 +20167,7 @@ else
 
    <br>
 
+                         
 
                             <button type="button" onclick="uploadPhotoStudent(this.form)" class="btn btn-primary"
                                 id="update_button" style="display:none;">Update</button>
@@ -34965,6 +34984,47 @@ $update_query=sqlsrv_query($conntest,$update1);
       
 }
 sqlsrv_close($conntest);
+}
+
+elseif($code==467)
+{
+    $StudentName=$_POST['StudentName'];
+    $fatherName=$_POST['fatherName'];
+    $motherName=$_POST['motherName'];
+    $dob=$_POST['dob'];
+    $gender=$_POST['gender'];
+    $aadharNo=$_POST['aadharNo'];
+    $loginId=$_POST['loginId'];
+    $desc= "UPDATE Admissions SET StudentName".$StudentName.'FatherName'.$fatherName.'motherName'.$motherName.'dob'.$dob.'gender'.$gender.'aadharNo'.$aadharNo;
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+    $basiclocked="UPDATE Admissions SET BasicLocked='1' where IDNo='$loginId'";
+    $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
+    if($basiclockedRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+
+}
+elseif($code==468)
+{
+    $loginId=$_POST['loginId'];
+    $desc= "UPDATE Admissions SET 'BasicLocked.0";
+    $update1="insert into logbook(userid,remarks,updatedby,date)Values('$loginId','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+    $basiclocked="UPDATE Admissions SET BasicLocked='0' where IDNo='$loginId'";
+    $basiclockedRun=sqlsrv_query($conntest,$basiclocked);
+    if($basiclockedRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+
 }
    else
    {
