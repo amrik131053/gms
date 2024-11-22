@@ -232,7 +232,7 @@
  var spinner=document.getElementById("ajax-loader");
             spinner.style.display='block';
         // alert(examName+examSession+courseName);
-        var code=135;
+        var code=135; 
         $.ajax({
             url:'action.php',
             type:'post',

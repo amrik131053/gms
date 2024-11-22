@@ -9090,8 +9090,8 @@ elseif ($code==138)
    }
     elseif($examName=='8')
    {
-   // for B PHARMACY End Semester
-  $questionCountQry="Select * from question_generate_count where  unit='1' ";
+ // for B PHARMACY MST II
+  $questionCountQry="Select * from question_generate_count where  unit='3' AND exam='8' ";
       $flag=1;
 
    }
@@ -9157,6 +9157,10 @@ else
             {
                $unit=rand(1,2);
             }
+              elseif (($type=='1' || $type=='2' || $type=='3')  && $unit=='3'  && $examName=='8') 
+            {
+               $unit=rand(3,4);
+            }
 
             // elseif ($type=='1' && $unit=='3') 
             // {
@@ -9170,11 +9174,12 @@ else
 
             if($unit>4)
             {
-      $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
+       $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
             }
+            
             else
             {
-        $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
+         $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
             }
         
          $questionBankRes1=mysqli_query($conn,$questionBankQry1);
@@ -9200,7 +9205,7 @@ else
  if($countarray != count(array_unique($questionArray)))
  {
   echo 'Please Regenerate';
-    //print_r($questionArray);
+    print_r($questionArray);
 }
 
 
@@ -9235,6 +9240,10 @@ $gene=1;
     {
 $gene=1;
     }
+     elseif($examName==8 && $countarray==10)
+    {
+$gene=1;
+    }
       elseif($examName==9 && $countarray==22)
     {
 $gene=1;
@@ -9252,7 +9261,7 @@ $gene=1;
 
         if ($gene>0) 
         {
-            $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
+             $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
             $res=mysqli_query($conn,$sql);
             $qry="SELECT id from question_paper ORDER BY id DESC LIMIT 1 ";
             $run=mysqli_query($conn,$qry);
@@ -9273,7 +9282,7 @@ $gene=1;
  else
  {
    echo "Cant Generate due to insufficent data ";
-   //print_r($questionArray);
+   print_r($questionArray);
  }
  }
  }
