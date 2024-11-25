@@ -47,7 +47,14 @@ if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['
          // echo "inter net off";
       }
 
+ $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular'";
+      $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+      if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+      {
 
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
+      }
 
     $permissionCount=0;
    $permission_qry="SELECT * FROM category_permissions where employee_id='$EmployeeID' and is_admin='1'";
@@ -13451,7 +13458,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
   
 
- $sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
+  $sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
 
    $examFormAccepted_run12=sqlsrv_query($conntest,$sqlcheck,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 
@@ -26285,6 +26292,125 @@ elseif($code=='395.1')
  $result = mysqli_query($conn_online,"Update online_payment set attending='No' where user_id='$id' ");
 echo "1";
 }
+ elseif ($code==396)
+  {
+$course= $_POST['course'];
+$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+ ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+ <option value="">Batch</option>
+ <?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saBatch"];?>'><?= $row1["saBatch"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+ }
+  elseif ($code ==396.1)
+ {
+$course= $_POST['course'];
+$Batch= $_POST['Batch'];
+$sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+and mcs.Batch='$Batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+<option value="">Semester</option>
+<?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saSemester"];?>'><?= $row1["saSemester"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+}
+elseif($code==396.2) 
+{
+    $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                       <th>Day</th>
+                          <th>Lecture</th>
+                  <!--   <th>College</th> -->
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Batch</th>
+                    <th>Subject</th>
+                 
+                 
+                </tr>
+            </thead>
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' order by  ID  DESC "; 
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+  $getAllleaves1 = "SELECT * FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $row['CourseID'] . "' 
+                  AND CollegeID = '" . $row['CollegeID'] . "' 
+                  AND SubjectCode = '" . $row['SubjectCode'] . "'";
+;
+    $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
+    while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
+
+{
+
+
+
+
+?>
+                <tr>
+                    <td><?=$Sr;?></td>  <td><?=$row['Day'];?></td><td><?=$row['LectureNumber'];?></td>
+                   <!--  <td><?=$row1['CollegeName'];?></td> -->
+                    <td><?=$row1['Course'];?></td>
+                    <td><?=$row['SemesterID'];?></td>
+                    <td><?=$row['Batch'];?></td>
+                    <td><?=$row1['SubjectName'];?>(<?=$row['SubjectCode'];?>)</td>
+                    
+                    
+                    <td>
+               
+                        </div>
+
+
+                    </td>
+                </tr>
+                <?php
+
+       }
+        $Sr++;
+        // $aa[]=$row;
+    }
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+          sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
+
  else
 {
 echo "select code";

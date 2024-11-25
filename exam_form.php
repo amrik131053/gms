@@ -103,7 +103,7 @@ ini_set('max_execution_time', '0');
                 <form id="submit_exam_form" method="post" enctype="multipart/form-data" action="action.php">
                     <input type="hidden" name="code" value="203">
                     <div class="card-body">
-                        <div class="form-group row">
+                        <div class="form-group row"> 
                             <div class="col-lg-6">
                                 <label>Sem: </label>
                                 <select name="sem" id="semester" class="form-control" required="">
