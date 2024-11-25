@@ -23055,7 +23055,7 @@ $Id = $_POST["id"];
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
 $marks=$_POST['marks'];
-
+$semID=$_POST['sem'];
 
 
 
@@ -23120,11 +23120,11 @@ else
 
  if ($stmt1==true) 
  {
-   echo "1";
+   echo 1;
  }
  else
  {
-  echo "0";
+  echo 0;
  }
 
  sqlsrv_close($conntest);

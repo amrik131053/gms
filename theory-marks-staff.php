@@ -501,8 +501,10 @@ function savemarks(id)
       {
        if(response==1)
         {
-
-         SuccessToast('Successfully Updated');
+          SuccessToast('Successfully Updated');
+       //    spinner.style.display='none';
+       // SuccessToast('Successfully Saved');
+       // select_mst() ;
         }
         else if(response==0)
         {
