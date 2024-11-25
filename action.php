@@ -7241,7 +7241,7 @@ $update_query=sqlsrv_query($conntest,$update1);
 $ownerTable="";
    ?>
 <?php
-
+$concession="";
    $meterLocationsData='';
    $meterLocationsData.="<table class='table table-striped '>
        <thead>
@@ -16699,6 +16699,219 @@ Left
    <?Php
 }   
 sqlsrv_close($conntest);
+   }
+elseif($code=='257.1')
+   {
+     
+      $status="";
+   $code_access=$_POST['code_access'];
+   $univ_rollno=$_POST['rollNo'];
+   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+    $IDNo= $row['IDNo'];
+    $img= $row['Image'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $mother_name = $row['MotherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $getStatus="SELECT * FROM Migration where IDNo='$IDNo'";
+    $getStatusRun=sqlsrv_query($conntest,$getStatus);
+    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
+    {
+       
+       $status = $getStatusRow['Status'];
+    }
+   ?>
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <div class="widget-user-image">
+                
+                       
+                     <img class='direct-chat-img' src='<?=$BasURL.'Images/Students/'.$img;?>' alt='message user image'>
+    
+                      </div> 
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
+                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Mother Name </b> :&nbsp;&nbsp;&nbsp;<?= $mother_name; ?></li>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li> -->
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Examination</b>
+                     <select class="form-control" id="examination">
+                     <?php
+                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                           $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                           {    
+                     $examination = $row1['Examination'];  
+                     ?>
+                  <option value="<?=$examination;?>"><?= $examination;?></option>
+                  <?php }?>
+                     </select></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Result</b>
+                     <select class="form-control" id="result">
+                        <option value="Pass">Pass</option>
+                        <option value="Fail">Fail</option>
+                     </select></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b class="text-danger">
+                      <?php if($status==0 || $status=='')
+                      {
+                        ?> 
+                          <?php   if ($code_access=='100' || $code_access=='110' || $code_access=='111') 
+                                         {
+            ?> 
+               <button class="btn btn-success"onclick="applyMigration(<?=$IDNo;?>);">Apply</button>
+                      <?php }
+                      else{
+                        ?> 
+                        <button class="btn btn-success" disabled>Apply</button>
+                               <?php } 
+                      }
+                      
+                      elseif($status==1)
+                      {?>
+                         <label class="form-control text-primary" >Already Applied</label>
+                      <?php }
+                        elseif($status==2)
+                        {?>
+                           <label class="form-control text-warning" >Printed</label>
+                        <?php }
+                   ?>
+                </b></li>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+         
+   <?Php
+}   
+sqlsrv_close($conntest);
+   }
+   elseif($code=='257.2')
+   {
+      $code_access=$_POST['code_access'];
+      ?>
+       <table class="table">
+      <tr>
+         <th>Roll No</th>
+         <th>Name</th>
+         <th>Father Name</th>
+         <th>Mother Name</th>
+         <th>Course</th>
+         <th>Examination</th>
+         <th>Result</th>
+         <th>Edit</th>
+         <th>Action</th>
+      </tr><?php 
+   $status="";
+   $univ_rollno=$_POST['rollNo'];
+   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+    $IDNo= $row['IDNo'];
+    $UniRollNo= $row['UniRollNo'];
+    $img= $row['Image'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $mother_name = $row['MotherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+    $getStatus="SELECT * FROM Migration where IDNo='$IDNo'";
+    $getStatusRun=sqlsrv_query($conntest,$getStatus);
+    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
+    {
+       $status = $getStatusRow['Status'];
+    ?>
+      <tr>
+         <td><?=$UniRollNo;?></td>
+         <td><?=$name;?></td>
+         <td><?=$father_name;?></td>
+         <td><?=$mother_name;?></td>
+         <td><?=$course;?></td>
+         <td><?=$getStatusRow['Examination'];?></td>
+         <td><?=$getStatusRow['Result'];?></td>
+         <td> <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110') 
+                                         {?>
+            <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+      <?php }
+      else
+      {
+         ?>
+         <button type="button" class="btn btn-warning" disabled><i class="fa fa-edit"></i></button>
+         <?php   
+      }
+      ?></td>
+         <td>
+         <?php   $code_access; if ($code_access=='001' || $code_access=='011' || $code_access=='111' || $code_access=='101') 
+                                         {?>
+            <form action="migration-printing-pdf.php" method="post" target="_blank">
+               <?php if($getStatusRow['Status']=='1'){
+            ?>
+            <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
+            <button type="submit" class="btn btn-success"><i class="fa fa-print"></i></button>
+            <?php 
+         }
+         else if($getStatusRow['Status']=='2')
+         {
+            ?>
+             <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
+            <button type="submit" class="btn btn-success" >Re<i class="fa fa-print"></i></button>
+            <?php   
+         }
+         ?>
+      </form>
+      <?php }
+      else
+      {
+         ?>
+         <button type="buttton" class="btn btn-success" disabled><i class="fa fa-print"></i></button>
+         <?php   
+      }
+      ?>   
+      </td>
+      </tr>
+      <?php 
+    }
+   }?>
+    </table>
+
+
+<?php 
    }
 
 
