@@ -14,7 +14,7 @@
                      <h3 class="card-title">Student</h3>
                      <div class="card-tools">
                      <div class="btn-group input-group-sm">
-                                 <input type="text"  style="width:150px "  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="Employee ID" aria-describedby="button-addon2" value="">
+                                 <input type="text"  style="width:150px "  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="RollNo" aria-describedby="button-addon2" value="">
                               <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="search_by_roll_no();" name="search"><i class="fa fa-search"></i></button>
                            </div>
                    </div>
@@ -30,7 +30,7 @@
             <div class="col-md-9 col-lg-9 col-sm-3">
             <div class="card card-info">
                <div class="card-header">
-                  <h3 class="card-title">Entries  </h3>
+                  <h3 class="card-title">Entries </h3>
                   
                </div>
              
@@ -56,7 +56,29 @@
       </div>
       
    </div>
- 
+ <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     <div id='Editdetails'></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="update()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 </section>
 <p id="ajax-loader"></p>
 
@@ -92,6 +114,87 @@
          document.getElementById("allDeatils").innerHTML ='';
       }
    } 
+
+
+
+     function update()
+     {
+  var srno= document.getElementById("srno").value;
+  var idno= document.getElementById("IDNo").value;
+
+  var examination= document.getElementById("examination").value;
+var result= document.getElementById("result").value;
+
+var mid= document.getElementById("id").value;
+var code="257.4";
+
+
+
+         var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php",
+            type:"POST",
+            data:
+            {
+               code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno
+            },
+            success:function(response) 
+            {
+              //console.log(response);
+               spinner.style.display='none';
+
+               
+            }
+         });
+      
+     
+
+
+
+
+     }
+
+
+
+
+  function edit(ID)
+   {
+    
+          
+      var code=257.3;
+      var code_access = '<?php echo $code_access; ?>';
+      if (ID!='') 
+      {
+         var   spinner= document.getElementById("ajax-loader");
+   spinner.style.display='block';
+         $.ajax(
+         {
+            url:"action.php",
+            type:"POST",
+            data:
+            {
+               code:code,ID:ID,code_access:code_access
+            },
+            success:function(response) 
+            {
+               spinner.style.display='none';
+               document.getElementById("Editdetails").innerHTML =response;
+            }
+         });
+      }
+      else
+      {
+         document.getElementById("Editdetails").innerHTML ='';
+      }
+   }
+
+
+
+
+
+
 
 
    function search_by_roll_no()
