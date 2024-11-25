@@ -290,8 +290,8 @@ echo  $examName ." (".$sessionnane.")" ;
 
 
                                  
-                                  <!-- <td><?=$row['Unit']?></td> 
-                                <?=$row['category_name']?>(<?=$row['Unit']?>)-->
+                              <!--     <td><?=$row['Unit']?></td>  -->
+                               <!-- <?=$row['category_name']?>(<?=$row['Unit']?>)-->
                             
                              </th>
                             </tr>

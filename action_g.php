@@ -53,7 +53,7 @@ window.location.href = "index.php";
       }
 
 
-      $getCurrentExamination="SELECT * FROM ExamDate";
+      $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular'";
       $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
       if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
       {

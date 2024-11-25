@@ -47,7 +47,14 @@ if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['
          // echo "inter net off";
       }
 
+ $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular'";
+      $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+      if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+      {
 
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
+      }
 
     $permissionCount=0;
    $permission_qry="SELECT * FROM category_permissions where employee_id='$EmployeeID' and is_admin='1'";
@@ -9090,8 +9097,8 @@ elseif ($code==138)
    }
     elseif($examName=='8')
    {
-   // for B PHARMACY End Semester
-  $questionCountQry="Select * from question_generate_count where  unit='1' ";
+ // for B PHARMACY MST II
+  $questionCountQry="Select * from question_generate_count where  unit='3' AND exam='8' ";
       $flag=1;
 
    }
@@ -9157,6 +9164,10 @@ else
             {
                $unit=rand(1,2);
             }
+              elseif (($type=='1' || $type=='2' || $type=='3')  && $unit=='3'  && $examName=='8') 
+            {
+               $unit=rand(3,4);
+            }
 
             // elseif ($type=='1' && $unit=='3') 
             // {
@@ -9170,11 +9181,12 @@ else
 
             if($unit>4)
             {
-      $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
+       $questionBankQry1="Select Id from question_bank where  Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count ";
             }
+            
             else
             {
-        $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
+         $questionBankQry1="Select Id from question_bank where Unit='$unit' and Type='$type' and Category='$category' and SubjectCode='$SubjectCode' and CourseID='$CourseID' and Semester='$Semester' AND Exam_Session='$current_session' order by Rand() limit $count";
             }
         
          $questionBankRes1=mysqli_query($conn,$questionBankQry1);
@@ -9200,7 +9212,7 @@ else
  if($countarray != count(array_unique($questionArray)))
  {
   echo 'Please Regenerate';
-    //print_r($questionArray);
+    print_r($questionArray);
 }
 
 
@@ -9235,6 +9247,10 @@ $gene=1;
     {
 $gene=1;
     }
+     elseif($examName==8 && $countarray==10)
+    {
+$gene=1;
+    }
       elseif($examName==9 && $countarray==22)
     {
 $gene=1;
@@ -9252,7 +9268,7 @@ $gene=1;
 
         if ($gene>0) 
         {
-            $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
+             $sql="INSERT INTO question_paper (session, exam, subject_code, course, semester, printed_by, generated_on, status) VALUES ('$current_session', '$examName', '$SubjectCode', '$CourseID', '$Semester', '$EmployeeID', '$date', '0')";
             $res=mysqli_query($conn,$sql);
             $qry="SELECT id from question_paper ORDER BY id DESC LIMIT 1 ";
             $run=mysqli_query($conn,$qry);
@@ -9273,7 +9289,7 @@ $gene=1;
  else
  {
    echo "Cant Generate due to insufficent data ";
-   //print_r($questionArray);
+   print_r($questionArray);
  }
  }
  }
@@ -13442,7 +13458,7 @@ $stmt1 = sqlsrv_query($conntest,$sql);
 
   
 
- $sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
+  $sqlcheck = "SELECT  * FROM ExamForm where IDNo='$IDNo' AND SemesterID='$sem' ANd Examination ='$examination'";
 
    $examFormAccepted_run12=sqlsrv_query($conntest,$sqlcheck,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 
@@ -23252,7 +23268,7 @@ $Id = $_POST["id"];
 $id =$_POST['id'];  
 $ecat=$_POST['ecat'];
 $marks=$_POST['marks'];
-
+$semID=$_POST['sem'];
 
 
 
@@ -23317,11 +23333,11 @@ else
 
  if ($stmt1==true) 
  {
-   echo "1";
+   echo 1;
  }
  else
  {
-  echo "0";
+  echo 0;
  }
 
  sqlsrv_close($conntest);
@@ -26489,6 +26505,125 @@ elseif($code=='395.1')
  $result = mysqli_query($conn_online,"Update online_payment set attending='No' where user_id='$id' ");
 echo "1";
 }
+ elseif ($code==396)
+  {
+$course= $_POST['course'];
+$sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+ ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+ <option value="">Batch</option>
+ <?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saBatch"];?>'><?= $row1["saBatch"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+ }
+  elseif ($code ==396.1)
+ {
+$course= $_POST['course'];
+$Batch= $_POST['Batch'];
+$sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+and mcs.Batch='$Batch' ANd mcs.SubjectType!='P' And sa.EmployeeID='$EmployeeID'";
+$stmt2 = sqlsrv_query($conntest,$sql);
+?>
+<option value="">Semester</option>
+<?php 
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["saSemester"];?>'><?= $row1["saSemester"];?></option>";
+<?php 
+}
+sqlsrv_close($conntest);
+}
+elseif($code==396.2) 
+{
+    $CollegeName="";
+$CourseName="";
+$SubjectName="";
+?>
+        <table class="table " id="example">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                       <th>Day</th>
+                          <th>Lecture</th>
+                  <!--   <th>College</th> -->
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Batch</th>
+                    <th>Subject</th>
+                 
+                 
+                </tr>
+            </thead>
+            <tbody style="height:1px" id="">
+                <?php 
+    $Sr=1;
+    
+     $getAllleaves="SELECT * FROM TimeTable  where IDNo='$EmployeeID'  AND Examination='$CurrentExamination' order by  ID  DESC "; 
+    $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
+    while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
+    { 
+  $getAllleaves1 = "SELECT * FROM MasterCourseStructure 
+                  WHERE CourseID = '" . $row['CourseID'] . "' 
+                  AND CollegeID = '" . $row['CollegeID'] . "' 
+                  AND SubjectCode = '" . $row['SubjectCode'] . "'";
+;
+    $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
+    while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
+
+{
+
+
+
+
+?>
+                <tr>
+                    <td><?=$Sr;?></td>  <td><?=$row['Day'];?></td><td><?=$row['LectureNumber'];?></td>
+                   <!--  <td><?=$row1['CollegeName'];?></td> -->
+                    <td><?=$row1['Course'];?></td>
+                    <td><?=$row['SemesterID'];?></td>
+                    <td><?=$row['Batch'];?></td>
+                    <td><?=$row1['SubjectName'];?>(<?=$row['SubjectCode'];?>)</td>
+                    
+                    
+                    <td>
+               
+                        </div>
+
+
+                    </td>
+                </tr>
+                <?php
+
+       }
+        $Sr++;
+        // $aa[]=$row;
+    }
+    // print_r($aa);
+    ?>
+            </tbody>
+        </table><?php 
+          sqlsrv_close($conntest);
+}
+
+
+
+
+
+
+
+
+
+
+
  else
 {
 echo "select code";
