@@ -4,6 +4,14 @@ $id=$_POST['id'];
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
 
+
+  $list_sqlw= "UPDATE  Migration set IssueDate='$timeStampS' where ID='$id'";
+  
+     $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+
+
+
    $getStatus="SELECT * FROM Migration where ID='$id'";
    $getStatusRun=sqlsrv_query($conntest,$getStatus);
    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
@@ -13,7 +21,7 @@ date_default_timezone_set("Asia/Kolkata");
       $status = $getStatusRow['Status'];
       $result = $getStatusRow['Result'];
       $IDNo = $getStatusRow['IDNo'];
-      $dateofissue = $getStatusRow['IssueDate'];
+      $dateofissue = $getStatusRow['IssueDate']->format('d-m-Y');
       $result1 = "SELECT  * FROM Admissions where IDNo='$IDNo'";
       $stmt1 = sqlsrv_query($conntest,$result1);
       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -141,7 +149,9 @@ $pdf->SetFont('Times', 'B', $fontSize);
 $pdf->SetXY($YY+$ppp, $Y+120);
 $pdf->MultiCell(37, 10,$result.'.', 0, 'L');
 $pdf->SetXY(20, $Y+160);
+
 $yrdata= strtotime($dateofissue);
+
 $dateofissue=date('d F Y', $yrdata);
 $pdf->MultiCell(100, 10, 'Date of issue: '.$dateofissue, 0, 'L');
 $pdf->SetXY(120, $Y+160);

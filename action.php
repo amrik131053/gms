@@ -17045,7 +17045,7 @@ elseif($code=='257.3')
    
 
 
- $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='examination' where ID='$mid'";
+ $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination' where ID='$mid'";
   
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
 
