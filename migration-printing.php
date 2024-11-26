@@ -74,7 +74,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="update()">Save changes</button>
+       
       </div>
     </div>
   </div>
@@ -117,44 +117,120 @@
 
 
 
-     function update()
-     {
-  var srno= document.getElementById("srno").value;
-  var idno= document.getElementById("IDNo").value;
+//      function update()
+//      {
+//       alert("hello");
+//   var srno= document.getElementById("srno").value;
+//   var idno= document.getElementById("IDNo").value;
 
-  var examination= document.getElementById("examination").value;
-var result= document.getElementById("result").value;
+//   var examination= document.getElementById("examination").value;
+// var result= document.getElementById("result").value;
 
-var mid= document.getElementById("id").value;
-var code="257.4";
+// var mid= document.getElementById("id").value;
+// var code="257.4";
 
 
 
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php",
-            type:"POST",
-            data:
-            {
-               code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno
-            },
-            success:function(response) 
-            {
-              //console.log(response);
-               spinner.style.display='none';
+//          var   spinner= document.getElementById("ajax-loader");
+//    spinner.style.display='block';
+//          $.ajax(
+//          {
+//             url:"action.php",
+//             type:"POST",
+//             data:
+//             {
+//                code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno
+//             },
+//             success:function(response) 
+//             {
+//               //console.log(response);
+//                spinner.style.display='none';
 
                
-            }
-         });
-      
+//             }
+//          });      
      
+//      }
+
+
+
+ function update(form) {
+
+    var srno = form.srno.value;
+    var leaveFile = form.migrationfile.value;
+   
+  
+    if (srno === "") {
+
+        ErrorToast('Please select a Serial No .', 'bg-warning');
+        return;
+    }
+   
+    if (leaveFile === "") {
+
+        ErrorToast('Please upload an migration File.', 'bg-warning');
+        return;
+    }
+
+    // var submitButton = form.querySelector('input[name="migrationupload"]');
+    // submitButton.disabled = true;
+    // submitButton.value = "Submitting...";
+
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+             console.log(response);
+            if (response == 1) {
+                SuccessToast('data submitted successfully');
+               
+            } 
+            else{
+                ErrorToast('Please try after sometime.', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            // console.log(error);
+        },
+       
+    });
+}
 
 
 
 
-     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
