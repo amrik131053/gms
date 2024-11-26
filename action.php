@@ -9260,8 +9260,10 @@ else
        $questionSessionTrack.=$examName.'('.$current_session_name.')';
     }
          $questionCountRes=mysqli_query($conn,$questionCountQry);
+         $myqcount=0;
          while($questionCountData=mysqli_fetch_array($questionCountRes))
-         {
+         { 
+          
             $unit=$questionCountData['unit'];
             $type=$questionCountData['type'];  
             $category=$questionCountData['category'];
@@ -9282,7 +9284,17 @@ else
             }
               elseif (($type=='1' || $type=='2' || $type=='3')  && $unit=='3'  && $examName=='8') 
             {
-               $unit=rand(3,4);
+              if($myqcount%2==0)
+              {
+                $unit=3;
+              }else
+              {
+               $unit=4; 
+              }
+
+
+               
+
             }
 
             // elseif ($type=='1' && $unit=='3') 
@@ -9312,6 +9324,8 @@ else
                 $questionArray[]=$questionBankData1['Id'];
          
          }  
+                  $myqcount++;
+
       }    
 
 //print_r($questionArray);
