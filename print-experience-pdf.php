@@ -4,14 +4,6 @@ $id=$_POST['id'];
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
 
-
-  $list_sqlw= "UPDATE  Migration set IssueDate='$timeStampS' where ID='$id'";
-  
-     $stmt1 = sqlsrv_query($conntest,$list_sqlw);
-
-
-
-
    $getStatus="SELECT * FROM Migration where ID='$id'";
    $getStatusRun=sqlsrv_query($conntest,$getStatus);
    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
@@ -21,7 +13,7 @@ date_default_timezone_set("Asia/Kolkata");
       $status = $getStatusRow['Status'];
       $result = $getStatusRow['Result'];
       $IDNo = $getStatusRow['IDNo'];
-      $dateofissue = $getStatusRow['IssueDate']->format('d-m-Y');
+      $dateofissue = $getStatusRow['IssueDate'];
       $result1 = "SELECT  * FROM Admissions where IDNo='$IDNo'";
       $stmt1 = sqlsrv_query($conntest,$result1);
       if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
@@ -34,7 +26,6 @@ date_default_timezone_set("Asia/Kolkata");
        $course = $row['Course'];
        $email = $row['EmailID'];
        $batch = $row['Batch'];
-        $gender = $row['Sex'];
        $college = $row['CollegeName'];
       }
    }
@@ -82,20 +73,11 @@ $pdf->SetXY(20, $Y+90);
 $pdf->MultiCell(172, 10, 'It is informed that Guru Kashi University has no objection to continue his/her studies at another University.', 0, 'L');
 
 $pdf->SetXY(20, $Y+110);
-if($gender=='Male')
-{
- $pdf->MultiCell(45, 10, 'He last appeared in', 0, 'L');
- 
-}
-else
-{
-   $pdf->MultiCell(45, 10, 'She last appeared in', 0, 'L');
+$pdf->MultiCell(50, 10, 'He/She last appeared in', 0, 'L');
 
-}
-
-$pdf->SetXY(60, $Y+110);
+$pdf->SetXY(70, $Y+110);
 $pdf->SetFont('Times', 'B', $fontSize);
-$pdf->MultiCell(150, 10, ': '.$course, 0, 'L');
+$pdf->MultiCell(120, 10, ': '.$course, 0, 'L');
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->SetXY(20, $Y+120);
 $pdf->MultiCell(85, 10, 'Examination of this Univerisity held in', 0, 'L');
@@ -159,9 +141,7 @@ $pdf->SetFont('Times', 'B', $fontSize);
 $pdf->SetXY($YY+$ppp, $Y+120);
 $pdf->MultiCell(37, 10,$result.'.', 0, 'L');
 $pdf->SetXY(20, $Y+160);
-
 $yrdata= strtotime($dateofissue);
-
 $dateofissue=date('d F Y', $yrdata);
 $pdf->MultiCell(100, 10, 'Date of issue: '.$dateofissue, 0, 'L');
 $pdf->SetXY(120, $Y+160);

@@ -16988,6 +16988,7 @@ sqlsrv_close($conntest);
     if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
     {
        $status = $getStatusRow['Status'];
+        $mID = $getStatusRow['ID'];
     ?>
       <tr>
          <td><?=$UniRollNo;?></td>
@@ -16999,12 +17000,12 @@ sqlsrv_close($conntest);
          <td><?=$getStatusRow['Result'];?></td>
          <td> <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110') 
                                          {?>
-            <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+            <button type="button" class="btn btn-warning" onclick="edit(<?= $mID;?>)" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-edit"></i></button>
       <?php }
       else
       {
          ?>
-         <button type="button" class="btn btn-warning" disabled><i class="fa fa-edit"></i></button>
+         <button type="button" class="btn btn-warning" disabled=""><i class="fa fa-edit"></i></button>
          <?php   
       }
       ?></td>
@@ -17044,6 +17045,132 @@ sqlsrv_close($conntest);
 
 
 <?php 
+   }
+
+elseif($code=='257.3')
+   {
+
+   $status="";
+   $univ_rollno=$_POST['ID'];
+
+    $getStatus="SELECT * FROM Migration where ID='$univ_rollno'";
+    $getStatusRun=sqlsrv_query($conntest,$getStatus);
+    if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
+    {
+       $status = $getStatusRow['Status'];
+       $examination = $getStatusRow['Examination'];
+       $result = $getStatusRow['Result'];
+        $IDNo = $getStatusRow['IDNo'];
+         $srnumber = $getStatusRow['SrNumber'];
+        $mID = $getStatusRow['ID'];
+      }
+
+
+ $result1 = "SELECT  * FROM Admissions where IDNo='$IDNo' ";
+   $stmt1 = sqlsrv_query($conntest,$result1);
+   if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+   {
+    $IDNo= $row['IDNo'];
+    $UniRollNo= $row['UniRollNo'];
+    $img= $row['Image'];
+    $name = $row['StudentName'];
+    $father_name = $row['FatherName'];
+    $mother_name = $row['MotherName'];
+    $course = $row['Course'];
+    $email = $row['EmailID'];
+    $batch = $row['Batch'];
+    $college = $row['CollegeName'];
+  }
+   ?>
+
+    <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <div class="widget-user-image">
+                
+                       
+                     <img class='direct-chat-img' src='<?=$BasURL.'Images/Students/'.$img;?>' alt='message user image'>
+    
+                      </div> 
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
+                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Father Name </b> :&nbsp;&nbsp;&nbsp;<?= $father_name; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Mother Name </b> :&nbsp;&nbsp;&nbsp;<?= $mother_name; ?></li>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <li class="nav-link"><b>Contact</b> :&nbsp;&nbsp;&nbsp;<?= $phone; ?></li>
+                  </li> -->
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Batch</b> :&nbsp;&nbsp;&nbsp;<?= $batch; ?></li>
+                  </li>
+                  
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Course</b> :&nbsp;&nbsp;&nbsp;<?= $course; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Examination</b>
+                     <select class="form-control" id="examination">
+                     <?php
+                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                           $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+                           {    
+                     $examination = $row1['Examination'];  
+                     ?>
+                  <option value="<?=$examination;?>"><?= $examination;?></option>
+                  <?php }?>
+                     </select></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Result</b>
+                     <select class="form-control" id="result">
+                        <option value="Pass">Pass</option>
+                        <option value="Fail">Fail</option>
+                     </select></li>
+                  </li>
+                  <li class="nav-item">
+                     <li class="nav-link"><b>Result</b>
+                     <input type="text" class="form-control" value="<?=$srnumber;?>" name="srno" id='srno'></li>
+                     <input type="hidden" class="form-control" value="<?=$IDNo;?>" name="IDNo" id='IDNo'></li>
+                     <input type="hidden" class="form-control" value="<?=$mID;?>" name="id" id='id'></li>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+
+  <?php  }
+
+  elseif($code=='257.4')
+   {
+    $srno=$_POST['srno'];
+    $examination=$_POST['examination'];
+    $result=$_POST['result'];
+    $mid=$_POST['mid'];
+     $idno=$_POST['idno'];
+   
+
+
+ $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination' where ID='$mid'";
+  
+  $stmt1 = sqlsrv_query($conntest,$list_sqlw);
+
+
+  $desc= "UPDATE  Migration set result $result,SrNumber$srno,Examination$examination where ID:$mid";
+    
+ $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
+    $update_query=sqlsrv_query($conntest,$update1);
+
    }
 
 
