@@ -6961,7 +6961,7 @@ $update_query=sqlsrv_query($conntest,$update1);
    
    }
    $concession_unit=0;
-   $getconcessions="SELECT concession_unit from  meter_concession where meter_no='$articleID'";
+   $getconcessions="SELECT concession_unit from  meter_concession where meter_no='$articleID' and status='1'";
    $getconcessionsrun=mysqli_query($conn,$getconcessions);
    while($getconcessionsrundata1=mysqli_fetch_array($getconcessionsrun))
    {
@@ -7242,55 +7242,80 @@ $update_query=sqlsrv_query($conntest,$update1);
    mysqli_close($conn);
    }
    elseif($code=='105.1')
-   {   
+ {
    $count=0;
    $totalBill=0;
-$ownerTable="";
-   ?>
-<?php
-$concession="";
+   $building=$_POST['building'];
+   $floor=$_POST['floor'];
+   $room=$_POST['room'];
+  
+   if ($building!='' && $floor=='' && $room=='') 
+   {
+      $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+   }
+   elseif ($building!='' && $floor=='' && $room!='') 
+   {
+       $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+   }
+   elseif ($building!='' && $floor!='' && $room=='') 
+   {
+        $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where    Block='$building'  and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+   }
+   elseif ($building!='' && $floor!='' && $room!='') 
+   {
+       $sql="SELECT distinct article_no,room_name_master.RoomName as rmn from meter_reading INNER JOIN stock_summary ON meter_reading.article_no = stock_summary.IDNo inner join location_master on location_master.ID=meter_reading.location_id inner join room_name_master on location_master.RoomName =room_name_master.ID inner JOIN
+ building_master on building_master.ID=location_master.Block where Block='$building'  and RoomNo='$room' and Floor='$floor' AND stock_summary.Status='2' order by location_master.RoomNo asc";
+   }
+   
    $meterLocationsData='';
-   $meterLocationsData.="<table class='table table-striped '>
+   $meterLocationsData.="<table class='table '>
        <thead>
            <tr>
+               <th>Sr. No.</th>
                <th>Meter No.</th>
+               <th>Room No.</th>
+               <th>Room Name</th>
                <th>Owner</th>
                <th>Concession</th>
                <th>Action</th>
                
-               
            </tr>
        </thead>";
        
-       $article_num=$_POST['articleNo'];
+   $res=mysqli_query($conn,$sql);
+   while($data=mysqli_fetch_array($res))
+   {
+       $ownerTable='';
+       $concession="";
+       $count++;
+       $article_num=$data['article_no'];
        $readingQry="SELECT *, meter_reading.ID as mrID from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block where article_no='$article_num' ORDER by meter_reading.ID desc";
        $readingRes=mysqli_query($conn,$readingQry);
        if ($data1=mysqli_fetch_array($readingRes)) 
        {
            $room_no=$data1['RoomNo'];
 
+           $room_no1=$data['rmn'];
 
            $date=date("d-M-Y", strtotime($data1['reading_date']));
            $reading=$data1['current_reading'];
            $unitsConsumed=$data1['unit'];
            $unitRate=$data1['unit_rate'];
            $billAmount=$data1['amount'];
+           $concession1=$data1['concession'];
            $totalBill=$totalBill+$billAmount;
            $id=$data1['mrID'];
-   
+           $getConcession="SELECT * FROM meter_concession where meter_no='$article_num' and status='1' order by id DESC";
+           $getConcessionRes=mysqli_query($conn,$getConcession);
+           if($getConcessionData=mysqli_fetch_array($getConcessionRes))
+           {
 
+              $concession=$getConcessionData['concession_unit'];
 
-            $getConcession="SELECT * FROM meter_concession where meter_no='$article_num' order by id DESC";
-            $getConcessionRes=mysqli_query($conn,$getConcession);
-            if($getConcessionData=mysqli_fetch_array($getConcessionRes))
-            {
-
-               $concession=$getConcessionData['concession_unit'];
-
-            }
-
-
-
+           }
            $meterLocation=$data1['location_id'];
            $flag=0;
            $sr=0;
@@ -7349,22 +7374,40 @@ $concession="";
                }
              }
            }
+   
+   
+   
+   
+       }
       
            $meterLocationsData.="<tr>
-              
+               <td >{$count}</td>
                <td>{$article_num}</td>
+               <td>{$room_no}</td>
+               <td>{$room_no1}</td>
                <td>
                <table >
                {$ownerTable}
                </table>
+   
+   
                </td>
-               <td><input type='text'  id='concession_value' value='{$concession}'></td>
-                   <td>
-                       <button type='submit' onclick='addConcession({$article_num});' class='btn btn-success'>
+               <td>{$concession1}</td>
+              
+                 <td><input type='text'  id='concession_value{$article_num}' value='{$concession}'></td>
+                   <td>";
+if($concession==""){
+                    $meterLocationsData.="    <button type='button' onclick='addConcession({$article_num});' class='btn btn-success'>
                           Submit
-                       </button>
-                   
-               </td>
+                       </button>";
+}
+else{
+
+   $meterLocationsData.="    <button type='button' data-toggle='modal'  data-target='#update_consessions_modal' onclick='editConcession({$article_num});' class='btn btn-warning'>
+   Edit
+</button>";
+}
+               $meterLocationsData.="</td>
                
            </tr>";
        
@@ -7374,16 +7417,89 @@ $concession="";
    echo $meterLocationsData;
    sqlsrv_close($conntest);
    mysqli_close($conn);
-   }
+ }
    elseif($code=='105.2')
    {   
       $articleNo=$_POST['articleNo'];
       $concession_value=$_POST['concession_value'];
-       $concessionQry="INSERT into meter_concession(meter_no,concession_unit,concession_percent,added_by)values('$articleNo','$concession_value','','$EmployeeID');";
-     mysqli_query($conn,$concessionQry);
+       $concessionQry="INSERT into meter_concession(meter_no,concession_unit,concession_percent,added_by,submit_time)values('$articleNo','$concession_value','','$EmployeeID','$timeStamp');";
+     $addRun=mysqli_query($conn,$concessionQry);
        $desc= 'insert meter_concession=".$articleNo." concession_unit=".$concession_unit."';
       $update1="insert into logbook(userid,remarks,updatedby,date)Values('$articleNo','$desc','$EmployeeID','$timeStamp')";
     sqlsrv_query($conntest,$update1);
+    if($addRun==true)
+    {
+      echo "1";
+    }
+    else{
+      echo "0";
+    }
+
+   }
+   elseif($code=='105.3')
+   {   
+      $id=$_POST['id'];
+    $getCon="SELECT * FROM meter_concession WHERE meter_no='$id' and Status='1'";
+     $addRun=mysqli_query($conn,$getCon);
+     if($addRunRow=mysqli_fetch_array($addRun))
+     {
+      $tid=$addRunRow['id'];
+      $concession_unit=$addRunRow['concession_unit'];
+      $status=$addRunRow['status'];
+      if($status==1)
+      {
+         $statusLavel="Active";
+      }
+      else{
+         
+         $statusLavel="DeActive";
+      }
+     }
+     ?>
+<div class="row">
+   <div class="col-lg-12">
+      <label>Meter No</label>
+      <input type="text" id="Articleid" value="<?=$id;?>" class="form-control" readonly>
+      <input type="hidden" id="Tid" value="<?=$tid;?>" class="form-control" readonly>
+</div>
+<div class="col-lg-12">
+<label>Concession</label>
+   <input type="text" id="concessionUpdate" value="<?=$concession_unit;?>" class="form-control">
+</div>
+<div class="col-lg-12">
+   <label>Status</label>
+   <select class="form-control" id="statusUpdate">
+      <option value="<?=$status;?>"><?=$statusLavel;?></option>
+      <option value="1">Active</option>
+      <option value="0">DeActive</option>
+   </select>
+</div>
+</div>
+
+
+
+<?php 
+   
+
+   }
+   elseif($code=='105.4')
+   {   
+      $articleNo=$_POST['articleNo'];
+      $Tid=$_POST['Tid'];
+      $concession_value=$_POST['concession_value'];
+      $statusUpdate=$_POST['statusUpdate'];
+       $concessionQry="UPDATE meter_concession SET status='$statusUpdate',concession_unit='$concession_value',update_time='$timeStamp',updated_by='$EmployeeID' where meter_no='$articleNo' and id='$Tid' ";
+     $addRun=mysqli_query($conn,$concessionQry);
+       $desc= 'Update meter_concession=".$articleNo." concession_unit=".$concession_unit."';
+      $update1="insert into logbook(userid,remarks,updatedby,date)Values('$articleNo','$desc','$EmployeeID','$timeStamp')";
+    sqlsrv_query($conntest,$update1);
+    if($addRun==true)
+    {
+      echo "1";
+    }
+    else{
+      echo "0";
+    }
 
    }
 
