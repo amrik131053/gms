@@ -40,10 +40,52 @@ while($permission_data=mysqli_fetch_array($permission_res))
                         <div class="card-tools">
                            <div class="row">
                               
-                     
+                           <div class="col-lg-2">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="hostel" id='hostel_id' onchange="floorMeter(this.value)"  >
+                                       <option value="">Select Building</option>
+                                       <?php
+                                     
+
+if ($role_id=='2')
+{
+                                       $hostelQry="SELECT Distinct building_master.ID as BmId, Name from meter_reading inner join location_master on location_master.ID=meter_reading.location_id inner join building_master on building_master.ID=location_master.Block";
+                                       $hostelRes=mysqli_query($conn,$hostelQry);
+                                       while($hostelData=mysqli_fetch_array($hostelRes))
+                                       {
+                                          ?>
+                                          <option value="<?=$hostelData['BmId']?>"><?=$hostelData['Name']?></option>
+                                          <?php
+                                       }
+                                    }else
+                                       {
+                                       $hostelQry="SELECT * FROM building_master inner join hostel_permissions on hostel_permissions.building_master_id=building_master.ID where emp_id='$EmployeeID'";
+                                       $hostelRes=mysqli_query($conn,$hostelQry);
+                                       while($hostelData=mysqli_fetch_array($hostelRes))
+                                       {
+                                          ?>
+                                          <option value="<?=$hostelData['ID']?>"><?=$hostelData['Name']?></option>
+                                          <?php
+                                       }
+                                    }
+                                       ?>
+                                    </select>
+
+                                 </div>
+                              </div>
                               <div class="col-lg-1">
                                  <div class="input-group-sm">
-                                   <input type="text" class="form-control" id="articleNo">
+                                    <select class="form-control" name="hostelFloorID" id='hostelFloorID' onchange="meterRoom(0,this.value)" >
+                                       <option value="">Select Floor</option>
+                                       
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <select class="form-control" name="hostelRoomID" id='hostelRoomID'  >
+                                       <option value="">Select Room No.</option>
+                                    </select>
                                  </div>
                               </div>
                               <div class="col-lg-1">
@@ -51,6 +93,16 @@ while($permission_data=mysqli_fetch_array($permission_res))
                                     <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="search_meter_at_location()" >Search</button>
                                  </div>
                               </div>
+                              <!-- <div class="col-lg-2">
+                                 <div class="input-group-sm">
+                                   <input type="text" class="form-control" id="articleNo">
+                                 </div>
+                              </div> -->
+                              <!-- <div class="col-lg-1">
+                                 <div class="input-group-sm">
+                                    <button type="button" class="btn btn-outline-warning btn-sm form-control" onclick="search_meter_at_location()" >Search</button>
+                                 </div>
+                              </div> -->
 
                               <div class="col-lg-2">
                                  <div class="input-group mb-3 input-group-sm">
@@ -88,150 +140,30 @@ while($permission_data=mysqli_fetch_array($permission_res))
    <p id="ajax-loader"></p>
 
    <script type="text/javascript">
-    //   function exportData(meterNo) 
-    //   {
-    //         var exportCode='14';
-    //       window.location.href="export.php?meterNo="+meterNo+"&exportCode="+exportCode;
-    //   }
 
-
-
-
-
-//       function exportMeterLocations(building)
-//       {
-//             var exportCode='15';
-//             var floor=document.getElementById("hostelFloorID").value;
-//             var room=document.getElementById("hostelRoomID").value;
-//             window.location.href="export.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room;
-//       }
-
-//    function exportMeterLocations_print()
-//       {
-//             var exportCode='15';
-//             var floor=document.getElementById("hostelFloorID").value;
-//             var room=document.getElementById("hostelRoomID").value;
-//                var building=document.getElementById("hostel_id").value;
-//             window.open("print_bill_detail_excel.php?building="+building+"&exportCode="+exportCode+"&floor="+floor+"&room="+room,"_blank");
-//       }
-
-
-// function groupexport(id)
-//       {
-//             var exportCode='17';
-//             //alert(id);
-//             var group=id;
-            
-//           window.location.href="export.php?building="+group+"&exportCode="+exportCode;
-//       }
-
-// function groupexportpdf(id)
-//       {
-           
-//             var group=id;
-            
-          
-//           window.open("group-reading-pdf.php?id=" + group, '_blank');
-//       }
-
-
-    //   function meterReadings(meterNo)
-    //   {
-         
-    //      if (meterNo==0) 
-    //      {
-    //         meterNo=document.getElementById("meterNo").value;
-    //      }
-    //      if (meterNo!='') 
-    //      {
-    //         var code='384';
-    //          $.ajax(
-    //          {
-    //            url:'action.php',
-    //            data:{code:code,meterNo:meterNo},
-    //            type:'POST',
-    //            success:function(data)
-    //            {
-    //               if(data != "")
-    //               {
-    //                  $("#meter_data").html("");
-    //                  $("#meter_data").html(data);
-    //               }
-    //            }
-            
-    //         });  
-    //      }
-    //   }
-    //   function meterReport(meterNo)
-    //   {
-         
-    //      if (meterNo==0) 
-    //      {
-    //         meterNo=document.getElementById("meterNo").value;
-    //      }
-    //      if (meterNo!='') 
-    //      {
-    //         var code='383';
-    //          $.ajax(
-    //          {
-    //            url:'action.php',
-    //            data:{code:code,meterNo:meterNo},
-    //            type:'POST',
-    //            success:function(data)
-    //            {
-    //               if(data != "")
-    //               {
-    //                  $("#meterReportData").html("");
-    //                  $("#meterReportData").html(data);
-    //               }
-    //            }
-            
-    //         });  
-    //      }
-    //   }
-      
-    //   function floorMeter(id)
-    //   {  var floor='';
-    //      meterRoom(id,floor);
-    //      var code='103';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{code:code,building:id},
-    //      type:'POST',
-    //      success:function(data){
-    //      if(data != "")
-    //      {
-    //      $("#hostelFloorID").html("");
-    //      $("#hostelFloorID").html(data);
-    //      }
-    //      }
-    //      });
-    //   } 
-    //   function meterRoom(id,floor)
-    //   {
-    //      if (id==0) 
-    //      {
-    //         id=document.getElementById("hostel_id").value;
-    //      }
-    //      var code='104';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{code:code,building:id,floor:floor},
-    //      type:'POST',
-    //      success:function(data){
-    //      if(data != "")
-    //      {
-    //      $("#hostelRoomID").html("");
-    //      $("#hostelRoomID").html(data);
-    //      }
-    //      }
-    //      });
-    //   }
-
+function editConcession(id)
+          {
+      var spinner=document.getElementById("ajax-loader");
+       spinner.style.display='block';
+           var code='105.3';
+           $.ajax({
+              url:'action.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("update_consessions_modal_data").innerHTML=response;
+               }
+           });
+          } 
       function addConcession(id)
       {
-        var code='105.2';
-        var concession_value=document.getElementById("concession_value").value;
+         var code='105.2';
+         var concession_value=document.getElementById("concession_value"+id).value;
+         // alert(concession_value);
          var spinner=document.getElementById("ajax-loader");
                 spinner.style.display='block';
             $.ajax({
@@ -240,23 +172,101 @@ while($permission_data=mysqli_fetch_array($permission_res))
             type:'POST',
             success:function(data)
             {
+               if(data==1)
+            {
+               SuccessToast('Successfully');
+               search_meter_at_location();
+            }
+            else{
+               ErrorToast('All Input Required', 'bg-warning');
+            }
                 console.log(data);
                 spinner.style.display='none';
             }
         });
       }
-      function search_meter_at_location()
+      function editConcessionUpdate()
       {
-         
-         var code='105.1';
-         var articleNo=document.getElementById("articleNo").value;
-         if (articleNo!='') 
-         {
+         var code='105.4';
+         var Tid=document.getElementById("Tid").value;
+         var id=document.getElementById("Articleid").value;
+         var concession_value=document.getElementById("concessionUpdate").value;
+         var statusUpdate=document.getElementById("statusUpdate").value;
          var spinner=document.getElementById("ajax-loader");
                 spinner.style.display='block';
             $.ajax({
             url:'action.php',
-            data:{code:code,articleNo:articleNo},
+            data:{code:code,articleNo:id,concession_value:concession_value,statusUpdate:statusUpdate,Tid:Tid},
+            type:'POST',
+            success:function(data)
+            {
+               if(data==1)
+            {
+               SuccessToast('Successfully');
+               search_meter_at_location();
+            }
+            else{
+               ErrorToast('All Input Required', 'bg-warning');
+            }
+                console.log(data);
+                spinner.style.display='none';
+            }
+        });
+      }
+
+          
+      function floorMeter(id)
+      {  var floor='';
+         meterRoom(id,floor);
+         var code='103';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+         $("#hostelFloorID").html("");
+         $("#hostelFloorID").html(data);
+         }
+         }
+         });
+      } 
+      function meterRoom(id,floor)
+      {
+         if (id==0) 
+         {
+            id=document.getElementById("hostel_id").value;
+         }
+         var code='104';
+         $.ajax({
+         url:'action.php',
+         data:{code:code,building:id,floor:floor},
+         type:'POST',
+         success:function(data){
+         if(data != "")
+         {
+         $("#hostelRoomID").html("");
+         $("#hostelRoomID").html(data);
+         }
+         }
+         });
+      }
+
+      function search_meter_at_location()
+      {
+         
+         var code='105.1';
+         var building=document.getElementById("hostel_id").value;
+         if (building!='') 
+         {
+         var spinner=document.getElementById("ajax-loader");
+                              spinner.style.display='block';
+            var floor=document.getElementById("hostelFloorID").value;
+            var room=document.getElementById("hostelRoomID").value;
+            $.ajax({
+            url:'action.php',
+            data:{code:code,building:building,floor:floor,room:room},
             type:'POST',
             success:function(data){
             if(data != "")
@@ -273,208 +283,35 @@ while($permission_data=mysqli_fetch_array($permission_res))
             alert("Select Hostel");
          }
       }
-    
-
-//      function  exportMetergroup()
-
-// {
-          
-//          var code='284';
+      // function search_meter_at_location()
+      // {
          
-//          var spinner=document.getElementById("ajax-loader");
-//                               spinner.style.display='block';
-            
-//             $.ajax({
-//             url:'action.php',
-//             data:{code:code},
-//             type:'POST',
-//             success:function(data){
-//             if(data != "")
-//             {
-//                spinner.style.display='none';
-//                $("#meterReportData").html("");
-//                $("#meterReportData").html(data);
-//             }
-//             }
-//             });
-//       }
-
-    //   function student_stock(locationID,studentID)
-    //   {
-    //      // alert(studentID);
-    //       var spinner=document.getElementById("ajax-loader");
-    //                           spinner.style.display='block';
-    //      var code='85';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{code:code,locationID:locationID,studentID:studentID},
-    //      type:'POST',
-    //      success:function(data){
-    //      if(data != "")
-    //      {
-    //         spinner.style.display='none';
-    //      $("#student_stock_data").html("");
-    //      $("#student_stock_data").html(data);
-    //      }
-    //      }
-    //      });
-    //   }
-    //   function article_at_location(categoryID,locationID)
-    //   {
-    //       var code='86';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{code:code,locationID:locationID,categoryID:categoryID},
-    //      type:'POST',
-    //      success:function(data){
-    //      if(data != "")
-    //      {
-
-    //      $("#articleID").html("");
-    //      $("#articleID").html(data);
-    //      }
-    //      }
-    //      });
-    //   }
-    //   function article_number_at_location(articleID,locationID)
-    //   {
-    //       var code='87';
-    //      $.ajax({
-    //      url:'action.php',
-    //      data:{code:code,locationID:locationID,articleID:articleID},
-    //      type:'POST',
-    //      success:function(data){
-    //      if(data != "")
-    //      {
-               
-    //      $("#articleNum").html("");
-    //      $("#articleNum").html(data);
-    //      }
-    //      }
-    //      });
-    //   }
-    //   function assignStudentStock(locationID)
-    //   {
-    //      var code='88';
-    //      var studentID=document.getElementById("studentID").value;
-    //      var articleNum=document.getElementById("articleNum").value;
-    //      if (articleNum!='' && studentID!='') 
-    //      {
-    //         $.ajax(
-    //         {
-    //            url:'action.php',
-    //            data:{code:code,articleNum:articleNum,studentID:studentID},
-    //            type:'POST',
-    //            success:function(data)
-    //            {
-    //               // $('#student_stock').hide();
-    //               //$("[data-dismiss=modal]").trigger({ type: "click" });
-    //               // search_meter_at_location();
-    //                student_stock(locationID,studentID)
-    //            }
-    //         });
-    //      }
-    //      else
-    //      {
-    //         alert("Select all values");
-    //      }
-    //   }
-    //    function check_out(ID,studentID,locationID)
-    //          {
-     
-    //   var code=76;
-    //   var a=confirm("Are you sure to check out" + " " + ID);
-    //   if (a==true) 
-    //   {
-    //      $.ajax(
-    //      {
-    //         url:"action.php ",
-    //         type:"POST",
-    //         data:
-    //         {
-    //            code:code,id:ID,studentID:studentID
-    //         },
-    //         success:function(response) 
-    //         {
-    //            // returnStudentStock(studentID)
-    //            student_stock(locationID,studentID)
-    //            //alert("success");
-    //            // location.reload(true);
-    //         }
-    //      });
-    //   }
-    //         }
-
-    //   function returnStudentStock(rollNo)
-    //   {
-    //      code=75;
-    //            $.ajax(
-    //      {
-    //         url:"action.php ",
-    //         type:"POST",
-    //         data:
-    //         {
-    //            code:code,rollNo:rollNo
-    //         },
-    //         success:function(response) 
-    //         {
-    //            document.getElementById("return_student_stock_data").innerHTML =response;  
-    //         }
-    //      });
-    //   }
-    // function studentAttendance(studentID)
-    //   {
-    //      code=92;
-    //            $.ajax(
-    //      {
-    //         url:"action.php ",
-    //         type:"POST",
-    //         data:
-    //         {
-    //            code:code,studentID:studentID
-    //         },
-    //         success:function(response) 
-    //         {
-    //            document.getElementById("student_attendance_data").innerHTML =response;  
-    //         }
-    //      });
-    //   }
-
-
-    //   function hostelAvailability()
-    //   {
-         
-    //      var code='95';
-    //      var building=document.getElementById("hostel_id").value;
-    //      if (building!='') 
-    //      {
-    //      var spinner=document.getElementById("ajax-loader");
-    //                           spinner.style.display='block';
-    //         var floor=document.getElementById("hostelFloorID").value;
-    //         var room=document.getElementById("hostelRoomID").value;
-    //         // alert(building);
-    //         // alert(floor);
-    //         // alert(room);
-    //         $.ajax({
-    //         url:'action.php',
-    //         data:{code:code,building:building,floor:floor,room:room},
-    //         type:'POST',
-    //         success:function(data){
-    //         if(data != "")
-    //         {
-    //            spinner.style.display='none';
-    //            $("#meterReportData").html("");
-    //            $("#meterReportData").html(data);
-    //         }
-    //         }
-    //         });
-    //      }
-    //      else
-    //      {
-    //         alert("Select Hostel");
-    //      }
-    //   }
-
+      //    var code='105.1';
+      //    var articleNo=document.getElementById("articleNo").value;
+      //    if (articleNo!='') 
+      //    {
+      //    var spinner=document.getElementById("ajax-loader");
+      //           spinner.style.display='block';
+      //       $.ajax({
+      //       url:'action.php',
+      //       data:{code:code,articleNo:articleNo},
+      //       type:'POST',
+      //       success:function(data){
+      //       if(data != "")
+      //       {
+      //          spinner.style.display='none';
+      //          $("#meterReportData").html("");
+      //          $("#meterReportData").html(data);
+      //       }
+      //       }
+      //       });
+      //    }
+      //    else
+      //    {
+      //       alert("Select Hostel");
+      //    }
+      // }
+   
    </script>
 </section>
 
@@ -485,7 +322,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
       </div>
    </div>
 </div>
-<div class="modal fade" id="return_student_stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal fade" id="update_consessions_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
    <div class="modal-dialog" role="document" >
       <div class="modal-content"  >
          <div class="modal-header">
@@ -495,12 +332,12 @@ while($permission_data=mysqli_fetch_array($permission_res))
             </button>
          </div>
             <!-- <input type="hidden" name="code" value="88"> -->
-            <div class="modal-body" id="return_student_stock_data">
+            <div class="modal-body" id="update_consessions_modal_data">
                
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" onclick="assignStudentStock()" class="btn btn-primary">Save</button>
+               <button type="submit" onclick="editConcessionUpdate()" class="btn btn-primary">Save</button>
             </div>
       </div>
    </div>
