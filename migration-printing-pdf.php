@@ -34,6 +34,7 @@ date_default_timezone_set("Asia/Kolkata");
        $course = $row['Course'];
        $email = $row['EmailID'];
        $batch = $row['Batch'];
+        $gender = $row['Sex'];
        $college = $row['CollegeName'];
       }
    }
@@ -81,11 +82,20 @@ $pdf->SetXY(20, $Y+90);
 $pdf->MultiCell(172, 10, 'It is informed that Guru Kashi University has no objection to continue his/her studies at another University.', 0, 'L');
 
 $pdf->SetXY(20, $Y+110);
-$pdf->MultiCell(50, 10, 'He/She last appeared in', 0, 'L');
+if($gender=='Male')
+{
+ $pdf->MultiCell(45, 10, 'He last appeared in', 0, 'L');
+ 
+}
+else
+{
+   $pdf->MultiCell(45, 10, 'She last appeared in', 0, 'L');
 
-$pdf->SetXY(70, $Y+110);
+}
+
+$pdf->SetXY(60, $Y+110);
 $pdf->SetFont('Times', 'B', $fontSize);
-$pdf->MultiCell(120, 10, ': '.$course, 0, 'L');
+$pdf->MultiCell(150, 10, ': '.$course, 0, 'L');
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->SetXY(20, $Y+120);
 $pdf->MultiCell(85, 10, 'Examination of this Univerisity held in', 0, 'L');
