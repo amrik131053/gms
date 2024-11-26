@@ -17230,6 +17230,10 @@ elseif($code=='257.3')
 $file_tmp = $_FILES['migrationfile']['tmp_name'];
 $type = $_FILES['migrationfile']['type'];
 
+
+if($file_name!='')
+{
+
 include "connection/ftp-erp.php";
 
 function getFileExtension($file_name) {
@@ -17272,6 +17276,11 @@ $file_name = $srno."_".$idno."_".$string."_".basename($_FILES['migrationfile']['
  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
 
 ftp_close($conn_id);
+}
+else
+{
+  $file_name='';
+}
 
 
  $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination',Documents='$file_name' where ID='$mid'";

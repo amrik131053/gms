@@ -166,11 +166,11 @@
         return;
     }
    
-    if (leaveFile === "") {
+    // if (leaveFile === "") {
 
-        ErrorToast('Please upload an migration File.', 'bg-warning');
-        return;
-    }
+    //     ErrorToast('Please upload an migration File.', 'bg-warning');
+    //     return;
+    // }
 
     // var submitButton = form.querySelector('input[name="migrationupload"]');
     // submitButton.disabled = true;
