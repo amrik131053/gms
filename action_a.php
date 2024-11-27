@@ -201,52 +201,52 @@ else{
 }
 elseif($code==4)
 {
-    $IDEmployee=$_POST['IDEmployee'];
-$file_name = $_FILES['passbookCopy']['name'];
-$file_tmp = $_FILES['passbookCopy']['tmp_name'];
-$file_size =$_FILES['passbookCopy']['size'];
-$file_type = $_FILES['passbookCopy']['type'];
-$allowedTypes = array(
-    'image/png',
-    'image/jpg',
-    'image/jpeg',
-    'application/pdf'
-);
-if (in_array($_FILES['passbookCopy']['type'], $allowedTypes))
-    {
-if ($file_size < 550000)
-    { 
-$date=date('Y-m-d');  
-$string = bin2hex(openssl_random_pseudo_bytes(4));
-$file_data = file_get_contents($file_tmp);
-$file_name = $IDEmployee."_".strtotime($date)."_".$string."_".basename($_FILES['passbookCopy']['name']);
-$destdir = '/Images/Staff/bankpassbook';
-    ftp_chdir($conn_id, "/Images/Staff/bankpassbook/") or die("Could not change directory");
-    ftp_pasv($conn_id,true);
-    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
-    ftp_close($conn_id);
-    $insertExp="UPDATE Staff SET Bankpassbookpath='$file_name' where IDNo='$IDEmployee'";
-    $result = sqlsrv_query($conntest, $insertExp);
-    if($result==true)
-    {
-        echo "1";
-    }
-    else
-    {
-        echo "0";
-    }
-    }
-    else
-    {
-        echo "2"; // size 500kb
-    }
-}else{
-    echo "3"; // file format
+   $IDEmployee=$_POST['IDEmployee'];
+   $file_name = $_FILES['passbookCopy']['name'];
+   $file_tmp = $_FILES['passbookCopy']['tmp_name'];
+   $file_size =$_FILES['passbookCopy']['size'];
+   $file_type = $_FILES['passbookCopy']['type'];
+   $allowedTypes = array(
+      'image/png',
+      'image/jpg',
+      'image/jpeg',
+      'application/pdf'
+   );
+   if (in_array($_FILES['passbookCopy']['type'], $allowedTypes))
+   {
+      if ($file_size < 550000)
+      { 
+         $date=date('Y-m-d');  
+         $string = bin2hex(openssl_random_pseudo_bytes(4));
+         $file_data = file_get_contents($file_tmp);
+         $file_name = $IDEmployee."_".strtotime($date)."_".$string."_".basename($_FILES['passbookCopy']['name']);
+         $destdir = '/Images/Staff/bankpassbook';
+         ftp_chdir($conn_id, "/Images/Staff/bankpassbook/") or die("Could not change directory");
+         ftp_pasv($conn_id,true);
+         ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+         ftp_close($conn_id);
+         $insertExp="UPDATE Staff SET Bankpassbookpath='$file_name' where IDNo='$IDEmployee'";
+         $result = sqlsrv_query($conntest, $insertExp);
+         if($result==true)
+         {
+            echo "1";
+         }
+         else
+         {
+            echo "0";
+         }
+      }
+      else
+      {
+         echo "2"; // size 500kb
+      }
+   }else{
+      echo "3"; // file format
+   }
+   sqlsrv_close($conntest);
 }
-    sqlsrv_close($conntest);
+else{
+   
+   
 }
-        else{
-
-
-        }
 }

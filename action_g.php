@@ -86,7 +86,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==224 || $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
+ if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -4788,7 +4788,87 @@ else { ?>
                 <?php }?>
             </div>
         </div>
-
+<br>
+<div class="row">
+                                                    
+                                                    <div class="table-responsive col-lg-12" >
+                                                                                <?php
+                                                $sql1 = "SELECT * from PHDacademic WHERE UserName= $emp_id ";
+                                        
+                                        
+                                            if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
+                                            ?>
+                                                        <table class="table table-bordered" style="font-size:14px;">
+                                                            <tr >
+                                                           <th>SrNo</th>
+                                                           <th>University</th>
+                                                            <th>Topic of Research</th>
+                                                            <th>Name of Supervisor</th>
+                                                            <th>Date of Enrollment</th>
+                                                            <th>Date of Registration</th>
+                                                            <th>Date of Degree</th>
+                                                            <th>Subject</th>
+                                                            <th>Supervisor Details</th>
+                                                            <th>Course Work Details</th>
+                                                            <th>Course Work University</th>
+                                                            <th>Total Marks</th>
+                                                            <th>Obtained Marks</th>
+                                                            <th>Date of Passing</th>
+                                                            <th>Percentage</th>
+                                                           
+                                                                <th>Action</th>
+                                                            </tr>
+                                                            <tbody>
+                                                            <?php
+                              $res = sqlsrv_query($conntest, $sql1);
+                              $SrNo=1;
+                              while ($data1 = sqlsrv_fetch_array($res)) { ?>
+                               <tr>
+                              <td><?=$SrNo;?></td>
+                              <td><?=$data1['University'];?></td>
+                                <td><?=$data1['TopicofResearch'];?></td>
+                                <td><?=$data1['NameofSupervisor'];?></td>
+                                <td><?=$data1['DateofEnrollment'];?></td>
+                                <td><?=$data1['DateofRegistration'];?></td>
+                                <td><?=$data1['DateofDegree'];?></td>
+                                <td><?=$data1['Subject'];?></td>
+                                <td><?=$data1['SupervisorDetails'];?></td>
+                                <td><?=$data1['CourseWorkDetails'];?></td>
+                                <td><?=$data1['CourseWorkUniversity'];?></td>
+                                <td><?=$data1['TotalMarks'];?></td>
+                                <td><?=$data1['ObtainedMarks'];?></td>
+                                <td><?=$data1['DateofPassing'];?></td>
+                                <td><?=$data1['Percentage'];?></td>
+                              <td>
+                                 <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i>
+                                 <?php 
+                            if($data1['upddate']!='')
+                            {
+                            $stop_date = new DateTime($timeStamp);
+                            $stop_date->modify('-1 day');
+                              $endDateUpdate=$stop_date->format('Y-m-d');
+                                  $dbDateFromUpdate=$data1['upddate']->format('Y-m-d');
+                                    if($endDateUpdate<=$dbDateFromUpdate)
+                                    {
+                                 ?>
+                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deletePHD(<?=$data1['id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i> 
+                                 <?php }
+                                 }?>
+                                 
+                              </td>
+                           </tr>
+                           <?php
+                           $SrNo++;
+                              }
+                              ?>
+                                                            </tbody>
+                                                        </table>
+                                                        <?php }?>
+                                                    </div>
+                                                </div>
+                 
     </div>
     </section>
 </div>
@@ -32393,20 +32473,27 @@ elseif($code==431)
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <section class="content">    
-                                                <!-- 
+                                                
                                                 <div class="row">
-                                                    <div class="col-lg-2 col-md-4 col-sm-4">
+                                                    <div class="col-lg-1 col-md-4 col-sm-4">
                                                         <a href="#marks_type">
                                                             <button onclick="academic_detail()" id="add_button" class="btn btn-primary">
                                                                 Academics</button>
                                                         </a>
                                                     </div>
+                                                    &nbsp;
+                                                    <div class="col-lg-1 col-md-4 col-sm-4">
+                                                        <a href="#marks_type">
+                                                            <button onclick="phd_detail()" id="phd_button" class="btn btn-primary">
+                                                                PHD</button>
+                                                        </a>
+                                                    </div>
                                                     <div class="col-lg-10">
                                                     </div>
-                                                </div> -->
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-lg-12" >
-                                                            <div id="marks_type" style="display: block ;margin-top:-20px;"><br>
+                                                            <div id="marks_type" style="display: none ;margin-top:-20px;"><br>
                                                                 <input type="radio" class="btn" id="percentage"
                                                                     name="marks_type" value='percentage' hidden=""
                                                                     required="">
@@ -32422,6 +32509,119 @@ elseif($code==431)
                                                     </div>
                                                 </div>
                                                 
+                                                <div id="phd_qualification" style="display:none;">
+    <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="code" value="436.1">
+        <input type="hidden" name="employeeID" value="<?=$EmployeeID;?>">
+
+        <!-- Subject -->
+        <div class="col-12 col-md-6">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" required>
+        </div>
+
+        <!-- Topic of Research -->
+        <div class="col-12 col-md-6">
+            <label for="topic" class="form-label">Topic of Research</label>
+            <input type="text" id="topic" name="topic" class="form-control" required>
+        </div>
+
+        <!-- University -->
+        <div class="col-12 col-md-6">
+            <label for="university" class="form-label">University</label>
+            <input type="text" id="university" name="university" class="form-control" required>
+        </div>
+
+        <!-- Name of Supervisor -->
+        <div class="col-12 col-md-6">
+            <label for="supervisor_name" class="form-label">Name of Supervisor</label>
+            <input type="text" id="supervisor_name" name="supervisor_name" class="form-control" required>
+        </div>
+
+        <!-- Supervisor Details -->
+        <div class="col-12 col-md-6">
+            <label for="supervisor_details" class="form-label">Supervisor Details</label>
+            <textarea id="supervisor_details" name="supervisor_details" class="form-control" required></textarea>
+        </div>
+
+        <!-- Date of Enrollment -->
+        <div class="col-12 col-md-6">
+            <label for="enrollment_date" class="form-label">Date of Enrollment</label>
+            <input type="date" id="enrollment_date" name="enrollment_date" class="form-control" required>
+        </div>
+
+        <!-- Date of Registration -->
+        <div class="col-12 col-md-6">
+            <label for="registration_date" class="form-label">Date of Registration</label>
+            <input type="date" id="registration_date" name="registration_date" class="form-control" required>
+        </div>
+
+        <!-- Date of Award of Degree -->
+        <div class="col-12 col-md-6">
+            <label for="award_date" class="form-label">Date of Award of Degree</label>
+            <input type="date" id="award_date" name="award_date" class="form-control" required>
+        </div>
+
+        <!-- Course Work Details -->
+        <div class="col-12 col-md-6">
+            <label for="course_work_details" class="form-label">Course Work Details</label>
+            <select id="course_work_details" name="course_work_details" class="form-control" required onchange="toggleCourseWorkFields()">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+
+        <!-- Conditional Course Work Fields -->
+        <div id="courseWorkFields" class="row d-none col-12">
+            <div class="col-12 col-md-6">
+                <label for="course_work_university" class="form-label">Course Work University</label>
+                <input type="text" id="course_work_university" name="course_work_university" class="form-control">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="total_marks" class="form-label">Total Marks</label>
+                <input type="number" id="total_marks" name="total_marks" class="form-control">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="obtained_marks" class="form-label">Obtained Marks</label>
+                <input type="number" id="obtained_marks" name="obtained_marks" class="form-control">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="date_of_passing" class="form-label">Date of Passing</label>
+                <input type="date" id="date_of_passing" name="date_of_passing" class="form-control">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="percentage" class="form-label">Percentage</label>
+                <input type="text" id="percentage" name="percentage" class="form-control">
+            </div>
+        </div>
+
+        <!-- UGC 2009 Rule -->
+        <div class="col-12 col-md-6">
+            <label for="ugc_rule" class="form-label">UGC 2009 Rule Implemented</label>
+            <select id="ugc_rule" name="ugc_rule" class="form-control" required onchange="toggleComplianceCertificateField()">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+
+        <!-- Compliance Certificate Upload -->
+        <div id="complianceCertificateField" class="col-12 col-md-6 d-none">
+            <label for="compliance_certificate" class="form-label">Upload Compliance Certificate</label>
+            <input type="file" id="compliance_certificate" name="compliance_certificate" class="form-control">
+        </div>
+
+        <!-- Action Button -->
+        <div class="col-12 col-md-6 col-lg-2 mt-3">
+            <label>Action</label><br>
+            <input type="button" onclick="addPhd(this.form)" class="btn btn-primary" value="ADD">
+        </div>
+
+    </form>
+</div>
                                                 <div id="qualification" style="display:none;">
                                                 <form  action="action_g.php" method="POST" enctype="multipart/form-data">
                                                      <input type="hidden" name="code" value="436">
@@ -32548,6 +32748,7 @@ elseif($code==431)
                                                
                                                 <br>
                                                 <div class="row">
+                                                    
                                                     <div class="table-responsive col-lg-12" >
                                                                                 <?php
                                                 $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
@@ -32613,7 +32814,87 @@ elseif($code==431)
                                                         <?php }?>
                                                     </div>
                                                 </div>
+<br>
 
+<div class="row">
+                                                    
+                                                    <div class="table-responsive col-lg-12" >
+                                                                                <?php
+                                                $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
+                                        
+                                        
+                                            if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
+                                            ?>
+                                                        <table class="table table-bordered" style="font-size:14px;">
+                                                            <tr >
+                                                           <th>SrNo</th>
+                                                           <th>University</th>
+                                                            <th>Topic of Research</th>
+                                                            <th>Name of Supervisor</th>
+                                                            <th>Date of Enrollment</th>
+                                                            <th>Date of Registration</th>
+                                                            <th>Date of Degree</th>
+                                                            <th>Subject</th>
+                                                            <th>Supervisor Details</th>
+                                                            <th>Course Work Details</th>
+                                                            <th>Course Work University</th>
+                                                            <th>Total Marks</th>
+                                                            <th>Obtained Marks</th>
+                                                            <th>Date of Passing</th>
+                                                            <th>Percentage</th>
+                                                           
+                                                                <th>Action</th>
+                                                            </tr>
+                                                            <tbody>
+                                                            <?php
+                              $res = sqlsrv_query($conntest, $sql1);
+                              $SrNo=1;
+                              while ($data1 = sqlsrv_fetch_array($res)) { ?>
+                               <tr>
+                              <td><?=$SrNo;?></td>
+                              <td><?=$data1['University'];?></td>
+                                <td><?=$data1['TopicofResearch'];?></td>
+                                <td><?=$data1['NameofSupervisor'];?></td>
+                                <td><?=$data1['DateofEnrollment'];?></td>
+                                <td><?=$data1['DateofRegistration'];?></td>
+                                <td><?=$data1['DateofDegree'];?></td>
+                                <td><?=$data1['Subject'];?></td>
+                                <td><?=$data1['SupervisorDetails'];?></td>
+                                <td><?=$data1['CourseWorkDetails'];?></td>
+                                <td><?=$data1['CourseWorkUniversity'];?></td>
+                                <td><?=$data1['TotalMarks'];?></td>
+                                <td><?=$data1['ObtainedMarks'];?></td>
+                                <td><?=$data1['DateofPassing'];?></td>
+                                <td><?=$data1['Percentage'];?></td>
+                              <td>
+                                 <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i>
+                                 <?php 
+                            if($data1['upddate']!='')
+                            {
+                            $stop_date = new DateTime($timeStamp);
+                            $stop_date->modify('-1 day');
+                              $endDateUpdate=$stop_date->format('Y-m-d');
+                                  $dbDateFromUpdate=$data1['upddate']->format('Y-m-d');
+                                    if($endDateUpdate<=$dbDateFromUpdate)
+                                    {
+                                 ?>
+                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deletePHD(<?=$data1['id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 </i> 
+                                 <?php }
+                                 }?>
+                                 
+                              </td>
+                           </tr>
+                           <?php
+                           $SrNo++;
+                              }
+                              ?>
+                                                            </tbody>
+                                                        </table>
+                                                        <?php }?>
+                                                    </div>
+                                                </div>
                                         </div>
                                         </section>
                                     </div>
@@ -32811,6 +33092,38 @@ elseif($code==432)
     }
     sqlsrv_close($conntest);
 }
+elseif($code==432.1)
+{
+    $id = $_POST['ID'];
+    $qry = "SELECT Uploadcertificate from PHDacademic where id = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    if($rows=sqlsrv_fetch_array($result))
+    {
+        if($rows['Uploadcertificate']!='')
+        {
+         $docName = $rows['Uploadcertificate'];
+         ftp_chdir($conn_id,"Images/Staff/PhDThesis") or die("Could not change directory");
+        if (ftp_delete($conn_id, $docName))
+        {
+            // $inserPHDStatus="SELECT * FROM  PHDacademic WHERE UserName='$EmployeeID'";
+            // sqlsrv_query($conntest, $inserPHDStatus);
+            $sql = "DELETE from PHDacademic where id= $id";
+            $res = sqlsrv_query($conntest, $sql);
+            $inserPHDStatus="UPDATE Staff SET Phd='No' WHERE IDNo='$EmployeeID' and JobStatus='1'";
+            sqlsrv_query($conntest, $inserPHDStatus);
+        }
+        ftp_close($conn_id);
+        }
+        else
+        {
+            $sql = "DELETE from PHDacademic where id= $id";
+            $res = sqlsrv_query($conntest, $sql);
+            $inserPHDStatus="UPDATE Staff SET Phd='No' WHERE IDNo='$EmployeeID' and JobStatus='1'";
+            sqlsrv_query($conntest, $inserPHDStatus);
+        }
+     }
+    sqlsrv_close($conntest);
+}
 elseif($code==433)
 {
 $employeeID=$_POST['employeeID'];
@@ -32997,6 +33310,111 @@ else
 {
     echo "3";
 }
+    sqlsrv_close($conntest);
+}
+elseif($code==436.1)
+{
+    $total_marks=0;
+    $obtained_marks=0;
+    $date_of_passing="";
+    $percentage=0;
+    $compliance_certificate="";
+    $course_work_university="";
+    $subject=$_POST['subject'];
+    $topic=$_POST['topic'];
+    $university=$_POST['university'];
+    $supervisor_name=$_POST['supervisor_name'];
+    $supervisor_details=$_POST['supervisor_details'];
+    $enrollment_date=$_POST['enrollment_date'];
+    $registration_date=$_POST['registration_date'];
+    $award_date=$_POST['award_date'];
+    $course_work_details=$_POST['course_work_details'];
+    $ugc_rule=$_POST['ugc_rule'];
+    $course_work_university=$_POST['course_work_university'];
+    $total_marks=$_POST['total_marks'];
+    $obtained_marks=$_POST['obtained_marks'];
+    $date_of_passing=$_POST['date_of_passing'];
+    $percentage=$_POST['percentage'];
+    if($ugc_rule=='Yes')
+    {
+    $file_name = $_FILES['compliance_certificate']['name'];
+    $file_tmp = $_FILES['compliance_certificate']['tmp_name'];
+    $file_size =$_FILES['compliance_certificate']['size'];
+    $file_type = $_FILES['compliance_certificate']['type'];
+    $allowedTypes = array(
+       'image/png',
+       'image/jpg',
+       'image/jpeg',
+       'application/pdf'
+    );
+    if (in_array($_FILES['compliance_certificate']['type'], $allowedTypes))
+    {
+       if ($file_size < 550000)
+       { 
+          $date=date('Y-m-d');  
+          $string = bin2hex(openssl_random_pseudo_bytes(4));
+          $file_data = file_get_contents($file_tmp);
+          $file_name = $EmployeeID."_".strtotime($date)."_".$string."_".basename($_FILES['compliance_certificate']['name']);
+          $destdir = '/Images/Staff/PhDThesis';
+          ftp_chdir($conn_id, "/Images/Staff/PhDThesis/") or die("Could not change directory");
+          ftp_pasv($conn_id,true);
+          ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+          ftp_close($conn_id);
+
+   $insertExp="INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
+    Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate)
+    values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
+    '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
+    '$file_name');
+    ";
+  $insertExp;
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+    $inserPHDStatus="UPDATE Staff SET Phd='Yes' WHERE IDNo='$EmployeeID' and JobStatus='1'";
+   sqlsrv_query($conntest, $inserPHDStatus);
+}
+else
+{
+    echo "0";
+}
+}
+else
+{
+   echo "2"; // size 500kb
+}
+}
+else
+{
+echo "3"; // file format
+}
+    }
+    else{
+        $insertExp="INSERT into PHDacademic (University,TopicofResearch,NameofSupervisor,DateofEnrollment,DateofRegistration,DateofDegree,upddate,status,Username,
+        Subject,SupervisorDetails,CourseWorkDetails,CourseWorkUniversity,TotalMarks,ObtainedMarks,DateofPassing,Percentage,UGC2009,Uploadcertificate)
+        values('$university','$topic','$supervisor_name','$enrollment_date','$registration_date','$award_date','$timeStamp','1','$EmployeeID',
+        '$subject','$supervisor_details','$course_work_details','$course_work_university','$total_marks','$obtained_marks','$date_of_passing','$percentage','$ugc_rule',
+        '');
+        ";
+      $insertExp;
+    $result = sqlsrv_query($conntest, $insertExp);
+    if($result==true)
+    {
+        echo "1";
+    }
+    else
+    {
+        echo "0";
+    }
+
+    }
+
+   if ($result === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
     sqlsrv_close($conntest);
 }
 

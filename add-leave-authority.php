@@ -1964,7 +1964,47 @@ function uploadAdharCard(form) {
         }
     });
 }
+function viewPHDDocument(id) {
+    var code = 57.1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 
+function deletePHD(id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432.1';
+        var academicID = id;
+        //alert(academicID);
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+
+                showProfileData();
+
+            }
+        });
+    } else {
+
+    }
+}
 function uploadImage(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
