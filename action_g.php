@@ -4719,7 +4719,7 @@ else { ?>
         <div class="row">
             <div class="table-responsive col-lg-12">
                 <?php
-                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
+                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $emp_id ";
                                         
                                         
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
@@ -4800,7 +4800,7 @@ else { ?>
             <div class="row">
                 <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                     <?php
-                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $EmployeeID ";
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $emp_id ";
                   if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                   ?>
                     <table class="table table-bordered" style="font-size:14px;">
