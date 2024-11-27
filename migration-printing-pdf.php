@@ -53,23 +53,23 @@ $pdf->AddPage('P', 'A4');
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->SetXY(20, $Y+50);
-$pdf->MultiCell(60, 10, "Candidate's Name:", 0, 'L');
+$pdf->MultiCell(60, 10, "Candidate's Name:", 1, 'L');
 $pdf->SetFont('Times', 'B', $fontSize);
 $pdf->SetXY(80, $Y+50);
-$pdf->MultiCell(60, 10, ': '.ucwords(strtolower($name)), 0, 'L');
+$pdf->MultiCell(100, 10, ': '.ucwords(strtolower($name)), 1, 'L');
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->SetXY(20, $Y+60);
 $pdf->MultiCell(60, 10, 'Father`s Name:', 0, 'L');
 $pdf->SetXY(80, $Y+60);
 $pdf->SetFont('Times', 'B', $fontSize);
-$pdf->MultiCell(60, 10, ': '.ucwords(strtolower($father_name)), 0, 'L');
+$pdf->MultiCell(100, 10, ': '.ucwords(strtolower($father_name)), 0, 'L');
 
 $pdf->SetXY(20, $Y+70);
 $pdf->SetFont('Times', '', $fontSize);
 $pdf->MultiCell(60, 10, 'Mother`s Name:', 0, 'L');
 $pdf->SetXY(80, $Y+70);
 $pdf->SetFont('Times', 'B', $fontSize);
-$pdf->MultiCell(60, 10, ': '.ucwords(strtolower($mother_name)), 0, 'L');
+$pdf->MultiCell(100, 10, ': '.ucwords(strtolower($mother_name)), 0, 'L');
 
 $pdf->SetXY(20, $Y+80);
 $pdf->SetFont('Times', '', $fontSize);
