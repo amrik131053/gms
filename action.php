@@ -9260,8 +9260,10 @@ else
        $questionSessionTrack.=$examName.'('.$current_session_name.')';
     }
          $questionCountRes=mysqli_query($conn,$questionCountQry);
+         $myqcount=0;
          while($questionCountData=mysqli_fetch_array($questionCountRes))
-         {
+         { 
+          
             $unit=$questionCountData['unit'];
             $type=$questionCountData['type'];  
             $category=$questionCountData['category'];
@@ -9282,7 +9284,17 @@ else
             }
               elseif (($type=='1' || $type=='2' || $type=='3')  && $unit=='3'  && $examName=='8') 
             {
-               $unit=rand(3,4);
+              if($myqcount%2==0)
+              {
+                $unit=3;
+              }else
+              {
+               $unit=4; 
+              }
+
+
+               
+
             }
 
             // elseif ($type=='1' && $unit=='3') 
@@ -9312,6 +9324,8 @@ else
                 $questionArray[]=$questionBankData1['Id'];
          
          }  
+                  $myqcount++;
+
       }    
 
 //print_r($questionArray);
@@ -16785,6 +16799,7 @@ elseif($code=='257')
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
                 <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+                
               </div>
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
@@ -16851,6 +16866,9 @@ elseif($code=='257.1')
     $email = $row['EmailID'];
     $batch = $row['Batch'];
     $college = $row['CollegeName'];
+     $UniRollNo = $row['UniRollNo'];
+    $ClassRollNo = $row['ClassRollNo'];
+   
     $getStatus="SELECT * FROM Migration where IDNo='$IDNo'";
     $getStatusRun=sqlsrv_query($conntest,$getStatus);
     if($getStatusRow=sqlsrv_fetch_array($getStatusRun))
@@ -16865,13 +16883,16 @@ elseif($code=='257.1')
               <div class="widget-user-header bg-warning">
                 <div class="widget-user-image">
                 
-                       
+                   
+
                      <img class='direct-chat-img' src='<?=$BasURL.'Images/Students/'.$img;?>' alt='message user image'>
     
                       </div> 
                 <!-- /.widget-user-image -->
-                <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
-                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+                <h6 class="widget-user-username"><b><?=$name; ?></b></h6>
+                <h6 class="widget-user-desc"><?=$IDNo; ?></h6>
+              
+                  <h6 class="widget-user-desc"><?=$UniRollNo; ?>/<?=$ClassRollNo; ?></h6>
               </div>
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
@@ -16895,8 +16916,8 @@ elseif($code=='257.1')
                      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
                   </li>
                   <li class="nav-item">
-                     <li class="nav-link"><b>Examination</b>
-                     <select class="form-control" id="examination">
+                     <li class="nav-link"><b>Examination : &nbsp;&nbsp;&nbsp;</b>
+                     <select class="btn btn-md" id="examination">
                      <?php
                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                            $stmt2 = sqlsrv_query($conntest,$sql);
@@ -16909,8 +16930,8 @@ elseif($code=='257.1')
                      </select></li>
                   </li>
                   <li class="nav-item">
-                     <li class="nav-link"><b>Result</b>
-                     <select class="form-control" id="result">
+                     <li class="nav-link"><b>Result : &nbsp;&nbsp;&nbsp;</b>
+                     <select class="btn btn-md" id="result">
                         <option value="Pass">Pass</option>
                         <option value="Fail">Fail</option>
                      </select></li>
@@ -16989,6 +17010,7 @@ sqlsrv_close($conntest);
     {
        $status = $getStatusRow['Status'];
         $mID = $getStatusRow['ID'];
+        $Documents = $getStatusRow['Documents'];
     ?>
       <tr>
          <td><?=$UniRollNo;?></td>
@@ -16998,14 +17020,17 @@ sqlsrv_close($conntest);
          <td><?=$course;?></td>
          <td><?=$getStatusRow['Examination'];?></td>
          <td><?=$getStatusRow['Result'];?></td>
-         <td> <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110') 
+         <td> <?php if($Documents!=''){?>
+            <a href="<?=$BasURL;?>/Images/Migration/<?=$Documents;?>" class="btn btn-warning btn-xs" target="_blank"><i class="fa fa-eye"></i></a>
+            <?php }  $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='111' || $code_access=='110') 
                                          {?>
-            <button type="button" class="btn btn-warning" onclick="edit(<?= $mID;?>)" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-edit"></i></button>
+            <button type="button" class="btn btn-warning btn-xs" onclick="edit(<?= $mID;?>)" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-edit"></i></button>
       <?php }
       else
       {
          ?>
-         <button type="button" class="btn btn-warning" disabled=""><i class="fa fa-edit"></i></button>
+         <button type="button" class="btn btn-warning b" disabled=""><i class="fa fa-edit" ></i></button>
+        <a href="<?=$BasURL;?>/Images/Migration/<?=$Documents;?>" class="btn btn-warning btn-xs" target="_blank"><i class="fa fa-eye"></i></a>
          <?php   
       }
       ?></td>
@@ -17016,14 +17041,14 @@ sqlsrv_close($conntest);
                <?php if($getStatusRow['Status']=='1'){
             ?>
             <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
-            <button type="submit" class="btn btn-success"><i class="fa fa-print"></i></button>
+            <button type="submit" class="btn btn-success btn-xs"><i class="fa fa-print"></i></button>
             <?php 
          }
          else if($getStatusRow['Status']=='2')
          {
             ?>
              <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
-            <button type="submit" class="btn btn-success" >Re<i class="fa fa-print"></i></button>
+            <button type="submit" class="btn btn-success btn-xs" ><i class="fa fa-print"></i></button>
             <?php   
          }
          ?>
@@ -17080,21 +17105,25 @@ elseif($code=='257.3')
     $email = $row['EmailID'];
     $batch = $row['Batch'];
     $college = $row['CollegeName'];
+       $UniRollNo = $row['UniRollNo'];
+    $ClassRollNo = $row['ClassRollNo'];
+   
   }
    ?>
 
     <div class="card card-widget widget-user-2">
               <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-warning">
+               <!--  <form action="action.php" method="post">     -->
+                  <div class="widget-user-header bg-warning">
                 <div class="widget-user-image">
                 
-                       
+          
                      <img class='direct-chat-img' src='<?=$BasURL.'Images/Students/'.$img;?>' alt='message user image'>
     
                       </div> 
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username"><b><?=$name; ?></b></h3>
-                <h5 class="widget-user-desc"><?=$IDNo; ?></h5>
+                <h5 class="widget-user-desc"><?=$IDNo; ?> / <?=$UniRollNo;?> / <?=$ClassRollNo;?></h5>
               </div>
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
@@ -17117,9 +17146,12 @@ elseif($code=='257.3')
                   <li class="nav-item">
                      <li class="nav-link"><b>College</b> :&nbsp;&nbsp;&nbsp;<?= $college; ?></li>
                   </li>
-                  <li class="nav-item">
-                     <li class="nav-link"><b>Examination</b>
-                     <select class="form-control" id="examination">
+                  <li class="nav-item"><li class="nav-link">
+                    <div class="row">
+
+                      <div class="col-lg-6"><b>Examination</b>
+                     <select class="form-control" id="examination_n" name='examination_n'>
+                       <option value="<?= $examination;?>"><?= $examination;?></option>
                      <?php
                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                            $stmt2 = sqlsrv_query($conntest,$sql);
@@ -17127,24 +17159,62 @@ elseif($code=='257.3')
                            {    
                      $examination = $row1['Examination'];  
                      ?>
-                  <option value="<?=$examination;?>"><?= $examination;?></option>
+                  <option value="<?= $examination;?>"><?= $examination;?></option>
                   <?php }?>
-                     </select></li>
-                  </li>
-                  <li class="nav-item">
-                     <li class="nav-link"><b>Result</b>
-                     <select class="form-control" id="result">
+                     </select></div>
+
+                  <div class="col-lg-6"> 
+                     <b>Result</b>
+                     <select class="form-control" id="result_n" name='result_n'>
+                          <option value="<?=$result;?>"><?=$result;?></option>
                         <option value="Pass">Pass</option>
                         <option value="Fail">Fail</option>
-                     </select></li>
+                     </select>
+                     </div>
+
+                   </div>
+                 </li>
                   </li>
+              
+                  <li class="nav-item"><li class="nav-link">
+                    <div class="row">
+
+                      <div class="col-lg-6"><b>Serial Number</b>
+                   
+                     <input type="text" class="form-control" value="<?=$srnumber;?>" name="srno" id='srno'></div>
+
+                  <div class="col-lg-6"> 
+                     <b>Upload File</b>
+                  
+                     <input type="file" class="form-control"  name="migrationfile" id='migrationfile'>
+                     </div>
+
+                   </div>
+                 </li>
+                  </li>
+                    
+
+                   
+                 
                   <li class="nav-item">
-                     <li class="nav-link"><b>Result</b>
-                     <input type="text" class="form-control" value="<?=$srnumber;?>" name="srno" id='srno'></li>
-                     <input type="hidden" class="form-control" value="<?=$IDNo;?>" name="IDNo" id='IDNo'></li>
-                     <input type="hidden" class="form-control" value="<?=$mID;?>" name="id" id='id'></li>
+                    
+                     <input type="hidden" class="form-control" value="<?=$IDNo;?>" name="idno" id='idno'>
+                     <input type="hidden" class="form-control" value="257.4" name="code" id='code'>
+                     <input type="hidden" class="form-control" value="<?=$mID;?>" name="mid" id='mid'>
                   </li>
+               
                 </ul>
+
+            
+
+     <!--  <li class="nav-link" style="text-align: right">
+        <input type="button" class="btn btn-primary" name="migrationupload"   onclick="update(this.form);" value="Save changes">
+     
+    </li> -->
+   </div>
+
+
+            <!-- </form> -->
               </div>
             </div>
 
@@ -17158,7 +17228,61 @@ elseif($code=='257.3')
     $result=$_POST['result'];
     $mid=$_POST['mid'];
      $idno=$_POST['idno'];
-   
+//  $file_name = $_FILES['migrationfile']['name'];
+// $file_tmp = $_FILES['migrationfile']['tmp_name'];
+// $type = $_FILES['migrationfile']['type'];
+
+
+// if($file_name!='')
+// {
+
+// include "connection/ftp-erp.php";
+
+// function getFileExtension($file_name) {
+//     return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+// }
+//  $string = bin2hex(openssl_random_pseudo_bytes(4));
+//  $file_name = $_FILES['migrationfile']['name'];
+// $file_tmp = $_FILES['migrationfile']['tmp_name'];
+// $type = $_FILES['migrationfile']['type'];
+// $file_size = $_FILES['migrationfile']['size'];
+// $file_extension = getFileExtension($file_name);
+
+// $max_file_size = 500 * 1024; 
+// $flagSuccess1=0;
+// $flagSuccess=0;
+// if ($file_size > $max_file_size) {
+//     // die("Error: File size exceeds the limit of 500KB.");
+//     echo "8";
+// }
+// else{
+//     $flagSuccess1=1;
+// }
+// $allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
+
+// if (!in_array($file_extension, $allowed_extensions)) {
+//     // die("Error: Only JPG, JPEG, PNG, and PDF files are allowed.");
+//     echo "7";
+// }
+// else{
+//     $flagSuccess=1;
+// }
+// if($flagSuccess1==1 && $flagSuccess==1)
+// {
+// $file_name = $srno."_".$idno."_".$string."_".basename($_FILES['migrationfile']['name']);
+//    $target_dir = $file_name;
+
+//      $destdir = 'Migration';
+//      ftp_chdir($conn_id,"Images/Migration/") or die("Could not change directory");
+//      ftp_pasv($conn_id,true);
+//  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
+
+// ftp_close($conn_id);
+// }
+// else
+// {
+//   $file_name=''; ,Documents='$file_name'
+// }
 
 
  $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination' where ID='$mid'";
@@ -17170,9 +17294,9 @@ elseif($code=='257.3')
     
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
-
-   }
-
+echo 1;
+   
+}
 
    elseif($code=='258')
    {

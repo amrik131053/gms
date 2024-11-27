@@ -74,7 +74,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="update()">Save changes</button>
+          <input type="button" class="btn btn-primary"    onclick="update();" value="Save changes">
+       
       </div>
     </div>
   </div>
@@ -119,13 +120,15 @@
 
      function update()
      {
+     
   var srno= document.getElementById("srno").value;
-  var idno= document.getElementById("IDNo").value;
+  var idno= document.getElementById("idno").value;
 
-  var examination= document.getElementById("examination").value;
-var result= document.getElementById("result").value;
+  var examination= document.getElementById("examination_n").value;
+   //alert(examination);
+var result= document.getElementById("result_n").value;
 
-var mid= document.getElementById("id").value;
+var mid= document.getElementById("mid").value;
 var code="257.4";
 
 
@@ -142,19 +145,102 @@ var code="257.4";
             },
             success:function(response) 
             {
-              //console.log(response);
+              console.log(response);
                spinner.style.display='none';
+               if (response == 1) {
+                SuccessToast('Data Updated successfully');
+                search_by_roll_no_by_id(idno);
+               
+            } 
+            else{
+                ErrorToast('Please try after sometime.', 'bg-danger');
+            }
 
                
             }
-         });
-      
+         });      
      
-
-
-
-
      }
+
+
+
+//  function update(form) {
+
+//     var srno = form.srno.value;
+//     var leaveFile = form.migrationfile.value;
+   
+  
+//     if (srno === "") {
+
+//         ErrorToast('Please select a Serial No .', 'bg-warning');
+//         return;
+//     }
+   
+//     // if (leaveFile === "") {
+
+//     //     ErrorToast('Please upload an migration File.', 'bg-warning');
+//     //     return;
+//     // }
+
+//     // var submitButton = form.querySelector('input[name="migrationupload"]');
+//     // submitButton.disabled = true;
+//     // submitButton.value = "Submitting...";
+
+//     var formData = new FormData(form);
+//     $.ajax({
+//         url: form.action,
+//         type: form.method,
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         success: function(response) {
+//              console.log(response);
+//             if (response == 1) {
+//                 SuccessToast('data submitted successfully');
+               
+//             } 
+//             else{
+//                 ErrorToast('Please try after sometime.', 'bg-danger');
+//             }
+//         },
+//         error: function(xhr, status, error) {
+//             // console.log(error);
+//         },
+       
+//     });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
