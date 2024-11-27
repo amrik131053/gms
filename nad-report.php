@@ -248,7 +248,7 @@ $list_resultsubject = sqlsrv_query($conntest, $subjectresult);
 $SubjectName=$rowsubjects["SubjectName"];
 $SubjectCode=$rowsubjects["SubjectCode"];
 $SubjectGrade=$rowsubjects["SubjectGrade"];
-$SubjectCredit=$rowsubjects["SubjectCredit"];
+$SubjectCredit=$rowsubjects["SubjectGradePoint"];
 $NoOfCredit='';
 
     $subjectcredit="SELECT DISTINCT NoOFCredits from  MasterCourseStructure  where CollegeID='$College' ANd CourseID='$Course' ANd Batch='$Batch' ANd SemesterID='$Semester' ANd SubjectCode='$SubjectCode'";

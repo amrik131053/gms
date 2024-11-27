@@ -9271,16 +9271,38 @@ else
 
             if ($type=='2' && ($category=='3' || $category=='4') && $unit=='1') 
             {
-               $unit=rand(1,2);
+
+               if($myqcount%2==0)
+              {
+                $unit=1;
+              }else
+              {
+               $unit=2; 
+              }
+               //$unit=rand(1,2);
             }
             elseif ($type=='3' && ($category=='2' || $category=='3') && $unit=='1') 
             {
-               $unit=rand(1,2);
+              
+               if($myqcount%2==0)
+              {
+                $unit=1;
+              }else
+              {
+               $unit=2; 
+              }// $unit=rand(1,2);
             }
 
              elseif (($type=='1' ||$type=='2' || $type=='3')  && $unit=='1'  && $examName=='7') 
             {
-               $unit=rand(1,2);
+               if($myqcount%2==0)
+              {
+                $unit=1;
+              }else
+              {
+               $unit=2; 
+              }
+              // $unit=rand(1,2);
             }
               elseif (($type=='1' || $type=='2' || $type=='3')  && $unit=='3'  && $examName=='8') 
             {
