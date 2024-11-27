@@ -420,6 +420,12 @@ function emp_detail_verify2(id)
 
 
   function uploadPhoto(form) {
+   var employmentStatus = form.employmentStatus.value;
+    var leavingDate = form.leavingDate.value;
+    if (employmentStatus == "0" && leavingDate === "") {
+        ErrorToast('Please provide a leaving date.', 'bg-warning');
+        return false; // Prevent form submission
+    }
    var loginId = form.loginId.value;
    var formData = new FormData(form);
       $.ajax({
@@ -429,9 +435,10 @@ function emp_detail_verify2(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             if (response==1) 
             {
+               update_emp_record(loginId);
             SuccessToast('Successfully Updated '+loginId);
                 }
              else if(response=='Could not connect to 10.0.10.11')
@@ -448,6 +455,7 @@ function emp_detail_verify2(id)
          }
       });
   }
+
 
   
 
@@ -511,31 +519,47 @@ function postcode(pincode) {
         
       }
 
-function view_uploaded_document(IDNo,Label) {
 
-    var spinner=document.getElementById("ajax-loader");
-               spinner.style.display='block';
-           var code=95;
-           $.ajax({
-              url:'action_g.php',
-              type:'POST',
-              data:{
-                 code:code,IDNo:IDNo,label:Label
-              },
-              success: function(response) 
-              {
-               // console.log(response);
-                  spinner.style.display='none';
-                 document.getElementById("Show_document").innerHTML=response;
-
-              },
-              error:function(response) {
-                 
-               // console.log(response);
-              }
-           });
-   
+      function view_uploaded_document(id, documentP) {
+    var code = 59;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("documentData").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code + "&document=" + documentP, true);
+    xmlhttp.send();
 }
+
+
+
+// function view_uploaded_document(IDNo,Label) {
+
+//     var spinner=document.getElementById("ajax-loader");
+//                spinner.style.display='block';
+//            var code=95;
+//            $.ajax({
+//               url:'action_g.php',
+//               type:'POST',
+//               data:{
+//                  code:code,IDNo:IDNo,label:Label
+//               },
+//               success: function(response) 
+//               {
+//                // console.log(response);
+//                   spinner.style.display='none';
+//                  document.getElementById("Show_document").innerHTML=response;
+
+//               },
+//               error:function(response) {
+                 
+//                // console.log(response);
+//               }
+//            });
+   
+// }
 
     function fetchDepartment(CollegeId)
 {   
@@ -673,7 +697,7 @@ var len_student= verifiy.length;
          type:'POST',
          success:function(data) {
             spinner.style.display='none';
-            console.log(data);
+            // console.log(data);
             if (data==1) 
             {
                searchForDelete(id);
@@ -1440,7 +1464,7 @@ var code=197;
                 data:{code:code,college:college,department:department},
                 success: function(response) 
                { 
-               	console.log(response);
+               	// console.log(response);
                spinner.style.display='none';
                search();
                 SuccessToast('Successfully Updated');
@@ -1729,7 +1753,7 @@ function deleteRoleAll(empid,ApplicationName)
             code: code,empid:empid,ApplicationName:ApplicationName
          },
          success: function(response) {
-            console.log(response);
+            // console.log(response);
             spinner.style.display = 'none';
             if(response==1)
             {
@@ -1778,11 +1802,420 @@ function resetPassword(empid,ApplicationName)
    }
  
 }
-   </script>
- <!-- Content Wrapper. Contains page content -->
-  
-   
 
+
+
+
+
+
+
+// profile function
+
+function addExperience(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    // alert(form);
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+           
+                SuccessToast('Successfully Added');
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('size must be less than 500kb', 'bg-warning');
+
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+function addAcademic(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    // alert(form);
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+          
+                SuccessToast('Successfully Added');
+
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('size must be less than 500kb', 'bg-warning');
+
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+function uploadPanCard(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId = formData.get("IDEmployee"); // Corrected syntax
+   //  alert(loginId);
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+                SuccessToast('Successfully Uploaded');
+
+             
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+                document.getElementById("panerror").innerHTML = 'Please Upload size must be less than 500kb';
+
+            } else if (response == 3) {
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                document.getElementById("panerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
+
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+function uploadAdharCard(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId = formData.get("IDEmployee"); // Corrected syntax
+    // alert(form);
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+                SuccessToast('Successfully Uploaded');
+               
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('size must be less than 500kb', 'bg-warning');
+                document.getElementById("adharerror").innerHTML = 'Please Upload size must be less than 500kb';
+               
+            } else if (response == 3) {
+                ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                
+                document.getElementById("adharerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+function uploadImage(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId = formData.get("IDEmployee"); // Corrected syntax
+    // alert(form);
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+                SuccessToast('Successfully Uploaded');
+                $('#uploadPasspoerImage').modal('hide');
+               
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('Please Upload Image size must be less than 500kb', 'bg-warning');
+                document.getElementById("imgerror").innerHTML = 'Please Upload Image size must be less than 500kb';
+                document.getElementById("imgerror1").innerHTML = 'Please Upload Image size must be less than 500kb';
+
+            } else if (response == 3) {
+                ErrorToast('Please Upload must be in jpg/jpeg/png format. ', 'bg-warning');
+                document.getElementById("imgerror").innerHTML = 'Please Upload Image must be in jpg/jpeg/png format';
+                document.getElementById("imgerror1").innerHTML = 'Please Upload Image must be in jpg/jpeg/png format';
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+function uploadPassBook(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId = formData.get("IDEmployee"); // Corrected syntax
+    // alert(form);
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+                SuccessToast('Successfully Uploaded');
+
+             
+            } else if (response === 'Could not connect to 10.0.10.11') {
+                ErrorToast('FTP Server Off', 'bg-warning');
+            } else if (response == 2) {
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+                document.getElementById("bnkerror").innerHTML = 'Please Upload size must be less than 500kb';
+
+            } else if (response == 3) {
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                document.getElementById("bnkerror").innerHTML = 'Please Upload must be in jpg/jpeg/png/pdf format';
+            } else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+
+
+
+
+function viewAcademicDocumentExp(id) {
+    var code = 58;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data-exp").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
+
+function view_uploaded_document(id, documentP) {
+    var code = 59;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("documentData").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code + "&document=" + documentP, true);
+    xmlhttp.send();
+}
+
+function academic_detail() {
+    var x = document.getElementById("marks_type");
+    var y = document.getElementById("qualification");
+    var z = document.getElementById("test_section");
+
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        document.getElementById("add_button").innerHTML = "Remove";
+    } else {
+        x.style.display = "none";
+        y.style.display = "none";
+
+        document.getElementById("add_button").innerHTML = "Academics";
+        var radio = document.querySelector('input[type=radio][name=marks_type]:checked');
+        radio.checked = false;
+    }
+    if (z) {
+        z.style.display = "none";
+    }
+}
+
+function marks() {
+    var x = document.getElementById("qualification");
+    x.style.display = "block";
+
+    document.getElementById("cgpa_value").readOnly = true;
+    document.getElementById("cgpa_value").value = '';
+    document.getElementById("total_marks").readOnly = false;
+    document.getElementById("obtained_marks").readOnly = false;
+    document.getElementById("total_marks").required = true;
+    document.getElementById("obtained_marks").required = true;
+}
+
+function cgpa_detail() {
+    var x = document.getElementById("qualification");
+    x.style.display = "block";
+    document.getElementById("cgpa_value").readOnly = false;
+    document.getElementById("total_marks").readOnly = true;
+    document.getElementById("total_marks").value = '';
+    document.getElementById("obtained_marks").readOnly = true;
+    document.getElementById("obtained_marks").value = '';
+    document.getElementById("cgpa_value").required = true;
+    document.getElementById('percent').value = '';
+}
+
+function calculate_percentage() {
+    var val1 = ~~document.getElementById('obtained_marks').value;
+    var val2 = ~~document.getElementById('total_marks').value;
+    if (val1 != '' && val2 != '' && val1 != '0' && val2 != '0') {
+        if (val1 > val2) {
+            alert('obtained marks can not be greater than total marks');
+            document.getElementById('obtained_marks').value = '';
+            document.getElementById('total_marks').value = '';
+            document.getElementById('percent').value = '';
+        } else {
+            var result = (val1 / val2) * 100;
+            var percent = result.toFixed(2);
+            document.getElementById('percent').value = percent;
+        }
+    }
+}
+
+function viewAcademicDocument(id) {
+    var code = 57;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
+
+function viewTestDocument(id) {
+    var code = 1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get-action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
+
+function deleteAcademics(id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432';
+        var academicID = id;
+        //alert(academicID);
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+
+                // if (data == 1) {
+                //     showProfileData();
+                // } 
+                //  else {
+                //     ErrorToast('try again','bg-danger');
+                // }
+
+            }
+        });
+    } else {
+
+    }
+}
+
+
+</script>
+   
+<script>
+function toggleLeavingDate(selectElement) {
+    var leavingDateField = document.getElementById('leavingDateField');
+    var leavingDateInput = document.getElementById('leavingDate');
+
+    if (selectElement.value == '0') { // DeActive
+        leavingDateField.style.display = 'block';
+        leavingDateInput.setAttribute('required', 'required'); // Make field required
+    } else {
+        leavingDateField.style.display = 'none';
+        leavingDateInput.removeAttribute('required'); // Remove required
+    }
+}
+
+</script>
 <!-- Small modal -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1809,7 +2242,7 @@ function resetPassword(empid,ApplicationName)
 
 
 
-<div class="modal fade" id="UploadImageDocument" tabindex="-1" role="dialog" aria-labelledby="UploadImageDocumentTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="UploadImageDocument" tabindex="-1" role="dialog" aria-labelledby="UploadImageDocumentTitle" aria-hidden="true">
   <div class="modal-dialog " role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1827,9 +2260,49 @@ function resetPassword(empid,ApplicationName)
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Academic Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="data">
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
+<!-- /.modal -->
+<div class="modal fade" id="modal-default-Experience">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Experience Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="data-exp">
 
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
@@ -1891,7 +2364,26 @@ function resetPassword(empid,ApplicationName)
     </div>
   </div>
 </div>
+<div class="modal fade" id="UploadImageDocument">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="documentData">
 
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <div class="modal fade" id="NewDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="NewDepartmentModal" aria-hidden="true" >
    <div class="modal-dialog " role="document" >
       <div class="modal-content"  >

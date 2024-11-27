@@ -86,7 +86,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==224 || $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441)
+ if($code==224 || $code==319 || $code==320 ||$code==92 || $code==153  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -3344,6 +3344,11 @@ else { ?>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#employment<?=$emp_id;?>" data-toggle="tab">Employment</a>
                             </li>
+
+                            <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience1<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+
                             <?php   if($role_id==2){
                                             
                                             ?>
@@ -3368,13 +3373,13 @@ else { ?>
                         <div class="tab-content">
                             <div class="active tab-pane" id="personal_details<?=$emp_id;?>">
                                 <!-- /.login-logo -->
-                                <form action="action_g.php" method="post" enctype="multipart/form-data" id="form-emplyee<?=$emp_id;?>">
+                                <form action="action_g.php" method="post" enctype="multipart/form-data"  id="form-emplyee<?=$emp_id;?>">
                                     <input type="hidden" name="code" value="94">
                                     <div class="row">
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label>Emp. ID</label>
-                                                <input type="text" class="form-control" name="loginId"
+                                                <input type="text" class="form-control" name="loginId" id="loginId"
                                                     value="<?=$row1['IDNo'];?>" readonly>
                                             </div>
                                         </div>
@@ -3442,7 +3447,7 @@ else { ?>
                                                     placeholder="Enter PAN card number" value="<?=$row1['PANNo'];?>">
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-3">
+                                        <!-- <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label>Upload PAN Card</label>
                                                 <input type="file" class="form-control-file" name="panCard">
@@ -3450,7 +3455,7 @@ else { ?>
                                                     onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Pan');"
                                                     data-toggle="modal" data-target="#UploadImageDocument"></i>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label>Aadhar Card Number</label>
@@ -3459,7 +3464,7 @@ else { ?>
                                                     placeholder="Enter Aadhar card number">
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-3">
+                                        <!-- <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label>Upload Aadhar Card</label>
                                                 <input type="file" class="form-control-file" name="aadharCard">
@@ -3467,7 +3472,7 @@ else { ?>
                                                     onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Adhar');"
                                                     data-toggle="modal" data-target="#UploadImageDocument"></i>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label> Identification Mark</label>
@@ -3493,19 +3498,19 @@ else { ?>
                                         </select>
                                         </div>
 
-                                        <div class="col-12 col-lg-3">
+                                        <!-- <div class="col-12 col-lg-3"> -->
 
 
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Image</label>
                                                 <input type="file" class="form-control-file" name="photo" name="photo">
                                                 <i class="fa fa-eye text-success"
                                                     onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Image');"
                                                     data-toggle="modal" data-target="#UploadImageDocument"></i>
-                                            </div>
+                                            </div> -->
 
-                                        </div>
-                                        <div class="col-12 col-lg-3">
+                                        <!-- </div> -->
+                                        <!-- <div class="col-12 col-lg-3">
                                             <div class="form-group">
                                                 <label>Upload Signature</label>
                                                 <input type="file" class="form-control-file" name="signature">
@@ -3513,7 +3518,7 @@ else { ?>
                                                     onclick="view_uploaded_document(<?=$row1['IDNo'];?>,'Sign');"
                                                     data-toggle="modal" data-target="#UploadImageDocument"></i>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     </div>
@@ -3731,26 +3736,28 @@ else { ?>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-12">
-                                        <div class="form-group">
-                                            <label>Status of Employment</label>
-                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                            <select class="form-control" name="employmentStatus">
-                                                <?php if ($row1['JobStatus']==1) {?>
-
-                                                <option value="<?=$row1['JobStatus'];?>"
-                                                    style="background-color:green !important;"><b>Active</b>
-                                                </option>
-                                                <?php }else
-                                          {
-                                             ?>
-                                                <option value="<?=$row1['JobStatus'];?>">DeActive</option>
-                                                <?php }
-                                          ?>
-                                                <option value="1">Active</option>
-                                                <option value="0">DeActive</option>
-                                            </select>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Status of Employment</label>
+                                        <select class="form-control" name="employmentStatus" id="employmentStatus" onchange="toggleLeavingDate(this)">
+                                            <?php if ($row1['JobStatus'] == 1) { ?>
+                                            <option value="1" style="background-color:green !important;" selected>Active</option>
+                                            <option value="0">DeActive</option>
+                                            <?php } else { ?>
+                                            <option value="1">Active</option>
+                                            <option value="0" selected>DeActive</option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
+                                </div>
+
+                                <div class="col-lg-2 col-12" id="leavingDateField" style="<?= $row1['JobStatus'] == 0 ? '' : 'display: none;' ?>">
+                                <div class="form-group">
+                                    <label>Leaving Date</label>
+                                    <input type="date" class="form-control"  name="leavingDate" id="leavingDate" 
+                                        value="<?php if($row1['DateOfLeaving']!=''){ echo date("Y-m-d", strtotime($DateOfLeaving->format("Y-m-d")));}?>" 
+                                        <?= $row1['JobStatus'] == 0 ? 'required' : ''; ?>>
+                                </div>
+                            </div>
 
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
@@ -3808,9 +3815,9 @@ else { ?>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-12">
+                                    <div class="col-lg-3 col-12">
                                         <div class="form-group">
-                                            <label>Leave Recommending Authority
+                                            <label> Recommending Authority
                                             </label>
                                             <input type="text" class="form-control" name="leaveRecommendingAuthority"
                                                 placeholder="Enter leave sanction authority"
@@ -3829,9 +3836,9 @@ else { ?>
 
 
                                     </div>
-                                    <div class="col-lg-4 col-12">
+                                    <div class="col-lg-3 col-12">
                                         <div class="form-group">
-                                            <label>Leave Sanction Authority</label>
+                                            <label> Sanction Authority</label>
                                             <input type="text" class="form-control" name="leaveSanctionAuthority"
                                                 placeholder="Enter leave recommending authority"
                                                 value="<?=$row1['LeaveSanctionAuthority'];?>"
@@ -3850,12 +3857,12 @@ else { ?>
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-12">
+                                    <!-- <div class="col-lg-4 col-12">
                                         <div class="form-group">
                                             <label>Upload Appointment Letter</label>
                                             <input type="file" class="form-control-file" name="appointmentLetter">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label>Bank Account No</label>
@@ -3863,13 +3870,13 @@ else { ?>
                                                 placeholder="Enter bank account number" value="<?=$row1['BankAccountNo'];?>">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-12">
+                                    <!-- <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label>Upload Passbook Copy</label>
                                             <input type="file" class="form-control-file" name="passbookCopy" >
                                             
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
                                             <label> Bank Name</label>
@@ -4241,10 +4248,10 @@ else { ?>
                                                         <?php
                                         $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
                                             $stmt2 = sqlsrv_query($conntest,$sql);
-                                            while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                                            while($row12 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
                                             {   
-                                                $college = $row1['CollegeName']; 
-                                                $CollegeID = $row1['CollegeID'];
+                                                $college = $row12['CollegeName']; 
+                                                $CollegeID = $row12['CollegeID'];
                                                 ?>
                                                                                 <option value="<?=$CollegeID;?>"><?=$college;?></option>
                                                                                 <?php }
@@ -4509,8 +4516,364 @@ else { ?>
 
                                 </div>
 
-                            <!-- </div> -->
+                            </div>
+                            <div class="tab-pane" id="documents1<?=$emp_id;?>">
+    <div class="container">
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                <th>Upload Document</th>
+                    <th>View Uploaded Document</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <!-- Your Image Row -->
+                 <tr>
+                <td>
+                    <form action="action_a.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="flag" value="3">
+                        <input type="hidden" name="IDEmployee" id="IDEmployee" value="<?=$emp_id;?>">
+                        <label>Your Image</label>
+                        <input type="file" class="form-control-file" name="photoIMage">
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="imgerror" style="color: red"></strong><br>
+                       
+                        <input  class="btn btn-success btn-xs" onclick="uploadImage(this.form);" value="Upload">
+                    </form>
+                </td>
+                    <td>
+                        <div data-toggle="modal" data-target="#UploadImageDocument"
+                            onclick="view_uploaded_document(<?=$emp_id;?>,'Imagepath');">
+                            <i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>
+                            <?php 
+                                  $getDocumentsStaff12="SELECT Imagepath FROM Staff Where IDNo='$emp_id'";
+                                  $getDocumentsStaffRun12=sqlsrv_query($conntest,$getDocumentsStaff12);
+                                  if($getDocumentsStaffRow12=sqlsrv_fetch_array($getDocumentsStaffRun12))
+                                  {
+                                    $ext = pathinfo($BasURL."Images/Staff/".$getDocumentsStaffRow12['Imagepath'], PATHINFO_EXTENSION);
+                                    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                                    echo '<img src="'.$BasURL.'Images/Staff/'.$getDocumentsStaffRow12['Imagepath'].'" alt="Your Image" width="100" height="100">';
+                                    echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                                    }
+                                    else
+                                    {
+                                    echo '<i class="fa fa-file-image-o" aria-hidden="true" style="font-size:60px;"></i>';
+                                    }
+                                  }
 
+                            ?>
+                        </div>
+
+                        <button class="btn btn-primary btn-xs" type="button" data-toggle="modal"
+                            data-target="#UploadImageDocument"
+                            onclick="view_uploaded_document(<?=$emp_id;?>,'Imagepath');">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                        </button>
+                    </td>
+                </tr>
+                <!-- PAN Card Row -->
+                <tr>
+                <td>
+                    <form action="action_a.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="flag" value="1">
+                        <input type="hidden" name="IDEmployee"  value="<?=$emp_id;?>">
+                        <label>PAN Card</label>
+                        <input type="file" class="form-control-file" name="panCard">
+                        <small style="color: green">*Document must be in jpg/jpeg/png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="panerror" style="color: red"></strong><br>
+                        <input  class="btn btn-success btn-xs" onclick="uploadPanCard(this.form);" value="Upload">
+                    </form>
+                </td>
+                    <td>
+                        <div>
+                            <?php 
+                            $getDocumentsStaff="SELECT PANCardpath FROM Staff Where IDNo='$emp_id'";
+                            $getDocumentsStaffRun=sqlsrv_query($conntest,$getDocumentsStaff);
+                            if($getDocumentsStaffRow=sqlsrv_fetch_array($getDocumentsStaffRun))
+                            {
+                           
+                                    $ext = pathinfo($BasURL."Images/Staff/StaffPanCard/".$getDocumentsStaffRow['PANCardpath'], PATHINFO_EXTENSION);
+                                    if ($ext == 'pdf' || $ext == 'PDF' ) {
+                                    // echo '<img src="'.$BasURL.'Images/Staff/StaffPanCard/'.$row1['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                                    echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                                    echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                                    }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                                    echo '<img src="'.$BasURL.'Images/Staff/StaffPanCard/'.$getDocumentsStaffRow['PANCardpath'].'" alt="Pan Card" width="100" height="100">';
+                                    // echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                                    echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                                    }
+                                    else {
+                                    echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
+                                    }
+                                }
+                        ?>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary btn-xs" type="button" data-toggle="modal"
+                            data-target="#UploadImageDocument"
+                            onclick="view_uploaded_document(<?=$emp_id;?>,'PANCardpath');">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Aadhar Card Row -->
+                <tr>
+                <td>
+                    <form action="action_a.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="flag" value="2">
+                        <input type="hidden" name="IDEmployee" id="IDEmployee" value="<?=$emp_id;?>">
+                        <label>Aadhar Card</label>
+                        <input type="file" class="form-control-file" name="aadharCard">
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="adharerror" style="color: red"></strong><br>
+                        <input class="btn btn-success btn-xs" onclick="uploadAdharCard(this.form);" value="Upload">
+                    </form>
+                </td>
+                    <td>
+                        <div>
+                            <?php 
+                             $getDocumentsStaff1="SELECT AadharPath FROM Staff Where IDNo='$emp_id'";
+                             $getDocumentsStaffRun1=sqlsrv_query($conntest,$getDocumentsStaff1);
+                             if($getDocumentsStaffRow1=sqlsrv_fetch_array($getDocumentsStaffRun1))
+                             {
+                            $ext = pathinfo($BasURL."Images/Staff/StaffAadharCard/".$getDocumentsStaffRow1['AadharPath'], PATHINFO_EXTENSION);
+                            if ( $ext == 'pdf' || $ext == 'PDF') {
+                            // echo '<img src="'.$BasURL.'Images/Staff/StaffAadharCard/'.$row1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                            echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                            echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+
+                            }else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                            echo '<img src="'.$BasURL.'Images/Staff/StaffAadharCard/'.$getDocumentsStaffRow1['AadharPath'].'" alt="Aadhar Card" width="100" height="100">';
+                            echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                            }
+                            else {
+                            echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
+                            }
+                               }
+                            ?>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary btn-xs" type="button" data-toggle="modal"
+                            data-target="#UploadImageDocument"
+                            onclick="view_uploaded_document(<?=$emp_id;?>,'AadharPath');">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                        </button>
+                    </td>
+                </tr>
+
+               
+
+                <!-- Passbook Copy Row -->
+                <tr>
+                <td>
+                    <form action="action_a.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="flag" value="4">
+                        <input type="hidden" name="IDEmployee" id="IDEmployee" value="<?=$emp_id;?>">
+                        <label>Upload Passbook Copy</label>
+                        <input type="file" class="form-control-file" name="passbookCopy">
+                        <small style="color: green">*Document must be in .jpg/.jpeg/.png/.pdf format. &nbsp; *Size must be less than 500kb.</small><br>
+                        <strong id="bnkerror" style="color: red"></strong><br>
+                        <input  class="btn btn-success btn-xs" onclick="uploadPassBook(this.form);" value="Upload">
+                    </form>
+                </td>
+                    <td>
+                        <div>
+                            <?php 
+                                $getDocumentsStaff121="SELECT Bankpassbookpath FROM Staff Where IDNo='$emp_id'";
+                                $getDocumentsStaffRun121=sqlsrv_query($conntest,$getDocumentsStaff121);
+                                if($getDocumentsStaffRow121=sqlsrv_fetch_array($getDocumentsStaffRun121))
+                                {
+                                $ext = pathinfo($BasURL."Images/Staff/bankpassbook/".$getDocumentsStaffRow121['Bankpassbookpath'], PATHINFO_EXTENSION);
+                                if ( $ext == 'pdf' || $ext == 'PDF') {
+                                echo '<i class="fa fa-file-pdf text-danger" style="font-size:60px;"></i>';
+                                echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                                } 
+                                else if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG') {
+                                echo '<img src="'.$BasURL.'Images/Staff/bankpassbook/'.$getDocumentsStaffRow121['Bankpassbookpath'].'" alt="Passbook Copy" width="100" height="100">';
+                                echo '<i class="fa fa-check-circle text-success" style="font-size:40px;"></i>';
+                                } 
+                                else {
+                                echo '<i class="fa fa-file text-danger" aria-hidden="true" style="font-size:60px;"></i>';
+
+                                }
+                            }
+                                ?>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary btn-xs " type="button" data-toggle="modal"
+                            data-target="#UploadImageDocument"
+                            onclick="view_uploaded_document(<?=$emp_id;?>,'Bankpassbookpath');">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;Preview
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="tab-pane" id="academic1<?=$emp_id;?>">
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="content">
+        <div class="row">
+            <div class="table-responsive col-lg-12">
+                <?php
+                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $emp_id ";
+                                        
+                                        
+                                            if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
+                                            ?>
+                <table class="table table-bordered" style="font-size:14px;">
+                    <tr>
+                        <th>Qualification</th>
+                        <th>Course</th>
+
+                        <th>Mode</th>
+                        <th>School / College</th>
+                        <th>University / Board</th>
+                        <th>Date of Passing</th>
+                        <th>Obtained </th>
+                        <th>Total </th>
+                        <th>CGPA/%</th>
+
+
+                        <th>Action</th>
+                    </tr>
+                    <tbody>
+                        <?php
+                              $res = sqlsrv_query($conntest, $sql);
+                              while ($data = sqlsrv_fetch_array($res)) { ?>
+                        <tr>
+                            <td><?=$data['StandardType']; ?></td>
+                            <td><?=$data['Course']; ?></td>
+                            <td><?=$data['Type']; ?></td>
+                            <td><?=$data['University']; ?></td>
+                            <td><?=$data['Institute']; ?></td>
+                            <td><?php if($data['YearofPassing']!=''){echo $data['YearofPassing']->format('d-m-Y');} else{ echo "";} ?>
+                            </td>
+                            <td><?=$data['ObtainedMarls']; ?></td>
+                            <td><?=$data['TotalMarks']; ?></td>
+                            <td><?=$data['Percentage']; ?></td>
+                            <td>
+                                <i class=" fa fa-eye " id="doc" type="button"
+                                    onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal"
+                                    data-target="#modal-default"
+                                    style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                </i>
+                                <?php 
+                            if($data['updateddate']!='')
+                            {
+                            $stop_date = new DateTime($timeStamp);
+                            $stop_date->modify('-1 day');
+                              $endDateUpdate=$stop_date->format('Y-m-d');
+                                  $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
+                                    if($endDateUpdate<=$dbDateFromUpdate)
+                                    {
+                                 ?>
+                                <i class=" fa fa-trash " id="dlt" type="button"
+                                    onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"
+                                    style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                </i>
+                                <?php }
+                                 }?>
+
+                            </td>
+                        </tr>
+                        <?php
+                              }
+                              ?>
+                    </tbody>
+                </table>
+                <?php }?>
+            </div>
+        </div>
+
+    </div>
+    </section>
+</div>
+</div>
+<div class="tab-pane" id="experience1<?=$emp_id;?>">
+    <div class="row">
+        <div class="col-lg-12">
+         
+            <div class="row">
+                <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
+                    <?php
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $emp_id ";
+                  if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
+                  ?>
+                    <table class="table table-bordered" style="font-size:14px;">
+
+                        <tr>
+                            <th>Experience Type</th>
+                            <th>Designation</th>
+                            <th>Department / Organization</th>
+                            <th>Date of Joining</th>
+                            <th>Date of Leaving</th>
+                            <th>Total Experience</th>
+                            <th>Salary</th>
+                            <th>Reason of Leaving</th>
+                            <th>View Document</th>
+
+                        </tr>
+
+                        <tbody>
+                            <?php
+                         
+                              $res = sqlsrv_query($conntest, $sql);
+                              while ($data = sqlsrv_fetch_array($res)) { ?>
+                            <tr>
+                                <td><?=$data['ExperienceType']; ?></td>
+                                <td><?=$data['Designation']; ?></td>
+                                <td><?=$data['NameofOrganisation']; ?></td>
+                                <td><?php if($data['DateofAppointment']!=''){echo $data['DateofAppointment']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td><?php if($data['DateofLeaving']!=''){echo $data['DateofLeaving']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td><?=$data['TimePeriod']; ?></td>
+                                <td><?=$data['PayScaleORConsolidated']; ?></td>
+                                <td><?=$data['Reason']; ?></td>
+                                <td><i class=" fa fa-eye " id="doc" type="button"
+                                        onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)" data-toggle="modal"
+                                        data-target="#modal-default-Experience"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+
+                                    <?php 
+                                    if($data['upddate']!=''){
+                            $stop_date1 = new DateTime($timeStamp);
+                            $stop_date1->modify('-1 day');
+                             $endDateUpdate1=$stop_date1->format('Y-m-d');
+
+                                 $dbDateFromUpdate1=$data['upddate']->format('Y-m-d');
+
+                                    if($endDateUpdate1<=$dbDateFromUpdate1)
+                                    {
+                                 ?>
+                                    <i class=" fa fa-trash " id="dlt" type="button"
+                                        onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                    <?php 
+                                
+                                }}?>
+
+                                </td>
+                            </tr>
+                            <?php
+                              }
+                              ?>
+                        </tbody>
+
+                    </table>
+                    <?php }?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -4531,6 +4894,7 @@ else { ?>
 
 
                         </div>
+                        
                         <!-- /.row -->
                         <div class="card-footer">
                             <div class="row">
@@ -6052,6 +6416,7 @@ elseif($code==94)
    $bloodGroup = $_POST["bloodgroup"];
    $organisationID = $_POST["organisationName"];
    $shiftID = $_POST["shift"];
+   $leavingDate = $_POST["leavingDate"];
    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
                         $get_collegeRun=sqlsrv_query($conntest,$get_college);
                       if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
@@ -6079,49 +6444,42 @@ elseif($code==94)
    $bankIFSC = $_POST["bankIFSC"];
 
    // Handling file uploads
-   $panCard = $_FILES["panCard"]["name"];
-   $aadharCard = $_FILES["aadharCard"]["name"];
-   $photo = $_FILES["photo"]["name"];
-   $signature = $_FILES["signature"]["name"];
-   if ($panCard) {
-    include "connection/ftp-erp.php";
-      $panCardTmp = $_FILES["panCard"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
-      $panrImageName="PanCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Images/Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
-   }
-   if ($aadharCard) {
-    include "connection/ftp-erp.php";
-      $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
-      $adharImageName="AadharCard_".$loginId.$file_type;
-   ftp_put($conn_id, "Images/Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
-   }
-   if ($photo) {
-    include "connection/ftp-erp.php";
-
-      $photoTmp = $_FILES["photo"]["tmp_name"];
-      $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
-
-      $date=date('Y-m-d');  
-$string = bin2hex(openssl_random_pseudo_bytes(4));
-$ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['photo']['name']);
-   ftp_put($conn_id, "Images/Staff/$ImageName", $photoTmp, FTP_BINARY);
-   $insertExp="UPDATE Staff SET Imagepath='$ImageName' where IDNo='$loginId'";
-   $result = sqlsrv_query($conntest, $insertExp);
-    // $file_data = file_get_contents($photoTmp);
-
-//         $upimage = "UPDATE Staff SET Snap = ? WHERE IDNo = ?";
-// $params = array($file_data, $loginId);
-// $upimage_run = sqlsrv_query($conntest, $upimage, $params);
-   }
-   if ($signature) {
-    include "connection/ftp-erp.php";
-      $signatureTmp = $_FILES["signature"]["tmp_name"];
-  $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
-      $SignatureImageName="Signature".$loginId.$file_type;
-   ftp_put($conn_id, "Images/Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
-   }
+//    $panCard = $_FILES["panCard"]["name"];
+//    $aadharCard = $_FILES["aadharCard"]["name"];
+//    $photo = $_FILES["photo"]["name"];
+//    $signature = $_FILES["signature"]["name"];
+//    if ($panCard) {
+//     include "connection/ftp-erp.php";
+//       $panCardTmp = $_FILES["panCard"]["tmp_name"];
+//       $file_type = str_ireplace("image/", ".", $_FILES['panCard']['type']);
+//       $panrImageName="PanCard_".$loginId.$file_type;
+//    ftp_put($conn_id, "Images/Staff/StaffPanCard/$panrImageName", $panCardTmp, FTP_BINARY);
+//    }
+//    if ($aadharCard) {
+//     include "connection/ftp-erp.php";
+//       $aadharCardTmp = $_FILES["aadharCard"]["tmp_name"];
+//       $file_type = str_ireplace("image/", ".", $_FILES['aadharCard']['type']);
+//       $adharImageName="AadharCard_".$loginId.$file_type;
+//    ftp_put($conn_id, "Images/Staff/StaffAadharCard/$adharImageName", $aadharCardTmp, FTP_BINARY); 
+//    }
+//    if ($photo) {
+//     include "connection/ftp-erp.php";
+//       $photoTmp = $_FILES["photo"]["tmp_name"];
+//       $file_type = str_ireplace("image/", ".", $_FILES['photo']['type']);
+//       $date=date('Y-m-d');  
+// $string = bin2hex(openssl_random_pseudo_bytes(4));
+// $ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['photo']['name']);
+//    ftp_put($conn_id, "Images/Staff/$ImageName", $photoTmp, FTP_BINARY);
+//    $insertExp="UPDATE Staff SET Imagepath='$ImageName' where IDNo='$loginId'";
+//    $result = sqlsrv_query($conntest, $insertExp);
+//    }
+//    if ($signature) {
+//     include "connection/ftp-erp.php";
+//       $signatureTmp = $_FILES["signature"]["tmp_name"];
+//   $file_type = str_ireplace("image/", ".", $_FILES['signature']['type']);
+//       $SignatureImageName="Signature".$loginId.$file_type;
+//    ftp_put($conn_id, "Images/Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
+//    }
    $query = "UPDATE Staff SET ";
    $query .= "Name = '$name', ";
    $query .= "FatherName = '$fatherName', ";
@@ -6147,6 +6505,7 @@ $ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['pho
    $query .= "Department = '$DepartmentID', ";
    $query .= "DepartmentID = '$departmentName', ";
    $query .= "DateOfJoining = '$joiningDate', ";
+   $query .= "DateOfLeaving = '$leavingDate', ";
    $query .= "Nationality = '$Nationality1', ";
    $query .= "Type = '$employmentType', ";
    $query .= "CategoryId = '$EmpCategory', ";
@@ -6160,7 +6519,7 @@ $ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['pho
    $query .= "ShiftID = '$shiftID' ,";
    $query .= "BloodGroup = '$bloodGroup' ";
    $query .= "WHERE IDNo = '$loginId'";
- $query;
+   $query;
    if(sqlsrv_query($conntest,$query))
    {
       echo "1";
@@ -6178,11 +6537,6 @@ $ImageName = $loginId."_".strtotime($date)."_".$string."_".basename($_FILES['pho
    {
       echo "0";
    }
-//    if ($query_run === false) {
-//     $errors = sqlsrv_errors();
-//     echo "Error: " . print_r($errors, true);
-//     // echo "0";
-// } 
 sqlsrv_close($conntest);
 }
 elseif($code==95)
@@ -32904,6 +33258,7 @@ $destdir = '/Images/Staff/bankpassbook';
 }
     sqlsrv_close($conntest);
 }
+
 elseif ($code == 442)
 {
     $id = $_POST['courseID'];
