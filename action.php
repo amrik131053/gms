@@ -17048,7 +17048,7 @@ sqlsrv_close($conntest);
          {
             ?>
              <input type="hidden" class="form-control" name="id" value="<?=$getStatusRow['ID'];?>">
-            <button type="submit" class="btn btn-success btn-xs" >Re<i class="fa fa-print"></i></button>
+            <button type="submit" class="btn btn-success btn-xs" ><i class="fa fa-print"></i></button>
             <?php   
          }
          ?>
@@ -17113,7 +17113,7 @@ elseif($code=='257.3')
 
     <div class="card card-widget widget-user-2">
               <!-- Add the bg color to the header using any of the bg-* classes -->
-                <form action="action.php" method="post">    
+               <!--  <form action="action.php" method="post">     -->
                   <div class="widget-user-header bg-warning">
                 <div class="widget-user-image">
                 
@@ -17150,7 +17150,8 @@ elseif($code=='257.3')
                     <div class="row">
 
                       <div class="col-lg-6"><b>Examination</b>
-                     <select class="form-control" id="examination" name='examination'>
+                     <select class="form-control" id="examination_n" name='examination_n'>
+                       <option value="<?= $examination;?>"><?= $examination;?></option>
                      <?php
                      $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
                            $stmt2 = sqlsrv_query($conntest,$sql);
@@ -17158,13 +17159,14 @@ elseif($code=='257.3')
                            {    
                      $examination = $row1['Examination'];  
                      ?>
-                  <option value="<?=$examination;?>"><?= $examination;?></option>
+                  <option value="<?= $examination;?>"><?= $examination;?></option>
                   <?php }?>
                      </select></div>
 
                   <div class="col-lg-6"> 
                      <b>Result</b>
-                     <select class="form-control" id="result" name='result'>
+                     <select class="form-control" id="result_n" name='result_n'>
+                          <option value="<?=$result;?>"><?=$result;?></option>
                         <option value="Pass">Pass</option>
                         <option value="Fail">Fail</option>
                      </select>
@@ -17177,7 +17179,7 @@ elseif($code=='257.3')
                   <li class="nav-item"><li class="nav-link">
                     <div class="row">
 
-                      <div class="col-lg-6"><b>Result</b>
+                      <div class="col-lg-6"><b>Serial Number</b>
                    
                      <input type="text" class="form-control" value="<?=$srnumber;?>" name="srno" id='srno'></div>
 
@@ -17205,14 +17207,14 @@ elseif($code=='257.3')
 
             
 
-      <li class="nav-link" style="text-align: right">
+     <!--  <li class="nav-link" style="text-align: right">
         <input type="button" class="btn btn-primary" name="migrationupload"   onclick="update(this.form);" value="Save changes">
      
-    </li>
+    </li> -->
    </div>
 
 
-            </form>
+            <!-- </form> -->
               </div>
             </div>
 
@@ -17226,64 +17228,64 @@ elseif($code=='257.3')
     $result=$_POST['result'];
     $mid=$_POST['mid'];
      $idno=$_POST['idno'];
- $file_name = $_FILES['migrationfile']['name'];
-$file_tmp = $_FILES['migrationfile']['tmp_name'];
-$type = $_FILES['migrationfile']['type'];
+//  $file_name = $_FILES['migrationfile']['name'];
+// $file_tmp = $_FILES['migrationfile']['tmp_name'];
+// $type = $_FILES['migrationfile']['type'];
 
 
-if($file_name!='')
-{
+// if($file_name!='')
+// {
 
-include "connection/ftp-erp.php";
+// include "connection/ftp-erp.php";
 
-function getFileExtension($file_name) {
-    return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-}
- $string = bin2hex(openssl_random_pseudo_bytes(4));
- $file_name = $_FILES['migrationfile']['name'];
-$file_tmp = $_FILES['migrationfile']['tmp_name'];
-$type = $_FILES['migrationfile']['type'];
-$file_size = $_FILES['migrationfile']['size'];
-$file_extension = getFileExtension($file_name);
+// function getFileExtension($file_name) {
+//     return strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+// }
+//  $string = bin2hex(openssl_random_pseudo_bytes(4));
+//  $file_name = $_FILES['migrationfile']['name'];
+// $file_tmp = $_FILES['migrationfile']['tmp_name'];
+// $type = $_FILES['migrationfile']['type'];
+// $file_size = $_FILES['migrationfile']['size'];
+// $file_extension = getFileExtension($file_name);
 
-$max_file_size = 500 * 1024; 
-$flagSuccess1=0;
-$flagSuccess=0;
-if ($file_size > $max_file_size) {
-    // die("Error: File size exceeds the limit of 500KB.");
-    echo "8";
-}
-else{
-    $flagSuccess1=1;
-}
-$allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
+// $max_file_size = 500 * 1024; 
+// $flagSuccess1=0;
+// $flagSuccess=0;
+// if ($file_size > $max_file_size) {
+//     // die("Error: File size exceeds the limit of 500KB.");
+//     echo "8";
+// }
+// else{
+//     $flagSuccess1=1;
+// }
+// $allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf');
 
-if (!in_array($file_extension, $allowed_extensions)) {
-    // die("Error: Only JPG, JPEG, PNG, and PDF files are allowed.");
-    echo "7";
-}
-else{
-    $flagSuccess=1;
-}
-if($flagSuccess1==1 && $flagSuccess==1)
-{
-$file_name = $srno."_".$idno."_".$string."_".basename($_FILES['migrationfile']['name']);
-   $target_dir = $file_name;
+// if (!in_array($file_extension, $allowed_extensions)) {
+//     // die("Error: Only JPG, JPEG, PNG, and PDF files are allowed.");
+//     echo "7";
+// }
+// else{
+//     $flagSuccess=1;
+// }
+// if($flagSuccess1==1 && $flagSuccess==1)
+// {
+// $file_name = $srno."_".$idno."_".$string."_".basename($_FILES['migrationfile']['name']);
+//    $target_dir = $file_name;
 
-     $destdir = 'Migration';
-     ftp_chdir($conn_id,"Images/Migration/") or die("Could not change directory");
-     ftp_pasv($conn_id,true);
- ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
+//      $destdir = 'Migration';
+//      ftp_chdir($conn_id,"Images/Migration/") or die("Could not change directory");
+//      ftp_pasv($conn_id,true);
+//  ftp_put($conn_id, $target_dir, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server1");
 
-ftp_close($conn_id);
-}
-else
-{
-  $file_name='';
-}
+// ftp_close($conn_id);
+// }
+// else
+// {
+//   $file_name=''; ,Documents='$file_name'
+// }
 
 
- $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination',Documents='$file_name' where ID='$mid'";
+ $list_sqlw= "UPDATE  Migration set result='$result',SrNumber='$srno',Examination='$examination' where ID='$mid'";
   
   $stmt1 = sqlsrv_query($conntest,$list_sqlw);
 
@@ -17293,7 +17295,7 @@ else
  $update1="insert into logbook(userid,remarks,updatedby,date)Values('$idno','$desc','$EmployeeID','$timeStamp')";
     $update_query=sqlsrv_query($conntest,$update1);
 echo 1;
-   }
+   
 }
 
    elseif($code=='258')
