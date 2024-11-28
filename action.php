@@ -13654,7 +13654,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
          $subjectName= $subject[$a];
        $sub_code= $SubjectCode[$a];
        
-       if($type=='Reappear'){
+       if($type=='Reappear' || $type=='Additional' || $type=='Improvement'){
          $int= 'N';
          $ext= 'N';
        }
