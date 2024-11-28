@@ -4731,7 +4731,7 @@ else { ?>
         <div class="row">
             <div class="table-responsive col-lg-12">
                 <?php
-                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $emp_id ";
+                                                $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $emp_id ";
                                         
                                         
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
@@ -4757,7 +4757,7 @@ else { ?>
                               $res = sqlsrv_query($conntest, $sql);
                               while ($data = sqlsrv_fetch_array($res)) { ?>
                         <tr>
-                            <td><?=$data['StandardType']; ?></td>
+                            <td><?=$data['QualificationName']; ?></td>
                             <td><?=$data['Course']; ?></td>
                             <td><?=$data['Type']; ?></td>
                             <td><?=$data['University']; ?></td>
@@ -32729,8 +32729,9 @@ elseif($code==431)
                                                     
                                                     <div class="table-responsive col-lg-12" >
                                                                                 <?php
-                                                $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
+                                                // $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
                                         
+                                                $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $EmployeeID ";
                                         
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                                             ?>
@@ -32755,7 +32756,7 @@ elseif($code==431)
                               $res = sqlsrv_query($conntest, $sql);
                               while ($data = sqlsrv_fetch_array($res)) { ?>
                                <tr>
-                              <td><?=$data['StandardType']; ?></td>
+                              <td><?=$data['QualificationName']; ?></td>
                               <td><?=$data['Course']; ?></td>
                               <td><?=$data['Type']; ?></td>
                               <td><?=$data['University']; ?></td>

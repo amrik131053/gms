@@ -6590,11 +6590,13 @@ $clr="";
    
 else if ($code == 57) {
    $id = $_GET['id'];
-   $sql = "SELECT * from StaffAcademicDetails WHERE Id= $id ";
+   // $sql = "SELECT * from StaffAcademicDetails WHERE Id= $id ";
+   $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.Id= $id ";
+                                        
    $res = sqlsrv_query($conntest, $sql);
    while ($data = sqlsrv_fetch_array($res)) { 
       ?>
-      <label>Qualification:<span style="color: #223260;"><?php echo "   ".$data['StandardType'];?></span></label></br>
+      <label>Qualification:<span style="color: #223260;"><?php echo "   ".$data['QualificationName'];?></span></label></br>
       <label>Course:<span style="color: #223260;"><?php echo  "   ".$data['Course'];?></span></label>
       <embed class="pdf" 
       src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>"
