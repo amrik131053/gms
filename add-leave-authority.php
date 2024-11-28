@@ -116,7 +116,7 @@
               {
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
-                 document.getElementById("CollegeID_Set").value='Role='+role;
+                 document.getElementById("CollegeID_Set").value='RoleID='+role;
               }
            });
           }     
