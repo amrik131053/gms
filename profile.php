@@ -264,6 +264,34 @@ function addAcademic(form) {
         }
     });
 }
+function addPhd(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    // alert(form);
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            console.log(response);
+            if (response == 1) {
+                SuccessToast('Successfully Added');
+                showProfileData();
+            }  
+            else {
+                ErrorToast('All inputs required', 'bg-danger');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
 
 function uploadPanCard(form) {
     var spinner = document.getElementById("ajax-loader");
@@ -342,6 +370,25 @@ function uploadAdharCard(form) {
         }
     });
 }
+
+ function toggleCourseWorkFields() {
+        var courseWorkDetails = document.getElementById("course_work_details").value;
+        var courseWorkFields = document.getElementById("courseWorkFields");
+        if (courseWorkDetails === "Yes") {
+            courseWorkFields.classList.remove("d-none");
+        } else {
+            courseWorkFields.classList.add("d-none");
+        }
+    }
+    function toggleComplianceCertificateField() {
+        var ugcRule = document.getElementById("ugc_rule").value;
+        var complianceCertificateField = document.getElementById("complianceCertificateField");
+        if (ugcRule === "Yes") {
+            complianceCertificateField.classList.remove("d-none");
+        } else {
+            complianceCertificateField.classList.add("d-none");
+        }
+    }
 
 function uploadImage(form) {
     var spinner = document.getElementById("ajax-loader");
@@ -486,13 +533,16 @@ function academic_detail() {
     var x = document.getElementById("marks_type");
     var y = document.getElementById("qualification");
     var z = document.getElementById("test_section");
-
+    var g = document.getElementById("phd_qualification");
     if (x.style.display === "none") {
         x.style.display = "block";
+        g.style.display = "none";
         document.getElementById("add_button").innerHTML = "Remove";
+        document.getElementById("phd_button").innerHTML = "PHD";
     } else {
         x.style.display = "none";
         y.style.display = "none";
+        g.style.display = "none";
 
         document.getElementById("add_button").innerHTML = "Academics";
         var radio = document.querySelector('input[type=radio][name=marks_type]:checked');
@@ -501,6 +551,25 @@ function academic_detail() {
     if (z) {
         z.style.display = "none";
     }
+}
+function phd_detail() {
+    var g = document.getElementById("marks_type");
+    var y = document.getElementById("phd_qualification");
+    var z = document.getElementById("qualification");
+    if (y.style.display === "none") {
+        y.style.display = "block";
+        z.style.display = "none";
+        g.style.display = "none";
+        document.getElementById("phd_button").innerHTML = "Remove";
+        document.getElementById("add_button").innerHTML = "Academics";
+    } else 
+    {
+        y.style.display = "none";
+        z.style.display = "none";
+        g.style.display = "none";
+        document.getElementById("phd_button").innerHTML = "PHD";
+    }
+   
 }
 
 function marks() {
@@ -556,6 +625,18 @@ function viewAcademicDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
+function viewPHDDocument(id) {
+    var code = 57.1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 
 function viewTestDocument(id) {
     var code = 1;
@@ -597,6 +678,34 @@ function deleteAcademics(id) {
                 //  else {
                 //     ErrorToast('try again','bg-danger');
                 // }
+
+            }
+        });
+    } else {
+
+    }
+}
+function deletePHD(id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432.1';
+        var academicID = id;
+        //alert(academicID);
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+
+                showProfileData();
 
             }
         });

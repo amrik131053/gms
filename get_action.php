@@ -6604,6 +6604,22 @@ else if ($code == 57) {
 
    }
 }
+else if ($code == 57.1) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from PHDacademic WHERE id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>TopicofResearch:<span style="color: #223260;"><?php echo "   ".$data['TopicofResearch'];?></span></label></br>
+      <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label>
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Uploadcertificate']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['Uploadcertificate']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
+                  <?php
+
+   }
+}
 else if ($code == 58) {
    $id = $_GET['id'];
    $sql = "SELECT * from StaffExperienceDetails WHERE Id= $id ";
