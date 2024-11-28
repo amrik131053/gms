@@ -86,7 +86,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
+ if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -4768,28 +4768,17 @@ else { ?>
                             <td><?=$data['TotalMarks']; ?></td>
                             <td><?=$data['Percentage']; ?></td>
                             <td>
-                                <i class=" fa fa-eye " id="doc" type="button"
+                                <i class=" fa fa-eye fa-2x text-success " id="doc" type="button"
                                     onclick="viewAcademicDocument(<?=$data['Id']; ?>)" data-toggle="modal"
                                     data-target="#modal-default"
-                                    style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    style="padding-left: 20px;padding-top: 5px">
                                 </i>
-                                <?php 
-                            if($data['updateddate']!='')
-                            {
-                            $stop_date = new DateTime($timeStamp);
-                            $stop_date->modify('-1 day');
-                              $endDateUpdate=$stop_date->format('Y-m-d');
-                                  $dbDateFromUpdate=$data['updateddate']->format('Y-m-d');
-                                    if($endDateUpdate<=$dbDateFromUpdate)
-                                    {
-                                 ?>
-                                <i class=" fa fa-trash " id="dlt" type="button"
+                        
+                                <i class=" fa fa-trash fa-2x text-danger  " id="dlt" type="button"
                                     onclick="deleteAcademics(<?=$data['Id']; ?>)" data-toggle="modal"
-                                    style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    style="padding-left: 20px;padding-top: 5px">
                                 </i>
-                                <?php }
-                                 }?>
-
+                               
                             </td>
                         </tr>
                         <?php
@@ -4810,6 +4799,7 @@ else { ?>
                                         
                                             if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
                                             ?>
+                                            <div class="container"><h4 class="text-center"><b>PHD Details</b></h4></div>
                                                         <table class="table table-bordered" style="font-size:14px;">
                                                             <tr >
                                                            <th>SrNo</th>
@@ -4852,23 +4842,12 @@ else { ?>
                                 <td><?=$data1['DateofPassing'];?></td>
                                 <td><?=$data1['Percentage'];?></td>
                               <td>
-                                 <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                 <i class=" fa fa-eye fa-2x text-success " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i>
-                                 <?php 
-                            if($data1['upddate']!='')
-                            {
-                            $stop_date = new DateTime($timeStamp);
-                            $stop_date->modify('-1 day');
-                              $endDateUpdate=$stop_date->format('Y-m-d');
-                                  $dbDateFromUpdate=$data1['upddate']->format('Y-m-d');
-                                    if($endDateUpdate<=$dbDateFromUpdate)
-                                    {
-                                 ?>
-                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deletePHD(<?=$data1['id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                
+                                <i class=" fa fa-trash fa-2x text-danger " id="dlt"  type="button" onclick="deletePHD(<?=$data1['id']; ?>,<?=$emp_id;?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
                                  </i> 
-                                 <?php }
-                                 }?>
-                                 
+                               
                               </td>
                            </tr>
                            <?php
@@ -4926,31 +4905,18 @@ else { ?>
                                 <td><?=$data['TimePeriod']; ?></td>
                                 <td><?=$data['PayScaleORConsolidated']; ?></td>
                                 <td><?=$data['Reason']; ?></td>
-                                <td><i class=" fa fa-eye " id="doc" type="button"
+                                <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
                                         onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)" data-toggle="modal"
                                         data-target="#modal-default-Experience"
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
 
-                                    <?php 
-                                    if($data['upddate']!=''){
-                            $stop_date1 = new DateTime($timeStamp);
-                            $stop_date1->modify('-1 day');
-                             $endDateUpdate1=$stop_date1->format('Y-m-d');
-
-                                 $dbDateFromUpdate1=$data['upddate']->format('Y-m-d');
-
-                                    if($endDateUpdate1<=$dbDateFromUpdate1)
-                                    {
-                                 ?>
-                                    <i class=" fa fa-trash " id="dlt" type="button"
-                                        onclick="dlt_data(<?=$data['Id']; ?>)" data-toggle="modal"
+                                   
+                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
+                                        onclick="dlt_data(<?=$data['Id']; ?>,<?=$emp_id;?>)" data-toggle="modal"
                                         style="color: #223260;padding-left: 20px;padding-top: 5px">
                                     </i>
-                                    <?php 
-                                
-                                }}?>
-
+                                  
                                 </td>
                             </tr>
                             <?php
@@ -32837,6 +32803,7 @@ elseif($code==431)
                                         
                                             if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
                                             ?>
+                                            <div class="container"><h4 class="text-center"><b>PHD Details</b></h4></div>
                                                         <table class="table table-bordered" style="font-size:14px;">
                                                             <tr >
                                                            <th>SrNo</th>
@@ -33107,33 +33074,64 @@ elseif($code==432)
 elseif($code==432.1)
 {
     $id = $_POST['ID'];
-    $qry = "SELECT Uploadcertificate from PHDacademic where id = $id";
+    $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and  UserName='$EmployeeID' ";
     $result = sqlsrv_query($conntest, $qry);
-    if($rows=sqlsrv_fetch_array($result))
-    {
-        if($rows['Uploadcertificate']!='')
-        {
-         $docName = $rows['Uploadcertificate'];
-         ftp_chdir($conn_id,"Images/Staff/PhDThesis") or die("Could not change directory");
-        if (ftp_delete($conn_id, $docName))
-        {
-            // $inserPHDStatus="SELECT * FROM  PHDacademic WHERE UserName='$EmployeeID'";
-            // sqlsrv_query($conntest, $inserPHDStatus);
-            $sql = "DELETE from PHDacademic where id= $id";
+    
+    if ($rows = sqlsrv_fetch_array($result)) {
+        if ($rows['Uploadcertificate'] != '') {
+            $docName = $rows['Uploadcertificate'];
+            ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
+            if (ftp_delete($conn_id, $docName)) {
+                $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$EmployeeID'";
+                $res = sqlsrv_query($conntest, $sql);
+            }
+            ftp_close($conn_id);
+        } else {
+            $sql = "DELETE FROM PHDacademic WHERE id = $id";
             $res = sqlsrv_query($conntest, $sql);
-            $inserPHDStatus="UPDATE Staff SET Phd='No' WHERE IDNo='$EmployeeID' and JobStatus='1'";
-            sqlsrv_query($conntest, $inserPHDStatus);
         }
-        ftp_close($conn_id);
-        }
-        else
-        {
-            $sql = "DELETE from PHDacademic where id= $id";
+    }
+    $remainingQry = "SELECT COUNT(*) AS recordCount FROM PHDacademic WHERE UserName = '$EmployeeID'";
+    $remainingResult = sqlsrv_query($conntest, $remainingQry);
+    $remainingRow = sqlsrv_fetch_array($remainingResult);
+    
+    if ($remainingRow['recordCount'] == 0) {
+        $updateStatusQry = "UPDATE Staff SET Phd = 'No' WHERE IDNo = '$EmployeeID' AND JobStatus = '1'";
+        sqlsrv_query($conntest, $updateStatusQry);
+    }
+    
+    sqlsrv_close($conntest);
+}
+elseif($code==432.2)
+{
+    $id = $_POST['ID'];
+    $emp_id = $_POST['emp_id'];
+    $qry = "SELECT Uploadcertificate FROM PHDacademic WHERE id = '$id' and UserName='$emp_id' ";
+    $result = sqlsrv_query($conntest, $qry);
+    
+    if ($rows = sqlsrv_fetch_array($result)) {
+        if ($rows['Uploadcertificate'] != '') {
+            $docName = $rows['Uploadcertificate'];
+            ftp_chdir($conn_id, "Images/Staff/PhDThesis") or die("Could not change directory");
+            if (ftp_delete($conn_id, $docName)) {
+                $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$emp_id'";
+                $res = sqlsrv_query($conntest, $sql);
+            }
+            ftp_close($conn_id);
+        } else {
+            $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$emp_id'";
             $res = sqlsrv_query($conntest, $sql);
-            $inserPHDStatus="UPDATE Staff SET Phd='No' WHERE IDNo='$EmployeeID' and JobStatus='1'";
-            sqlsrv_query($conntest, $inserPHDStatus);
         }
-     }
+    }
+    $remainingQry = "SELECT COUNT(*) AS recordCount FROM PHDacademic WHERE UserName = '$emp_id'";
+    $remainingResult = sqlsrv_query($conntest, $remainingQry);
+    $remainingRow = sqlsrv_fetch_array($remainingResult);
+    
+    if ($remainingRow['recordCount'] == 0) {
+        $updateStatusQry = "UPDATE Staff SET Phd = 'No' WHERE IDNo = '$emp_id' AND JobStatus = '1'";
+        sqlsrv_query($conntest, $updateStatusQry);
+    }
+    
     sqlsrv_close($conntest);
 }
 elseif($code==433)
@@ -33224,6 +33222,26 @@ elseif ($code == 434)
 elseif ($code == 435)
 {
     $id = $_POST['ID'];
+    $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    $data = sqlsrv_fetch_array($result);
+    if($data)
+    {
+        $docName = $data['DocumentPath'];
+        ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
+        if (ftp_delete($conn_id, $docName))
+        {
+             $sql = "DELETE from StaffExperienceDetails where Id= $id";
+            $res = sqlsrv_query($conntest, $sql);
+        }
+        ftp_close($conn_id);
+    }
+    sqlsrv_close($conntest);
+}
+elseif ($code == 435.1)
+{
+    $id = $_POST['ID'];
+    $emp_id = $_POST['emp_id'];
     $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
     $result = sqlsrv_query($conntest, $qry);
     $data = sqlsrv_fetch_array($result);

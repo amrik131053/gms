@@ -155,7 +155,7 @@
               {
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
-                 document.getElementById("CollegeID_Set").value='Role='+role;
+                 document.getElementById("CollegeID_Set").value='RoleID='+role;
               }
            });
           }     
@@ -2015,19 +2015,41 @@ function viewPHDDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
-
-function deletePHD(id) {
+function dlt_data(id,emp_id) {
+    var code = '435.1';
     var a = confirm('Are you sure you want to delete');
     if (a == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
-        var code = '432.1';
-        var academicID = id;
-        //alert(academicID);
+        var ID = id;
         $.ajax({
             url: 'action_g.php',
             data: {
-                ID: academicID,
+                ID: ID,emp_id:emp_id,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                console.log(data);
+                spinner.style.display = 'none';
+                SuccessToast('Successfully Deleted');
+                update_emp_record(emp_id);
+               
+            }
+        });
+    } else {}
+}
+function deletePHD(id,emp_id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432.2';
+        var academicID = id;
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,emp_id:emp_id,
                 code: code
             },
             type: 'POST',
@@ -2035,8 +2057,7 @@ function deletePHD(id) {
                 spinner.style.display = 'none';
                 console.log(data);
                 SuccessToast('Successfully Deleted');
-
-                showProfileData();
+                update_emp_record(emp_id);
 
             }
         });
@@ -2664,7 +2685,7 @@ function toggleLeavingDate(selectElement) {
               Search
             </button>
       </span>
-      <input type="hidden" id="CollegeID_Set">
+      <input type="text" id="CollegeID_Set">
 
       <!-- <div class="card-tools">
         <div class="input-group ">

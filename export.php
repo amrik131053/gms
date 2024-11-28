@@ -1960,6 +1960,7 @@ else
           <th>Email</th> 
           <th>Offical Email</th> 
           <th>Phone</th>
+          <th>Ph.D</th>
           
           
          </tr>
@@ -1977,6 +1978,7 @@ else
       $email = $row['EmailID'];
       $OfficialEmailID = $row['OfficialEmailID'];
       $phone = $row['MobileNo'];
+      $Phd = $row['Phd'];
             $exportMeter.="<tr>
                 <td>{$count}</td>
                 <td>{$IDNo}</td>
@@ -1989,6 +1991,7 @@ else
                 <td>{$email}</td>
                 <td>{$OfficialEmailID}</td>
                 <td>{$phone}</td>
+                <td>{$Phd}</td>
             </tr>";
 $count++;
     }
