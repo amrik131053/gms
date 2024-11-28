@@ -1924,7 +1924,23 @@ $value = isset($parts[1]) ? $parts[1] : '';
 if ($ColomName=='JobStatus') {
          $get_category1="SELECT * FROM Staff where  $ColomName='$value'";
   
-} else
+} 
+else if($ColomName=='StandardType')
+{  
+
+    if($value==8)
+    {
+        $get_category1="SELECT * FROM Staff where  JobStatus='1' ANd  Phd='Yes'"; 
+     
+    }
+    else
+    {
+       
+     $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
+    }
+    
+}
+else
 {
          $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
 

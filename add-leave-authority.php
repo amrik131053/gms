@@ -2686,7 +2686,7 @@ function toggleLeavingDate(selectElement) {
               Search
             </button>
       </span>
-      <input type="text" id="CollegeID_Set">
+      <input type="hidden" id="CollegeID_Set">
 
       <!-- <div class="card-tools">
         <div class="input-group ">
