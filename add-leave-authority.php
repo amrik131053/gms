@@ -21,6 +21,45 @@
                }
            });
           } 
+            function show_qualification_wise()
+          {
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var flag=5;
+           $.ajax({
+              url:'action_a.php',
+              type:'POST',
+              data:{
+                 flag:flag
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("qualification_wise_show").innerHTML=response;
+               }
+           });
+          } 
+                 function show_emp_all_qualification(categoryID)
+          {
+            var qcode="qualification";
+            // alert(categoryID);
+      var spinner=document.getElementById("ajax-loader");
+   spinner.style.display='block';
+           var code=59;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,CategoryId:categoryID,qcode:qcode
+              },
+              success: function(response) 
+              {
+                  spinner.style.display='none';
+                 document.getElementById("show_record").innerHTML=response;
+                 document.getElementById("CollegeID_Set").value='CategoryId='+categoryID;
+              }
+           });
+          }  
            function show_emp_all(categoryID)
           {
             var qcode="category";
@@ -2541,6 +2580,22 @@ function toggleLeavingDate(selectElement) {
              </div>
        <div class="card-body p-0">
          <ul class="nav nav-pills flex-column" id="category_wise_show">
+      <!-- Some content can be added here -->
+          </ul>
+       </div>
+       <!-- /.card-body -->
+</div>
+ <div class="card">
+          <div class="card-header">
+        <h3 class="card-title">QUALIFICATION</h3>
+           <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" onclick="show_qualification_wise();">
+              <i class="fas fa-plus"></i>
+               </button>
+           </div>
+             </div>
+       <div class="card-body p-0">
+         <ul class="nav nav-pills flex-column" id="qualification_wise_show">
       <!-- Some content can be added here -->
           </ul>
        </div>

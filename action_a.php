@@ -245,8 +245,43 @@ elseif($code==4)
    }
    sqlsrv_close($conntest);
 }
-else{
-   
-   
-}
+
+  elseif($code==5)
+        {
+           $get_category="SELECT ID,QualificationName FROM MasterQualification ";
+           $get_category_run=sqlsrv_query($conntest,$get_category);
+           while($row=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+           {
+              $Emp_category=$row['ID'];
+    $check_count_emp_category_wise="SELECT DISTINCT UserName FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$Emp_category'";
+              $check_count_emp_category_wise_run=sqlsrv_query($conntest,$check_count_emp_category_wise,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+              $emp_count=sqlsrv_num_rows($check_count_emp_category_wise_run);
+      ?>
+    <li class="nav-item " onclick="show_emp_all_qualification(<?=$Emp_category;?>);">
+        <a href="#" class="nav-link">
+            <i class="fas fa-inbox"></i> <?=$row['QualificationName'];?>
+            <span class="badge bg-primary float-right"><?=$emp_count;?></span>
+        </a>
+    </li>
+    <?php 
+      }
+$check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd='Yes'";
+              $check_count_emp_catego_run=sqlsrv_query($conntest,$check_count_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+              $emp_coun1t=sqlsrv_num_rows($check_count_emp_catego_run);
+      ?>
+    <li class="nav-item " onclick="show_emp_all_qualification(8);">
+        <a href="#" class="nav-link">
+            <i class="fas fa-inbox"></i>PHD
+            <span class="badge bg-primary float-right"><?=$emp_coun1t;?></span>
+        </a>
+    </li>
+    <?php 
+      
+      //      print_r($category);
+      }
+        else{
+
+
+        }
+
 }
