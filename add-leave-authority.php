@@ -36,6 +36,7 @@
               {
                   spinner.style.display='none';
                  document.getElementById("qualification_wise_show").innerHTML=response;
+                 
                }
            });
           } 
@@ -56,7 +57,7 @@
               {
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
-                 document.getElementById("CollegeID_Set").value='CategoryId='+categoryID;
+                 document.getElementById("CollegeID_Set").value='StandardType='+categoryID;
               }
            });
           }  
