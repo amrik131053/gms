@@ -9177,13 +9177,13 @@ elseif ($code==138)
 
    elseif ($examName=='2') 
    {
-         $questionCountQry="Select * from question_generate_count where unit='3' exam='2'  ";
+         $questionCountQry="Select * from question_generate_count where unit='3' and exam='2'  ";
       $flag=1;
      
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3' ";
+      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3' and exam='3' ";
       $flag=1;
 
    }
