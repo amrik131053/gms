@@ -8042,6 +8042,7 @@ else
                  <th style='background-color:black; color:white;'>Course</th>  
                  <th style='background-color:black; color:white;'>Name</th>
                  <th style='background-color:black; color:white;'>Father Name</th>
+                      <th style='background-color:black; color:white;'>Mobile No</th>
                  <th style='background-color:black; color:white;'>RollNo</th>
                  <th style='background-color:black; color:white;'>Gender</th>
                  <th style='background-color:black; color:white;'>State</th>
@@ -8074,7 +8075,7 @@ else
         $UTRNumber=$row['UTRNumber'];
         $loan_amount=$row['loan_amount'];
         $datePayment =$row['datePayment'];
-    
+
         $statusVerification=$row['statusVerification'];
         $get_colege_course_name="SELECT * FROM MasterCourseCodes where CollegeID='$Collegeid' and DepartmentId='$Department' AND CourseID='$Course'";
         $get_colege_course_name_run=sqlsrv_query($conntest,$get_colege_course_name);
@@ -8082,7 +8083,19 @@ else
         {   
              $courseName=$row_collegecourse_name['Course'];   
               $CollegeName=$row_collegecourse_name['CollegeName']; 
-        }   
+        }  
+
+
+        $get_colege_course_namew="SELECT * FROM Admissions where ClassRollNo='$classroll'";
+        $get_colege_course_name_runw=sqlsrv_query($conntest,$get_colege_course_namew);
+        if ($row_collegecourse_namew=sqlsrv_fetch_array($get_colege_course_name_runw)) 
+        {   
+             $StudentMobileNo=$row_collegecourse_namew['StudentMobileNo'];   
+            
+        }  
+
+
+
         $State=$row['StateName'];   
         $status=$row['Status'];   
         $Session=$row['Session'];    
@@ -8134,6 +8147,7 @@ $verification='Verified';
               <td>{$courseName}</td>
               <td>{$name}</td>
               <td>{$FatherName}</td>
+              <td>{$StudentMobileNo}</td>
               <td bgcolor=$color>{$classroll}</td>
               <td>{$Gender}</td>
               <td>{$State}</td>

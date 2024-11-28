@@ -3133,6 +3133,18 @@ else { ?>
             $collegeId=$_POST['collegeId'];  
             $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CollegeId='$collegeId' ANd Staff.JobStatus='1' ";
         }
+         elseif($qcode=='qualification')
+        {
+            $collegeId=$_POST['CategoryId'];  
+            if($collegeId!='8')
+            {
+                $query ="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$collegeId'";
+            }
+            else{
+              $query="SELECT DISTINCT IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM  Staff   Where JobStatus='1' and Phd='Yes'";
+            }
+          
+        }
         $result = sqlsrv_query($conntest,$query);
         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
         {

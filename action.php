@@ -16875,7 +16875,15 @@ elseif($code=='257.1')
       $status="";
    $code_access=$_POST['code_access'];
    $univ_rollno=$_POST['rollNo'];
-   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+if(is_numeric($univ_rollno))
+{
+   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+}
+     
+      else{
+$result1 = "SELECT  * FROM Admissions where   ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+      }
+   
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
@@ -16941,7 +16949,7 @@ elseif($code=='257.1')
                      <li class="nav-link"><b>Examination : &nbsp;&nbsp;&nbsp;</b>
                      <select class="btn btn-md" id="examination">
                      <?php
-                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                     $sql="SELECT DISTINCT Examination from ResultGKU Order by Examination ASC ";
                            $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                            {    
@@ -17012,7 +17020,17 @@ sqlsrv_close($conntest);
       </tr><?php 
    $status="";
    $univ_rollno=$_POST['rollNo'];
-   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+
+
+   if(is_numeric($univ_rollno))
+{
+   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+}
+     
+      else{
+$result1 = "SELECT  * FROM Admissions where   ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+      }
+
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
@@ -17175,7 +17193,7 @@ elseif($code=='257.3')
                      <select class="form-control" id="examination_n" name='examination_n'>
                        <option value="<?= $examination;?>"><?= $examination;?></option>
                      <?php
-                     $sql="SELECT DISTINCT Examination from ExamForm Order by Examination ASC ";
+                     $sql="SELECT DISTINCT Examination from ResultGKU Order by Examination ASC ";
                            $stmt2 = sqlsrv_query($conntest,$sql);
                      while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
                            {    
@@ -21010,7 +21028,7 @@ elseif($code=='323')
   if ($code_access=='100' || $code_access=='101' || $code_access=='110' || $code_access=='111') 
     {                                 
 
- echo $univ_rollno=$_POST['rollNo'];
+echo $univ_rollno=$_POST['rollNo'];
 
 echo $type=$_POST['option'];
 
