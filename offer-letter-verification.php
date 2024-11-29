@@ -874,7 +874,7 @@ function export_one(Consultant)
 
 function export_detail() 
       {
-         var exportCode='23';
+         var exportCode='23.1';
 
           var batch=document.getElementById('exbatch').value;
 
