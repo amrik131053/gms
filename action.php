@@ -9177,13 +9177,13 @@ elseif ($code==138)
 
    elseif ($examName=='2') 
    {
-         $questionCountQry="Select * from question_generate_count where unit='3' exam='2'  ";
+         $questionCountQry="Select * from question_generate_count where unit='3' and exam='2'  ";
       $flag=1;
      
    }
    elseif($examName=='3')
    {
-      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3' ";
+      $questionCountQry="Select * from question_generate_count where unit='4' OR  unit='3' and exam='3' ";
       $flag=1;
 
    }
@@ -13654,7 +13654,7 @@ while($row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) ) {
          $subjectName= $subject[$a];
        $sub_code= $SubjectCode[$a];
        
-       if($type=='Reappear'){
+       if($type=='Reappear' || $type=='Additional' || $type=='Improvement'){
          $int= 'N';
          $ext= 'N';
        }
@@ -16875,15 +16875,14 @@ elseif($code=='257.1')
       $status="";
    $code_access=$_POST['code_access'];
    $univ_rollno=$_POST['rollNo'];
-if(is_numeric($univ_rollno))
+  if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
 }
-     
-      else{
-$result1 = "SELECT  * FROM Admissions where   ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+ else
+ {
+$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
-   
    $stmt1 = sqlsrv_query($conntest,$result1);
    if($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
    {
@@ -17024,11 +17023,11 @@ sqlsrv_close($conntest);
 
    if(is_numeric($univ_rollno))
 {
-   $result1 = "SELECT  * FROM Admissions where IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
+   $result1 = "SELECT  * FROM Admissions where ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno'"; 
 }
-     
-      else{
-$result1 = "SELECT  * FROM Admissions where   ClassRollNo='$univ_rollno' or  UniRollNo='$univ_rollno' ";
+ else
+ {
+$result1 = "SELECT  * FROM Admissions where   IDNo='$univ_rollno' or  ClassRollNo='$univ_rollno' ";
       }
 
    $stmt1 = sqlsrv_query($conntest,$result1);

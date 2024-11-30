@@ -288,7 +288,7 @@ echo  $examName ." (".$sessionnane.")" ;
                               <th align="right">
                           
 
-
+                                
                                  
                               <!--     <td><?=$row['Unit']?></td>  -->
                                <!-- <?=$row['category_name']?>(<?=$row['Unit']?>)-->
