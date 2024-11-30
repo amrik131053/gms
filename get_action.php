@@ -6622,6 +6622,22 @@ else if ($code == 57.1) {
 
    }
 }
+else if ($code == 57.2) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from AdditionalResponsibilities WHERE ID= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Designation:<span style="color: #223260;"><?php echo "   ".$data['Designation'];?></span></label>
+      
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/AdditionalResponsibilities/<?=$data['FilePath']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['FilePath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
+                  <?php
+
+   }
+}
 else if ($code == 58) {
    $id = $_GET['id'];
    $sql = "SELECT * from StaffExperienceDetails WHERE Id= $id ";

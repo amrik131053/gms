@@ -540,6 +540,40 @@ function postcode(pincode) {
   xhr.send();
 }
 
+function addAditionalDuty(form) {
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId = formData.get("IDEmployee"); // Corrected syntax
+    // alert(form);
+    $.ajax({
+        url: 'action_g.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+           SuccessToast('Successfully Added');
+       } else if (response === 'Could not connect to 10.0.10.11') {
+           ErrorToast('FTP Server Off', 'bg-warning');
+       } else if (response == 2) {
+           ErrorToast('size must be less than 500kb', 'bg-warning');
+       } else if (response == 3) {
+           ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+       } else {
+           ErrorToast('All inputs required', 'bg-danger');
+       }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
   function exportEmployee() 
       {
          var exportCode=20;
@@ -615,6 +649,25 @@ if(data != "")
    //   console.log(data);
 $("#departmentName").html("");
 $("#departmentName").html(data);
+}
+}
+});
+
+}
+    function fetchDepartment1(CollegeId)
+{   
+   
+var code='96';
+$.ajax({
+url:'action_g.php',
+data:{CollegeId:CollegeId,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+   //   console.log(data);
+$("#departmentName1").html("");
+$("#departmentName1").html(data);
 }
 }
 });
@@ -1704,13 +1757,11 @@ function addEmployee()
 
 
 
-function printEmpIDCard(id) {
+function printEmpRecordPdf(id) {
    var code=1;
         if (id!='') 
          {  
-         //  window.location.href="printSmartCardEmp.php?code="+code+"&id="+id,'_blank';
-          window.open("printSmartCardEmp.php?code="+code+"&id="+id,'_blank');
-         //  window.open("newidcard.php?code="+code+"&id="+id,'_blank');
+          window.open("print-employee-record.php?code="+code+"&id="+id,'_blank');
          }
          else
          {
@@ -2016,6 +2067,18 @@ function viewPHDDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
+function viewAddtionalDocument(id) {
+    var code = 57.2;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 function dlt_data(id,emp_id) {
     var code = '435.1';
     var a = confirm('Are you sure you want to delete');
@@ -2057,6 +2120,32 @@ function deletePHD(id,emp_id) {
             success: function(data) {
                 spinner.style.display = 'none';
                 console.log(data);
+                SuccessToast('Successfully Deleted');
+                update_emp_record(emp_id);
+
+            }
+        });
+    } else {
+
+    }
+}
+function deleteAddtional(id,emp_id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432.3';
+        var academicID = id;
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,emp_id:emp_id,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+               //  console.log(data);
                 SuccessToast('Successfully Deleted');
                 update_emp_record(emp_id);
 
@@ -2223,8 +2312,8 @@ function cgpa_detail() {
 }
 
 function calculate_percentage() {
-    var val1 = ~~document.getElementById('obtained_marks').value;
-    var val2 = ~~document.getElementById('total_marks').value;
+    var val1 = document.getElementById('obtained_marks').value;
+    var val2 = document.getElementById('total_marks').value;
     if (val1 != '' && val2 != '' && val1 != '0' && val2 != '0') {
         if (val1 > val2) {
             alert('obtained marks can not be greater than total marks');
@@ -2325,6 +2414,27 @@ function toggleLeavingDate(selectElement) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="image_view">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary"></button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addtionalDutyMOdal" tabindex="-1" role="dialog" aria-labelledby="addtionalDutyMOdalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addtionalDutyMOdalLabel">Additional Duty</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
