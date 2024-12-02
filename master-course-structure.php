@@ -445,7 +445,7 @@ function Update() {
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
-        url: 'action.php',
+        url: 'action.php', 
         type: 'POST',
         data: {
             code: code
@@ -628,7 +628,9 @@ function update_study_scheme(srno) {
     // alert(subject_name);
     var subject_code = document.getElementById('subject_code' + srno).value;
     var subject_type = document.getElementById('subject_type' + srno).value;
+
       var academic_type = document.getElementById('academic_type' + srno).value;
+      
     var int_marks = document.getElementById('int_marks' + srno).value;
     var ext_marks = document.getElementById('ext_marks' + srno).value;
     var elective = document.getElementById('elective' + srno).value;

@@ -16491,10 +16491,11 @@ elseif($code==252)
 
                                   
                                     </td>
-                                 <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
-                                 <td >
-                                    <select class="form-control" style="width:100px"  id="academic_type<?=$get_row['SrNo'];?>">
-                                        <option value="<?=$get_row['AcademicType'];?>"><?=$get_row['AcademicType'];?></option>
+                                 <td> <input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>">
+                                 </td>
+                                 <td>
+                                    <select class="form-control" style="width:100px"  id="subject_type<?=$get_row['SrNo'];?>">
+                                        <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
                                         <option value="Theory">Theory</option>
                                          <option value="Practical">Practical</option>
                                          <option value="Theory/Practical">Theory/Practical</option>
@@ -16547,13 +16548,13 @@ elseif($code==252)
                                  <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
 
                                 <td>
-                                  <select class="form-control" style="width:180px"  id="subject_type<?=$get_row['SrNo'];?>">
-                                       <option value="<?=$get_row['SubjectType'];?>">
+                                  <select class="form-control" style="width:180px"  id="academic_type<?=$get_row['SrNo'];?>">
+                                       <option value="<?=$get_row['AcademicType'];?>">
 
 
 
 
-                                          <?php $mtp=$get_row['SubjectType'];
+                                          <?php $mtp=$get_row['AcademicType'];
 
                                           if($mtp=='T')
                                           {
@@ -16735,12 +16736,15 @@ elseif($code==255)
             $SemesterID = trim($filesop[0]);
             $SubjectCode = trim($filesop[1]);
             $SubjectName = trim($filesop[2]);
+
             $SkillType = trim($filesop[3]);
+
             $Lacture = trim($filesop[4]);
             $Tutorials = trim($filesop[5]);
             $Practical = trim($filesop[6]);
             $NoOfCredits = trim($filesop[7]);
-            $SubjectType = trim($filesop[8]);
+            $AcademicType = trim($filesop[8]);
+
             $Elective = trim($filesop[9]);
             $SubjectGroup = trim($filesop[10]);
 
@@ -16757,10 +16761,22 @@ if ($SemesterID=='1')
    {
 
    }
- 
+
+   if($AcademicType=='T')
+   {
+$SubjectType='Theory';
+   }
+   else if($AcademicType=='P')
+   {
+$SubjectType='Practical';
+   }
+   else
+   {
+    $SubjectType='';
+   }
 
 
-  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SkillType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$SubjectType')";
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
                   if ($add_study_scheme_run2==true)
