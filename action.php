@@ -15990,7 +15990,7 @@ elseif($code==242)
                $batch=$_POST['batch'];
                $subject_name=$_POST['subject_name'];
                $subject_code=$_POST['subject_code'];
-               $subject_type=$_POST['subject_type'];
+               $AcademicType=$_POST['subject_type'];
                $subject_group=$_POST['subject_group'];
                $int_marks=$_POST['int_marks'];
                $ext_marks=$_POST['ext_marks'];
@@ -16001,7 +16001,28 @@ elseif($code==242)
                $credits=$_POST['credits'];
 
 
-               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0')";
+
+   if($AcademicType=='T')
+   {
+$SubjectType='Theory';
+   }
+   else if($AcademicType=='P')
+   {
+$SubjectType='Practical';
+   }
+    else if($AcademicType=='TP')
+   {
+$SubjectType='Theory/Practical';
+   }
+   else
+   {
+    $SubjectType='';
+   }
+
+
+
+
+               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,AcademicType) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$AcademicType')";
                $add_study_scheme_run=sqlsrv_query($conntest,$add_study_scheme);
                   if ($add_study_scheme_run==true)
                    {
@@ -16384,6 +16405,8 @@ elseif($code==252)
                $subject_name=$row['SubjectName'];
                $subject_code=$row['SubjectCode'];
                $subject_type=$row['SubjectType'];
+               $skill_type=$row['SkillType'];
+               $academic_type=$row['AcademicType'];
                $subject_group=$row['SGroup'];
                $int_marks=$row['IntMaxMarks'];
                $ext_marks=$row['ExtMaxMarks'];
@@ -16393,7 +16416,7 @@ elseif($code==252)
                $tutorials=$row['Tutorial'];
                $credits=$row['NoOFCredits'];
 
-         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId')";
+         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId,AcademicType,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId','$academic_type','$skill_type')";
          $verified_study_run1=sqlsrv_query($conntest,$verified_study1);  
       }
 
@@ -16680,12 +16703,11 @@ sqlsrv_close($conntest);
 }
 elseif($code==255)
 {
-              
                $SrNo=$_POST['srno'];
                $subject_name=$_POST['subject_name'];
                $subject_code=$_POST['subject_code'];
                $subject_type=$_POST['subject_type'];
-                $academic_type=$_POST['academic_type'];
+               $academic_type=$_POST['academic_type'];
                $int_marks=$_POST['int_marks'];
                $ext_marks=$_POST['ext_marks'];
                $elective=$_POST['elective'];
@@ -16694,9 +16716,9 @@ elseif($code==255)
                $tutorials=$_POST['tutorials'];
                $credits=$_POST['credits'];
                $department=$_POST['department'];
-                      $group=$_POST['group'];
+               $group=$_POST['group'];
                $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
-         $update_study_run=sqlsrv_query($conntest,$update_study);  
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
          {
@@ -16769,6 +16791,10 @@ $SubjectType='Theory';
    else if($AcademicType=='P')
    {
 $SubjectType='Practical';
+   }
+    else if($AcademicType=='TP')
+   {
+$SubjectType='Theory/Practical';
    }
    else
    {

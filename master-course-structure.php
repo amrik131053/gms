@@ -42,6 +42,7 @@
                             onclick="Update();bg(this.id);"> Update </a>
                         <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
+                            <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="reports();bg(this.id);">Reports</a> 
 
                               
                             
@@ -420,6 +421,31 @@ function Move() {
         }
     });
 }
+function reports() {
+    //228
+    var flag = 6;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: flag
+        },
+        success: function(response) {
+            spinner.style.display = 'none';
+            document.getElementById("table_load").innerHTML = response;
+        }
+    });
+}
+
+
+
+
+
+
+
+
 
 function Copy() { //229
     var code = 229;
@@ -630,7 +656,7 @@ function update_study_scheme(srno) {
     var subject_type = document.getElementById('subject_type' + srno).value;
 
       var academic_type = document.getElementById('academic_type' + srno).value;
-      
+
     var int_marks = document.getElementById('int_marks' + srno).value;
     var ext_marks = document.getElementById('ext_marks' + srno).value;
     var elective = document.getElementById('elective' + srno).value;

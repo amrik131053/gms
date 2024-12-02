@@ -279,6 +279,129 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
       
       //      print_r($category);
       }
+
+ elseif($code==6)
+   {
+    
+ 
+                  ?>
+  
+        <div class="card">
+        
+       
+       
+           <div class="row">
+            <div class="col=lg-2">
+                 <div class="card-header">
+                    
+                  </div>
+                   <div class="card-body">
+              
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control form-control-sm">
+                 <option value=''>Select Course</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID where IDNo='$EmployeeID' ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select> 
+             
+                                    <label>Department</label>
+                                    <select id="Department" name="Department" class="form-control form-control-sm"
+                                        onchange="fetchcourse()" required>
+                                        <option value=''>Select Department</option>
+                                    </select>
+                             
+                 <label>Course</label>
+                  <select  id="Course" class="form-control form-control-sm">
+                     <option value=''>Select Course</option>
+                 </select>
+            
+                 <label>Batch</label>
+                   <select id="batch"  class="form-control form-control-sm">
+                       <option value="">Batch</option>
+                          <?php 
+                              for($i=2013;$i<=2030;$i++)
+                                 {?>
+                               <option value="<?=$i?>"><?=$i?></option>
+                           <?php }
+                                  ?>
+                 </select>
+            
+                 <label>Semester</label>
+              <br>
+                       
+                     <?php 
+                        for($i=1;$i<=12;$i++)
+                           {
+                            if($i==7)
+                             { ?>
+                            <br>
+                          <?php }?>
+                            <input type="checkbox" name="<?=$i;?>" style="width:30px;height:20px"  value='<?=$i;?>'>
+                            <label for="<?=$i;?>" style="width:25px;height:20px;text-align: center;border:2px red solid;display: inline-block;" > <?=$i;?></label>
+                    
+                    
+                     <?php }
+            ?>
+<br>
+         
+                 <label>Group</label>
+                      <select   id='group' class="form-control form-control-sm">
+                       <option value="">Group</option>
+                       <?php
+   $sql="SELECT DISTINCT Sgroup from MasterCourseStructure ";
+          $stmt2 = sqlsrv_query($conntest,$sql);
+     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+         {    
+     $Sgroup = $row1['Sgroup'];  
+    ?>
+<option  value="<?=$Sgroup;?>"><?= $Sgroup;?></option>
+<?php    }
+?>
+            </select>
+             
+
+
+
+
+
+        
+                <br>
+                 <button onclick="search_data();" class="btn btn-success btn-sm">Search</button> &nbsp; &nbsp;
+                 <button onclick="export_data();" class="btn btn-success btn-sm">Export</button>
+         
+            
+            </div>
+          </div>
+<br>
+            
+
+         
+            <div class="col-lg-10">
+              <div class="row" id="load_study_scheme">
+
+             
+            </div>
+          </div>
+        </div>
+           </div>
+         </div>
+
+  <?php  
+  sqlsrv_close($conntest);
+}
+
+
+
+
         else{
 
 
