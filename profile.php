@@ -264,6 +264,18 @@ function addAcademic(form) {
         }
     });
 }
+function viewAddtionalDocument(id) {
+    var code = 57.2;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 function addPhd(form) {
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
@@ -578,37 +590,59 @@ function marks() {
 
     document.getElementById("cgpa_value").readOnly = true;
     document.getElementById("cgpa_value").value = '';
-    document.getElementById("total_marks").readOnly = false;
-    document.getElementById("obtained_marks").readOnly = false;
-    document.getElementById("total_marks").required = true;
-    document.getElementById("obtained_marks").required = true;
+    document.getElementById("total_marks1").readOnly = false;
+    document.getElementById("obtained_marks1").readOnly = false;
+    document.getElementById("total_marks1").required = true;
+    document.getElementById("obtained_marks1").required = true;
 }
 
 function cgpa_detail() {
     var x = document.getElementById("qualification");
     x.style.display = "block";
     document.getElementById("cgpa_value").readOnly = false;
-    document.getElementById("total_marks").readOnly = true;
-    document.getElementById("total_marks").value = '';
-    document.getElementById("obtained_marks").readOnly = true;
-    document.getElementById("obtained_marks").value = '';
+    document.getElementById("total_marks1").readOnly = true;
+    document.getElementById("total_marks1").value = '';
+    document.getElementById("obtained_marks1").readOnly = true;
+    document.getElementById("obtained_marks1").value = '';
     document.getElementById("cgpa_value").required = true;
-    document.getElementById('percent').value = '';
+    document.getElementById('percent1').value = '';
 }
 
 function calculate_percentage() {
-    var val1 = ~~document.getElementById('obtained_marks').value;
-    var val2 = ~~document.getElementById('total_marks').value;
+    var val1 = Number(document.getElementById('obtained_marks1').value);
+    var val2 = Number(document.getElementById('total_marks1').value);
+    // alert(val1+'>'+val2);
+    // console.log(val2);
+    if (val1 != '' && val2 != '' && val1 != '0' && val2 != '0') {
+        if (val1 > val2) {
+            alert('obtained marks can not be greater than total marks');
+            document.getElementById('obtained_marks1').value = '';
+            document.getElementById('total_marks1').value = '';
+            document.getElementById('percent1').value = '';
+        } else {
+            var result = (val1 / val2) * 100;
+            var percent = result.toFixed(2);
+            document.getElementById('percent1').value = percent;
+        }
+    }
+}
+function calculate_percentage1() {
+    var val1 = Number(document.getElementById('obtained_marks').value);
+    var val2 = Number(document.getElementById('total_marks').value);
+    alert(val1+'>'+val2);
+    // console.log(val2);
     if (val1 != '' && val2 != '' && val1 != '0' && val2 != '0') {
         if (val1 > val2) {
             alert('obtained marks can not be greater than total marks');
             document.getElementById('obtained_marks').value = '';
             document.getElementById('total_marks').value = '';
-            document.getElementById('percent').value = '';
+            document.getElementById('percentage1').value = '';
         } else {
+
             var result = (val1 / val2) * 100;
-            var percent = result.toFixed(2);
-            document.getElementById('percent').value = percent;
+            var percent1 = result.toFixed(2);
+            console.log(percent1);
+            document.getElementById('percentage1').value = percent1;
         }
     }
 }

@@ -86,7 +86,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
+ if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1 || $code==436.2  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code=='432.3' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -3209,8 +3209,10 @@ else { ?>
                             if($row['depid']!='81')
                             {
                         ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i>
+                    <!-- <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i> -->
+                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                        onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
                     <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
                         onclick="printEmpIDCardNew(<?=$row['IDNo'];?>);"></i>
                     <?php 
@@ -3355,6 +3357,8 @@ else { ?>
                             <li class="nav-item"><a class="nav-link" href="#contact<?=$emp_id;?>" data-toggle="tab">Contact</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#employment<?=$emp_id;?>" data-toggle="tab">Employment</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#additional<?=$emp_id;?>" data-toggle="tab">Additional</a>
                             </li>
 
                             <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
@@ -3903,6 +3907,12 @@ else { ?>
                                                 placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
                                         </div>
                                     </div>
+                                    <!-- <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Additional Duty</label><br>
+                                            <input type="button" data-toggle="modal" data-target="#addtionalDutyMOdal" class="btn btn-primary"  value="Additional Duty">
+                                        </div>
+                                    </div> -->
                                 </div>
 
 
@@ -4861,6 +4871,173 @@ else { ?>
                                                 </div>
                  
     </div>
+    </section>
+</div>
+</div>
+<div class="tab-pane" id="additional<?=$emp_id;?>">
+    <div class="row">
+        <section class="content">
+       
+    <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="code" value="436.2">
+        <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
+        <div class="row">
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Name of Organisation</label>
+
+                                            <select class="form-control" name="organisationNameAddtional"
+                                                onchange="fetchDepartment1(this.value);">
+                                                <?php  $get_College="SELECT DISTINCT CollegeName,CollegeID FROM MasterCourseCodes ";
+                                                $get_CollegeRun=sqlsrv_query($conntest,$get_College);
+                                                while($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
+                                                {?>
+                                                <option value="<?=$get_CollegeRow['CollegeID'];?>">
+                                                    <?=$get_CollegeRow['CollegeName'];?>(<?=$get_CollegeRow['CollegeID'];?>)
+                                                </option>
+                                                <?php }
+                                          ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Name of Department</label>
+
+                                            <select class="form-control" name="departmentAddtional" id="departmentName1">
+                                               
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Designation</label>
+
+                                            <select class="form-control" name="designationAddtional">
+                                               
+                                                <?php  $get_Designation="SELECT DISTINCT Designation FROM MasterDesignation ";
+                                                $get_DesignationRun=sqlsrv_query($conntest,$get_Designation);
+                                                while($get_DesignationRow=sqlsrv_fetch_array($get_DesignationRun,SQLSRV_FETCH_ASSOC))
+                                                {?>
+                                                <option value="<?=$get_DesignationRow['Designation'];?>">
+                                                    <?=$get_DesignationRow['Designation'];?></option>
+                                                <?php }
+                                          ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Start Date </label>
+                                            <input type="date" class="form-control" name="startDateAddtional"
+                                                >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Remarks </label>
+                                            <input type="text" class="form-control" name="remarksAddtional"
+                                                >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>File </label>
+                                            <input type="file" class="form-control" name="fileAttachment"
+                                                >
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-2 mt-3">
+            <label>Action</label><br>
+            <input type="button" onclick="addAditionalDuty(this.form)" class="btn btn-primary" value="ADD">
+        </div>
+
+
+                            </div>
+                            </form>
+                            <br>
+                        
+            <div class="row">
+                <div class="table-responsive col-lg-12">
+                    <?php
+                                                $sql1 = "SELECT * from AdditionalResponsibilities WHERE IDNo= $emp_id ";
+                                            if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
+                                            ?>
+                    <div class="container">
+                        <h4 class="text-center"><b>Additional Responsibilities Details</b></h4>
+                    </div>
+                    <table class="table table-bordered" style="font-size:14px;">
+                        <tr>
+                            <th>SrNo</th>
+                            <th>College Name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Ramrks</th>
+
+                            <th>Action</th>
+                        </tr>
+                        <tbody>
+                            <?php
+                                                $res = sqlsrv_query($conntest, $sql1);
+                                                $SrNo=1;
+                                                while ($data1 = sqlsrv_fetch_array($res)) { 
+                                                    
+                                                    
+                                                    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='".$data1['CollegeID']."' ";
+                                                    $get_collegeRun=sqlsrv_query($conntest,$get_college);
+                                                    if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
+                                                                            { 
+                                                                              $CollegeName=$get_collegeRow['CollegeName'];
+                                                                            }
+                                                    
+                                                    
+                                                    $get_Department="SELECT  * FROM MasterDepartment where Id=".$data1['DepartmentID']." ";
+                                                    $get_DepartmentRun=sqlsrv_query($conntest,$get_Department);
+                                                    if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
+                                                                            { 
+                                                                              $DepartmentName=$get_DepartmentRow['Department'];
+                                                                         }           
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    ?>
+                            <tr>
+                                <td><?=$SrNo;?></td>
+                                <td><?=$CollegeName;?></td>
+                                <td><?=$DepartmentName;?></td>
+                                <td><?=$data1['Designation'];?></td>
+                                <td><?=$data1['JoiningDate']? $data1['JoiningDate']->format('d-m-Y') : ""; ?></td>
+                                <td><?=$data1['RelievingDate']? $data1['RelievingDate']->format('d-m-Y') : "Working"; ?></td>
+                                <td><?=$data1['Ramrks'];?></td>
+                                <td>
+                                    <i class=" fa fa-eye fa-2x text-success " id="doc" type="button"
+                                        onclick="viewAddtionalDocument(<?=$data1['ID']; ?>)" data-toggle="modal"
+                                        data-target="#modal-default"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+
+                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
+                                        onclick="deleteAddtional(<?=$data1['ID']; ?>,<?=$emp_id;?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+
+                                </td>
+                            </tr>
+                            <?php
+                                            $SrNo++;
+                                                }
+                                                       ?>
+                        </tbody>
+                    </table>
+                    <?php }?>
+                </div>
+            </div>
     </section>
 </div>
 </div>
@@ -31837,6 +32014,7 @@ elseif($code==431)
             <li class="nav-item"><a class="nav-link" href="#employment1<?=$emp_id;?>" data-toggle="tab">Employment</a></li>
             <li class="nav-item"><a class="nav-link" href="#idcard1<?=$emp_id;?>" data-toggle="tab">ID Card</a></li>
             <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
+            <li class="nav-item"><a class="nav-link" href="#additionalResposibilities<?=$emp_id;?>" data-toggle="tab">Additional Responsibilities</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience1<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
         </ul>
@@ -32563,7 +32741,7 @@ elseif($code==431)
 
             <div class="col-12 col-md-6">
                 <label for="obtained_marks" class="form-label">Obtained Marks</label>
-                <input type="number" id="obtained_marks" name="obtained_marks" class="form-control">
+                <input type="number" id="obtained_marks" onblur="calculate_percentage1();" name="obtained_marks" class="form-control">
             </div>
 
             <div class="col-12 col-md-6">
@@ -32573,7 +32751,7 @@ elseif($code==431)
 
             <div class="col-12 col-md-6">
                 <label for="percentage" class="form-label">Percentage</label>
-                <input type="text" id="percentage" name="percentage" class="form-control">
+                <input type="text" id="percentage1" name="percentage" readonly class="form-control">
             </div>
         </div>
 
@@ -32669,18 +32847,18 @@ elseif($code==431)
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Obtained Marks</label>
-                                                                <input class="form-control" value="" type="number"
+                                                                <input class="form-control"  type="number"
                                                                     placeholder="Enter Obtained Marks..."
-                                                                    name="marks_obtained" id="obtained_marks">
+                                                                    name="marks_obtained" id="obtained_marks1">
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> Total Marks </label>
-                                                                <input class="form-control" value="0" type="number"
+                                                                <input class="form-control" type="number"
                                                                     placeholder="Enter Total Marks..."
-                                                                    name="total_marks" id="total_marks"
-                                                                    onchange="calculate_percentage()">
+                                                                    name="total_marks" id="total_marks1"
+                                                                    onblur="calculate_percentage()">
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label> CGPA</label>
@@ -32692,7 +32870,7 @@ elseif($code==431)
                                                                 <label>Percentage</label>
                                                                 <input class="form-control" value="0" disabled
                                                                     type="text" placeholder="Percentage..."
-                                                                    name="percent" id="percent">
+                                                                    name="percent" id="percent1">
                                                             </div>
                                                             <div class="col-lg-3 col-md-3 col-sm-6">
                                                                 <label>Choose File </label>
@@ -32879,6 +33057,68 @@ elseif($code==431)
                                         </section>
                                     </div>
                                 </div>
+                                <div class="tab-pane" id="additionalResposibilities<?=$emp_id;?>">
+                <div class="row">
+                    
+                       <?php
+                        $sql1 = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = $EmployeeID";
+                        if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) { ?>
+                        <div class="container-fluid">
+                            <h4 class="text-center"><b>Additional Responsibilities</b></h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table  table-bordered " style="font-size:14px;">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>College Name</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $res = sqlsrv_query($conntest, $sql1);
+                                    $SrNo = 1;
+                                    while ($data1 = sqlsrv_fetch_array($res)) {
+                                        $get_college = "SELECT * FROM MasterCourseCodes WHERE CollegeID = '" . $data1['CollegeID'] . "'";
+                                        $get_collegeRun = sqlsrv_query($conntest, $get_college);
+                                        $CollegeName = ($get_collegeRow = sqlsrv_fetch_array($get_collegeRun, SQLSRV_FETCH_ASSOC)) ? $get_collegeRow['CollegeName'] : '';
+
+                                        $get_Department = "SELECT * FROM MasterDepartment WHERE Id = " . $data1['DepartmentID'];
+                                        $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
+                                        $DepartmentName = ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) ? $get_DepartmentRow['Department'] : '';
+                                    ?>
+                                        <tr>
+                                            <td><?=$SrNo;?></td>
+                                            <td><?=$CollegeName;?></td>
+                                            <td><?=$DepartmentName;?></td>
+                                            <td><?=$data1['Designation'];?></td>
+                                            <td><?=$data1['JoiningDate'] ? $data1['JoiningDate']->format('d-m-Y') : '';?></td>
+                                            <td><?=$data1['RelievingDate'] ? $data1['RelievingDate']->format('d-m-Y') : 'Working';?></td>
+                                            <td><?=$data1['Ramrks'];?></td>
+                                            <td>
+                                                <i class="fa fa-eye fa-2x text-success" id="doc" type="button" 
+                                                    onclick="viewAddtionalDocument(<?=$data1['ID'];?>)" 
+                                                    data-toggle="modal" data-target="#modal-default" 
+                                                    style="color: #223260; padding-left: 20px; padding-top: 5px;">
+                                                </i>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $SrNo++;
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+      
 
 
                                 <div class="tab-pane" id="experience1<?=$emp_id;?>">
@@ -33135,6 +33375,30 @@ elseif($code==432.2)
     
     sqlsrv_close($conntest);
 }
+elseif($code==432.3)
+{
+    $id = $_POST['ID'];
+    $emp_id = $_POST['emp_id'];
+    $qry = "SELECT FilePath FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id' ";
+    $result = sqlsrv_query($conntest, $qry);
+    
+    if ($rows = sqlsrv_fetch_array($result)) {
+        if ($rows['FilePath'] != '') {
+            $docName = $rows['FilePath'];
+            ftp_chdir($conn_id, "Images/Staff/AdditionalResponsibilities") or die("Could not change directory");
+            if (ftp_delete($conn_id, $docName)) {
+                $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
+                $res = sqlsrv_query($conntest, $sql);
+            }
+            ftp_close($conn_id);
+        } else {
+            $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
+            $res = sqlsrv_query($conntest, $sql);
+        }
+    }
+    
+    sqlsrv_close($conntest);
+}
 elseif($code==433)
 {
 $employeeID=$_POST['employeeID'];
@@ -33331,6 +33595,66 @@ else
 //     echo "Error: " . print_r($errors, true);
 //     // echo "0";
 // } 
+    }
+    else
+    {
+        echo "2"; //file size 500 kb
+    }
+}
+else
+{
+    echo "3";
+}
+    sqlsrv_close($conntest);
+}
+elseif($code==436.2)
+{
+$employeeID=$_POST['employeeID'];
+$organisationNameAddtional=$_POST['organisationNameAddtional'];
+$departmentAddtional=$_POST['departmentAddtional'];
+$designationAddtional=$_POST['designationAddtional'];
+$startDateAddtional=$_POST['startDateAddtional'];
+$remarksAddtional=$_POST['remarksAddtional'];
+
+$file_name = $_FILES['fileAttachment']['name'];
+$file_tmp = $_FILES['fileAttachment']['tmp_name'];
+$file_size =$_FILES['fileAttachment']['size'];
+$file_type = $_FILES['fileAttachment']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['fileAttachment']['type'], $allowedTypes))
+    {
+if ($file_size < 550000)
+    { 
+$date=date('Y-m-d'); 
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+ $file_name = $employeeID."_".strtotime($date)."_".$string."_".basename($_FILES['fileAttachment']['name']);
+$destdir = '/Images/Staff/AdditionalResponsibilities';
+     ftp_chdir($conn_id, "/Images/Staff/AdditionalResponsibilities/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ftp_close($conn_id);
+    $insertExp="INSERT into AdditionalResponsibilities(CollegeID,DepartmentID,Designation,IDNo,JoiningDate,Ramrks,FilePath,CreatedAt,CreatedBy)
+VALUES('$organisationNameAddtional','$departmentAddtional','$designationAddtional','$employeeID','$date','$remarksAddtional','$file_name','$timeStamp','$EmployeeID')";
+$result = sqlsrv_query($conntest, $insertExp);
+if($result==true)
+{
+    echo "1";
+}
+else
+{
+    echo "0";
+}
+   if ($result === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+    // echo "0";
+} 
     }
     else
     {
