@@ -38,8 +38,10 @@
 
                        <!-- <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="Move();bg(this.id);"> Move </a> -->
                         <a class="btn"  id="btn4" style="background-color:#223260; color: white; border: 1px solid;" onclick="Copy();bg(this.id);"> Copy </a> 
+                        
                         <a class="btn " id="btn5" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="Update();bg(this.id);"> Update </a>
+                            
                         <a class="btn " id="btn8" style="background-color:#223260; color: white; border: 1px solid;"
                             onclick="addRoleLMS();bg(this.id);"> Assign Role </a>
                             <a class="btn" id="btn3" style="background-color:#223260; color: white; border: 1px solid;" onclick="reports();bg(this.id);">Reports</a> 

@@ -33280,7 +33280,9 @@ elseif($code==431)
                 <div class="card-footer">
                     <div class="row">
                         <button type="button" onclick="updateStaffSelf()" class="btn btn-primary"
-                            id="update_button<?=$emp_id;?>">Submit</button>
+                            id="update_button<?=$emp_id;?>">Submit</button>  &nbsp;&nbsp;
+
+                             <button type="button"  onclick="printEmpRecordPdf(<?=$row1['IDNo'];?>);" class="btn btn-danger">Print</button>  
 
                     </div>
                 </div>
