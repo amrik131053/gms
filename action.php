@@ -25083,7 +25083,7 @@ sqlsrv_close($conntest);
   elseif($code==377)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+ echo  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )

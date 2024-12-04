@@ -7123,7 +7123,7 @@ if($list_result === false) {
         { 
 
           $Status= $row['Status'];
-
+ 
           $issueDate=$row['AdmissionDate'];
                 echo "<tr>";
                echo "<td><input type='checkbox' name='check[]' id='check' value='".$row['IDNo']."' class='checkbox' ></td>";
@@ -7131,11 +7131,11 @@ if($list_result === false) {
                 echo "<td>".$row['ClassRollNo']."</td>";
                
                 ?><td>
-                 <b> <a href="" onclick="edit_stu(<?= $row['IDNo'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['StudentName'];?></a></b>
+                 <b> <?=$row['StudentName'];?></b>
 
              </td>
              <td>
-                 <b> <a href="" onclick="edit_stu(<?= $row['IDNo'];?>)" style="color:green;text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$row['Course'];?></a></b>
+                 <b> <?=$row['Course'];?></b>
 
              </td>
 
@@ -7145,7 +7145,7 @@ if($list_result === false) {
                   echo "<tr>";
 
 
-}
+}   
 
 
 ?>
