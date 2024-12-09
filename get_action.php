@@ -6188,10 +6188,12 @@ $start=3;
                
                   
 ?>
-<tr> <form action="action.php" method="post" enctype="multipart/form-data">
-<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+<tr> 
+
+  <form action="action.php" method="post" enctype="multipart/form-data">
+<td><?= $i++;?><input type="text" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
-<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+<td>  <input type="text" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
                <td>
                   <?= $row['SubjectName'];?>/<?= $subject;?>
@@ -6239,7 +6241,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
          }
          ?>
          
-<select  name="mst[]"   id='marks_<?=$iidd;?>' class='marks'  >
+<select  name="mst[]"  name='MOOC_Mark'  id='marks_<?=$iidd;?>' class='marks'  >
 
 <?php 
 
@@ -6310,15 +6312,10 @@ if($dateover>0)
 else
 {
    ?>
- <button   onclick="uploadPhoto(this.form)" class="btn btn-success btn-xs" style="text-align:right;"> <i class="fa fa-upload"></i> </button>
-     
-
-
-     <?php 
-
-   // code...
+ <button   onclick="uploadmooc(this.form)" class="btn btn-success btn-xs" style="text-align:right;"> <i class="fa fa-upload"></i> </button>
+<?php
 }?> </td>
-                        </form>
+ </form>
 
                            <td><?=$row['updateby'];?></td>
                            <td><?php 

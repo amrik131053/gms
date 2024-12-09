@@ -22,7 +22,7 @@ function checkall()
 }
 
     function edit_stu(id)
-          {
+          { 
 
             //alert(id);
                var spinner=document.getElementById("ajax-loader");
