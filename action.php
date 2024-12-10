@@ -24302,7 +24302,7 @@ $stmt = sqlsrv_query($conntest,$sqlee);
      $cname=$row["Course"];
    }
  
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y' ";
+$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM ExamFormSubject WHERE Course ='$cname' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='OP' ANd ExternalExam='Y'";
 
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
@@ -27091,6 +27091,193 @@ $SubjectName="";
           sqlsrv_close($conntest);
 }
 
+else if($code==396.3)
+{
+   $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+   ?>
+   <table class='table' border='1' style="font-family: 'Times New Roman', Times, serif;">
+<thead>    
+    <tr style='background-color:#223260 !important; color:white;'>
+    <th>SrNo</th>
+    <th>Date Of Admissions </th>
+    <th>ClassRoll No </th>
+    <th>Name </th>
+    <th>Father Name </th>
+    <th>Mother Name </th>
+    <th>Gender </th>
+    <th>Mobile No </th>
+    <th>Aadhar card  No </th>
+    <th>Category </th>
+    <th>Scholarship </th>
+    <th>EmailID </th>
+    <th>College </th>
+    <th>Course </th>
+    <th>Batch </th>
+    <th>Country </th>
+    <th>State </th>
+    <th>District </th>
+    <th>Remarks </th>
+    <th>Refrence</th>
+    <th>Team</th>
+    <th>Consultant</th>
+    </tr>
+        </thead>
+      
+        <?php
+       
+        $SrNo = 1;
+      
+        $StartDate = date('Y-m-d', strtotime($StartDate)); 
+        $EndDate = date('Y-m-d', strtotime($EndDate)); 
+        
+        $query = "SELECT * FROM Admissions WHERE AdmissionDate BETWEEN ? AND ? ORDER BY IDNo";
+        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result = sqlsrv_query($conntest, $query, $params); 
+        if ($result === false) {
+            die(print_r(sqlsrv_errors(), true)); // Handle query error
+        } 
+        while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+            $IDNo = $row['IDNo'];
+            $ClassRollNo = $row['ClassRollNo'];
+            $UniRollNo = $row['UniRollNo'];
+            $StudentName = $row['StudentName'];
+            $FatherName = $row['FatherName'];
+            $MotherName = $row['MotherName'];
+            $StudentMobileNo = $row['StudentMobileNo'];
+            $AdharcardNo = $row['AadhaarNo'];
+            $EmailID = $row['EmailID'];
+            $CollegeName = $row['CollegeName'];
+            $Course = $row['Course'];
+            $Batch = $row['Batch'];
+            $Ereason = $row['EligibilityReason'];
+            $Country = $row['country'];
+            $State = $row['State'];
+            $StatusType = $row['StatusType'];
+            $District = $row['District'];
+            $Nationality = $row['Nationality'];
+            $Refrence = $row['FeeWaiverScheme'];
+            $Category = $row['Category'];
+            $commentdetail = $row['CommentsDetail'];
+            $Scholarship = $row['ScolarShip'];
+            $gender = $row['Sex'];
+            $AdmissionDate = $row['AdmissionDate']->format('d-m-Y');
+            $locked = $row['Locked'];
+        
+?><tr>
+                <td><?=$SrNo;?></td>
+                <td><?=$AdmissionDate;?></td>
+                <td><?=$ClassRollNo;?></td>
+                <td><?=$StudentName;?></td>
+                <td><?=$FatherName;?></td>
+                <td><?=$MotherName;?></td>
+                <td><?=$gender;?></td>
+                <td><?=$StudentMobileNo;?></td>
+                <td><?=$AdharcardNo;?></td>
+                <td><?=$Category;?></td>
+                <td><?=$Scholarship;?></td>
+                <td><?=$EmailID;?></td>
+                <td><?=$CollegeName;?></td>
+                <td><?=$Course;?></td>
+                <td><?=$Batch;?></td>
+                <td><?=$Nationality;?></td>
+                <td><?=$State;?></td>     
+                <td><?=$District;?></td>
+                <td><?=$commentdetail;?></td>
+                <td>
+           <?php $query3 = "SELECT Name, IDNo FROM MasterConsultantRef AS mcr INNER JOIN Staff AS s ON mcr.RefIDNo = s.IDNo WHERE mcr.StudentIDNo = '$IDNo' AND mcr.Type = 'Staff'";
+            $result3 = sqlsrv_query($conntest, $query3);
+            while ($row3 = sqlsrv_fetch_array($result3, SQLSRV_FETCH_ASSOC)) {
+                $idno = $row3['IDNo'];
+                $name = $row3['Name'];
+                echo $idno.'-'.$name;
+            }
+
+            ?></td><td><?php 
+            $query2 = "Select * from  MasterConsultantRef as mcr inner join Staff as s on mcr.RefIDNo=s.IDNo where StudentIDNo='$IDNo' AND mcr.Type='Staff'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row2 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoR = $row2['ID'];
+                $nameR = $row2['Name'];
+                $exportstudy .= "{$idnoR} ({$nameR})<br>";
+            }
+         ?></td><td><?php 
+             $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
+            $result2 = sqlsrv_query($conntest,$query2);
+            while($row21 = sqlsrv_fetch_array($result2, SQLSRV_FETCH_ASSOC) )
+            {      
+                $idnoC = $row21['ID'];
+                $nameC = $row21['Name'];
+                $exportstudy .= "{$nameC}<br>";
+            }
+          ?></td></tr><?php 
+            $SrNo++;
+        }
+        ?>
+      </table>
+        <?php
+}
+
+
+else if($code==396.4)
+{
+   $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+   ?><br>  <br>  
+   <div class="row">
+
+                <?php       $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ? ORDER BY IDNo";
+        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result = sqlsrv_query($conntest,$query,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total=sqlsrv_num_rows($result);
+         $query_tsc = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND category ='SC' ORDER BY IDNo";
+        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_tsc = sqlsrv_query($conntest,$query_tsc,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_tsc=sqlsrv_num_rows($result_tsc);
+                               
+
+
+                       
+
+?>
+                <div class="col-md-12">
+                    <div class="card card-widget widget-user-2 shadow-lg">
+
+                        <div class="card collapsed-card">
+                          <!--   <div class="card-header" style="background-color: #28a745 !important;color: white;text-align: left">
+                               <input type='hidden' name='check[]' id='check' value='<?=$CourseID;?>' class='checkbox' checked> -->
+                               <!--  <div class="card-tools">&nbsp;&nbsp;Total Admission :<?= $Total;?>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                        onclick="exportTotalScordingToCollege();"
+                                        style="float:right;padding:15px;">
+                                        <i class="fa fa-download fa-lg"></i>
+                                    </button>
+                                </div>
+                            </div>  -->
+<div class="card-header"
+                                            style="background-color: #223260 !important;color: white;">
+                                            <input type='hidden' name='check[]' id='check' value='<?=$CourseID;?>'
+                                                class='checkbox' checked>
+
+
+
+                                            <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-warning"> Total Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total;?></button>&nbsp;&nbsp;
+                                              <button class="btn btn-outline-warning"> SC Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total_tsc;?></button>
+
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                                    onclick="showBatchsFromCourse(<?=$CourseID;?>);"
+                                                    style="float:right;padding:15px;">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool"
+                                                    onclick="exportTotalScordingToCourseSumy(<?=$CourseID;?>);"
+                                                    style="float:right;padding:15px;">
+                                                    <i class="fa fa-download fa-lg"></i>
+                                                </button>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
 
 
 
@@ -27100,6 +27287,85 @@ $SubjectName="";
 
 
 
+
+
+
+                        </div>
+                        <div class="card-footer p-0">
+                            <div class=" table-responsive">
+
+                                <table class="table table-bordered table-hover">
+
+                                    
+                                    <?php 
+       $query1 = "SELECT  Distinct CollegeID,CollegeName  FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1);
+                                 while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                           $CollegeID=$rowCourseName['CollegeID'];
+                                    
+                                    $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CollegeID='$CollegeID'";
+        $params_c = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_c = sqlsrv_query($conntest,$query,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_c=sqlsrv_num_rows($result_c);
+
+
+          $query_sc = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CollegeID='$CollegeID' AND Category='SC'";
+        $params_sc = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_sc = sqlsrv_query($conntest,$query_sc,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_sc=sqlsrv_num_rows($result_sc);
+                                    ?>
+
+                                    <div class="card collapsed-card">
+                                        <div class="card-header"
+                                            style="background-color: #223260 !important;color: white;">
+                                            <input type='hidden' name='check[]' id='check' value='<?=$CourseID;?>'
+                                                class='checkbox' checked>
+                                            <div class="">&nbsp;&nbsp;<?=$rowCourseName['CollegeName'];?>(<?=$CollegeID;?>) &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-warning"> Total Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total_c;?></button>&nbsp;&nbsp;
+                                              <button class="btn btn-outline-warning"> SC Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total_sc;?></button>
+
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                                    onclick="showBatchsFromCourse(<?=$CourseID;?>);"
+                                                    style="float:right;padding:15px;">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool"
+                                                    onclick="exportTotalScordingToCourseSumy(<?=$CourseID;?>);"
+                                                    style="float:right;padding:15px;">
+                                                    <i class="fa fa-download fa-lg"></i>
+                                                </button>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <ul class="nav nav-pills flex-column" id="showBatchs<?=$CourseID;?>">
+
+                                                <center><img src="dist/img/div-loader.gif" width="30"
+                                                        id="divloader<?=$CourseID;?>" style="display:none !important;">
+                                                </center>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                    <?php
+                                 }
+?>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----------------------------------------------------------------------------------- -->
+
+       
+
+            </div>
+        <?php
+}
 
  else
 {

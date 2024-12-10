@@ -544,6 +544,58 @@ function StudentUpdatedata(id) {
     });
 }
 
+
+ function daily_data() {
+
+    var code = 396.3;
+    StartDate=document.getElementById("StartDate").value;
+    EndDate=document.getElementById("EndDate").value;
+    var spinner = document.getElementById("ajax-loader");
+  
+
+
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,StartDate:StartDate,EndDate:EndDate
+                },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+
+            document.getElementById("show_record1").innerHTML = response;
+        }
+    });
+}
+function daily_data_summary() {
+
+    var code = 396.4;
+    StartDate=document.getElementById("StartDate").value;
+    EndDate=document.getElementById("EndDate").value;
+    var spinner = document.getElementById("ajax-loader");
+
+   
+
+    spinner.style.display = 'block';
+    $.ajax({
+        url: "action.php ",
+        type: "POST",
+        data: {
+            code: code,StartDate:StartDate,EndDate:EndDate
+                },
+        success: function(response) {
+
+            spinner.style.display = 'none';
+
+            document.getElementById("show_record1").innerHTML = response;
+        }
+    });
+}
+
+
+
 function changecourse(id) {
 
     var code = 322;
@@ -1125,13 +1177,13 @@ function copyToClipboard(text) {
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
                                     </div>
-                                    <input required type="date" class="form-control" name="StartDate"
+                          <input required type="date" class="form-control" id="StartDate" name="StartDate"
                                         aria-describedby="button-addon2">
                                     &nbsp;
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success" id="inputGroup-sizing-sm">End</span>
                                     </div>
-                                    <input required type="date" class="form-control" name="EndDate"
+                                    <input required type="date" class="form-control" id="EndDate" name="EndDate"
                                         aria-describedby="button-addon2">
                                     <button class="btn btn-info btn-sm" type="submit" id="button-addon2"><i
                                             class="fa fa-file-export"></i></button>
@@ -1139,7 +1191,13 @@ function copyToClipboard(text) {
                             </form>
                             <?php }?>
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-1">
+                            <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button>
+                        </div>
+                          <div class="col-lg-1">
+                            <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-users"></i></button>
+                        </div>
+                        <div class="col-lg-5">
                             <span style="float:right;">
                                 <button class="btn btn-sm ">
                                     <input type="search" class="form-control form-control-sm" name="emp_name"
