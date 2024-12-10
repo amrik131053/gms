@@ -1768,22 +1768,7 @@ if (lastTab) {
 }
 }
 
-function tab1(emp_id) {
-  const storageKey = `lastTab_${emp_id}`;  // Unique storage key for each emp_id
 
-  // Save the active tab to localStorage when clicked
-  $(document).on('shown.bs.tab', `a[data-toggle="tab"]`, function () {
-      const href = $(this).attr('href');
-      localStorage.setItem(storageKey, href);  // Store the active tab in localStorage
-  });
-
-  // Retrieve the last active tab from localStorage
-  const lastTab = localStorage.getItem(storageKey);
-
-  if (lastTab) {
-    $('[href="' + lastTab + '"]').tab('show');
-   }
-}
 
 
 

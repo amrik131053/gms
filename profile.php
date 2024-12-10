@@ -187,7 +187,7 @@ function showProfileData() {
             code: code
         },
         success: function(response) {
-            tab1(loginId);
+           
             document.getElementById("showData").innerHTML = response;
             spinner.style.display = 'none';
         }
