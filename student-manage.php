@@ -551,9 +551,7 @@ function StudentUpdatedata(id) {
     StartDate=document.getElementById("StartDate").value;
     EndDate=document.getElementById("EndDate").value;
     var spinner = document.getElementById("ajax-loader");
-
-    alert(StartDate);
-    alert(EndDate);
+  
 
 
     spinner.style.display = 'block';
@@ -578,9 +576,7 @@ function daily_data_summary() {
     EndDate=document.getElementById("EndDate").value;
     var spinner = document.getElementById("ajax-loader");
 
-    alert(StartDate);
-    alert(EndDate);
-
+   
 
     spinner.style.display = 'block';
     $.ajax({
