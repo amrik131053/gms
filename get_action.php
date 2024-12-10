@@ -6638,6 +6638,22 @@ else if ($code == 57.2) {
 
    }
 }
+else if ($code == 57.3) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from AdditionalQualifications WHERE id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Additional Qualifications Type:<span style="color: #223260;"><?php echo "   ".$data['AdditionalQualificationsType'];?></span></label>
+      
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/Courses/<?=$data['DocumentPath']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
+                  <?php
+
+   }
+}
 else if ($code == 58) {
    $id = $_GET['id'];
    $sql = "SELECT * from StaffExperienceDetails WHERE Id= $id ";

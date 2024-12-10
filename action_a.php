@@ -54,7 +54,7 @@ window.location.href = "index.php";
       //   {
       //       include "connection/ftp.php";
       //   }
-        if($code==1 || $code==2 || $code==3 || $code==4 )
+        if($code==1 || $code==2 || $code==3 || $code==4 || $code==7 || $code==8)
         {
             include "connection/ftp-erp.php";
         }
@@ -279,9 +279,344 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
       
       //      print_r($category);
       }
-        else{
+      elseif ($code==6) {
+       ?>
+       <form action="action_a.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="flag" value="7">
+        <input type="hidden" class="form-control" name="loginIdPromotion" id="loginIdPromotion"
+                                                    value="" readonly>
+ <div class="row">
+ <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Name of Organisation</label>
+                                            <select class="form-control" name="organisationNamePromition"
+                                                onchange="fetchDepartmentPromotion(this.value);">
+                                               
+                                                <?php  $get_College="SELECT DISTINCT CollegeName,CollegeID FROM MasterCourseCodes ";
+                                                $get_CollegeRun=sqlsrv_query($conntest,$get_College);
+                                                while($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
+                                                {?>
+                                                <option value="<?=$get_CollegeRow['CollegeID'];?>">
+                                                    <?=$get_CollegeRow['CollegeName'];?>(<?=$get_CollegeRow['CollegeID'];?>)
+                                                </option>
+                                                <?php }
+                                          ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Name of Department</label>
+                                            <select class="form-control" name="departmentNamePromition" id="departmentNamePromition">
+                                           
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Designation</label>
+                                            <select class="form-control" name="designationPromition">
+                                               
+                                                <?php  $get_Designation="SELECT DISTINCT Designation FROM MasterDesignation ";
+                                                $get_DesignationRun=sqlsrv_query($conntest,$get_Designation);
+                                                while($get_DesignationRow=sqlsrv_fetch_array($get_DesignationRun,SQLSRV_FETCH_ASSOC))
+                                                {?>
+                                                <option value="<?=$get_DesignationRow['Designation'];?>">
+                                                    <?=$get_DesignationRow['Designation'];?></option>
+                                                <?php }
+                                          ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Date of Joining</label>
+                                            <input type="date" class="form-control" name="joiningDatePromition"
+                                                value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-12">
+                                        <div class="form-group">
+                                            <label>Salary Decided</label>
+                                            <input type="text" class="form-control" name="salaryPromition"
+                                                placeholder="Enter salary" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <div class="form-group">
+                                            <label>Type of Employment</label>
+
+                                            <select class="form-control" name="employmentTypePromition">
+
+                                               
+                                                <option value="Regular">Regular</option>
+                                                <option value="Conatct">Conatct</option>
+                                                <option value="Guest">Guest</option>
+                                                <option value="Adhoc">Adhoc</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+
+                                
+
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Emp Category </label>
+
+                                            <select class="form-control" name="EmpCategoryPromition">
+
+                                                                                    <?php  
+                                                                  
+                                                                                $get_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp ";
+                                            $get_category_run=sqlsrv_query($conntest,$get_category);
+                                            while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                            {
+                                        ?>
+                                                                                    <option value="<?=$row_categort['CategoryId'];?>">
+                                                                                        <?=$row_categort['CategoryFName'];?></option>
+                                                                                    <?php 
+                                        }?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Shift</label>
+                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
+                                            <select class="form-control" name="shiftPromition">
+                                                <?php  
+                                                                    $get_category="SELECT * FROM MasterShift ";
+                                    $get_category_run=sqlsrv_query($conntest,$get_category);
+                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
+                                    {
+                                ?>
+                                                                            <option value="<?=$row_categort['Id'];?>">
+                                                                                <?=$row_categort['ShiftName'];?></option>
+                                                                            <?php 
+                                }?>
+                                            </select>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label> Recommending Authority
+                                            </label>
+                                            <input type="text" class="form-control" name="leaveRecommendingAuthorityPromition"
+                                                placeholder="Enter leave sanction authority"
+                                                
+                                                onkeyup="emp_detail_verify3(this.value);">
+                                                <p id="emp_detail_status_Promotion3"></p>
+                                        </div>
 
 
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label> Sanction Authority</label>
+                                            <input type="text" class="form-control" name="leaveSanctionAuthorityPromition"
+                                                placeholder="Enter leave recommending authority"
+                                                
+                                                onkeyup="emp_detail_verify4(this.value);">
+                                                <p id="emp_detail_status_Promotion4"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label> File(Latter)</label>
+                                         <input type="file" name="promotionFile" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label> Action</label></br>
+                                         <input type="button" onclick="submitPromition(this.form);" value="Submit"  class="btn btn-success">
+                                        </div>
+                                    </div>
+                                    </div>
+                            </form>
+
+<?php 
+      }
+      if ($code == 7) {
+        // Fetch promotion-related data from the form
+        $organisationID = $_POST['organisationNamePromition'];
+        $DepartmentID = $_POST['departmentNamePromition'];
+        $designationEmp = $_POST['designationPromition'];
+        $joiningDate = $_POST['joiningDatePromition'];
+        $salaryNew = $_POST['salaryPromition'];
+        $employmentType = $_POST['employmentTypePromition'];
+        $EmpCategory = $_POST['EmpCategoryPromition'];
+        $employeeID = $_POST['loginIdPromotion'];
+        $shiftID = $_POST['shiftPromition'];
+        $leaveRecommendingAuthority1 = $_POST['leaveRecommendingAuthorityPromition'];
+        $leaveSanctionAuthority1 = $_POST['leaveSanctionAuthorityPromition'];
+    
+        // Fetch employee details
+        $employee_details = "SELECT * FROM Staff WHERE IDNo = '$employeeID'";
+        $employee_details_run = sqlsrv_query($conntest, $employee_details);
+    
+        if ($employee_details_row = sqlsrv_fetch_array($employee_details_run, SQLSRV_FETCH_ASSOC)) {
+            $Emp_Name = $employee_details_row['Name'];
+            $designation = $employee_details_row['Designation'];
+            $Emp_CollegeName = $employee_details_row['CollegeName'];
+            $Emp_Department = $employee_details_row['Department'];
+            $ShiftID = $employee_details_row['ShiftID'];
+            $salary = $employee_details_row['SalaryAtPresent'];
+            $from_date = $employee_details_row['DateOfJoining']->format('Y-m-d');
+            $to_date = $joiningDate;
+    
+            // Calculate total experience
+            $doa = $employee_details_row['DateOfJoining']->format('Y-m-d');
+            $dor = $joiningDate;
+            $ts1 = strtotime($doa);
+            $ts2 = strtotime($dor);
+            $year1 = date('Y', $ts1);
+            $year2 = date('Y', $ts2);
+            $month1 = date('m', $ts1);
+            $month2 = date('m', $ts2);
+    
+            if ($month1 > $month2) {
+                $month2 += 12;
+                $year2 -= 1;
+            }
+            $exp_total = ($year1 <= $year2) 
+                ? ($year2 - $year1) . " Year " . ($month2 - $month1) . " Month" 
+                : "0";
+    
+            $left_reason = "Promotion";
         }
+    
+        // Fetch category details
+        $get_category = "SELECT DISTINCT CategoryId, CategoryFName FROM CategoriesEmp WHERE CategoryId = '$EmpCategory'";
+        $get_category_run = sqlsrv_query($conntest, $get_category);
+        if ($row_category = sqlsrv_fetch_array($get_category_run, SQLSRV_FETCH_ASSOC)) {
+            $experienceType = $row_category['CategoryFName'];
+        }
+    
+        // Fetch college details
+        $get_college = "SELECT * FROM MasterCourseCodes WHERE CollegeID = '$organisationID'";
+        $get_collegeRun = sqlsrv_query($conntest, $get_college);
+        if ($get_collegeRow = sqlsrv_fetch_array($get_collegeRun, SQLSRV_FETCH_ASSOC)) {
+            $organisationName = $get_collegeRow['CollegeName'];
+        }
+    
+        // Fetch department details
+        $get_Department = "SELECT * FROM MasterDepartment WHERE Id = '$DepartmentID'";
+        $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
+        if ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) {
+            $departmentName = $get_DepartmentRow['Department'];
+        }
+    
+        // File upload handling
+        $file_name = $_FILES['promotionFile']['name'];
+        $file_tmp = $_FILES['promotionFile']['tmp_name'];
+        $file_size = $_FILES['promotionFile']['size'];
+        $file_type = $_FILES['promotionFile']['type'];
+        $allowedTypes = ['image/png', 'image/jpg', 'application/pdf', 'image/jpeg'];
+    
+        if (in_array($file_type, $allowedTypes)) {
+            if ($file_size < 550000) {
+                $date = date('Y-m-d');
+                $string = bin2hex(openssl_random_pseudo_bytes(4));
+                $file_data = file_get_contents($file_tmp);
+                $file_name = "{$employeeID}_" . strtotime($date) . "_{$string}_" . basename($file_name);
+    
+                // FTP upload
+                $destdir = '/Images/Staff/ExperienceDocument';
+                ftp_chdir($conn_id, $destdir) or die("Could not change directory");
+                ftp_pasv($conn_id, true);
+                ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+                ftp_close($conn_id);
+    
+                // Update staff details
+                $query = "UPDATE Staff SET Designation = '$designationEmp',CollegeId = '$organisationID', CollegeName = '$organisationName',Department = '$departmentName',DepartmentID = '$DepartmentID',DateOfJoining = '$joiningDate',Type = '$employmentType',CategoryId = '$EmpCategory',SalaryAtPresent = '$salaryNew',LeaveRecommendingAuthority = '$leaveRecommendingAuthority1',LeaveSanctionAuthority = '$leaveSanctionAuthority1',ShiftID = '$shiftID',RoleID = '0'WHERE IDNo = '$employeeID'";
+                $result = sqlsrv_query($conntest, $query);
+                // Logging and additional updates
+                $escapedQuery1 = str_replace("'", "''", $query);
+                $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                            VALUES('$employeeID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+                sqlsrv_query($conntest,$update1);
+                if ($result) {
+                    echo "1";
+                    // Check and update leave authority if applicable
+                    $checkLeaveAlreadySubmitted = "SELECT * FROM ApplyLeaveGKU WHERE StaffId = '$employeeID' AND Status NOT IN ('Approved', 'Reject')";
+                    $countX = sqlsrv_query($conntest, $checkLeaveAlreadySubmitted, [], ["Scrollable" => SQLSRV_CURSOR_KEYSET]);
+                    $leaveExistCount = sqlsrv_num_rows($countX);
+    
+                    if ($leaveExistCount > 0) {
+                        $updateLeaveAuth = "UPDATE ApplyLeaveGKU 
+                                            SET SanctionId = '$leaveRecommendingAuthority1', 
+                                                AuthorityId = '$leaveSanctionAuthority1' 
+                                            WHERE StaffId = '$employeeID' AND Status NOT IN ('Approved', 'Reject')";
+                        sqlsrv_query($conntest, $updateLeaveAuth);
+                    }
+                    // Insert into StaffExperienceDetails
+                    $insertExp = "INSERT INTO StaffExperienceDetails(ExperienceType, NameofOrganisation, DateofAppointment, DateofLeaving,TimePeriod, Status, UserName, DocumentPath, Reason, Designation,PayScaleORConsolidated, upddate) VALUES('$experienceType','$departmentName','$from_date','$to_date','$exp_total','0','$employeeID', '$file_name', '$left_reason', '$designation', '$salary', '$timeStamp')";
+                    sqlsrv_query($conntest, $insertExp);
+                    $escapedQuery = str_replace("'", "''", $insertExp);
+                    $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date)VALUES('$employeeID', '$escapedQuery', '$EmployeeID', '$timeStamp')";
+                    sqlsrv_query($conntest,$update12);
+                } else {
+                    echo "0"; // Update failed
+                }
+            } else {
+                echo "2"; // File size exceeds limit
+            }
+        } else {
+            echo "3"; // Invalid file type
+        }
+    }
+    
+elseif ($code==8) {
+                $employeeID=$_POST['employeeID'];
+                $Exam_passed=$_POST['Exam_passed'];
+                // $exam_certificate=$_POST['exam_certificate'];
+                $file_name = $_FILES['exam_certificate']['name'];
+                $file_tmp = $_FILES['exam_certificate']['tmp_name'];
+                $file_size =$_FILES['exam_certificate']['size'];
+                $file_type = $_FILES['exam_certificate']['type'];
+                $allowedTypes = array(
+                    'image/png',
+                    'image/jpg',
+                    'application/pdf',
+                    'image/jpeg'
+                );
+                if (in_array($_FILES['exam_certificate']['type'], $allowedTypes))
+                    {
+                if ($file_size < 550000)
+                    { 
+                $date=date('Y-m-d');  
+                $string = bin2hex(openssl_random_pseudo_bytes(4));
+                $file_data = file_get_contents($file_tmp);
+                $file_name = $employeeID."_".strtotime($date)."_".$string."_".basename($_FILES['exam_certificate']['name']);
+                $destdir = '/Images/Staff/Courses';
+                    ftp_chdir($conn_id, "/Images/Staff/Courses/") or die("Could not change directory");
+                    ftp_pasv($conn_id,true);
+                    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+                    ftp_close($conn_id);
+                $insertExp="INSERT into AdditionalQualifications(AdditionalQualificationsType,DocumentPath,upddate,UserName)
+                VALUES('$Exam_passed','$file_name','$timeStamp','$employeeID')";
+                 sqlsrv_query($conntest, $insertExp); 
+                 echo "1";
+               
+                 $escapedQuery = str_replace("'", "''", $insertExp);
+                 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$employeeID','$escapedQuery','$EmployeeID','$timeStamp')";
+                 sqlsrv_query($conntest,$update12);
+                    }
+                    else
+                    {
+                        echo "2"; //kb
+                    }
+                }
+                else
+                {
+                    echo "3"; // format
+                }
 
 }
+   }

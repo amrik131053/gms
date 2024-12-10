@@ -437,6 +437,23 @@
               }
            });
 }
+        function emp_detail_verify4(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_Promotion4").innerHTML=response;
+              }
+           });
+}
 
 function emp_detail_verify2(id)
  {
@@ -452,6 +469,23 @@ function emp_detail_verify2(id)
               {
                   
                  document.getElementById("emp_detail_status_2").innerHTML=response;
+              }
+           });
+}
+function emp_detail_verify3(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_Promotion3").innerHTML=response;
               }
            });
 }
@@ -574,6 +608,118 @@ function addAditionalDuty(form) {
         }
     });
 }
+function submitPromition(form) {
+   
+    var organisationNamePromition = form.organisationNamePromition.value;
+    var departmentNamePromition = form.departmentNamePromition.value;
+    var designationPromition = form.designationPromition.value;
+    var joiningDatePromition = form.joiningDatePromition.value;
+    var salaryPromition = form.salaryPromition.value;
+    var leaveRecommendingAuthorityPromition = form.leaveRecommendingAuthorityPromition.value;
+    var leaveSanctionAuthorityPromition = form.leaveSanctionAuthorityPromition.value;
+    var promotionFile = form.promotionFile.value;
+    if (organisationNamePromition === "") {
+        ErrorToast('Please select College.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (departmentNamePromition === "") {
+        ErrorToast('Please select Department.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (designationPromition === "") {
+        ErrorToast('Please select Designation.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (joiningDatePromition === "") {
+        ErrorToast('Please select joining Date.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (salaryPromition === "") {
+        ErrorToast('Please enter salary.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (leaveRecommendingAuthorityPromition === "") {
+        ErrorToast('Please enter leave Recommending Authority.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (leaveSanctionAuthorityPromition === "") {
+        ErrorToast('Please enter leave Sanction Authority.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+    if (promotionFile === "") {
+        ErrorToast('Please enter File.', 'bg-warning');
+        return false; // Prevent form submission
+    }
+
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    var formData = new FormData(form);
+    var loginId=document.getElementById('loginId').value;
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            spinner.style.display = 'none';
+            // console.log(response);
+            if (response == 1) {
+               update_emp_record(loginId);
+           SuccessToast('Successfully Added Promotion');
+           $('#promotionData').modal('hide');
+       } else if (response === 'Could not connect to 10.0.10.11') {
+           ErrorToast('FTP Server Off', 'bg-warning');
+       } else if (response == 2) {
+           ErrorToast('size must be less than 500kb', 'bg-warning');
+       } else if (response == 3) {
+           ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+       } else {
+           ErrorToast('All inputs required', 'bg-danger');
+       }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            ErrorToast('Submission failed: ' + error);
+        }
+    });
+}
+function viewAdditionalDocument(id) {
+    var code = 57.3;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
+function deleteaddtional(id,emp) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '432.5';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID:id,emp_id:emp,code:code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+                update_emp_record(emp);
+
+            }
+        });
+    } else {
+
+    }
+}
   function exportEmployee() 
       {
          var exportCode=20;
@@ -635,6 +781,25 @@ function addAditionalDuty(form) {
    
 // }
 
+    function fetchDepartmentPromotion(CollegeId)
+{   
+   
+var code='96';
+$.ajax({
+url:'action_g.php',
+data:{CollegeId:CollegeId,code:code},
+type:'POST',
+success:function(data){
+if(data != "")
+{
+   //   console.log(data);
+$("#departmentNamePromition").html("");
+$("#departmentNamePromition").html(data);
+}
+}
+});
+
+}
     function fetchDepartment(CollegeId)
 {   
    
@@ -1402,9 +1567,6 @@ function search()
      function update_designation(id)
           {
        var code=195;
-
-       
-    
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
    $.ajax({
@@ -1416,6 +1578,26 @@ function search()
                spinner.style.display='none';
                document.getElementById("update_data_designation").innerHTML=response;
                manageDesignation();
+               }
+         });
+
+     }
+     function viewPromitonModal(id)
+          {
+            
+             
+       var code=6;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+   $.ajax({
+                url:'action_a.php',
+                type:'POST',
+                data:{flag:code},
+                success: function(response) 
+               { 
+               spinner.style.display='none';
+               document.getElementById("promotionData").innerHTML=response;
+               document.getElementById("loginIdPromotion").value=id;
                }
          });
 
@@ -2429,18 +2611,19 @@ function toggleLeavingDate(selectElement) {
         </div>
     </div>
 </div>
-<div class="modal fade" id="addtionalDutyMOdal" tabindex="-1" role="dialog" aria-labelledby="addtionalDutyMOdalLabel"
+<div class="modal fade" id="promotionMOdal" tabindex="-1" role="dialog" aria-labelledby="promotionMOdalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addtionalDutyMOdalLabel">Additional Duty</h5>
+                <h5 class="modal-title" id="promotionMOdalLabel">Promotion</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" id="image_view">
+                <div class="row" id="promotionData">
+               
                 </div>
             </div>
             <div class="modal-footer">
