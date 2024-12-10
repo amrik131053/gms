@@ -542,7 +542,7 @@ $(function() {
             url: 'action.php',
             data: {
                 course: course,
-                code: code,
+                code: code, 
                 College: College
             },
             type: 'POST',
