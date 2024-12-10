@@ -169,12 +169,15 @@ function loadCourse() {
         }
     });
 }
-</script>
-<script>
+
+
 showProfileData();
 
 function showProfileData() {
+
     var spinner = document.getElementById("ajax-loader");
+    const loginId = '<?=$EmployeeID;?>';
+    // alert(loginId);
     spinner.style.display = 'block';
     var code = 431;
     $.ajax({
@@ -184,7 +187,7 @@ function showProfileData() {
             code: code
         },
         success: function(response) {
-
+            tab1(loginId);
             document.getElementById("showData").innerHTML = response;
             spinner.style.display = 'none';
         }

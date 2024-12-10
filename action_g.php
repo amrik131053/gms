@@ -32013,7 +32013,7 @@ elseif($code==431)
                     <div class="col-md-12">
                         <!-- <div class="card"> -->
                         <div class="card-header" style="background-color:white!important">
-                        <ul class="nav nav-pills acTab">
+                        <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" href="#personal_details1<?=$emp_id;?>" data-toggle="tab">Basic</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact1<?=$emp_id;?>" data-toggle="tab">Contact</a></li>
             <li class="nav-item"><a class="nav-link" href="#employment1<?=$emp_id;?>" data-toggle="tab">Employment</a></li>
@@ -32040,6 +32040,8 @@ elseif($code==431)
                                                     <label>Emp. ID</label>
                                                     <input type="text" class="form-control" id="loginId"
                                                         value="<?=$row1['IDNo'];?>" readonly>
+                                                    <input type="hidden" class="form-control" id="loginIdEE"
+                                                        value="<?=$row1['IDNo'];?>" >
                                                 </div>
                                             </div>
 
@@ -32783,8 +32785,7 @@ elseif($code==431)
                                                     
                                                     <div class="table-responsive col-lg-12" >
                                                                                 <?php
-                                                // $sql = "SELECT * from StaffAcademicDetails WHERE UserName= $EmployeeID ";
-                                        
+                                               
                                                 $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $EmployeeID ";
                                         
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
@@ -32846,130 +32847,146 @@ elseif($code==431)
                                                         </table>
                                                         <?php }?>
                                                     </div>
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="table-responsive col-lg-12" >
+                                                    <?php
+$sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";      
+   if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
+         ?>
+  <h4 class="text-center"><b>PHD Details</b></h4>
+  <table class="table table-bordered" style="font-size:14px;">
+      <tr>
+          <th>SrNo</th>
+          <th>University</th>
+          <th>Topic of Research</th>
+          <th>Name of Supervisor</th>
+          <th>Date of Enrollment</th>
+          <th>Date of Registration</th>
+          <th>Date of Degree</th>
+          <th>Subject</th>
+          <th>Supervisor Details</th>
+          <th>Course Work Details</th>
+          <th>Course Work University</th>
+          <th>Total Marks</th>
+          <th>Obtained Marks</th>
+          <th>Date of Passing</th>
+          <th>Percentage</th>
+
+          <th>Action</th>
+      </tr>
+      <tbody>
+          <?php
+          $res = sqlsrv_query($conntest, $sql1);
+           $SrNo=1;
+         while ($data1 = sqlsrv_fetch_array($res)) { ?>
+          <tr>
+              <td><?=$SrNo;?></td>
+              <td><?=$data1['University'];?></td>
+              <td><?=$data1['TopicofResearch'];?></td>
+              <td><?=$data1['NameofSupervisor'];?></td>
+              <td><?=$data1['DateofEnrollment'];?></td>
+              <td><?=$data1['DateofRegistration'];?></td>
+              <td><?=$data1['DateofDegree'];?></td>
+              <td><?=$data1['Subject'];?></td>
+              <td><?=$data1['SupervisorDetails'];?></td>
+              <td><?=$data1['CourseWorkDetails'];?></td>
+              <td><?=$data1['CourseWorkUniversity'];?></td>
+              <td><?=$data1['TotalMarks'];?></td>
+              <td><?=$data1['ObtainedMarks'];?></td>
+              <td><?=$data1['DateofPassing'];?></td>
+              <td><?=$data1['Percentage'];?></td>
+              <td>
+                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
+                      data-toggle="modal" data-target="#modal-default"
+                      style="color: #223260;padding-left: 20px;padding-top: 5px">
+                  </i>
+                  <?php 
+                       if($data1['upddate']!='')
+                     {
+                    $stop_date = new DateTime($timeStamp);
+                    $stop_date->modify('-1 day');
+                     $endDateUpdate=$stop_date->format('Y-m-d');
+                        $dbDateFromUpdate=$data1['upddate']->format('Y-m-d');
+                         if($endDateUpdate<=$dbDateFromUpdate)
+                       {
+                       ?>
+                  <i class=" fa fa-trash " id="dlt" type="button" onclick="deletePHD(<?=$data1['id']; ?>)"
+                      data-toggle="modal" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                  </i>
+                  <?php }
+                      }?>
+              </td>
+          </tr>
+          <?php
+              $SrNo++;
+             }
+ ?>
+      </tbody>
+  </table>
+  <?php }?>
+            </div>
+            </div>
+            <div class="row">
+            <div class="table-responsive col-lg-12" >
+  <?php
+      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= $EmployeeID ";
+ if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
+          ?>
+  <h4 class="text-center"><b>Additional Qualifications</b></h4>
+
+  <table class="table table-bordered" style="font-size:14px;">
+      <tr>
+          <th>SrNo</th>
+          <th>AdditionalQualificationsType</th>
+          <th>Action</th>
+      </tr>
+      <tbody>
+          <?php
+                                                                $res = sqlsrv_query($conntest, $sql12);
+                                                                $SrNo=1;
+                                                                while ($data12 = sqlsrv_fetch_array($res)) { ?>
+          <tr>
+              <td><?=$SrNo;?></td>
+
+              <td><?=$data12['AdditionalQualificationsType'];?></td>
+              <td>
+                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewAdditionalDocument(<?=$data12['id']; ?>)"
+                      data-toggle="modal" data-target="#modal-default"
+                      style="color: #223260;padding-left: 20px;padding-top: 5px">
+                  </i>
+
+                  <i class=" fa fa-trash " id="dlt" type="button" onclick="deleteaddtional(<?=$data12['id']; ?>)"
+                      data-toggle="modal" style="color: #223260;padding-left: 20px;padding-top: 5px">
+                  </i>
+              </td>
+          </tr>
+          <?php
+                                                                $SrNo++;
+                                                                    }
+                                                                    ?>
+      </tbody>
+  </table>
+  <?php }?>
+
+                                                                </div>
+
+
+
+
+
+                                                </div>
                                                 </div>
                                         <br>
 
-                                        <div class="row">
-                                                    
+                                        <!-- <div class="row">  
                                                     <div class="table-responsive col-lg-12" >
                                                         <div class="container">
-                                                                                <?php
-                                                $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
-                                        
-                                        
-                                            if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
-                                            ?>
-                                                <h4 class="text-center"><b>PHD Details</b></h4></div>
-                                                        <table class="table table-bordered" style="font-size:14px;">
-                                                            <tr >
-                                                           <th>SrNo</th>
-                                                           <th>University</th>
-                                                            <th>Topic of Research</th>
-                                                            <th>Name of Supervisor</th>
-                                                            <th>Date of Enrollment</th>
-                                                            <th>Date of Registration</th>
-                                                            <th>Date of Degree</th>
-                                                            <th>Subject</th>
-                                                            <th>Supervisor Details</th>
-                                                            <th>Course Work Details</th>
-                                                            <th>Course Work University</th>
-                                                            <th>Total Marks</th>
-                                                            <th>Obtained Marks</th>
-                                                            <th>Date of Passing</th>
-                                                            <th>Percentage</th>
-                                                           
-                                                                <th>Action</th>
-                                                            </tr>
-                                                            <tbody>
-                                                            <?php
-                                                    $res = sqlsrv_query($conntest, $sql1);
-                                                    $SrNo=1;
-                                                    while ($data1 = sqlsrv_fetch_array($res)) { ?>
-                                                    <tr>
-                                                    <td><?=$SrNo;?></td>
-                                                    <td><?=$data1['University'];?></td>
-                                                        <td><?=$data1['TopicofResearch'];?></td>
-                                                        <td><?=$data1['NameofSupervisor'];?></td>
-                                                        <td><?=$data1['DateofEnrollment'];?></td>
-                                                        <td><?=$data1['DateofRegistration'];?></td>
-                                                        <td><?=$data1['DateofDegree'];?></td>
-                                                        <td><?=$data1['Subject'];?></td>
-                                                        <td><?=$data1['SupervisorDetails'];?></td>
-                                                        <td><?=$data1['CourseWorkDetails'];?></td>
-                                                        <td><?=$data1['CourseWorkUniversity'];?></td>
-                                                        <td><?=$data1['TotalMarks'];?></td>
-                                                        <td><?=$data1['ObtainedMarks'];?></td>
-                                                        <td><?=$data1['DateofPassing'];?></td>
-                                                        <td><?=$data1['Percentage'];?></td>
-                                                         <td>
-                                                        <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                                        </i>
-                                                        <?php 
-                                                            if($data1['upddate']!='')
-                                                            {
-                                                            $stop_date = new DateTime($timeStamp);
-                                                            $stop_date->modify('-1 day');
-                                                            $endDateUpdate=$stop_date->format('Y-m-d');
-                                                                $dbDateFromUpdate=$data1['upddate']->format('Y-m-d');
-                                                            if($endDateUpdate<=$dbDateFromUpdate)
-                                                            {
-                                                                ?>
-                                                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deletePHD(<?=$data1['id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                                                </i> 
-                                                                <?php }
-                                                                }?>
-                                                                
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                        $SrNo++;
-                                                            }
-                                                            ?>
-                                                            </tbody>
-                                                        </table>
-                                                        <?php }?>
-                                                                                <?php
-                                                $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= $EmployeeID ";
-                                        
-                                        
-                                            if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
-                                            ?>
-                                                <h4 class="text-center"><b>Additional Qualifications</b></h4></div>
-                                                        <table class="table table-bordered" style="font-size:14px;">
-                                                            <tr >
-                                                           <th>SrNo</th>
-                                                           <th>AdditionalQualificationsType</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                            <tbody>
-                                                            <?php
-                                                    $res = sqlsrv_query($conntest, $sql12);
-                                                    $SrNo=1;
-                                                    while ($data12 = sqlsrv_fetch_array($res)) { ?>
-                                                    <tr>
-                                                    <td><?=$SrNo;?></td>
-                                                   
-                                                        <td><?=$data12['AdditionalQualificationsType'];?></td>
-                                                         <td>
-                                                        <i class=" fa fa-eye " id="doc" type="button" onclick="viewAdditionalDocument(<?=$data12['id']; ?>)" data-toggle="modal" data-target="#modal-default" style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                                        </i>
-                                                 
-                                                                <i class=" fa fa-trash " id="dlt"  type="button" onclick="deleteaddtional(<?=$data12['id']; ?>)" data-toggle="modal"  style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                                                </i>  
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                        $SrNo++;
-                                                            }
-                                                            ?>
-                                                            </tbody>
-                                                        </table>
-                                                        <?php }?>
+                                                            ff           
+                                                         </div>   
                                                     </div>
-                                                </div>
-                                              </div>
-                                        </section>
-                                    </div>
+                                                </div> -->
+                                        </div>
                                 </div>
                             </div>
                                 
