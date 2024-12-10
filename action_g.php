@@ -32976,7 +32976,6 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
 
 
                                                 </div>
-                                                </div>
                                         <br>
 
                                         <!-- <div class="row">  
