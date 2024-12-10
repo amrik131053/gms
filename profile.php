@@ -970,6 +970,27 @@ function dlt_data(id) {
         });
     } else {}
 }
+
+
+
+
+
+
+
+
+function printEmpRecordPdf(id) {
+   // alert("dssf");
+   var code=1;
+        if (id!='') 
+         {  
+          window.open("print-employee-record.php?code="+code+"&id="+id,'_blank');
+         }
+         else
+         {
+            alert("Select ");
+         }
+      
+}
 </script>
 
 <script>

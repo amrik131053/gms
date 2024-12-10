@@ -13260,7 +13260,7 @@ $course= $_POST['course'];
 $College= $_POST['College'];
 $sql = "SELECT DISTINCT sa.Batch as saBatch  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
  <option value="">Batch</option>
@@ -13273,6 +13273,7 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
  }
+
  elseif ($code ==200.6)
  {
 $course= $_POST['course'];
@@ -13280,7 +13281,7 @@ $College= $_POST['College'];
 $Batch= $_POST['Batch'];
 $sql = "SELECT DISTINCT sa.Semester as saSemester  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'";
+AND mcs.CollegeID='$College' and mcs.Batch='$Batch' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'";
 $stmt2 = sqlsrv_query($conntest,$sql);
 ?>
 <option value="">Semester</option>
@@ -13293,6 +13294,29 @@ while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 }
 sqlsrv_close($conntest);
 }
+//open elective 
+elseif ($code ==200.7)
+   {
+
+$batch= $_POST['batch'];
+$sem= $_POST['sem'];
+echo  $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE 
+ mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd  mcs.Elective='O'  And sa.EmployeeID='$EmployeeID'"; 
+?>
+ <option value="">Subject</option>
+ <?php 
+$stmt2 = sqlsrv_query($conntest,$sql);
+while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
+{
+?>
+<option value='<?= $row1["SubjectCode"];?>'><?= $row1["SubjectName"];?>(<?= $row1["SubjectCode"];?>)/<?= $row1["SubjectType"];?></option>";
+<?php 
+}
+
+sqlsrv_close($conntest);
+
+  }
  // multiple update masrks  
  else if($code==201)
 {       
@@ -15990,7 +16014,7 @@ elseif($code==242)
                $batch=$_POST['batch'];
                $subject_name=$_POST['subject_name'];
                $subject_code=$_POST['subject_code'];
-               $subject_type=$_POST['subject_type'];
+               $AcademicType=$_POST['subject_type'];
                $subject_group=$_POST['subject_group'];
                $int_marks=$_POST['int_marks'];
                $ext_marks=$_POST['ext_marks'];
@@ -16001,7 +16025,28 @@ elseif($code==242)
                $credits=$_POST['credits'];
 
 
-               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0')";
+
+   if($AcademicType=='T')
+   {
+$SubjectType='Theory';
+   }
+   else if($AcademicType=='P')
+   {
+$SubjectType='Practical';
+   }
+    else if($AcademicType=='TP')
+   {
+$SubjectType='Theory/Practical';
+   }
+   else
+   {
+    $SubjectType='';
+   }
+
+
+
+
+               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,AcademicType) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$AcademicType')";
                $add_study_scheme_run=sqlsrv_query($conntest,$add_study_scheme);
                   if ($add_study_scheme_run==true)
                    {
@@ -16384,6 +16429,8 @@ elseif($code==252)
                $subject_name=$row['SubjectName'];
                $subject_code=$row['SubjectCode'];
                $subject_type=$row['SubjectType'];
+               $skill_type=$row['SkillType'];
+               $academic_type=$row['AcademicType'];
                $subject_group=$row['SGroup'];
                $int_marks=$row['IntMaxMarks'];
                $ext_marks=$row['ExtMaxMarks'];
@@ -16393,7 +16440,7 @@ elseif($code==252)
                $tutorials=$row['Tutorial'];
                $credits=$row['NoOFCredits'];
 
-         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId')";
+         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId,AcademicType,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId','$academic_type','$skill_type')";
          $verified_study_run1=sqlsrv_query($conntest,$verified_study1);  
       }
 
@@ -16491,10 +16538,11 @@ elseif($code==252)
 
                                   
                                     </td>
-                                 <td ><input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>"></td>
-                                 <td >
-                                    <select class="form-control" style="width:100px"  id="academic_type<?=$get_row['SrNo'];?>">
-                                        <option value="<?=$get_row['AcademicType'];?>"><?=$get_row['AcademicType'];?></option>
+                                 <td> <input type="text" style="width:100px"  id="subject_code<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['SubjectCode'];?>">
+                                 </td>
+                                 <td>
+                                    <select class="form-control" style="width:100px"  id="subject_type<?=$get_row['SrNo'];?>">
+                                        <option value="<?=$get_row['SubjectType'];?>"><?=$get_row['SubjectType'];?></option>
                                         <option value="Theory">Theory</option>
                                          <option value="Practical">Practical</option>
                                          <option value="Theory/Practical">Theory/Practical</option>
@@ -16547,13 +16595,13 @@ elseif($code==252)
                                  <td style="width:50px"><input type="text" id="practical<?=$get_row['SrNo'];?>" class="form-control" value="<?=$get_row['Practical'];?>"></td>
 
                                 <td>
-                                  <select class="form-control" style="width:180px"  id="subject_type<?=$get_row['SrNo'];?>">
-                                       <option value="<?=$get_row['SubjectType'];?>">
+                                  <select class="form-control" style="width:180px"  id="academic_type<?=$get_row['SrNo'];?>">
+                                       <option value="<?=$get_row['AcademicType'];?>">
 
 
 
 
-                                          <?php $mtp=$get_row['SubjectType'];
+                                          <?php $mtp=$get_row['AcademicType'];
 
                                           if($mtp=='T')
                                           {
@@ -16679,12 +16727,11 @@ sqlsrv_close($conntest);
 }
 elseif($code==255)
 {
-              
                $SrNo=$_POST['srno'];
                $subject_name=$_POST['subject_name'];
                $subject_code=$_POST['subject_code'];
                $subject_type=$_POST['subject_type'];
-                $academic_type=$_POST['academic_type'];
+               $academic_type=$_POST['academic_type'];
                $int_marks=$_POST['int_marks'];
                $ext_marks=$_POST['ext_marks'];
                $elective=$_POST['elective'];
@@ -16693,9 +16740,9 @@ elseif($code==255)
                $tutorials=$_POST['tutorials'];
                $credits=$_POST['credits'];
                $department=$_POST['department'];
-                      $group=$_POST['group'];
+               $group=$_POST['group'];
                $update_study="UPDATE  MasterCourseStructure SET AcademicType='$academic_type', SubjectName='$subject_name',SubjectType='$subject_type',SubjectCode='$subject_code',Elective='$elective',IntMaxMarks='$int_marks',ExtMaxMarks='$ext_marks',Lecture='$lecture',Tutorial='$tutorials',Practical='$practical',DepartmentID='$department',NoOFCredits='$credits',SGroup='$group' WHERE SrNo='$SrNo'";
-         $update_study_run=sqlsrv_query($conntest,$update_study);  
+               $update_study_run=sqlsrv_query($conntest,$update_study);  
 
          if ($update_study_run==true) 
          {
@@ -16735,12 +16782,15 @@ elseif($code==255)
             $SemesterID = trim($filesop[0]);
             $SubjectCode = trim($filesop[1]);
             $SubjectName = trim($filesop[2]);
+
             $SkillType = trim($filesop[3]);
+
             $Lacture = trim($filesop[4]);
             $Tutorials = trim($filesop[5]);
             $Practical = trim($filesop[6]);
             $NoOfCredits = trim($filesop[7]);
-            $SubjectType = trim($filesop[8]);
+            $AcademicType = trim($filesop[8]);
+
             $Elective = trim($filesop[9]);
             $SubjectGroup = trim($filesop[10]);
 
@@ -16757,10 +16807,26 @@ if ($SemesterID=='1')
    {
 
    }
- 
+
+   if($AcademicType=='T')
+   {
+$SubjectType='Theory';
+   }
+   else if($AcademicType=='P')
+   {
+$SubjectType='Practical';
+   }
+    else if($AcademicType=='TP')
+   {
+$SubjectType='Theory/Practical';
+   }
+   else
+   {
+    $SubjectType='';
+   }
 
 
-  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType')";
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
                   if ($add_study_scheme_run2==true)
@@ -24217,7 +24283,7 @@ $sem= $_POST['sem'];
 
   $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.AcademicType='P' And sa.EmployeeID='$EmployeeID'AND sa.Status='1'";
 
 
 
@@ -24950,7 +25016,12 @@ $course= $_POST['course'];
 $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
-$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd SubjectType='M'  order by SubjectCode";
+//$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd Elective='M'  order by SubjectCode";
+ $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
+ and mcs.Batch='$batch' ANd mcs.Elective='M' And sa.EmployeeID='$EmployeeID'";
+
+
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
  {
@@ -25041,7 +25112,7 @@ sqlsrv_close($conntest);
   elseif($code==377)
    {
   $id = $_POST['id'];
-  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
+ echo  $list_sqlw5 ="SELECT * from ExamForm Where  ID='$id'";
   $list_result5 = sqlsrv_query($conntest,$list_sqlw5);
         $i = 1;
         while( $row5 = sqlsrv_fetch_array($list_result5, SQLSRV_FETCH_ASSOC) )

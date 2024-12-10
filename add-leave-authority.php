@@ -268,7 +268,7 @@
             // var spinner=document.getElementById("ajax-loader");
                // spinner.style.display='block';
            var code=59;
-           $.ajax({
+            $.ajax({
               url:'action_g.php',
               type:'POST',
               data:{

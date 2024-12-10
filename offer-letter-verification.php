@@ -246,20 +246,24 @@ table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" d
 }
 
  if(userid!='131027' )
-                           {
+                {
 
 table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
                            
-                           if(generate<=0)
-                           {
+ if(generate<=0)
+          {
 
 table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
-                      }
+           }
+           else
+             {
+             table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " >Change Date</button >';
+             }
 
-                  if(status>0)
-                           {
+         if(status>0)
+             {
 table +='<button   class="btn btn-danger btn-xs " >LEFT</button >';
-                      }
+             }
 
 
 

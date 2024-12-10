@@ -264,6 +264,7 @@ for($i=1;$i<=12;$i++)
             type:'POST',
             success:function(data)
             { 
+              console.log(data);
 
              if(data != "")
                 {
@@ -304,7 +305,7 @@ var xmlhttp = new XMLHttpRequest();
         }
     }
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+53,true);
-        xmlhttp.send();
+        xmlhttp.send(); 
  }
 else
 {
@@ -334,7 +335,7 @@ var xmlhttp = new XMLHttpRequest();
 
 function testing() 
 {
-var   spinner= document.getElementById("ajax-loader");
+var spinner= document.getElementById("ajax-loader");
    spinner.style.display='block';
   var idNos=document.getElementsByClassName('IdNos');
   var marks=document.getElementsByClassName('marks');
@@ -625,11 +626,13 @@ else
 }
 
 
-  function uploadPhoto(form) {
+  function uploadmooc(form) {
+
+    const form = document.querySelector('#myForm'); // Use the appropriate selector
+console.log(form); // Debugging: Should log the form element or `null`
 
    var formData = new FormData(form);
       $.ajax({
-
          url: form.action,
          type: form.method,
          data: formData,
