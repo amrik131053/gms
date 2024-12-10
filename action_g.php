@@ -33424,6 +33424,10 @@ elseif($code==432.1)
                 $sql = "DELETE FROM PHDacademic WHERE id = '$id' and UserName='$EmployeeID'";
                 $res = sqlsrv_query($conntest, $sql);
             }
+            else{
+                $sql = "DELETE FROM PHDacademic WHERE id = $id and UserName='$EmployeeID'";
+                $res = sqlsrv_query($conntest, $sql);
+            }
             ftp_close($conn_id);
         } else {
             $sql = "DELETE FROM PHDacademic WHERE id = $id";
@@ -33458,6 +33462,10 @@ elseif($code==432.2)
                 $escapedQuery = str_replace("'", "''", $sql);
                 $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
                 sqlsrv_query($conntest,$update12);
+            }
+            else{
+                $sql = "DELETE FROM PHDacademic WHERE id = $id and UserName='$emp_id'";
+                $res = sqlsrv_query($conntest, $sql);
             }
             ftp_close($conn_id);
         } else {
