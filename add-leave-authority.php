@@ -2541,6 +2541,7 @@ function deleteAcademics(id) {
     if (a == true) {
         var spinner = document.getElementById("ajax-loader");
         spinner.style.display = 'block';
+        var loginId = document.getElementById("loginId").value;
         var code = '432';
         var academicID = id;
         //alert(academicID);
@@ -2553,9 +2554,9 @@ function deleteAcademics(id) {
             type: 'POST',
             success: function(data) {
                 spinner.style.display = 'none';
-                console.log(data);
+                // console.log(data);
                 SuccessToast('Successfully Deleted');
-
+                update_emp_record(loginId);
                 // if (data == 1) {
                 //     showProfileData();
                 // } 
