@@ -2301,7 +2301,7 @@ function deletePHD(id,emp_id) {
             type: 'POST',
             success: function(data) {
                 spinner.style.display = 'none';
-                console.log(data);
+                // console.log(data);
                 SuccessToast('Successfully Deleted');
                 update_emp_record(emp_id);
 
