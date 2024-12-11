@@ -1226,15 +1226,10 @@ function copyToClipboard(text) {
                      
                             
                         </div>
-                        <div class="col-lg-1">
-                            <button class="btn btn-success btn-sm" onclick="export_daily_data(0,0);"><i class="fa fa-download"></i></button>
+                        <div class="col-lg-2">
+                            <button class="btn btn-success btn-sm" onclick="export_daily_data(0,0);"><i class="fa fa-download"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-list-alt"></i></button>
                         </div>
-                        <div class="col-lg-1">
-                            <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button>
-                        </div>
-                          <div class="col-lg-1">
-                            <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-list-alt"></i></button>
-                        </div>
+                       
                         <div class="col-lg-5">
                             <span style="float:right;">
                                 <button class="btn btn-sm ">

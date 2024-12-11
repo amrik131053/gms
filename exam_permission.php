@@ -126,7 +126,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class=" ">
                             <div class="card-header ">
-                                <h3 class="card-title">Semster open</h3>
+                                <h3 class="card-title">Semester open</h3>
                                         <!-- <input type="date"  id="dateopen" class="form-control"> -->
                             </div>
                             <div class="card-body  ">
