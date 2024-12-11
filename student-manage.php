@@ -594,7 +594,31 @@ function daily_data_summary() {
     });
 }
 
+  function showCoursefromadmissions(CollegeID) {
 
+
+       var code = 396.5;
+    StartDate=document.getElementById("StartDate").value;
+    EndDate=document.getElementById("EndDate").value;
+
+               $.ajax({
+            url: 'action.php',
+            type: 'POST',
+            data: {
+                code: code,CollegeID: CollegeID,StartDate:StartDate,EndDate:EndDate
+            },
+            success: function(response) {
+               
+              //spinner.style.display = 'none';
+
+                if (CollegeID !== null) {
+                    document.getElementById("showBatchs" + CollegeID).innerHTML = response;
+                }
+
+                //  loadMainCount();
+            }
+        });
+    }
 
 function changecourse(id) {
 
@@ -1169,8 +1193,7 @@ function copyToClipboard(text) {
 
                     <div class="row">
                         <div class="col-lg-5">
-                            <?php if($role_id==2 || $role_id==20)
-                                            {?>
+                           
                             <form action="export.php" method="post" target="_blank">
                                 <input type="hidden" value="73" name="exportCode">
                                 <div class="input-group input-group-sm">
@@ -1189,7 +1212,7 @@ function copyToClipboard(text) {
                                             class="fa fa-file-export"></i></button>
                                 </div>
                             </form>
-                            <?php }?>
+                            
                         </div>
                         <div class="col-lg-1">
                             <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button>

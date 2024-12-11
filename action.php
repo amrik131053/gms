@@ -27124,8 +27124,10 @@ else if($code==396.3)
 {
    $StartDate=$_POST['StartDate'];
     $EndDate=$_POST['EndDate'];
-   ?>
-   <table class='table' border='1' style="font-family: 'Times New Roman', Times, serif;">
+   ?> <div class=" table-responsive">
+
+                                <table class="table table-bordered table-hover">
+   <table class='table' border='1' style="font-family: 'Times New Roman', Times, serif;overflow-y:500px" >
 <thead>    
     <tr style='background-color:#223260 !important; color:white;'>
     <th>SrNo</th>
@@ -27229,7 +27231,7 @@ else if($code==396.3)
             {      
                 $idnoR = $row2['ID'];
                 $nameR = $row2['Name'];
-                $exportstudy .= "{$idnoR} ({$nameR})<br>";
+                echo $idnoR ."-".$nameR;
             }
          ?></td><td><?php 
              $query2 = "Select * from  MasterConsultantRef as mcr inner join MasterConsultant as s on mcr.RefIDNo=s.ID where StudentIDNo='$IDNo' AND mcr.Type='Consultant'";
@@ -27238,13 +27240,14 @@ else if($code==396.3)
             {      
                 $idnoC = $row21['ID'];
                 $nameC = $row21['Name'];
-                $exportstudy .= "{$nameC}<br>";
+                echo $nameC;
             }
           ?></td></tr><?php 
             $SrNo++;
         }
         ?>
-      </table>
+     
+    </table></div></div>
         <?php
 }
 
@@ -27274,17 +27277,7 @@ else if($code==396.4)
                     <div class="card card-widget widget-user-2 shadow-lg">
 
                         <div class="card collapsed-card">
-                          <!--   <div class="card-header" style="background-color: #28a745 !important;color: white;text-align: left">
-                               <input type='hidden' name='check[]' id='check' value='<?=$CourseID;?>' class='checkbox' checked> -->
-                               <!--  <div class="card-tools">&nbsp;&nbsp;Total Admission :<?= $Total;?>
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                        onclick="exportTotalScordingToCollege();"
-                                        style="float:right;padding:15px;">
-                                        <i class="fa fa-download fa-lg"></i>
-                                    </button>
-                                </div>
-                            </div>  -->
-<div class="card-header"
+                          <div class="card-header"
                                             style="background-color: #223260 !important;color: white;">
                                             <input type='hidden' name='check[]' id='check' value='<?=$CourseID;?>'
                                                 class='checkbox' checked>
@@ -27294,10 +27287,13 @@ else if($code==396.4)
                                             <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-warning"> Total Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total;?></button>&nbsp;&nbsp;
                                               <button class="btn btn-outline-warning"> SC Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total_tsc;?></button>
 
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                    onclick="showBatchsFromCourse(<?=$CourseID;?>);"
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" onclick="daily_data()" style="float:right;padding:15px;">
+                                                    <i class="fas fa-search"></i>
+                                                </button> 
+                                                  <button type="button" class="btn btn-tool"
+                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
                                                     style="float:right;padding:15px;">
-                                                    <i class="fas fa-plus"></i>
+                                                     <i class="fa fa-users fa-lg" ></i>
                                                 </button>
                                                 <button type="button" class="btn btn-tool"
                                                     onclick="exportTotalScordingToCourseSumy(<?=$CourseID;?>);"
@@ -27332,6 +27328,7 @@ else if($code==396.4)
                                  while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
                                  { 
                            $CollegeID=$rowCourseName['CollegeID'];
+                            //$CourseID=$rowCourseName['CourseID'];
                                     
                                     $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CollegeID='$CollegeID'";
         $params_c = array("$StartDate 01:00:00", "$EndDate 23:59:00");
@@ -27354,23 +27351,33 @@ else if($code==396.4)
                                               <button class="btn btn-outline-warning"> SC Admissions &nbsp;&nbsp;:&nbsp;&nbsp;<?=$Total_sc;?></button>
 
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                    onclick="showBatchsFromCourse(<?=$CourseID;?>);"
+                                                    onclick="showCoursefromadmissions(<?=$CollegeID;?>);"
                                                     style="float:right;padding:15px;">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
+                                                 <button type="button" class="btn btn-tool"
+                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
+                                                    style="float:right;padding:15px;">
+                                                     <i class="fa fa-users fa-lg" ></i>
+                                                </button>
                                                 <button type="button" class="btn btn-tool"
-                                                    onclick="exportTotalScordingToCourseSumy(<?=$CourseID;?>);"
+                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
                                                     style="float:right;padding:15px;">
                                                     <i class="fa fa-download fa-lg"></i>
                                                 </button>
+
+                                                 
+
+
+                                               
                                                 <!-- </div> -->
                                             </div>
                                         </div>
                                         <div class="card-body p-0">
-                                            <ul class="nav nav-pills flex-column" id="showBatchs<?=$CourseID;?>">
+                              <ul class="nav nav-pills flex-column" id="showBatchs<?=$CollegeID;?>">
 
                                                 <center><img src="dist/img/div-loader.gif" width="30"
-                                                        id="divloader<?=$CourseID;?>" style="display:none !important;">
+                                                        id="divloader<?=$CollegeID;?>" style="display:none !important;">
                                                 </center>
                                             </ul>
                                         </div>
@@ -27388,6 +27395,91 @@ else if($code==396.4)
                         </div>
                     </div>
                 </div>
+                <!-- ----------------------------------------------------------------------------------- -->
+
+       
+
+            </div>
+        <?php
+}
+else if($code==396.5)
+{
+   $StartDate=$_POST['StartDate'];
+    $EndDate=$_POST['EndDate'];
+     $CollegeID=$_POST['CollegeID'];
+   ?>
+   <div class="row">
+
+                <?php       $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ? ORDER BY IDNo";
+        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result = sqlsrv_query($conntest,$query,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total=sqlsrv_num_rows($result);
+         $query_tsc = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND category ='SC' ORDER BY IDNo";
+        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_tsc = sqlsrv_query($conntest,$query_tsc,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_tsc=sqlsrv_num_rows($result_tsc);
+                               
+
+
+                       
+
+?>
+               
+
+                    
+                       
+                            <div class="table table-bordered table-hover">
+
+                                <table class="table table-bordered table-hover">
+
+                                  <tr><th>Program Name</th><th>Total </th><th>SC</th>
+                                          <th></th></tr>   
+                                    <?php 
+       $query1 = "SELECT  Distinct CourseID,Course  FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND CollegeID='$CollegeID'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1);
+                                 while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                          
+                            $CourseID=$rowCourseName['CourseID'];
+                                    
+                                    $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CourseID='$CourseID'";
+        $params_c = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_c = sqlsrv_query($conntest,$query,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_c=sqlsrv_num_rows($result_c);
+
+
+          $query_sc = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?   AND Category='SC' AND CourseID='$CourseID'";
+        $params_sc = array("$StartDate 01:00:00", "$EndDate 23:59:00");
+        $result_sc = sqlsrv_query($conntest,$query_sc,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_sc=sqlsrv_num_rows($result_sc);
+                                    ?>
+
+                                    
+                                     
+                                        <tr><td><?=$rowCourseName['Course'];?>(<?=$CourseID;?>)</td><td><?=$Total_c;?><td><?=$Total_sc;?></td>
+                                          <td><i class="fa fa-users fa-lg" ></i></td></tr>
+                                    
+                                
+                                            <ul class="nav nav-pills flex-column" id="showBatchs<?=$CourseID;?>">
+
+                                                <center>
+                                                  <img src="dist/img/div-loader.gif" width="30"
+                                                        id="divloader<?=$CourseID;?>" style="display:none !important;">
+                                                </center>
+                                            </ul>
+                                   
+                                    <!-- /.card-body -->
+
+                                    <?php
+                                 }
+?>
+
+                                </table>
+
+
+                          
+                        </div>
+              
                 <!-- ----------------------------------------------------------------------------------- -->
 
        
