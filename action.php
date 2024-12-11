@@ -27262,7 +27262,7 @@ else if($code==396.4)
                                                     <i class="fas fa-search"></i>
                                                 </button> 
                                                   <button type="button" class="btn btn-tool"
-                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
+                                                    onclick="export_daily_data(0,0);"
                                                     style="float:right;padding:15px;">
                                                      <i class="fa fa-users fa-lg" ></i>
                                                 </button>
@@ -27327,7 +27327,7 @@ else if($code==396.4)
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                                  <button type="button" class="btn btn-tool"
-                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
+                                                    onclick="export_daily_data(<?=$CollegeID;?>,0);"
                                                     style="float:right;padding:15px;">
                                                      <i class="fa fa-users fa-lg" ></i>
                                                 </button>
@@ -27406,13 +27406,13 @@ else if($code==396.5)
                                   <tr><th>Program Name</th><th>Total </th><th>SC</th>
                                           <th></th></tr>   
                                     <?php 
-       $query1 = "SELECT  Distinct CourseID,Course  FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND CollegeID='$CollegeID'";
+       $query1 = "SELECT  Distinct CourseID,Course,CollegeID  FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND CollegeID='$CollegeID'";
         $getCourseRun1=sqlsrv_query($conntest,$query1);
                                  while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
                                  { 
                           
                             $CourseID=$rowCourseName['CourseID'];
-                                    
+                                     $CollegeID=$rowCourseName['CollegeID'];
                                     $query = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CourseID='$CourseID'";
         $params_c = array("$StartDate 01:00:00", "$EndDate 23:59:00");
         $result_c = sqlsrv_query($conntest,$query,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
@@ -27428,7 +27428,7 @@ else if($code==396.5)
                                     
                                      
                                         <tr><td><?=$rowCourseName['Course'];?>(<?=$CourseID;?>)</td><td><?=$Total_c;?><td><?=$Total_sc;?></td>
-                                          <td><i class="fa fa-users fa-lg" ></i></td></tr>
+                                          <td><i class="fa fa-users fa-lg" onclick="export_daily_data(<?=$CollegeID;?>,<?=$CourseID;?>);" ></i></td></tr>
                                     
                                 
                                             <ul class="nav nav-pills flex-column" id="showBatchs<?=$CourseID;?>">

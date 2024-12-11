@@ -19556,7 +19556,7 @@ elseif ($code==265) {
                 <label for="">Year</label>
                 <select class="form-control" id="YearEdit">
                 <option value="<?=$getExamPermissionRow['Year'];?>"><?=$getExamPermissionRow['Year'];?></option>
-                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+                    <?php  for ($i=2015; $i <=date('Y')+1 ; $i++) 
    { ?>
                     <option value="<?=$i;?>"><?=$i;?></option>
 
