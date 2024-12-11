@@ -736,4 +736,68 @@ elseif($code==9)
   <?php  
   sqlsrv_close($conntest);
 }
+
+elseif($code==10)
+{
+   
+    $outtime="No Punch";
+     $date=$_POST['date'];
+     $id=$_POST['id'];
+     if($_POST['intime']!='')
+     {
+         $intime=$_POST['intime'];
+     }
+     else{
+        $intime="No Punch";
+     }
+     if($_POST['outtime']!='')
+     {
+         $outtime=$_POST['outtime'];
+     }
+     else{
+        $outtime="No Punch";
+     }
+    
+        ?>
+<div class="row">
+    <input type="hidden" id="leaveEmplID" value="<?=$id;?>">
+    <div class="col-lg-3"><label>Against Date</label><input type="text" id="AgainstDate" value="<?=$date;?>" readonly class="form-control"></div>
+    <div class="col-lg-3"><label>InTime</label><input type="text" value="<?=$intime;?>" readonly class="form-control"></div>
+    <div class="col-lg-3"><label>OutTime</label><input type="text" value="<?=$outtime;?>" readonly class="form-control"></div>
+    <div class="col-lg-3">
+        <label>Leave Balance</label>
+    <select class="form-control" name="AddBlance" id="AddBlance">
+                                        <option value="1">Full</option>
+                                        <option value="0.25">0.25</option>
+                                        <option value="0.5">0.50</option>
+                                        <option value="0.75">0.75</option>
+                                    </select>
+    </div>
+</div>
+
+                                <?php 
+}
+elseif($code==11)
+{
+
+$leaveEmplID=$_POST['leaveEmplID'];
+$AgainstDate=$_POST['AgainstDate'];
+$AddBlance=$_POST['AddBlance'];
+ $deductionBLance="UPDATE LeaveBalances SET Balance=Balance+$AddBlance where Employee_Id='$leaveEmplID' and LeaveType_Id='2'";
+$deductionBLanceRun=sqlsrv_query($conntest,$deductionBLance);
+if($deductionBLanceRun)
+{
+     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate)Values('$AgainstDate','$leaveEmplID','2','$AddBlance','$EmployeeID','$timeStamp')";
+$insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
+if($insertBLanceRun==true)
+{
+    echo "1";
+}
+else{
+    echo "0";
+}
+}
+
+}
+
    }

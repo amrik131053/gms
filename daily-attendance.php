@@ -44,6 +44,30 @@
    <!-- /.container-fluid -->
 
 </section>
+<div class="modal fade" id="ViewAddLeaveModal" tabindex="-1" role="dialog"
+    aria-labelledby="ViewAddLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ViewAddLeaveModalLabel">View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="view_Add_Leave_load">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <?php   $code_access; if ($code_access=='010' || $code_access=='011' || $code_access=='110' || $code_access=='111') 
+                                         {?>
+                <button type="button" onclick="UpdateLeaveBalnce();" class="btn btn-success">Submit</button>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <p id="ajax-loader"></p>
    <script type="text/javascript">
           $(window).on('load', function() 
@@ -59,6 +83,40 @@
          $('.btn').removeClass("bg-success");
          $('#'+id).toggleClass("bg-success"); 
          }
+
+      
+function UpdateLeaveBalnce() {
+   var code=11;
+   var leaveEmplID=document.getElementById('leaveEmplID').value;
+   var AgainstDate=document.getElementById('AgainstDate').value;
+   var AddBlance=document.getElementById('AddBlance').value;
+   var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_a.php',
+            type:'POST',
+            data:{
+               flag:code,leaveEmplID:leaveEmplID,AgainstDate:AgainstDate,AddBlance:AddBlance
+               },
+            success: function(response) 
+            { 
+               if(response==1)
+               {
+               showEmpReport();
+               SuccessToast('Added Successfully');
+            }
+            
+               // console.log(response);
+               spinner.style.display='none';
+               
+            }
+         });
+}
+
+
+
+
+
          Search();
  function Search(){ 
    var code=210;
@@ -74,6 +132,23 @@
             { 
                spinner.style.display='none';
                document.getElementById("card").innerHTML=response;
+            }
+         });
+}
+ function showModalAddLeave(id,date,intime,outtime){ 
+   var code=10;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_a.php',
+            type:'POST',
+            data:{
+               flag:code,id:id,date:date,intime:intime,outtime:outtime
+               },
+            success: function(response) 
+            { 
+               spinner.style.display='none';
+               document.getElementById("view_Add_Leave_load").innerHTML=response;
             }
          });
 }

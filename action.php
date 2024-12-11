@@ -21791,15 +21791,15 @@ $stmt = sqlsrv_query($conntest,$sql_staff);
              $IDNo=$row_staff['IDNo'];
                   $College=$row_staff['CollegeName'];
 
-?><tr><th style='color:red;text-align: center;' colspan=6>Summary Report</th></tr>
+?><tr><th style='color:red;text-align: center;' colspan=7>Summary Report</th></tr>
 
-<tr><td colspan=2>Employee ID</td><td colspan=4 style='text-align:left'><?=$IDNo;?></td></tr>
-<tr><td colspan=2>Name</td><td colspan=4><?= $Name;?></td></tr>
-<tr><td colspan=2>Department</td ><td colspan=4><?= $Department;?></td></tr>
+<tr><td colspan=2>Employee ID</td><td colspan=4 style='text-align:left'><?=$IDNo;?></td><td></td></tr>
+<tr><td colspan=2>Name</td><td colspan=4><?= $Name;?></td><td></td></tr>
+<tr><td colspan=2>Department</td ><td colspan=4><?= $Department;?></td><td></td></tr>
 
-<tr><td colspan=2>College Name</td><td colspan=4><?= $CollegeName;?></td></tr>
+<tr><td colspan=2>College Name</td><td colspan=4><?= $CollegeName;?></td><td></td></tr>
 
-<tr class="bg-primary"><th>Date</th><th>In time</th><th>Out Time</th><th>Leave</th><th>Count</th><th>Shift Time</th></tr>
+<tr class="bg-primary"><th>Date</th><th>In time</th><th>Out Time</th><th>Leave</th><th>Count</th><th>Shift Time</th><th>Action</th></tr>
  <?php
 $srno++;
 for ($at=0;$at<$no_of_dates;$at++)
@@ -21807,16 +21807,32 @@ for ($at=0;$at<$no_of_dates;$at++)
     $HolidayName='';
 
    $start=$datee[$at];
-  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+   $trcolor="";
 
-?><tr><td style='text-align:center'><?=$start?></td><?php 
+  $sql_att="SELECT  MIN(CAST(LogDateTime as time)) as mytime, MAx(CAST(LogDateTime as time)) as mytime1 from DeviceLogsAll  where LogDateTime Between '$start 00:00:00.000'  AND '$start 23:59:00.000' AND EMpCOde='$IDNo' ";
+ ?><tr><td style='text-align:center'><?=$start?></td><?php 
       $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
             $intime=$row_staff_att['mytime'];
             $outtime=$row_staff_att['mytime1'];
+     $alreadyLeaveExistInRecordTable=0;       
+      $ifLeaveAdded="SELECT * FROM LeaveRecord Where LeaveDate='$start' and LeaveTypeID='2' and EmployeeID='$IDNo'";
+$ifLeaveAddedRun=sqlsrv_query($conntest,$ifLeaveAdded,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+$ifLeaveAddedRunCount=sqlsrv_num_rows($ifLeaveAddedRun);
+    if($ifLeaveAddedRunCount>0)
+    {
+       $alreadyLeaveExistInRecordTable=1;     
 
-         
+    }
+    else
+    {
+      $alreadyLeaveExistInRecordTable=0; 
+    }
+    if($blnceRow=sqlsrv_fetch_array($ifLeaveAddedRun,SQLSRV_FETCH_ASSOC))
+    {
+     $balnceAdded=$blnceRow['Balance'];
+    }
 
 ?><td style='text-align:center'>
     <?php 
@@ -21919,6 +21935,25 @@ else
 <td style="color:<?=$color;?>"><b>
 <?=$fintime1." to ".$fintime5;?></b>
 </td>
+<td style="color:green"><b>
+   <?php
+   if($alreadyLeaveExistInRecordTable!=1)
+   {
+   if(($HolidayName!='' && $printleave=='On Duty') || ($HolidayName!='' && $intime!="" &&  $outtime!="" && $outtime>$intime)){?>
+<button class="btn btn-success" data-toggle="modal" data-target="#ViewAddLeaveModal" onclick="showModalAddLeave('<?=$IDNo;?>','<?=$start;?>','<?=$myin;?>','<?=$myout;?>');">Add</button>
+<?php }
+else{ 
+
+    }
+   }
+   else
+   {
+      echo "Already Added: ".$balnceAdded;
+   }
+      
+      ?>
+</b>
+</td>
 </tr>
 <?php 
 $paiddays=$paiddays+$countday;
@@ -21926,11 +21961,11 @@ $paiddays=$paiddays+$countday;
 }
 if($paiddays<>$h)
 {
-  ?><tr><td colspan=4 color='red'>Total Paid Days</td><td colspan=2><b><?=$paiddays?> out of <?=$myenddate?></b></td></tr><?php
+  ?><tr><td colspan=4 color='red'>Total Paid Days</td><td colspan=3><b><?=$paiddays?> out of <?=$myenddate?></b></td></tr><?php
 }
 else
 {
-  ?><tr><td colspan=34 color='red'>Total Paid Days</td><td colspan=2><b>0</b></td></tr><?php
+  ?><tr><td colspan=34 color='red'>Total Paid Days</td><td colspan=3><b>0</b></td></tr><?php
 }
 ?>
 <?php
@@ -21973,13 +22008,7 @@ elseif($code=='336')
                   <select  id="Department" name="Department" class="form-control"   required>
                      <option value=''>Select Department</option>
                  </select>
-              </div>  
-
-
-               
-
-      
-    
+              </div> 
     <div class="col-lg-1"> <label>Month</label>
     <select name="month"  id="month" class="form-control "> 
   <option  value="" style="display:none;">MM</option>
