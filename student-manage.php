@@ -895,7 +895,7 @@ function basicUnLock(loginId) {
             code: code,loginId:loginId
         },
         success: function(response) {
-            console.log(response);
+            //console.log(response);
             if (response==1) {
 
                 SuccessToast('Successfuly UnLocked');
@@ -932,6 +932,19 @@ function exportLockedBasicExcel() {
     }
 }
 
+function export_daily_data(CollegeID,CourseID) {
+    var exportCode = 73;
+
+   var  StartDate=document.getElementById("StartDate").value;
+   var  EndDate=document.getElementById("EndDate").value;
+   
+
+        window.open("export.php?exportCode=" + exportCode + "&StartDate=" + StartDate
+         + "&EndDate=" + EndDate +
+            "&CollegeID=" + CollegeID + "&CourseID=" + CourseID , '_blank');
+
+    
+}
 
 
 
@@ -1192,10 +1205,10 @@ function copyToClipboard(text) {
                 <div class="card-header">
 
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-4">
                            
-                            <form action="export.php" method="post" target="_blank">
-                                <input type="hidden" value="73" name="exportCode">
+                          
+                               
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-danger" id="inputGroup-sizing-sm">Start</span>
@@ -1205,21 +1218,18 @@ function copyToClipboard(text) {
                                     &nbsp;
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success" id="inputGroup-sizing-sm">End</span>
-                                    </div>
+                                    </div> 
                                     <input required type="date" class="form-control" id="EndDate" name="EndDate"
                                         aria-describedby="button-addon2">
-                                    <button class="btn btn-info btn-sm" type="submit" id="button-addon2"><i
-                                            class="fa fa-file-export"></i></button>
+                                  
                                 </div>
-                            </form>
+                     
                             
                         </div>
-                        <div class="col-lg-1">
-                            <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button>
+                        <div class="col-lg-2">
+                            <button class="btn btn-success btn-sm" onclick="export_daily_data(0,0);"><i class="fa fa-download"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-list-alt"></i></button>
                         </div>
-                          <div class="col-lg-1">
-                            <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-users"></i></button>
-                        </div>
+                       
                         <div class="col-lg-5">
                             <span style="float:right;">
                                 <button class="btn btn-sm ">

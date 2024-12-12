@@ -10829,8 +10829,10 @@ $fileName=$CourseName."-".$Batch."-".$Semester."-".$Type.'-'.$Examination;
 
 else if($exportCode==73)
 {
-    $StartDate=$_POST['StartDate'];
-    $EndDate=$_POST['EndDate'];
+    $StartDate=$_GET['StartDate'];
+    $EndDate=$_GET['EndDate'];
+    $CollegeID=$_GET['CollegeID'];
+    $CourseID=$_GET['CourseID'];
     $exportstudy = '';
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
 <thead>    
@@ -10865,9 +10867,21 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
         $StartDate = date('Y-m-d', strtotime($StartDate)); 
         $EndDate = date('Y-m-d', strtotime($EndDate)); 
         
-        $query = "SELECT * FROM Admissions WHERE AdmissionDate BETWEEN ? AND ? ORDER BY IDNo";
-        $params = array("$StartDate 01:00:00", "$EndDate 23:59:00");
-        $result = sqlsrv_query($conntest, $query, $params); 
+        $query = "SELECT * FROM Admissions WHERE (1=1)
+        ";
+        
+        if($CollegeID>0)
+        {
+            $query.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query.="AND CourseID='$CourseID'";
+        }
+        $query.=" ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
+
+//echo $query;
+        $result = sqlsrv_query($conntest, $query); 
         if ($result === false) {
             die(print_r(sqlsrv_errors(), true)); // Handle query error
         } 

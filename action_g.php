@@ -19584,7 +19584,7 @@ elseif ($code==265) {
                 <label for="">Year</label>
                 <select class="form-control" id="YearEdit">
                 <option value="<?=$getExamPermissionRow['Year'];?>"><?=$getExamPermissionRow['Year'];?></option>
-                    <?php  for ($i=2015; $i <=date('Y') ; $i++) 
+                    <?php  for ($i=2015; $i <=date('Y')+1 ; $i++) 
    { ?>
                     <option value="<?=$i;?>"><?=$i;?></option>
 
@@ -19640,7 +19640,7 @@ elseif($code==266)  // search student
             <?php 
       $sr=1;
 
-       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%') ";
+       $query = "SELECT * FROM Admissions  Where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or IDNo like '%".$search."%' or StudentName like '%".$search."%'or AadhaarNo like '%".$search."%') ";
 
     //   $query ="SELECT  * ,Admissions.IDNo as IDNo from Admissions  inner join  UserAccessLevel on Admissions.CourseID = UserAccessLevel.CourseID where (ClassRollNo like '%".$search."%' or UniRollNo like '%".$search."%' or Admissions.IDNo like '%".$search."%' or StudentName like '%".$search."%') ANd UserAccessLevel.IDNo=$EmployeeID";
 
@@ -31770,8 +31770,10 @@ else{
     $BatchOpen=$_REQUEST['BatchOpen'];
     $DurationOpen=$_REQUEST['DurationOpen'];
     $TypeOpen=$_REQUEST['TypeOpen'];
-     $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
+
+    $update_permission="UPDATE MasterCourseStructure set $TypeOpen='0'  from MasterCourseStructure  mcs 
     inner join MasterCourseCodes mcc on mcs.CourseId=mcc.CourseId where mcs.Batch='$BatchOpen' ANd Duration='$DurationOpen' and $TypeOpen='1'";
+
    $update_run=sqlsrv_query($conntest,$update_permission);
    if($update_run==true)
    {
