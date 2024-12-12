@@ -4915,7 +4915,7 @@ else { ?>
         </div>
     </div>
 </div>
-<div class="tab-pane" id="additional<?=$emp_id;?>">
+<div class="tab-pane" id="additional<?=$emp_id;?>"> 
     <div class="row">
         <section class="content">
             <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
