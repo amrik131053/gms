@@ -6181,24 +6181,26 @@ $start=3;
 
  //$declare= $row['11'];
 
-// print_r($row);
+ //print_r($row);
 
 
 
                
                   
 ?>
+ <form id="fileUploadForm">
 <tr> 
 
-  <form action="action.php" method="post" enctype="multipart/form-data">
-<td><?= $i++;?><input type="text" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
+
+
+<td><?= $i++;?><input type="hidden" name="ids[]" value="<?= $row['id'];?>"  id="ids" class='IdNos'> </td>
 <td style="text-align: left"> <?=$row['UniRollNo'];?>/<?=$row['ClassRollNo'];?></td>
-<td>  <input type="text" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
+<td>  <input type="hidden" name="name[]" value="<?=$row['StudentName'];?>"> <?= $row['StudentName'];?></td>  
                                             
                <td>
                   <?= $row['SubjectName'];?>/<?= $subject;?>
              <?php   $iidd=$row['id'];?></td>
-                           <td style='text-align:left;width:50px'>  
+                           <td style='text-align:left;width:50px'> 
 
 
 <?php
@@ -6240,6 +6242,7 @@ $list_resultdi = sqlsrv_query($conntest,$getdistri);
       <?php     
          }
          ?>
+          
          
 <select  name="mst[]"  name='MOOC_Mark'  id='marks_<?=$iidd;?>' class='marks'  >
 
@@ -6291,20 +6294,28 @@ for($j=$start;$j<=100;$j++)
 </select>
 
 
-
-
-                
-                   </td>
+</td>
 
 
 
 
-                           <td>   
+                           <td> 
+            <?php 
+                       if($row['attachments']!='') 
+                           {?>
+                           <!--  <a href="<?=$BasURL;?>/StdWorkshopFile/<?=$row['attachments'];?>" target="_blank"><i class='fa fa-eye'></i></a> -->
+                          <i class='fa fa-eye' style="color:red"  data-toggle="modal" data-target="#UploadImageDocument" onclick="viewmooc(<?=$iidd;?>)"></i></a>
+                        <?php   }?>
+                                         <?php  if($row['Locked']>0||$dateover>0)
+  {
+
+     }else                       {?>
                  <input type="hidden" name="code" value="358">
                  <input type="hidden" class="form-control" name='id' value="<?=$row['id'];?>">
-                 <input type="file" class="form-control"  name="moocfile">
+                 <input type="file" class="form-control" id="moocfile_<?=$iidd;?>"  name="moocfile">
 
                  <?php 
+               
 if($dateover>0)
 {
    echo $show;
@@ -6312,10 +6323,14 @@ if($dateover>0)
 else
 {
    ?>
- <button   onclick="uploadmooc(this.form)" class="btn btn-success btn-xs" style="text-align:right;"> <i class="fa fa-upload"></i> </button>
+
+<button type="button" class="btn btn-primary" name="form"  onclick="uploadmooc(<?=$row['id'];?>)"><i class='fa fa-upload'></i></button> 
+
+ 
 <?php
+}
 }?> </td>
- </form>
+
 
                            <td><?=$row['updateby'];?></td>
                            <td><?php 
@@ -6352,7 +6367,7 @@ else
                         }
                            ?>
 
-                        </td> </tr>
+                        </td> </tr> </form>
 
 <?php 
 
@@ -7535,7 +7550,23 @@ if($dateover>0)
 <?php 
 }
 
+else if ($code == 68) {
+   $id = $_GET['id'];
+   $sql = "SELECT MOOCattachment from ExamFormSubject WHERE id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>MOOC Attachment:<span style="color: #223260;"></span></label>
+      
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/StdWorkshopFile/<?=$data['MOOCattachment']?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
+                  <?php
 
+   }
+
+}
 
  else
        {

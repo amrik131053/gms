@@ -210,7 +210,26 @@ for($i=1;$i<=12;$i++)
     </br>
 
 
+<div class="modal fade" id="UploadImageDocument">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="documentData">
 
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
  <div class="row">
           <!-- left column -->
           <div class="col-lg-12 col-md-12 col-sm-12">
@@ -265,7 +284,7 @@ for($i=1;$i<=12;$i++)
             success:function(data)
             { 
               console.log(data);
-
+console.log(data);
              if(data != "")
                 {
                 
@@ -302,7 +321,7 @@ var xmlhttp = new XMLHttpRequest();
        
           document.getElementById("live_data").innerHTML=xmlhttp.responseText;
 //Examination_theory_types();
-        }
+        } 
     }
       xmlhttp.open("GET", "get_action.php?college="+college+"&course="+course+"&batch="+ batch+ "&sem=" + sem+ "&subject=" + subject+"&DistributionTheory="+distributiontheory+"&examination="+examination+"&group="+group+"&code="+53,true);
         xmlhttp.send(); 
@@ -626,42 +645,53 @@ else
 }
 
 
-  function uploadmooc(form) {
 
-    const form = document.querySelector('#myForm'); // Use the appropriate selector
-console.log(form); // Debugging: Should log the form element or `null`
+ function uploadmooc(id) {
+  //alert(id);
 
-   var formData = new FormData(form);
-      $.ajax({
-         url: form.action,
-         type: form.method,
-         data: formData,
-         contentType: false,
-         processData: false,
-         success: function(response) {
-            // console.log(response);
-            if (response==1) 
-            {
-            SuccessToast('Successfully Updated');
-            select_mst(); 
+ var fileInput = document.getElementById("moocfile_"+id);
+  var MOOC_Mark = document.getElementById("marks_"+id).value;
+                                  
+
+var formData = new FormData();
+            formData.append("moocfile", fileInput.files[0]);
+            formData.append("code",358);
+            formData.append("id",id);
+              formData.append("MOOC_Mark",MOOC_Mark);
+
+            // Create and send AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "action.php", true);
+
+            xhr.onload = function () {
+                console.log("Server response:", xhr.responseText);
+                if (xhr.status === 200) {
+
+                   
+                } else {
+                    statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
                 }
-             else if(response=='Could not connect to 10.0.10.11')
-                {
-                 ErrorToast('FTP Server Off' ,'bg-warning');
-                }
-               else
-                {
+            };
 
-                 }
-         },
-         error: function(xhr, status, error) {
-            console.log(error);
-         }
-      });
-  }
+            xhr.onerror = function () {
+                statusDiv.innerHTML = "<p style='color:red;'>An error occurred while uploading the file.</p>";
+            };
 
+            xhr.send(formData);
+}
 
-
+function viewmooc(id) {
+    var code =68;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("documentData").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 
 </script>
 

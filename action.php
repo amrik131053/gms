@@ -23712,14 +23712,14 @@ include "connection/ftp-erp.php";
 
 $Id = $_POST["id"];
 
-
+$marks = $_POST["MOOC_Mark"];
       $file_name = $_FILES['moocfile']['name'];
       $file_tmp = $_FILES['moocfile']['tmp_name'];
       $type = $_FILES['moocfile']['type'];
       $file_data = file_get_contents($file_tmp);
       $characters = '';
 
-    $image_name ="StdWorkshopFileMooc_".$Id."_".$file_name;
+    $image_name ="M".$Id."_".$file_name;
      
      $destdir = 'StdWorkshopFile';
 
@@ -23730,9 +23730,10 @@ $Id = $_POST["id"];
      ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
 
    
-   $image_name1='StdWorkshopFile/'.$image_name;
+   $image_name1=$image_name;
 
-  $query = "UPDATE ExamFormSubject SET MOOCattachment='$image_name1' where ID='$Id'";
+  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
+MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
 
   echo "1";
@@ -25046,7 +25047,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd Elective='M'  order by SubjectCode";
- $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+ echo $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
  and mcs.Batch='$batch' ANd mcs.Elective='M' And sa.EmployeeID='$EmployeeID'";
 
