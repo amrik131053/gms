@@ -580,7 +580,7 @@ function daily_data_summary() {
 
     spinner.style.display = 'block';
     $.ajax({
-        url: "action.php ",
+        url: "action.php ", 
         type: "POST",
         data: {
             code: code,StartDate:StartDate,EndDate:EndDate
@@ -934,6 +934,32 @@ function exportLockedBasicExcel() {
 
 function export_daily_data(CollegeID,CourseID) {
     var exportCode = 73;
+
+   var  StartDate=document.getElementById("StartDate").value;
+   var  EndDate=document.getElementById("EndDate").value;
+   
+
+        window.open("export.php?exportCode=" + exportCode + "&StartDate=" + StartDate
+         + "&EndDate=" + EndDate +
+            "&CollegeID=" + CollegeID + "&CourseID=" + CourseID , '_blank');
+
+    
+}
+function export_daily_summary(CollegeID,CourseID) {
+    var exportCode = 73.1;
+
+   var  StartDate=document.getElementById("StartDate").value;
+   var  EndDate=document.getElementById("EndDate").value;
+   
+
+        window.open("export.php?exportCode=" + exportCode + "&StartDate=" + StartDate
+         + "&EndDate=" + EndDate +
+            "&CollegeID=" + CollegeID + "&CourseID=" + CourseID , '_blank');
+
+    
+}
+function export_daily_summary_C(CollegeID,CourseID) {
+    var exportCode = 73.2;
 
    var  StartDate=document.getElementById("StartDate").value;
    var  EndDate=document.getElementById("EndDate").value;
