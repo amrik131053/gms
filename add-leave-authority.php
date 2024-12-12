@@ -660,13 +660,64 @@ function postcode(pincode) {
   xhr.open("GET", url, true);
   xhr.send();
 }
-
-function addAditionalDuty(form) {
+function updateRelievingDate(id, dateValue,empid) {
+    var code=13;
+    var spinner = document.getElementById("ajax-loader");
+    spinner.style.display = 'block';
+    $.ajax({
+              url:'action_a.php',
+              type:'POST',
+              data:{
+                 flag:code,id:id,relievingDate:dateValue
+              },
+              success: function(response) 
+              {
+                console.log(response);
+                spinner.style.display = 'none';
+                if (response == 1) {
+               update_emp_record(empid);
+               SuccessToast('Successfully Update');
+                }
+                  
+              }
+           });
+    }
+function addAditionalDuty(form,id) {
+    var organisationNameAddtional=form.organisationNameAddtional.value;
+    var departmentAddtional=form.departmentAddtional.value;
+    var designationAddtional=form.designationAddtional.value;
+    var startDateAddtional=form.startDateAddtional.value;
+    var endDateAddtional=form.endDateAddtional.value;
+    var remarksAddtional=form.remarksAddtional.value;
+    var fileAttachment=form.fileAttachment.value;
+    if (organisationNameAddtional === "") {
+        ErrorToast('Please select College.', 'bg-warning');
+        return false;
+    }
+    if (departmentAddtional === "") {
+        ErrorToast('Please select department.', 'bg-warning');
+        return false;
+    }
+    if (designationAddtional === "") {
+        ErrorToast('Please select designation.', 'bg-warning');
+        return false;
+    }
+    if (startDateAddtional === "") {
+        ErrorToast('Please select start date.', 'bg-warning');
+        return false;
+    }
+    if (remarksAddtional === "") {
+        ErrorToast('Please enter remarks.', 'bg-warning');
+        return false;
+    }
+    if (fileAttachment === "") {
+        ErrorToast('Please select file.', 'bg-warning');
+        return false;
+    }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var formData = new FormData(form);
-    var loginId = formData.get("IDEmployee"); // Corrected syntax
-    // alert(form);
+    var loginId = formData.get("IDEmployee"); 
     $.ajax({
         url: 'action_g.php',
         type: 'POST',
@@ -675,26 +726,25 @@ function addAditionalDuty(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            // console.log(response);
             if (response == 1) {
-               update_emp_record(loginId);
-           SuccessToast('Successfully Added');
-       } else if (response === 'Could not connect to 10.0.10.11') {
-           ErrorToast('FTP Server Off', 'bg-warning');
-       } else if (response == 2) {
-           ErrorToast('size must be less than 500kb', 'bg-warning');
-       } else if (response == 3) {
-           ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
-       } else {
-           ErrorToast('All inputs required', 'bg-danger');
-       }
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            ErrorToast('Submission failed: ' + error);
+               update_emp_record(id);
+               SuccessToast('Successfully Added');
+                } else if (response === 'Could not connect to 10.0.10.11') {
+                    ErrorToast('FTP Server Off', 'bg-warning');
+                } else if (response == 2) {
+                    ErrorToast('size must be less than 500kb', 'bg-warning');
+                } else if (response == 3) {
+                    ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+                } else {
+                    ErrorToast('All inputs required', 'bg-danger');
+                }
+                  },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    ErrorToast('Submission failed: ' + error);
+                }
+            });
         }
-    });
-}
 function submitPromition(form) {
    
     var organisationNamePromition = form.organisationNamePromition.value;

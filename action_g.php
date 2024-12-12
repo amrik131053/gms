@@ -4975,6 +4975,12 @@ else { ?>
                     </div>
                     <div class="col-lg-3 col-12">
                         <div class="form-group">
+                            <label>End Date </label>
+                            <input type="date" class="form-control" name="endDateAddtional">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
                             <label>Remarks </label>
                             <input type="text" class="form-control" name="remarksAddtional">
                         </div>
@@ -4987,7 +4993,7 @@ else { ?>
                     </div>
                     <div class="col-12 col-md-6 col-lg-2 mt-3">
                         <label>Action</label><br>
-                        <input type="button" onclick="addAditionalDuty(this.form)" class="btn btn-primary" value="ADD">
+                        <input type="button" onclick="addAditionalDuty(this.form,'<?=$emp_id;?>')" class="btn btn-primary" value="ADD">
                     </div>
 
 
@@ -5004,74 +5010,72 @@ else { ?>
                         <h4 class="text-center"><b>Additional Responsibilities Details</b></h4>
                     </div>
                     <table class="table table-bordered" style="font-size:14px;">
-                        <tr>
-                            <th>SrNo</th>
-                            <th>College Name</th>
-                            <th>Department</th>
-                            <th>Designation</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Ramrks</th>
+    <tr>
+        <th>SrNo</th>
+        <th>College Name</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Remarks</th>
+        <th>Action</th>
+    </tr>
+    <tbody>
+        <?php
+        $res = sqlsrv_query($conntest, $sql1);
+        $SrNo = 1;
+        while ($data1 = sqlsrv_fetch_array($res)) {
+            $get_college = "SELECT * FROM MasterCourseCodes WHERE CollegeID='" . $data1['CollegeID'] . "'";
+            $get_collegeRun = sqlsrv_query($conntest, $get_college);
+            $CollegeName = ($get_collegeRow = sqlsrv_fetch_array($get_collegeRun, SQLSRV_FETCH_ASSOC)) ? $get_collegeRow['CollegeName'] : '';
 
-                            <th>Action</th>
-                        </tr>
-                        <tbody>
-                            <?php
-                                                $res = sqlsrv_query($conntest, $sql1);
-                                                $SrNo=1;
-                                                while ($data1 = sqlsrv_fetch_array($res)) { 
-                                                    
-                                                    
-                                                    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='".$data1['CollegeID']."' ";
-                                                    $get_collegeRun=sqlsrv_query($conntest,$get_college);
-                                                    if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
-                                                                            { 
-                                                                              $CollegeName=$get_collegeRow['CollegeName'];
-                                                                            }
-                                                    
-                                                    
-                                                    $get_Department="SELECT  * FROM MasterDepartment where Id=".$data1['DepartmentID']." ";
-                                                    $get_DepartmentRun=sqlsrv_query($conntest,$get_Department);
-                                                    if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
-                                                                            { 
-                                                                              $DepartmentName=$get_DepartmentRow['Department'];
-                                                                         }           
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    ?>
-                            <tr>
-                                <td><?=$SrNo;?></td>
-                                <td><?=$CollegeName;?></td>
-                                <td><?=$DepartmentName;?></td>
-                                <td><?=$data1['Designation'];?></td>
-                                <td><?=$data1['JoiningDate']? $data1['JoiningDate']->format('d-m-Y') : ""; ?></td>
-                                <td><?=$data1['RelievingDate']? $data1['RelievingDate']->format('d-m-Y') : "Working"; ?>
-                                </td>
-                                <td><?=$data1['Ramrks'];?></td>
-                                <td>
-                                    <i class=" fa fa-eye fa-2x text-success " id="doc" type="button"
-                                        onclick="viewAddtionalDocument(<?=$data1['ID']; ?>)" data-toggle="modal"
-                                        data-target="#modal-default"
-                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                    </i>
+            $get_Department = "SELECT * FROM MasterDepartment WHERE Id=" . $data1['DepartmentID'];
+            $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
+            $DepartmentName = ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) ? $get_DepartmentRow['Department'] : '';
 
-                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
-                                        onclick="deleteAddtional(<?=$data1['ID']; ?>,<?=$emp_id;?>)" data-toggle="modal"
-                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
-                                    </i>
+            $relievingDate = $data1['RelievingDate'];
+            $stop_date = new DateTime($timeStamp);
+              $endDateUpdate=$stop_date->format('Y-m-d');
+                  $dbDateFromUpdate=$data1['RelievingDate']->format('Y-m-d');
+                    if($endDateUpdate<=$dbDateFromUpdate)
+                    {
+                        $relievingDateColor = "#7dcea0"; // Green 
+                    }
+                    else{
+                        $relievingDateColor = "#f1948a"; // Red 
+                    }
+    
+        ?>
+            <tr style="background: <?= $relievingDateColor; ?>">
+                <td><?= $SrNo; ?></td>
+                <td><?= $CollegeName; ?></td>
+                <td><?= $DepartmentName; ?></td>
+                <td><?= $data1['Designation']; ?></td>
+                <td><?= $data1['JoiningDate'] ? $data1['JoiningDate']->format('d-m-Y') : ""; ?></td>
+                <td>
+                    <input type="date" class="form-control" 
+                           value="<?= $relievingDate ? $relievingDate->format('Y-m-d') : ""; ?>" 
+                           onchange="updateRelievingDate(<?= $data1['ID']; ?>, this.value,'<?= $emp_id; ?>')" 
+                           style="background: transparent; border: none; width: 100%;">
+                </td>
+                <td><?= $data1['Ramrks']; ?></td>
+                <td>
+                    <i class="fa fa-eye fa-2x text-success" id="doc" type="button"
+                       onclick="viewAddtionalDocument(<?= $data1['ID']; ?>)" data-toggle="modal"
+                       data-target="#modal-default"
+                       style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
+                    <i class="fa fa-trash fa-2x text-danger" id="dlt" type="button"
+                       onclick="deleteAddtional(<?= $data1['ID']; ?>,<?= $emp_id; ?>)" data-toggle="modal"
+                       style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
+                </td>
+            </tr>
+        <?php
+            $SrNo++;
+        }
+        ?>
+    </tbody>
+</table>
 
-                                </td>
-                            </tr>
-                            <?php
-                                            $SrNo++;
-                                                }
-                                                       ?>
-                        </tbody>
-                    </table>
                     <?php }?>
                 </div>
             </div>
@@ -33869,7 +33873,14 @@ $organisationNameAddtional=$_POST['organisationNameAddtional'];
 $departmentAddtional=$_POST['departmentAddtional'];
 $designationAddtional=$_POST['designationAddtional'];
 $startDateAddtional=$_POST['startDateAddtional'];
-$remarksAddtional=$_POST['remarksAddtional'];
+$endDateAddtional=$_POST['endDateAddtional'];
+if($_POST['remarksAddtional']!='')
+{
+    $remarksAddtional=$_POST['remarksAddtional'];
+}
+else{
+    $remarksAddtional="";
+}
 
 $file_name = $_FILES['fileAttachment']['name'];
 $file_tmp = $_FILES['fileAttachment']['tmp_name'];
@@ -33894,8 +33905,8 @@ $destdir = '/Images/Staff/AdditionalResponsibilities';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-    $insertExp="INSERT into AdditionalResponsibilities(CollegeID,DepartmentID,Designation,IDNo,JoiningDate,Ramrks,FilePath,CreatedAt,CreatedBy)
-VALUES('$organisationNameAddtional','$departmentAddtional','$designationAddtional','$employeeID','$date','$remarksAddtional','$file_name','$timeStamp','$EmployeeID')";
+    $insertExp="INSERT into AdditionalResponsibilities(CollegeID,DepartmentID,Designation,IDNo,JoiningDate,RelievingDate,Ramrks,FilePath,CreatedAt,CreatedBy)
+VALUES('$organisationNameAddtional','$departmentAddtional','$designationAddtional','$employeeID','$startDateAddtional','$endDateAddtional','$remarksAddtional','$file_name','$timeStamp','$EmployeeID')";
 $result = sqlsrv_query($conntest, $insertExp);
 if($result==true)
 {
