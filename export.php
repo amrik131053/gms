@@ -1919,34 +1919,46 @@ elseif($exportCode==20)
   $string=$_GET['CollegeId'];
   $parts = explode('=', $string);
   $ColomName = isset($parts[0]) ? $parts[0] : '';
-$value = isset($parts[1]) ? $parts[1] : '';
-
-if ($ColomName=='JobStatus') {
-         $get_category1="SELECT * FROM Staff where  $ColomName='$value'";
-  
-} 
+$value = isset($parts[1]) ? $parts[1] : ''; 
+if($ColomName=='CategoryId')
+{
+    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CategoryId='$value' and Staff.JobStatus='1' ";
+}
 else if($ColomName=='StandardType')
 {  
-
     if($value==8)
     {
         $get_category1="SELECT * FROM Staff where  JobStatus='1' ANd  Phd='Yes'"; 
-     
     }
     else
     {
        
      $get_category1="SELECT DISTINCT OfficialEmailID,EmailID,MotherName,FatherName,CollegeName,EmailID,Phd,IDNo,JobStatus,Name,Designation,Department,RoleID,Imagepath,ContactNo,MobileNo,DepartmentID as depid FROM StaffAcademicDetails inner join Staff ON UserName=IDNo  Where JobStatus='1' and StandardType='$value'";
     }
-    
+}
+elseif($ColomName=='JobStatus')
+{
+    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.JobStatus='$value' ";
+}
+elseif($ColomName=='RoleID')
+{
+    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.RoleID='$value' and Staff.JobStatus='1' ";
+}
+elseif($ColomName=='DepartmentID')
+{
+   $CollegeIDOnly=$_GET['CollegeIDOnly'];
+    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.DepartmentID='$value' and Staff.CollegeId='$CollegeIDOnly' ANd Staff.JobStatus='1' ";
+}
+elseif($ColomName=='CollegeId')
+{
+    $CollegeIDOnly=$_GET['CollegeIDOnly'];
+    $get_category1 ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CollegeId='$value' ANd Staff.JobStatus='1' ";
 }
 else
 {
-         $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
-
+          $get_category1="SELECT * FROM Staff where  $ColomName='$value' and JobStatus='1'";
 }
-
-            $get_category_run1=sqlsrv_query($conntest,$get_category1);
+        $get_category_run1=sqlsrv_query($conntest,$get_category1);
        $exportMeter="<table class='table' border='1'>
         <thead>
                 <tr color='red'>

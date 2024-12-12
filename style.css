@@ -95,3 +95,44 @@ color: white;
     border-radius: 50px;
 }
   
+
+/* scroll up down */
+
+.unique-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #223260, #223260);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+}
+.unique-btn:hover {
+  background: linear-gradient(135deg, #a62535, #a62535);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.unique-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+}
+.unique-btn {
+  animation: bounce 1s infinite ease-in-out;
+}
+

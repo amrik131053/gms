@@ -799,5 +799,25 @@ else{
 }
 
 }
+elseif($code==12)
+{
+    // $recommendID=$_POST['recommendID'];
+    // $senctionID=$_POST['senctionID'];
+    // foreach($_POST['students'] as $key => $value)
+    // { 
+    //      $up="UPDATE Staff SET LeaveRecommendingAuthority = '$recommendID',LeaveSanctionAuthority = '$senctionID' where IDNo='$value'";
+    //     sqlsrv_query($conntest,$up);
+    //     $checkLeaveAlreadySubmited="SELECT * FROM ApplyLeaveGKU WHERE StaffId='$value'  and Status!='Approved' and Status!='Reject'";
+    //     $countX=sqlsrv_query($conntest,$checkLeaveAlreadySubmited,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+    //               $leaveexistCount=sqlsrv_num_rows($countX);
+    //               if($leaveexistCount>0)
+    //               {
+    //               $updateLeaveAuth="UPDATE ApplyLeaveGKU SET SanctionId='$recommendID',AuthorityId='$senctionID' where StaffId='$value' and Status!='Approved' and Status!='Reject'";
+    //                   sqlsrv_query($conntest,$updateLeaveAuth);
+
+    //               }
+    // }
+
+}
 
    }

@@ -1772,5 +1772,20 @@ if (lastTab) {
 
 
 
+// scroll up down
 
+let isScrollingDown = true; // Keeps track of scroll direction
+
+function scrollable() {
+    if (isScrollingDown) {
+        // Scroll to the bottom of the page
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        document.getElementById('scrollToggle').innerText = 'Scroll Up';
+    } else {
+        // Scroll to the top of the page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('scrollToggle').innerText = 'Scroll Down';
+    }
+    isScrollingDown = !isScrollingDown; // Toggle direction
+}
 
