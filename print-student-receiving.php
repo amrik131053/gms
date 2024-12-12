@@ -47,6 +47,8 @@ $Gender=$row6['Sex'];
 $imageURL=$row6['Image'];
 $fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
 
+if($CollegeID!=61)
+{
 $ch = curl_init($fullURL);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $imageData = curl_exec($ch);
@@ -59,7 +61,7 @@ if (curl_errno($ch)) {
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 if ($httpCode != 200) {
     // echo $fullURL;
-    echo $IDNo;
+    // $pdf-> Image('dist/img/male.png',180,26.8,20,21);
     // echo 'HTTP error: ' . $httpCode;
     curl_close($ch);
     exit;
@@ -82,6 +84,13 @@ switch ($mimeType) {
 
 $base64Image = base64_encode($imageData);
 $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
+}
+else{
+$extension="png";
+    $imageSrc="dist/img/male.png";
+}
+
+
 
 $srno=1;
 $x=0;
@@ -108,6 +117,7 @@ if($imageURL!='')
 $pdf-> Image($imageSrc,180,26.8,20,21,$extension);
 }else
 {
+
 if($Gender=='Male')
 {
     $pdf-> Image('dist/img/male.png',180,26.8,20,21);
