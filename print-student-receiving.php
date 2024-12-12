@@ -58,7 +58,7 @@ if (curl_errno($ch)) {
 }
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 if ($httpCode != 200) {
-    echo $fullURL;
+    // echo $fullURL;
     echo $IDNo;
     // echo 'HTTP error: ' . $httpCode;
     curl_close($ch);
