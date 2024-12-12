@@ -197,7 +197,7 @@ $CourseNameU=strtoupper($CourseName);
                             <td></td>
                             <td></td>
                             <td>{$PID}</td>
-                            <td>{strtoupper($CourseNameU)}</td>
+                            <td>{$CourseNameU}</td>
                             <td></td>
                             <td></td>
                             <td></td>

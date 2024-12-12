@@ -6,6 +6,7 @@ date_default_timezone_set("Asia/Kolkata");
    $college=$_POST['College'];
    $course=$_POST['Course'];
    $yoa=$_POST['Batch'];
+   $session=$_POST['sessions'];
    $no_sem=$_POST['no_sem'];
    $count=0;
 class CustomPDF extends FPDF {
@@ -24,7 +25,7 @@ class CustomPDF extends FPDF {
 $pdf = new CustomPDF();
 
         // $pdf->AddPage('P', 'A4');  
-$sql = "SELECT  * FROM Admissions where CollegeID='$college'AND CourseID='$course'AND Batch='$yoa' AND Status>'0' order by UniRollNo desc";
+ $sql = "SELECT  * FROM Admissions where CollegeID='$college'AND CourseID='$course'AND Batch='$yoa' and Session='$session' AND Status>'0' order by UniRollNo desc";
 $stmt1 = sqlsrv_query($conntest,$sql);
 while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 {
@@ -43,6 +44,44 @@ $college = $row6['CollegeName'];
 $CourseID=$row6['CourseID'];
 $CollegeID=$row6['CollegeID'];
 $Gender=$row6['Sex'];
+$imageURL=$row6['Image'];
+$fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+
+$ch = curl_init($fullURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$imageData = curl_exec($ch);
+if (curl_errno($ch)) {
+    
+    echo 'cURL error: ' . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo $fullURL;
+    echo $IDNo;
+    // echo 'HTTP error: ' . $httpCode;
+    curl_close($ch);
+    exit;
+}
+curl_close($ch);
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->buffer($imageData);
+$extension = 'jpeg'; 
+switch ($mimeType) {
+    case 'image/jpeg':
+        $extension = 'jpeg';
+        break;
+    case 'image/png':
+        $extension = 'png';
+        break;
+    default:
+        echo 'Unsupported image type: ' . $mimeType;
+        exit;
+}
+
+$base64Image = base64_encode($imageData);
+$imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
 
 $srno=1;
 $x=0;
@@ -60,13 +99,15 @@ $pdf->SetTextColor(0,0,0);
 $pdf-> Image('dist\img\new-logo.jpg',10,8,55,10);
 $pdf-> Image('dist\img\naac-logo.jpg',170,8,30,10);
 $pdf->SetXY(10,25);
-if($img!='')
+if($imageURL!='')
 {
-$pic = 'data://text/plain;base64,' . base64_encode($img);
-$info = getimagesize($pic);
-$extension = explode('/', mime_content_type($pic))[1];
-$pdf-> Image($pic,180,26.8,20,21,$extension);
-}else{
+// $pic = 'data://text/plain;base64,' . base64_encode($img);
+// $info = getimagesize($pic);
+// $extension = explode('/', mime_content_type($pic))[1];
+// $pdf-> Image($pic,180,26.8,20,21,$extension);
+$pdf-> Image($imageSrc,180,26.8,20,21,$extension);
+}else
+{
 if($Gender=='Male')
 {
     $pdf-> Image('dist/img/male.png',180,26.8,20,21);
