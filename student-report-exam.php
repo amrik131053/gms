@@ -52,7 +52,7 @@ ini_set('max_execution_time', '0');
               </div>
               <div class="col-lg-2">
                
-                      <select   id='semester' class="form-control">
+                      <select   id='semester' name="sessions" class="form-control">
                         <option value="">SESSION </option>
                     <?php  $GetSession="SELECT DISTINCT Session FROM Admissions ";
                             $GetSessionRun=sqlsrv_query($conntest,$GetSession);
