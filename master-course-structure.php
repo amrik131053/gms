@@ -118,7 +118,7 @@
                                 <div class="col-lg-1">
                                     <label>Batch</label>
                                     <select id="batch" name="batch" class="form-control form-control-sm" required>
-                                        <option value="2025">2025</option>
+                                        <option value="">Batch</option>
                                         <?php 
                               for($i=2011;$i<=2030;$i++)
                                  {?>
