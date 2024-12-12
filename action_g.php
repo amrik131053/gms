@@ -2949,9 +2949,9 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
                 <b><?= $row['CollegeName']; ?>(<?=$CollegeID;?>)</b>
             </h3>
             <div class="card-tools">
-                <button type="button" class="btn btn-tool">
+                <!-- <button type="button" class="btn btn-tool">
                     <i class="fas fa-edit" onclick="AddleaveAuthority(<?=$CollegeID;?>);"></i>
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-plus" onclick="show_all_depaertment(<?= $CollegeID; ?>);"></i>
                 </button>
@@ -2973,21 +2973,20 @@ and vehicle_allotment.status!='5' AND vehicle_allotment.status!='2'";
       }     
        elseif($code==57)
       {
-      
-      $collegeId=$_POST['collegeId'];
+             $collegeId=$_POST['collegeId'];
              $check_college_emp="SELECT * FROM MasterDepartment  Where  CollegeId='$collegeId' ";
-         $check_college_emp_run=sqlsrv_query($conntest,$check_college_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+             $check_college_emp_run=sqlsrv_query($conntest,$check_college_emp,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
           while($row=sqlsrv_fetch_array($check_college_emp_run,SQLSRV_FETCH_ASSOC))
                 {
-          $departmentid=$row['Id'];
+             $departmentid=$row['Id'];
              $emp_count="SELECT * FROM Staff  Where  DepartmentID='$departmentid' and CollegeId='$collegeId' and JobStatus='1'";
-         $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-          $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
-      ?>
-    <li class="nav-item " onclick="show_emp_all_department('<?=$collegeId;?>','<?=$departmentid;?>');">
-        <a href="#" class="nav-link">
-            <i class="fas fa-inbox"></i> <?=$row['Department'];?>
-            <span class="badge bg-primary float-right"><?=$emp_counsst_college;?></span>
+             $emp_count_run=sqlsrv_query($conntest,$emp_count,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+             $emp_counsst_college=sqlsrv_num_rows($emp_count_run);
+            ?>
+         <li class="nav-item " onclick="show_emp_all_department('<?=$collegeId;?>','<?=$departmentid;?>');">
+               <a href="#" class="nav-link">
+              <i class="fas fa-inbox"></i> <?=$row['Department'];?>
+              <span class="badge bg-primary float-right"><?=$emp_counsst_college;?></span>
         </a>
     </li>
     <?php 
@@ -3146,6 +3145,13 @@ else { ?>
             }
           
         }
+        $srNo=1;
+        if($qcode=='college' || $qcode=='department')
+        {?>
+&nbsp;&nbsp;&nbsp;<input type="checkbox" id="select_all13"
+onclick="selectForLeave();" class="checkbox" style="width: 20px; height: 20px; margin-left: 35px;display: flex; align-items: center;">
+<?php
+        } 
         $result = sqlsrv_query($conntest,$query);
         while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) )
         {
@@ -3161,7 +3167,8 @@ else { ?>
 
         ?>
             <div class="card card-widget collapsed-card">
-    <div class="card-header" style="background-color:white!important;">
+                <div class="card-header" style="background-color:white!important;">
+       
         <?php 
         $cssCheck="";
         if($qcode=='college' || $qcode=='department')
@@ -3170,18 +3177,16 @@ else { ?>
         }
         ?>
         <div class="user-block" style="<?=$cssCheck;?>">
-            <!-- Checkbox -->
-             <?php 
+         
+            <?php 
              if($qcode=='college' || $qcode=='department')
              {
-                ?>
-<!-- Checkbox for selecting employees -->
-<input type="checkbox" class="form-control empidA" id="emp_<?=$row['IDNo'];?>" value="<?=$row['IDNo'];?>" style="width: 20px; height: 20px; margin-right: 10px;">
+                 ?>
+                
+<b style="color:black!important;"><?=$srNo;?></b>&nbsp;&nbsp;&nbsp;<input type="checkbox" class="form-control empidA" id="emp_<?=$row['IDNo'];?>" value="<?=$row['IDNo'];?>" style="width: 20px; height: 20px; margin-right: 10px;">
 
                 <?php 
              }?>
-
-            <!-- Image and Information -->
             <div style="<?=$cssCheck;?>">
                 <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');">
                     <?php 
@@ -3250,7 +3255,9 @@ else { ?>
 </div>
 
           
-<?php }?>
+<?php
+$srNo++;
+}?>
     <?php 
       if($qcode=='college' || $qcode=='department')
       {

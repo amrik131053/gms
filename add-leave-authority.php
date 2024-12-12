@@ -222,7 +222,7 @@ for (var i = 0; i < len_student; i++) {
   }
 }
 if (student_str.length === 0 ) {
-  ErrorToast('bg-danger','please select atleast one employee');
+  ErrorToast('please select atleast one employee','bg-danger');
 } else {
   var spinner = document.getElementById("ajax-loader");
   if (spinner) {
@@ -250,7 +250,7 @@ if (student_str.length === 0 ) {
 }
 }
 else{
-    ErrorToast('bg-danger','Try Again');
+    ErrorToast('please enter recommend authority & senction authority','bg-warning');
 }
 }
               function show_emp_all_college(collegeId)
@@ -292,6 +292,7 @@ else{
                 // console.log(response);
                   spinner.style.display='none';
                  document.getElementById("show_record").innerHTML=response;
+                 document.getElementById("CollegeID_SetOnly").value=collegeId;
                  document.getElementById("CollegeID_Set").value='CollegeID='+collegeId;
                  document.getElementById("CollegeID_Set").value='DepartmentID='+department;
               }
@@ -811,11 +812,12 @@ function deleteaddtional(id,emp) {
          var exportCode=20;
 
          var CollegeId=document.getElementById('CollegeID_Set').value;
+         var CollegeIDOnly=document.getElementById('CollegeID_SetOnly').value;
          
         if (CollegeId!='') 
          {
            
-          window.location.href="export.php?exportCode="+exportCode+"&CollegeId="+CollegeId;
+          window.location.href="export.php?exportCode="+exportCode+"&CollegeId="+CollegeId+"&CollegeIDOnly="+CollegeIDOnly;
          }
          else
          {
@@ -1148,6 +1150,40 @@ function selectForDelete()
         else
         {
             $('#select_all1').prop('checked',false);
+        }
+    });
+ 
+}
+function selectForLeave()
+{
+        if(document.getElementById("select_all13").checked)
+        {
+            $('.empidA').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else 
+        {
+             $('.empidA').each(function()
+             {
+                this.checked = false;
+            });
+        }
+ 
+    $('.empidA').on('click',function()
+    {
+        var a=document.getElementsByClassName("empidA:checked").length;
+        var b=document.getElementsByClassName("empidA").length;
+        
+        if(a == b)
+        {
+
+            $('#select_all13').prop('checked',true);
+        }
+        else
+        {
+            $('#select_all13').prop('checked',false);
         }
     });
  
@@ -3067,6 +3103,7 @@ function toggleLeavingDate(selectElement) {
             </button>
       </span>
       <input type="hidden" id="CollegeID_Set">
+      <input type="hidden" id="CollegeID_SetOnly">
 
       <!-- <div class="card-tools">
         <div class="input-group ">
