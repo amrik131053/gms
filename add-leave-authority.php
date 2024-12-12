@@ -1,7 +1,12 @@
 <?php  
    include "header.php";   
    ?>
+   <style>
+
+   </style>
    <script type="text/javascript">
+
+
       show_category_wise();
    function show_category_wise()
           {
@@ -200,7 +205,54 @@
               }
            });
           }      
+          function submitLeaveAuthority() {
+        
+        var recommendID=document.getElementById("recommendID").value;
+        var senctionID=document.getElementById("senctionID").value;
+     if(recommendID!='' &&  senctionID!='') 
+     {
 
+var students = document.getElementsByClassName('empidA');
+var len_student = students.length;
+var code = 12; 
+var student_str = [];
+for (var i = 0; i < len_student; i++) {
+  if (students[i].checked === true) {
+      student_str.push(students[i].value);
+  }
+}
+if (student_str.length === 0 ) {
+  ErrorToast('bg-danger','please select atleast one employee');
+} else {
+  var spinner = document.getElementById("ajax-loader");
+  if (spinner) {
+      spinner.style.display = 'block';
+  }
+  $.ajax({
+      url: 'action_a.php',
+      data: { students: student_str, flag: code,recommendID:recommendID,senctionID:senctionID }, 
+      type: 'POST',
+      success: function (data) {
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+          // console.log(data);
+          SuccessToast('Submit Successfully');
+          // alert('Inserted Successfully.');
+      },
+      error: function (xhr, status, error) {
+          if (spinner) {
+              spinner.style.display = 'none';
+          }
+          // alert('An error occurred: ' + error);
+      }
+  });
+}
+}
+else{
+    ErrorToast('bg-danger','Try Again');
+}
+}
               function show_emp_all_college(collegeId)
           {
             var qcode="college";
@@ -278,12 +330,12 @@
               {
                   // spinner.style.display='none';
                   document.getElementById("show_record").innerHTML=response;
-         // document.getElementById('emp_name').value="";
-
-              }
-           });
+                  // document.getElementById('emp_name').value="";
+                  
+                }
+            });
         }
-          } 
+    }  
           function search_all_employee()
           {
             var qcode="search";
@@ -469,6 +521,40 @@ function emp_detail_verify2(id)
               {
                   
                  document.getElementById("emp_detail_status_2").innerHTML=response;
+              }
+           });
+}
+function emp_detail_verify21(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_21").innerHTML=response;
+              }
+           });
+}
+function emp_detail_verify23(id)
+ {
+     
+           var code=186;
+           $.ajax({
+              url:'action_g.php',
+              type:'POST',
+              data:{
+                 code:code,id:id
+              },
+              success: function(response) 
+              {
+                  
+                 document.getElementById("emp_detail_status_23").innerHTML=response;
               }
            });
 }
@@ -2856,7 +2942,7 @@ function toggleLeavingDate(selectElement) {
    </div>
 </div>
 
-
+<button id="scrollToggle" onclick="scrollable();" class="unique-btn">Scroll Down</button>
 
     <!-- Main content -->
     <section class="content">

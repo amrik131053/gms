@@ -3130,6 +3130,7 @@ else { ?>
         }
         elseif($qcode=='college')
         {
+
             $collegeId=$_POST['collegeId'];  
             $query ="SELECT *, MasterDepartment.Department as DepartmentName,MasterDepartment.Id  as depid FROM Staff left join MasterDepartment ON Staff.DepartmentId=MasterDepartment.Id Where Staff.CollegeId='$collegeId' ANd Staff.JobStatus='1' ";
         }
@@ -3160,94 +3161,121 @@ else { ?>
 
         ?>
             <div class="card card-widget collapsed-card">
-              <div class="card-header" style="background-color:white!important;">
-                <div class="user-block">
-                <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');"><?php if($row['JobStatus']==1){$borderColor="#28a745";}else{ $borderColor="red";}  echo  "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";?>
-                     </div>
-                     <span class="username"><a href="#"><?=$row['Name'];?> (<?=$row['IDNo'];?>)</a></span>
-                  <span class="description"><?=$row['Designation'];?></span>
-                  <span title="Department" class="username"  style="color:#a62535;font-size:12px;"><i class="fa fa-home" aria-hidden="true"></i> <b><?=$row['Department'];?>(<?=$row['depid'];?>)</b></span>
-                  <?php
-                            $getRoleName="SELECT * FROM role_name where id='".$row['RoleID']."'";
-                            $getRoleNameRun=mysqli_query($conn,$getRoleName);
-                            if($rowGetRoleName=mysqli_fetch_array($getRoleNameRun))
-                            {
-                           
-                           ?> <span title="Role" class="username  "  style="color:green!important;font-size:12px;"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<?=$rowGetRoleName['role_name'];?>(<?=$rowGetRoleName['id'];?>)</span>
-                           <?php 
-                            }?>
-                </div>
-                &nbsp;
-                  &nbsp;
-                  &nbsp;
-                  &nbsp;
-                  &nbsp;
-               
-                <!-- /.user-block -->
-                <div class="card-tools">
-            <?php  if($role_id==2) {?>
-                <button onclick="sessionAlllogout(<?=$row['IDNo'];?>);" type="button" class="btn btn-danger btn-xs">
-                 LogOut
-                  </button>
-                  <?php
-                     }
-                     ?>
-                <button type="button" class="btn " title="Mark as read">
-                  <?php
-                     
-                  $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'";
-                                      $get_card_run=sqlsrv_query($conntest,$get_card,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-                                      $count_0=0;
-                                      $color='';
-                                        if(sqlsrv_num_rows($get_card_run)>0)
-                                        {                                        
-                                          $color="red";
-                                        }  
-                                 
-                                   if($role_id==3 || $role_id==2) {
-                                            
-                            if($row['depid']!='81')
-                            {
-                        ?>
-                    <!-- <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCard(<?=$row['IDNo'];?>);"></i> -->
-                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printEmpIDCardNew(<?=$row['IDNo'];?>);"></i>
-                    <?php 
-                        }
-                        else { ?>
-                    <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
-                        onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
-                    <?php
-                        }     # code...
-                  
+    <div class="card-header" style="background-color:white!important;">
+        <?php 
+        $cssCheck="";
+        if($qcode=='college' || $qcode=='department')
+        {
+            $cssCheck="display: flex; align-items: center;";
+        }
+        ?>
+        <div class="user-block" style="<?=$cssCheck;?>">
+            <!-- Checkbox -->
+             <?php 
+             if($qcode=='college' || $qcode=='department')
+             {
+                ?>
+<!-- Checkbox for selecting employees -->
+<input type="checkbox" class="form-control empidA" id="emp_<?=$row['IDNo'];?>" value="<?=$row['IDNo'];?>" style="width: 20px; height: 20px; margin-right: 10px;">
 
-                        ?>
-                  </button>
-                <?PHP }?>
-              
-                  <button type="button" class="btn " data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                
+                <?php 
+             }?>
+
+            <!-- Image and Information -->
+            <div style="<?=$cssCheck;?>">
+                <div data-toggle="modal" data-target="#exampleModal" onclick="view_image('<?=$row['IDNo'];?>');">
+                    <?php 
+                        if($row['JobStatus'] == 1) {
+                            $borderColor = "#28a745";
+                        } else {
+                            $borderColor = "red";
+                        }
+                        echo "<img class='direct-chat-img' src='".$BasURL.'Images/Staff/'.$emp_pic."' alt='message user image' style='border:4px solid ".$borderColor."'>";
+                    ?>
                 </div>
-               
-                <!-- /.card-tools -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body" id="emp_details_colaped<?=$row['IDNo'];?>">
-               
-              </div>
-              <!-- /.card-body -->
-            
-              <div class="card-footer">
-               
-              </div>
+                <div>
+                    <span class="username"><a href="#"><?=$row['Name'];?> (<?=$row['IDNo'];?>)</a></span>
+                    <span class="description"><?=$row['Designation'];?></span>
+                    <span title="Department" class="username" style="color:#a62535;font-size:12px;">
+                        <i class="fa fa-home" aria-hidden="true"></i> <b><?=$row['Department'];?>(<?=$row['depid'];?>)</b>
+                    </span>
+                    <?php
+                        $getRoleName = "SELECT * FROM role_name WHERE id='".$row['RoleID']."'";
+                        $getRoleNameRun = mysqli_query($conn, $getRoleName);
+                        if($rowGetRoleName = mysqli_fetch_array($getRoleNameRun)) {
+                    ?>
+                    <span title="Role" class="username" style="color:green!important;font-size:12px;">
+                        <i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<?=$rowGetRoleName['role_name'];?> (<?=$rowGetRoleName['id'];?>)
+                    </span>
+                    <?php } ?>
+                </div>
             </div>
+        </div>
+        <!-- /.user-block -->
+        
+        <div class="card-tools">
+            <?php if($role_id == 2) { ?>
+                <button onclick="sessionAlllogout(<?=$row['IDNo'];?>);" type="button" class="btn btn-danger btn-xs">LogOut</button>
+            <?php } ?>
+            <button type="button" class="btn" title="Mark as read">
+                <?php
+                    $get_card = "SELECT * FROM TblStaffSmartCardReport WHERE IDNo='".$row['IDNo']."'";
+                    $get_card_run = sqlsrv_query($conntest, $get_card, array(), array("Scrollable" => SQLSRV_CURSOR_KEYSET));
+                    $color = (sqlsrv_num_rows($get_card_run) > 0) ? "red" : "";
+                ?>
+                <?php if($role_id == 3 || $role_id == 2) { ?>
+                    <?php if($row['depid'] != '81') { ?>
+                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                           onclick="printEmpRecordPdf(<?=$row['IDNo'];?>);"></i>
+                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                           onclick="printEmpIDCardNew(<?=$row['IDNo'];?>);"></i>
+                    <?php } else { ?>
+                        <i class="fa fa-print fa-lg" style="color:<?=$color;?>"
+                           onclick="printfourthCard(<?=$row['IDNo'];?>);"></i>
+                    <?php } ?>
+                <?php } ?>
+            </button>
+            <button type="button" class="btn" data-card-widget="collapse" onclick="update_emp_record(<?=$row['IDNo'];?>);">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <!-- /.card-tools -->
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body" id="emp_details_colaped<?=$row['IDNo'];?>">
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>
+
           
 <?php }?>
+    <?php 
+      if($qcode=='college' || $qcode=='department')
+      {
+?>
+
+<div class="row">
+&nbsp;
+&nbsp; <div class="col-lg-3">
+        <label>Recommend Authority</label><input type="number" onkeyup="emp_detail_verify21(this.value);" class="form-control" name="" id="recommendID">
+        <p id="emp_detail_status_21"><b></b></p>
+    </div>
+    <div class="col-lg-3">
+        <label>Senction Authority</label><input type="number" onkeyup="emp_detail_verify23(this.value);" class="form-control" name="" id="senctionID">
+        <p id="emp_detail_status_23"><b></b></p>
+    </div>
+    <div class="col-lg-3"><label for="">Action</label><br><button type="button" onclick="submitLeaveAuthority();" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+
+
+      </br>
+      </br>
+<?php 
+
+      }?>
     <?php 
       sqlsrv_close($conntest);
       mysqli_close($conn);
@@ -31971,9 +31999,9 @@ elseif($code==431)
                          
             ?>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 ">
         <div class="card card-primary card-outline">
-            <div class="card-body box-profile">
+            <div class="card-body  box-profile">
                 <div class="text-center">
                     <?php echo '<img class="profile-user-img img-fluid img-circle" width="100" src="'.$BasURL.'Images/Staff/'.$ImagePath.'" alt="User profile picture">';?>
                 </div>
@@ -33349,7 +33377,35 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
                                 </tbody>
                             </table>
                         </div>
-                    <?php } ?>
+                    <?php }
+                    else{
+                        ?>
+<table class="table  table-bordered " style="font-size:14px;">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>College Name</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                        <tr>
+                            <td colspan="8"><b class="text-danger">No Record</b></td>
+                            
+                        </tr>
+                    </tbody>
+                    </table>
+
+<?php 
+                    }
+                    
+                    ?>
                 </div>
             </div>
         
