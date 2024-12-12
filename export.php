@@ -10881,7 +10881,7 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
         $query.=" ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
 
 //echo $query;
-        $result = sqlsrv_query($conntest, $query); 
+        $result = sqlsrv_query($conntest,$query); 
         if ($result === false) {
             die(print_r(sqlsrv_errors(), true)); // Handle query error
         } 
@@ -10984,7 +10984,263 @@ $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Ro
     echo $exportstudy;
     $fileName="Student Report ";
 }
+else if($exportCode==73.1)
+{
+    $StartDate=$_GET['StartDate'];
+    $EndDate=$_GET['EndDate'];
+    $CollegeID=$_GET['CollegeID'];
+    $CourseID=$_GET['CourseID'];
+    $exportstudy = '';
+    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>    
+    <tr style='background-color:black; color:white;'>
+   
+    <th>Faculty Name </th>
+    <th>Total Admissions </th>
+    <th>SC Admissions </th>
+    <th>Remarks </th>
+   
+    </tr>
+        </thead>";
+$srNo=1;
+ if($CollegeID==0 && $CourseID==0)
+ {
 
+ $query ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";
+        
+        if($CollegeID>0)
+        {
+            $query.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query.="AND CourseID='$CourseID'";
+        }
+        $query.=" ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
+
+        $result = sqlsrv_query($conntest,$query,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+
+         $Total=sqlsrv_num_rows($result);
+
+
+$query_tsc ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";
+        
+        if($CollegeID>0)
+        {
+            $query_tsc.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query_tsc.="AND CourseID='$CourseID'";
+        }
+        $query_tsc.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'AND category ='SC'  ORDER BY IDNo";
+
+        $result_tsc = sqlsrv_query($conntest,$query_tsc,array(),array("Scrollable" => SQLSRV_CURSOR_KEYSET)); 
+
+         $Total_tsc=sqlsrv_num_rows($result_tsc);
+    $stmt = sqlsrv_query($conntest, $query);
+if ($stmt === false) {
+    die(print_r(sqlsrv_errors(), true)); // Logs detailed error information
+}
+
+    $exportstudy .= "<tr>
+                <td>Guru Kashi University</td> <td>{$Total}</td>
+                <td>{$Total_tsc}</td><td></td></tr>" ;                          
+ 
+}
+      
+
+
+       $query1 = "SELECT  Distinct CollegeID,CollegeName  FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1);
+                                 while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                           $CollegeID=$rowCourseName['CollegeID'];
+                            $CollegeName=$rowCourseName['CollegeName'];
+                            //$CourseID=$rowCourseName['CourseID'];
+              $exportstudy .= "<tr>
+                <td>{$CollegeName}</td>";                        
+
+        $query ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";        
+        if($CollegeID>0)        {
+            $query.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query.="AND CourseID='$CourseID'";
+        }
+        $query.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
+
+        $result_c = sqlsrv_query($conntest,$query,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_c=sqlsrv_num_rows($result_c);
+
+
+
+ $query_sc ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";        
+        if($CollegeID>0)        {
+            $query_sc.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query_sc.="AND CourseID='$CourseID'";
+        }
+        $query_sc.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND Category='SC'  ORDER BY IDNo";
+
+        $result_c = sqlsrv_query($conntest,$query_sc,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_sc=sqlsrv_num_rows($result_c);
+
+     
+                           
+
+                           $exportstudy .="<td>{$Total_c}</td>
+                <td>{$Total_sc}</td><td></td>" ;                          
+      
+  }
+?>
+
+                              
+                <!-- ----------------------------------------------------------------------------------- -->
+
+       
+
+
+       <?php
+     
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Summary Report";
+}
+else if($exportCode==73.2)
+{
+    $StartDate=$_GET['StartDate'];
+    $EndDate=$_GET['EndDate'];
+    $CollegeID=$_GET['CollegeID'];
+    $CourseID=$_GET['CourseID'];
+    $exportstudy = '';
+    $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
+<thead>    
+    <tr style='background-color:black; color:white;'>
+   
+    <th>Faculty Name </th>
+    <th>Total Admissions </th>
+    <th>SC Admissions </th>
+    <th>Remarks </th>
+   
+    </tr>
+        </thead>";
+$srNo=1;
+
+$query1_cname = "SELECT  Distinct CollegeName FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND CollegeID='$CollegeID'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1_cname);
+                                 while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                           $CollegeName=$rowCourseName['CollegeName'];
+                           
+                        }
+
+ $query ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";
+        
+        if($CollegeID>0)
+        {
+            $query.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query.="AND CourseID='$CourseID'";
+        }
+        $query.=" ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
+
+        $result = sqlsrv_query($conntest,$query,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+
+         $Total=sqlsrv_num_rows($result);
+
+
+$query_tsc ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";
+        
+        if($CollegeID>0)
+        {
+            $query_tsc.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query_tsc.="AND CourseID='$CourseID'";
+        }
+        $query_tsc.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'AND category ='SC'  ORDER BY IDNo";
+
+        $result_tsc = sqlsrv_query($conntest,$query_tsc,array(),array("Scrollable" => SQLSRV_CURSOR_KEYSET)); 
+
+         $Total_tsc=sqlsrv_num_rows($result_tsc);
+    $stmt = sqlsrv_query($conntest, $query);
+if ($stmt === false) {
+    die(print_r(sqlsrv_errors(), true)); // Logs detailed error information
+}
+
+    $exportstudy .= "<tr>
+                <td>{$CollegeName}</td> <td>{$Total}</td>
+                <td>{$Total_tsc}</td><td></td></tr>" ;                          
+ 
+     
+
+
+       $query1 = "SELECT  Distinct Course,CourseID FROM Admissions WHERE AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND CollegeID='$CollegeID'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1);
+                                 while($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                           $CourseID=$rowCourseName['CourseID'];
+                            $Course=$rowCourseName['Course'];
+                            //$CourseID=$rowCourseName['CourseID'];
+              $exportstudy .= "<tr>
+                <td>{$Course}</td>";                        
+
+        $query ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";        
+        if($CollegeID>0)        {
+            $query.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query.="AND CourseID='$CourseID'";
+        }
+        $query.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00'  ORDER BY IDNo";
+
+        $result_c = sqlsrv_query($conntest,$query,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_c=sqlsrv_num_rows($result_c);
+
+
+
+ $query_sc ="SELECT Distinct IDNo FROM Admissions WHERE (1=1)";        
+        if($CollegeID>0)        {
+            $query_sc.="AND CollegeID='$CollegeID'";
+        }
+        if($CourseID>0)
+        {
+        $query_sc.="AND CourseID='$CourseID'";
+        }
+        $query_sc.="ANd AdmissionDate BETWEEN '$StartDate 01:00:00' AND '$EndDate 23:59:00' AND Category='SC'  ORDER BY IDNo";
+
+        $result_c = sqlsrv_query($conntest,$query_sc,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+         $Total_sc=sqlsrv_num_rows($result_c);
+
+     
+                           
+
+                           $exportstudy .="<td>{$Total_c}</td>
+                <td>{$Total_sc}</td><td></td>" ;                          
+      
+  }
+?>
+
+                              
+                <!-- ----------------------------------------------------------------------------------- -->
+
+       
+
+
+       <?php
+     
+    $exportstudy.="</table>";
+    echo $exportstudy;
+    $fileName="Summary Report";
+}
 elseif ($exportCode == 74)
 {
     $RoomType = $_POST['roomTypeID'];

@@ -27296,7 +27296,7 @@ else if($code==396.4)
                                                      <i class="fa fa-users fa-lg" ></i>
                                                 </button>
                                                 <button type="button" class="btn btn-tool"
-                                                    onclick="exportTotalScordingToCourseSumy(<?=$CourseID;?>);"
+                                                    onclick="export_daily_summary(0,0);;"
                                                     style="float:right;padding:15px;">
                                                     <i class="fa fa-download fa-lg"></i>
                                                 </button>
@@ -27338,7 +27338,8 @@ else if($code==396.4)
 
           $query_sc = "SELECT  Distinct IDNo  FROM Admissions WHERE AdmissionDate BETWEEN ? AND ?  AND CollegeID='$CollegeID' AND Category='SC'";
         $params_sc = array("$StartDate 01:00:00", "$EndDate 23:59:00");
-        $result_sc = sqlsrv_query($conntest,$query_sc,$params,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+        $result_sc = sqlsrv_query($conntest,$query_sc,$params_sc,array( "Scrollable" => SQLSRV_CURSOR_KEYSET )); 
+
          $Total_sc=sqlsrv_num_rows($result_sc);
                                     ?>
 
@@ -27361,7 +27362,7 @@ else if($code==396.4)
                                                      <i class="fa fa-users fa-lg" ></i>
                                                 </button>
                                                 <button type="button" class="btn btn-tool"
-                                                    onclick="exportTotalScordingToCourseSumy(<?=$CollegeID;?>);"
+                                                    onclick="export_daily_summary_C(<?=$CollegeID;?>,0);"
                                                     style="float:right;padding:15px;">
                                                     <i class="fa fa-download fa-lg"></i>
                                                 </button>
