@@ -312,6 +312,11 @@ function addPhd(form) {
                 SuccessToast('Successfully Added');
                 showProfileData();
             }  
+            else if (response == 2) {
+                ErrorToast('Please Upload size must be less than 500kb', 'bg-warning');
+            } else if (response == 3) {
+                ErrorToast('Please Upload must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
+            }
             else {
                 ErrorToast('All inputs required', 'bg-danger');
             }
