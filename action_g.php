@@ -11909,6 +11909,10 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $classroll=$row['Class_RollNo'];
     $loanNumber=$row['loanNumber'];
     $applicationNo=$row['applicationNo'];
+
+     $loanNumber1=$row['loanNumber1'];
+    $applicationNo1=$row['applicationNo1'];
+
       $UTRNumber=$row['UTRNumber'];
     $loan_amount=$row['loan_amount'];
     if($row['dateVerification']!='')
@@ -11921,6 +11925,15 @@ if ($row=mysqli_fetch_array($get_student_details_run))
         $dateVerification=date('Y-m-d');
     }
 
+if($row['dateVerification1']!='')
+    {
+
+        $dateVerification1=$row['dateVerification1'];
+    }
+    else
+    {
+        $dateVerification1=date('Y-m-d');
+    }
 
     if($row['datePayment']!='')
     {
@@ -12184,6 +12197,27 @@ if($statusVerification>0)
 
 
             </div>
+          
+  <div class="col-lg-3">
+                <label>Loan Account No-1</label>
+                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" readonly>
+
+
+            </div>
+
+            <div class="col-lg-3">
+                <label>ApplicationNo-1</label>
+                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" readonly>
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" readonly>
+
+
+            </div>
+
             <div class="col-lg-3">
                 <label>Status</label>
                 <Select class="form-control" id="statusVerification" readonly>
@@ -12196,6 +12230,8 @@ if($statusVerification>0)
                         }else
                         {
 ?> <option value="<?=$statusVerification;?>">Verified</option>
+ <option value="0">Pending</option>
+
 
                     <?php 
                         }
@@ -12222,6 +12258,7 @@ if($statusVerification>0)
 
 
             </div>
+            
 
 
             <?php
@@ -12247,6 +12284,27 @@ else
                 <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>">
 
 
+
+            </div>
+
+              <div class="col-lg-3">
+                <label>Loan Account No-1</label>
+                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" >
+
+
+            </div>
+
+            <div class="col-lg-3">
+                <label>ApplicationNo-1</label>
+                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" >
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" >
+
+
             </div>
             <div class="col-lg-3">
                 <label>Status</label>
@@ -12255,6 +12313,7 @@ else
                         if($statusVerification=="0"){
                             ?><option value="<?=$statusVerification;?>">Pending</option>
                     <option value="1">Verified</option>
+                     <option value="0">Pending</option>
                     <?php 
 
                         }else
@@ -12318,10 +12377,15 @@ $loanNumber = $_POST['loanNumber'];
 $applicationNo = $_POST['applicationNo'];
 $statusVerification = $_POST['statusVerification'];
 $dateVerification = $_POST['dateVerification'];
+
+$applicationNo1 = $_POST['applicationNo1'];
+$loanNumber1 = $_POST['loanNumber1'];
+$dateVerification1 = $_POST['dateVerification1'];
+
 $UTRNumber = $_POST['UTRNumber'];
 $loan_amount = $_POST['loan_amount'];
 $datePayment = $_POST['datePayment'];
- $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment' where id='$id'";
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1'  where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -30044,7 +30108,9 @@ elseif ($code=='385')
                                      <td><?=$get_row['SubjectName'];?></td>
                                      <td><?=$get_row['SubjectCode'];?></td>
                                      <td><?=$get_row['SubjectType'];?></td>
-                                     
+                                  
+                                       <td> 
+                                           <table>
                                         <?php 
                                                $checkSubjectCodeAlreadyAssign="SELECT * FROM SubjectAllotment WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and Semester='$Semester' and SubjectCode='".$get_row['SubjectCode']."' and Status='1'";
                                                $checkSubjectCodeAlreadyAssign_run=sqlsrv_query($conntest,$checkSubjectCodeAlreadyAssign,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -30054,23 +30120,54 @@ elseif ($code=='385')
                                                 while($get_rowSubejctEntry=sqlsrv_fetch_array($checkSubjectCodeAlreadyAssign_run,SQLSRV_FETCH_ASSOC))
                                                 {
                                                 ?>
-                                                <td>
-                                                <b> Assigned To </b><?php getEmployeeName($get_rowSubejctEntry['EmployeeID']);?>(<?=$get_rowSubejctEntry['EmployeeID'];?>) 
-                                              </td>
-                                              <td><button type="button" class="btn btn-warning btn-xs" onclick="submitSubjectDeAllotment('<?=$get_rowSubejctEntry['ID'];?>');">Re-Assigned</button></td>
+                                                <tr><td>
+                                                <b>  </b><?php getEmployeeName($get_rowSubejctEntry['EmployeeID']);?>(<?=$get_rowSubejctEntry['EmployeeID'];?>) -<?=$get_rowSubejctEntry['Section'];?>/<?=$get_rowSubejctEntry['GroupName'];?>
+                                             
+                                               </td><td><button type="button" class="btn btn-danger btn-xs" onclick="submitSubjectDeAllotment('<?=$get_rowSubejctEntry['ID'];?>');"><i class="fa fa-minus"></i></button>
+                                               </td>
+                                             </tr>
                                    
                                                 <?php 
                                                 }
                                               }
-                                              else{
+                                              // else{
                                             ?>
-                                            <td>
+                                          </table>
+
+                                        </td>
+
+                                         <td>
+                                          <table><tr><td>
                                         <input type="number" id="employeeIDOnkeyUp<?=$get_row['SrNo'];?>" class="form-control" onkeyup="emp_detail_verify2('<?=$get_row['SrNo'];?>');">
-                                        <p id="emp_detail_status_2<?=$get_row['SrNo'];?>"></p>
+                                        <p id="emp_detail_status_2<?=$get_row['SrNo'];?>"></p></td><td>
+
+                                        <select name="Section" id="Section<?=$get_row['SrNo'];?>" class="form-control" required="">
+                                    <option value="">Section</option>
                                   
+                                        <option value="A">A</option>
+                                          <option value="B">B</option>
+                                            <option value="C">C</option>
+                                              <option value="D">D</option>
+                                                <option value="E">E</option>
+                                  
+                                </select>
+                              </td><td>
+                                <select name="Group" id="Group<?=$get_row['SrNo'];?>" class="form-control" required="">
+                                    <option value="">Group</option>
+                                  
+                                        <option value="G1">G1</option>
+                                          <option value="G2">G2</option>
+                                            <option value="G3">G3</option>
+                                              <option value="G4">G4</option>
+                                          
+                                  
+                                </select>
+                                  </td>
+                                </tr>
+                              </table>
                                     </td>
                                      <td><button type="button" class="btn btn-success btn-xs" onclick="submitSubjectAllotment('<?=$get_row['SrNo'];?>',<?=$CollegeID;?>,<?=$Course;?>,<?=$Batch;?>,<?=$Semester;?>,<?=$Department;?>,'<?=$get_row['SubjectCode'];?>');">Assigned</button></td>
-                                     <?php }?>
+                                           
 
                                   </tr>
                             <?php 
@@ -30097,9 +30194,10 @@ elseif ($code==386) {
      $Semester=$_POST['Semester'];
      $Department=$_POST['Department'];
      $SubjectCode=$_POST['SubjectCode'];
-    
-      $allotSubjectInsert="INSERT into SubjectAllotment (CollegeID,CourseID,Batch,Semester,SubjectCode,EmployeeID,UpdatedBy,Status,UpdateOn)
-     Values('$CollegeID','$Course','$Batch','$Semester','$SubjectCode','$EmpID','$EmployeeID','1','$timeStamp')";
+         $Section=$_POST['Section'];
+              $Group=$_POST['Group'];
+   $allotSubjectInsert="INSERT into SubjectAllotment (CollegeID,CourseID,Batch,Semester,SubjectCode,EmployeeID,UpdatedBy,Status,UpdateOn,Section,GroupName)
+     Values('$CollegeID','$Course','$Batch','$Semester','$SubjectCode','$EmpID','$EmployeeID','1','$timeStamp','$Section','$Group')";
     $allotSubjectInsertRun=sqlsrv_query($conntest,$allotSubjectInsert);
     if($allotSubjectInsertRun==true)
      {

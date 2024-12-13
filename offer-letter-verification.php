@@ -546,7 +546,9 @@ function edit_student_details_a(id) {
     var applicationNo = document.getElementById('applicationNo').value;
     var statusVerification = document.getElementById('statusVerification').value;
 
-
+ var loanNumber1 = document.getElementById('loanNumber1').value;
+    var applicationNo1 = document.getElementById('applicationNo1').value;
+    var dateVerification1 = document.getElementById('dateVerification1').value;
 
  var UTRNumber = document.getElementById('UTRNumber').value;
  var loan_amount = document.getElementById('loan_amount').value;
@@ -565,8 +567,10 @@ if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerifica
     id: id,
     loanNumber: loanNumber,
     applicationNo: applicationNo,
+    loanNumber1: loanNumber1,
+    applicationNo1: applicationNo1,
     statusVerification: statusVerification,
-    dateVerification: dateVerification,UTRNumber:UTRNumber,loan_amount:loan_amount,datePayment:datePayment,
+    dateVerification: dateVerification,dateVerification1: dateVerification1,UTRNumber:UTRNumber,loan_amount:loan_amount,datePayment:datePayment,
     code: code
   };
   // Send the AJAX request
@@ -575,7 +579,7 @@ if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerifica
     data: data,
     type: 'POST',
     success: function(response) {
-      // console.log(response); // Log the response for debugging
+       console.log(response); // Log the response for debugging
       if (response==1) {
       SuccessToast('Verification successfully');
       // date_by_search();
@@ -736,6 +740,7 @@ document.getElementById('edit_show').innerHTML=data;
 });
 
 }
+
 
 function collegeByDepartment1(College) 
 {  

@@ -2251,6 +2251,9 @@ cities on cities.id=offer_latter.District  where offer_latter.batch='$batch' ";
               <th>Loan Number</th>
               <th>Application No</th>
               <th>Date Of Verification</th>
+               <th>Loan Number1</th>
+              <th>Application No1</th>
+              <th>Date Of Verification1</th>
                <th>Amount</th>
               <th>UTR Number</th>
               <th>Date Of Payment</th>
@@ -2275,6 +2278,9 @@ while($row=mysqli_fetch_array($get_student_details_run))
      $loanNumber=$row['loanNumber'];
       $applicationNo=$row['applicationNo'];
        $dateVerification =$row['dateVerification'];
+        $loanNumber1=$row['loanNumber1'];
+      $applicationNo1=$row['applicationNo1'];
+       $dateVerification1 =$row['dateVerification1'];
           $UTRNumber=$row['UTRNumber'];
       $loan_amount=$row['loan_amount'];
        $datePayment =$row['datePayment'];
@@ -2377,6 +2383,9 @@ else
               <td >{$loanNumber}</td>
                <td >{$applicationNo}</td>
                 <td >{$dateVerification}</td>
+                <td >{$loanNumber1}</td>
+               <td >{$applicationNo1}</td>
+                <td >{$dateVerification1}</td>
                   <td >{$loan_amount}</td>
                     <td >{$UTRNumber}</td>
                       <td >{$datePayment}</td>
