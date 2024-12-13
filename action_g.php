@@ -5036,6 +5036,8 @@ else { ?>
             $relievingDate = $data1['RelievingDate'];
             $stop_date = new DateTime($timeStamp);
               $endDateUpdate=$stop_date->format('Y-m-d');
+              if($data1['RelievingDate']!='')
+              {
                   $dbDateFromUpdate=$data1['RelievingDate']->format('Y-m-d');
                     if($endDateUpdate<=$dbDateFromUpdate)
                     {
@@ -5044,6 +5046,10 @@ else { ?>
                     else{
                         $relievingDateColor = "#f1948a"; // Red 
                     }
+                }
+                else{
+                    $relievingDateColor="";
+                }
     
         ?>
             <tr style="background: <?= $relievingDateColor; ?>">
