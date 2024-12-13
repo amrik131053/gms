@@ -103,6 +103,11 @@ $(function() {
   var day=document.getElementById('Day').value;
    var lecture=document.getElementById('Lecture').value;
    var subject=document.getElementById('Subject').value;
+   var section=document.getElementById('Section').value;
+   var group=document.getElementById('Group').value;
+
+   if(course!='' && batch!='' && semester!=''&& day!='' && lecture !='' &&subject!='' && section !='' && group!='')
+   {
   var code = 14;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
@@ -110,15 +115,34 @@ $(function() {
         url: 'action_a.php',
         type: 'POST',
         data: {
-            flag: code,course:course,batch:batch,semester:semester,day:day,lecture:lecture,subject:subject
+            flag: code,course:course,batch:batch,semester:semester,day:day,lecture:lecture,subject:subject,section:section,group:group
         },
         success: function(response) {
-            console.log(response);
+
+         if(response=='2')
+            {
+
+               ErrorToast('Lecture Already exist',"bg-danger" );
+            }
+            else if(response=='1')
+            {
+               SuccessToast('Succesfully added');
+            }
+            else
+            {
+
+            }
+           
             spinner.style.display = 'none';
+            
             uploadedRecord();
         }
     });
-
+}
+else
+{
+ ErrorToast('Valid input required',"bg-danger" );
+}
 
 }
 uploadedRecord();
@@ -235,7 +259,8 @@ if (a == true) {
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                         <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Day</label>
                                 <?php $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];?>
@@ -249,7 +274,7 @@ if (a == true) {
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Lecture</label>
                                 <select name="Lecture" id="Lecture" class="form-control" required="">
@@ -262,7 +287,39 @@ if (a == true) {
                                 </select>
                             </div>
                         </div>
-                         
+                         </div>
+                           <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                     <label>Section</label>
+                                <select name="Section" id="Section" class="form-control" required="">
+                                    <option value="">Section</option>
+                                  
+                                        <option value="A">A</option>
+                                          <option value="B">B</option>
+                                            <option value="C">C</option>
+                                              <option value="D">D</option>
+                                                <option value="E">E</option>
+                                  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Group</label>
+                               <select name="Group" id="Group" class="form-control" required="">
+                                    <option value="">Group</option>
+                                  
+                                        <option value="G1">G1</option>
+                                          <option value="G2">G2</option>
+                                            <option value="G3">G3</option>
+                                              <option value="G4">G4</option>
+                                          
+                                  
+                                </select>
+                            </div>
+                        </div>
+                         </div>
                        
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">

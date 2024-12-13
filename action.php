@@ -27097,7 +27097,7 @@ $SubjectName="";
                    <!--  <td><?=$row1['CollegeName'];?></td> -->
                     <td><?=$row1['Course'];?></td>
                     <td><?=$row['SemesterID'];?></td>
-                    <td><?=$row['Batch'];?></td>
+                    <td><?=$row['Batch'];?>-<?=$row['Section'];?>/<?=$row['GroupName'];?></td>
                     <td><?=$row1['SubjectName'];?>(<?=$row['SubjectCode'];?>)</td>
                     
                     

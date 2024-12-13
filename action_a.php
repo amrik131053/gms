@@ -851,6 +851,8 @@ elseif($code==14)
     $day=$_POST['day'];
     $lecture=$_POST['lecture'];
     $subject=$_POST['subject'];
+    $section=$_POST['section'];
+    $group=$_POST['group'];
 
 
            $query1 = "SELECT  Distinct CollegeID  FROM MasterCourseCodes WHERE  CourseID='$course'";
@@ -860,15 +862,25 @@ elseif($code==14)
                                  $CollegeID=$rowCourseName['CollegeID'];
                                  }
 
-$update1 = "INSERT INTO TimeTable(CollegeID,CourseID,Batch,SemesterID,LectureNumber, IDNo,Day,SubjectCode,Examination,CreatedDate) 
-            VALUES('$CollegeID','$course', '$batch', '$semester','$lecture','$EmployeeID','$day','$subject','$CurrentExamination','$timeStamp')";
-                sqlsrv_query($conntest,$update1);
 
-   
-    if ($update1){
+ $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID'";
+        $querydayrun=sqlsrv_query($conntest,$queryday);
+                                 if($querydayrunrow = sqlsrv_fetch_array($querydayrun, SQLSRV_FETCH_ASSOC))
+                                 { 
+                                echo "2";
+                                 }
+                                 else
+                                 {
+
+$update1 = "INSERT INTO TimeTable(CollegeID,CourseID,Batch,SemesterID,LectureNumber, IDNo,Day,SubjectCode,Examination,CreatedDate,Section,GroupName) 
+            VALUES('$CollegeID','$course', '$batch', '$semester','$lecture','$EmployeeID','$day','$subject','$CurrentExamination','$timeStamp','$section','$group')";
+                sqlsrv_query($conntest,$update1);
+if ($update1){
         echo "1";
     } else {
         echo "0";
     }
+   }  
+    
 }
    }
