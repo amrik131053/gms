@@ -19657,6 +19657,8 @@ elseif($code==266)  // search student
                 <!-- <th>Status</th> -->
                 <th>Edit</th>
                 <th>Print</th>
+                <th>Section</th>
+                <th>Group</th>
             </tr>
         </thead>
         <tbody>
@@ -19701,11 +19703,14 @@ elseif($code==266)  // search student
                         
                 <!-- <td><?php if($row['Status']==1){echo "<i class='fa fa-circle text-success' aria-hidden='true'></i>";}else{echo "<i class='fa fa-circle text-danger' aria-hidden='true'></i>";};?>
                         </td> -->
-                <td><button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
+                <td>
+                    
+                <button type="button" onclick="updateStudent(<?=$row['IDNo'];?>);" data-toggle="modal"
                         data-target="#UpdateDesignationModalCenter21" class="btn btn-primary btn-xs "><i
                             class="fa fa-edit "></i></button>
+                         
+                   
                   <?php 
-                  
                   if ($role_id==2) 
                   {                                 
                ?>
@@ -19765,6 +19770,24 @@ onclick="printladger(<?=$row['IDNo'];?>);"></i>
 }
 ?>
                 </td>
+                <td>   <select  id="" onchange="updateSection(<?=$row['IDNo'];?>);" class="form-control form-control-sm">
+                                <option value="">Select</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select></td>
+                <td>   <select  id="" onchange="updateGroup(<?=$row['IDNo'];?>);" class="form-control form-control-sm">
+                                <option value="">Select</option>
+                                <option value="G1">G1</option>
+                                <option value="G2">G2</option>
+                                <option value="G3">G3</option>
+                                <option value="G4">G4</option>
+                                <option value="G5">G5</option>
+                                <option value="G6">G6</option>
+                                <option value="G7">G7</option>
+                            </select></td>
             </tr>
             <?php $sr++;
 
@@ -21109,6 +21132,8 @@ elseif($code==270)  // search student
                         <th>Status</th>
                         <!-- <th>Edit</th> -->
                         <th>ID Card</th>
+                        <th>Section</th>
+                        <th>Group</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21229,6 +21254,24 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
   
 
                         </td>
+                        <td>   <select  id="" onchange="updateSection(<?=$row['IDNo'];?>,this.value);" class="form-control form-control-sm">
+                                <option value="">Select</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select></td>
+                <td>   <select  id="" onchange="updateGroup(<?=$row['IDNo'];?>,this.value);" class="form-control form-control-sm">
+                                <option value="">Select</option>
+                                <option value="G1">G1</option>
+                                <option value="G2">G2</option>
+                                <option value="G3">G3</option>
+                                <option value="G4">G4</option>
+                                <option value="G5">G5</option>
+                                <option value="G6">G6</option>
+                                <option value="G7">G7</option>
+                            </select></td>
                     </tr>
                     <?php $sr++;
 
