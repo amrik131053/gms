@@ -215,36 +215,38 @@ function search_all_employee() {
     }
 }
 
-function updateSection(student_id,value) {
-    // alert(student_id+':'+value);
-    var code = '16';
+function updateSection(student_id) {
+    var section=document.getElementById("ClassSection").value;
+    var code = '15';
     $.ajax({
         url: 'action_a.php',
         data: {
-            student_id: student_id,value:value
+            student_id: student_id,value:section,
             flag: code
         },
         type: 'POST',
         success: function(data) {
-            if (data != "") {
-                //console.log(data);
+            console.log(data);
+            if (data == 1) {
+                SuccessToast('Successfully alloted section');
             }
         }
     });
 }
-function updateGroup(student_id,value) {
-    // alert(student_id+':'+value);
-    var code = '17';
+function updateGroup(student_id) {
+    var group=document.getElementById("ClassGroup").value;
+    var code = '16';
     $.ajax({
         url: 'action_a.php',
         data: {
-            student_id: student_id,value:value
+            student_id: student_id,value:group,
             flag: code
         },
         type: 'POST',
         success: function(data) {
-            if (data != "") {
-                //console.log(data);
+            console.log(data);
+            if (data == 1) {
+                SuccessToast('Successfully alloted group');
             }
         }
     });

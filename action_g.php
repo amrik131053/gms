@@ -19657,8 +19657,12 @@ elseif($code==266)  // search student
                 <!-- <th>Status</th> -->
                 <th>Edit</th>
                 <th>Print</th>
+                <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
                 <th>Section</th>
                 <th>Group</th>
+                <?php }?>
             </tr>
         </thead>
         <tbody>
@@ -19770,7 +19774,11 @@ onclick="printladger(<?=$row['IDNo'];?>);"></i>
 }
 ?>
                 </td>
-                <td>   <select  id="" onchange="updateSection(<?=$row['IDNo'];?>);" class="form-control form-control-sm">
+                <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
+                <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
                                 <option value="">Select</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -19778,7 +19786,8 @@ onclick="printladger(<?=$row['IDNo'];?>);"></i>
                                 <option value="D">D</option>
                                 <option value="E">E</option>
                             </select></td>
-                <td>   <select  id="" onchange="updateGroup(<?=$row['IDNo'];?>);" class="form-control form-control-sm">
+                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
                                 <option value="">Select</option>
                                 <option value="G1">G1</option>
                                 <option value="G2">G2</option>
@@ -19788,6 +19797,7 @@ onclick="printladger(<?=$row['IDNo'];?>);"></i>
                                 <option value="G6">G6</option>
                                 <option value="G7">G7</option>
                             </select></td>
+                            <?php }?>
             </tr>
             <?php $sr++;
 
@@ -21132,8 +21142,12 @@ elseif($code==270)  // search student
                         <th>Status</th>
                         <!-- <th>Edit</th> -->
                         <th>ID Card</th>
+                        <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
                         <th>Section</th>
                         <th>Group</th>
+                        <?php }?>
                     </tr>
                 </thead>
                 <tbody>
@@ -21254,7 +21268,11 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
   
 
                         </td>
-                        <td>   <select  id="" onchange="updateSection(<?=$row['IDNo'];?>,this.value);" class="form-control form-control-sm">
+                        <?php 
+                             if ($role_id==2 || $role_id==13 || $role_id==16) 
+                             {  ?>
+                        <td>   <select  id="ClassSection" onchange="updateSection('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['Section'];?>"><?=$row['Section'];?></option>
                                 <option value="">Select</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -21262,7 +21280,8 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                                 <option value="D">D</option>
                                 <option value="E">E</option>
                             </select></td>
-                <td>   <select  id="" onchange="updateGroup(<?=$row['IDNo'];?>,this.value);" class="form-control form-control-sm">
+                <td>   <select  id="ClassGroup" onchange="updateGroup('<?=$row['IDNo'];?>');" class="form-control form-control-sm">
+                                <option value="<?=$row['ClassGroup'];?>"><?=$row['ClassGroup'];?></option>
                                 <option value="">Select</option>
                                 <option value="G1">G1</option>
                                 <option value="G2">G2</option>
@@ -21272,6 +21291,7 @@ $get_card="SELECT *  FROM TblStaffSmartCardReport where IDNo='".$row['IDNo']."'"
                                 <option value="G6">G6</option>
                                 <option value="G7">G7</option>
                             </select></td>
+                            <?php }?>
                     </tr>
                     <?php $sr++;
 
