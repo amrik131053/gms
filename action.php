@@ -27078,17 +27078,15 @@ $SubjectName="";
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
-  $getAllleaves1 = "SELECT * FROM MasterCourseStructure 
+  $getAllleaves1 = "SELECT  Distinct SubjectName FROM MasterCourseStructure 
                   WHERE CourseID = '" . $row['CourseID'] . "' 
                   AND CollegeID = '" . $row['CollegeID'] . "' 
-                  AND SubjectCode = '" . $row['SubjectCode'] . "'";
+                  AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
 ;
     $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
     while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
 
 {
-
-
 
 
 ?>
