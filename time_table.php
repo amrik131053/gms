@@ -94,77 +94,32 @@ $(function() {
 
 
 
-  function uploadSubmit(form) {
+  function uploadSubmit() {
 
-var College = form.College.value;
-var Course = form.Course.value;
-var Batch = form.Batch.value;
-var Semester = form.Semester.value;
-var subject = form.subject.value;
-var courseFile = form.courseFile.value;
 
-if (College === "") {
-
-    ErrorToast('Please select college.', 'bg-warning');
-    return;
-}
-if (Course === "") {
-
-    ErrorToast('Please select Course.', 'bg-warning');
-    return;
-}
-if (Batch === "") {
-
-    ErrorToast('Please select Batch.', 'bg-warning');
-    return;
-}
-if (Semester === "") {
-
-    ErrorToast('Please select Semester.', 'bg-warning');
-    return;
-}
-if (subject === "") {
-
-    ErrorToast('Please select subject.', 'bg-warning');
-    return;
-}
-
-if (courseFile === "") {
-
-    ErrorToast('Please choose course file', 'bg-warning');
-    return;
-}
-
-var formData = new FormData(form);
-$.ajax({
-    url: form.action,
-    type: form.method,
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(response) {
-        // console.log(response);
-        if (response == 1) {
-            SuccessToast('Submit successfully');
+  var course=document.getElementById('Course').value;
+   var batch=document.getElementById('Batch').value;
+  var semester=document.getElementById('Semester').value;
+  var day=document.getElementById('Day').value;
+   var lecture=document.getElementById('Lecture').value;
+   var subject=document.getElementById('Subject').value;
+  var code = 14;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,course:course,batch:batch,semester:semester,day:day,lecture:lecture,subject:subject
+        },
+        success: function(response) {
+            console.log(response);
+            spinner.style.display = 'none';
             uploadedRecord();
-            document.getElementById("Semester").value = "";
-            document.getElementById("subject").value = "";
-            document.getElementById("courseFile").innerHTML = "";
+        }
+    });
 
-        } 
-        else if(response == 2)
-        {
-            ErrorToast('Please upload the file in (.PDF) format only.', 'bg-warning');
-        }
-        else{
-            ErrorToast('Please try after sometime.', 'bg-danger');
-        }
-    },
-    error: function(xhr, status, error) {
-        console.log(error);
-    }
-    
-});
+
 }
 uploadedRecord();
 function uploadedRecord() {
@@ -203,6 +158,7 @@ if (a == true) {
             id: id
         },
         success: function(response) {
+
             if (response == 1) {
                 spinner.style.display = 'none';
                 SuccessToast('SuccessFully Deleted');
@@ -216,17 +172,7 @@ if (a == true) {
 }
 }
 
-function viewCourseFile(url)
- {
- if(url.indexOf("CouresUpload")==true)
- {
-     window.open("http://erp.gku.ac.in:86/" + url, '_blank');
 
- }else{
-
-     window.open("http://erp.gku.ac.in:86/CouresUpload/" + url, '_blank');
- }
- }
 </script>
 <!-- Main content -->
 <section class="content">
@@ -241,7 +187,7 @@ function viewCourseFile(url)
                         <input type="hidden" value="397" name="code">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>Program</label>
-                            <select name="Course" id='Course' onchange="courseByCollegeSelf(this.value)"
+                            <select name="Course" id='Course' 
                                 class="form-control" required="">
                                 <option value=''>Select Program</option>
                                 <?php
@@ -293,7 +239,7 @@ function viewCourseFile(url)
                             <div class="form-group">
                                 <label>Day</label>
                                 <?php $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];?>
-                                <select name="lecture" id="lecture" class="form-control" required="">
+                                <select name="Day" id="Day" class="form-control" required="">
                                     <option value="">Day</option>
                                     <?php foreach ($daysOfWeek as $days)
                                     {
@@ -306,7 +252,7 @@ function viewCourseFile(url)
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label>Lecture</label>
-                                <select name="lecture" id="lecture" class="form-control" required="">
+                                <select name="Lecture" id="Lecture" class="form-control" required="">
                                     <option value="">Lecture</option>
                                     <?php for($i=1;$i<=8;$i++)
                                     {

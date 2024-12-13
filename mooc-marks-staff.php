@@ -651,8 +651,13 @@ else
 
  var fileInput = document.getElementById("moocfile_"+id);
   var MOOC_Mark = document.getElementById("marks_"+id).value;
-                                  
 
+if(MOOC_Mark!='')
+{
+    if (!fileInput.files[0]) {
+                 ErrorToast('Attachment required',"bg-danger" );
+                return;
+            }
 var formData = new FormData();
             formData.append("moocfile", fileInput.files[0]);
             formData.append("code",358);
@@ -664,11 +669,21 @@ var formData = new FormData();
             xhr.open("POST", "action.php", true);
 
             xhr.onload = function () {
-                console.log("Server response:", xhr.responseText);
+            console.log("Server response:", xhr.responseText);
                 if (xhr.status === 200) {
 
+                   if(xhr.responseText==1){
+                     SuccessToast('Successfully Uploaded');
+                   }
+                   else
+                   {
+                     ErrorToast('something went wrong',"bg-danger" );
+                   }
+                 
+
                    
-                } else {
+                } 
+                else {
                     statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
                 }
             };
@@ -678,6 +693,11 @@ var formData = new FormData();
             };
 
             xhr.send(formData);
+          }
+          else
+          {
+        ErrorToast('valid input required',"bg-danger" );
+          }
 }
 
 function viewmooc(id) {
