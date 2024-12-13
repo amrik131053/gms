@@ -27078,7 +27078,7 @@ $SubjectName="";
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
-  $getAllleaves1 = "SELECT  Distinct SubjectName FROM MasterCourseStructure 
+  $getAllleaves1 = "SELECT  Distinct Course,SubjectName FROM MasterCourseStructure 
                   WHERE CourseID = '" . $row['CourseID'] . "' 
                   AND CollegeID = '" . $row['CollegeID'] . "' 
                   AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
