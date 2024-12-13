@@ -94,77 +94,56 @@ $(function() {
 
 
 
-  function uploadSubmit(form) {
+  function uploadSubmit() {
 
-var College = form.College.value;
-var Course = form.Course.value;
-var Batch = form.Batch.value;
-var Semester = form.Semester.value;
-var subject = form.subject.value;
-var courseFile = form.courseFile.value;
 
-if (College === "") {
+  var course=document.getElementById('Course').value;
+   var batch=document.getElementById('Batch').value;
+  var semester=document.getElementById('Semester').value;
+  var day=document.getElementById('Day').value;
+   var lecture=document.getElementById('Lecture').value;
+   var subject=document.getElementById('Subject').value;
+   var section=document.getElementById('Section').value;
+   var group=document.getElementById('Group').value;
 
-    ErrorToast('Please select college.', 'bg-warning');
-    return;
-}
-if (Course === "") {
+   if(course!='' && batch!='' && semester!=''&& day!='' && lecture !='' &&subject!='' && section !='' && group!='')
+   {
+  var code = 14;
+    var spinner = document.getElementById('ajax-loader');
+    spinner.style.display = 'block';
+    $.ajax({
+        url: 'action_a.php',
+        type: 'POST',
+        data: {
+            flag: code,course:course,batch:batch,semester:semester,day:day,lecture:lecture,subject:subject,section:section,group:group
+        },
+        success: function(response) {
 
-    ErrorToast('Please select Course.', 'bg-warning');
-    return;
-}
-if (Batch === "") {
+         if(response=='2')
+            {
 
-    ErrorToast('Please select Batch.', 'bg-warning');
-    return;
-}
-if (Semester === "") {
+               ErrorToast('Lecture Already exist',"bg-danger" );
+            }
+            else if(response=='1')
+            {
+               SuccessToast('Succesfully added');
+            }
+            else
+            {
 
-    ErrorToast('Please select Semester.', 'bg-warning');
-    return;
-}
-if (subject === "") {
-
-    ErrorToast('Please select subject.', 'bg-warning');
-    return;
-}
-
-if (courseFile === "") {
-
-    ErrorToast('Please choose course file', 'bg-warning');
-    return;
-}
-
-var formData = new FormData(form);
-$.ajax({
-    url: form.action,
-    type: form.method,
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(response) {
-        // console.log(response);
-        if (response == 1) {
-            SuccessToast('Submit successfully');
+            }
+           
+            spinner.style.display = 'none';
+            
             uploadedRecord();
-            document.getElementById("Semester").value = "";
-            document.getElementById("subject").value = "";
-            document.getElementById("courseFile").innerHTML = "";
+        }
+    });
+}
+else
+{
+ ErrorToast('Valid input required',"bg-danger" );
+}
 
-        } 
-        else if(response == 2)
-        {
-            ErrorToast('Please upload the file in (.PDF) format only.', 'bg-warning');
-        }
-        else{
-            ErrorToast('Please try after sometime.', 'bg-danger');
-        }
-    },
-    error: function(xhr, status, error) {
-        console.log(error);
-    }
-    
-});
 }
 uploadedRecord();
 function uploadedRecord() {
@@ -203,6 +182,7 @@ if (a == true) {
             id: id
         },
         success: function(response) {
+
             if (response == 1) {
                 spinner.style.display = 'none';
                 SuccessToast('SuccessFully Deleted');
@@ -216,17 +196,7 @@ if (a == true) {
 }
 }
 
-function viewCourseFile(url)
- {
- if(url.indexOf("CouresUpload")==true)
- {
-     window.open("http://erp.gku.ac.in:86/" + url, '_blank');
 
- }else{
-
-     window.open("http://erp.gku.ac.in:86/CouresUpload/" + url, '_blank');
- }
- }
 </script>
 <!-- Main content -->
 <section class="content">
@@ -241,7 +211,7 @@ function viewCourseFile(url)
                         <input type="hidden" value="397" name="code">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label>Program</label>
-                            <select name="Course" id='Course' onchange="courseByCollegeSelf(this.value)"
+                            <select name="Course" id='Course' 
                                 class="form-control" required="">
                                 <option value=''>Select Program</option>
                                 <?php
@@ -289,11 +259,12 @@ function viewCourseFile(url)
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                         <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Day</label>
                                 <?php $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];?>
-                                <select name="lecture" id="lecture" class="form-control" required="">
+                                <select name="Day" id="Day" class="form-control" required="">
                                     <option value="">Day</option>
                                     <?php foreach ($daysOfWeek as $days)
                                     {
@@ -303,10 +274,10 @@ function viewCourseFile(url)
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Lecture</label>
-                                <select name="lecture" id="lecture" class="form-control" required="">
+                                <select name="Lecture" id="Lecture" class="form-control" required="">
                                     <option value="">Lecture</option>
                                     <?php for($i=1;$i<=8;$i++)
                                     {
@@ -316,7 +287,39 @@ function viewCourseFile(url)
                                 </select>
                             </div>
                         </div>
-                         
+                         </div>
+                           <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                     <label>Section</label>
+                                <select name="Section" id="Section" class="form-control" required="">
+                                    <option value="">Section</option>
+                                  
+                                        <option value="A">A</option>
+                                          <option value="B">B</option>
+                                            <option value="C">C</option>
+                                              <option value="D">D</option>
+                                                <option value="E">E</option>
+                                  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Group</label>
+                               <select name="Group" id="Group" class="form-control" required="">
+                                    <option value="">Group</option>
+                                  
+                                        <option value="G1">G1</option>
+                                          <option value="G2">G2</option>
+                                            <option value="G3">G3</option>
+                                              <option value="G4">G4</option>
+                                          
+                                  
+                                </select>
+                            </div>
+                        </div>
+                         </div>
                        
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">

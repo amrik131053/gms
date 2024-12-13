@@ -1266,6 +1266,9 @@ function copyToClipboard(text) {
                 <div class="card-header">
 
                     <div class="row">
+
+                        <?php if($role_id==2 OR $role_id==21 OR  $role_id==20 )
+                        {?>
                         <div class="col-lg-4">
                            
                           
@@ -1287,11 +1290,19 @@ function copyToClipboard(text) {
                      
                             
                         </div>
+
                         <div class="col-lg-2">
                             <button class="btn btn-success btn-sm" onclick="export_daily_data(0,0);"><i class="fa fa-download"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data();"><i class="fa fa-search"></i></button> <button class="btn btn-success btn-sm" onclick="daily_data_summary();"><i class="fa fa-list-alt"></i></button>
                         </div>
+
+<?php }
+else
+{?>
+      <div class="col-lg-6"></div><?php 
+}?>
+
                        
-                        <div class="col-lg-5">
+                        <div class="col-lg-6">
                             <span style="float:right;">
                                 <button class="btn btn-sm ">
                                     <input type="search" class="form-control form-control-sm" name="emp_name"

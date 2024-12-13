@@ -10,7 +10,17 @@ window.location.href = 'index.php';
 <?php
    } 
    else
-   {
+   {     include "connection/connection.php";
+      $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular' AND Type='Student'";
+      $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
+
+      if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
+      {
+
+$CurrentExamination=$getCurrentExamination_row['Month'].' '.$getCurrentExamination_row['Year'];
+
+      }
+
    $CurrentExaminationGetDate=date('Y-m-d');
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -19,7 +29,7 @@ window.location.href = 'index.php';
 window.location.href = "index.php";
 </script>
 <?php }
-        include "connection/connection.php";
+   
        $employee_details="SELECT RoleID,IDNo,ShiftID,Name,Department,CollegeName,Designation,LeaveRecommendingAuthority,LeaveSanctionAuthority FROM Staff Where IDNo='$EmployeeID'";
       $employee_details_run=sqlsrv_query($conntest,$employee_details);
       if ($employee_details_row=sqlsrv_fetch_array($employee_details_run,SQLSRV_FETCH_ASSOC)) {
@@ -832,5 +842,45 @@ elseif($code==13)
         echo "0";
     }
 }
+elseif($code==14)
+{
+   
+    $course=$_POST['course'];
+    $batch=$_POST['batch'];
+    $semester=$_POST['semester'];
+    $day=$_POST['day'];
+    $lecture=$_POST['lecture'];
+    $subject=$_POST['subject'];
+    $section=$_POST['section'];
+    $group=$_POST['group'];
 
+
+           $query1 = "SELECT  Distinct CollegeID  FROM MasterCourseCodes WHERE  CourseID='$course'";
+        $getCourseRun1=sqlsrv_query($conntest,$query1);
+                                 if($rowCourseName = sqlsrv_fetch_array($getCourseRun1, SQLSRV_FETCH_ASSOC))
+                                 { 
+                                 $CollegeID=$rowCourseName['CollegeID'];
+                                 }
+
+
+ $queryday = "SELECT  *  FROM TimeTable WHERE  Day='$day' AND LectureNumber='$lecture' AND IDNo='$EmployeeID'";
+        $querydayrun=sqlsrv_query($conntest,$queryday);
+                                 if($querydayrunrow = sqlsrv_fetch_array($querydayrun, SQLSRV_FETCH_ASSOC))
+                                 { 
+                                echo "2";
+                                 }
+                                 else
+                                 {
+
+$update1 = "INSERT INTO TimeTable(CollegeID,CourseID,Batch,SemesterID,LectureNumber, IDNo,Day,SubjectCode,Examination,CreatedDate,Section,GroupName) 
+            VALUES('$CollegeID','$course', '$batch', '$semester','$lecture','$EmployeeID','$day','$subject','$CurrentExamination','$timeStamp','$section','$group')";
+                sqlsrv_query($conntest,$update1);
+if ($update1){
+        echo "1";
+    } else {
+        echo "0";
+    }
+   }  
+    
+}
    }

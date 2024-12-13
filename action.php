@@ -47,7 +47,7 @@ if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['
          // echo "inter net off";
       }
 
- $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular'";
+ $getCurrentExamination="SELECT * FROM ExamDate where ExamType='Regular' AND Type='Student'";
       $getCurrentExamination_run=sqlsrv_query($conntest,$getCurrentExamination);
       if ($getCurrentExamination_row=sqlsrv_fetch_array($getCurrentExamination_run,SQLSRV_FETCH_ASSOC))
       {
@@ -23732,7 +23732,7 @@ $marks = $_POST["MOOC_Mark"];
    
    $image_name1=$image_name;
 
-  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
+ echo  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
 MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
 
@@ -25047,7 +25047,7 @@ $batch= $_POST['batch'];
 $sem= $_POST['sem'];
 
 //$sql = "SELECT DISTINCT SubjectName,SubjectCode,SubjectType FROM MasterCourseStructure WHERE CourseID ='$course' AND SemesterID='$sem' ANd Batch='$batch' ANd Elective='M'  order by SubjectCode";
- echo $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
+ $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
  and mcs.Batch='$batch' ANd mcs.Elective='M' And sa.EmployeeID='$EmployeeID'";
 
@@ -27078,17 +27078,15 @@ $SubjectName="";
     $getAllleavesRun=sqlsrv_query($conntest,$getAllleaves);
     while($row=sqlsrv_fetch_array($getAllleavesRun,SQLSRV_FETCH_ASSOC))
     { 
-  $getAllleaves1 = "SELECT * FROM MasterCourseStructure 
+  $getAllleaves1 = "SELECT  Distinct SubjectName FROM MasterCourseStructure 
                   WHERE CourseID = '" . $row['CourseID'] . "' 
                   AND CollegeID = '" . $row['CollegeID'] . "' 
-                  AND SubjectCode = '" . $row['SubjectCode'] . "'";
+                  AND SubjectCode = '" . $row['SubjectCode'] . "' AND Batch = '" . $row['Batch'] . "'";
 ;
     $getAllleavesRun1=sqlsrv_query($conntest,$getAllleaves1);
     while($row1=sqlsrv_fetch_array($getAllleavesRun1,SQLSRV_FETCH_ASSOC))   
 
 {
-
-
 
 
 ?>
@@ -27097,7 +27095,7 @@ $SubjectName="";
                    <!--  <td><?=$row1['CollegeName'];?></td> -->
                     <td><?=$row1['Course'];?></td>
                     <td><?=$row['SemesterID'];?></td>
-                    <td><?=$row['Batch'];?></td>
+                    <td><?=$row['Batch'];?>-<?=$row['Section'];?>/<?=$row['GroupName'];?></td>
                     <td><?=$row1['SubjectName'];?>(<?=$row['SubjectCode'];?>)</td>
                     
                     
