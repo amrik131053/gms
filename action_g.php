@@ -5010,75 +5010,81 @@ else { ?>
                         <h4 class="text-center"><b>Additional Responsibilities Details</b></h4>
                     </div>
                     <table class="table table-bordered" style="font-size:14px;">
-    <tr>
-        <th>SrNo</th>
-        <th>College Name</th>
-        <th>Department</th>
-        <th>Designation</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Remarks</th>
-        <th>Action</th>
-    </tr>
-    <tbody>
-        <?php
-        $res = sqlsrv_query($conntest, $sql1);
-        $SrNo = 1;
-        while ($data1 = sqlsrv_fetch_array($res)) {
-            $get_college = "SELECT * FROM MasterCourseCodes WHERE CollegeID='" . $data1['CollegeID'] . "'";
-            $get_collegeRun = sqlsrv_query($conntest, $get_college);
-            $CollegeName = ($get_collegeRow = sqlsrv_fetch_array($get_collegeRun, SQLSRV_FETCH_ASSOC)) ? $get_collegeRow['CollegeName'] : '';
+                <tr>
+                    <th>SrNo</th>
+                    <th>College Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+              <tbody>
+             <?php
+$res = sqlsrv_query($conntest, $sql1);
+$SrNo = 1;
+while ($data1 = sqlsrv_fetch_array($res)) {
+    $get_college = "SELECT * FROM MasterCourseCodes WHERE CollegeID='" . $data1['CollegeID'] . "'";
+    $get_collegeRun = sqlsrv_query($conntest, $get_college);
+    $CollegeName = ($get_collegeRow = sqlsrv_fetch_array($get_collegeRun, SQLSRV_FETCH_ASSOC)) ? $get_collegeRow['CollegeName'] : '';
 
-            $get_Department = "SELECT * FROM MasterDepartment WHERE Id=" . $data1['DepartmentID'];
-            $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
-            $DepartmentName = ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) ? $get_DepartmentRow['Department'] : '';
+    $get_Department = "SELECT * FROM MasterDepartment WHERE Id=" . $data1['DepartmentID'];
+    $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
+    $DepartmentName = ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) ? $get_DepartmentRow['Department'] : '';
 
-            $relievingDate = $data1['RelievingDate'];
-            $stop_date = new DateTime($timeStamp);
-              $endDateUpdate=$stop_date->format('Y-m-d');
-              if($data1['RelievingDate']!='')
-              {
-                  $dbDateFromUpdate=$data1['RelievingDate']->format('Y-m-d');
-                    if($endDateUpdate<=$dbDateFromUpdate)
-                    {
-                        $relievingDateColor = "#7dcea0"; // Green 
-                    }
-                    else{
-                        $relievingDateColor = "#f1948a"; // Red 
-                    }
-                }
-                else{
-                    $relievingDateColor="";
-                }
-    
-        ?>
-            <tr style="background: <?= $relievingDateColor; ?>">
-                <td><?= $SrNo; ?></td>
-                <td><?= $CollegeName; ?></td>
-                <td><?= $DepartmentName; ?></td>
-                <td><?= $data1['Designation']; ?></td>
-                <td><?= $data1['JoiningDate'] ? $data1['JoiningDate']->format('d-m-Y') : ""; ?></td>
-                <td>
-                    <input type="date" class="form-control" 
-                           value="<?= $relievingDate ? $relievingDate->format('Y-m-d') : ""; ?>" 
-                           onchange="updateRelievingDate(<?= $data1['ID']; ?>, this.value,'<?= $emp_id; ?>')" 
-                           style="background: transparent; border: none; width: 100%;">
-                </td>
-                <td><?= $data1['Ramrks']; ?></td>
-                <td>
-                    <i class="fa fa-eye fa-2x text-success" id="doc" type="button"
-                       onclick="viewAddtionalDocument(<?= $data1['ID']; ?>)" data-toggle="modal"
-                       data-target="#modal-default"
-                       style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
-                    <i class="fa fa-trash fa-2x text-danger" id="dlt" type="button"
-                       onclick="deleteAddtional(<?= $data1['ID']; ?>,<?= $emp_id; ?>)" data-toggle="modal"
-                       style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
-                </td>
-            </tr>
-        <?php
-            $SrNo++;
+    $relievingDate = $data1['RelievingDate'];
+    $relievingDateColor = ""; 
+    $relievingDateValue = "";
+
+    if ($relievingDate && $relievingDate->format('Y-m-d') !== '1900-01-01') {
+        $relievingDateValue = $relievingDate->format('Y-m-d');
+        $stop_date = new DateTime($timeStamp);
+        $endDateUpdate = $stop_date->format('Y-m-d');
+
+        if ($endDateUpdate <= $relievingDateValue) {
+            $relievingDateColor = "#7dcea0"; // Green
+        } else {
+            $relievingDateColor = "#f1948a"; // Red
         }
-        ?>
+    } else {
+        $relievingDateValue = ""; 
+        $relievingDateColor = "#7dcea0"; 
+    }
+?>
+    <tr style="background: <?= $relievingDateColor; ?>">
+        <td><?= $SrNo; ?></td>
+        <td><?= $CollegeName; ?></td>
+        <td><?= $DepartmentName; ?></td>
+        <td><?= $data1['Designation']; ?></td>
+        <td><?= $data1['JoiningDate'] ? $data1['JoiningDate']->format('d-m-Y') : ""; ?></td>
+        <td>
+            <input type="date" class="form-control" 
+                   value="<?= $relievingDateValue; ?>" 
+                   onchange="updateRelievingDate(<?= $data1['ID']; ?>, this.value, '<?= $emp_id; ?>')" 
+                   style="background: transparent; border: none; width: 100%;"
+                   placeholder="Working">
+            <?php if (!$relievingDate || $relievingDate->format('Y-m-d') === '1900-01-01'): ?>
+                <small style="color: #7dcea0;">Working</small>
+            <?php endif; ?>
+        </td>
+        <td><?= $data1['Ramrks']; ?></td>
+        <td>
+            <i class="fa fa-eye fa-2x text-success" id="doc" type="button"
+               onclick="viewAddtionalDocument(<?= $data1['ID']; ?>)" data-toggle="modal"
+               data-target="#modal-default"
+               style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
+            <i class="fa fa-trash fa-2x text-danger" id="dlt" type="button"
+               onclick="deleteAddtional(<?= $data1['ID']; ?>, <?= $emp_id; ?>)" data-toggle="modal"
+               style="color: #223260;padding-left: 20px;padding-top: 5px"></i>
+        </td>
+    </tr>
+<?php
+    $SrNo++;
+}
+?>
+
+
     </tbody>
 </table>
 

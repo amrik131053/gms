@@ -195,6 +195,47 @@ function showProfileData() {
 }
 
 function addExperience(form) {
+    var experienceType=form.experienceType.value;
+var designation=form.designation.value;
+var department=form.department.value;
+var from_date=form.from_date.value;
+var to_date=form.to_date.value;
+var salary=form.salary.value;
+var left_reason=form.left_reason.value;
+var experiencefile=form.experiencefile.value;
+if (experienceType === "") {
+        ErrorToast('Please select experience type.', 'bg-warning');
+        return false;
+    }
+if (designation === "") {
+        ErrorToast('Please enter designation.', 'bg-warning');
+        return false;
+    }
+if (department === "") {
+        ErrorToast('Please enter department.', 'bg-warning');
+        return false;
+    }
+if (from_date === "") {
+        ErrorToast('Please select from date.', 'bg-warning');
+        return false;
+    }
+if (to_date === "") {
+        ErrorToast('Please select to date.', 'bg-warning');
+        return false;
+    }
+if (salary === "") {
+        ErrorToast('Please enter salary.', 'bg-warning');
+        return false;
+    }
+if (left_reason === "") {
+        ErrorToast('Please enter left reason.', 'bg-warning');
+        return false;
+    }
+if (experiencefile === "") {
+        ErrorToast('Please choose experience file.', 'bg-warning');
+        return false;
+    }
+
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var formData = new FormData(form);
@@ -232,6 +273,50 @@ function addExperience(form) {
 }
 
 function addAcademic(form) {
+
+
+    var qualification=form.qualification.value;
+var course=form.course.value;
+var subjects=form.subjects.value;
+var mode=form.mode.value;
+var school_clg=form.school_clg.value;
+var uni_board=form.uni_board.value;
+var passing_date=form.passing_date.value;
+var academicfile=form.academicfile.value;
+if (qualification === "") {
+        ErrorToast('Please select qualification.', 'bg-warning');
+        return false;
+    }
+    if (course === "") {
+        ErrorToast('Please enter course.', 'bg-warning');
+        return false;
+    }
+    if (subjects === "") {
+        ErrorToast('Please enter subjects.', 'bg-warning');
+        return false;
+    }
+    if (mode === "") {
+        ErrorToast('Please select mode.', 'bg-warning');
+        return false;
+    }
+    if (school_clg === "") {
+        ErrorToast('Please enter school_clg.', 'bg-warning');
+        return false;
+    }
+    if (uni_board === "") {
+        ErrorToast('Please enter uni board.', 'bg-warning');
+        return false;
+    }
+    if (passing_date === "") {
+        ErrorToast('Please enter passing date.', 'bg-warning');
+        return false;
+    }
+
+    if (academicfile === "") {
+        ErrorToast('Please choose academic file.', 'bg-warning');
+        return false;
+    }
+
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var formData = new FormData(form);
@@ -295,6 +380,85 @@ function viewAdditionalDocument(id) {
     xmlhttp.send();
 }
 function addPhd(form) {
+
+    var subject=form.subject.value;
+var topic=form.topic.value;
+var university=form.university.value;
+var supervisor_name=form.supervisor_name.value;
+var supervisor_details=form.supervisor_details.value;
+var enrollment_date=form.enrollment_date.value;
+var registration_date=form.registration_date.value;
+var award_date=form.award_date.value;
+
+    if (subject === "") {
+        ErrorToast('Please enter subject.', 'bg-warning');
+        return false;
+    }
+    if (topic === "") {
+        ErrorToast('Please enter topic.', 'bg-warning');
+        return false;
+    }
+    if (university === "") {
+        ErrorToast('Please enter university.', 'bg-warning');
+        return false;
+    }
+    if (supervisor_name === "") {
+        ErrorToast('Please enter supervisor_name.', 'bg-warning');
+        return false;
+    }
+    if (supervisor_details === "") {
+        ErrorToast('Please enter supervisor_details.', 'bg-warning');
+        return false;
+    }
+    if (enrollment_date === "") {
+        ErrorToast('Please enter enrollment_date.', 'bg-warning');
+        return false;
+    }
+    if (registration_date === "") {
+        ErrorToast('Please enter registration_date.', 'bg-warning');
+        return false;
+    }
+    if (award_date === "") {
+        ErrorToast('Please enter award_date.', 'bg-warning');
+        return false;
+    }
+
+    var course_work_details=form.course_work_details.value;
+if(course_work_details!='No')
+{
+    var course_work_university=form.course_work_university.value;
+    var total_marks=form.total_marks.value;
+    var obtained_marks=form.obtained_marks.value;
+    var date_of_passing=form.date_of_passing.value;
+    var percentage=form.percentage.value;
+
+    if (course_work_university === "") {
+        ErrorToast('Please enter course work university.', 'bg-warning');
+        return false;
+    }
+    if (total_marks === "") {
+        ErrorToast('Please enter total marks.', 'bg-warning');
+        return false;
+    }
+    if (obtained_marks === "") {
+        ErrorToast('Please enter obtained marks.', 'bg-warning');
+        return false;
+    }
+    if (date_of_passing === "") {
+        ErrorToast('Please enter date of passing.', 'bg-warning');
+        return false;
+    }
+}
+var ugc_rule=form.ugc_rule.value;
+if(ugc_rule!='No')
+{
+    var compliance_certificate=form.compliance_certificate.value;
+    if (compliance_certificate === "") {
+        ErrorToast('Please choose compliance certificate.', 'bg-warning');
+        return false;
+    }
+
+}
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var formData = new FormData(form);
@@ -328,6 +492,16 @@ function addPhd(form) {
     });
 }
 function additionalQualification(form) {
+    var Exam_passed=form.Exam_passed.value;
+    var exam_certificate=form.exam_certificate.value;
+    if (exam_certificate === "") {
+        ErrorToast('Please choose exam certificate.', 'bg-warning');
+        return false;
+    }
+    if (Exam_passed === "") {
+        ErrorToast('Please choose exam passed.', 'bg-warning');
+        return false;
+    }
     var spinner = document.getElementById("ajax-loader");
     spinner.style.display = 'block';
     var formData = new FormData(form);
