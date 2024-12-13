@@ -883,4 +883,30 @@ if ($update1){
    }  
     
 }
+elseif ($code==15) {
+    $student_id=$_POST['student_id'];
+    $value=$_POST['value'];
+     $updateSection="UPDATE Admissions SET Section='$value' where IDNo='$student_id'";
+    $updateSectionRun=sqlsrv_query($conntest,$updateSection);
+    if($updateSectionRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+}
+elseif ($code==16) {
+    $student_id=$_POST['student_id'];
+    $value=$_POST['value'];
+     $updateSection="UPDATE Admissions SET ClassGroup='$value' where IDNo='$student_id'";
+    $updateSectionRun=sqlsrv_query($conntest,$updateSection);
+    if($updateSectionRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+}
    }

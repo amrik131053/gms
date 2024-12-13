@@ -215,6 +215,43 @@ function search_all_employee() {
     }
 }
 
+function updateSection(student_id) {
+    var section=document.getElementById("ClassSection").value;
+    var code = '15';
+    $.ajax({
+        url: 'action_a.php',
+        data: {
+            student_id: student_id,value:section,
+            flag: code
+        },
+        type: 'POST',
+        success: function(data) {
+            console.log(data);
+            if (data == 1) {
+                SuccessToast('Successfully alloted section');
+            }
+        }
+    });
+}
+function updateGroup(student_id) {
+    var group=document.getElementById("ClassGroup").value;
+    var code = '16';
+    $.ajax({
+        url: 'action_a.php',
+        data: {
+            student_id: student_id,value:group,
+            flag: code
+        },
+        type: 'POST',
+        success: function(data) {
+            console.log(data);
+            if (data == 1) {
+                SuccessToast('Successfully alloted group');
+            }
+        }
+    });
+}
+
 function searchStudentCollegeWise() {
     var Session = document.getElementById('session1').value;
     // var session2 = document.getElementById('session2').value;
