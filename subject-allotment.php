@@ -143,7 +143,7 @@ function searchShowAllSubject() {
     spinner.style.display = 'block';
     $.ajax({
         url: 'action_g.php',
-        type: 'POST',
+        type: 'POST', 
         data: {
             code: code,
             CollegeID: CollegeID,
@@ -186,6 +186,9 @@ function submitSubjectAllotment(SrNo,CollegeID,Course,Batch,Semester,Department,
 {
     var code = 386;
     var id = document.getElementById('employeeIDOnkeyUp'+SrNo).value;
+     var Section = document.getElementById('Section'+SrNo).value;
+      var Group = document.getElementById('Group'+SrNo).value;
+  
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -193,9 +196,10 @@ function submitSubjectAllotment(SrNo,CollegeID,Course,Batch,Semester,Department,
         type: 'POST',
         data: {
             code: code,
-            SrNo: SrNo,CollegeID:CollegeID,Course:Course,Batch:Batch,Semester:Semester,Department:Department,SubjectCode:SubjectCode,id:id
+            SrNo: SrNo,CollegeID:CollegeID,Course:Course,Batch:Batch,Semester:Semester,Department:Department,SubjectCode:SubjectCode,id:id,Group:Group,Section:Section
         },
         success: function(response) {
+            console.log(response);
 
             spinner.style.display = 'none';
             if(response==1)
