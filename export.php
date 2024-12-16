@@ -2281,9 +2281,23 @@ while($row=mysqli_fetch_array($get_student_details_run))
         $loanNumber1=$row['loanNumber1'];
       $applicationNo1=$row['applicationNo1'];
        $dateVerification1 =$row['dateVerification1'];
+
           $UTRNumber=$row['UTRNumber'];
       $loan_amount=$row['loan_amount'];
        $datePayment =$row['datePayment'];
+
+         $UTRNumber1=$row['UTRNumber1'];
+      $loan_amount1=$row['loan_amount1'];
+       $datePayment1 =$row['datePayment1'];
+
+         $UTRNumber2=$row['UTRNumber2'];
+      $loan_amount2=$row['loan_amount2'];
+       $datePayment2 =$row['datePayment2'];
+
+         $UTRNumber3=$row['UTRNumber3'];
+      $loan_amount3=$row['loan_amount3'];
+       $datePayment3 =$row['datePayment3'];
+
        $ReportedStatus =$row['ReportedStatus'];
 
     $statusVerification=$row['statusVerification'];
@@ -2389,6 +2403,19 @@ else
                   <td >{$loan_amount}</td>
                     <td >{$UTRNumber}</td>
                       <td >{$datePayment}</td>
+
+                      <td >{$loan_amount1}</td>
+                    <td >{$UTRNumber1}</td>
+                      <td >{$datePayment1}</td>
+
+                      <td >{$loan_amount2}</td>
+                    <td >{$UTRNumber2}</td>
+                      <td >{$datePayment2}</td>
+
+                        <td >{$loan_amount3}</td>
+                    <td >{$UTRNumber3}</td>
+                      <td >{$datePayment3}</td>
+
                       <td bgcolor=$colorlR>{$ReportedStatusV}</td>
        </tr>";                                    
        $count++;    

@@ -11915,6 +11915,40 @@ if ($row=mysqli_fetch_array($get_student_details_run))
 
       $UTRNumber=$row['UTRNumber'];
     $loan_amount=$row['loan_amount'];
+     if($row['datePayment']!='')
+    {$datePayment=$row['datePayment']; }
+    else    {
+        $datePayment=date('Y-m-d');
+    }
+
+
+      $UTRNumber1=$row['UTRNumber1'];
+    $loan_amount1=$row['loan_amount1'];
+     if($row['datePayment1']!='')
+    {$datePayment1=$row['datePayment1']; }
+    else    {
+        $datePayment1=date('Y-m-d');
+    }
+
+
+  $UTRNumber2=$row['UTRNumber2'];
+    $loan_amount2=$row['loan_amount2'];
+     if($row['datePayment2']!='')
+    {$datePayment2=$row['datePayment2']; }
+    else    {
+        $datePayment2=date('Y-m-d');
+    }
+
+  $UTRNumber3=$row['UTRNumber3'];
+    $loan_amount3=$row['loan_amount3'];
+     if($row['datePayment3']!='')
+    {$datePayment3=$row['datePayment3']; }
+    else    {
+        $datePayment3=date('Y-m-d');
+    }
+
+
+
     if($row['dateVerification']!='')
     {
 
@@ -12259,9 +12293,64 @@ if($statusVerification>0)
 
             </div>
             
+<?php 
+if($UTRNumber>0 && $UTRNumber1 !='' )
+{?>
+
+  <div class="col-lg-3">
+                <label>UTR No-1</label>
+                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
 
 
+            </div>
+
+            <div class="col-lg-3">
+                <label>Amount-1</label>
+                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
+
+
+            </div>
             <?php
+          }
+
+else
+{
+  ?><div class="col-lg-3">
+                <label>UTR No-1</label>
+                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" readonly>
+
+
+            </div>
+
+            <div class="col-lg-3">
+                <label>Amount-1</label>
+                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" readonly>
+
+
+            </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>" readonly>
+
+
+            </div>
+
+<?php }
+
+
+
+
+
+
+
+
+          
 }
 else
 {
