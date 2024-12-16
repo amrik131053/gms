@@ -234,8 +234,8 @@ function by_search_studetn() {
                            table += '<td>' + data[i][8] + '</td>';
                            table += '<td>' + data[i][1] + '</td>';
                            table += '<td >'+ unirollno+'</td>';
-                           table += '<td >'+ data[i][41]+'</td>';
-                            table += '<td >'+ data[i][39]+'</td>';
+                           table += '<td >'+ data[i]['Course']+'</td>';
+                            table += '<td >'+ data[i]['RefNo']+'</td>';
                              table += '<td >'+ data[i][12]+'</td>';
 
 
