@@ -33,7 +33,7 @@ $result1 = "SELECT  * FROM Admissions where  IDNo='$reg_id'";
           $CollegeID = $row['CollegeID'];
          $CourseID= $row['CourseID'];
          $univ_rollno= $row['UniRollNo'];
-          $gender= $row['Sex'];
+          $Gender= $row['Sex'];
          $father_name = $row['FatherName'];
 
          $Batch = $row['Batch'];
@@ -147,7 +147,7 @@ $pdf->MultiCell(270,5,$name,'','C');
  $pdf->SetXY(20,105);
  $pdf->SetTextColor(0,0,0);
  $pdf->SetFont('Arial','',18);
- if($Gender='Male')
+ if($Gender=='Male')
  {
   $ss='He';
   $ss1='his';
@@ -203,7 +203,7 @@ $pdf->MultiCell(270,5,$name,'','C');
  $pdf->SetXY(20,92);
  $pdf->SetTextColor(0,0,0);
  $pdf->SetFont('Arial','',18);
- if($Gender='Male')
+ if($Gender=='Male')
  {
   $ss='He';
  }

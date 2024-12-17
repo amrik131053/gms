@@ -216,7 +216,7 @@ function by_search_studetn() {
                             var status = data[i][20];
                            var unirollno = data[i][2];
 
-                           var generate=data[i][35];
+                           var generate=data[i]['generate'];
 
                              if(data[i][31]==1){
                                table += '<tr style="background-color:#52BE80;">';
@@ -248,12 +248,12 @@ table +='<button onclick="edit_student('+ data[i][0] +');" data-toggle="modal" d
  if(userid!='131027' )
                 {
 
-table += '<button onclick="edit_student_a('+ data[i][0] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
+table += '<button onclick="edit_student_a('+ data[i]['id'] +');" data-toggle="modal" data-target="#for_edit_a" class="btn btn-success btn-xs " ><i class="fa fa-edit"></i></button >&nbsp;';}
                            
  if(generate<=0)
           {
 
-table +='<button onclick="generate_student('+ data[i][0] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
+table +='<button onclick="generate_student('+ data[i]['id'] +');"  class="btn btn-danger btn-xs " ><i class="fa fa-plus"> </i></button >';
            }
            else
              {
@@ -1061,13 +1061,13 @@ function admisssion_complete1(district)
 
 function generate_student(id) 
 {  
-var code='177';
+var code='177'; 
 $.ajax({
 url:'action_g.php',
 data:{id:id,code:code},
 type:'POST',
 success:function(data){
-// console.log(data);
+ console.log(data);
 if(data==2)
 {
    ErrorToast('Set reference number ','bg-warning');

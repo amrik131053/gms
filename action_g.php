@@ -12768,7 +12768,7 @@ elseif($code==177)
     }
     if($Batch!='')
     {
-    $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+  echo   $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
 $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
     if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
 {    
@@ -12784,7 +12784,7 @@ $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);
 $refff=$ReffrenceNumber;
  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$Batch'";
 mysqli_query($conn,$upd1);
- $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$refff'  where id='$id '";
+ echo  $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$refff'  where id='$id '";
 mysqli_query($conn,$upd);
 
 
