@@ -318,6 +318,44 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
 </table>
 
 <table class="table">
+    <!-- Academic Details -->
+    <?php
+      $sql12 = "SELECT * from AdditionalQualifications WHERE UserName= $emp_id ";
+ if ($data12 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql12))) {
+          ?>
+
+  <table  style="font-size:14px; ">
+  <tr style="background:#c0bab9; ">
+    <td colspan="15">
+        <h5><b>Additional Qualifications</b></h5>
+
+    </td>
+</tr>
+  <tr style="background:#c0bab9; ">
+          <th>SrNo</th>
+          <th>Additional Qualifications Type</th>
+          
+      </tr>
+      <tbody>
+          <?php
+                                                                $res = sqlsrv_query($conntest, $sql12);
+                                                                $SrNo=1;
+                                                                while ($data12 = sqlsrv_fetch_array($res)) { ?>
+          <tr>
+              <td><?=$SrNo;?></td>
+
+              <td><?=$data12['AdditionalQualificationsType'];?></td>
+             
+          </tr>
+          <?php
+                                                                $SrNo++;
+                                                                    }
+                                                                    ?>
+      </tbody>
+  </table>
+  <?php }?>
+</table>
+<table class="table">
     <!-- PHD Details -->
     <?php
     $sql1 = "SELECT * FROM PHDacademic WHERE UserName = $emp_id";

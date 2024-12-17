@@ -909,4 +909,56 @@ elseif ($code==16) {
         echo "0";
     }
 }
+elseif ($code==17) {
+    $title=$_POST['title'];
+    $type=$_POST['type'];
+    $date=$_POST['date'];
+      $updateSection="INSERT into CouponRecord (Title,Type,EventDate)
+     Values('$title','$type','$date')";
+    $updateSectionRun=sqlsrv_query($conntest,$updateSection);
+    if($updateSectionRun==true)
+    {
+        echo "1";
+    }
+    else{
+        echo "0";
+    }
+}
+elseif ($code==18) {
+    ?>
+<table class="table table-bordered">
+<tr>
+    <th>SrNo</th>
+    <th>Title</th>
+    <th>Type</th>
+    <th>Date</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Action</th>
+</tr>
+<?php 
+   $Sr=1;
+     $updateSection="SELECT * FROM CouponRecord ";
+    $updateSectionRun=sqlsrv_query($conntest,$updateSection);
+    while($row=sqlsrv_fetch_array($updateSectionRun,SQLSRV_FETCH_ASSOC))
+    {
+          ?>
+      
+         <tr>
+        <td><?=$Sr;?></td>
+        <td><?=$row['Title'];?></td>
+        <td><?=$row['Type'];?></td>
+        <td><?=$row['EventDate']->format('d-m-Y');?></td>
+        <td><input type="number" class="form-control"   id="StartNumber<?=$row['ID'];?>" value="<?=$row['SrStart'];?>"></td>
+        <td><input type="number" class="form-control"  id="EndNumber<?=$row['ID'];?>" value="<?=$row['SrEnd'];?>">
+    </td>
+        <td><button type="submit" class="btn btn-success" onclick="printCoupon('<?=$row['ID'];?>');"><i class="fa fa-print"></i></button></td>
+        </tr>
+
+    <?php
+        $Sr++; 
+    }
+   ?>
+   </table><?php 
+}
    }

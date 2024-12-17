@@ -11,17 +11,35 @@
             <div class="col-lg-3 col-md-3 col-sm-3">
                <div class="card card-info">
                   <div class="card-header">
-                     <h3 class="card-title">Student</h3>
+                     <h3 class="card-title">Coupon Entry</h3>
                      <div class="card-tools">
-                     <div class="btn-group input-group-sm">
-                                 <input type="text"  style="width:150px "  name="student_roll_no" class="form-control" id='student_roll_no' placeholder="RollNo" aria-describedby="button-addon2" value="">
-                              <button class="btn btn-info btn-sm" type="button" id="button-addon2" onclick="search_by_roll_no();" name="search"><i class="fa fa-search"></i></button>
-                           </div>
+                  
                    </div>
                   </div>
                   <!-- /.card-header -->
-                  <div class="card-body table-responsive p-0"  id="student_search_record">
-                     
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <label>Title</label>
+                           <input type="text" id="title" class="form-control">
+                        </div>
+                        <div class="col-lg-12">
+                        <label>Type</label>
+                        <select id="type" class="form-control">
+                           <option value="Lunch">Lunch</option>
+                           <option value="BreakFast">BreakFast</option>
+                           <option value="Dinner">Dinner</option>
+                        </select>
+                        </div>
+                        <div class="col-lg-12">
+                        <label>Date</label>
+                           <input type="date" id="date" class="form-control">
+                        </div>
+                        <div class="col-lg-12">
+                           <label>Action</label><br>
+                           <input type="button" value="Submit" onclick="submitCoupon();" class="btn btn-success">
+                        </div>
+                     </div>
                   </div>
                  
                </div>
@@ -85,261 +103,55 @@
 
 <script type="text/javascript">
 
-
-  function search_by_roll_no_by_id(rollNo)
-   {
-          
-      var code=257.2;
-      var code_access = '<?php echo $code_access; ?>';
-      if (rollNo!='') 
-      {
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo,code_access:code_access
-            },
-            success:function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("allDeatils").innerHTML =response;
-            }
-         });
-      }
-      else
-      {
-         document.getElementById("allDeatils").innerHTML ='';
-      }
-   } 
-
-
-
-     function update()
-     {
-     
-  var srno= document.getElementById("srno").value;
-  var idno= document.getElementById("idno").value;
-
-  var examination= document.getElementById("examination_n").value;
-   //alert(examination);
-var result= document.getElementById("result_n").value;
-
-var mid= document.getElementById("mid").value;
-var code="257.4";
-
-
-
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php",
-            type:"POST",
-            data:
-            {
-               code:code,srno:srno,examination:examination,result:result,mid:mid,idno:idno
-            },
-            success:function(response) 
-            {
-              console.log(response);
-               spinner.style.display='none';
-               if (response == 1) {
-                SuccessToast('Data Updated successfully');
-                search_by_roll_no_by_id(idno);
-               
-            } 
-            else{
-                ErrorToast('Please try after sometime.', 'bg-danger');
-            }
-
-               
-            }
-         });      
-     
-     } 
-
-
-
-//  function update(form) {
-
-//     var srno = form.srno.value;
-//     var leaveFile = form.migrationfile.value;
-   
-  
-//     if (srno === "") {
-
-//         ErrorToast('Please select a Serial No .', 'bg-warning');
-//         return;
-//     }
-   
-//     // if (leaveFile === "") {
-
-//     //     ErrorToast('Please upload an migration File.', 'bg-warning');
-//     //     return;
-//     // }
-
-//     // var submitButton = form.querySelector('input[name="migrationupload"]');
-//     // submitButton.disabled = true;
-//     // submitButton.value = "Submitting...";
-
-//     var formData = new FormData(form);
-//     $.ajax({
-//         url: form.action,
-//         type: form.method,
-//         data: formData,
-//         contentType: false,
-//         processData: false,
-//         success: function(response) {
-//              console.log(response);
-//             if (response == 1) {
-//                 SuccessToast('data submitted successfully');
-               
-//             } 
-//             else{
-//                 ErrorToast('Please try after sometime.', 'bg-danger');
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             // console.log(error);
-//         },
-       
-//     });
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function edit(ID)
-   {
-    
-          
-      var code=257.3;
-      var code_access = '<?php echo $code_access; ?>';
-      if (ID!='') 
-      {
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php",
-            type:"POST",
-            data:
-            {
-               code:code,ID:ID,code_access:code_access
-            },
-            success:function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("Editdetails").innerHTML =response;
-            }
-         });
-      }
-      else
-      {
-         document.getElementById("Editdetails").innerHTML ='';
-      }
-   }
-
-
-
-
-
-
-
-
-   function search_by_roll_no()
-   {
-      var code=257.1;
-      var code_access = '<?php echo $code_access; ?>';
-      var rollNo= document.getElementById("student_roll_no").value;
-      if (rollNo!='') 
-      {
-         var   spinner= document.getElementById("ajax-loader");
-   spinner.style.display='block';
-         $.ajax(
-         {
-            url:"action.php ",
-            type:"POST",
-            data:
-            {
-               code:code,rollNo:rollNo,code_access:code_access
-            },
-            success:function(response) 
-            {
-               spinner.style.display='none';
-               document.getElementById("student_search_record").innerHTML =response;
-               search_by_roll_no_by_id(rollNo);
-            }
-         });
-      }
-      else
-      {
-         document.getElementById("student_search_record").innerHTML ='';
-      }
-   } 
-
-
-
- 
-    function applyMigration(id)
+    function submitCoupon()
           {
-       var code=468.1;
-       var examination= document.getElementById("examination").value;
-       var result= document.getElementById("result").value;
+       var code=17;
+       var title= document.getElementById("title").value;
+       var type= document.getElementById("type").value;
+       var date= document.getElementById("date").value;
          var spinner=document.getElementById('ajax-loader');
          spinner.style.display='block';
          $.ajax({
-            url:'action_g.php',
+            url:'action_a.php',
             type:'POST',
             data:{
-               code:code,id:id,result:result,examination:examination
+               flag:code,type:type,title:title,date:date
+                  },
+                 success: function(response) 
+                { 
+                  console.log(response);
+               spinner.style.display='none';
+               getRecord();
+               
+            }
+         });
+     }
+     getRecord();
+    function getRecord()
+          {
+       var code=18;
+         var spinner=document.getElementById('ajax-loader');
+         spinner.style.display='block';
+         $.ajax({
+            url:'action_a.php',
+            type:'POST',
+            data:{
+               flag:code
                   },
                  success: function(response) 
             { 
-                console.log(response);
-
                spinner.style.display='none';
-               search_by_roll_no() ;
+               document.getElementById("allDeatils").innerHTML=response;
+               
             }
          });
      }
   
+     function printCoupon(id) {
+             var StartNumber=document.getElementById("StartNumber"+id).value;
+            var  EndNumber=document.getElementById("EndNumber"+id).value;  
+      window.open('coupon-print-pdf.php?ID=' + id+"&start="+StartNumber+"&end="+EndNumber);
+}     
 </script>
 
 
