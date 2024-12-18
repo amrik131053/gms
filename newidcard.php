@@ -189,7 +189,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
 
     $pdf->SetXY(1,$XSet+12);
 
-    $pdf->SetXY(1,41);
+    $pdf->SetXY(1,39);
     $pdf->SetFont('Arial','B',8);
          $strlen=strlen(trim($row['Name']));
 if($strlen<=23)
