@@ -214,7 +214,7 @@ else
 {
      $pdf->MultiCell(52,3,$row['Designation'],'','C');
 }
-    $pdf->SetXY(1,$XSet-8);
+    $pdf->SetXY(1,$XSet-10);
     $pdf->SetTextColor(0,0,0);
     $pdf->SetFont('Arial','B',6);
     $pdf->MultiCell(52,3,strtoupper($row['DepartmentName']),'0','C');
