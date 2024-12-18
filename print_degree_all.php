@@ -1339,7 +1339,9 @@ else{
                                       }
                                         $CGPA = number_format($CGPA, 2);
                                         
-                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+                                                $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
+
+                                                // $text = "Course:".$course."\nYoA:".$yoa."\nName:".$name."\nRegistration No.".$RegNo."\nUniversity Roll No.".$UnirollNo."\nCGPA:".$CGPA;
                                                 $path = 'degreeqr/';
                                                 $file = $path.$UnirollNo.".png";
                                                 $ecc = 'L';
@@ -1364,7 +1366,7 @@ else{
                         }
                         else
                         {
-                          ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "Regn. cum Roll No. ".$UnirollNo;?></b></div>
+                          ?> <div class="col-lg-12 " style="font-family: Baskerville Old Face; line-height: 1.2; width:auto; font-size: 18px; text-align:right; margin-right: 80px;margin-left: 50px;"><b><?php echo "University Roll No. ".$UnirollNo;?></b></div>
                         <?php
                         }
                         ?> </div>
