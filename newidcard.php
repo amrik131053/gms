@@ -189,7 +189,7 @@ $imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
 
     $pdf->SetXY(1,$XSet+12);
 
-    $pdf->SetXY(1,39);
+    $pdf->SetXY(1,41);
     $pdf->SetFont('Arial','B',8);
          $strlen=strlen(trim($row['Name']));
 if($strlen<=23)
@@ -203,7 +203,7 @@ elseif($strlen>23)
     // $XSet=$pdf->GetY();
 }
 $pdf->SetTextColor(0,0,0);
-    $pdf->SetXY(1,$XSet-12.2);
+    $pdf->SetXY(1,$XSet-13.2);
     $pdf->SetFont('Arial','B',5.7);
       $strlend=strlen(trim($row['Designation']));
 if($strlend<=23)
