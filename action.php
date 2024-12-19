@@ -21571,7 +21571,7 @@ $id = $_POST['id'];
 }
  elseif($code=='332') 
    {
-    echo $qry="SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'";
+    $qry="SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'";
 
  $result = mysqli_query($conn_online,$qry);
     $counter = 1; 

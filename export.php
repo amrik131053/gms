@@ -2961,7 +2961,7 @@ elseif($exportCode=='27')
 {
     
 
-  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='Conference Educon'");
+  $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'");
     $counter = 1; 
      
     
