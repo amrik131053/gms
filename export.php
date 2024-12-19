@@ -1070,7 +1070,8 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 <th>Units Consumed</th>
                
                 <th>Units Concession</th>                
-                <th>Bill amount</th>                
+                <th>Bill amount</th>  
+                 <th>Per Person</th>                
             </tr>
         </thead>";
         
@@ -1117,10 +1118,12 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
             $meterLocation=$data1['location_id'];
             $flag=0;
             $sr=0;
-            $locationQry="SELECT distinct Corrent_owner from stock_summary where LocationID='$meterLocation' ORDER by Corrent_owner desc";
+            $noofuser=0;
+           $locationQry="SELECT distinct Corrent_owner from stock_summary where LocationID='$meterLocation' AND Corrent_owner!=''  ORDER by Corrent_owner desc";
             $locationRes=mysqli_query($conn,$locationQry);
             while($locationData=mysqli_fetch_array($locationRes))
             {
+                
               $user='';
               $user=$locationData['Corrent_owner'];
               if (strlen($user)>7) 
@@ -1186,6 +1189,7 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                   }
                 }
               }
+              $noofuser=$noofuser+1;
             }
             $newDateTable.="<tr><td rowspan='{$sr}'>{$date}</td><td rowspan='{$sr}'>{$reading}</td></tr>";
             $oldDateTable.="<tr><td rowspan='{$sr}'>{$previousReadingDate}</td><td rowspan='{$sr}'>{$previousReading}</td></tr>";
@@ -1214,6 +1218,12 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                     }
                     
             }
+if($noofuser>0){
+           $indvidualbill=$billAmount/$noofuser;
+       }else
+       {
+        $billAmount;
+       }
             $meterLocationsData.="<tr>
                 <td>{$count}</td>
                 <td>{$article_num}</td>
@@ -1244,7 +1254,8 @@ $sql="SELECT distinct article_no,Name from meter_reading inner join location_mas
                 <td>{$unitsConsumed}</td>
                 
                 <td><b>{$concession}</b></td>            
-                <td><b>{$billAmount}</b></td>            
+                <td><b>{$billAmount}</b></td>  
+                  <td><b>{$indvidualbill}</b></td>                
             </tr>";
         
     }

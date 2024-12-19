@@ -357,7 +357,7 @@ function groupexportpdf(id)
       function search_meter_at_location()
       {
          
-         var code='383';
+         var code='383'; 
          var building=document.getElementById("hostel_id").value;
          if (building!='') 
          {

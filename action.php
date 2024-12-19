@@ -5563,19 +5563,59 @@ mysqli_close($conn);
        $phone = $row['StudentMobileNo'];
        $batch = $row['Batch'];
        $college = $row['CollegeName'];
-       $sql="SELECT distinct student_id from hostel_student_summary where student_id='$IDNo'";
+
+?>
+       <table class="table">
+   <thead>
+      <tr>
+         <td>Name :</td>
+         <td><b><?=$name?></b></td>
+         <td>Father Name :</td>
+         <td><b><?=$father_name?></b></td>
+         
+         <td rowspan="2" width="12%">
+            <center><img src="<?=$BasURL.'Images/Students/'.$img?>" height="100%" width="100%" class="img-thumnail"  style="border-radius:5%"/></center>
+         </td>
+      </tr><tr><td>Class/Uni Roll No.</td>
+         <td><b><?= $ClassRollNo ;?>/<?= $UniRollNo ;?></b></td>
+         
+          <td>Course :</td>
+         <td><b><?= $course ;?></b></td></tr>
+       </thead></table>
+
+        <?php
+  $sql="SELECT distinct student_id from hostel_student_summary where student_id='$IDNo'";
        $res=mysqli_query($conn,$sql);
        if (mysqli_num_rows($res)>0) 
        {
+
            $roomNo='';
                $floor='';
-             $qry="SELECT *, location_master.RoomNo as lmRoomNo,room_master.Floor as rmFloor,location_master.ID as LID from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id INNER JOIN room_master ON room_master.RoomNo=location_master.RoomNo  where student_id='$IDNo' and status='0'";
+             $qry="SELECT *, location_master.RoomNo as lmRoomNo,room_master.Floor as rmFloor,location_master.ID as LID from hostel_student_summary inner join location_master on location_master.ID=hostel_student_summary.location_id INNER JOIN room_master ON room_master.RoomNo=location_master.RoomNo  where student_id='$IDNo' ";
            $run=mysqli_query($conn,$qry);
-           while($data=mysqli_fetch_array($run))
+
+ ?><table class="table">
+   <thead>
+      <tr>  <td>Room No. </td>
+          <td>Session </td>
+         
+         <td>Floor </td>
+         
+        <td>Hostel Name </td>
+         
+          <td>Check in Date </td>
+           <td>Check out Date </td>
+      </tr>
+   </thead>
+
+        <?php    while($data=mysqli_fetch_array($run))
            {
                $roomNo=$data['lmRoomNo'];
+               $session=$data['session'];
                $floor=$data['rmFloor'];
                $floor=$data['rmFloor'];
+                 $check_in_date=$data['check_in_date'];
+                 $check_out_date=$data['check_out_date'];
                $LID=$data['LID'];
                   $qry1="SELECT * from location_master inner join  building_master ON building_master.ID=location_master.Block  where location_master.ID='$LID'";
                $run1=mysqli_query($conn,$qry1);
@@ -5587,34 +5627,31 @@ mysqli_close($conn);
    ?>
 <div class="row">
 <div class="col-lg-12">
-<table class="table">
-   <thead>
-      <tr>
-         <td>Name :<?=$LID;?></td>
-         <td><b><?=$name?></b></td>
-         <td>Father Name :</td>
-         <td><b><?=$father_name?></b></td>
-         <td>Class/Uni Roll No.</td>
-         <td><b><?= $ClassRollNo ;?>/<?= $UniRollNo ;?></b></td>
-         <td>Hostel Name :</td>
-         <td><b><?=$hostelName;?></b></td>
-         <td rowspan="2" width="12%">
-            <center><img src="<?=$BasURL.'Images/Students/'.$img?>" height="100%" width="100%" class="img-thumnail"  style="border-radius:5%"/></center>
-         </td>
-      </tr>
-      <tr>
-         <td>Room No. :</td>
+
+      
+      <tr>  
          <td><b><?=$roomNo?></b></td>
-         <td>Floor :</td>
+          <td><b><?=$session?></b></td>
+         
          <td><b><?=$floor?></b></td>
-         <td>Course :</td>
-         <td><b><?= $course ;?></b></td>
+       <td><b><?=$hostelName;?></b></td>
+       <td><b><?=$check_in_date;?></b></td>
+       <td><b><?=$check_out_date;?></b></td>
+         
          
       </tr>
+   
+<br>
+
+
+
+
+
+<?Php
+   }?>
    </thead>
 </table>
-<br>
-<table class="table">
+<!-- <table class="table">
    <thead>
       <tr>
          <th>Sr. No.</th>
@@ -5691,14 +5728,14 @@ mysqli_close($conn);
                }
                ?> 
          </td>
-         <!-- <td>
+          <td>
             <form action="report-print.php" method="post" target="_blank">
                             <input type="hidden" name="IdNo" value="<?=$ref; ?>">
                               <button class='btn border-0 shadow-none' >
                                 <i class="fa fa-print fa-lg"  type='submit'  style="color:blue;"></i>
                               </button>
                           </form>
-            </td> -->
+            </td>
       </tr>
       <?php
          $returnArray[] = $ref;
@@ -5707,9 +5744,7 @@ mysqli_close($conn);
          }
          ?>
    </tbody>
-</table>
-<?Php
-   }
+</table> --><?php 
 }
    }   
    sqlsrv_close($conntest);
@@ -21536,13 +21571,15 @@ $id = $_POST['id'];
 }
  elseif($code=='332') 
    {
- $result = mysqli_query($conn_online,"SELECT * FROM online_payment where  status='success' AND purpose='International Seminar 2024' ");
+    echo $qry="SELECT * FROM online_payment where  status='success' AND remarks='National Seminar 20-22 January 2025'";
+
+ $result = mysqli_query($conn_online,$qry);
     $counter = 1; 
         while($row=mysqli_fetch_array($result)) 
         {
       $id = $row['slip_no'];
         $user_id = $row['user_id'];
-      $payment_id = $row['payment_id'];
+    $payment_id = $row['payment_id'];
       $name = $row['name'];
       $father_name = $row['father_name'];
       $roll_no = $row['roll_no'];
@@ -21558,21 +21595,7 @@ $id = $_POST['id'];
       $email = $row['email'];
       $phone = $row['phone'];
        $admissionstatus=$row['merge'];
-       if($admissionstatus>0)
-        {
-         $adstatus="Admitted";
-        }
-        else{
-$adstatus="Pending";
-        }
-if($row['confirmation']==2  AND $admissionstatus> 0  )
-{?>
-            <tr style="background-color:#dff0d8" >
-   <?php   }
-   else if($row['send_mail']==2)
-    {?>
- <tr style="background-color:#e692a9">
-   <?php }
+       
   ?>  
 
   <td>  
@@ -22630,6 +22653,9 @@ $query = "SELECT StudentName,UniRollNo,FatherName,Batch,Course,vac.Id as vid FRO
 <?php
 }?>
 <tr>
+   <td colspan="3">
+          <button class="btn" style="float:left" onclick="bulk_print();"><i class="fa fa-print text-danger"></i></button>
+          </td> 
             <td colspan="8">
                <button class="btn" style="float:right" onclick="deleteAllChecked();"><i class="fa fa-trash text-danger"></i></button>
             </td>
@@ -22713,6 +22739,7 @@ $Batch=$row['Batch'];
  <?php
  }?>
  <tr>
+         
           <td colspan="7">
           <button class="btn" style="float:left" onclick="deleteAllChecked();"><i class="fa fa-trash text-danger"></i></button>
           </td>   
