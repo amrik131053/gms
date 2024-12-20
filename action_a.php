@@ -952,7 +952,17 @@ elseif ($code==18) {
         <td><input type="number" class="form-control"   id="StartNumber<?=$row['ID'];?>" value="<?=$row['SrStart'];?>"></td>
         <td><input type="number" class="form-control"  id="EndNumber<?=$row['ID'];?>" value="<?=$row['SrEnd'];?>">
     </td>
-        <td><button type="submit" class="btn btn-success" onclick="printCoupon('<?=$row['ID'];?>');"><i class="fa fa-print"></i></button></td>
+        <td>
+            <?php if($row['Type']=='All'){
+?>
+                <button type="submit" class="btn btn-success" onclick="printCouponAll('<?=$row['ID'];?>');"><i class="fa fa-print"></i></button>
+  <?php          }else{
+                ?>
+<button type="submit" class="btn btn-success" onclick="printCoupon('<?=$row['ID'];?>');"><i class="fa fa-print"></i></button>
+
+                <?php 
+            }?>
+        </td>
         </tr>
 
     <?php

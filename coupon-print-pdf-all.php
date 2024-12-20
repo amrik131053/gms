@@ -1,0 +1,113 @@
+<?php
+require('fpdf/fpdf.php');
+date_default_timezone_set("Asia/Kolkata");
+include "connection/connection.php";
+
+// Validate input
+$id = isset($_GET['ID']) ? intval($_GET['ID']) : null;
+$StartNumber = isset($_GET['start']) ? intval($_GET['start']) : null;
+$EndNumber = isset($_GET['end']) ? intval($_GET['end']) : null;
+
+if (!$id || !$StartNumber || !$EndNumber || $EndNumber < $StartNumber) {
+    die("Invalid input parameters.");
+}
+
+$list_sqlw = "UPDATE CouponRecord SET SrStart=?, SrEnd=? WHERE ID=?";
+$params = [$StartNumber, $EndNumber, $id];
+$stmt1 = sqlsrv_query($conntest, $list_sqlw, $params);
+if (!$stmt1) {
+    die("Failed to update database.");
+}
+
+$getStatus = "SELECT * FROM CouponRecord WHERE ID=?";
+$getStatusRun = sqlsrv_query($conntest, $getStatus, [$id]);
+if (!$getStatusRun || !($getStatusRow = sqlsrv_fetch_array($getStatusRun))) {
+    die("Failed to fetch data.");
+}
+
+$Title = $getStatusRow['Title'];
+$Type = $getStatusRow['Type'];
+$EventDate = $getStatusRow['EventDate']->format('d M Y');
+
+class CustomPDF extends FPDF {
+    function Footer() {
+        $this->SetY(10);
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
+    }
+}
+
+
+$pdf = new CustomPDF();
+$pdf->SetTextColor(0, 0, 0);
+$pdf->SetFont('Times', 'B', 14);
+
+$x = 10; $p = 76; $q = 143;
+$y = 17.8; $yy = 21.5;
+$g = 17.8; $gg = 21.5;
+$r = 17.8; $rr = 21.5;
+
+
+$total = $EndNumber - $StartNumber + 1;
+$pdf->AddPage('P', 'A4');
+if (!file_exists('dist/img/CouponAll.jpg')) {
+    die("Background image not found.");
+}
+$pdf->Image('dist/img/CouponAll.jpg', 5, 6, 200, 280);
+
+for ($j = $StartNumber; $j <= $EndNumber; $j++) {
+
+    $pdf->SetXY($x, $y);
+    $pdf->MultiCell(25, 5, $j, 0, 'C');
+    $pdf->SetFont('Times', 'B', 7);
+    $pdf->SetXY($x + 29, $yy);
+    $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
+    $pdf->SetFont('Times', 'B', 14);
+    $pdf->SetXY($x -2, $yy+15);
+    $pdf->MultiCell(30, 6,'Breakfast', 0, 'C');
+    $yy += 40;
+    $y += 40;
+
+    $pdf->SetXY($p, $g);
+    $pdf->MultiCell(25, 5, $j, 0, 'C');
+    $pdf->SetFont('Times', 'B', 7);
+    $pdf->SetXY($p + 29, $gg);
+    $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
+    $pdf->SetFont('Times', 'B', 14);
+    $pdf->SetXY($p -2, $gg + 15);
+    $pdf->MultiCell(30, 6, 'Lunch', 0, 'C');
+    $gg += 40;
+    $g += 40;
+
+    $pdf->SetXY($q, $r);
+    $pdf->MultiCell(25, 5, $j, 0, 'C');
+    $pdf->SetFont('Times', 'B', 7);
+    $pdf->SetXY($q + 29, $rr);
+    $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
+    $pdf->SetFont('Times', 'B', 14);
+    $pdf->SetXY($q -2, $rr + 15);
+    $pdf->MultiCell(30, 6,$r.'Dinner', 0, 'C');
+    $rr += 40;
+    $r += 40;
+
+    if ($j%7==0) { 
+        $pdf->AddPage('P', 'A4');
+        $pdf->Image('dist/img/CouponAll.jpg', 5, 6, 200, 280);
+
+        $x = 10;
+        $p = 76;
+        $q = 143;
+        $y = 17.8;
+        $yy = 21.5;
+        $g = 17.8;
+        $gg = 21.5;
+        $r = 17.8;
+        $rr = 21.5;
+    }
+}
+
+
+
+// Output PDF
+$pdf->Output();
+?>

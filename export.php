@@ -2974,10 +2974,9 @@ elseif($exportCode=='27')
           <th>Ref no</th>
           <th>Name</th>
           <th>Member Type</th>
-           <th>IDNo</th>
-             <th>Organisation</th>
+             <th>Designation</th>
             <th>College</th>
-             <th>Course</th>
+             <th>Department</th>
          
           <th>Email</th> 
           <th>Purpose</th>
@@ -2987,6 +2986,8 @@ elseif($exportCode=='27')
           <th>Country</th>
            <th>Accomodation</th>
            <th>Accomodation Type </th>
+           <th>Presentation Type </th>
+           <th>Abstract Title </th>
               <th>Check in Date </th>
                 <th>Check out Date </th>
                  <th>Presenting</th>
@@ -3000,15 +3001,24 @@ elseif($exportCode=='27')
     
      while($row=mysqli_fetch_array($result)) 
         {
-      $id = $row['slip_no'];
-      $payment_id = $row['payment_id'];
-      $name = $row['name'];
-      $father_name = $row['father_name'];
-      $Designation = $row['roll_no'];
+            $id = $row['slip_no'];
+            $payment_id = $row['payment_id'];
+            $name = $row['name'];
+            $father_name = $row['father_name'];
+            $Designation = $row['roll_no'];
+            $result1 = mysqli_query($conn_online,"SELECT * FROM seminar_registrations where  id='$Designation'");
+            if($row1=mysqli_fetch_array($result1)) 
+            {
+               $presentation=$row1['presentation'];
+               $abstract_title=$row1['abstract_title'];
+            }
+             
+
+
       $Organisation = $row['course'];
       $IdNo = $row['Class_rollno'];
       $batch=$row['batch'];
-      $purpose=$row['remarks'];
+      $purpose=$row['purpose'];
       $remarks=$row['remarks'];
 
       $Created_date=$row['Created_date'];
@@ -3024,6 +3034,7 @@ elseif($exportCode=='27')
       $acctype=$row['acctype'];
       $start=$row['start'];
       $endd=$row['endd'];
+      $CollegeName=$row['CollegeName'];
 
 
       $presenting = $row['presenting'];
@@ -3032,29 +3043,50 @@ elseif($exportCode=='27')
       $phone = $row['phone'];
 
       $attending = $row['attending'];
-     
+      switch ($purpose) {
+        case 'student':
+           
+            $category_label='Student';
+            break;
+        case 'researchScholar':
+           
+            $category_label='Research Scholar';
+            break;
+        case 'faculty_inside':
+           
+            $category_label='Guru Kashi Faculty Member';
+            break;
+            case 'faculty_outside':
+               
+                $category_label='Outside Faculty Member';
+            break;
+        default:
+            $fee = 'Not Available';
+    }
        
             $exportMeter.="<tr>
                 <td>{$count}</td>
                 <td>{$payment_id}</td>
                 <td>{$id}</td>
                 <td>{$name}</td>
-                <td>{$father_name}</td>
-                 <td>{$IdNo}</td>
+                <td>{$category_label}</td>
+                
                  <td>{$Organisation}</td>
-                <td>{$Designation}</td>
+                <td>{$CollegeName}</td>
               
-                 <td>{$quali}</td>
+                 <td>{$father_name}</td>
                  
                 
                 <td>{$email}</td>
-                <td>{$purpose}</td>
+                <td>{$remarks}</td>
                 <td>{$phone}</td>
                 <td>{$amount}</td>
                 <td>{$Created_date}&nbsp;{$Created_time}</td>
                 <td>{$country}</td>
                  <td>{$accomodation}</td>
                   <td>{$acctype}</td>
+                  <td>{$presentation}</td>
+                  <td>{$abstract_title}</td>
                    <td>{$start}</td>
                     <td>{$endd}</td>
                     <td>{$presenting}</td>
