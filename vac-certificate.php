@@ -189,7 +189,7 @@ function search()
 
 
 }
-
+ 
 
 
 function signature()
@@ -302,6 +302,8 @@ function signature()
  
 }
 
+
+
 function deleteAllChecked()
 {
   var r = confirm("Do you really want to Delete");
@@ -355,7 +357,66 @@ var len_student= verifiy.length;
 else{
 
 }
+
 }
+
+
+function bulk_print()
+{
+var verifiy=document.getElementsByClassName('v_check');
+var len_student= verifiy.length; 
+var subjectIDs=[];  
+       for(i=0;i<len_student;i++)
+     {
+          if(verifiy[i].checked===true)
+          {
+            subjectIDs.push(verifiy[i].value);
+          }
+     }
+  if((typeof  subjectIDs[0]== 'undefined'))
+  {
+    // alert('');
+
+    ErrorToast(' Select atleast one Student' ,'bg-warning');
+  }
+  else
+  {
+
+    let subjectIDsString = subjectIDs.join(',');
+
+ window.open("download_bulk_vac.php?students="+subjectIDs, '_blank');
+
+    // window.open("download_bulk_vac.php?students="+subjectIDs'_blank');
+//          var spinner=document.getElementById("ajax-loader");
+//          spinner.style.display='block';
+//   $.ajax({
+//          url:'download_bulk_vac.php',
+//          data:{certificateID:subjectIDs},
+//          type:'POST',
+//          success:function(data) {
+//             spinner.style.display='none';
+//             console.log(data);
+//             if (data==1) 
+//             {
+//                 SuccessToast('Successfully Deleted');
+            
+
+
+//                search();
+//             }
+//             else
+//             {
+//                 ErrorToast(' try Again' ,'bg-danger');
+
+//             }
+//             }      
+// });
+
+
+
+}
+}
+
 function deleteSignAll()
 {
   var r = confirm("Do you really want to Delete");

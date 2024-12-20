@@ -203,7 +203,7 @@ elseif($strlen>23)
     // $XSet=$pdf->GetY();
 }
 $pdf->SetTextColor(0,0,0);
-    $pdf->SetXY(1,$XSet-12.2);
+    $pdf->SetXY(1,$XSet-13.2);
     $pdf->SetFont('Arial','B',5.7);
       $strlend=strlen(trim($row['Designation']));
 if($strlend<=23)
@@ -214,7 +214,7 @@ else
 {
      $pdf->MultiCell(52,3,$row['Designation'],'','C');
 }
-    $pdf->SetXY(1,$XSet-9);
+    $pdf->SetXY(1,$XSet-10);
     $pdf->SetTextColor(0,0,0);
     $pdf->SetFont('Arial','B',6);
     $pdf->MultiCell(52,3,strtoupper($row['DepartmentName']),'0','C');

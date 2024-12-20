@@ -12540,7 +12540,7 @@ else if ($code == 173) {
                         if ($row_staff = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                             $Emp_Image = $row_staff['Imagepath'];
                             
-                            echo "<label><b><img class='direct-chat-img' src='" . $BasURL.'Images/Staff/'.$emp_pic . "' alt='message user image'></b></label>";
+                            echo "<label><b><img class='direct-chat-img' src='" . $BasURL.'Images/Staff/'.$Emp_Image . "' alt='message user image'></b></label>";
                             echo "<br><label><b>" . $Emp_Name = $row_staff['Name'] . '(' . $Emp_Name = $row_staff['IDNo'] . "</b></label>";
                         }
                         ?>
@@ -12768,7 +12768,7 @@ elseif($code==177)
     }
     if($Batch!='')
     {
-    $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
+  echo   $getReffrenceNumbersql = "SELECT * FROM offer_latter_number  Where Batch='$Batch'";
 $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);  
     if($getReffrenceNumberrow = mysqli_fetch_array($getReffrenceNumberstmt) )
 {    
@@ -12784,7 +12784,7 @@ $getReffrenceNumberstmt = mysqli_query($conn,$getReffrenceNumbersql);
 $refff=$ReffrenceNumber;
  $upd1="UPDATE offer_latter_number SET RefNumber='$ReffrenceNumber' Where Batch='$Batch'";
 mysqli_query($conn,$upd1);
- $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$refff'  where id='$id '";
+ echo  $upd="UPDATE offer_latter SET PrintDate='$timeStamp',PrintDate1='$timeStamp',generate='1', RefNo='$refff'  where id='$id '";
 mysqli_query($conn,$upd);
 
 
@@ -33200,6 +33200,13 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
               <td><?=$data1['DateofPassing'];?></td>
               <td><?=$data1['Percentage'];?></td>
               <td>
+
+                <i class=" fa fa-upload" id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
+                      data-toggle="modal" data-target="#modal-default"
+                      style="color: #223260;padding-left: 20px;padding-top: 5px">
+                  </i>
+
+
                   <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
                       data-toggle="modal" data-target="#modal-default"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">

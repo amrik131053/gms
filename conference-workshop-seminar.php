@@ -16,7 +16,7 @@
         
       <div class="col-lg-2 col-md-2 col-sm-2">
 
-                  <h3 class="card-title">Conference Educon</h3>  </div>   
+                  <h3 class="card-title">Conference/Workshop/Seminar</h3>  </div>   
                   <!--
                      <div class="col-lg-2 col-md-2 col-sm-2">  <input type="date"  id='start_date' placeholder="mm/dd/yyyy" required class="form-control"></div>
 

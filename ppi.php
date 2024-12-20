@@ -553,7 +553,7 @@ for($l=1;$l<=4;$l++)
                         <div class="panel-body" style="overflow: scroll;height: 600px;padding-left:20px">
 
                             <?php  
-     $sql1 = "SELECT * FROM ProgressReport WHERE UserID ='$a' and MONTH(Date)>='".date('m')."' ";
+    $sql1 = "SELECT * FROM ProgressReport WHERE UserID ='$a' and MONTH(Date)>='".date('m')."' order by Date Desc ";
 $log=0;
 $count=1;
 $stmt2 = sqlsrv_query($conntest,$sql1);
@@ -580,7 +580,7 @@ $stmt2 = sqlsrv_query($conntest,$sql1);
    {
 
     ?> <b style="color: red">Date: <?php echo $t;?> </b> <a onclick="update_daily('<?= $id;?>')"
-                                style="margin-left: 250px;color: #002147" data-toggle="modal"
+                                style="margin-left: 250px;color: #002147" class="btn btn-success" data-toggle="modal"
                                 data-target="#Modaldaily">Update</a>
                             <br />
                             <?php 
