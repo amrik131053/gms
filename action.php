@@ -21595,7 +21595,26 @@ $id = $_POST['id'];
       $email = $row['email'];
       $phone = $row['phone'];
        $admissionstatus=$row['merge'];
-       
+       switch ($purpose) {
+         case 'student':
+            
+             $category_label='Student';
+             break;
+         case 'researchScholar':
+            
+             $category_label='Research Scholar';
+             break;
+         case 'faculty_inside':
+            
+             $category_label='Guru Kashi Faculty Member';
+             break;
+             case 'faculty_outside':
+                
+                 $category_label='Outside Faculty Member';
+             break;
+         default:
+             $fee = 'Not Available';
+     }
   ?>  
 
   <td>  
@@ -21609,8 +21628,8 @@ if($payment_id!=''){?>
       } ?></b>
  </td>
  <td> <?php echo $name ;?> </td>
- <td>father:<?php echo $father_name; ;?></td>
- <td>course:<?php echo $course; ?></td>    
+ <td><?php echo $category_label; ;?></td>
+ <td><?php echo $course; ?></td>    
  <!-- <td> -->
    <?php //echo $course; ?>
    <!-- ( -->
@@ -21618,13 +21637,14 @@ if($payment_id!=''){?>
       <!-- ) -->
 <!-- </td>     -->
  <td><?php echo $email;?> </td>
- <td><?php echo $purpose;?> </td>
+ <td><?php echo $remarks;?> </td>
   <td style="text-align: left;">  <?php if($row['receipt']!="")
-{?><a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
-   <?php 
+{?>
+<a href="https://adm.gku.ac.in/registration/uploads/<?= $row['receipt'];?>" target="_blank"><i class="fa fa-download" style="color: green"></i></a>
+<?php 
 }
 ?> </td>
-      <td><?php echo $roll_no; ?></td>
+      <td><?php echo $phone; ?></td>
       <td><?php echo $amount; ?></td>
       <td><?php echo "<b>". date("d-m-Y", strtotime($Created_date)); ?></td>
   
