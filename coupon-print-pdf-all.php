@@ -38,6 +38,9 @@ class CustomPDF extends FPDF {
 
            $this->SetX(10);
     $this->MultiCell(25, 5, $this->loopCount+1, 0, 'C');
+    $this->SetFont('Times', 'B', 12);
+    $this->SetXY(10, -33);
+    $this->MultiCell(25, 5, $GLOBALS['EventDate'], 0, 'C'); 
     $this->SetFont('Times', 'B', 7);
     $this->SetXY(39, -35.5);
     $this->MultiCell(28.5, 2.7, $GLOBALS['Title'], 0, 'C');
@@ -48,6 +51,9 @@ class CustomPDF extends FPDF {
 
         $this->SetXY(76, -39);
         $this->MultiCell(25, 5, $this->loopCount+1, 0, 'C'); 
+        $this->SetFont('Times', 'B', 12);
+        $this->SetXY(75, -33);
+        $this->MultiCell(25, 5, $GLOBALS['EventDate'], 0, 'C'); 
         $this->SetFont('Times', 'B', 7);
         $this->SetXY(105, -35.5);
         $this->MultiCell(28.5, 2.7, $GLOBALS['Title'], 0, 'C');
@@ -57,6 +63,9 @@ class CustomPDF extends FPDF {
 
         $this->SetXY(143, -39);
         $this->MultiCell(25, 5, $this->loopCount+1, 0, 'C'); 
+        $this->SetFont('Times', 'B', 12);
+        $this->SetXY(142, -33);
+        $this->MultiCell(25, 5, $GLOBALS['EventDate'], 0, 'C'); 
         $this->SetFont('Times', 'B', 7);
         $this->SetXY(172, -35.5);
         $this->MultiCell(28.5, 2.7, $GLOBALS['Title'], 0, 'C');
@@ -88,6 +97,9 @@ for ($j = $StartNumber; $j <= $EndNumber; $j++) {
 
     $pdf->SetXY($x, $y);
     $pdf->MultiCell(25, 5, $loopCount, 0, 'C'); 
+    $pdf->SetFont('Times', 'B', 12);
+    $pdf->SetXY($x, $y+6);
+    $pdf->MultiCell(25, 5, $EventDate, 0, 'C'); 
     $pdf->SetFont('Times', 'B', 7);
     $pdf->SetXY($x + 29, $yy);
     $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
@@ -100,6 +112,10 @@ for ($j = $StartNumber; $j <= $EndNumber; $j++) {
 
     $pdf->SetXY($p, $g);
     $pdf->MultiCell(25, 5, $loopCount, 0, 'C'); 
+
+    $pdf->SetFont('Times', 'B', 12);
+    $pdf->SetXY($p, $g+6);
+    $pdf->MultiCell(25, 5, $EventDate, 0, 'C'); 
     $pdf->SetFont('Times', 'B', 7);
     $pdf->SetXY($p + 29, $gg);
     $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
@@ -111,6 +127,9 @@ for ($j = $StartNumber; $j <= $EndNumber; $j++) {
 
     $pdf->SetXY($q, $r);
     $pdf->MultiCell(25, 5, $loopCount, 0, 'C'); 
+    $pdf->SetFont('Times', 'B', 12);
+    $pdf->SetXY($q, $r+6);
+    $pdf->MultiCell(25, 5, $EventDate, 0, 'C'); 
     $pdf->SetFont('Times', 'B', 7);
     $pdf->SetXY($q + 29, $rr);
     $pdf->MultiCell(28.5, 2.7, $Title, 0, 'C');
