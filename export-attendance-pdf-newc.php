@@ -104,7 +104,7 @@ $this->MultiCell(10,6,'Image',0,'C');
 $this->SetFont('Arial','b',8);
 $this->SetXY(65,23);
 $this->Line(64,21,64,38);  //image
-$this->MultiCell(20,6,'Signature',0,'C');
+$this->MultiCell(20,6,'ABC ID',0,'C');
 $this->Line(85.4,21,85.4,38);
 $this->SetFont('Arial','b',8);
 

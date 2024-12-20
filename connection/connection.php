@@ -4,6 +4,7 @@
    $timeStampS=date('Y-m-d H:i:s');
    
 $serverName = "10.0.10.11"; //serverName\instanceName
+// $servername = "117.250.20.109";
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 

@@ -55,6 +55,7 @@ $LeaveSchoduleTime='';
 $printhalf='';
 $printShortleave='';
 $leavecount=0;
+$leavecount_n=0;
 $stmt = sqlsrv_query($conntest,$sql_att23);  
             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) )
            {
@@ -115,6 +116,19 @@ $printhalf='(SH)';
 
  else
  {
+
+
+  if($leavedurationtime>0)
+{ 
+  $leavecount_n=$leavecount-$leavedurationtime;
+ 
+} 
+ else
+ {
+    
+ $leavecount_n=0-1;
+
+ }
 
 
 
@@ -347,6 +361,11 @@ else
     $countday=1;
 }
 
+if($leavecount_n!=0 && $countday==1)
+{
+
+  $countday=$countday+$leavecount_n;
+}
 
 if($countday<1 && $countday>0)
 {
