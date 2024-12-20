@@ -29,6 +29,7 @@
                            <option value="Lunch">Lunch</option>
                            <option value="BreakFast">BreakFast</option>
                            <option value="Dinner">Dinner</option>
+                           <option value="All">All</option>
                         </select>
                         </div>
                         <div class="col-lg-12">
@@ -151,6 +152,11 @@
              var StartNumber=document.getElementById("StartNumber"+id).value;
             var  EndNumber=document.getElementById("EndNumber"+id).value;  
       window.open('coupon-print-pdf.php?ID=' + id+"&start="+StartNumber+"&end="+EndNumber);
+}     
+     function printCouponAll(id) {
+             var StartNumber=document.getElementById("StartNumber"+id).value;
+            var  EndNumber=document.getElementById("EndNumber"+id).value;  
+      window.open('coupon-print-pdf-all.php?ID=' + id+"&start="+StartNumber+"&end="+EndNumber);
 }     
 </script>
 

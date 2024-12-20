@@ -21586,8 +21586,8 @@ if($payment_id!=''){?>
       } ?></b>
  </td>
  <td> <?php echo $name ;?> </td>
- <td><?php echo $father_name; ;?></td>
- <td><?php echo $course; ?></td>    
+ <td>father:<?php echo $father_name; ;?></td>
+ <td>course:<?php echo $course; ?></td>    
  <!-- <td> -->
    <?php //echo $course; ?>
    <!-- ( -->
