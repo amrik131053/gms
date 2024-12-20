@@ -118,18 +118,15 @@ $printhalf='(SH)';
  {
 
 
-
-
   if($leavedurationtime>0)
 { 
-  $leavecount_n= $leavecount-$leavedurationtime;
+  $leavecount_n=$leavecount-$leavedurationtime;
  
 } 
  else
  {
     
  $leavecount_n=0-1;
-
 
  }
 
