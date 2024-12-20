@@ -436,7 +436,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                                     </div>
                                     <div class="col-lg-3 col-12">
                                         <div class="form-group">
-                                            <label> File(Latter)</label>
+                                            <label> File(Letter)</label>
                                          <input type="file" name="promotionFile" class="form-control">
                                         </div>
                                     </div>
@@ -474,6 +474,8 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
             $designation = $employee_details_row['Designation'];
             $Emp_CollegeName = $employee_details_row['CollegeName'];
             $Emp_Department = $employee_details_row['Department'];
+            $DepartmentIDO = $employee_details_row['DepartmentID'];
+            $CategoryId = $employee_details_row['CategoryId'];
             $ShiftID = $employee_details_row['ShiftID'];
             $salary = $employee_details_row['SalaryAtPresent'];
             $from_date = $employee_details_row['DateOfJoining']->format('Y-m-d');
@@ -501,7 +503,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
         }
     
         // Fetch category details
-        $get_category = "SELECT DISTINCT CategoryId, CategoryFName FROM CategoriesEmp WHERE CategoryId = '$EmpCategory'";
+        $get_category = "SELECT DISTINCT CategoryId, CategoryFName FROM CategoriesEmp WHERE CategoryId = '$CategoryId'";
         $get_category_run = sqlsrv_query($conntest, $get_category);
         if ($row_category = sqlsrv_fetch_array($get_category_run, SQLSRV_FETCH_ASSOC)) {
             $experienceType = $row_category['CategoryFName'];
@@ -515,7 +517,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
         }
     
         // Fetch department details
-        $get_Department = "SELECT * FROM MasterDepartment WHERE Id = '$DepartmentID'";
+        $get_Department = "SELECT * FROM MasterDepartment WHERE Id = '$DepartmentIDO'";
         $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
         if ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) {
             $departmentName = $get_DepartmentRow['Department'];
@@ -565,7 +567,8 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                         sqlsrv_query($conntest, $updateLeaveAuth);
                     }
                     // Insert into StaffExperienceDetails
-                    $insertExp = "INSERT INTO StaffExperienceDetails(ExperienceType, NameofOrganisation, DateofAppointment, DateofLeaving,TimePeriod, Status, UserName, DocumentPath, Reason, Designation,PayScaleORConsolidated, upddate) VALUES('$experienceType','$departmentName','$from_date','$to_date','$exp_total','0','$employeeID', '$file_name', '$left_reason', '$designation', '$salary', '$timeStamp')";
+                    $insertExp = "INSERT INTO StaffExperienceDetails(ExperienceType, NameofOrganisation, DateofAppointment, DateofLeaving,TimePeriod, Status, UserName, DocumentPath, Reason, Designation,PayScaleORConsolidated, upddate)
+                     VALUES('$experienceType','$departmentName','$from_date','$to_date','$exp_total','0','$employeeID', '$file_name', '$left_reason', '$designation', '$salary', '$timeStamp')";
                     sqlsrv_query($conntest, $insertExp);
                     $escapedQuery = str_replace("'", "''", $insertExp);
                     $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date)VALUES('$employeeID', '$escapedQuery', '$EmployeeID', '$timeStamp')";
