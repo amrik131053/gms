@@ -72,6 +72,10 @@ class CustomPDF extends FPDF {
         $this->SetFont('Times', 'B', 14);
         $this->SetXY(141, -20);
         $this->MultiCell(30, 6, 'Dinner', 0, 'C');
+
+        $this->SetFont('Times', 'I', 10);
+        $this->SetXY(-30, -10);
+        $this->Cell(0, 10, 'Page No: ' . $this->PageNo(), 0, 0, 'C');
     }
 }
 
@@ -94,7 +98,6 @@ $loopCount = $StartNumber - 1;
 for ($j = $StartNumber; $j <= $EndNumber; $j++) {
     $loopCount++; 
     $pdf->loopCount = $loopCount; 
-
     $pdf->SetXY($x, $y);
     $pdf->MultiCell(25, 5, $loopCount, 0, 'C'); 
     $pdf->SetFont('Times', 'B', 12);
