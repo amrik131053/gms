@@ -15580,7 +15580,7 @@ elseif($code==206)
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
                                  <th>Winter Vacation</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -15619,7 +15619,7 @@ elseif($code==206)
                                 <td class="editable" data-field="Leave1"><?= $data['Leave1']; ?></td>
                                 <td class="editable" data-field="Leave2"><?= $data['Leave2']; ?></td>
                                  <td class="editable" data-field="Leave3"><?= $data['Leave3']; ?></td>
-                                <td>
+                                <!-- <td>
                                     <div class="controls">
                                         <button type="button" class="edit-btn btn btn-primary btn-sm"
                                             onclick="editRow(this)"><i class="fa fa-edit"></i></button>
@@ -15630,7 +15630,7 @@ elseif($code==206)
                                             onclick="cancelEdit(this)" style="display: none;"><i class="fa fa-times">
                                             </i> </button>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                             <?php
             $Sr++;
@@ -15653,7 +15653,7 @@ elseif($code==206)
                                 <th>Casual</th>
                                 <th>Compansatory Off</th>
                                  <th>Winter Vacation</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>

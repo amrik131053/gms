@@ -27,9 +27,11 @@
                             &nbsp;
 
                         </div>
-
-                        <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
-                                class="fa fa-retweet" aria-hidden="true"></i></button>
+                        <a href=""  style="color:#002147; text-decoration: none;"  data-toggle="modal"  data-target=".bd-example-modal-xl">
+                      </a>
+                      <button type="button" class="btn btn-success btn-sm" onclick="empSyncFromStaffToLeave();"><i
+                      class="fa fa-retweet" aria-hidden="true"></i></button>
+                      <button type="button" class="btn btn-success btn-sm" onclick="casulaCountSubmit();" data-toggle="modal"  data-target="#viewLeaveBulk">Bulk Count</button>
                                 <?php }else{
                                    ?><input type="hidden"id="actionButtonValue" value="Manage Leaves"><?php  }?>
                         <input type="hidden" id="CollegeID_Set">
@@ -348,6 +350,27 @@ function manageLeaveBalance() {
     });
 
 }
+function casulaCountSubmit(form) {
+    var formData = new FormData(form);
+    $.ajax({
+        url: form.action,
+        type: form.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            console.log(response);
+          
+                SuccessToast(' submit successfully');
+                               
+            
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+        
+    });
+}
 
 function show_text_box_pages(id) {
     var submenu = $('.page_submenu' + id).text();
@@ -389,6 +412,61 @@ function show_text_box_pages(id) {
                                          {?>
                 <button type="button" onclick="UpdateLeave();" class="btn btn-success">Update</button>
                 <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewLeaveBulk" tabindex="-1" role="dialog"
+    aria-labelledby="viewLeaveBulkLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewLeaveBulkLabel">View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="view_leave_table_load">
+            <a href="formats/casualCount.csv" class="btn btn-primary btn-xs">Format</a>
+            <form action="action_a.php" method="post" enctype="multipart/form-data">
+<div class="row">
+    <div class="col-lg-3">
+       <label>Employee ID<span class="text-danger">&nbsp;*</span></label>
+      <input type="file" name="casualCountFile"   class="form-control">
+      <input type="hidden" name="flag" value="19">
+</div>
+               <div class="col-lg-3">
+               <label>Count<span class="text-danger">&nbsp;*</span></label>
+               <select class="form-control" name="CountType"  id="CountType" required>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+               </select>
+                </div>
+               <div class="col-lg-3">
+               <label>Type<span class="text-danger">&nbsp;*</span></label>
+               <select class="form-control" name="Type"  id="Type" required>
+               <option value="1">Casual</option>
+               </select>
+                </div>
+              
+         
+               
+               <div class="col-lg-3">
+               <label>Action</label>
+             <br>
+               <input type="button" onclick="casulaCountSubmit(this.form);" name="leaveButtoncSubmit" class="btn btn-success" value="Submit">
+                </div>
+</div>
+</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               
             </div>
         </div>
     </div>

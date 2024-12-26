@@ -993,4 +993,27 @@ elseif ($code==18) {
    ?>
    </table><?php 
 }
+elseif ($code==19)
+ {
+    $Count=$_POST['CountType'];
+    $Type=$_POST['Type'];
+    $file = $_FILES['casualCountFile']['tmp_name'];
+  $handle = fopen($file, 'r');
+  $c = 0;
+  while(($filesop = fgetcsv($handle, 1000, ',')) !== false)
+  { 
+if($c>0)
+{
+  $EmpID=$filesop[0];
+  $Update="UPDATE LeaveBalances SET Balance=Balance+$Count Where Employee_Id='$EmpID' and LeaveType_Id='$Type'";
+ $ss=sqlsrv_query($conntest,$Update);
+ if($ss=true)
+ {
+     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp')";
+     $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
+ }
+}
+$c++;
+}
    }
+}

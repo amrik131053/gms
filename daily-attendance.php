@@ -303,9 +303,6 @@ function cocessionSubmit(form) {
 
 
 function cocessionvacaSubmit(form) {
-
-
-
     var formData = new FormData(form);
     $.ajax({
         url: form.action,
