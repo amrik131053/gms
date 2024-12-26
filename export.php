@@ -9852,10 +9852,20 @@ $nccount=0;
                                      $mst1=$row_exam['MST1']; 
                                      $mst2= $row_exam['MST2']; 
                                      $ESe= $row_exam['ESE'];
-                                      $grace= $row_exam['Grace'];
+                                     $grace= $row_exam['Grace'];
+
+                                     if ($CE1!=''AND $CE3!=''AND $att!=''AND $mst1!='' AND $ESe!='') {
+
+                                   $color_ok=''; 
+                                     }
+                                     else
+                                     {
+                                   $color_ok='red';
+                                     }
+
         include 'result-pages/grade_calculator.php';                              
 
-$exportstudy.="<td style='text-align:center;'>{$showmarks} </td>";
+$exportstudy.="<td style='text-align:center;color:{$color_ok}'>{$showmarks} </td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$totalFinal} </td>";
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$grade} </td>"; 
 $exportstudy.="<td style='text-align:center;color:{$color}'>{$gardep} </td>";
