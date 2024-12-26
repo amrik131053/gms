@@ -819,7 +819,7 @@ $AddBlance=$_POST['AddBlance'];
 $deductionBLanceRun=sqlsrv_query($conntest,$deductionBLance);
 if($deductionBLanceRun)
 {
-     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate)Values('$AgainstDate','$leaveEmplID','2','$AddBlance','$EmployeeID','$timeStamp')";
+     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$AgainstDate','$leaveEmplID','2','$AddBlance','$EmployeeID','$timeStamp','0')";
 $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
 if($insertBLanceRun==true)
 {
@@ -1009,7 +1009,7 @@ if($c>0)
  $ss=sqlsrv_query($conntest,$Update);
  if($ss=true)
  {
-     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp')";
+     $insertBLance="INSERT into LeaveRecord (LeaveDate,EmployeeID,LeaveTypeID,Balance,AddedBy,AddedDate,Monthly)Values('$timeStamp','$EmpID','$Type','$Count','$EmployeeID','$timeStamp','0')";
      $insertBLanceRun=sqlsrv_query($conntest,$insertBLance);
  }
 }
