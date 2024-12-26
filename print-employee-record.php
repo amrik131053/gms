@@ -84,6 +84,28 @@
     </style>
 </head>
 <?php
+    function convertMonthsToYearsMonthsDays($total_months) {
+       
+        $years = floor($total_months / 12);
+     
+        $remaining_months = $total_months % 12;
+      
+        $days_in_remaining_months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Days in each month
+        
+      
+        $extra_days = 0;
+    
+        if ($remaining_months > 0) {
+            $extra_days = $days_in_remaining_months[$remaining_months - 1];
+        }
+    
+        // The final result
+        return [
+            'years' => $years,
+            'months' => $remaining_months,
+            'days' => $extra_days
+        ];
+    }
 include "connection/connection.php";
 $emp_id = $_GET['id'];
 
@@ -451,7 +473,11 @@ if($get_DepartmentRow=sqlsrv_fetch_array($get_DepartmentRun,SQLSRV_FETCH_ASSOC))
                         <td><?= $data['NameofOrganisation']; ?></td>
                         <td><?= $data['DateofAppointment'] ? $data['DateofAppointment']->format('d-m-Y') : ""; ?></td>
                         <td><?= $data['DateofLeaving'] ? $data['DateofLeaving']->format('d-m-Y') : ""; ?></td>
-                        <td><?= $data['TimePeriod']; ?></td>
+                        <td> <?php
+                           $result=convertMonthsToYearsMonthsDays($data['TimePeriod']);
+                           echo "{$result['years']} Year(s), {$result['months']} Month(s)";
+                          ?>
+                    </td>
                         <td><?= $data['PayScaleORConsolidated']; ?></td>
                         <td><?= $data['Reason']; ?></td>
                        

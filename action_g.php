@@ -3984,7 +3984,7 @@ else { ?>
 
 
                                 </div>
-
+<hr>
     <div class="row">
                 <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                     <?php
