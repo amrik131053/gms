@@ -481,8 +481,13 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
             $from_date = $employee_details_row['DateOfJoining']->format('Y-m-d');
             $to_date = $joiningDate;
     
-            // Calculate total experience
-            $doa = $employee_details_row['DateOfJoining']->format('Y-m-d');
+            if($employee_details_row['DateOfPromotion']!='') 
+            {
+                $doa = $employee_details_row['DateOfPromotion']->format('Y-m-d'); 
+             } else{
+                 
+                $doa = $employee_details_row['DateOfJoining']->format('Y-m-d'); 
+            }
             $dor = $joiningDate;
             $ts1 = strtotime($doa);
             $ts2 = strtotime($dor);
@@ -490,14 +495,26 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
             $year2 = date('Y', $ts2);
             $month1 = date('m', $ts1);
             $month2 = date('m', $ts2);
+            $total_months = ($year2 - $year1) * 12 + ($month2 - $month1);
+            $exp_total = max($total_months, 0);
+
+            // // Calculate total experience
+            // $doa = $employee_details_row['DateOfJoining']->format('Y-m-d');
+            // $dor = $joiningDate;
+            // $ts1 = strtotime($doa);
+            // $ts2 = strtotime($dor);
+            // $year1 = date('Y', $ts1);
+            // $year2 = date('Y', $ts2);
+            // $month1 = date('m', $ts1);
+            // $month2 = date('m', $ts2);
     
-            if ($month1 > $month2) {
-                $month2 += 12;
-                $year2 -= 1;
-            }
-            $exp_total = ($year1 <= $year2) 
-                ? ($year2 - $year1) . " Year " . ($month2 - $month1) . " Month" 
-                : "0";
+            // if ($month1 > $month2) {
+            //     $month2 += 12;
+            //     $year2 -= 1;
+            // }
+            // $exp_total = ($year1 <= $year2) 
+            //     ? ($year2 - $year1) . " Year " . ($month2 - $month1) . " Month" 
+            //     : "0";
     
             $left_reason = "Promotion";
         }
@@ -520,7 +537,13 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
         $get_Department = "SELECT * FROM MasterDepartment WHERE Id = '$DepartmentIDO'";
         $get_DepartmentRun = sqlsrv_query($conntest, $get_Department);
         if ($get_DepartmentRow = sqlsrv_fetch_array($get_DepartmentRun, SQLSRV_FETCH_ASSOC)) {
-            $departmentName = $get_DepartmentRow['Department'];
+            $departmentName= $get_DepartmentRow['Department']." (Guru Kashi University)";
+        }
+        // Fetch department details
+        $get_Department1 = "SELECT * FROM MasterDepartment WHERE Id = '$DepartmentID'";
+        $get_DepartmentRun1 = sqlsrv_query($conntest, $get_Department1);
+        if ($get_DepartmentRow1 = sqlsrv_fetch_array($get_DepartmentRun1, SQLSRV_FETCH_ASSOC)) {
+            $departmentName1= $get_DepartmentRow1['Department'];
         }
     
         // File upload handling
@@ -536,29 +559,24 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                 $string = bin2hex(openssl_random_pseudo_bytes(4));
                 $file_data = file_get_contents($file_tmp);
                 $file_name = "{$employeeID}_" . strtotime($date) . "_{$string}_" . basename($file_name);
-    
-                // FTP upload
+
                 $destdir = '/Images/Staff/ExperienceDocument';
                 ftp_chdir($conn_id, $destdir) or die("Could not change directory");
                 ftp_pasv($conn_id, true);
                 ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
                 ftp_close($conn_id);
-    
-                // Update staff details
-                $query = "UPDATE Staff SET Designation = '$designationEmp',CollegeId = '$organisationID', CollegeName = '$organisationName',Department = '$departmentName',DepartmentID = '$DepartmentID',DateOfJoining = '$joiningDate',Type = '$employmentType',CategoryId = '$EmpCategory',SalaryAtPresent = '$salaryNew',LeaveRecommendingAuthority = '$leaveRecommendingAuthority1',LeaveSanctionAuthority = '$leaveSanctionAuthority1',ShiftID = '$shiftID',RoleID = '0'WHERE IDNo = '$employeeID'";
+                 $query = "UPDATE Staff SET Designation = '$designationEmp',CollegeId = '$organisationID', CollegeName = '$organisationName',Department = '$departmentName1',DepartmentID = '$DepartmentID',DateOfPromotion = '$joiningDate',Type = '$employmentType',CategoryId = '$EmpCategory',SalaryAtPresent = '$salaryNew',LeaveRecommendingAuthority = '$leaveRecommendingAuthority1',LeaveSanctionAuthority = '$leaveSanctionAuthority1',ShiftID = '$shiftID',RoleID = '0'WHERE IDNo = '$employeeID'";
                 $result = sqlsrv_query($conntest, $query);
-                // Logging and additional updates
                 $escapedQuery1 = str_replace("'", "''", $query);
                 $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
                             VALUES('$employeeID', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
                 sqlsrv_query($conntest,$update1);
+                
                 if ($result) {
                     echo "1";
-                    // Check and update leave authority if applicable
                     $checkLeaveAlreadySubmitted = "SELECT * FROM ApplyLeaveGKU WHERE StaffId = '$employeeID' AND Status NOT IN ('Approved', 'Reject')";
                     $countX = sqlsrv_query($conntest, $checkLeaveAlreadySubmitted, [], ["Scrollable" => SQLSRV_CURSOR_KEYSET]);
                     $leaveExistCount = sqlsrv_num_rows($countX);
-    
                     if ($leaveExistCount > 0) {
                         $updateLeaveAuth = "UPDATE ApplyLeaveGKU 
                                             SET SanctionId = '$leaveRecommendingAuthority1', 
@@ -566,10 +584,10 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                                             WHERE StaffId = '$employeeID' AND Status NOT IN ('Approved', 'Reject')";
                         sqlsrv_query($conntest, $updateLeaveAuth);
                     }
-                    // Insert into StaffExperienceDetails
-                    $insertExp = "INSERT INTO StaffExperienceDetails(ExperienceType, NameofOrganisation, DateofAppointment, DateofLeaving,TimePeriod, Status, UserName, DocumentPath, Reason, Designation,PayScaleORConsolidated, upddate)
-                     VALUES('$experienceType','$departmentName','$from_date','$to_date','$exp_total','0','$employeeID', '$file_name', '$left_reason', '$designation', '$salary', '$timeStamp')";
+                    $insertExp = "INSERT INTO StaffExperienceDetails(ExperienceType, NameofOrganisation, DateofAppointment, DateofLeaving,TimePeriod, Status, UserName, DocumentPath, Reason, Designation,PayScaleORConsolidated, upddate,ExperienceCategory)
+                     VALUES('$experienceType','$departmentName','$from_date','$to_date','$exp_total','0','$employeeID', '$file_name', '$left_reason', '$designation', '$salary', '$timeStamp','1')";
                     sqlsrv_query($conntest, $insertExp);
+                   
                     $escapedQuery = str_replace("'", "''", $insertExp);
                     $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date)VALUES('$employeeID', '$escapedQuery', '$EmployeeID', '$timeStamp')";
                     sqlsrv_query($conntest,$update12);
@@ -582,6 +600,7 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
         } else {
             echo "3"; // Invalid file type
         }
+        
     }
     
 elseif ($code==8) {

@@ -800,7 +800,7 @@ function submitPromition(form) {
         processData: false,
         success: function(response) {
             spinner.style.display = 'none';
-            // console.log(response);
+            console.log(response);
             if (response == 1) {
                update_emp_record(loginId);
            SuccessToast('Successfully Added Promotion');

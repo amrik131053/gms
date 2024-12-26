@@ -24,7 +24,28 @@ window.location.href = 'index.php';
 window.location.href = "index.php";
 </script>
 <?php }
-
+    function convertMonthsToYearsMonthsDays($total_months) {
+       
+        $years = floor($total_months / 12);
+     
+        $remaining_months = $total_months % 12;
+      
+        $days_in_remaining_months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Days in each month
+        
+      
+        $extra_days = 0;
+    
+        if ($remaining_months > 0) {
+            $extra_days = $days_in_remaining_months[$remaining_months - 1];
+        }
+    
+        // The final result
+        return [
+            'years' => $years,
+            'months' => $remaining_months,
+            'days' => $extra_days
+        ];
+    }
 
 
    include "connection/connection.php";
@@ -3380,6 +3401,7 @@ else { ?>
                         $DateOfBirth=$row1['DateOfBirth'];
                         $DateOfJoining=$row1['DateOfJoining'];
                         $DateOfLeaving=$row1['DateOfLeaving'];
+                        $DateOfPromotion=$row1['DateOfPromotion'];
                          
             ?>
         <div class="row" style="margin-top: 10px!important;">
@@ -3764,7 +3786,18 @@ else { ?>
                                                 value="<?php if($row1['DateOfJoining']!=''){ echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));}?>">
                                         </div>
                                     </div>
-
+                                    <?php if($DateOfPromotion!='')
+                                    {
+                                        ?>
+                               
+                                    <div class="col-lg-3 col-12">
+                                        <div class="form-group">
+                                            <label>Date of Promotion</label>
+                                            <input type="date" class="form-control" name="promotionDate"
+                                                value="<?php if($row1['DateOfPromotion']!=''){ echo date("Y-m-d", strtotime($DateOfPromotion->format("Y-m-d")));}?>">
+                                        </div>
+                                    </div>
+                                    <?php }?>
                                     <div class="col-lg-2 col-12">
                                         <div class="form-group">
                                             <label>Salary Decided</label>
@@ -3948,9 +3981,77 @@ else { ?>
                                             <input type="button" data-toggle="modal" onclick="viewPromitonModal(<?=$row1['IDNo'];?>);"  data-target="#promotionMOdal" class="btn btn-primary"  value="Promotion">
                                         </div>
                                     </div>
+
+
                                 </div>
 
+    <div class="row">
+                <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
+                    <?php
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='1'";
+                  if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
+                  ?>
+                  <h4><b>Previous Employment</b></h4>
+                    <table class="table table-bordered" style="font-size:14px;">
 
+                        <tr>
+                            <th>Experience Type</th>
+                            <th>Designation</th>
+                            <th>Department / Organization</th>
+                            <th>Date of Joining</th>
+                            <th>Date of Promotion</th>
+                            <th>Total Experience</th>
+                            <th>Salary</th>
+                            <th>Reason </th>
+                            <th>View Document</th>
+
+                        </tr>
+
+                        <tbody>
+                            <?php
+                         
+                              $res = sqlsrv_query($conntest, $sql);
+                              while ($data = sqlsrv_fetch_array($res)) { ?>
+                            <tr>
+                                <td><?=$data['ExperienceType']; ?></td>
+                                <td><?=$data['Designation']; ?></td>
+                                <td><?=$data['NameofOrganisation']; ?></td>
+                                <td><?php if($data['DateofAppointment']!=''){echo $data['DateofAppointment']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td><?php if($data['DateofLeaving']!=''){echo $data['DateofLeaving']->format('d-m-Y');} else{ echo "";} ?>
+                                </td>
+                                <td>
+                                    <?php
+                                     $result=convertMonthsToYearsMonthsDays($data['TimePeriod']);
+                                    echo "{$result['years']} Year(s), {$result['months']} Month(s)";
+                                    ?>
+                                </td>
+                                <td><?=$data['PayScaleORConsolidated']; ?></td>
+                                <td><?=$data['Reason']; ?></td>
+                                <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
+                                        onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)" data-toggle="modal"
+                                        data-target="#modal-default-Experience"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+
+
+                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
+                                        onclick="dlt_data(<?=$data['Id']; ?>,<?=$emp_id;?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+
+                                </td>
+                            </tr>
+                            <?php
+                              }
+                              ?>
+                        </tbody>
+
+                    </table>
+                    <?php }?>
+                </div>
+
+            </div>
 
                             </div>
                             <div class="tab-pane" id="idcard<?=$emp_id;?>">
@@ -5100,7 +5201,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
             <div class="row">
                 <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                     <?php
-                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $emp_id ";
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='0'";
                   if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                   ?>
                     <table class="table table-bordered" style="font-size:14px;">
@@ -5131,7 +5232,14 @@ while ($data1 = sqlsrv_fetch_array($res)) {
                                 </td>
                                 <td><?php if($data['DateofLeaving']!=''){echo $data['DateofLeaving']->format('d-m-Y');} else{ echo "";} ?>
                                 </td>
-                                <td><?=$data['TimePeriod']; ?></td>
+                                
+                                <td>
+                                    <?php 
+                                     $result=convertMonthsToYearsMonthsDays($data['TimePeriod']);
+                                     echo "{$result['years']} Year(s), {$result['months']} Month(s)";
+                                     ?>
+                                 
+                                </td>
                                 <td><?=$data['PayScaleORConsolidated']; ?></td>
                                 <td><?=$data['Reason']; ?></td>
                                 <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
@@ -6701,6 +6809,13 @@ elseif($code==94)
    $organisationID = $_POST["organisationName"];
    $shiftID = $_POST["shift"];
    $leavingDate = $_POST["leavingDate"];
+   if(isset($_POST["promotionDate"]))
+   {
+       $promotionDate = $_POST["promotionDate"];
+   }
+   else{
+    $promotionDate="";
+   }
    $get_college="SELECT  * FROM MasterCourseCodes where CollegeID='$organisationID' ";
                         $get_collegeRun=sqlsrv_query($conntest,$get_college);
                       if($get_collegeRow=sqlsrv_fetch_array($get_collegeRun,SQLSRV_FETCH_ASSOC))
@@ -6801,6 +6916,14 @@ elseif($code==94)
    $query .= "BankName = '$employeeBankName', ";
    $query .= "BankIFSC = '$bankIFSC', ";
    $query .= "ShiftID = '$shiftID' ,";
+   if($promotionDate!='')
+   {
+       $query .= "DateOfPromotion = '$promotionDate',";
+    }
+    else{
+        
+        $query .= "DateOfPromotion=NULL,";
+   }
    $query .= "BloodGroup = '$bloodGroup' ";
    $query .= "WHERE IDNo = '$loginId'";
    $query;
@@ -32587,156 +32710,156 @@ elseif($code==431)
                                                                     value="<?=$row1['CollegeName'];?>(<?=$row1['CollegeId'];?>)"
                                                                     readonly>
 
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Name of Department</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Name of Department</label>
 
 
-                                                <input type="text" class="form-control"
-                                                    value="<?=$row1['DepartmentName'];?>(<?=$row1['DepartmentId'];?>)"
-                                                    readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Designation</label>
-                                                <input type="text" class="form-control"
-                                                    value=" <?=$row1['Designation'];?>" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Date of Joining</label>
-                                                <input type="date" class="form-control" readonly
-                                                    value="<?php if($row1['DateOfJoining']!=''){ echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));}?>">
-                                            </div>
-                                        </div>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?=$row1['DepartmentName'];?>(<?=$row1['DepartmentId'];?>)"
+                                                                    readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Designation</label>
+                                                                <input type="text" class="form-control"
+                                                                    value=" <?=$row1['Designation'];?>" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Date of Joining</label>
+                                                                <input type="date" class="form-control" readonly
+                                                                    value="<?php if($row1['DateOfJoining']!=''){ echo date("Y-m-d", strtotime($DateOfJoining->format("Y-m-d")));}?>">
+                                                            </div>
+                                                        </div>
 
-                                        <div class="col-lg-2 col-12">
-                                            <div class="form-group">
-                                                <label>Current Salary</label>
-                                                <input type="text" class="form-control" id="salary" placeholder="Enter salary"
-                                                    value="<?=$row1['SalaryAtPresent'];?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-12">
-                                            <div class="form-group">
-                                                <label>Type of Employment</label>
+                                                        <div class="col-lg-2 col-12">
+                                                            <div class="form-group">
+                                                                <label>Current Salary</label>
+                                                                <input type="text" class="form-control" id="salary" placeholder="Enter salary"
+                                                                    value="<?=$row1['SalaryAtPresent'];?>" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-12">
+                                                            <div class="form-group">
+                                                                <label>Type of Employment</label>
 
-                                                <input type="text" class="form-control" value="<?=$row1['Type'];?>"
-                                                    readonly>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-12">
-                                            <div class="form-group">
-                                                <label>Status of Employment</label>
-
-                                                <?php if ($row1['JobStatus']==1) {?>
-                                                <input type="text" class="form-control" value="Active" readonly>
-                                                <?php }else
-                                             {
-                                             ?>
-
-                                                <input type="text" class="form-control" value="DeActive" readonly>
-                                                <?php }
-                                             ?>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Emp Category </label>
-                                                <?php  
-                                                                    $get_defalut_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp Where CategoryId='".$row1['CategoryId']."' ";
-                                            $get_defalut_category_run=sqlsrv_query($conntest,$get_defalut_category);
-                                            if($row_cate=sqlsrv_fetch_array($get_defalut_category_run,SQLSRV_FETCH_ASSOC))
-                                            {?>
-
-                                                <input type="text" class="form-control"
-                                                    value="<?=$row_cate['CategoryFName'];?>" readonly>
-                                                <?php }?>
-                                            </div>
-                                        </div>
+                                                                <input type="text" class="form-control" value="<?=$row1['Type'];?>"
+                                                                    readonly>
 
 
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Leave Recommending Authority
-                                                </label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Enter leave sanction authority"
-                                                    value="<?=$row1['LeaveRecommendingAuthority'];?>"
-                                                    onkeyup="emp_detail_verify2(this.value);" readonly>
-                                                <?php  
-                                                                                        $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
-                                            $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
-                                            if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
-                                            {
-                                            ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
-                                            }?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-12">
+                                                            <div class="form-group">
+                                                                <label>Status of Employment</label>
+
+                                                                <?php if ($row1['JobStatus']==1) {?>
+                                                                <input type="text" class="form-control" value="Active" readonly>
+                                                                <?php }else
+                                                            {
+                                                            ?>
+
+                                                                <input type="text" class="form-control" value="DeActive" readonly>
+                                                                <?php }
+                                                            ?>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Emp Category </label>
+                                                                <?php  
+                                                                                    $get_defalut_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp Where CategoryId='".$row1['CategoryId']."' ";
+                                                            $get_defalut_category_run=sqlsrv_query($conntest,$get_defalut_category);
+                                                            if($row_cate=sqlsrv_fetch_array($get_defalut_category_run,SQLSRV_FETCH_ASSOC))
+                                                            {?>
+
+                                                                <input type="text" class="form-control"
+                                                                    value="<?=$row_cate['CategoryFName'];?>" readonly>
+                                                                <?php }?>
+                                                            </div>
+                                                        </div>
 
 
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Leave Sanction Authority</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Enter leave recommending authority"
-                                                    value="<?=$row1['LeaveSanctionAuthority'];?>"
-                                                    onkeyup="emp_detail_verify1(this.value);" readonly>
-
-                                                <?php  
-                                                                                    $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
-                                        $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
-                                        if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
-                                        {
-                                            ?>
-                                                <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
-                                                <?php 
-                                        
-                                        }?>
-
-                                            </div>
-                                        </div>
-                                        <!-- <div class="col-lg-4 col-12">
-                                        <div class="form-group">
-                                            <label>Upload Appointment Letter</label>
-                                            <input type="file" class="form-control-file" name="appointmentLetter">
-                                        </div>
-                                    </div> -->
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Bank Account No</label>
-                                                <input type="text" class="form-control" id="bankAccountNo"
-                                                    placeholder="Enter bank account number" value="<?=$row1['BankAccountNo'];?>">
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label> Bank Name</label>
-                                                <input type="text" class="form-control" id="employeeBankName"
-                                                    placeholder="Enter employee bank name" value="<?=$row1['BankName'];?>" >
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-12">
-                                            <div class="form-group">
-                                                <label>Bank IFSC code</label>
-                                                <input type="text" class="form-control" id="bankIFSC"
-                                                    placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
-                                            </div>
-                                        </div>
-                                    </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Leave Recommending Authority
+                                                                </label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Enter leave sanction authority"
+                                                                    value="<?=$row1['LeaveRecommendingAuthority'];?>"
+                                                                    onkeyup="emp_detail_verify2(this.value);" readonly>
+                                                                <?php  
+                                                                                                        $getUserDetails1="SELECT Name FROM Staff Where IDNo='".$row1['LeaveRecommendingAuthority']."'";
+                                                            $getUserDetailsRun1=sqlsrv_query($conntest,$getUserDetails1);
+                                                            if($getUserDetailsRow1=sqlsrv_fetch_array($getUserDetailsRun1,SQLSRV_FETCH_ASSOC))
+                                                            {
+                                                            ?> <p id="emp_detail_status_2"><b><?=$getUserDetailsRow1['Name'];?></b></p><?php
+                                                            }?>
 
 
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Leave Sanction Authority</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Enter leave recommending authority"
+                                                                    value="<?=$row1['LeaveSanctionAuthority'];?>"
+                                                                    onkeyup="emp_detail_verify1(this.value);" readonly>
 
-                                </div>
+                                                                <?php  
+                                                                                                    $getUserDetails="SELECT Name FROM Staff Where IDNo='".$row1['LeaveSanctionAuthority']."'";
+                                                        $getUserDetailsRun=sqlsrv_query($conntest,$getUserDetails);
+                                                        if($getUserDetailsRow=sqlsrv_fetch_array($getUserDetailsRun,SQLSRV_FETCH_ASSOC))
+                                                        {
+                                                            ?>
+                                                                <p id="emp_detail_status_1"><b><?=$getUserDetailsRow['Name'];?></b></p>
+                                                                <?php 
+                                                        
+                                                        }?>
+
+                                                            </div>
+                                                        </div>
+                                                            <!-- <div class="col-lg-4 col-12">
+                                                            <div class="form-group">
+                                                                <label>Upload Appointment Letter</label>
+                                                                <input type="file" class="form-control-file" name="appointmentLetter">
+                                                            </div>
+                                                            </div> -->
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Bank Account No</label>
+                                                                <input type="text" class="form-control" id="bankAccountNo"
+                                                                    placeholder="Enter bank account number" value="<?=$row1['BankAccountNo'];?>">
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label> Bank Name</label>
+                                                                <input type="text" class="form-control" id="employeeBankName"
+                                                                    placeholder="Enter employee bank name" value="<?=$row1['BankName'];?>" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-12">
+                                                            <div class="form-group">
+                                                                <label>Bank IFSC code</label>
+                                                                <input type="text" class="form-control" id="bankIFSC"
+                                                                    placeholder="Enter bank IFSC code" value="<?=$row1['BankIFSC'];?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+
+
+                                                </div>
                                 <div class="tab-pane" id="idcard1<?=$emp_id;?>">
 
                                     <div class="row">
@@ -33528,7 +33651,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
                                         <div class="row">
                                             <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                                                 <?php
-                                                $sql = "SELECT * from StaffExperienceDetails WHERE UserName= $EmployeeID ";
+                                                $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$EmployeeID' and ExperienceCategory='0' ";
                                             if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                                             ?>
                                                 <table class="table table-bordered" style="font-size:14px;">
@@ -33559,7 +33682,14 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
                                                             </td>
                                                             <td><?php if($data['DateofLeaving']!=''){echo $data['DateofLeaving']->format('d-m-Y');} else{ echo "";} ?>
                                                             </td>
-                                                            <td><?=$data['TimePeriod']; ?></td>
+                                                            <td>
+                                                            <?php 
+                                                            $result=convertMonthsToYearsMonthsDays($data['TimePeriod']);
+                                                            echo "{$result['years']} Year(s), {$result['months']} Month(s)";
+                                                            ?>
+                                                         
+                                                        
+                                                        </td>
                                                             <td><?=$data['PayScaleORConsolidated']; ?></td>
                                                             <td><?=$data['Reason']; ?></td>
                                                             <td><i class=" fa fa-eye " id="doc" type="button" onclick="viewAcademicDocumentExp(<?=$data['Id'];?>)"
@@ -33956,8 +34086,8 @@ $destdir = '/Images/Staff/ExperienceDocument';
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
 $insertExp="INSERT into StaffExperienceDetails(ExperienceType,NameofOrganisation,DateofAppointment,DateofLeaving,TimePeriod,Status,
-UserName,DocumentPath,Reason,Designation,PayScaleORConsolidated,upddate)VALUES('$experienceType','$department','$from_date','$to_date','$exp_total','0','$employeeID','$file_name','$left_reason',
-'$designation','$salary','$timeStamp')";
+UserName,DocumentPath,Reason,Designation,PayScaleORConsolidated,upddate,ExperienceCategory)VALUES('$experienceType','$department','$from_date','$to_date','$exp_total','0','$employeeID','$file_name','$left_reason',
+'$designation','$salary','$timeStamp','0')";
 $result = sqlsrv_query($conntest, $insertExp);
 if($result==true)
 {
@@ -33980,29 +34110,29 @@ else{
 }
 elseif ($code == 434)
 {
-    $doa = $_POST['doa'];
-    $dor = $_POST['dor'];
-    $ts1 = strtotime($doa);
-    $ts2 = strtotime($dor);
-    $year1 = date('Y', $ts1);
-    $year2 = date('Y', $ts2);
-    $month1 = date('m', $ts1);
-    $month2 = date('m', $ts2);
-    if ($month1 > $month2)
-    {
-        $month2 = $month2 + 12;
-        $year2 = $year2 - 1;
+
+    $doa = $_POST['doa']; // Date of Arrival (or any start date)
+    $dor = $_POST['dor']; // Date of Retirement (or any end date)
+    
+    $ts1 = strtotime($doa); // Convert the start date to timestamp
+    $ts2 = strtotime($dor); // Convert the end date to timestamp
+    
+    $year1 = date('Y', $ts1); // Extract the year from the start date
+    $year2 = date('Y', $ts2); // Extract the year from the end date
+    $month1 = date('m', $ts1); // Extract the month from the start date
+    $month2 = date('m', $ts2); // Extract the month from the end date
+    
+    // Calculate the total number of months between the two dates
+    $total_months = ($year2 - $year1) * 12 + ($month2 - $month1);
+    
+    // Adjust if the month of the start date is greater than the month of the end date
+    if ($month1 > $month2) {
+        $total_months -= 12; // Subtract 12 months if the start month is greater than the end month
     }
-    if ($year1 <= $year2)
-    {
-        $year = $year2 - $year1;
-        $month = $month2 - $month1;
-        echo $year . " Year " . $month . " Month";
-    }
-    else
-    {
-        echo "invalid";
-    }
+    
+    echo $total_months; // Output the total months
+
+    
 }
 elseif ($code == 435)
 {
@@ -34031,22 +34161,29 @@ elseif ($code == 435.1)
 {
     $id = $_POST['ID'];
     $emp_id = $_POST['emp_id'];
-    $qry = "SELECT DocumentPath from StaffExperienceDetails where Id = $id";
+    $qry = "SELECT DocumentPath,DateofAppointment from StaffExperienceDetails where Id = $id";
     $result = sqlsrv_query($conntest, $qry);
     $data = sqlsrv_fetch_array($result);
     if($data)
     {
-        $docName = $data['DocumentPath'];
+         $docName = $data['DocumentPath'];
+        $DateofAppointment = $data['DateofAppointment']->format('Y-m-d'); // convert DateTime object to string
         ftp_chdir($conn_id, "/Images/Staff/ExperienceDocument") or die("Could not change directory");
         if (ftp_delete($conn_id, $docName))
         {
-             $sql = "DELETE from StaffExperienceDetails where Id= $id";
-            $res = sqlsrv_query($conntest, $sql);
-            $escapedQuery = str_replace("'", "''", $sql);
-            $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
-                         VALUES('$emp_id', '$escapedQuery', '$EmployeeID', '$timeStamp')";
-                         sqlsrv_query($conntest,$update12);
+                         $sql = "DELETE from StaffExperienceDetails where Id= '$id'";
+                        $res = sqlsrv_query($conntest, $sql);
+                    }else{
+                        
+                        $sql = "DELETE from StaffExperienceDetails where Id= '$id'";
+                       $res = sqlsrv_query($conntest, $sql);
         }
+         $sql1 = "UPDATE Staff Set DateOfPromotion=NULL where IDNo='$emp_id' and DateOfPromotion='$DateofAppointment'";
+        sqlsrv_query($conntest, $sql1);
+        $escapedQuery = str_replace("'", "''", $sql);
+        $update12 = "INSERT INTO logbook(userid, remarks, updatedby, date) 
+                     VALUES('$emp_id', '$escapedQuery', '$EmployeeID', '$timeStamp')";
+                     sqlsrv_query($conntest,$update12);
         ftp_close($conn_id);
     }
     sqlsrv_close($conntest);
