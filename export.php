@@ -2007,7 +2007,7 @@ else
       $phone = $row['MobileNo'];
       $adhar = $row['AadhaarCard'];
       $pan = $row['PANNo'];
-          $doj = $row['DateOfJoining'];
+          $doj = $row['DateOfJoining']->->format('d-m-Y');
       $Phd = $row['Phd'];
             $exportMeter.="<tr>
                 <td>{$count}</td>
