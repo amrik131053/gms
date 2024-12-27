@@ -1984,8 +1984,9 @@ else
           <th>Email</th> 
           <th>Offical Email</th> 
           <th>Phone</th>
-           <th>PAN NO</th>
+           
             <th>AdharcardNo</th>
+            <th>PAN NO</th>
             <th>Date Of Joining</th>
           <th>Ph.D</th>
           
