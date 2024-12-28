@@ -15,8 +15,11 @@ window.location.href = 'index.php';
    {
    //date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
    $CurrentExaminationGetDate=date('Y-m-d');
-   $Leave_Authority_ID="171881"; 
-   $Leave_Authority_Label="Pending To Registrar";
+
+   $Leave_Authority_ID="172027"; 
+
+   $Leave_Authority_Label="Pending To VC";
+
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
       {?>
