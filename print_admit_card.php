@@ -3,7 +3,7 @@ require('fpdf/fpdf.php');
 ini_set('max_execution_time', '0');
 date_default_timezone_set("Asia/Kolkata");  
    include "connection/connection.php";
-$univ_rollno=$_GET['ID'];
+$univ_rollno=$_GET['ID']=65473;
 class CustomPDF extends FPDF {
     function Footer() {
         // Set the position of the footer at 15mm from the bottom
@@ -74,6 +74,39 @@ if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
 $IDNo= $row6['IDNo'];
 $ClassRollNo= $row6['ClassRollNo'];
 $img= $row6['Snap'];
+$imageURL=$row6['Image'];
+$fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
+$ch = curl_init($fullURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$imageData = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'cURL error: ' . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo 'HTTP error: ' . $httpCode;
+    curl_close($ch);
+    exit;
+}
+curl_close($ch);
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->buffer($imageData);
+$extension = 'jpeg'; 
+switch ($mimeType) {
+    case 'image/jpeg':
+        $extension = 'jpeg';
+        break;
+    case 'image/png':
+        $extension = 'png';
+        break;
+    default:
+        echo 'Unsupported image type: ' . $mimeType;
+        exit;
+}
+$base64Image = base64_encode($imageData);
+$imageSrc = 'data:' . $mimeType . ';base64,' . $base64Image;
 $UniRollNo= $row6['UniRollNo'];
 $name = $row6['StudentName'];
 $father_name = $row6['FatherName'];
@@ -107,10 +140,10 @@ $pdf-> Image('dist\img\naac-logo.jpg',170,8,30,10);
 
 $pdf->SetXY(10,25);
 
-$pic = 'data://text/plain;base64,' . base64_encode($img);
-$info = getimagesize($pic);
-$extension = explode('/', mime_content_type($pic))[1];
-$pdf-> Image($pic,180,26.8,20,21,$extension);
+// $pic = 'data://text/plain;base64,' . base64_encode($img);
+// $info = getimagesize($pic);
+// $extension = explode('/', mime_content_type($pic))[1];
+$pdf-> Image($imageSrc,180,26.8,20,21,$extension);
 
 $pdf->SetFont('Arial', '', 9);
 $pdf->MultiCell(80, 6,"Uni Roll No :    ".$UniRollNo, 1, 'l');
