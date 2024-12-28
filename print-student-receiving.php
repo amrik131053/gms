@@ -47,7 +47,7 @@ $Gender=$row6['Sex'];
 $imageURL=$row6['Image'];
 $fullURL = $BasURL.'Images/Students/'. rawurlencode($imageURL);
 
-if($CollegeID!=61)
+if($CollegeID==0)
 {
 $ch = curl_init($fullURL);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -118,13 +118,13 @@ $pdf-> Image($imageSrc,180,26.8,20,21,$extension);
 }else
 {
 
-if($Gender=='Male')
-{
-    $pdf-> Image('dist/img/male.png',180,26.8,20,21);
-}else{
-    $pdf-> Image('dist/img/female.png',180,26.8,20,21);
+// if($Gender=='Male')
+// {
+//     $pdf-> Image('dist/img/male.png',180,26.8,20,21);
+// }else{
+//     $pdf-> Image('dist/img/female.png',180,26.8,20,21);
 
-}
+// }
 }
 $pdf->SetFont('Arial', '', 9);
 $pdf->MultiCell(80, 7,"Class/Uni Roll No :    ".$ClassRollNo.' / '.$UniRollNo, 1, 'l');
