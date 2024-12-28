@@ -1984,6 +1984,10 @@ else
           <th>Email</th> 
           <th>Offical Email</th> 
           <th>Phone</th>
+           
+            <th>AdharcardNo</th>
+            <th>PAN NO</th>
+            <th>Date Of Joining</th>
           <th>Ph.D</th>
           
           
@@ -2002,6 +2006,9 @@ else
       $email = $row['EmailID'];
       $OfficialEmailID = $row['OfficialEmailID'];
       $phone = $row['MobileNo'];
+      $adhar = $row['AadhaarCard'];
+      $pan = $row['PANNo'];
+          $doj = $row['DateOfJoining']->format('d-m-Y');
       $Phd = $row['Phd'];
             $exportMeter.="<tr>
                 <td>{$count}</td>
@@ -2015,6 +2022,9 @@ else
                 <td>{$email}</td>
                 <td>{$OfficialEmailID}</td>
                 <td>{$phone}</td>
+                 <td>{$adhar}</td>
+                  <td>{$pan}</td>
+                   <td>{$doj}</td>
                 <td>{$Phd}</td>
             </tr>";
 $count++;
