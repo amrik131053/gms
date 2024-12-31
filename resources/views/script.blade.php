@@ -1,0 +1,10 @@
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="{{asset('admin/libs/apexcharts/dist/apexcharts.min.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/libs/jsvectormap/dist/js/jsvectormap.min.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/libs/jsvectormap/dist/maps/world.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/libs/jsvectormap/dist/maps/world-merc.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/js/tabler.min.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/js/demo.min.js?1692870487')}}" defer></script>
+    <script src="{{asset('admin/js/scripts.js')}}" defer></script>
+    <script src="{{asset('admin/js/demo-theme.min.js?1692870487')}}" defer></script>
