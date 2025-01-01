@@ -10,6 +10,7 @@ class AuthController extends Controller
     public function mainDashboard(Request $request)
     {
     $BaseURL=config('app.baseUrl');
+
     $token = $request->session()->get('api_token');
     if (!$token) {
         return redirect()->route('index')->withErrors(['error' => 'Session expired or token is missing. Please log in again.']);
@@ -17,9 +18,8 @@ class AuthController extends Controller
     try {
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/dashboard');
         $DataButtonsExam = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/checkbutton');
-        $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/odl-api/meterReading.php?IDNo=9618242923');
-
-
+        
+        
         if ($DataResponse->failed()) {
             return view('index', [
                 'profileData' => [], 
@@ -30,28 +30,33 @@ class AuthController extends Controller
                 'officeOrder' => [], 
                 'meterDetails' => [], 
                 'smartcardStatus' => [] 
-            ])->withErrors(['error' => 'Failed to fetch profile data. Please try again later.']);
-        }
-        $examStatus = $DataButtonsExam->json();
-        $profile = $DataResponse->json();
+                ])->withErrors(['error' => 'Failed to fetch profile data. Please try again later.']);
+            }
+            $examStatus = $DataButtonsExam->json();
+            $profile = $DataResponse->json();
+            // dd($profile);
+            $profileData = $profile['profile'][0] ?? [];
+            $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/odl-api/meterReading.php?IDNo='.$profileData['IDNo']);
         $DataMeter = $DataMeterBills->json();
-        // dd($profile);
-        $profileData = $profile['profile'][0] ?? [];
         $officeOrder = $profile['order'] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
         $noticeBoard = $profile['notice'] ?? [];
+        // dd($DataMeter);
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
-        $meterDetails = $DataMeter['data'] ?? [];
-        // dd($smartcardStatus);
-        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag'));
+        $meterDetails = $DataMeter['data'][0] ?? [];
+         dd($meterDetails);
+       return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
 
     } catch (RequestException $e) {
    
         if ($e->getCode() === 28) {
             return view('index', [
-                'profileData' => [], 
+
+
+
+                 'profileData' => [], 
                 'booksCount' => [], 
                 'noticeBoard' => [], 
                 'booksFine' => [],

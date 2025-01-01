@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Gku-Student</title>
+    <title>Guru Kashi University</title>
     <link rel="icon" type="image/png" sizes="16x16" href="admin/img/favicon-32x32.png">
       <!-- Standard Favicon -->
       <link rel="icon" type="image/png" sizes="32x32" href="admin/img/favicon-32x32.png">

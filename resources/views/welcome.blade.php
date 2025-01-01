@@ -48,6 +48,8 @@
                         Status: <b class="text-warning">{{ $smartcardStatus['status'] }}</b>
                         @elseif ($smartcardStatus['status'] == 'Rejected') 
                         Status: <b class="text-danger">{{ $smartcardStatus['status'] }}</b>
+                        @else
+                        Status: <b class="text-danger">{{ $smartcardStatus['status'] }}</b>
                         @endif
                             
                             </div>
@@ -65,13 +67,14 @@
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>   </span>
                           </div>
                           <div class="col">
-                            <div class="font-weight-medium">
-                            Wednesday
-                            </div>
-                            <div class="text-secondary">
-                              Today 2024
-                            </div>
-                          </div>
+    <div class="font-weight-medium">
+        {{ \Carbon\Carbon::now()->format('l') }}
+    </div>
+    <div class="text-secondary">
+         {{ \Carbon\Carbon::now()->format('d-M-Y') }}
+    </div>
+</div>
+
                         </div>
                       </div>
                     </div>
@@ -89,10 +92,15 @@
                           </div>
                           <div class="col">
                             <div class="font-weight-medium">
-                         
+                         Hostel
                             </div>
                             <div class="text-secondary">
-                              ---
+                            @if (!empty($meterDetails) && array_key_exists('article_no', $meterDetails))
+    <b>Room No:NA</b>
+    @else
+    <b>Room No:NA</b>
+@endif
+
                             </div>
                           </div>
                         </div>
@@ -114,7 +122,7 @@
                         <div class="card">
                           <div class="card-status-top bg-red"></div>
                           <div class="card-header">
-                            <h3 class="card-title">Notices</h3>
+                            <h3 class="card-title">Office Order </h3>
                           </div>
                           <div class="card-body p-0">
                           <div class="card-body card-body-scrollable card-body-scrollable-shadow">
@@ -123,14 +131,11 @@
                           <div>
                             <div class="row">
                               <div class="col-auto">
-                                <span class="avatar">JL</span>
+                                <span class="avatar">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('M') }}</span>
                               </div>
                               <div class="col">
                                 <div class="">
-                                  <strong class="text-danger">@php
-                                  $authority = preg_replace('/<br>/', '-', $noticeBoardShow['Authority']);
-                              @endphp {{$noticeBoardShow['Subject']}}</strong>  By
-                              {{ $authority }}  <a href="http://erp.gku.ac.in:86/Notices/{{$noticeBoardShow['FileName']}}"><b>Click Here</b></a>
+                                  <strong class="text-danger"> {{$noticeBoardShow['Subject']}}</strong>  <a target="_blank" href="http://erp.gku.ac.in:86/Notices/{{$noticeBoardShow['FileName']}}"><b>Click Here</b></a>
                                 </div>
                                 <div class="text-secondary">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d-m-Y') }}</div>
                               </div>
@@ -149,7 +154,7 @@
                         <div class="card">
                           <div class="card-status-top bg-green"></div>
                           <div class="card-header">
-                            <h3 class="card-title">Office Order</h3>
+                            <h3 class="card-title"></h3>
                           </div>
                           <div class="card-body p-0">
                           <div class="card-body card-body-scrollable card-body-scrollable-shadow">
@@ -158,14 +163,11 @@
                           <div>
                             <div class="row">
                               <div class="col-auto">
-                                <span class="avatar">JL</span>
+                                <span class="avatar">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d') }}<br>{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('M') }}</span>
                               </div>
                               <div class="col">
                                 <div class="">
-                                  <strong class="text-danger">@php
-                                  $authority = preg_replace('/<br>/', '-', $officeorderShow['Authority']);
-                              @endphp {{$officeorderShow['Subject']}}</strong>  By
-                              {{ $authority }}  <a href="http://erp.gku.ac.in:86/Notices/{{$officeorderShow['FileName']}}"><b>Click Here</b></a>
+                                  <strong class="text-danger"> {{$officeorderShow['Subject']}}</strong> <a target="_blank" href="http://erp.gku.ac.in:86/Notices/{{$officeorderShow['FileName']}}"><b>Click Here</b></a>
                                 </div>
                                 <div class="text-secondary">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d-m-Y') }}</div>
                               </div>

@@ -138,29 +138,29 @@
                     <div class="dropdown-menu-columns">
                       <div class="dropdown-menu-column">
                         <div class="dropend">
-                          <a class="dropdown-item " href="{{url('results')}}">
-                          Results
-                          </a>
+                     
                          
                           <!-- <a class="dropdown-item " href="{{url('feeReceipt')}}">
                           CGPA Calculator
                           </a> -->
-                          <a class="dropdown-item " href="{{url('AdmitCard')}}">
-                          Admit Card
-                          </a>
                           @if ($DataButtonsExam==0)
-                          <a class="dropdown-item " href="{{url('RegularExamForm')}}">Regular Exam Form </a>
+                          <a class="dropdown-item " href="{{url('RegularExamForm')}}">Registration Form </a>
                           <a class="dropdown-item " href="{{url('ReappearExamForm')}}">Reappear Exam Form </a>
                           @elseif ($DataButtonsExam==1)
-                          <a class="dropdown-item " href="{{url('RegularPhdExamForm')}}">Regular Exam Form </a>
+                          <a class="dropdown-item " href="{{url('RegularPhdExamForm')}}">Registration Form </a>
                           <a class="dropdown-item " href="{{url('ReappearPhdExamForm')}}">Reappear Exam Form </a>
                           @elseif ($DataButtonsExam==2)
-                          <a class="dropdown-item " href="{{url('RegularAgriExamForm')}}">Regular Exam Form </a>
+                          <a class="dropdown-item " href="{{url('RegularAgriExamForm')}}">Registration Form </a>
                           <a class="dropdown-item " href="{{url('ReappearAgriExamForm')}}">Reappear Exam Form </a>
                           @elseif ($DataButtonsExam==3)
                           <a class="dropdown-item " href="{{url('MyExamForms')}}">My Exam Forms </a>
                           @endif
-                         
+                          <a class="dropdown-item " href="{{url('AdmitCard')}}">
+                          Admit Card
+                          </a>
+                          <a class="dropdown-item " href="{{url('results')}}">
+                          Results
+                          </a>
                         </div>
                       </div>                    
                     </div>
