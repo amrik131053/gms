@@ -13,7 +13,6 @@
     <!-- Android Chrome Icon -->
     <link rel="icon" type="image/png" sizes="192x192" href="admin/img/android-chrome-192x192.png">
     <!-- CSS files -->
-    <!-- <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon"> -->
     <link href="{{ asset('admin/css/tabler.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{ asset('admin/css/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{ asset('admin/css/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
