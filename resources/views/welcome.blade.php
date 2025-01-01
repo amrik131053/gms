@@ -95,11 +95,11 @@
                          Hostel
                             </div>
                             <div class="text-secondary">
-                            @if (!empty($meterDetails) && array_key_exists('article_no', $meterDetails))
-    <b>{{$meterDetails['article_no']}}</b>
-    @else
-    <b>Room No:NA</b>
-@endif
+                            @if (!empty($meterDetails) && array_key_exists('RoomNo', $meterDetails))
+                                <b>Room No:{{$meterDetails['RoomNo']}}</b>
+                                @else
+                                <b>Room No:NA</b>
+                            @endif
 
                             </div>
                           </div>

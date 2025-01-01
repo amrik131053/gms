@@ -34,17 +34,16 @@ class AuthController extends Controller
             $profile = $DataResponse->json();
          
             $profileData = $profile['profile'][0] ?? [];
-            $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/odl-api/meterReading.php?IDNo='.$profileData['IDNo']);
+            $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/hostel_room_number.php?IDNo='.$profileData['IDNo']);
         $DataMeter = $DataMeterBills->json();
         $officeOrder = $profile['order'] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
         $noticeBoard = $profile['notice'] ?? [];
-    
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
         $meterDetails = $DataMeter['data'][0] ?? [];
-      
+    //   dd($meterDetails);
        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
 
     } catch (RequestException $e) {
