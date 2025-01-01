@@ -96,7 +96,7 @@
                             </div>
                             <div class="text-secondary">
                             @if (!empty($meterDetails) && array_key_exists('article_no', $meterDetails))
-    <b>Room No:NA</b>
+    <b>{{$meterDetails['article_no']}}</b>
     @else
     <b>Room No:NA</b>
 @endif

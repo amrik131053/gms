@@ -18,7 +18,6 @@ class AuthController extends Controller
     try {
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/dashboard');
         $DataButtonsExam = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/checkbutton');
-        
         if ($DataResponse->failed()) {
             return view('index', [
                 'profileData' => [], 
