@@ -41,7 +41,7 @@
                             <b class="text-danger">{{ $DataAfterPermissions['message'] }}</b>
                         @else
                             @if ($DataAfterPermissions['formstatus'] == 1)
-                                <b class="text-danger">Examination date Over. Last date was {{ $DataAfterPermissions['startdate'] }} to {{ $DataAfterPermissions['enddate'] }}</b>
+                                <b class="text-danger">Examination date Over. Last date was {{ $DataAfterPermissions['enddate'] }}</b>
                             @elseif ($DataAfterPermissions['formstatus'] == 0)
 
 

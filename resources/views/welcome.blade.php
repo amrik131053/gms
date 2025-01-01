@@ -154,7 +154,7 @@
                         <div class="card">
                           <div class="card-status-top bg-green"></div>
                           <div class="card-header">
-                            <h3 class="card-title"></h3>
+                            <h3 class="card-title">Notice</h3>
                           </div>
                           <div class="card-body p-0">
                           <div class="card-body card-body-scrollable card-body-scrollable-shadow">

@@ -19,7 +19,6 @@ class AuthController extends Controller
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/dashboard');
         $DataButtonsExam = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/checkbutton');
         
-        
         if ($DataResponse->failed()) {
             return view('index', [
                 'profileData' => [], 
@@ -34,28 +33,25 @@ class AuthController extends Controller
             }
             $examStatus = $DataButtonsExam->json();
             $profile = $DataResponse->json();
-            // dd($profile);
+         
             $profileData = $profile['profile'][0] ?? [];
             $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/odl-api/meterReading.php?IDNo='.$profileData['IDNo']);
         $DataMeter = $DataMeterBills->json();
         $officeOrder = $profile['order'] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
         $noticeBoard = $profile['notice'] ?? [];
-        // dd($DataMeter);
+    
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
         $meterDetails = $DataMeter['data'][0] ?? [];
-        //  dd($meterDetails);
+      
        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
 
     } catch (RequestException $e) {
    
         if ($e->getCode() === 28) {
             return view('index', [
-
-
-
                  'profileData' => [], 
                 'booksCount' => [], 
                 'noticeBoard' => [], 
