@@ -46,7 +46,7 @@ class AuthController extends Controller
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
         $meterDetails = $DataMeter['data'][0] ?? [];
-         dd($meterDetails);
+        //  dd($meterDetails);
        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
 
     } catch (RequestException $e) {
