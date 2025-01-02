@@ -37,15 +37,23 @@ class AuthController extends Controller
             $profileData = $profile['profile'][0] ?? [];
             $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/hostel_room_number.php?IDNo='.$profileData['IDNo']);
         $DataMeter = $DataMeterBills->json();
-        $officeOrder = $profile['order'][0] ?? [];
+       
+        $officeOrder = $profile['notice'] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
-        $noticeBoard = $profile['notice'][0] ?? [];
+        $noticeBoard = $profile['order'] ?? [];
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
         $meterDetails = $DataMeter['data'][0] ?? [];
-// dd($noticeBoard);
-        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
+        if($profileData['Status']==1)
+        {
+            return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
+        }
+        else{
+            cookie()->queue(cookie()->forget('api_token'));
+            $request->session()->forget('api_token');
+            return redirect()->route('logout');
+        }
   
 
     } catch (RequestException $e) {
