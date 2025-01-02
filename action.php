@@ -22078,11 +22078,11 @@ elseif($code=='336')
 <div class="col-lg-1">
     <label>Year</label>
     <select  name="year" id="year" class="form-control "> 
-<option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
+    <?php  for ($i=date('Y'); $i >=2020 ; $i--) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
                                     
   
 </select>
