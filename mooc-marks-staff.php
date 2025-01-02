@@ -676,6 +676,9 @@ var formData = new FormData();
 
                   //  if(xhr.responseText=="Uploaded"){
                      SuccessToast('Successfully Uploaded');
+                     testing();
+
+
                   //  }
                   //  else
                   //  {
