@@ -23769,16 +23769,16 @@ $marks = $_POST["MOOC_Mark"];
       $file_name = $_FILES['moocfile']['name'];
       $file_tmp = $_FILES['moocfile']['tmp_name'];
       $type = $_FILES['moocfile']['type'];
-      $file_data = file_get_contents($file_tmp);
+     // $file_data = file_get_contents($file_tmp);
       $characters = '';
 
     $image_name ="M".$Id."_".$file_name;
      
      $destdir = 'StdWorkshopFile';
 
-     ftp_chdir($conn_id, "StdWorkshopFile/") or die("Could not change directory");
+     ftp_chdir($conn_id,"StdWorkshopFile/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
-     file_put_contents($destdir.$image_name,$file_data);
+    // file_put_contents($destdir.$image_name,$file_data);
 
      ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
 
