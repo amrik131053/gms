@@ -95,6 +95,9 @@
                           <a class="dropdown-item " href="{{url('feeReceipt')}}">
                             Fee Receipts
                           </a>
+                          <a class="dropdown-item " href="http://erp.gku.ac.in:86/">
+                            Pay Now
+                          </a>
                           
                         </div>
                       </div>                    
