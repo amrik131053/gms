@@ -23785,11 +23785,11 @@ $marks = $_POST["MOOC_Mark"];
    
    $image_name1=$image_name;
 
- echo  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
+  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
 MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
 
-  echo "1";
+  echo "Uploaded"; 
   sqlsrv_close($conntest);
 }
 

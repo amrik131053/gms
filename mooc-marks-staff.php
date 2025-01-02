@@ -382,7 +382,7 @@ var spinner= document.getElementById("ajax-loader");
       },
       success:function(response)
       {
-console.log(response);
+//console.log(response);
         spinner.style.display='none';
        SuccessToast('Successfully Saved');
        select_mst() ;
@@ -669,16 +669,18 @@ var formData = new FormData();
             xhr.open("POST", "action.php", true);
 
             xhr.onload = function () {
-            console.log("Server response:", xhr.responseText);
+            console.log("Server response:",xhr.responseText);
                 if (xhr.status === 200) {
 
-                   if(xhr.responseText==1){
+
+
+                  //  if(xhr.responseText=="Uploaded"){
                      SuccessToast('Successfully Uploaded');
-                   }
-                   else
-                   {
-                     ErrorToast('something went wrong',"bg-danger" );
-                   }
+                  //  }
+                  //  else
+                  //  {
+                  //    ErrorToast('something went wrong',"bg-danger" );
+                  //  }
                  
 
                    
