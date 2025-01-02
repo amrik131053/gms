@@ -12604,12 +12604,14 @@ $datePayment4 = $_POST['datePayment4'];
 
 
 
- $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo', statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',
+  statusVerification='$statusVerification', dateVerification='$dateVerification',
+  UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',
  loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1',
  UTRNumber1='$UTRNumber1',loan_amount1 ='$loan_amount1',datePayment1='$datePayment1',
   UTRNumber2='$UTRNumber2',loan_amount2 ='$loan_amount2',datePayment2='$datePayment2',
     UTRNumber3='$UTRNumber3',loan_amount3 ='$loan_amount3',datePayment3='$datePayment3',
-     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4',
+     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4'
    where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 

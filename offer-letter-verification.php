@@ -559,9 +559,9 @@ function edit_student_details_a(id) {
     var applicationNo1 = document.getElementById('applicationNo1').value;
     var dateVerification1 = document.getElementById('dateVerification1').value;
 
-    var loanNumber2 = document.getElementById('loanNumber2').value;
-    var applicationNo2 = document.getElementById('applicationNo2').value;
-    var dateVerification2 = document.getElementById('dateVerification2').value;
+   //  var loanNumber2 = document.getElementById('loanNumber2').value;
+   //  var applicationNo2 = document.getElementById('applicationNo2').value;
+   //  var dateVerification2 = document.getElementById('dateVerification2').value;
 
  var UTRNumber = document.getElementById('UTRNumber').value;
  var loan_amount = document.getElementById('loan_amount').value;

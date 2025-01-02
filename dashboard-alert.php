@@ -10,10 +10,8 @@ $lCount=0;
          {
         echo $lCount=$lCount+$emp_count;
          }
-
-
              
-    echo  $LeaveAlert1="SELECT * FROM ApplyLeaveGKU where  Status='Pending to Sanction' and SanctionId='$EmployeeID' and  AuthorityId!='$EmployeeID'";
+ $LeaveAlert1="SELECT * FROM ApplyLeaveGKU where  Status='Pending to Sanction' and SanctionId='$EmployeeID' and  AuthorityId!='$EmployeeID'";
      $LeaveAlert1CPunt=sqlsrv_query($conntest,$LeaveAlert1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                $emp_count1=sqlsrv_num_rows($LeaveAlert1CPunt);
      if($emp_count1>0)
