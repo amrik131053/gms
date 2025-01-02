@@ -1,8 +1,8 @@
 <?php
-$Authority_Label='Pending To Registrar';
-$Authority_ID="171881"; 
+$Authority_Label='Pending To VC';
+$Authority_ID="172027"; 
 $alertshow=0;
- $lCount=0;
+$lCount=0;
  $LeaveAlert="SELECT * FROM ApplyLeaveGKU where Status!='Approved' and Status!='Reject' and Status!='$Authority_Label' and SanctionId='$EmployeeID' and  AuthorityId='$EmployeeID'";
  $LeaveAlertCPunt=sqlsrv_query($conntest,$LeaveAlert,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
            $emp_count=sqlsrv_num_rows($LeaveAlertCPunt);
@@ -13,7 +13,7 @@ $alertshow=0;
 
 
              
-     $LeaveAlert1="SELECT * FROM ApplyLeaveGKU where  Status='Pending to Sanction' and SanctionId='$EmployeeID' and  AuthorityId!='$EmployeeID'";
+    echo  $LeaveAlert1="SELECT * FROM ApplyLeaveGKU where  Status='Pending to Sanction' and SanctionId='$EmployeeID' and  AuthorityId!='$EmployeeID'";
      $LeaveAlert1CPunt=sqlsrv_query($conntest,$LeaveAlert1,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                $emp_count1=sqlsrv_num_rows($LeaveAlert1CPunt);
      if($emp_count1>0)

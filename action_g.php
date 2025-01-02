@@ -12033,36 +12033,43 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];
     $Gender=$row['Gender'];
     $classroll=$row['Class_RollNo'];
+   
+   
     $loanNumber=$row['loanNumber'];
     $applicationNo=$row['applicationNo'];
 
-     $loanNumber1=$row['loanNumber1'];
-    $applicationNo1=$row['applicationNo1'];
 
-      $UTRNumber=$row['UTRNumber'];
+    
+
+    $UTRNumber=$row['UTRNumber'];
     $loan_amount=$row['loan_amount'];
      if($row['datePayment']!='')
     {$datePayment=$row['datePayment']; }
     else    {
-        $datePayment=date('Y-m-d');
+        $datePayment='';
     }
 
+    $loanNumber1=$row['loanNumber1'];
+    $applicationNo1=$row['applicationNo1'];
 
       $UTRNumber1=$row['UTRNumber1'];
     $loan_amount1=$row['loan_amount1'];
      if($row['datePayment1']!='')
     {$datePayment1=$row['datePayment1']; }
     else    {
-        $datePayment1=date('Y-m-d');
+        $datePayment1='';
     }
 
 
+ 
   $UTRNumber2=$row['UTRNumber2'];
     $loan_amount2=$row['loan_amount2'];
      if($row['datePayment2']!='')
-    {$datePayment2=$row['datePayment2']; }
+    {
+        $datePayment2=$row['datePayment2']; 
+    }
     else    {
-        $datePayment2=date('Y-m-d');
+        $datePayment2='';
     }
 
   $UTRNumber3=$row['UTRNumber3'];
@@ -12070,7 +12077,14 @@ if ($row=mysqli_fetch_array($get_student_details_run))
      if($row['datePayment3']!='')
     {$datePayment3=$row['datePayment3']; }
     else    {
-        $datePayment3=date('Y-m-d');
+        $datePayment3='';
+    }
+    $UTRNumber4=$row['UTRNumber4'];
+    $loan_amount4=$row['loan_amount4'];
+     if($row['datePayment4']!='')
+    {$datePayment4=$row['datePayment4']; }
+    else    {
+        $datePayment4='';
     }
 
 
@@ -12334,193 +12348,6 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 
 
             </div>
-            <?php
-if($statusVerification>0)
-{
-         ?>
-            <div class="col-lg-3">
-                <label>Loan Account No</label>
-                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo</label>
-                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>" readonly>
-
-
-            </div>
-          
-  <div class="col-lg-3">
-                <label>Loan Account No-1</label>
-                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo-1</label>
-                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Status</label>
-                <Select class="form-control" id="statusVerification" readonly>
-                    <?php 
-                        if($statusVerification=="0"){
-                            ?><option value="<?=$statusVerification;?>">Pending</option>
-
-                    <?php 
-
-                        }else
-                        {
-?> <option value="<?=$statusVerification;?>">Verified</option>
- <option value="0">Pending</option>
-
-
-                    <?php 
-                        }
-                       ?>
-                </Select>
-            </div>
-            <hr>
-            <div class="col-lg-3">
-                <label>UTR No</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
-
-
-            </div>
-            
-<?php 
-if($UTRNumber>0 && $UTRNumber1 !='' )
-{?>
-
-  <div class="col-lg-3">
-                <label>UTR No-1</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount-1</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
-
-
-            </div>
-            <?php
-          }
-
-else
-{
-  ?><div class="col-lg-3">
-                <label>UTR No-1</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount-1</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>" readonly>
-
-
-            </div>
-
-<?php }
-
-
-
-
-
-
-
-
-          
-}
-else
-{
-?>
-            <div class="col-lg-3">
-                <label>Loan Account No</label>
-                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo</label>
-                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>">
-
-
-
-            </div>
-
-              <div class="col-lg-3">
-                <label>Loan Account No-1</label>
-                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" >
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo-1</label>
-                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" >
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" >
-
-
-            </div>
             <div class="col-lg-3">
                 <label>Status</label>
                 <Select class="form-control" id="statusVerification">
@@ -12543,31 +12370,189 @@ else
 
             </div>
 
-            <hr> 
+
+
+
+
+                </div>
+                <div class="row">
+
+   
+            <div class="col-lg-3">
+                <label>Loan Account No</label>
+                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">  </div>
+            <div class="col-lg-3">
+                <label>ApplicationNo</label>
+                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" >
+            </div>
+            <div class="col-lg-3">
+                <label>Date</label>
+                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>" >
+            </div>
+           
+
+
+
+                </div><hr >
+                <div class="row">
+          
+          <div class="col-lg-3">
+             <label>Loan Account No-1</label>
+             <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>">
+          </div>
+
+          <div class="col-lg-3">
+             <label>ApplicationNo-1</label>
+             <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" >
+
+
+          </div>
+          <div class="col-lg-3">
+             <label>Date-1</label>
+             <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" >
+
+
+             </div>
+
+            
+         </div>
+         
+            <hr >  <div class="row">
+
+   
+
+   
 <div class="col-lg-3">
+    <label>UTR No</label>
+    <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
+</div>
+
+<div class="col-lg-3">
+    <label>Amount</label>
+    <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
+
+</div>
+<div class="col-lg-3">
+    <label>Date</label>
+    <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
+
+
+</div>
+    </div><hr >
+            <div class="row">
+          
+             
+
+                <div class="col-lg-3">
+                <label>UTR No-1</label>
+                <input type="text" id="UTRNumber1" class="form-control" value="<?=$UTRNumber1;?>">
+
+
+             </div>
+
+             <div class="col-lg-3">
+                <label>Amount-1</label>
+                <input type="text" id="loan_amount1" class="form-control" value="<?=$loan_amount1;?>">
+
+
+             </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="datePayment1" class="form-control" value="<?=$datePayment1;?>">
+
+
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+
                 
-                <input type="hidden" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+
+
+
+            
+                <div class="col-lg-3">
+                <label>UTR No-2</label>
+                <input type="text" id="UTRNumber2" class="form-control" value="<?=$UTRNumber2;?>" >
 
 
             </div>
 
-  <div class="col-lg-3">
-              
-                <input type="hidden" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+            <div class="col-lg-3">
+                <label>Amount-2</label>
+                <input type="text" id="loan_amount2" class="form-control" value="<?=$loan_amount2;?>">
 
 
             </div>
             <div class="col-lg-3">
-               
-                <input type="hidden" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+                <label>Date-2</label>
+                <input type="date" id="datePayment2" class="form-control" value="<?=$datePayment2;?>" >
 
 
             </div>
 
-<?php 
 
-}
-?>
+            </div>
+            <hr >
+      
+            <div class="row">
+
+                
+
+
+
+
+    <div class="col-lg-3">
+    <label>UTR No-3</label>
+    <input type="text" id="UTRNumber3" class="form-control" value="<?=$UTRNumber3;?>" >
+
+
+</div>
+
+<div class="col-lg-3">
+    <label>Amount-3</label>
+    <input type="text" id="loan_amount3" class="form-control" value="<?=$loan_amount3;?>" >
+
+
+</div>
+<div class="col-lg-3">
+    <label>Date-3</label>
+    <input type="date" id="datePayment3" class="form-control" value="<?=$datePayment3;?>" >
+
+
+</div>
+
+
+</div><hr>
+<div class="row">
+
+                
+
+    <div class="col-lg-3">
+    <label>UTR No-4</label>
+    <input type="text" id="UTRNumber4" class="form-control" value="<?=$UTRNumber4;?>" >
+
+
+</div>
+
+<div class="col-lg-3">
+    <label>Amount-4</label>
+    <input type="text" id="loan_amount4" class="form-control" value="<?=$loan_amount4;?>" >
+
+
+</div>
+<div class="col-lg-3">
+    <label>Date-4</label>
+    <input type="date" id="datePayment4" class="form-control" value="<?=$datePayment4;?>" >
+
+
+</div>
+
+
+</div>
+
+
+
 
 
 
@@ -12600,7 +12585,32 @@ $dateVerification1 = $_POST['dateVerification1'];
 $UTRNumber = $_POST['UTRNumber'];
 $loan_amount = $_POST['loan_amount'];
 $datePayment = $_POST['datePayment'];
- $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1'  where id='$id'";
+
+$UTRNumber1 = $_POST['UTRNumber1'];
+$loan_amount1 = $_POST['loan_amount1'];
+$datePayment1 = $_POST['datePayment1'];
+
+$UTRNumber2 = $_POST['UTRNumber2'];
+$loan_amount2 = $_POST['loan_amount2'];
+$datePayment2 = $_POST['datePayment2'];
+
+$UTRNumber3 = $_POST['UTRNumber3'];
+$loan_amount3 = $_POST['loan_amount3'];
+$datePayment3 = $_POST['datePayment3'];
+
+$UTRNumber4 = $_POST['UTRNumber4'];
+$loan_amount4 = $_POST['loan_amount4'];
+$datePayment4 = $_POST['datePayment4'];
+
+
+
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo', statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',
+ loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1',
+ UTRNumber1='$UTRNumber1',loan_amount1 ='$loan_amount1',datePayment1='$datePayment1',
+  UTRNumber2='$UTRNumber2',loan_amount2 ='$loan_amount2',datePayment2='$datePayment2',
+    UTRNumber3='$UTRNumber3',loan_amount3 ='$loan_amount3',datePayment3='$datePayment3',
+     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4',
+   where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -19466,7 +19476,7 @@ elseif($code==257)
                             </tr>
                             <?php
 
-$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MasterShift.Id ASC";
+$sql="SELECT top(15)* from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MadamShiftTime.Id DESC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -19579,7 +19589,7 @@ elseif ($code==258) {
                             <tbody id="showSingleExceptionSearch">
                             <?php
 
-$sql="SELECT * from MadamSingleEmployeeException  order by Id DESC";
+$sql="SELECT top(50) * from MadamSingleEmployeeException  order by id DESC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
