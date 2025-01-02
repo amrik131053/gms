@@ -13,7 +13,17 @@
                   @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
+                            
                         </div>
+                        <script type="text/javascript">
+        setTimeout(function() {
+            document.cookie = "api_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            @php
+                session()->forget('api_token');
+            @endphp
+            window.location.href = "{{ route('index') }}"; 
+        }, 5000); 
+    </script>
                     @endif
 
                     @if ($errors->any())

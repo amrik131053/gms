@@ -3,7 +3,7 @@
     <div class="container container-tight py-4">
         <div class="card card-md">
             <div class="card-body">
-                <div class="text-center">        
+                <div class="text-center" >        
                     <img src="admin/img/join-logo.png" width="200" height="50" alt="logo" class="navbar-brand-image">
                 </div>
                 <br>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-check">
-                            <input type="checkbox" class="form-check-input" />
+                            <input type="checkbox" name="remember" class="form-check-input" />
                             <span class="form-check-label">Remember me on this device</span>
                         </label>
                     </div>

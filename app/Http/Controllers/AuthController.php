@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
-
+use Auth;
+use Session;
 class AuthController extends Controller
 {
     // dashboard 
@@ -36,15 +37,16 @@ class AuthController extends Controller
             $profileData = $profile['profile'][0] ?? [];
             $DataMeterBills = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/hostel_room_number.php?IDNo='.$profileData['IDNo']);
         $DataMeter = $DataMeterBills->json();
-        $officeOrder = $profile['order'] ?? [];
+        $officeOrder = $profile['order'][0] ?? [];
         $smartcardStatus = $profile['statusIdcard'][0] ?? [];
-        $noticeBoard = $profile['notice'] ?? [];
+        $noticeBoard = $profile['notice'][0] ?? [];
         $booksCount = $profile['books'][0] ?? [];
         $booksFine = $profile['finedata'][0] ?? [];
         $examButtonFlag = $profile['statusopen']['flag'] ?? [];
         $meterDetails = $DataMeter['data'][0] ?? [];
-    //   dd($meterDetails);
-       return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
+// dd($noticeBoard);
+        return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
+  
 
     } catch (RequestException $e) {
    
@@ -145,37 +147,68 @@ class AuthController extends Controller
         'email' => 'Invalid email. Please try again.',
     ])->withInput();
 }
+        public function login(Request $request)
+        {
+    $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ], [
+        'username.required' => 'The rollno/idno is required.',
+        'password.required' => 'The password is required.'
+    ]);
+    $BaseURL = config('app.baseUrl');
+    $response = Http::post($BaseURL . 'Student/login', [
+        'username' => $request->input('username'),
+        'password' => $request->input('password'),
+    ]);
 
-    public function login(Request $request)
-    {
-
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ], [
-            'username.required' => 'The rollno/idno is required.',
-            'password.required' => 'The password is required.'
-           
-        ]);
-        $BaseURL = config('app.baseUrl');
-        $response = Http::post($BaseURL . 'Student/login', [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-        ]);
-    
-        if ($response->successful()) {
-            $token = $response->json('token');
-            session(['api_token' => $token]);
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->route('index')
-                ->withErrors([
-                    'username' => 'Invalid rollno/idno. Please try again.',
-                    'password' => 'Invalid password. Please try again.',
-                ])
-                ->withInput();
+    if ($response->successful()) {
+        $token = $response->json('token');
+        session(['api_token' => $token]);
+        if ($request->has('remember') && $request->input('remember') == 'on') {
+            cookie()->queue('api_token', $token, 60 * 24 * 365);  // 1 year
         }
+        return redirect()->route('dashboard');
+    } else {
+        return redirect()->route('index')
+            ->withErrors([
+                'username' => 'Invalid rollno/idno. Please try again.',
+                'password' => 'Invalid password. Please try again.',
+            ])
+            ->withInput();
     }
+}
+
+    // public function login(Request $request)
+    // {
+
+    //     $request->validate([
+    //         'username' => 'required|string',
+    //         'password' => 'required|string',
+    //     ], [
+    //         'username.required' => 'The rollno/idno is required.',
+    //         'password.required' => 'The password is required.'
+           
+    //     ]);
+    //     $BaseURL = config('app.baseUrl');
+    //     $response = Http::post($BaseURL . 'Student/login', [
+    //         'username' => $request->input('username'),
+    //         'password' => $request->input('password'),
+    //     ]);
+    
+    //     if ($response->successful()) {
+    //         $token = $response->json('token');
+    //         session(['api_token' => $token]);
+    //         return redirect()->route('dashboard');
+    //     } else {
+    //         return redirect()->route('index')
+    //             ->withErrors([
+    //                 'username' => 'Invalid rollno/idno. Please try again.',
+    //                 'password' => 'Invalid password. Please try again.',
+    //             ])
+    //             ->withInput();
+    //     }
+    // }
     
     public function showPasswordChangeForm()
     {
@@ -210,9 +243,9 @@ class AuthController extends Controller
         ])->post($BaseURL.'Student/passwordchange/' . $oldpassword . '/' . $newpassword);
 
         $resp = $response->json();
-
         if (isset($resp['Response']) && $resp['Response'] == '1') {
-            return back()->with('success', 'Password changed successfully');
+            cookie()->queue(cookie()->forget('api_token'));
+            return back()->with('success', 'Password changed successfully. Logging you out...');
         } else {
             return back()->withErrors(['error' => 'Old Password not exist']);
         }
@@ -220,6 +253,7 @@ class AuthController extends Controller
     // student logout API
     public function logout(Request $request)
     {
+         cookie()->queue(cookie()->forget('api_token'));
         $request->session()->forget('api_token');
         $request->session()->invalidate();
         $request->session()->regenerateToken();

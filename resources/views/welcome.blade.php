@@ -126,26 +126,7 @@
                           </div>
                           <div class="card-body p-0">
                           <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                        <div class="divide-y" style="height: 20rem">
-                          @foreach ($noticeBoard as $noticeBoardShow )
-                          <div>
-                            <div class="row">
-                              <div class="col-auto">
-                                <span class="avatar">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('M') }}</span>
-                              </div>
-                              <div class="col">
-                                <div class="">
-                                  <strong class="text-danger"> {{$noticeBoardShow['Subject']}}</strong>  <a target="_blank" href="http://erp.gku.ac.in:86/Notices/{{$noticeBoardShow['FileName']}}"><b>Click Here</b></a>
-                                </div>
-                                <div class="text-secondary">{{ \Carbon\Carbon::parse($noticeBoardShow['DateEntry'])->format('d-m-Y') }}</div>
-                              </div>
-                              <!-- <div class="col-auto align-self-center"> -->
-                                <!-- <div class="badge bg-primary">Click Here</div> -->
-                              <!-- </div> -->
-                            </div>
-                          </div>
-                          @endforeach
-                        </div>
+                      
                       </div>
                           </div>
                         </div>
@@ -158,26 +139,7 @@
                           </div>
                           <div class="card-body p-0">
                           <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                        <div class="divide-y" style="height: 20rem">
-                          @foreach ($officeOrder as $officeorderShow )
-                          <div>
-                            <div class="row">
-                              <div class="col-auto">
-                                <span class="avatar">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d') }}<br>{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('M') }}</span>
-                              </div>
-                              <div class="col">
-                                <div class="">
-                                  <strong class="text-danger"> {{$officeorderShow['Subject']}}</strong> <a target="_blank" href="http://erp.gku.ac.in:86/Notices/{{$officeorderShow['FileName']}}"><b>Click Here</b></a>
-                                </div>
-                                <div class="text-secondary">{{ \Carbon\Carbon::parse($officeorderShow['Date'])->format('d-m-Y') }}</div>
-                              </div>
-                              <!-- <div class="col-auto align-self-center"> -->
-                                <!-- <div class="badge bg-primary">Click Here</div> -->
-                              <!-- </div> -->
-                            </div>
-                          </div>
-                          @endforeach
-                        </div>
+                        
                       </div>
                           </div>
                         </div>
