@@ -12611,7 +12611,7 @@ $datePayment4 = $_POST['datePayment4'];
  UTRNumber1='$UTRNumber1',loan_amount1 ='$loan_amount1',datePayment1='$datePayment1',
   UTRNumber2='$UTRNumber2',loan_amount2 ='$loan_amount2',datePayment2='$datePayment2',
     UTRNumber3='$UTRNumber3',loan_amount3 ='$loan_amount3',datePayment3='$datePayment3',
-     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4'
+     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4',
    where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
@@ -33339,8 +33339,8 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
               <td><?=$data1['Percentage'];?></td>
               <td>
 
-                <i class=" fa fa-upload" id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
-                      data-toggle="modal" data-target="#modal-default"
+                <i class=" fa fa-upload" id="doc" type="button" onclick="UploadPHDDocument(<?=$data1['id']; ?>)"
+                      data-toggle="modal" data-target="#modal-default-upload"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">
                   </i>
 

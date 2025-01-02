@@ -89,7 +89,7 @@ input[type=radio]:checked+label {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Academic Document</h4>
+                <h4 class="modal-title">Ph.D Document</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,6 +104,26 @@ input[type=radio]:checked+label {
     </div>
     <!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="modal-default-upload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Upload Ph.D Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body" id="upload-phd-data">
+
+            </div> 
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <!-- /.modal -->
 <div class="modal fade" id="modal-default-Experience">
     <div class="modal-dialog">
@@ -939,6 +959,21 @@ function viewPHDDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
+ 
+function UploadPHDDocument(id) {
+    var code = 57.2;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data_upload").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+    
+}
+
+
 
 function viewTestDocument(id) {
     var code = 1;
