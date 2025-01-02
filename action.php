@@ -23778,7 +23778,7 @@ $marks = $_POST["MOOC_Mark"];
 
      ftp_chdir($conn_id,"StdWorkshopFile/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
-    // file_put_contents($destdir.$image_name,$file_data);
+     file_put_contents($destdir.$image_name,$file_data);
 
      ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
 
