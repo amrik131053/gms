@@ -14,9 +14,11 @@ use App\Http\Middleware\CheckAuthentication;
  
 // Auth Routes
 Route::get('/', [AuthController::class, 'loginPage'])->name('index');
-Route::get('dashboard', [AuthController::class, 'mainDashboard'])->name('dashboard');
+Route::get('dashboard', [AuthController::class, 'mainDashboard'])->name('dashboard')->middleware(CheckAuthentication::class);
 Route::get('login', [AuthController::class, 'loginPage']);
 Route::post('login', [AuthController::class, 'login']);
+Route::get('/forgotpassword', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('forgot', [AuthController::class, 'forgotPasswordAction']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware(CheckAuthentication::class);
 Route::get('password_change', [AuthController::class, 'showPasswordChangeForm'])->name('password_change')->middleware(CheckAuthentication::class);
 Route::post('passwordchangeAction', [AuthController::class, 'passwordchangeAction'])->name('passwordchangeAction');

@@ -98,27 +98,85 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
         else{
-            return view('index')->withErrors(['message' => 'Page Not fund.']);
+            return view('index');
         }
     }
+    public function forgotPassword(Request $request)
+    {
+       
+            return view('forgotPassword');
+       
+    }
+    public function forgotPasswordAction(Request $request)
+{
+    $request->validate([
+        'username' => 'required|string',
+        'email' => 'required|email',
+    ], [
+        'username.required' => 'The rollno/idno is required.',
+        'email.required' => 'The email is required.',
+        'email.email' => 'The email must be a valid email address.',
+    ]);
+    $BaseURL = config('app.baseUrl');
+    $username = $request->input('username');
+    $email = $request->input('email');
+    try {
+        $response = Http::get('http://gurukashiuniversity.co.in/GMS/student-forgot-password-action.php', [
+            'email_id' => $email,
+            'username' => $username,
+        ]);
+        if ($response->successful()) {
+            $resp = $response->json();
+            if (isset($resp) && $resp!=4) {
+                return back()->with('success', 'Password reset have been sent to your email.');
+            } else {
+                return back()->withErrors([
+                    'error' => 'Kindly provide the right information. Email and Username does not match in database.',
+                ])->withInput();
+            }
+        }
+    } catch (\Exception $e) {
+        return back()->withErrors([
+            'error' => 'An error occurred while processing your request. Please try again later.',
+        ])->withInput();
+    }
+    return back()->withErrors([
+        'username' => 'Invalid rollno/idno. Please try again.',
+        'email' => 'Invalid email. Please try again.',
+    ])->withInput();
+}
+
     public function login(Request $request)
     {
-        $BaseURL=config('app.baseUrl');
-        // dd($BaseURL);
-        $response = Http::post($BaseURL.'Student/login', [
+
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'username.required' => 'The rollno/idno is required.',
+            'password.required' => 'The password is required.'
+           
+        ]);
+        $BaseURL = config('app.baseUrl');
+        $response = Http::post($BaseURL . 'Student/login', [
             'username' => $request->input('username'),
             'password' => $request->input('password'),
-            
         ]);
+    
         if ($response->successful()) {
             $token = $response->json('token');
             session(['api_token' => $token]);
             return redirect()->route('dashboard');
-    } else {
-        return redirect()->route('index')
-        ->withErrors(['error' => 'Invalid username or password. Please try again.']);
+        } else {
+            return redirect()->route('index')
+                ->withErrors([
+                    'username' => 'Invalid rollno/idno. Please try again.',
+                    'password' => 'Invalid password. Please try again.',
+                ])
+                ->withInput();
         }
     }
+    
     public function showPasswordChangeForm()
     {
         return view('changePassword');
