@@ -39,7 +39,7 @@ function searchSubjectsForExam() {
     })
     .then(data => {
         hideLoader();
-        console.log(data);
+        // console.log(data);
         const { examSubjectNormalData, subjectsOpenElectiveData } = data;
         const tableContainer = document.getElementById('subjectsTableDivForm');
         tableContainer.innerHTML = '';
@@ -56,7 +56,7 @@ function searchSubjectsForExam() {
             headerRow.innerHTML = `
                 <th>Subject Code</th>
                 <th>Subject Name</th>
-                <th>Actions</th>
+                <th>Action</th>
             `;
             table.appendChild(headerRow);
 
@@ -71,7 +71,7 @@ function searchSubjectsForExam() {
                         <td>
                             <select class="form-control form-select subject-dropdown" data-subject-code="${subject.SubjectCode}" 
                                     data-subject-name="${subject.SubjectName}" 
-                                    data-academic-type="${subject.AcademicType}">
+                                    data-academic-type="${subject.SubjectType}">
                                     <option value="Y">Y</option>
                                 <option value="N">N</option>
                             </select>
@@ -99,7 +99,7 @@ function searchSubjectsForExam() {
             
                 let staticOption = document.createElement('option');
                 staticOption.value = JSON.stringify({
-                    AcademicType: 'O',
+                    SubjectType: 'O',
                     SubjectName: 'not applicable',
                     SubjectCode: 'not applicable',
                     Type: 'O'
@@ -111,7 +111,7 @@ function searchSubjectsForExam() {
                     subjectsOpenElectiveData.forEach(elective => {
                         let option = document.createElement('option');
                         option.value = JSON.stringify({
-                            AcademicType: elective.AcademicType,
+                            SubjectType: elective.SubjectType,
                             SubjectName: elective.SubjectName,
                             SubjectCode: elective.SubjectCode,
                             Type: elective.Type || 'O'
@@ -145,7 +145,7 @@ function examFormSubmit() {
 
     // Gather normal subjects data
     const subjectsData = Array.from(document.querySelectorAll('.subject-dropdown')).map(select => ({
-        AcademicType: select.getAttribute('data-academic-type'),
+        SubjectType: select.getAttribute('data-academic-type'),
         SubjectCode: select.getAttribute('data-subject-code'),
         SubjectName: select.getAttribute('data-subject-name'),
         select: select.value
@@ -158,7 +158,7 @@ function examFormSubmit() {
     if (!electiveDropdown || !electiveDropdown.value) {
         // Use "Not Applicable" if no dropdown or no value is selected
         selectedElective = {
-            AcademicType: 'O',
+            SubjectType: 'O',
             SubjectCode: 'not applicable',
             SubjectName: 'not applicable',
             Type: 'O',
@@ -173,7 +173,7 @@ function examFormSubmit() {
     const subjects = [
         ...subjectsData,
         {
-            AcademicType: selectedElective.Type || 'O',
+            SubjectType: selectedElective.Type || 'O',
             SubjectCode: selectedElective.SubjectCode,
             SubjectName: selectedElective.SubjectName,
             select: selectedElective.select || 'Y'
