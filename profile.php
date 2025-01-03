@@ -115,7 +115,7 @@ input[type=radio]:checked+label {
             </div>
 
 
-            <div class="modal-body" id="upload-phd-data">
+            <div class="modal-body" id="phd_upload_data">
 
             </div> 
 
@@ -961,11 +961,11 @@ function viewPHDDocument(id) {
 }
  
 function UploadPHDDocument(id) {
-    var code = 57.2;
+    var code = 57.4;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("data_upload").innerHTML = xmlhttp.responseText;
+            document.getElementById("phd_data_upload").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
