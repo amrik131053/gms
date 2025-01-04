@@ -3424,6 +3424,7 @@ else { ?>
                             <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience1<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+            <li class="nav-item"><a class="nav-link" href="#letters-admin<?=$emp_id;?>" data-toggle="tab">Letters</a></li>
 
                             <?php   if($role_id==2){
                                             
@@ -4057,6 +4058,102 @@ else { ?>
             </div>
 
                             </div>
+
+
+                            <div class="tab-pane" id="letters-admin<?=$emp_id;?>">
+
+
+                            <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="code" value="436.2">
+                <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
+                <div class="row">
+                  
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Type Of Letter</label>
+                          
+
+                            <select class="form-control" name="letter_type" id="letter_type">
+                            <option value=''>Select</option>
+                            <option value='Appointment Letter'>Appointment Letter</option>
+                            <option value='Joining Letter'>Joining Letter</option>
+                            <option value='Appreciation Letter'>Appreciation Letter</option>
+                            <option value='Warning Letter'>Warning Letter</option>
+                            <option value='No Dues Certificate'>No Dues Certificate</option>
+                            <option value='Promotion Letter'>Promotion Letter</option>
+                            <option value='Experience Letter'>Experience Letter</option>
+                            <option value='Office Order'>Office Order</option>
+                            <option value='Office Order'>Advisory Letter</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        
+                            <div class="form-group">
+                            <label>Reference No </label>
+                            <input type="Reference NO" class="form-control" name="remarksAddtional">
+                        </div>
+                            
+                       
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Date Of Issue </label>
+                            <input type="date" class="form-control" name="startDateAddtional">
+                        </div>
+                    </div>
+                   
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Remarks </label>
+                            <input type="text" class="form-control" name="remarksAddtional">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>File </label>
+                            <input type="file" class="form-control" name="fileAttachment">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-2 mt-3">
+                        <label><br><br></label>
+                        <input type="button" onclick="addAditionalDuty(this.form,'<?=$emp_id;?>')" class="btn btn-primary" value="ADD">
+                    </div>
+
+
+                </div>
+            </form><br>
+<div class="row">
+    <div class="col-lg-12">
+    <table class="table  table-bordered">
+            <tr>
+                <th colspan="7">
+                    All Letters
+                </th>
+            </tr>
+            <tr>
+                <td>Sr No</td>
+                <td>Reference No</td>
+                <td>Type of Letter</td>
+                <td>Date of Issue</td>
+                <td>Documents</td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+
+
+        </table>
+      
+    </div>
+</div>
+</div>
                             <div class="tab-pane" id="idcard<?=$emp_id;?>">
 
                                 <div class="row">
@@ -32463,6 +32560,7 @@ elseif($code==431)
             <li class="nav-item"><a class="nav-link" href="#additionalResposibilities1<?=$emp_id;?>" data-toggle="tab">Additional Responsibilities</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience12<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+            <li class="nav-item"><a class="nav-link" href="#letters<?=$emp_id;?>" data-toggle="tab">Letters</a></li>
         </ul>
                              
                             
@@ -32875,7 +32973,41 @@ elseif($code==431)
 
 
                                                 </div>
-                                <div class="tab-pane" id="idcard1<?=$emp_id;?>">
+
+
+
+                                                <div class="tab-pane" id="letters<?=$emp_id;?>">
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <table class="table  table-bordered">
+            <tr>
+                <th colspan="7">
+                    All Letters
+                </th>
+            </tr>
+            <tr>
+                <td>Sr No</td>
+                <td>Reference No</td>
+                <td>Type of Letter</td>
+                <td>Date of Issue</td>
+                <td>Documents</td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+  </div>
+</div>
+                                 <div class="tab-pane" id="idcard1<?=$emp_id;?>">
 
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -32910,6 +33042,7 @@ elseif($code==431)
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="academic1<?=$emp_id;?>">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -33747,7 +33880,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
                                 </div>
                                 </div>
 
-                                <div class="tab-pane" id="additionalResposibilities1<?=$emp_id;?>">
+                         <div class="tab-pane" id="additionalResposibilities1<?=$emp_id;?>">
                                       <div class="row">
                        <?php
                          $sql1 = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = $EmployeeID";
