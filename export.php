@@ -8612,7 +8612,7 @@ else if($exportCode==59)
  else if($exportCode==60)
 {
     include 'result-pages/result-subject-bind-new.php';
-
+ 
 $subCount=(count($Subjects)*2)+4;
 $subCount1=count($Subjects);
 $exportstudy="<table class='table' border='1'>     <thead>";
