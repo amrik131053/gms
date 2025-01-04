@@ -378,7 +378,7 @@ var formData = new FormData();
             // Create and send AJAX request
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "action.php", true);
-
+ 
             xhr.onload = function () {
             console.log("Server response:",xhr.responseText);
                 if (xhr.status === 200) {

@@ -33339,13 +33339,13 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
               <td><?=$data1['Percentage'];?></td>
               <td>
 
-                <i class=" fa fa-upload" id="doc" type="button" onclick="UploadPHDDocument(<?=$data1['id']; ?>)"
+                <i class="fa fa-upload" id="doc" type="button" onclick="UploadPHDDocument(<?=$data1['id'];?>)"
                       data-toggle="modal" data-target="#modal-default-upload"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">
                   </i>
 
 
-                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
+                  <i class="fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id'];?>)"
                       data-toggle="modal" data-target="#modal-default"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">
                   </i>

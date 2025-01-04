@@ -56,7 +56,7 @@ ini_set('max_execution_time', '0');
 
 
 
- echo $subjectcode="Select Distinct SubjectCode from ExamFormSubject where SubjectType='undefined'  AND Examination='December 2024'";
+ echo $subjectcode="Select Distinct SubjectCode from ExamFormSubject where SubjectType='undefined'  AND Examination='May 2025'";
 $get_subjectcode_run=sqlsrv_query($conntest,$subjectcode);
     
  while($row = sqlsrv_fetch_array($get_subjectcode_run, SQLSRV_FETCH_ASSOC))
