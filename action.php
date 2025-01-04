@@ -23780,6 +23780,7 @@ $marks = $_POST["MOOC_Mark"];
      ftp_pasv($conn_id,true);
      file_put_contents($destdir.$image_name,$file_data);
      ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
+     unlink($destdir.$image_name);
      ftp_close($conn_id);
    
    $image_name1=$image_name;
