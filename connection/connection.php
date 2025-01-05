@@ -4,7 +4,7 @@
    $timeStampS=date('Y-m-d H:i:s');
    
 $serverName = "10.0.10.11"; //serverName\instanceName
-
+//$serverName = "117.250.20.109";
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 
@@ -14,7 +14,7 @@ $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
 
 $servername1 = "10.0.8.10";
-
+//$servername1 = "117.250.20.111";
 
 $username1 = "as";
 $password1 = "Bathinda@123";

@@ -2651,7 +2651,18 @@ function uploadPassBook(form) {
     });
 }
 
-
+function viewLetters(id) {
+    var code = 58.1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data-letters").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
 
 
 function viewAcademicDocumentExp(id) {
@@ -2766,6 +2777,43 @@ function viewTestDocument(id) {
     }
     xmlhttp.open("GET", "get-action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
+}
+
+function dlt_data_letters(id)
+{
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var loginId = document.getElementById("loginId").value;
+        var code = '432.6';
+        var academicID = id;
+        //alert(academicID);
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID: academicID,
+                code: code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                // console.log(data);
+                SuccessToast('Successfully Deleted');
+                update_emp_record(loginId);
+                // if (data == 1) {
+                //     showProfileData();
+                // } 
+                //  else {
+                //     ErrorToast('try again','bg-danger');
+                // }
+
+            }
+        });
+    } else {
+
+    }
+
 }
 
 function deleteAcademics(id) {
@@ -2909,6 +2957,29 @@ function toggleLeavingDate(selectElement) {
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<div class="modal fade" id="modal-default-Letters">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Letters</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="data-letters">
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <div class="modal fade" id="modal-default-Experience">
     <div class="modal-dialog">
         <div class="modal-content">

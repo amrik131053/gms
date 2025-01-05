@@ -6721,6 +6721,25 @@ else if ($code == 58) {
 
    }
 }
+else if ($code == 58.1) {
+   $id = $_GET['id'];
+    $sql = "SELECT * from GeneralLetters WHERE Id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Letter  Type:<span style="color: #223260;"><?php echo "   ".$data['LetterType'];?></span></label></br>
+      <label>Remarks<span style="color: #223260;"><?php echo  "   ".$data['Remarks'];?></span></label>
+      <!-- <label>Designation:<span style="color: #223260;"><?php echo  "   ".$data['DateOfIssue'];?></span></label>
+      <label>Date of Joining:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
+      <label>Date of Leaving:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label> -->
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/GeneralLetters/<?=$data['FileAttachment'];?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['FileAttachment']?>" class=" elevation-2" style="width: 100%" alt="Experience Image"> -->
+                  <?php
+
+   }
+}
 else if ($code == 59) {
 
    $id = $_GET['id'];

@@ -4140,7 +4140,31 @@ else { ?>
                 <td>Date of Issue</td>
                 <td>Documents</td>
             </tr>
-            
+            <?php   $Letters="SELECT *  FROM GeneralLetters where IDNo='".$row1['IDNo']."' ANd Status='0'"; 
+                                        $getLeeters=sqlsrv_query($conntest,$Letters);
+                                        $countletter=1;
+                                        while($getLeetersRow=sqlsrv_fetch_array($getLeeters,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
+                                            <tr>
+                                                <td><?= $countletter;?></td>
+                                                <td><?= $getLeetersRow['ReferenceNo'];?></td>
+                                                <td><?= $getLeetersRow['LetterType'];?>(<?= $getLeetersRow['Remarks'];?>)</td>
+                                                <td><?= $getLeetersRow['DateOfIssue']->format('d-m-Y');?></td>
+                                                <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
+                                        onclick="viewLetters(<?=$getLeetersRow['ID'];?>)" data-toggle="modal"
+                                        data-target="#modal-default-Letters"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                   
+
+
+                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
+                                        onclick="dlt_data_letters(<?=$getLeetersRow['ID'];?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i></td>
+                                            </tr><?php
+                                        $countletter++; }?>
             <tr>
                 <td></td>
                 <td></td>
@@ -34196,6 +34220,20 @@ elseif($code==432.5)
     }
     
     sqlsrv_close($conntest);
+}elseif($code==432.6)
+{
+    $id = $_POST['ID'];
+    $qry = "Update GeneralLetters set Status='1' where ID = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    $data = sqlsrv_fetch_array($result);
+    if ($data)
+    {
+       echo "1"; 
+    }
+    else{
+        echo "2";
+    }
+    sqlsrv_close($conntest);
 }
 elseif($code==433)
 {
@@ -34527,8 +34565,8 @@ $file_data = file_get_contents($file_tmp);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
  ftp_close($conn_id);
 
-   $insertExp="INSERT into GeneralLetters(IDNo,LetterType,ReferenceNo,Remarks,DateOfIssue,FileAttachment,CreatedAt,CreatedBy)
-  VALUES('$IDNo','$letter_type','$refernaceletter','$remarksletters','$startdateofissueletter','$file_name','$timeStamp','$EmployeeID')";
+   $insertExp="INSERT into GeneralLetters(IDNo,LetterType,ReferenceNo,Remarks,DateOfIssue,FileAttachment,CreatedAt,CreatedBy,Status)
+  VALUES('$IDNo','$letter_type','$refernaceletter','$remarksletters','$startdateofissueletter','$file_name','$timeStamp','$EmployeeID','0')";
  $result = sqlsrv_query($conntest, $insertExp);
  if($result==true)
  {
