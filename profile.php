@@ -191,7 +191,7 @@ function loadCourse() {
 }
 
 
-showProfileData();
+showProfileData(); 
 
 function showProfileData() {
 

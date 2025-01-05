@@ -4093,7 +4093,7 @@ else { ?>
                         
                             <div class="form-group">
                             <label>Reference No </label>
-                            <input type="Reference NO" class="form-control" name="remarksAddtional">
+                            <input type="Reference NO" class="form-control" id='refernaceletter' name="refernaceletter">
                         </div>
                             
                        
@@ -4101,14 +4101,14 @@ else { ?>
                     <div class="col-lg-3 col-12">
                         <div class="form-group">
                             <label>Date Of Issue </label>
-                            <input type="date" class="form-control" name="startDateAddtional">
+                            <input type="date" class="form-control" name="startdateofissueletter" id="startdateofissueletter">
                         </div>
                     </div>
                    
                     <div class="col-lg-3 col-12">
                         <div class="form-group">
                             <label>Remarks </label>
-                            <input type="text" class="form-control" name="remarksAddtional">
+                            <input type="text" class="form-control" name="remarksletters" id="remarksletters">
                         </div>
                     </div>
                     <div class="col-lg-3 col-12">
