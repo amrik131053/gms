@@ -4,7 +4,7 @@
    $timeStampS=date('Y-m-d H:i:s');
    
 $serverName = "10.0.10.11"; //serverName\instanceName
-// $servername = "117.250.20.109";
+
 $connectionInfo = array( "Database"=>"DBgurukashi", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 
 
@@ -12,12 +12,6 @@ $conntest = sqlsrv_connect($serverName,$connectionInfo);
 $connectionInfo1 = array( "Database"=>"App91", "UID"=>"sa", "PWD"=>"b2y3rt78374&*#&$");
 $conn91 = sqlsrv_connect( $serverName,$connectionInfo1);
 
-// $servername1 = "localhost";
-// $username1 = "bhagi";
-// $password1 = "@Sarbjot@98157";
-// $servername1 = "10.0.8.181";
-// $username1 = "Local";
-// $password1 = "";
 
 $servername1 = "10.0.8.10";
 
@@ -49,10 +43,6 @@ if ($conntest)
 {
 
 }
-
-
-
-
 
 $BasURL="http://erp.gku.ac.in:86/";
 

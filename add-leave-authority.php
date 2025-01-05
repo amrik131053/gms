@@ -1,9 +1,7 @@
 <?php  
    include "header.php";   
    ?>
-   <style>
 
-   </style>
    <script type="text/javascript">
 
 
@@ -688,26 +686,23 @@ function addletters(form,id) {
     var refernaceletter=form.refernaceletter.value;
     var startdateofissueletter=form.startdateofissueletter.value;
     var remarksletters=form.remarksletters.value;
-    var endDateAddtional=form.endDateAddtional.value;
-    var remarksAddtional=form.remarksAddtional.value;
+
     var fileAttachment=form.fileAttachment.value;
-    if (organisationNameAddtional === "") {
-        ErrorToast('Please select College.', 'bg-warning');
+    
+    if (letter_type === "") {
+        ErrorToast('Please select Letters.', 'bg-warning');
         return false;
     }
-    if (departmentAddtional === "") {
-        ErrorToast('Please select department.', 'bg-warning');
+    if (refernaceletter === "") {
+        ErrorToast('Please select reference.', 'bg-warning');
         return false;
     }
-    if (designationAddtional === "") {
-        ErrorToast('Please select designation.', 'bg-warning');
-        return false;
-    }
-    if (startDateAddtional === "") {
+    
+    if (startdateofissueletter === "") {
         ErrorToast('Please select start date.', 'bg-warning');
         return false;
     }
-    if (remarksAddtional === "") {
+    if (remarksletters === "") {
         ErrorToast('Please enter remarks.', 'bg-warning');
         return false;
     }
@@ -726,6 +721,7 @@ function addletters(form,id) {
         contentType: false,
         processData: false,
         success: function(response) {
+            console.log(response);
             spinner.style.display = 'none';
             if (response == 1) {
                update_emp_record(id);
@@ -737,7 +733,7 @@ function addletters(form,id) {
                 } else if (response == 3) {
                     ErrorToast('Document must be in jpg/jpeg/png/pdf format. ', 'bg-warning');
                 } else {
-                    ErrorToast('All inputs required', 'bg-danger');
+                    ErrorToast('Other Error', 'bg-danger');
                 }
                   },
                 error: function(xhr, status, error) {

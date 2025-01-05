@@ -5,7 +5,7 @@
    if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['profileIncomplete']))) 
    {  
    ?>
-<script>
+<script> 
 window.location.href = 'index.php';
 </script>
 <?php
@@ -110,7 +110,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1 || $code==436.2  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code=='432.3' || $code=='432.4' || $code=='432.5' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
+ if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.3 || $code==436.1 || $code==436.2  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code=='432.3' || $code=='432.4' || $code=='432.5' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -4064,7 +4064,7 @@ else { ?>
 
 
                             <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="code" value="436.2">
+                <input type="hidden" name="code" value="436.3">
                 <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
                 <div class="row">
                   
@@ -4119,7 +4119,7 @@ else { ?>
                     </div>
                     <div class="col-12 col-md-6 col-lg-2 mt-3">
                         <label><br><br></label>
-                        <input type="button" onclick="addAditionalDuty(this.form,'<?=$emp_id;?>')" class="btn btn-primary" value="ADD">
+                        <input type="button" onclick="addletters(this.form,'<?=$emp_id;?>')" class="btn btn-primary" value="ADD">
                     </div>
 
 
@@ -34475,6 +34475,74 @@ else
     echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
+    }
+    else
+    {
+        echo "2"; //file size 500 kb
+    }
+}
+else
+{
+    echo "3";
+}
+    sqlsrv_close($conntest);
+}
+elseif($code==436.3)
+{
+ $IDNo=$_POST['employeeID'];
+ $letter_type=$_POST['letter_type'];
+ $refernaceletter=$_POST['refernaceletter'];
+ $startdateofissueletter=$_POST['startdateofissueletter'];
+ $remarksletters=$_POST['remarksletters'];
+
+if($_POST['remarksletters']!='')
+{
+    $remarksletters=$_POST['remarksletters'];
+}
+else{
+    $remarksletters="";
+}
+
+$file_name = $_FILES['fileAttachment']['name'];
+$file_tmp = $_FILES['fileAttachment']['tmp_name'];
+$file_size =$_FILES['fileAttachment']['size'];
+ $file_type = $_FILES['fileAttachment']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['fileAttachment']['type'], $allowedTypes))
+    {
+if ($file_size < 1000000)
+    { 
+$date=date('Y-m-d'); 
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+ $file_name = $employeeID."_".strtotime($date)."_".$string."_".basename($_FILES['fileAttachment']['name']);
+ $destdir = '/Images/Staff/GeneralLetters';
+     ftp_chdir($conn_id, "/Images/Staff/GeneralLetters/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ ftp_close($conn_id);
+
+   $insertExp="INSERT into GeneralLetters(IDNo,LetterType,ReferenceNo,Remarks,DateOfIssue,FileAttachment,CreatedAt,CreatedBy)
+  VALUES('$IDNo','$letter_type','$refernaceletter','$remarksletters','$startdateofissueletter','$file_name','$timeStamp','$EmployeeID')";
+ $result = sqlsrv_query($conntest, $insertExp);
+ if($result==true)
+ {
+    echo "1";
+ }
+ else
+ {
+    echo "0";
+ }
+   if ($result === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+     echo "0";
+ } 
     }
     else
     {
