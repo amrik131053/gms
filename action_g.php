@@ -34520,7 +34520,7 @@ if ($file_size < 1000000)
 $date=date('Y-m-d'); 
 $string = bin2hex(openssl_random_pseudo_bytes(4));
 $file_data = file_get_contents($file_tmp);
- $file_name = $employeeID."_".strtotime($date)."_".$string."_".basename($_FILES['fileAttachment']['name']);
+ $file_name = $IDNo."_".strtotime($date)."_".$string."_".basename($_FILES['fileAttachment']['name']);
  $destdir = '/Images/Staff/GeneralLetters';
      ftp_chdir($conn_id, "/Images/Staff/GeneralLetters/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
