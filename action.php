@@ -27543,9 +27543,11 @@ else if($code==396.5)
 else if($code==396.6)
 {
 
-include "connection/ftp-erp.php";
 
-$Id = $_POST["id"];
+   include "connection/ftp-erp.php";
+
+
+   $Id = $_POST["id"];
 
 
       $file_name = $_FILES['dmcfile']['name'];
@@ -27565,7 +27567,8 @@ $Id = $_POST["id"];
      ftp_close($conn_id);
      
        
-   $image_name1=$image_name;
+   
+     $image_name1=$image_name;
 
  echo  $query = "UPDATE PHDacademic SET DMC='$image_name1' where id='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    

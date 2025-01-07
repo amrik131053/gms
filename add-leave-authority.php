@@ -579,6 +579,7 @@ function emp_detail_verify3(id)
 
 
   function uploadPhoto(form) {
+    
    var employmentStatus = form.employmentStatus.value;
     var leavingDate = form.leavingDate.value;
     if (employmentStatus == "0" && leavingDate === "") {
@@ -594,7 +595,7 @@ function emp_detail_verify3(id)
          contentType: false,
          processData: false,
          success: function(response) {
-            // console.log(response);
+             console.log(response);
             if (response==1) 
             {
                update_emp_record(loginId);

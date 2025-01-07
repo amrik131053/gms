@@ -6681,7 +6681,7 @@ else if ($code == 57.4) {
 
         }
    ?>
-   <!-- <input type="text" Class="form-control" id='table_id_phd' value="<?= $id;?>"> -->
+   <input type="text" Class="form-control" id='table_id_phd' value="<?= $id;?>">
 
 <label>Course Work DMC</label>
 <form id="form">
@@ -6689,7 +6689,7 @@ else if ($code == 57.4) {
    <div class="col-lg-7">
 <input type="file" Class="form-control" id='dmcfile_<?=$id;?>' name="dmcfile">
 
-      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_dmc_phd(<?= $id;?>)"  name="form" >Upload</button></div>
+      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_dmc_phd(<?= $id;?>)" >Upload</button></div>
    
    </div>
  </form>
@@ -6725,17 +6725,16 @@ else if ($code == 58.1) {
    $id = $_GET['id'];
     $sql = "SELECT * from GeneralLetters WHERE Id= $id ";
    $res = sqlsrv_query($conntest, $sql);
-   while ($data = sqlsrv_fetch_array($res)) { 
-      ?>
+   while ($data = sqlsrv_fetch_array($res)) {  
+            ?>
       <label>Letter  Type:<span style="color: #223260;"><?php echo "   ".$data['LetterType'];?></span></label></br>
       <label>Remarks<span style="color: #223260;"><?php echo  "   ".$data['Remarks'];?></span></label>
-      <!-- <label>Designation:<span style="color: #223260;"><?php echo  "   ".$data['DateOfIssue'];?></span></label>
-      <label>Date of Joining:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
-      <label>Date of Leaving:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label> -->
+     
+    
       <embed class="pdf" 
-      src="http://erp.gku.ac.in:86/Images/Staff/GeneralLetters/<?=$data['FileAttachment'];?>"
+      src="http://erp.gku.ac.in:86/Images/Staff/GeneralLetters/<?= $data['FileAttachment'];?>"
             width="100%" height="600">
-      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['FileAttachment']?>" class=" elevation-2" style="width: 100%" alt="Experience Image"> -->
+    
                   <?php
 
    }
