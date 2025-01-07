@@ -8,14 +8,14 @@
                 
           <div class="container-xl ">
             
-            <div class="row row-cards">
-            
-              <div class="col-sm-12 col-lg-4">
-                <div class="card card-md">
-                <div class="card-header">
-                    <h4 class="card-title">ID Card Details</h4>
-                  </div>
-                  <div class="card">
+              <div class="row row-cards">
+                  <div class="col-sm-12 col-lg-4">
+                      <div class="card card-md">
+                        <div class="card-status-top bg-primary"></div>
+                        <div class="card-header">
+                            <h4 class="card-title">ID Card Details</h4>
+                        </div>
+                        <div class="card">
                   <div class="card-body text-center">
                       <div><b>Course: {{isset($MasterCourse['shortname'])?$MasterCourse['shortname'] : ''}}</b></div>
                       <div><b>ValidUpTo:
@@ -42,6 +42,7 @@
               
               <div class="col-lg-8 col-sm-12">
                 <div class="card card-md">
+                <div class="card-status-top bg-primary"></div>
                 <div class="card-header">
                     <h4 class="card-title">Smart Card Status</h4>
                   </div>

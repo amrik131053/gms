@@ -3,7 +3,8 @@
  @include('header')
 
        <div class="container-xl">
-            <div class="row row-cards">        
+            <div class="row row-cards">  
+                    
             <div class="page-body ">
                 
           <div class="container-xl ">
@@ -31,6 +32,7 @@
               
               <div class="col-sm-12 col-lg-4">
                 <div class="card card-md">
+                <div class="card-status-top bg-primary"></div>
                   <div class="card-header">
                             <h4 class="card-title">Profile</h4>
                         </div>
@@ -83,7 +85,7 @@
                   <form id="smartCardForm"action="{{ url('submitProfileData') }}" method="POST">
                     @csrf
                   <meta name="csrf-token" content="{{ csrf_token() }}">
-                 
+                  <div class="card-status-top bg-primary"></div>
                   
     <div class="col-md-12">
                   <div class="card-header">
@@ -168,7 +170,12 @@
                 </div>
 
                 <!-- Email -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
+                    <label for="otr" class="form-label">OTR</label>
+                    <input type="text" class="form-control" id="otr" name="otr" value="{{$profileData['OTR']}}" required>
+                </div>
+                <!-- Email -->
+                <div class="col-md-4 mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value="{{$profileData['EmailID']}}" required>
                 </div>
@@ -180,7 +187,7 @@
                
 
                 <!-- Mobile -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="mobile" class="form-label">Mobile</label>
                     <input type="text" class="form-control" id="mobile" name="mobile" value="{{$profileData['StudentMobileNo']}}" required>
                 </div>
@@ -258,6 +265,7 @@
           </div>
         </div>
             
+                 </div>
                  </div>
            
          

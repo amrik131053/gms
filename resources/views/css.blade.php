@@ -134,7 +134,7 @@
 }
 </style>
   </head>
-  <body >
+  <body class="{{ request()->is('/') ? '' : 'layout-fluid' }}">
     @include('modals')
   <div id="fullScreenLoader" class="full-screen-loader" style="display:none;">
     <div class="loader"></div>

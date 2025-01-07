@@ -22,11 +22,11 @@
 </div>
     <div class="container-xl">
         <div class="row row-cards">
-
             <div class="col-lg-5 col-sm-12 card">
-               
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+                
+                <meta name="csrf-token" content="{{ csrf_token() }}">
+                
+                <div class="card-status-top bg-primary"></div>
                     <div class="card-header">
                         <h4 class="card-title">Exam Form</h4>
                     </div>
@@ -150,6 +150,7 @@
 
             <div class="col-lg-7 col-sm-12">
                 <form action="#" method="post" class="card">
+                <div class="card-status-top bg-primary"></div>
                     <div class="card-header">
                         <h4 class="card-title">All Exam Forms</h4>
                     </div>

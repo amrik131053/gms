@@ -31,7 +31,7 @@ public function submitProfileForm(Request $request)
         'email' => 'required', 
         'mobile' => 'required', 
         'abcid' => 'required', 
-        'address' => 'required'  
+        'address' => 'required' 
     ], [
         'bloodgroup.required' => 'Please select a bloodgroup.',
         'gender.required' => 'Please select a gender.',
@@ -55,6 +55,7 @@ public function submitProfileForm(Request $request)
         $gender = $request->input('gender');
         $email = $request->input('email');
         $mobile = $request->input('mobile');
+        $otr = $request->input('otr');
         if($profileData['ABCID']!='' || $profileData['ABCID']!=NULL)
         {
             $abcid ="Smart";
@@ -70,7 +71,7 @@ public function submitProfileForm(Request $request)
             }
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token,
-            ])->post($BaseURL . 'Student/updateprofile/' . $mobile . '/' . $bloodgroup . '/' . $abcid . '/' . $email . '/' . $address);
+            ])->post($BaseURL . 'Student/updateprofile/' . $mobile . '/' . $bloodgroup . '/' . $abcid . '/' . $email . '/' . $address.'/'.$otr);
             
             $resp = $response->json();
             // dd($resp);

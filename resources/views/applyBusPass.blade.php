@@ -10,6 +10,7 @@
                   @csrf
                   <meta name="csrf-token" content="{{ csrf_token() }}">
                   
+                  <div class="card-status-top bg-primary"></div>
                   <div class="card-header">
                     <h4 class="card-title">Apply Bus Pass</h4>
                   </div>
@@ -63,6 +64,7 @@
           </div>
           <div class="col-lg-7 col-sm-12">
                 <form action="" method="post" class="card">
+                <div class="card-status-top bg-primary"></div>
                   <div class="card-header">
                     <h4 class="card-title">Applied Bus Pass</h4>
                   </div>

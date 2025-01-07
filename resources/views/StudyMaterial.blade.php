@@ -9,6 +9,7 @@
                 <form action="{{ url('searchStudyMaterial') }}" method="POST" class="card">
                   @csrf
                   <meta name="csrf-token" content="{{ csrf_token() }}">
+                  <div class="card-status-top bg-primary"></div>
                   <div class="card-header">
                     <h4 class="card-title">Study Material</h4>
                   </div>
@@ -62,6 +63,7 @@
           </div>
           <div class="col-lg-7 col-sm-12">
                 <form action="https://httpbin.org/post" method="post" class="card">
+                  <div class="card-status-top bg-primary"></div>
                   <div class="card-header">
                     <h4 class="card-title">Study Materials</h4>
                   </div>

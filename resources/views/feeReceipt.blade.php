@@ -3,6 +3,7 @@
  @include('header')
  <div class="container-xl">
             <div class="card">
+            <div class="card-status-top bg-primary"></div>
             <div class="card-header">
                     <h4 class="card-title">Fee Receipts</h4>
                   </div>
