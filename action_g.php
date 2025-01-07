@@ -2028,6 +2028,24 @@ mysqli_close($conn);
       }
       mysqli_close($conn);
        }
+      elseif($code==35.1)
+      {
+      $type=$_POST['type'];
+      $name=$_POST['name'];
+     
+      $sql="INSERT INTO DocumentDetail (SID,Course,DateEntry) VALUES ( '$type', '$name', '$timeStamp');";
+
+      $res = sqlsrv_query($conntest, $sql);
+      if ($res==true)
+       {
+      echo "1";   // code...
+      }
+      else
+      {
+         echo "0";
+      }
+      mysqli_close($conn);
+       }
           elseif($code==36)
          {?>
     <table class="table">
@@ -2064,6 +2082,57 @@ mysqli_close($conn);
     </table>
     <?php
     mysqli_close($conn);
+      }
+          elseif($code==36.1)
+         {?>
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Qualification</th>
+                <th>Course</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $sr=1;
+
+                $sql = "SELECT *,DocumentDetail.ID as DID FROM DocumentDetail inner join MasterQualification ON MasterQualification.ID=DocumentDetail.SID order by SID ASC";
+                $res = sqlsrv_query($conntest, $sql);
+   
+            while($row=sqlsrv_fetch_array($res))
+            {?>
+            <tr>
+                <td><?=$sr;?></td>
+                <td><?=$row['QualificationName'];?></td>
+                <td><?=$row['Course'];?></td> 
+                <td><button type="button" class="btn btn-danger"
+                                                        onclick="deleteCourse('<?=$row['DID'];?>');"><i
+                                                            class="fa fa-trash text-white"></i></button></td>
+            </tr>
+            <?php
+            $sr++; }
+              ?>
+        </tbody>
+    </table>
+    <?php
+    mysqli_close($conn);
+      }
+
+      elseif($code==36.2)
+      {
+        $id=$_POST['ID'];
+        $sql = "DELETE FROM DocumentDetail WHERE ID = '$id'";
+        $res = sqlsrv_query($conntest, $sql);
+        if($res==true)
+        {
+            echo "1";
+        }
+        else{
+            echo "0";
+        }
+
       }
       elseif($code==37)
       {
