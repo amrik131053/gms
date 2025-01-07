@@ -4,15 +4,12 @@
     @include('header')
     
     <div class="container-xl">
-        <div class="row row-cards">
+        <div class="row ">
 
             <div class="col-lg-5 col-sm-12 card">
-               
-
                     <div class="card-header">
                         <h4 class="card-title">Date Sheets</h4>
                     </div>
-                 
                         <div class="col-lg-12 " id="">
                             
                         </div>
@@ -59,7 +56,7 @@
                               <input type="hidden" name="Course" value="{{$allExamShows['Course']}}">
                               <input type="hidden" name="Examination" value="{{$allExamShows['Examination']}}">
                               <input type="hidden" name="SubmitFormDate" value="{{$allExamShows['SubmitFormDate']}}">
-                            <button class="btn" type="submit">
+                            <button class="btn btn-primary" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download">
   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
   <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
