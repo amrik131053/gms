@@ -278,10 +278,10 @@
                                                     <div class="col">
                                                         <div class="">
                                                         <strong class="text-danger">
-                                                        {{ Str::limit($newsDetailsShow['subjectEng'], 100) }}
+                                                        {{ Str::limit(html_entity_decode($newsDetailsShow['subjectEng']), 100) }}
                                                           </strong>
                                                           <span class="short-text">
-                                                              {{ Str::limit($newsDetailsShow['bodyEng'], 100) }}
+                                                              {{ Str::limit(html_entity_decode($newsDetailsShow['bodyEng']), 100) }}
                                                           </span>
                                                                 <a
                                                                 target="_blank"
