@@ -56,15 +56,15 @@ public function submitProfileForm(Request $request)
         $email = $request->input('email');
         $mobile = $request->input('mobile');
         $otr = $request->input('otr');
-        if($profileData['ABCID']!='' || $profileData['ABCID']!=NULL)
-        {
+        // if($profileData['ABCID']!='' || $profileData['ABCID']!=NULL)
+        // {
             $abcid = $request->input('abcid');
-        }
-        else
-        {
-            $abcid ="Smart";
+        // }
+        // else
+        // {
+        //     $abcid ="Smart";
 
-        }
+        // }
             $address = $request->input('address');
             if (!$token) {
                 return back()->withErrors(['error' => 'Token is missing']);
