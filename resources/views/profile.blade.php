@@ -171,7 +171,7 @@
 
                 <!-- Email -->
                 <div class="col-md-4 mb-3">
-                    <label for="otr" class="form-label">OTR</label>
+                    <label for="otr" class="form-label">OTR <small class="text-danger">(Only for punjab SC/ST students)</small></label>
                     <input type="text" class="form-control" id="otr" name="otr" value="{{$profileData['OTR']}}" required>
                 </div>
                 <!-- Email -->
