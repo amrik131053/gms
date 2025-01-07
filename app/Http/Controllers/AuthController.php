@@ -19,6 +19,10 @@ class AuthController extends Controller
     try {
         $DataResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/dashboard');
         $DataButtonsExam = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post($BaseURL.'Student/checkbutton');
+        $getNews = Http::withHeaders(['Authorization' => 'Bearer ' . $token])->timeout(10)->post('http://gurukashiuniversity.co.in/gmsapi/newsread.php');
+        $newsConvert = $getNews->json();
+        $newsDetails = $newsConvert['data'] ?? [];
+        // dd($newsDetails);
         if ($DataResponse->failed()) {
             return view('index', [
                 'profileData' => [], 
@@ -28,6 +32,7 @@ class AuthController extends Controller
                 'examButtonFlag' => [], 
                 'officeOrder' => [], 
                 'meterDetails' => [], 
+                'newsDetails' => [], 
                 'smartcardStatus' => [] 
                 ])->withErrors(['error' => 'Failed to fetch profile data. Please try again later.']);
             }
@@ -47,7 +52,7 @@ class AuthController extends Controller
         $meterDetails = $DataMeter['data'][0] ?? [];
         if($profileData['Status']==1)
         {
-            return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails'));
+            return View('welcome', compact('profileData', 'officeOrder','smartcardStatus', 'booksCount', 'noticeBoard','booksFine','examButtonFlag','meterDetails','newsDetails'));
         }
         else{
             cookie()->queue(cookie()->forget('api_token'));
@@ -66,7 +71,8 @@ class AuthController extends Controller
                 'booksFine' => [],
                 'examButtonFlag' => [], 
                 'officeOrder' => [] ,
-                'meterDetails' => [], 
+                'meterDetails' => [],
+                'newsDetails' => [],  
                 'smartcardStatus' => []
             ])->withErrors(['error' => 'The server took too long to respond. Please try again later.']);
         }
@@ -79,6 +85,7 @@ class AuthController extends Controller
             'examButtonFlag' => [],
             'officeOrder' => [] ,
             'meterDetails' => [], 
+            'newsDetails' => [], 
             'smartcardStatus' => []
         ])->withErrors(['error' => 'An error occurred while fetching data. Please try again later.']);
 
@@ -92,6 +99,7 @@ class AuthController extends Controller
             'examButtonFlag' => [],
             'officeOrder' => [] ,
             'meterDetails' => [], 
+            'newsDetails' => [], 
             'smartcardStatus' => []
         ])->withErrors(['error' => 'An unexpected error occurred. Please try again later.']);
     }

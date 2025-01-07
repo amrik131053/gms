@@ -228,6 +228,7 @@
                                     <h3 class="card-title">Notice</h3>
                                 </div>
                                 <div class="card-body p-0">
+                                  
                                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                                         <div class="divide-y" style="height: 20rem">
                                             @foreach ($officeOrder as $officeorderShow )
@@ -253,6 +254,7 @@
                                             </div>
                                             @endforeach
                                         </div>
+                                  
                                     </div>
                                 </div>
                             </div>
@@ -261,12 +263,38 @@
                             <div class="card">
                                 <div class="card-status-top bg-primary"></div>
                                 <div class="card-header">
-                                    <h3 class="card-title">News</h3>
+                                    <h3 class="card-title">Latest News</h3>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                                        <div class="divide-y" style="height: 20rem">
-                                      
+                                    <div class="divide-y" style="height: 20rem">
+                                            @foreach ($newsDetails as $newsDetailsShow )
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <span
+                                                            class="avatar">{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d') }}<br>{{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('M') }}</span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="">
+                                                        <strong class="text-danger">
+                                                        {{ Str::limit($newsDetailsShow['subjectEng'], 100) }}
+                                                          </strong>
+                                                          <span class="short-text">
+                                                              {{ Str::limit($newsDetailsShow['bodyEng'], 100) }}
+                                                          </span>
+                                                                <a
+                                                                target="_blank"
+                                                                href="http://erp.gku.ac.in:86/Notices/{{$newsDetailsShow['newsRef']}}"><b>Read More
+                                                                    </b></a>
+                                                        </div>
+                                                        <div class="text-secondary">
+                                                            {{ \Carbon\Carbon::parse($newsDetailsShow['expiry'])->format('d-m-Y') }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>

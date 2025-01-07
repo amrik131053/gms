@@ -10,6 +10,7 @@ use App\Http\Controllers\AcademicsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PayuPaymentController;
 use App\Http\Controllers\AdmitCardController;
+use App\Http\Controllers\NewsController;
 use App\Http\Middleware\CheckAuthentication;
  
 // Auth Routes
@@ -80,3 +81,7 @@ Route::post('/payu/confirm', [PayuPaymentController::class, 'showConfirmation'])
 Route::post('/payu/initiate', [PayuPaymentController::class, 'initiatePayment'])->name('payu.initiate');
 Route::post('/payu/success', [PayuPaymentController::class, 'paymentSuccess'])->name('payu.success');
 Route::post('/payu/failure', [PayuPaymentController::class, 'paymentFailure'])->name('payu.failure');
+
+
+// News Routes
+// Route::post('/show-news-details', [NewsController::class, 'showNewsDetails'])->middleware(CheckAuthentication::class);

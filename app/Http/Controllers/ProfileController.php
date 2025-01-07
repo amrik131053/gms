@@ -58,11 +58,11 @@ public function submitProfileForm(Request $request)
         $otr = $request->input('otr');
         if($profileData['ABCID']!='' || $profileData['ABCID']!=NULL)
         {
-            $abcid ="Smart";
+            $abcid = $request->input('abcid');
         }
         else
         {
-            $abcid = $request->input('abcid');
+            $abcid ="Smart";
 
         }
             $address = $request->input('address');
