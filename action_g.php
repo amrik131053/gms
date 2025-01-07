@@ -4132,7 +4132,7 @@ else { ?>
                             <div class="tab-pane" id="letters-admin<?=$emp_id;?>">
 
 
-            <!-- <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+           <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
 
                 <input type="hidden" name="code" value="436.3">
                 <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
@@ -4194,7 +4194,7 @@ else { ?>
 
 
                 </div>
-            </form> -->
+            </form> 
             <br>
 <div class="row">
     <div class="col-lg-12">

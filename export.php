@@ -9731,10 +9731,11 @@ include 'result-pages/resultfooter.php';
 
  else if($exportCode==65)
 {
-    include 'result-pages/result-subject-bind-new2.php';
+     include 'result-pages/result-subject-bind-new2.php';
 
 $subCount=(count($Subjects)*5)+6;
-$subCount1=count($Subjects);
+$subCount1=count($SubjectsNew)*5;
+$subCount=$subCount+$subCount1;
 $exportstudy="<table class='table' border='1'>     <thead>";
 include 'result-pages/resultcopyheader.php';
 
@@ -9747,6 +9748,10 @@ $exportstudy.="
    ";
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=5>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
+  
+}
+foreach ($SubjectsNew as $key => $SubjectsCode) {
+    $exportstudy.="<th colspan=5>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
   
 }
 
@@ -9783,17 +9788,18 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 
     foreach ($SubjectsNew as $key => $SubjectsCodeop) {
 
-  $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
+   $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
   
 $list_resultamrikop = sqlsrv_query($conntest,$amrikop);  
 
 while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
-        $credit=$row7c['NoOFCredits'];
+        $credit=$row7op['NoOFCredits'];
         if(is_numeric($credit))
         {
         $gtcerdit=$gtcerdit+$credit;
         }
+
  
          $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
             }
@@ -9809,6 +9815,10 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
     <th></th>
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>CE1/CE3/Att/MST1/MST2/ESE(Grace)</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+}
+   foreach ($SubjectsNew as $key => $SubjectsCode) {
     
     $exportstudy.="<th>CE1/CE3/Att/MST1/MST2/ESE(Grace)</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
@@ -9990,7 +10000,7 @@ else
 $exportstudy.="<td style='text-align:center;'>NA </td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA </td>";
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>"; 
  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
 }
 
