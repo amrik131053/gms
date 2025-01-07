@@ -138,9 +138,9 @@ include "header.php";
                  processData: false,
                  success: function(data)
                   {
-                    console.log(data);
-                    // show_vehicle();
-                    if(data=='1')
+                    // console.log(data);
+                    show_vehicle();
+                    if(data==1)
                   {
                       SuccessToast('Successfully add');
 
@@ -152,6 +152,30 @@ include "header.php";
            }));
          });
 
+         function deleteCourse(id) {
+    var a = confirm('Are you sure you want to delete');
+    if (a == true) {
+        var spinner = document.getElementById("ajax-loader");
+        spinner.style.display = 'block';
+        var code = '36.2';
+        $.ajax({
+            url: 'action_g.php',
+            data: {
+                ID:id,code:code
+            },
+            type: 'POST',
+            success: function(data) {
+                spinner.style.display = 'none';
+                console.log(data);
+                SuccessToast('Successfully Deleted');
+                show_vehicle();
+
+            }
+        });
+    } else {
+
+    }
+}
        $(document).ready(function (e) {    // image upload form submit
            $("#update_vehicle_modal_fun").on('submit',(function(e) {
               e.preventDefault();

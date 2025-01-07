@@ -2091,13 +2091,14 @@ mysqli_close($conn);
                 <th>#</th>
                 <th>Qualification</th>
                 <th>Course</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <?php 
             $sr=1;
 
-                $sql = "SELECT * FROM DocumentDetail inner join MasterQualification ON MasterQualification.ID=DocumentDetail.SID order by SID ASC";
+                $sql = "SELECT *,DocumentDetail.ID as DID FROM DocumentDetail inner join MasterQualification ON MasterQualification.ID=DocumentDetail.SID order by SID ASC";
                 $res = sqlsrv_query($conntest, $sql);
    
             while($row=sqlsrv_fetch_array($res))
@@ -2106,6 +2107,9 @@ mysqli_close($conn);
                 <td><?=$sr;?></td>
                 <td><?=$row['QualificationName'];?></td>
                 <td><?=$row['Course'];?></td> 
+                <td><button type="button" class="btn btn-danger"
+                                                        onclick="deleteCourse('<?=$row['DID'];?>');"><i
+                                                            class="fa fa-trash text-white"></i></button></td>
             </tr>
             <?php
             $sr++; }
@@ -2114,6 +2118,21 @@ mysqli_close($conn);
     </table>
     <?php
     mysqli_close($conn);
+      }
+
+      elseif($code==36.2)
+      {
+        $id=$_POST['ID'];
+        $sql = "DELETE FROM DocumentDetail WHERE ID = '$id'";
+        $res = sqlsrv_query($conntest, $sql);
+        if($res==true)
+        {
+            echo "1";
+        }
+        else{
+            echo "0";
+        }
+
       }
       elseif($code==37)
       {
