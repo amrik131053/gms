@@ -25,6 +25,7 @@ class ProfileController extends Controller
 public function submitProfileForm(Request $request)
 {
     // Validate form inputs
+ 
     $request->validate([
         'bloodgroup' => 'required', 
         'gender' => 'required', 
@@ -55,7 +56,8 @@ public function submitProfileForm(Request $request)
         $gender = $request->input('gender');
         $email = $request->input('email');
         $mobile = $request->input('mobile');
-        $otr = $request->input('otr');
+        $otr = $request->input('otr') ?? 0;
+
         // if($profileData['ABCID']!='' || $profileData['ABCID']!=NULL)
         // {
             $abcid = $request->input('abcid');
@@ -65,6 +67,7 @@ public function submitProfileForm(Request $request)
         //     $abcid ="Smart";
 
         // }
+        // dd($abcid);
             $address = $request->input('address');
             if (!$token) {
                 return back()->withErrors(['error' => 'Token is missing']);
@@ -74,7 +77,7 @@ public function submitProfileForm(Request $request)
             ])->post($BaseURL . 'Student/updateprofile/' . $mobile . '/' . $bloodgroup . '/' . $abcid . '/' . $email . '/' . $address.'/'.$otr);
             
             $resp = $response->json();
-            // dd($resp);
+      
             if (isset($resp['data'][0]) && $resp['data'][0] == '1') {
                 return back()->with('success', ' Update Successfully');
             } else {
