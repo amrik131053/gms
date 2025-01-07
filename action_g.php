@@ -2033,7 +2033,7 @@ mysqli_close($conn);
       $type=$_POST['type'];
       $name=$_POST['name'];
      
-      $sql="INSERT INTO `DocumentDetail` (`SID`, `Course`, `DateEntry`) VALUES ( '$type', '$name', '$timeStamp');";
+      $sql="INSERT INTO DocumentDetail (SID,Course,DateEntry) VALUES ( '$type', '$name', '$timeStamp');";
 
       $res = sqlsrv_query($conntest, $sql);
       if ($res==true)
