@@ -6623,14 +6623,19 @@ else if ($code == 57.1) {
    $sql = "SELECT * from PHDacademic WHERE id= $id ";
    $res = sqlsrv_query($conntest, $sql);
    while ($data = sqlsrv_fetch_array($res)) { 
-      ?>
+     echo  $data['DMC'] ;?>
       <label>TopicofResearch:<span style="color: #223260;"><?php echo "   ".$data['TopicofResearch'];?></span></label></br>
       <label>University:<span style="color: #223260;"><?php echo  "   ".$data['University'];?></span></label>
       <embed class="pdf" 
       src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['Uploadcertificate']?>"
             width="100%" height="600">
       <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/AcademicDocument/<?=$data['Uploadcertificate']?>" class=" elevation-2" style="width: 100%" alt="Academics Image"> -->
-                  <?php
+            
+        <hr>    
+           
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/PhDThesis/<?=$data['DMC']?>"
+            width="100%" height="600"><?php
 
    }
 }
@@ -6666,6 +6671,37 @@ else if ($code == 57.3) {
 
    }
 }
+
+else if ($code == 57.4) {
+   $id = $_GET['id'];
+   $sql = "SELECT * from PHDacademic WHERE id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+
+   while ($data = sqlsrv_fetch_array($res)) { 
+
+        }
+   ?>
+   <!-- <input type="text" Class="form-control" id='table_id_phd' value="<?= $id;?>"> -->
+
+<label>Course Work DMC</label>
+<form id="form">
+<div class='row'>
+   <div class="col-lg-7">
+<input type="file" Class="form-control" id='dmcfile_<?=$id;?>' name="dmcfile">
+
+      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_dmc_phd(<?= $id;?>)"  name="form" >Upload</button></div>
+   
+   </div>
+ </form>
+
+<!-- <label>Phd Degree</label>
+<div class='row'>
+   <div class="col-lg-7"> 
+<input type="File" Class="form-control">
+      </div> <div class="col-lg-3"><button class="btn btn-primary" onclick="upload_degree_phd()>Upload</button></div>
+      </div> -->
+<?php 
+}
 else if ($code == 58) {
    $id = $_GET['id'];
    $sql = "SELECT * from StaffExperienceDetails WHERE Id= $id ";
@@ -6681,6 +6717,25 @@ else if ($code == 58) {
       src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>"
             width="100%" height="600">
       <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['DocumentPath']?>" class=" elevation-2" style="width: 100%" alt="Experience Image"> -->
+                  <?php
+
+   }
+}
+else if ($code == 58.1) {
+   $id = $_GET['id'];
+    $sql = "SELECT * from GeneralLetters WHERE Id= $id ";
+   $res = sqlsrv_query($conntest, $sql);
+   while ($data = sqlsrv_fetch_array($res)) { 
+      ?>
+      <label>Letter  Type:<span style="color: #223260;"><?php echo "   ".$data['LetterType'];?></span></label></br>
+      <label>Remarks<span style="color: #223260;"><?php echo  "   ".$data['Remarks'];?></span></label>
+      <!-- <label>Designation:<span style="color: #223260;"><?php echo  "   ".$data['DateOfIssue'];?></span></label>
+      <label>Date of Joining:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label>
+      <label>Date of Leaving:<span style="color: #223260;"><?php echo  "   ".$data['NameofOrganisation'];?></span></label> -->
+      <embed class="pdf" 
+      src="http://erp.gku.ac.in:86/Images/Staff/GeneralLetters/<?=$data['FileAttachment'];?>"
+            width="100%" height="600">
+      <!-- <img src="http://erp.gku.ac.in:86/Images/Staff/ExperienceDocument/<?=$data['FileAttachment']?>" class=" elevation-2" style="width: 100%" alt="Experience Image"> -->
                   <?php
 
    }
@@ -7556,7 +7611,9 @@ else if ($code == 68) {
    $res = sqlsrv_query($conntest, $sql);
    while ($data = sqlsrv_fetch_array($res)) { 
       ?>
-      <label>MOOC Attachment:<span style="color: #223260;"></span></label>
+      <label>MOOC Attachment:<span style="color: #223260;"></span>
+
+   </label>
       
       <embed class="pdf" 
       src="http://erp.gku.ac.in:86/StdWorkshopFile/<?=$data['MOOCattachment']?>"

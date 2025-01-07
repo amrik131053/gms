@@ -89,7 +89,7 @@ input[type=radio]:checked+label {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Academic Document</h4>
+                <h4 class="modal-title">Ph.D Document</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,6 +104,26 @@ input[type=radio]:checked+label {
     </div>
     <!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="modal-default-upload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Upload Ph.D Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body" id="phd_upload_data">
+
+            </div> 
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <!-- /.modal -->
 <div class="modal fade" id="modal-default-Experience">
     <div class="modal-dialog">
@@ -171,7 +191,7 @@ function loadCourse() {
 }
 
 
-showProfileData();
+showProfileData(); 
 
 function showProfileData() {
 
@@ -939,6 +959,21 @@ function viewPHDDocument(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
+ 
+function UploadPHDDocument(id) {
+    var code = 57.4;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("phd_upload_data").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+    
+}
+
+
 
 function viewTestDocument(id) {
     var code = 1;
@@ -1173,9 +1208,105 @@ function printEmpRecordPdf(id) {
          }
       
 }
-</script>
 
-<script>
+function upload_dmc_phd(id) {
+
+    
+ var fileInput = document.getElementById("dmcfile_"+id);
+
+ alert(fileInput);
+if(MOOC_Mark!='')
+{
+    if (!fileInput.files[0]) {
+                 ErrorToast('Attachment required',"bg-danger" );
+                return;
+            }
+               var formData = new FormData();
+            formData.append("moocfile", fileInput.files[0]);
+            formData.append("code",358);
+            formData.append("id",id);
+              formData.append("MOOC_Mark",MOOC_Mark);
+
+            // Create and send AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "action.php", true);
+
+            xhr.onload = function () {
+            console.log("Server response:",xhr.responseText);
+                if (xhr.status === 200) {
+
+
+
+                  //  if(xhr.responseText=="Uploaded"){
+                     SuccessToast('Successfully Uploaded');
+                     select_mst();
+
+
+                  //  }
+                  //  else
+                  //  {
+                  //    ErrorToast('something went wrong',"bg-danger" );
+                  //  }
+                 
+
+                   
+                } 
+                else {
+                    statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
+                }
+            };
+
+            xhr.onerror = function () {
+                statusDiv.innerHTML = "<p style='color:red;'>An error occurred while uploading the file.</p>";
+            };
+
+            xhr.send(formData);
+          }
+          else
+          {
+        ErrorToast('valid input required',"bg-danger" );
+          }
+}
+
+function uploadmooc(id) {
+  //alert(id);
+  var fileInput = document.getElementById("moocfile_"+id);
+  if(MOOC_Mark!='')
+{
+    if (!fileInput.files[0]) {
+                 ErrorToast('Attachment required',"bg-danger" );
+                return;
+            }
+             var formData = new FormData();
+             formData.append("moocfile", fileInput.files[0]);
+             formData.append("code",358);
+             formData.append("id",id);
+             formData.append("MOOC_Mark",MOOC_Mark);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "action.php", true);
+            xhr.onload = function () {
+            console.log("Server response:",xhr.responseText);
+                if (xhr.status === 200) {
+                     SuccessToast('Successfully Uploaded');
+                     select_mst();
+                        } 
+                else {
+                    statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
+                }
+            };
+
+            xhr.onerror = function () {
+                statusDiv.innerHTML = "<p style='color:red;'>An error occurred while uploading the file.</p>";
+            };
+
+            xhr.send(formData);
+          }
+          else
+          {
+        ErrorToast('valid input required',"bg-danger" );
+          }
+}
+
 function dateOnChnage() {
     var doa = $("#doj").val();
     var dor = $("#dor").val();

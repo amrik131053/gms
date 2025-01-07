@@ -22078,24 +22078,24 @@ elseif($code=='336')
 <div class="col-lg-1">
     <label>Year</label>
     <select  name="year" id="year" class="form-control "> 
-<option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
+    <?php  for ($i=date('Y'); $i >=2020 ; $i--) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
                                     
   
 </select>
 </div>
 
-   <div class="col-lg-4">
-                 <label>Action</label><br>
+          <div class="col-lg-4">
+                   <label>Action</label><br>
                  <!-- <button onclick="search_daily_attendance();" class="btn btn-success">Search</button> <button onclick="export_daily_attendance();" class="btn btn-danger">Daily</button> -->
-                 <button onclick="export_count_attendance();" class="btn btn-success">Detailed Count</button>
-                  <button onclick="export_count_summary();" class="btn btn-warning">Summary</button>
-                   <button onclick="pdf_count_attendance();" class="btn btn-danger">Pdf Count Attendance</button>
+                    <button onclick="export_count_attendance();" class="btn btn-success">Detailed Count</button>
+                    <button onclick="export_count_summary();" class="btn btn-warning">Summary</button>
+                    <button onclick="pdf_count_attendance();" class="btn btn-danger">Pdf Count Attendance</button>
                    <!--   <button onclick="export_count_summary();" class="btn btn-danger">Summary</button> -->
-              </div>
+              
 
             </div>  
             <br> 
@@ -23769,27 +23769,27 @@ $marks = $_POST["MOOC_Mark"];
       $file_name = $_FILES['moocfile']['name'];
       $file_tmp = $_FILES['moocfile']['tmp_name'];
       $type = $_FILES['moocfile']['type'];
-      $file_data = file_get_contents($file_tmp);
+     $file_data = file_get_contents($file_tmp);
       $characters = '';
 
     $image_name ="M".$Id."_".$file_name;
      
      $destdir = 'StdWorkshopFile';
 
-     ftp_chdir($conn_id, "StdWorkshopFile/") or die("Could not change directory");
+     ftp_chdir($conn_id,"StdWorkshopFile/") or die("Could not change directory");
      ftp_pasv($conn_id,true);
      file_put_contents($destdir.$image_name,$file_data);
-
      ftp_put($conn_id,$image_name,$destdir.$image_name,FTP_BINARY) or die("Could not upload to $ftp_server1");
-
+     unlink($destdir.$image_name);
+     ftp_close($conn_id);
    
    $image_name1=$image_name;
 
- echo  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
+  $query = "UPDATE ExamFormSubject SET ESE='$marks',MOOCattachment='$image_name1',MOOCupdateby='$EmployeeID',
 MOOCupdatedDate='$timeStamp' where ID='$Id'";
   $stmt = sqlsrv_query($conntest,$query);    
 
-  echo "1";
+  echo "Uploaded"; 
   sqlsrv_close($conntest);
 }
 
@@ -27540,6 +27540,40 @@ else if($code==396.5)
             </div>
         <?php
 }
+else if($code==396.6)
+{
+
+include "connection/ftp-erp.php";
+
+$Id = $_POST["id"];
+
+
+      $file_name = $_FILES['dmcfile']['name'];
+      $file_tmp = $_FILES['dmcfile']['tmp_name'];
+      $type = $_FILES['dmcfile']['type'];
+     // $file_data = file_get_contents($file_tmp);
+      $characters = '';
+
+    $image_name ="dmc".$Id."_".$file_name;
+     
+     //$destdir = 'PhDThesis';
+
+     $destdir = '/Images/Staff/PhDThesis';
+     ftp_chdir($conn_id, "/Images/Staff/PhDThesis/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+     ftp_close($conn_id);
+     
+       
+   $image_name1=$image_name;
+
+ echo  $query = "UPDATE PHDacademic SET DMC='$image_name1' where id='$Id'";
+  $stmt = sqlsrv_query($conntest,$query);    
+
+  echo "Uploaded"; 
+  sqlsrv_close($conntest);
+}
+
 
  else
 {

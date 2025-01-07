@@ -60,7 +60,7 @@ $sql_open="SELECT Distinct SubjectCode,SubjectName,SubjectType from ExamFormSubj
 
 $sql_openq = sqlsrv_query($conntest,$sql_open);
          
-                if($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
+                while($row_subject= sqlsrv_fetch_array($sql_openq, SQLSRV_FETCH_ASSOC) )
                    {
                 $SubjectsNew[]=$row_subject['SubjectCode'] ;
                 $SubjectNamesNew[]=$row_subject['SubjectName'] ;

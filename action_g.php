@@ -5,7 +5,7 @@
    if (!(isset($_SESSION['usr']) || isset($_SESSION['secure']) || isset($_SESSION['profileIncomplete']))) 
    {  
    ?>
-<script>
+<script> 
 window.location.href = 'index.php';
 </script>
 <?php
@@ -110,7 +110,7 @@ $currentMonthInt=date('n');
 {
        include "connection/ftp.php";
 }
- if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.1 || $code==436.2  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code=='432.3' || $code=='432.4' || $code=='432.5' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
+ if($code==432.1 || $code==224 || $code==319 || $code==320 ||$code==92 || $code==153 || $code==436.3 || $code==436.1 || $code==436.2  || $code==397 || $code==399 || $code==405 || $code==404 || $code==433 || $code==435 || $code=='435.1' || $code=='432.2' || $code=='432.3' || $code=='432.4' || $code=='432.5' || $code==436 || $code==432 || $code==438 || $code==439 || $code==440 || $code==441 || $code=='438.1' || $code=='439.1' || $code=='440.1' || $code=='441.1')
 {
        include "connection/ftp-erp.php";
 }
@@ -3474,6 +3474,7 @@ else { ?>
                             <li class="nav-item"><a class="nav-link" href="#academic1<?=$emp_id;?>" data-toggle="tab">Academic</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience1<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+            <li class="nav-item"><a class="nav-link" href="#letters-admin<?=$emp_id;?>" data-toggle="tab">Letters</a></li>
 
                             <?php   if($role_id==2){
                                             
@@ -4107,6 +4108,126 @@ else { ?>
             </div>
 
                             </div>
+
+
+                            <div class="tab-pane" id="letters-admin<?=$emp_id;?>">
+
+
+                            <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="code" value="436.3">
+                <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
+                <div class="row">
+                  
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Type Of Letter</label>
+                          
+
+                            <select class="form-control" name="letter_type" id="letter_type">
+                            <option value=''>Select</option>
+                            <option value='Appointment Letter'>Appointment Letter</option>
+                            <option value='Joining Letter'>Joining Letter</option>
+                            <option value='Appreciation Letter'>Appreciation Letter</option>
+                            <option value='Warning Letter'>Warning Letter</option>
+                            <option value='No Dues Certificate'>No Dues Certificate</option>
+                            <option value='Promotion Letter'>Promotion Letter</option>
+                            <option value='Experience Letter'>Experience Letter</option>
+                            <option value='Office Order'>Office Order</option>
+                            <option value='Office Order'>Advisory Letter</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        
+                            <div class="form-group">
+                            <label>Reference No </label>
+                            <input type="Reference NO" class="form-control" id='refernaceletter' name="refernaceletter">
+                        </div>
+                            
+                       
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Date Of Issue </label>
+                            <input type="date" class="form-control" name="startdateofissueletter" id="startdateofissueletter">
+                        </div>
+                    </div>
+                   
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>Remarks </label>
+                            <input type="text" class="form-control" name="remarksletters" id="remarksletters">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <div class="form-group">
+                            <label>File </label>
+                            <input type="file" class="form-control" name="fileAttachment">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-2 mt-3">
+                        <label><br><br></label>
+                        <input type="button" onclick="addletters(this.form,'<?=$emp_id;?>')" class="btn btn-primary" value="ADD">
+                    </div>
+
+
+                </div>
+            </form><br>
+<div class="row">
+    <div class="col-lg-12">
+    <table class="table  table-bordered">
+            <tr>
+                <th colspan="7">
+                    All Letters
+                </th>
+            </tr>
+            <tr>
+                <td>Sr No</td>
+                <td>Reference No</td>
+                <td>Type of Letter</td>
+                <td>Date of Issue</td>
+                <td>Documents</td>
+            </tr>
+            <?php   $Letters="SELECT *  FROM GeneralLetters where IDNo='".$row1['IDNo']."' ANd Status='0'"; 
+                                        $getLeeters=sqlsrv_query($conntest,$Letters);
+                                        $countletter=1;
+                                        while($getLeetersRow=sqlsrv_fetch_array($getLeeters,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
+                                            <tr>
+                                                <td><?= $countletter;?></td>
+                                                <td><?= $getLeetersRow['ReferenceNo'];?></td>
+                                                <td><?= $getLeetersRow['LetterType'];?>(<?= $getLeetersRow['Remarks'];?>)</td>
+                                                <td><?= $getLeetersRow['DateOfIssue']->format('d-m-Y');?></td>
+                                                <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
+                                        onclick="viewLetters(<?=$getLeetersRow['ID'];?>)" data-toggle="modal"
+                                        data-target="#modal-default-Letters"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                   
+
+
+                                    <i class=" fa fa-trash fa-2x text-danger " id="dlt" type="button"
+                                        onclick="dlt_data_letters(<?=$getLeetersRow['ID'];?>)" data-toggle="modal"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i></td>
+                                            </tr><?php
+                                        $countletter++; }?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+
+
+        </table>
+      
+    </div>
+</div>
+</div>
                             <div class="tab-pane" id="idcard<?=$emp_id;?>">
 
                                 <div class="row">
@@ -12083,36 +12204,43 @@ if ($row=mysqli_fetch_array($get_student_details_run))
     $Department=$row['Department'];
     $Gender=$row['Gender'];
     $classroll=$row['Class_RollNo'];
+   
+   
     $loanNumber=$row['loanNumber'];
     $applicationNo=$row['applicationNo'];
 
-     $loanNumber1=$row['loanNumber1'];
-    $applicationNo1=$row['applicationNo1'];
 
-      $UTRNumber=$row['UTRNumber'];
+    
+
+    $UTRNumber=$row['UTRNumber'];
     $loan_amount=$row['loan_amount'];
      if($row['datePayment']!='')
     {$datePayment=$row['datePayment']; }
     else    {
-        $datePayment=date('Y-m-d');
+        $datePayment='';
     }
 
+    $loanNumber1=$row['loanNumber1'];
+    $applicationNo1=$row['applicationNo1'];
 
       $UTRNumber1=$row['UTRNumber1'];
     $loan_amount1=$row['loan_amount1'];
      if($row['datePayment1']!='')
     {$datePayment1=$row['datePayment1']; }
     else    {
-        $datePayment1=date('Y-m-d');
+        $datePayment1='';
     }
 
 
+ 
   $UTRNumber2=$row['UTRNumber2'];
     $loan_amount2=$row['loan_amount2'];
      if($row['datePayment2']!='')
-    {$datePayment2=$row['datePayment2']; }
+    {
+        $datePayment2=$row['datePayment2']; 
+    }
     else    {
-        $datePayment2=date('Y-m-d');
+        $datePayment2='';
     }
 
   $UTRNumber3=$row['UTRNumber3'];
@@ -12120,7 +12248,14 @@ if ($row=mysqli_fetch_array($get_student_details_run))
      if($row['datePayment3']!='')
     {$datePayment3=$row['datePayment3']; }
     else    {
-        $datePayment3=date('Y-m-d');
+        $datePayment3='';
+    }
+    $UTRNumber4=$row['UTRNumber4'];
+    $loan_amount4=$row['loan_amount4'];
+     if($row['datePayment4']!='')
+    {$datePayment4=$row['datePayment4']; }
+    else    {
+        $datePayment4='';
     }
 
 
@@ -12384,193 +12519,6 @@ if ($row_consultant=sqlsrv_fetch_array($consultant_details_run))
 
 
             </div>
-            <?php
-if($statusVerification>0)
-{
-         ?>
-            <div class="col-lg-3">
-                <label>Loan Account No</label>
-                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo</label>
-                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>" readonly>
-
-
-            </div>
-          
-  <div class="col-lg-3">
-                <label>Loan Account No-1</label>
-                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo-1</label>
-                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Status</label>
-                <Select class="form-control" id="statusVerification" readonly>
-                    <?php 
-                        if($statusVerification=="0"){
-                            ?><option value="<?=$statusVerification;?>">Pending</option>
-
-                    <?php 
-
-                        }else
-                        {
-?> <option value="<?=$statusVerification;?>">Verified</option>
- <option value="0">Pending</option>
-
-
-                    <?php 
-                        }
-                       ?>
-                </Select>
-            </div>
-            <hr>
-            <div class="col-lg-3">
-                <label>UTR No</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
-
-
-            </div>
-            
-<?php 
-if($UTRNumber>0 && $UTRNumber1 !='' )
-{?>
-
-  <div class="col-lg-3">
-                <label>UTR No-1</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount-1</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
-
-
-            </div>
-            <?php
-          }
-
-else
-{
-  ?><div class="col-lg-3">
-                <label>UTR No-1</label>
-                <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" readonly>
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>Amount-1</label>
-                <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" readonly>
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>" readonly>
-
-
-            </div>
-
-<?php }
-
-
-
-
-
-
-
-
-          
-}
-else
-{
-?>
-            <div class="col-lg-3">
-                <label>Loan Account No</label>
-                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo</label>
-                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>">
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date</label>
-                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>">
-
-
-
-            </div>
-
-              <div class="col-lg-3">
-                <label>Loan Account No-1</label>
-                <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>" >
-
-
-            </div>
-
-            <div class="col-lg-3">
-                <label>ApplicationNo-1</label>
-                <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" >
-
-
-            </div>
-            <div class="col-lg-3">
-                <label>Date-1</label>
-                <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" >
-
-
-            </div>
             <div class="col-lg-3">
                 <label>Status</label>
                 <Select class="form-control" id="statusVerification">
@@ -12593,31 +12541,189 @@ else
 
             </div>
 
-            <hr> 
+
+
+
+
+                </div>
+                <div class="row">
+
+   
+            <div class="col-lg-3">
+                <label>Loan Account No</label>
+                <input type="text" id="loanNumber" class="form-control" value="<?=$loanNumber;?>">  </div>
+            <div class="col-lg-3">
+                <label>ApplicationNo</label>
+                <input type="text" id="applicationNo" class="form-control" value="<?=$applicationNo;?>" >
+            </div>
+            <div class="col-lg-3">
+                <label>Date</label>
+                <input type="date" id="dateVerification" class="form-control" value="<?=$dateVerification;?>" >
+            </div>
+           
+
+
+
+                </div><hr >
+                <div class="row">
+          
+          <div class="col-lg-3">
+             <label>Loan Account No-1</label>
+             <input type="text" id="loanNumber1" class="form-control" value="<?=$loanNumber1;?>">
+          </div>
+
+          <div class="col-lg-3">
+             <label>ApplicationNo-1</label>
+             <input type="text" id="applicationNo1" class="form-control" value="<?=$applicationNo1;?>" >
+
+
+          </div>
+          <div class="col-lg-3">
+             <label>Date-1</label>
+             <input type="date" id="dateVerification1" class="form-control" value="<?=$dateVerification1;?>" >
+
+
+             </div>
+
+            
+         </div>
+         
+            <hr >  <div class="row">
+
+   
+
+   
 <div class="col-lg-3">
+    <label>UTR No</label>
+    <input type="text" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>">
+</div>
+
+<div class="col-lg-3">
+    <label>Amount</label>
+    <input type="text" id="loan_amount" class="form-control" value="<?=$loan_amount;?>">
+
+</div>
+<div class="col-lg-3">
+    <label>Date</label>
+    <input type="date" id="datePayment" class="form-control" value="<?=$datePayment;?>">
+
+
+</div>
+    </div><hr >
+            <div class="row">
+          
+             
+
+                <div class="col-lg-3">
+                <label>UTR No-1</label>
+                <input type="text" id="UTRNumber1" class="form-control" value="<?=$UTRNumber1;?>">
+
+
+             </div>
+
+             <div class="col-lg-3">
+                <label>Amount-1</label>
+                <input type="text" id="loan_amount1" class="form-control" value="<?=$loan_amount1;?>">
+
+
+             </div>
+            <div class="col-lg-3">
+                <label>Date-1</label>
+                <input type="date" id="datePayment1" class="form-control" value="<?=$datePayment1;?>">
+
+
+            </div>
+            </div>
+            <hr>
+            <div class="row">
+
                 
-                <input type="hidden" id="UTRNumber" class="form-control" value="<?=$UTRNumber;?>" >
+
+
+
+            
+                <div class="col-lg-3">
+                <label>UTR No-2</label>
+                <input type="text" id="UTRNumber2" class="form-control" value="<?=$UTRNumber2;?>" >
 
 
             </div>
 
-  <div class="col-lg-3">
-              
-                <input type="hidden" id="loan_amount" class="form-control" value="<?=$loan_amount;?>" >
+            <div class="col-lg-3">
+                <label>Amount-2</label>
+                <input type="text" id="loan_amount2" class="form-control" value="<?=$loan_amount2;?>">
 
 
             </div>
             <div class="col-lg-3">
-               
-                <input type="hidden" id="datePayment" class="form-control" value="<?=$datePayment;?>" >
+                <label>Date-2</label>
+                <input type="date" id="datePayment2" class="form-control" value="<?=$datePayment2;?>" >
 
 
             </div>
 
-<?php 
 
-}
-?>
+            </div>
+            <hr >
+      
+            <div class="row">
+
+                
+
+
+
+
+    <div class="col-lg-3">
+    <label>UTR No-3</label>
+    <input type="text" id="UTRNumber3" class="form-control" value="<?=$UTRNumber3;?>" >
+
+
+</div>
+
+<div class="col-lg-3">
+    <label>Amount-3</label>
+    <input type="text" id="loan_amount3" class="form-control" value="<?=$loan_amount3;?>" >
+
+
+</div>
+<div class="col-lg-3">
+    <label>Date-3</label>
+    <input type="date" id="datePayment3" class="form-control" value="<?=$datePayment3;?>" >
+
+
+</div>
+
+
+</div><hr>
+<div class="row">
+
+                
+
+    <div class="col-lg-3">
+    <label>UTR No-4</label>
+    <input type="text" id="UTRNumber4" class="form-control" value="<?=$UTRNumber4;?>" >
+
+
+</div>
+
+<div class="col-lg-3">
+    <label>Amount-4</label>
+    <input type="text" id="loan_amount4" class="form-control" value="<?=$loan_amount4;?>" >
+
+
+</div>
+<div class="col-lg-3">
+    <label>Date-4</label>
+    <input type="date" id="datePayment4" class="form-control" value="<?=$datePayment4;?>" >
+
+
+</div>
+
+
+</div>
+
+
+
 
 
 
@@ -12650,7 +12756,34 @@ $dateVerification1 = $_POST['dateVerification1'];
 $UTRNumber = $_POST['UTRNumber'];
 $loan_amount = $_POST['loan_amount'];
 $datePayment = $_POST['datePayment'];
- $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',  statusVerification='$statusVerification', dateVerification='$dateVerification',UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1'  where id='$id'";
+
+$UTRNumber1 = $_POST['UTRNumber1'];
+$loan_amount1 = $_POST['loan_amount1'];
+$datePayment1 = $_POST['datePayment1'];
+
+$UTRNumber2 = $_POST['UTRNumber2'];
+$loan_amount2 = $_POST['loan_amount2'];
+$datePayment2 = $_POST['datePayment2'];
+
+$UTRNumber3 = $_POST['UTRNumber3'];
+$loan_amount3 = $_POST['loan_amount3'];
+$datePayment3 = $_POST['datePayment3'];
+
+$UTRNumber4 = $_POST['UTRNumber4'];
+$loan_amount4 = $_POST['loan_amount4'];
+$datePayment4 = $_POST['datePayment4'];
+
+
+
+ $insert_record = "UPDATE  offer_latter SET loanNumber='$loanNumber', applicationNo='$applicationNo',
+  statusVerification='$statusVerification', dateVerification='$dateVerification',
+  UTRNumber='$UTRNumber',loan_amount ='$loan_amount',datePayment='$datePayment',
+ loanNumber1='$loanNumber1', applicationNo1='$applicationNo1',dateVerification1='$dateVerification1',
+ UTRNumber1='$UTRNumber1',loan_amount1 ='$loan_amount1',datePayment1='$datePayment1',
+  UTRNumber2='$UTRNumber2',loan_amount2 ='$loan_amount2',datePayment2='$datePayment2',
+    UTRNumber3='$UTRNumber3',loan_amount3 ='$loan_amount3',datePayment3='$datePayment3',
+     UTRNumber4='$UTRNumber4',loan_amount4 ='$loan_amount4',datePayment4='$datePayment4'
+   where id='$id'";
 $insert_record_run = mysqli_query($conn, $insert_record);
 if ($insert_record_run==true) 
 {
@@ -15871,11 +16004,11 @@ elseif($code==210)
                                 <label>Year</label>
                                 <select name="year" id="year" class="form-control " required>
                                     
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
+                                                      <?php  for ($i=date('Y'); $i >=2020 ; $i--) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
                                     
 
                                 </select>
@@ -16876,11 +17009,11 @@ elseif($code==223)
                                 <select placeholder="MM" name="year" class="form-control form-control-sm ">
 
 
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
+                                <?php  for ($i=date('Y'); $i >=2020 ; $i--) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
                                     
 
                                 </select>
@@ -19516,7 +19649,7 @@ elseif($code==257)
                             </tr>
                             <?php
 
-$sql="SELECT * from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MasterShift.Id ASC";
+$sql="SELECT top(15)* from MadamShiftTime inner join MasterShift ON MasterShift.Id=MadamShiftTime.ShiftId where MadamShiftTime.Exception='1' order by MadamShiftTime.Id DESC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -19629,7 +19762,7 @@ elseif ($code==258) {
                             <tbody id="showSingleExceptionSearch">
                             <?php
 
-$sql="SELECT * from MadamSingleEmployeeException  order by Id DESC";
+$sql="SELECT top(50) * from MadamSingleEmployeeException  order by id DESC";
 $stmt2 = sqlsrv_query($conntest,$sql);
 while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
 {
@@ -32501,6 +32634,7 @@ elseif($code==431)
             <li class="nav-item"><a class="nav-link" href="#additionalResposibilities1<?=$emp_id;?>" data-toggle="tab">Additional Responsibilities</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience12<?=$emp_id;?>" data-toggle="tab">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#documents1<?=$emp_id;?>" data-toggle="tab">Documents</a></li>
+            <li class="nav-item"><a class="nav-link" href="#letters<?=$emp_id;?>" data-toggle="tab">Letters</a></li>
         </ul>
                              
                             
@@ -32913,7 +33047,41 @@ elseif($code==431)
 
 
                                                 </div>
-                                <div class="tab-pane" id="idcard1<?=$emp_id;?>">
+
+
+
+                                                <div class="tab-pane" id="letters<?=$emp_id;?>">
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <table class="table  table-bordered">
+            <tr>
+                <th colspan="7">
+                    All Letters
+                </th>
+            </tr>
+            <tr>
+                <td>Sr No</td>
+                <td>Reference No</td>
+                <td>Type of Letter</td>
+                <td>Date of Issue</td>
+                <td>Documents</td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+  </div>
+</div>
+                                 <div class="tab-pane" id="idcard1<?=$emp_id;?>">
 
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -32948,6 +33116,7 @@ elseif($code==431)
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="academic1<?=$emp_id;?>">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -33377,13 +33546,13 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
               <td><?=$data1['Percentage'];?></td>
               <td>
 
-                <i class=" fa fa-upload" id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
-                      data-toggle="modal" data-target="#modal-default"
+                <i class="fa fa-upload" id="doc" type="button" onclick="UploadPHDDocument(<?=$data1['id'];?>)"
+                      data-toggle="modal" data-target="#modal-default-upload"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">
                   </i>
 
 
-                  <i class=" fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id']; ?>)"
+                  <i class="fa fa-eye " id="doc" type="button" onclick="viewPHDDocument(<?=$data1['id'];?>)"
                       data-toggle="modal" data-target="#modal-default"
                       style="color: #223260;padding-left: 20px;padding-top: 5px">
                   </i>
@@ -33785,7 +33954,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
                                 </div>
                                 </div>
 
-                                <div class="tab-pane" id="additionalResposibilities1<?=$emp_id;?>">
+                         <div class="tab-pane" id="additionalResposibilities1<?=$emp_id;?>">
                                       <div class="row">
                        <?php
                          $sql1 = "SELECT * FROM AdditionalResponsibilities WHERE IDNo = $EmployeeID";
@@ -34101,6 +34270,20 @@ elseif($code==432.5)
     }
     
     sqlsrv_close($conntest);
+}elseif($code==432.6)
+{
+    $id = $_POST['ID'];
+    $qry = "Update GeneralLetters set Status='1' where ID = $id";
+    $result = sqlsrv_query($conntest, $qry);
+    $data = sqlsrv_fetch_array($result);
+    if ($data)
+    {
+       echo "1"; 
+    }
+    else{
+        echo "2";
+    }
+    sqlsrv_close($conntest);
 }
 elseif($code==433)
 {
@@ -34380,6 +34563,74 @@ else
     echo "Error: " . print_r($errors, true);
     // echo "0";
 } 
+    }
+    else
+    {
+        echo "2"; //file size 500 kb
+    }
+}
+else
+{
+    echo "3";
+}
+    sqlsrv_close($conntest);
+}
+elseif($code==436.3)
+{
+ $IDNo=$_POST['employeeID'];
+ $letter_type=$_POST['letter_type'];
+ $refernaceletter=$_POST['refernaceletter'];
+ $startdateofissueletter=$_POST['startdateofissueletter'];
+ $remarksletters=$_POST['remarksletters'];
+
+if($_POST['remarksletters']!='')
+{
+    $remarksletters=$_POST['remarksletters'];
+}
+else{
+    $remarksletters="";
+}
+
+$file_name = $_FILES['fileAttachment']['name'];
+$file_tmp = $_FILES['fileAttachment']['tmp_name'];
+$file_size =$_FILES['fileAttachment']['size'];
+ $file_type = $_FILES['fileAttachment']['type'];
+$allowedTypes = array(
+    'image/png',
+    'image/jpg',
+    'image/jpeg',
+    'application/pdf'
+);
+if (in_array($_FILES['fileAttachment']['type'], $allowedTypes))
+    {
+if ($file_size < 1000000)
+    { 
+$date=date('Y-m-d'); 
+$string = bin2hex(openssl_random_pseudo_bytes(4));
+$file_data = file_get_contents($file_tmp);
+ $file_name = $IDNo."_".strtotime($date)."_".$string."_".basename($_FILES['fileAttachment']['name']);
+ $destdir = '/Images/Staff/GeneralLetters';
+     ftp_chdir($conn_id, "/Images/Staff/GeneralLetters/") or die("Could not change directory");
+     ftp_pasv($conn_id,true);
+    ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
+ ftp_close($conn_id);
+
+   $insertExp="INSERT into GeneralLetters(IDNo,LetterType,ReferenceNo,Remarks,DateOfIssue,FileAttachment,CreatedAt,CreatedBy,Status)
+  VALUES('$IDNo','$letter_type','$refernaceletter','$remarksletters','$startdateofissueletter','$file_name','$timeStamp','$EmployeeID','0')";
+ $result = sqlsrv_query($conntest, $insertExp);
+ if($result==true)
+ {
+    echo "1";
+ }
+ else
+ {
+    echo "0";
+ }
+   if ($result === false) {
+    $errors = sqlsrv_errors();
+    echo "Error: " . print_r($errors, true);
+     echo "0";
+ } 
     }
     else
     {

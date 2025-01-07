@@ -60,7 +60,7 @@ while($permission_data=mysqli_fetch_array($permission_res))
 $stmt = sqlsrv_query($conntest,$sql_att);  
             while($row_staff_att = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
            {
-       $intime=$row_staff_att['mytime'];
+            $intime=$row_staff_att['mytime'];
              $outtime=$row_staff_att['mytime1'];
 }?> </span>
 <b> In:</b> <?php if($intime!=""){ echo $intime->format('h:i A');} else { echo "<b class='text-warning'>No punch</b>";}?>  &nbsp;&nbsp;

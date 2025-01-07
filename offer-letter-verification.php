@@ -38,8 +38,17 @@ include "header.php";
                                      {
                                      ?>
                                      <select class="form-control" id='exbatch'>
-                                        <option value="2023">2023</option>
-                                        <option value="2024">2024</option>
+
+
+
+                                     <?php  for ($i=date('Y'); $i >=2023 ; $i--) 
+   { ?>
+                    <option value="<?=$i;?>"><?=$i;?></option>
+
+                    <?php }  ?>
+
+
+
                                      </select>
                                      <button onclick="all_report();" data-toggle="modal" data-target="#for_report" class="btn btn-success btn-xs">Report</button >
                                       &nbsp;
@@ -546,15 +555,33 @@ function edit_student_details_a(id) {
     var applicationNo = document.getElementById('applicationNo').value;
     var statusVerification = document.getElementById('statusVerification').value;
 
- var loanNumber1 = document.getElementById('loanNumber1').value;
+    var loanNumber1 = document.getElementById('loanNumber1').value;
     var applicationNo1 = document.getElementById('applicationNo1').value;
     var dateVerification1 = document.getElementById('dateVerification1').value;
+
+   //  var loanNumber2 = document.getElementById('loanNumber2').value;
+   //  var applicationNo2 = document.getElementById('applicationNo2').value;
+   //  var dateVerification2 = document.getElementById('dateVerification2').value;
 
  var UTRNumber = document.getElementById('UTRNumber').value;
  var loan_amount = document.getElementById('loan_amount').value;
  var datePayment = document.getElementById('datePayment').value;
 
+ var UTRNumber1 = document.getElementById('UTRNumber1').value;
+ var loan_amount1 = document.getElementById('loan_amount1').value;
+ var datePayment1 = document.getElementById('datePayment1').value;
 
+ var UTRNumber2 = document.getElementById('UTRNumber2').value;
+ var loan_amount2 = document.getElementById('loan_amount2').value;
+ var datePayment2 = document.getElementById('datePayment2').value;
+
+ var UTRNumber3 = document.getElementById('UTRNumber3').value;
+ var loan_amount3 = document.getElementById('loan_amount3').value;
+ var datePayment3 = document.getElementById('datePayment3').value;
+
+ var UTRNumber4 = document.getElementById('UTRNumber4').value;
+ var loan_amount4 = document.getElementById('loan_amount4').value;
+ var datePayment4 = document.getElementById('datePayment4').value;
 
 
 
@@ -570,7 +597,12 @@ if(loanNumber!='' && applicationNo!='' && statusVerification!='' && dateVerifica
     loanNumber1: loanNumber1,
     applicationNo1: applicationNo1,
     statusVerification: statusVerification,
-    dateVerification: dateVerification,dateVerification1: dateVerification1,UTRNumber:UTRNumber,loan_amount:loan_amount,datePayment:datePayment,
+    dateVerification: dateVerification,dateVerification1: dateVerification1,
+    UTRNumber:UTRNumber,loan_amount:loan_amount,datePayment:datePayment,
+    UTRNumber1:UTRNumber1,loan_amount1:loan_amount1,datePayment1:datePayment1,
+    UTRNumber2:UTRNumber2,loan_amount2:loan_amount2,datePayment2:datePayment2,
+    UTRNumber3:UTRNumber3,loan_amount3:loan_amount3,datePayment3:datePayment3,
+    UTRNumber4:UTRNumber4,loan_amount4:loan_amount4,datePayment4:datePayment4,
     code: code
   };
   // Send the AJAX request

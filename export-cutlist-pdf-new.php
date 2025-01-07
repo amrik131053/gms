@@ -244,7 +244,7 @@ $conntest = $GLOBALS['conntest'];
 
                 $SubjectNames[$subcount]=$row_subject['SubjectName'] ;
                 $SubjectTypes[$subcount]=$row_subject['SubjectType'] ;
- $subcount++;
+  $subcount++;
  }
 
 if($subcount<=11){
@@ -286,7 +286,7 @@ if($subcount>44 && $subcount<=55)
 }
 else
 {
-   $pagethree=55; 
+   $pagefive=55; 
 }
 
 
@@ -495,6 +495,7 @@ else
          {
         $pdf->SetXY($x, 23);
         $pdf->SetFont('Arial', 'b', 6);
+       // echo $pagethree;
         $pdf->MultiCell(19, 3, $SubjectNames[$key] . " / " . $Subjects[$key] . " /" . $SubjectTypes[$key],0, 'C');
         $x += 19.3; 
     }

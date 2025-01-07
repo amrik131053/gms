@@ -401,7 +401,7 @@ function exportCutListExcelgradeca() {
        
         ErrorToast('All input required','bg-warning');
     }
-}
+} 
 
 function exportCutListExcelcsv() {
     var exportCode = 55;
