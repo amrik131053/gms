@@ -2028,6 +2028,24 @@ mysqli_close($conn);
       }
       mysqli_close($conn);
        }
+      elseif($code==35.1)
+      {
+      $type=$_POST['type'];
+      $name=$_POST['name'];
+     
+      $sql="INSERT INTO `DocumentDetail` (`SID`, `Course`, `DateEntry`) VALUES ( '$type', '$name', '$timeStamp');";
+
+      $res = sqlsrv_query($conntest, $sql);
+      if ($res==true)
+       {
+      echo "1";   // code...
+      }
+      else
+      {
+         echo "0";
+      }
+      mysqli_close($conn);
+       }
           elseif($code==36)
          {?>
     <table class="table">
@@ -2056,6 +2074,38 @@ mysqli_close($conn);
                 <th><?=$row['name_t'];?></th>
                 <th><i class="fa fa-edit" onclick="update_vehicle_record(<?=$row['v_id'];?>);" data-toggle="modal"
                         data-target="#update_vehicle_modal"></i></th>
+            </tr>
+            <?php
+            $sr++; }
+              ?>
+        </tbody>
+    </table>
+    <?php
+    mysqli_close($conn);
+      }
+          elseif($code==36.1)
+         {?>
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Qualification</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $sr=1;
+
+                $sql = "SELECT * FROM DocumentDetail inner join MasterQualification ON MasterQualification.ID=DocumentDetail.SID order by SID ASC";
+                $res = sqlsrv_query($conntest, $sql);
+   
+            while($row=sqlsrv_fetch_array($res))
+            {?>
+            <tr>
+                <td><?=$sr;?></td>
+                <td><?=$row['QualificationName'];?></td>
+                <td><?=$row['Course'];?></td> 
             </tr>
             <?php
             $sr++; }
