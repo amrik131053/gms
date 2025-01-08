@@ -15406,6 +15406,25 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                                   ?>
                  </select>
               </div>
+                  <div class="col-lg-1">
+                                    <label>Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
               <div class="col-lg-2">
                  <label>Semester</label>
                       <select   id='semester' class="form-control form-control-sm">
@@ -16801,7 +16820,8 @@ elseif($code==255)
             $CollegeID=$_POST['College'];
             $CourseID=$_POST['Course'];
             $batch=$_POST['batch'];
-             $department=$_POST['Department'];
+            $department=$_POST['Department'];
+            $session=$_POST['session'];
 
           $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
@@ -16866,7 +16886,7 @@ $SubjectType='Theory/Practical';
    }
 
 
-  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType')";
+  $add_study_scheme2="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,SubjectShortName,DepartmentId,SkillType,AcademicType,Session) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$batch','$SemesterID','$Semester','$SubjectName','$SubjectType','$SubjectCode','$Elective','100','100','$Lacture','$Tutorials','$Practical','$SubjectGroup','$NoOfCredits','0','','$department','$SkillType','$AcademicType','$session')";
 
                  $add_study_scheme_run2=sqlsrv_query($conntest,$add_study_scheme2);
                   if ($add_study_scheme_run2==true)

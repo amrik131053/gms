@@ -76,7 +76,7 @@
                             </center>
                         </div>
                         <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
-                            <div class="row">
+                             <div class="row">
                                 <div class="col-lg-3">
                                     <input type="hidden" name="code" value="256">
                                     <label>College Name</label>
@@ -127,6 +127,25 @@
                                   ?>
                                     </select>
                                     <input type="hidden" id="semester" name="semester" class="form-control form-control-sm">
+
+
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
 
 
                                 </div>
@@ -554,6 +573,7 @@ function add_submit() {
     var practical = document.getElementById('practical').value;
     var tutorials = document.getElementById('tutorials').value;
     var credits = document.getElementById('credits').value;
+     var session = document.getElementById('session').value;
     if (CollegeID != '' && CourseID != '' && batch != '' && semester != '' && subject_name != '' && subject_code !=
         '' && subject_type != '' && subject_group != '' && int_marks != '' && ext_marks != '' && elective != '' &&
         lecture != '' && practical != '' && tutorials != '' && credits != '') {
