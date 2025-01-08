@@ -203,6 +203,7 @@ function search_study_scheme() {
     var batch = document.getElementById('batch').value;
 
     var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
 
     var group = document.getElementById('group').value;
      var Department = document.getElementById('Department').value;
@@ -220,7 +221,7 @@ function search_study_scheme() {
             Batch: batch,
             Group:group,
             Department:Department,
-            Semester: semester
+            Semester: semester,session:session
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -236,6 +237,7 @@ function update_study_scheme_search() {
     var Course = document.getElementById('Course').value;
     var batch = document.getElementById('batch').value;
     var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -245,7 +247,7 @@ function update_study_scheme_search() {
             code: code,
             CollegeID: CollegeID,
             Course: Course,
-            Batch: batch,
+            Batch: batch,Session:session,
             Semester: semester
         },
         success: function(response) {
@@ -793,11 +795,13 @@ function copy_study_scheme() {
     var from_semester = document.getElementById('from_semester').value;
     var to_batch = document.getElementById('to_batch').value;
     var to_semester = document.getElementById('to_semester').value;
+    var to_session = document.getElementById('to_session').value;
+    var from_session = document.getElementById('from_session').value;
     var code = 253;
 
-    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '') {
-        var a = confirm('Are you sure to Copy \n Batch ' + from_batch + ' \n Semester ' + from_semester +
-            'To \n Batch ' + to_batch + ' \n Semester ' + to_semester);
+    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '' && from_session!='' && to_session!='') {
+        var a = confirm('Are you sure to Copy \n Batch ' + from_batch + '  To  Batch ' + to_batch+ '\n Semester ' + from_semester +
+             ' to  Semester ' + to_semester+'\n Session ' + from_session + '  To  Session ' + to_session);
         if (a == true) {
             var spinner = document.getElementById('ajax-loader');
             spinner.style.display = 'block';
@@ -811,12 +815,12 @@ function copy_study_scheme() {
                     from_batch: from_batch,
                     from_semester: from_semester,
                     to_batch: to_batch,
-                    to_semester: to_semester
+                    to_semester: to_semester,to_session:to_session,from_session:from_session
 
 
                 },
                 success: function(response) {
-                    // console.log(response);
+                     console.log(response);
                     spinner.style.display = 'none';
                     if (response == 1) {
                         SuccessToast('Successfully Copy');

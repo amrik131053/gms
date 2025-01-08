@@ -15592,6 +15592,25 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                                   ?>
                  </select>
               </div>
+                 <div class="col-lg-1">
+                                    <label>Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
               <div class="col-lg-1">
                  <label>Semester</label>
                       <select   id='semester' class="form-control form-control-sm">
@@ -15605,7 +15624,8 @@ $stmt2 = sqlsrv_query($conntest,$sql);
             </select>
               </div>
 
-                <div class="col-lg-2">
+
+                <div class="col-lg-1">
                  <label>Group</label>
                       <select   id='group' class="form-control form-control-sm">
                        <option value="">Group</option>
@@ -15650,6 +15670,7 @@ elseif($code==227)
                   $Semester=$_POST['Semester'];
                   $Group=$_POST['Group'];
                   $Department=$_POST['Department'];
+                  $session=$_POST['session'];
                 
 ?>
                   <div class="col-lg-6 ">
@@ -15670,7 +15691,7 @@ elseif($code==227)
                            </tr>
                      <?php 
 
-           $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Departmentid='$Department' and Sgroup='$Group' and IsVerified='0'";
+           $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester' and Departmentid='$Department' and Sgroup='$Group' and IsVerified='0' AND Session='$session'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_0=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -15728,7 +15749,7 @@ elseif($code==227)
                               <th><input type="checkbox"  id="select_all1" onclick="verifiy_select();" ></th>
                            </tr>
                      <?php 
-                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'and Departmentid='$Department' and Sgroup='$Group' and IsVerified=1";
+                          $get_study_scheme="SELECT * FROM MasterCourseStructure WHERE CollegeID='$CollegeID' and CourseID='$Course' and Batch='$Batch' and SemesterID='$Semester'and Departmentid='$Department' and Sgroup='$Group' and IsVerified=1 AND Session='$session'";
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
                         $count_1=0;
                           if(sqlsrv_num_rows($get_study_scheme_run)>0)  
@@ -15894,27 +15915,57 @@ elseif($code==229)
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-3">
+                <div class="col-lg-6">
+                                    <label> From Session</label>
+                                    <select id="from_session" name="from_session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
+                                  <div class="col-lg-6">
+                                    <label> To Session</label>
+                                    <select id="to_session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
+
+
+
+              <div class="col-lg-6">
                  <label> From Semester</label>
                       <select   id='from_semester' onchange="onchange_batch();" class="form-control form-control-sm">
                        <option value="">Select</option>
                 
             </select>
-              </div>
-             
-             
-              <div class="col-lg-3">
-                 <label>From Batch</label>
-                   <select id="from_batch"  class="form-control form-control-sm">
-                       <option value="">Batch</option>
-                       
-                 </select>
-              </div> 
-            
-              <div class="col-lg-3">
+              </div> <div class="col-lg-6">
                  <label> To Sem</label>
                    <select id="to_semester"  class="form-control form-control-sm">
-                       <option value="">Batch</option>
+                       <option value="">Semester</option>
                           <?php 
                               for($i=1;$i<=15;$i++)
                                  {?>
@@ -15922,7 +15973,18 @@ elseif($code==229)
                            <?php }
                                   ?>
                  </select>
-              </div><div class="col-lg-3">
+              </div>
+             
+             
+              <div class="col-lg-6">
+                 <label>From Batch</label>
+                   <select id="from_batch"  class="form-control form-control-sm">
+                       <option value="">Batch</option>
+                       
+                 </select>
+              </div> 
+            
+             <div class="col-lg-6">
                  <label> To Batch</label>
                    <select id="to_batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
@@ -16011,7 +16073,26 @@ elseif($code==230)
                            <?php }
                                   ?>
                  </select>
-              </div>
+                   
+              </div>   <div class="col-lg-1">
+                                    <label> Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
+
+
+                                </div>
               <div class="col-lg-1">
                  <label>Semester</label>
                       <select   id='semester' class="form-control form-control-sm">
@@ -16465,6 +16546,11 @@ elseif($code==252)
        $from_batch=$_POST['from_batch'];
        $to_batch=$_POST['to_batch'];
        $to_semester=$_POST['to_semester'];
+        $to_session=$_POST['to_session'];
+       $from_session=$_POST['from_session'];
+
+
+
       $get_college_name="SELECT CollegeName,Course FROM MasterCourseCodes WHERE CollegeID='$CollegeID' and CourseID='$CourseID'";
          $get_college_name_run=sqlsrv_query($conntest,$get_college_name);           
          while($college_row=sqlsrv_fetch_array($get_college_name_run,SQLSRV_FETCH_ASSOC))
@@ -16479,7 +16565,7 @@ elseif($code==252)
                      $semester=$sem_row['Semester'];                          
                        }
 
-      $add_study_scheme="SELECT * FROM  MasterCourseStructure  WHERE Batch='$from_batch' and SemesterID='$from_semester' and CourseID='$CourseID' and CollegeID='$CollegeID' ";
+      $add_study_scheme="SELECT * FROM  MasterCourseStructure  WHERE Batch='$from_batch' and SemesterID='$from_semester' and CourseID='$CourseID' and CollegeID='$CollegeID' and Session='$from_session' ";
          $verified_study_run=sqlsrv_query($conntest,$add_study_scheme);  
 
       while($row=sqlsrv_fetch_array($verified_study_run,SQLSRV_FETCH_ASSOC))
@@ -16500,7 +16586,7 @@ elseif($code==252)
                $tutorials=$row['Tutorial'];
                $credits=$row['NoOFCredits'];
 
-         $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId,AcademicType,SkillType) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId','$academic_type','$skill_type')";
+          $verified_study1="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,DepartmentId,AcademicType,SkillType,Session) VALUES('$CollegeName','$CollegeID','$Course','$CourseID','$to_batch','$to_semester','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$DepartmentId','$academic_type','$skill_type','$to_session')";
          $verified_study_run1=sqlsrv_query($conntest,$verified_study1);  
       }
 
@@ -16520,6 +16606,7 @@ elseif($code==252)
                    $Course=$_POST['Course'];
                    $Batch=$_POST['Batch'];
                    $Semester=$_POST['Semester'];
+                   $Session=$_POST['Session'];
                 
 
 ?>
@@ -16578,6 +16665,11 @@ elseif($code==252)
                       {
                       $get_study_scheme.=" AND MasterCourseStructure.SemesterID='$Semester'";
                       }
+                      if($Session!='')
+                      {
+                      $get_study_scheme.=" AND MasterCourseStructure.Session='$Session'";
+                      }
+
                       $get_study_scheme ;
 
                         $get_study_scheme_run=sqlsrv_query($conntest,$get_study_scheme,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
@@ -25147,7 +25239,7 @@ $sem= $_POST['sem'];
 
 $sql = "SELECT DISTINCT mcs.SubjectName,mcs.SubjectCode,mcs.SubjectType  FROM MasterCourseStructure as mcs 
 inner join SubjectAllotment as sa ON sa .SubjectCode=mcs.SubjectCode WHERE mcs.CourseID ='$course' 
-AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.SubjectType='T' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
+AND mcs.SemesterID='$sem' ANd mcs.Batch='$batch' ANd mcs.AcademicType='T' And sa.EmployeeID='$EmployeeID' AND sa.Status='1'";
 
  $stmt2 = sqlsrv_query($conntest,$sql);
  while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC) )
