@@ -212,7 +212,7 @@ ini_set('max_execution_time', '0');
 
                                                      
                                 
-                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExceln()">NS</button> 
+                                                    &nbsp;&nbsp; <button class="btn btn-success btn-sm " onclick="exportCutListExceln()">NS</button> <!--63-->
                                                     &nbsp;&nbsp;<button class="btn btn-success btn-sm " onclick="exportCutListExcelgraden()">NG</button> <!--64-->
                                  <button class="btn btn-success btn-sm " onclick="exportCutListExcelgradecan()">ND</button> <!--65-->
 
