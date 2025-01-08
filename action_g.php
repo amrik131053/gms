@@ -18,7 +18,7 @@ window.location.href = 'index.php';
 
    $Leave_Authority_ID="172027"; 
 
-   $Leave_Authority_Label="Pending To VC";
+   $Leave_Authority_Label="Pending to VC";
 
    $EmployeeID=$_SESSION['usr'];
    if ($EmployeeID==0 || $EmployeeID=='') 
@@ -18204,8 +18204,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
                                 onclick="approvedLeavesByAuthButton(<?=$id;?>);">Approve</button>
                             <?php if($EmployeeID!=$Leave_Authority_ID)
                     {?>
-                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To Registrar</button>
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_Label;?></button>
                             <?php }?>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
@@ -18235,8 +18234,7 @@ while($rowType=sqlsrv_fetch_array($getLeaveTypesRun))
         {
           ?>
 
-                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);">Forward
-                                To Registrar</button>
+                            <button class="btn btn-warning" onclick="forwardToVCLeavesByAuthButton(<?=$id;?>);"><?= $Leave_Authority_Label;?></button>
                             <button class="btn btn-danger"
                                 onclick="rejectLeavesByAuthButton(<?=$id;?>);">Reject</button>
                             <?php

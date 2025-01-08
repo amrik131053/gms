@@ -384,7 +384,8 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
                                         <option value="">All</option>
                              <?php       
         
-                      $get_country="SELECT DISTINCT Elective FROM MasterCourseStructure where Elective!='' AND  Batch>2020"  ;
+                      $get_country="SELECT DISTINCT Elective FROM MasterCourseStructure where Elective!='' AND 
+                       Batch>2020"  ;
                       $get_country_run=sqlsrv_query($conntest,$get_country);
                       while($row_Session=sqlsrv_fetch_array($get_country_run))
                       {?>
@@ -399,6 +400,24 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
               </div>
             
             </div>
+        </div>
+
+         <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Search Scheme </h3>
+                    <div class="card-tools">
+                        
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                
+               
+              </div>
+            
+            </div>
+        </div>
+    </div>
 
 <?php 
       }
