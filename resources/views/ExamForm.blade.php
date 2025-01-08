@@ -198,7 +198,7 @@
                               @elseif ($allExamShows['Status']=='7')
                               <b class="text-danger">Rejected By Examination</b>
                               @elseif ($allExamShows['Status']=='8')
-                              <b class="text-danger">Accepted</b>
+                              <b class="text-success">Accepted</b>
                               @elseif ($allExamShows['Status']=='22')
                               <b class="text-danger">Rejected By Registration Branch</b>
                               @else
