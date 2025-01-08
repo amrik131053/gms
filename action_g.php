@@ -4132,7 +4132,8 @@ else { ?>
                             <div class="tab-pane" id="letters-admin<?=$emp_id;?>">
 
 
-                            <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+          <!--  <form class="row" action="action_g.php" method="POST" enctype="multipart/form-data">
+
                 <input type="hidden" name="code" value="436.3">
                 <input type="hidden" name="employeeID" value="<?=$emp_id;?>">
                 <div class="row">
@@ -4193,7 +4194,8 @@ else { ?>
 
 
                 </div>
-            </form><br>
+            </form> --> 
+            <br>
 <div class="row">
     <div class="col-lg-12">
     <table class="table  table-bordered">
@@ -4203,13 +4205,13 @@ else { ?>
                 </th>
             </tr>
             <tr>
-                <td>Sr No</td>
+                <td>Sr No</td> 
                 <td>Reference No</td>
                 <td>Type of Letter</td>
                 <td>Date of Issue</td>
                 <td>Documents</td>
             </tr>
-            <?php   $Letters="SELECT *  FROM GeneralLetters where IDNo='".$row1['IDNo']."' ANd Status='0'"; 
+            <?php   $Letters="SELECT *  FROM GeneralLetters where IDNo='".$row1['IDNo']."' ANd Status='0' order by ID Desc"; 
                                         $getLeeters=sqlsrv_query($conntest,$Letters);
                                         $countletter=1;
                                         while($getLeetersRow=sqlsrv_fetch_array($getLeeters,SQLSRV_FETCH_ASSOC))
@@ -5031,7 +5033,7 @@ else { ?>
                 <div class="row">
                     <div class="table-responsive col-lg-12">
                         <?php
-                               $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $emp_id ";
+                               $sql = "SELECT * from StaffAcademicDetails inner join MasterQualification ON StaffAcademicDetails.StandardType=MasterQualification.ID WHERE StaffAcademicDetails.UserName= $emp_id  order by StandardType ";
                                    if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                         ?>
                         <table class="table table-bordered" style="font-size:14px;">
@@ -5297,7 +5299,7 @@ else { ?>
             <div class="row">
                 <div class="table-responsive col-lg-12">
                     <?php
-                                                $sql1 = "SELECT * from AdditionalResponsibilities WHERE IDNo= $emp_id ";
+                                                $sql1 = "SELECT * from AdditionalResponsibilities WHERE IDNo= $emp_id ANd Status='0' ";
                                             if ($data1 = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql1))) {
                                             ?>
                     <div class="container">
@@ -5394,7 +5396,7 @@ while ($data1 = sqlsrv_fetch_array($res)) {
             <div class="row">
                 <div class="col-lg-12" style="overflow-x:auto;" id="table-scroll">
                     <?php
-                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='0'";
+                      $sql = "SELECT * from StaffExperienceDetails WHERE UserName= '$emp_id' and ExperienceCategory='0' ";
                   if ($data = sqlsrv_fetch_array(sqlsrv_query($conntest, $sql))) {
                   ?>
                     <table class="table table-bordered" style="font-size:14px;">
@@ -6978,7 +6980,7 @@ sqlsrv_close($conntest);
 elseif($code==94)
 {
    
-   $loginId = $_POST["loginId"];
+  $loginId = $_POST["loginId"];
    $name = $_POST["name"];
    $fatherName = $_POST["fatherName"];
    $motherName = $_POST["motherName"];
@@ -7073,7 +7075,7 @@ elseif($code==94)
 //    ftp_put($conn_id, "Images/Staff/Signature/$SignatureImageName", $signatureTmp, FTP_BINARY);
 //    }
    $query = "UPDATE Staff SET ";
-   $query .= "Name = '$name', ";
+   $query .= "Name = '$name', "; 
    $query .= "FatherName = '$fatherName', ";
    $query .= "MotherName = '$motherName', ";
    $query .= "Designation = '$designation', ";
@@ -21325,7 +21327,7 @@ else
    ?>
 
    <br>
-
+ 
                          
 
                             <button type="button" onclick="uploadPhotoStudent(this.form)" class="btn btn-primary"
@@ -33074,29 +33076,43 @@ elseif($code==431)
 <div class="row">
     <div class="col-lg-12">
 
-        <table class="table  table-bordered">
+    
+            
+            <table class="table  table-bordered">
             <tr>
                 <th colspan="7">
                     All Letters
                 </th>
             </tr>
-            <tr>
-                <td>Sr No</td>
-                <td>Reference No</td>
-                <td>Type of Letter</td>
-                <td>Date of Issue</td>
-                <td>Documents</td>
-            </tr>
+           
+            <?php   $Letters="SELECT *  FROM GeneralLetters where IDNo='".$row1['IDNo']."' ANd Status='0' order by ID desc"; 
+                                        $getLeeters=sqlsrv_query($conntest,$Letters);
+                                        $countletter=1;
+                                        while($getLeetersRow=sqlsrv_fetch_array($getLeeters,SQLSRV_FETCH_ASSOC))
+                                        {
+                                        ?>
+                                            <tr>
+                                                <td><?= $countletter;?></td>
+                                                <td><?= $getLeetersRow['ReferenceNo'];?></td>
+                                                <td><?= $getLeetersRow['LetterType'];?>(<?= $getLeetersRow['Remarks'];?>)</td>
+                                                <td><?= $getLeetersRow['DateOfIssue']->format('d-m-Y');?></td>
+                                                <td><i class=" fa fa-eye fa-2x text-success" id="doc" type="button"
+                                        onclick="viewLetters(<?=$getLeetersRow['ID'];?>)" data-toggle="modal"
+                                        data-target="#modal-default-Letters"
+                                        style="color: #223260;padding-left: 20px;padding-top: 5px">
+                                    </i>
+                                   
+
+
+                                    </td>
+                                            </tr><?php
+                                        $countletter++; }?>
             
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                </td>
-            </tr>
+                
 
 
         </table>
+
     </div>
   </div>
 </div>
@@ -33567,7 +33583,7 @@ $sql1 = "SELECT * from PHDacademic WHERE UserName= $EmployeeID ";
 
                 <i class="fa fa-upload" id="doc" type="button" onclick="UploadPHDDocument(<?=$data1['id'];?>)"
                       data-toggle="modal" data-target="#modal-default-upload"
-                      style="color: #223260;padding-left: 20px;padding-top: 5px">
+                      style="color: #223260;padding-left: 20px;padding-top: 5px"> 
                   </i>
 
 
@@ -34200,29 +34216,32 @@ elseif($code==432.3)
 {
     $id = $_POST['ID'];
     $emp_id = $_POST['emp_id'];
-    $qry = "SELECT FilePath FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id' ";
-    $result = sqlsrv_query($conntest, $qry);
+    // $qry = "SELECT FilePath FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id' ";
+    // $result = sqlsrv_query($conntest, $qry);
     
-    if ($rows = sqlsrv_fetch_array($result)) {
-        if ($rows['FilePath'] != '') {
-            $docName = $rows['FilePath'];
-            ftp_chdir($conn_id, "Images/Staff/AdditionalResponsibilities") or die("Could not change directory");
-            if (ftp_delete($conn_id, $docName)) {
-                $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
-                $res = sqlsrv_query($conntest, $sql);
-                $escapedQuery = str_replace("'", "''", $sql);
-                $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
-                sqlsrv_query($conntest,$update12);
-            }
-            ftp_close($conn_id);
-        } else {
-            $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
-            $res = sqlsrv_query($conntest, $sql);
-            $escapedQuery = str_replace("'", "''", $sql);
-            $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
-            sqlsrv_query($conntest,$update12);
-        }
-    }
+    // if ($rows = sqlsrv_fetch_array($result)) {
+    //     if ($rows['FilePath'] != '') {
+    //         $docName = $rows['FilePath'];
+    //         ftp_chdir($conn_id, "Images/Staff/AdditionalResponsibilities") or die("Could not change directory");
+    //         if (ftp_delete($conn_id, $docName)) {
+    //             $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
+    //             $res = sqlsrv_query($conntest, $sql);
+    //             $escapedQuery = str_replace("'", "''", $sql);
+    //             $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
+    //             sqlsrv_query($conntest,$update12);
+    //         }
+    //         ftp_close($conn_id);
+    //     } else {
+    //         $sql = "DELETE FROM AdditionalResponsibilities WHERE ID = '$id' and IDNo='$emp_id'";
+    //         $res = sqlsrv_query($conntest, $sql);
+    //         $escapedQuery = str_replace("'", "''", $sql);
+    //         $update12="insert into logbook(userid,remarks,updatedby,date)Values('$emp_id','$escapedQuery','$EmployeeID','$timeStamp')";
+    //         sqlsrv_query($conntest,$update12);
+    //     }
+
+$sql = "Update AdditionalResponsibilities set Status='1' WHERE ID = '$id'";
+$res = sqlsrv_query($conntest, $sql);
+    //}
     
     sqlsrv_close($conntest);
 }
@@ -34566,8 +34585,8 @@ $destdir = '/Images/Staff/AdditionalResponsibilities';
      ftp_pasv($conn_id,true);
     ftp_put($conn_id, $file_name, $file_tmp, FTP_BINARY) or die("Could not upload to $ftp_server");
 ftp_close($conn_id);
-    $insertExp="INSERT into AdditionalResponsibilities(CollegeID,DepartmentID,Designation,IDNo,JoiningDate,RelievingDate,Ramrks,FilePath,CreatedAt,CreatedBy)
-VALUES('$organisationNameAddtional','$departmentAddtional','$designationAddtional','$employeeID','$startDateAddtional','$endDateAddtional','$remarksAddtional','$file_name','$timeStamp','$EmployeeID')";
+    $insertExp="INSERT into AdditionalResponsibilities(CollegeID,DepartmentID,Designation,IDNo,JoiningDate,RelievingDate,Ramrks,FilePath,CreatedAt,CreatedBy,Status)
+VALUES('$organisationNameAddtional','$departmentAddtional','$designationAddtional','$employeeID','$startDateAddtional','$endDateAddtional','$remarksAddtional','$file_name','$timeStamp','$EmployeeID','0')";
 $result = sqlsrv_query($conntest, $insertExp);
 if($result==true)
 {
@@ -34658,7 +34677,7 @@ $file_data = file_get_contents($file_tmp);
 }
 else
 {
-    echo "3";
+    echo "data3";
 }
     sqlsrv_close($conntest);
 }

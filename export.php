@@ -9171,8 +9171,8 @@ else if($exportCode==63)
 include 'result-pages/result-subject-bind-new2.php';
 
 $subCount=(count($Subjects)*4)+4;
-$subCount1=count($Subjects);
-
+$subCount1=count($SubjectsNew)*4;
+$subCount=$subCount+$subCount1;
 $exportstudy="<table class='table' border='1'>
         <thead>";
 include 'result-pages/resultcopyheader.php';
@@ -9186,6 +9186,10 @@ foreach ($Subjects as $key => $SubjectsCode) {
   
 }
 
+foreach ($SubjectsNew as $key => $SubjectsCode) {
+    $exportstudy.="<th colspan=4>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
+  
+}
 $exportstudy.="<th colspan=2>Grade Detail
     
   </th></tr>   <tr>
@@ -9219,13 +9223,13 @@ $list_resultamrikop = sqlsrv_query($conntest,$amrikop);
 
 while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
-        $credit=$row7c['NoOFCredits'];
+        $credit=$row7op['NoOFCredits'];
         if(is_numeric($credit))
         {
         $gtcerdit=$gtcerdit+$credit;
         }
  
-         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+         $exportstudy.="<th colspan=4>Credit : {$credit}</th>";
             }
    
 }
@@ -9243,6 +9247,10 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
     <th></th>
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+}
+  foreach ($SubjectsNew as $key => $SubjectsCode) {
     
     $exportstudy.="<th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
@@ -9458,7 +9466,8 @@ else if($exportCode==64)
 //include 'result-pages/result-subject-bind-new.php';
 include 'result-pages/result-subject-bind-new2.php';
 $subCount=(count($Subjects)*2)+4;
-$subCount1=count($Subjects);
+$subCount1=count($SubjectsNew)*2;
+$subCount=$subCount+$subCount1;
 $exportstudy="<table class='table' border='1' style=' font-family: 'Times New Roman', Times, serif;'>
         <thead>";
 include'result-pages/resultcopyheader.php';
@@ -9466,8 +9475,13 @@ $exportstudy.="<tr>
     <th>SrNo</th>
   
     <th>UniRoll No</th> ";
+
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=2>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
+  
+}
+foreach ($SubjectsNew as $key => $SubjectsCode) {
+    $exportstudy.="<th colspan=2>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
   
 }
 $exportstudy.="<th colspan=2>Grade Detail
@@ -9506,13 +9520,13 @@ $list_resultamrikop = sqlsrv_query($conntest,$amrikop);
 
 while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
-        $credit=$row7c['NoOFCredits'];
+        $credit=$row7op['NoOFCredits'];
         if(is_numeric($credit))
         {
         $gtcerdit=$gtcerdit+$credit;
         }
  
-         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+         $exportstudy.="<th colspan=2>Credit : {$credit}</th>";
             }
    
 }
@@ -9528,12 +9542,16 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
     
     $exportstudy.="<th>Grade</th><th>Grade Point</th>";
 }
+ foreach ($SubjectsNew as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>Grade</th><th>Grade Point</th>";
+}
        $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
 
 
 
 
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+    $list_sql = "SELECT ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
         
@@ -9731,10 +9749,11 @@ include 'result-pages/resultfooter.php';
 
  else if($exportCode==65)
 {
-    include 'result-pages/result-subject-bind-new2.php';
+     include 'result-pages/result-subject-bind-new2.php';
 
 $subCount=(count($Subjects)*5)+6;
-$subCount1=count($Subjects);
+$subCount1=count($SubjectsNew)*5;
+$subCount=$subCount+$subCount1;
 $exportstudy="<table class='table' border='1'>     <thead>";
 include 'result-pages/resultcopyheader.php';
 
@@ -9747,6 +9766,10 @@ $exportstudy.="
    ";
 foreach ($Subjects as $key => $SubjectsCode) {
     $exportstudy.="<th colspan=5>".$SubjectNames[$key]." / ".$SubjectsCode." </th>";
+  
+}
+foreach ($SubjectsNew as $key => $SubjectsCode) {
+    $exportstudy.="<th colspan=5>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
   
 }
 
@@ -9783,17 +9806,18 @@ while($row7c = sqlsrv_fetch_array($list_resultamrikc, SQLSRV_FETCH_ASSOC) )
 
     foreach ($SubjectsNew as $key => $SubjectsCodeop) {
 
-  $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
+   $amrikop = "SELECT Distinct NoOFCredits FROM MasterCourseStructure where SubjectCode='$SubjectsCodeop' ANd Batch='$Batch'AND SemesterID='$Semester'";  
   
 $list_resultamrikop = sqlsrv_query($conntest,$amrikop);  
 
 while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
-        $credit=$row7c['NoOFCredits'];
+        $credit=$row7op['NoOFCredits'];
         if(is_numeric($credit))
         {
         $gtcerdit=$gtcerdit+$credit;
         }
+
  
          $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
             }
@@ -9809,6 +9833,10 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
     <th></th>
     <th></th>";
     foreach ($Subjects as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>CE1/CE3/Att/MST1/MST2/ESE(Grace)</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+}
+   foreach ($SubjectsNew as $key => $SubjectsCode) {
     
     $exportstudy.="<th>CE1/CE3/Att/MST1/MST2/ESE(Grace)</th><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
 }
@@ -9912,7 +9940,7 @@ $gradevaluetotal=$gradevaluetotal+$gradevalue;
  }
  else
  {
-    if($grade=='F' || $grade=='US')
+    if($grade=='F' || $grade=='US' || $grade=='AB')
     {
     $nccount++;
     }
@@ -9990,7 +10018,7 @@ else
 $exportstudy.="<td style='text-align:center;'>NA </td>";
 $exportstudy.="<td style='text-align:center;'>NA</td>"; 
 $exportstudy.="<td style='text-align:center;'>NA </td>";
- $exportstudy.="<td style='text-align:center;'>NA </td>"; 
+$exportstudy.="<td style='text-align:center;'>NA </td>"; 
  $exportstudy.="<td style='text-align:center;'>NA </td>"; 
 }
 
@@ -10041,12 +10069,9 @@ include 'result-pages/resultfooter.php';
 //include 'result-pages/result-subject-bind-new.php';
 include 'result-pages/result-subject-bind-new2.php';
 
-
-
-
-
 $subCount=(count($Subjects)*5)+4;
-$subCount1=count($Subjects);
+$subCount1=count($SubjectsNew)*5;
+$subCount=$subCount+$subCount1;
 
 $exportstudy="<table class='table' border='1'><thead>"; 
  $exportstudy.="<tr><th colspan='".$subCount."' ><b style='font-size:22px;'>GURU KASHI UNIVERSITY, TALWANDI SABO, BATHINDA (PUNJAB) RESULT NOTIFICATION No. GKU/COE/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;".$Examination."&nbsp;&nbsp;EXAMINATION</b></th></tr>"; 
@@ -10057,6 +10082,10 @@ $exportstudy.="<tr><th>SrNo</th><th>UniRoll No</th>";
 
     foreach ($Subjects as $key => $SubjectsCode) {
 $exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+}
+foreach ($SubjectsNew as $key => $SubjectsCode) {
+$exportstudy.="<th>Subject Name</th><th>Subject Code</th><th>Grade</th><th>Grade Point</th><th>Credit</th>";
+  
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
@@ -10299,7 +10328,7 @@ $exportstudy.="</tr>
 
 
 
-    $list_sql = "SELECT  ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+    $list_sql = "SELECT ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
         

@@ -63,7 +63,27 @@ input[type=radio]:checked+label {
     </div>
     <!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="modal-default-Letters">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Letters</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="data-letters">
 
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 <div class="modal fade" id="UploadImageDocument">
     <div class="modal-dialog">
@@ -783,6 +803,19 @@ function viewAcademicDocumentExp(id) {
     xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
     xmlhttp.send();
 }
+function viewLetters(id) { 
+    var code = 58.1;
+    //alert(id);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("data-letters").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "get_action.php?id=" + id + "&code=" + code, true);
+    xmlhttp.send();
+}
+
 
 function view_uploaded_document(id, documentP) {
     var code = 59;
@@ -961,7 +994,7 @@ function viewPHDDocument(id) {
 }
  
 function UploadPHDDocument(id) {
-    var code = 57.4;
+    var code = 57.4; 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1213,44 +1246,21 @@ function upload_dmc_phd(id) {
 
     
  var fileInput = document.getElementById("dmcfile_"+id);
-
- alert(fileInput);
-if(MOOC_Mark!='')
-{
     if (!fileInput.files[0]) {
                  ErrorToast('Attachment required',"bg-danger" );
                 return;
             }
-               var formData = new FormData();
-            formData.append("moocfile", fileInput.files[0]);
-            formData.append("code",358);
-            formData.append("id",id);
-              formData.append("MOOC_Mark",MOOC_Mark);
-
-            // Create and send AJAX request
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "action.php", true);
-
-            xhr.onload = function () {
-            console.log("Server response:",xhr.responseText);
+             var formData = new FormData();
+             formData.append("moocfile", fileInput.files[0]);
+             formData.append("code",396.6);
+             formData.append("id",id);                     
+             var xhr = new XMLHttpRequest();
+             xhr.open("POST", "action.php", true);
+             xhr.onload = function () {
+             console.log("Server response:",xhr.responseText);
                 if (xhr.status === 200) {
-
-
-
-                  //  if(xhr.responseText=="Uploaded"){
-                     SuccessToast('Successfully Uploaded');
-                     select_mst();
-
-
-                  //  }
-                  //  else
-                  //  {
-                  //    ErrorToast('something went wrong',"bg-danger" );
-                  //  }
-                 
-
-                   
-                } 
+             SuccessToast('Successfully Uploaded');
+               } 
                 else {
                     statusDiv.innerHTML = "<p style='color:red;'>File upload failed.</p>";
                 }
@@ -1261,16 +1271,13 @@ if(MOOC_Mark!='')
             };
 
             xhr.send(formData);
-          }
-          else
-          {
-        ErrorToast('valid input required',"bg-danger" );
-          }
+         
 }
 
 function uploadmooc(id) {
-  //alert(id);
+
   var fileInput = document.getElementById("moocfile_"+id);
+ 
   if(MOOC_Mark!='')
 {
     if (!fileInput.files[0]) {

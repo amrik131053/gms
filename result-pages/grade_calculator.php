@@ -23,14 +23,26 @@ if(is_numeric($mst1))
                                  else{$mst2=0;}
 
                               if($mst1>$mst2) { $msttotal=$mst1; }  else  {  $msttotal=$mst2;   }
+
                                if(is_numeric($CE1)){$fCE1=$CE1;}else{$fCE1=0;}
+
 if(is_numeric($CE3)){$fCE3=$CE3;}else{$fCE3=0;}
 if(is_numeric($msttotal)){$fmsttotal=$msttotal;}else{$fmsttotal=0;}
 if(is_numeric($att)){$fatt=$att;}else{$fatt=0;}
-if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
-if(is_numeric($grace)){$fgrace=$grace;}else{$fgrace=0;}
 
-$totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;
+if(is_numeric($ESe)){$fESe=$ESe;}else{$fESe=0;}
+
+if(is_numeric($grace)){$fgrace=$grace;}else{$fgrace=0;}
+if(is_numeric($ESe)){
+$totalFinal=$fCE1+$fCE3+$fatt+$fmsttotal+$fESe+$fgrace;   
+}
+else
+{
+$totalFinal=0;
+
+$nccount++;
+}
+
 
 $grade='';
 $gardep=0;
@@ -48,6 +60,14 @@ $gardep=$ESe;
 $nccount++;
 $color='red';
 }
+// else if($ESe=='AB')
+// {
+// $totalFinal=$ESe;
+// $grade=$ESe;
+// $gardep=$ESe;
+// $nccount++;
+// $color='red';
+// }
 
 else{ 
 if($totalFinal>=90)

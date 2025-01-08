@@ -76,7 +76,7 @@
                             </center>
                         </div>
                         <form id="upload_study_scheme" method="post" enctype="multipart/form-data" action="action.php">
-                            <div class="row">
+                             <div class="row">
                                 <div class="col-lg-3">
                                     <input type="hidden" name="code" value="256">
                                     <label>College Name</label>
@@ -127,6 +127,25 @@
                                   ?>
                                     </select>
                                     <input type="hidden" id="semester" name="semester" class="form-control form-control-sm">
+
+
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+                                  
 
 
                                 </div>
@@ -184,6 +203,7 @@ function search_study_scheme() {
     var batch = document.getElementById('batch').value;
 
     var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
 
     var group = document.getElementById('group').value;
      var Department = document.getElementById('Department').value;
@@ -201,7 +221,7 @@ function search_study_scheme() {
             Batch: batch,
             Group:group,
             Department:Department,
-            Semester: semester
+            Semester: semester,session:session
         },
         success: function(response) {
             spinner.style.display = 'none';
@@ -217,6 +237,7 @@ function update_study_scheme_search() {
     var Course = document.getElementById('Course').value;
     var batch = document.getElementById('batch').value;
     var semester = document.getElementById('semester').value;
+    var session = document.getElementById('session').value;
     var spinner = document.getElementById('ajax-loader');
     spinner.style.display = 'block';
     $.ajax({
@@ -226,7 +247,7 @@ function update_study_scheme_search() {
             code: code,
             CollegeID: CollegeID,
             Course: Course,
-            Batch: batch,
+            Batch: batch,Session:session,
             Semester: semester
         },
         success: function(response) {
@@ -554,9 +575,10 @@ function add_submit() {
     var practical = document.getElementById('practical').value;
     var tutorials = document.getElementById('tutorials').value;
     var credits = document.getElementById('credits').value;
+     var session = document.getElementById('session').value;
     if (CollegeID != '' && CourseID != '' && batch != '' && semester != '' && subject_name != '' && subject_code !=
         '' && subject_type != '' && subject_group != '' && int_marks != '' && ext_marks != '' && elective != '' &&
-        lecture != '' && practical != '' && tutorials != '' && credits != '') {
+        lecture != '' && practical != '' && tutorials != '' && credits != '' && session!='') {
         var code = 242;
 
         var spinner = document.getElementById('ajax-loader');
@@ -569,7 +591,7 @@ function add_submit() {
                 CollegeID: CollegeID,
                 CourseID: CourseID,
                 batch: batch,
-                semester: semester,
+                semester: semester,session:session,
                 subject_name: subject_name,
                 subject_code: subject_code,
                 subject_type: subject_type,
@@ -773,11 +795,13 @@ function copy_study_scheme() {
     var from_semester = document.getElementById('from_semester').value;
     var to_batch = document.getElementById('to_batch').value;
     var to_semester = document.getElementById('to_semester').value;
+    var to_session = document.getElementById('to_session').value;
+    var from_session = document.getElementById('from_session').value;
     var code = 253;
 
-    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '') {
-        var a = confirm('Are you sure to Copy \n Batch ' + from_batch + ' \n Semester ' + from_semester +
-            'To \n Batch ' + to_batch + ' \n Semester ' + to_semester);
+    if (CollegeID != '' && CourseID != '' && from_batch != '' && from_semester != '' && from_session!='' && to_session!='') {
+        var a = confirm('Are you sure to Copy \n Batch ' + from_batch + '  To  Batch ' + to_batch+ '\n Semester ' + from_semester +
+             ' to  Semester ' + to_semester+'\n Session ' + from_session + '  To  Session ' + to_session);
         if (a == true) {
             var spinner = document.getElementById('ajax-loader');
             spinner.style.display = 'block';
@@ -791,12 +815,12 @@ function copy_study_scheme() {
                     from_batch: from_batch,
                     from_semester: from_semester,
                     to_batch: to_batch,
-                    to_semester: to_semester
+                    to_semester: to_semester,to_session:to_session,from_session:from_session
 
 
                 },
                 success: function(response) {
-                    // console.log(response);
+                     console.log(response);
                     spinner.style.display = 'none';
                     if (response == 1) {
                         SuccessToast('Successfully Copy');
