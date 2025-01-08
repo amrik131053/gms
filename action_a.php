@@ -290,164 +290,115 @@ $check_count_emp="SELECT DISTINCT IDNo FROM  Staff   Where JobStatus='1' and Phd
       //      print_r($category);
       }
       elseif ($code==6) {
-       ?>
-       <form action="action_a.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="flag" value="7">
-        <input type="hidden" class="form-control" name="loginIdPromotion" id="loginIdPromotion"
-                                                    value="" readonly>
- <div class="row">
- <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Name of Organisation</label>
-                                            <select class="form-control" name="organisationNamePromition"
-                                                onchange="fetchDepartmentPromotion(this.value);">
-                                               
-                                                <?php  $get_College="SELECT DISTINCT CollegeName,CollegeID FROM MasterCourseCodes ";
-                                                $get_CollegeRun=sqlsrv_query($conntest,$get_College);
-                                                while($get_CollegeRow=sqlsrv_fetch_array($get_CollegeRun,SQLSRV_FETCH_ASSOC))
-                                                {?>
-                                                <option value="<?=$get_CollegeRow['CollegeID'];?>">
-                                                    <?=$get_CollegeRow['CollegeName'];?>(<?=$get_CollegeRow['CollegeID'];?>)
-                                                </option>
-                                                <?php }
-                                          ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Name of Department</label>
-                                            <select class="form-control" name="departmentNamePromition" id="departmentNamePromition">
-                                           
+       ?><div class="card">
+        <center>
+         <h5>
+         <b>Study Scheme Update</b>
+        </h5>
+        </center>
+        </div>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Designation</label>
-                                            <select class="form-control" name="designationPromition">
-                                               
-                                                <?php  $get_Designation="SELECT DISTINCT Designation FROM MasterDesignation ";
-                                                $get_DesignationRun=sqlsrv_query($conntest,$get_Designation);
-                                                while($get_DesignationRow=sqlsrv_fetch_array($get_DesignationRun,SQLSRV_FETCH_ASSOC))
-                                                {?>
-                                                <option value="<?=$get_DesignationRow['Designation'];?>">
-                                                    <?=$get_DesignationRow['Designation'];?></option>
-                                                <?php }
-                                          ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Date of Joining</label>
-                                            <input type="date" class="form-control" name="joiningDatePromition"
-                                                value="">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-2 col-12">
-                                        <div class="form-group">
-                                            <label>Salary Decided</label>
-                                            <input type="text" class="form-control" name="salaryPromition"
-                                                placeholder="Enter salary" value="">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-12">
-                                        <div class="form-group">
-                                            <label>Type of Employment</label>
-
-                                            <select class="form-control" name="employmentTypePromition">
-
-                                               
-                                                <option value="Regular">Regular</option>
-                                                <option value="Conatct">Conatct</option>
-                                                <option value="Guest">Guest</option>
-                                                <option value="Adhoc">Adhoc</option>
-                                            </select>
-                                        </div>
-                                    </div>
+          <div class="row"> 
+                  <div class="col-lg-3 col-sm-12 col-md-12 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Search Scheme </h3>
+                    <div class="card-tools">
+                        
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                
+                <label>College Name</label>
+                 <select  name="College" id='College' onchange="collegeByDepartment(this.value);" class="form-control form-control-sm" required>
+                 <option value=''>Select Faculty</option>
+                  <?php
+                  $sql="SELECT DISTINCT MasterCourseCodes.CollegeName,MasterCourseCodes.CollegeID from MasterCourseCodes  INNER JOIN UserAccessLevel on  UserAccessLevel.CollegeID = MasterCourseCodes.CollegeID ";
+                     $stmt2 = sqlsrv_query($conntest,$sql);
+                     while($row1 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC))
+                      {   
+                        $college = $row1['CollegeName']; 
+                        $CollegeID = $row1['CollegeID'];
+                        ?>
+                        <option  value="<?=$CollegeID;?>"><?=$college;?></option>
+                 <?php }
+                        ?>
+               </select>
+              
+                 <label>Department</label>
+                  <select  id="Department" name="Department" class="form-control form-control-sm"  onchange="fetchcourse()" required>
+                     <option value=''>Select Department</option>
+                 </select>
+            
+                 <label>Course</label>
+                  <select  id="Course" name="Course" class="form-control form-control-sm" required >
+                     <option value=''>Select Course</option>
+                 </select>
+                 <label> Session</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">Session</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Session FROM MasterCourseCodes Order By Session DEsc"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Session'];?>"><?=$row_Session['Session'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+             
+                 <label>Batch</label>
+                  <br>
+                      
+                          <?php 
+                              for($i=2020;$i<=2030;$i++)
+                                 {?>
+                              <label>
+        <input type="checkbox" name="batch" value="<?php $i;?>">
+<?=$i;?>
+    </label>
+                           <?php }
+                                  ?>
+          
                                     
+                                  
+        <br>
 
-                                
-
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Emp Category </label>
-
-                                            <select class="form-control" name="EmpCategoryPromition">
-
-                                                                                    <?php  
-                                                                  
-                                                                                $get_category="SELECT Distinct CategoryId,CategoryFName FROM CategoriesEmp ";
-                                            $get_category_run=sqlsrv_query($conntest,$get_category);
-                                            while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-                                            {
-                                        ?>
-                                                                                    <option value="<?=$row_categort['CategoryId'];?>">
-                                                                                        <?=$row_categort['CategoryFName'];?></option>
-                                                                                    <?php 
-                                        }?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label>Shift</label>
-                                            <!-- <input type="text" class="form-control" name="employmentStatus" placeholder="Enter employment status"> -->
-                                            <select class="form-control" name="shiftPromition">
-                                                <?php  
-                                                                    $get_category="SELECT * FROM MasterShift ";
-                                    $get_category_run=sqlsrv_query($conntest,$get_category);
-                                    while($row_categort=sqlsrv_fetch_array($get_category_run,SQLSRV_FETCH_ASSOC))
-                                    {
-                                ?>
-                                                                            <option value="<?=$row_categort['Id'];?>">
-                                                                                <?=$row_categort['ShiftName'];?></option>
-                                                                            <?php 
-                                }?>
-                                            </select>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label> Recommending Authority
-                                            </label>
-                                            <input type="text" class="form-control" name="leaveRecommendingAuthorityPromition"
-                                                placeholder="Enter leave sanction authority"
-                                                
-                                                onkeyup="emp_detail_verify3(this.value);">
-                                                <p id="emp_detail_status_Promotion3"></p>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label> Sanction Authority</label>
-                                            <input type="text" class="form-control" name="leaveSanctionAuthorityPromition"
-                                                placeholder="Enter leave recommending authority"
-                                                
-                                                onkeyup="emp_detail_verify4(this.value);">
-                                                <p id="emp_detail_status_Promotion4"></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label> File(Letter)</label>
-                                         <input type="file" name="promotionFile" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-12">
-                                        <div class="form-group">
-                                            <label> Action</label></br>
-                                         <input type="button" onclick="submitPromition(this.form);" value="Submit"  class="btn btn-success">
-                                        </div>
-                                    </div>
-                                    </div>
-                            </form>
+                         
+                 <label>Semester</label>
+                             <br>
+                     <?php 
+                        for($i=1;$i<=12;$i++)
+                           {?> <label>
+                           <input type="checkbox" name="semester" value="<?php $i;?>">&nbsp;<?=$i;?>&nbsp;</label>
+                     <?php }
+            ?>
+          
+      
+            
+                 <br>
+ <label> Elective Type</label>
+                                    <select id="session" name="session" class="form-control form-control-sm" required>
+                                        <option value="">All</option>
+                             <?php       
+        
+                      $get_country="SELECT DISTINCT Elective FROM MasterCourseStructure where Elective!='' AND  Batch>2020"  ;
+                      $get_country_run=sqlsrv_query($conntest,$get_country);
+                      while($row_Session=sqlsrv_fetch_array($get_country_run))
+                      {?>
+                         <option value="<?=$row_Session['Elective'];?>"><?=$row_Session['Elective'];?></option>
+              <?php }
+    
+                     ?>
+                                    </select>
+<br>
+                 <button onclick="update_study_scheme_search();" class="btn btn-success btn-sm">Search</button>
+                 <button onclick="exportStudyScheme();" class="btn btn-success btn-sm">Download</button>
+              </div>
+            
+            </div>
 
 <?php 
       }
