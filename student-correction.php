@@ -10,7 +10,7 @@
           <div class="col-lg-12 col-md-12 col-sm-3">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Articles assigned  &nbsp;&nbsp;&nbsp;
+                <h3 class="card-title">All  &nbsp;&nbsp;&nbsp;
                   </h3>
 
                 <div class="card-tools">

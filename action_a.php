@@ -1016,4 +1016,397 @@ if($c>0)
 $c++;
 }
    }
+   elseif($code=='20') 
+   {
+    $sub_data=$_POST['sub_data'];
+    if ($sub_data == 2) {
+        $from = $_POST['from'];
+        $to = $_POST['to'];
+        $Status = $_POST['Status'];
+        $dateColumn = "";
+        if ($Status == '0') {
+            $dateColumn = "StudentCorrectionData.SubmitDate";
+        } elseif ($Status == '1') {
+            $dateColumn = "StudentCorrectionData.VerifiedDate";
+        } elseif ($Status == '2') {
+            $dateColumn = "StudentCorrectionData.RejectDate";
+        }
+
+        if ($Status != 'All') {
+           
+            if ($Status == '0') {
+                $StuCorection = "
+                    SELECT Top 50 *,StudentCorrectionData.Status as ActionStatus,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName, 
+                           Admissions.Sex as SGender FROM StudentCorrectionData INNER JOIN Admissions ON Admissions.IDNo = StudentCorrectionData.IDNo 
+                    WHERE StudentCorrectionData.Status = '$Status' ORDER BY $dateColumn ASC";  
+            } else {
+    
+                 $StuCorection = "
+                    SELECT Top 50 *,StudentCorrectionData.Status as ActionStatus,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender
+                    FROM StudentCorrectionData INNER JOIN Admissions ON Admissions.IDNo = StudentCorrectionData.IDNo WHERE StudentCorrectionData.Status = '$Status' AND $dateColumn BETWEEN '$from 00:00:00' AND '$to 23:59:59'
+                    ORDER BY $dateColumn ASC";
+            }
+        } else {
+   
+            $StuCorection = "
+                SELECT TOP 50 *,StudentCorrectionData.Status as ActionStatus,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender
+                FROM StudentCorrectionData INNER JOIN Admissions ON Admissions.IDNo = StudentCorrectionData.IDNo WHERE $dateColumn BETWEEN '$from 00:00:00' AND '$to 23:59:59'
+                ORDER BY StudentCorrectionData.SubmitDate DESC";
+        }
+    }
+    
+     else {
+        $rollno = $_POST['Rollno'];
+        if (is_numeric($rollno)) {
+             $StuCorection = "
+                SELECT *, 
+                       StudentCorrectionData.Status as ActionStatus, 
+                       Admissions.FatherName as SFatherName, 
+                       Admissions.MotherName as SMotherName, 
+                       Admissions.Sex as SGender
+                FROM StudentCorrectionData 
+                INNER JOIN Admissions 
+                ON Admissions.IDNo = StudentCorrectionData.IDNo 
+                WHERE Admissions.IDNo = '$rollno' 
+                      OR Admissions.UniRollNo = '$rollno'  OR Admissions.ClassRollNo = '$rollno'
+                ORDER BY StudentCorrectionData.SubmitDate ASC";
+        } else {
+             $StuCorection = "
+                SELECT *, 
+                       StudentCorrectionData.Status as ActionStatus, 
+                       Admissions.FatherName as SFatherName, 
+                       Admissions.MotherName as SMotherName, 
+                       Admissions.Sex as SGender
+                FROM StudentCorrectionData 
+                INNER JOIN Admissions 
+                ON Admissions.IDNo = StudentCorrectionData.IDNo 
+                WHERE Admissions.UniRollNo = '$rollno' 
+                      OR Admissions.ClassRollNo = '$rollno'
+                ORDER BY StudentCorrectionData.SubmitDate ASC";
+        }
+    }
+    
+   
+    
+    ?>
+    <table class="table table-bordered" id="example">
+                             <thead>
+                                 <tr style='font-size:14px;'>
+                                 <th>SrNo</th>
+                                <th>UniRollNo</th>
+                                <th>ClassRollNo</th>
+                                <th>Name</th>
+                                <th>Father Name</th>
+                                <th>Mother Name</th>
+                                <th>Gender</th>
+                               
+                                <th>Status</th>
+                                <th>Submit Date</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                <?php 
+  $arrayFaultyArticle[]='';
+  $StuCorection_num=0;
+  $StuCorection_run=sqlsrv_query($conntest,$StuCorection);
+  if($StuCorection_run === false)
+  {
+ die( print_r( sqlsrv_errors(), true) );
+ }
+ while ($StuCorection_row=sqlsrv_fetch_array($StuCorection_run)) 
+ {
+    $clr= "";
+    if($StuCorection_row['ActionStatus']==1){
+        $clr="success";
+    }else if($StuCorection_row['ActionStatus']==2){
+        $clr="danger";
+    }else{
+        $clr= "primary";
+    };
+    if (!in_array($StuCorection_row['IDNo'], $arrayFaultyArticle)) 
+    {
+ $StuCorection_num=$StuCorection_num+1;?>
+ <tr class="bg-<?=$clr;?>">
+ <td><?=$StuCorection_num;?></td>
+ <td onclick="edit_stu(<?=$StuCorection_row['ID'];?>);"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$StuCorection_row['UniRollNo'];?></td>
+ <td onclick="edit_stu(<?=$StuCorection_row['ID'];?>);"  data-toggle="modal"  data-target=".bd-example-modal-xl"><?=$StuCorection_row['ClassRollNo'];?></td>
+ <td><?=$StuCorection_row['StudentName'];?></td>
+ <td><?=$StuCorection_row['SFatherName'];?></td>
+ <td><?=$StuCorection_row['SMotherName'];?></td>
+ <td><?=$StuCorection_row['SGender'];?></td>
+ <td><?php if($StuCorection_row['ActionStatus']==1){
+     echo "Success";
+ }else{
+     echo "Pending";
+ };?></td>
+ <td><?=$StuCorection_row['SubmitDate']->format('d-m-Y');?></td>
+</tr>
+<?php 
+$arrayFaultyArticle[]=$StuCorection_row['IDNo'];
+ }
+ }   
+ ?>
+  </tbody>
+  </table><?php   
+  sqlsrv_close($conntest);
+   }
+   elseif($code==21)
+   {
+   $count=array(); 
+
+     $list_sql="SELECT *  FROM StudentCorrectionData  INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.Status = '0' ";
+      $list_sql_run=sqlsrv_query($conntest,$list_sql,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+      $Pending=sqlsrv_num_rows($list_sql_run);
+
+      $list_sqlRejected="SELECT *  FROM StudentCorrectionData  INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.Status = '2'";
+        $list_sqlRejected_run=sqlsrv_query($conntest,$list_sqlRejected,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+        $Rejeted=sqlsrv_num_rows($list_sqlRejected_run);
+
+         
+
+            $list_sqlAccepted="SELECT *  FROM StudentCorrectionData  INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.Status = '1'";
+              $list_sqlAccepted_run=sqlsrv_query($conntest,$list_sqlAccepted,array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+              $Accepted=sqlsrv_num_rows($list_sqlAccepted_run);
+        
+   
+      $count[0]=$Pending;
+      $count[1]=$Rejeted;
+      $count[2]=$Accepted;
+    echo json_encode($count);
+    sqlsrv_close($conntest);
+   }
+
+   else if($code==22)
+   {
+    $IDNo=$_POST['id'];
+     $sql = "SELECT *,StudentCorrectionData.Status as ActionStatus,Admissions.StudentName as SStudentName,Admissions.DOB as SDOB,Admissions.FatherName as SFatherName,Admissions.MotherName as SMotherName,Admissions.Sex as SGender FROM StudentCorrectionData 
+                INNER JOIN Admissions  ON Admissions.IDNo = StudentCorrectionData.IDNo  WHERE StudentCorrectionData.ID = '$IDNo'";
+    $stmt1 = sqlsrv_query($conntest,$sql);
+            while($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+             {
+                $ID= $row6['ID'];
+                $IDNo= $row6['IDNo'];
+                $ClassRollNo= $row6['ClassRollNo'];
+                $img= $row6['Image'];
+                $FilePath= $row6['FilePath'];
+                $UniRollNo= $row6['UniRollNo'];
+                $name = $row6['SStudentName'];
+                $father_name = $row6['SFatherName'];
+                $mother_name = $row6['SMotherName'];
+                $status = $row6['ActionStatus'];
+                 $dob = $row6['SDOB']->format('d-m-Y');
+                $gender = $row6['Sex'];
+                $Nname = $row6['StudentName'];
+                $Nfather_name = $row6['FatherName'];
+                $Nmother_name = $row6['MotherName'];
+                 $Ndob = $row6['DateOfBirth']->format('d-m-Y');
+                $Ngender = $row6['Gender'];
+                $UpdateBy = $row6['UpdateBy'];
+                $clr="";
+                if($name!=$Nname)
+                {
+                    $clr1="danger";
+                }
+                if($father_name!=$Nfather_name)
+                {
+                    $clr2="danger";
+                }
+                if($mother_name!=$Nmother_name)
+                {
+                    $clr3="danger";
+                }
+                if($dob!=$Ndob)
+                {
+                    $clr4="danger";
+                }
+                if($gender!=$Ngender)
+                {
+                    $clr5="danger";
+                }
+
+
+                $course = $row6['Course'];
+                $email = $row6['EmailID'];
+                $phone = $row6['StudentMobileNo'];
+                $batch = $row6['Batch'];
+                $college = $row6['CollegeName'];
+                $CourseID=$row6['CourseID'];
+                $CollegeID=$row6['CollegeID'];
+              }
+    ?>
+    <div class="card-body table-responsive">
+ <table class="table"  style="border:1px solid black">
+
+ <tr>
+ <td colspan="2"><b>IDNo:</b> &nbsp;<?php echo $IDNo;?></td>
+ <td colspan="4"><b>Class Roll No:</b> &nbsp;<?php echo $ClassRollNo;?></td>
+   <td  colspan="4" ><b>Uni Roll No: </b> &nbsp;<?=$UniRollNo;?></td>
+ </tr>
+ <tr>
+ <td ><b>Name:</b> </td>
+ <td colspan="8"><?=$name;?></td>
+ <td  rowspan="5" >
+ <?php echo '<img src="'.$BasURL.'Images/Students/'.$img.'" height="100" width="100" class="img-thumnail" />';?>
+ </td>
+ </tr>
+  <tr>
+   <td><b>Father Name:</b></td>
+   <td ><?php echo $father_name;?></td>
+   <td><b>Mother Name:</b></td>
+   <td ><?=$mother_name;?></td>
+ </tr>
+ <tr>
+   <td><b>College:</b></td>
+   <td ><?php echo $college;?></td>
+   <td><b>Course:</b></td>
+   <td colspan="7"><?=$course;?></td>
+ </tr>
+ <tr>
+   <td><b>DOB:</b></td>
+   <td ><?php echo $dob;?></td>
+   <td><b>Gender:</b></td>
+   <td colspan="7"><?=$gender;?></td>
+ </tr>
+   <tr>
+        </table>
+ <table class="table"  style="border:1px solid black">
+ <tr class="bg-dark">
+ <td colspan="5"><b  style="float:left">Old Details</b></td>
+ <td colspan="5"><b  style="float:left">New Details</b></td>
+ </tr>
+ <tr class="text-<?=$clr1;?>">
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$name;?></td>
+ <td ><b>Name:</b> </td>
+ <td colspan="4"><?=$Nname;?></td>
+ </tr>
+    <tr class="text-<?=$clr2;?>">
+    <td><b>Father Name:</b></td>
+    <td colspan="4" ><?php echo $father_name;?></td>
+    <td colspan="4"><b>Father Name:</b></td>
+    <td ><?php echo $Nfather_name;?></td>
+ </tr>
+    <tr class="text-<?=$clr3;?>">
+    <td><b>Mother Name:</b></td>
+   <td colspan="4"><?=$mother_name;?></td>
+    <td colspan="4"><b>Mother Name:</b></td>
+   <td ><?=$Nmother_name;?></td>
+ </tr>
+ <tr class="text-<?=$clr4;?>">
+   <td><b>DOB:</b></td>
+   <td colspan="4"><?php echo $dob;?></td>
+   <td colspan="4"><b>DOB:</b></td>
+   <td ><?php echo $Ndob;?></td>
+ </tr>
+ <tr class="text-<?=$clr5;?>">
+ <td><b>Gender:</b></td>
+ <td colspan="4"><?=$gender;?></td>
+ <td colspan="4"><b>Gender:</b></td>
+ <td ><?=$Ngender;?></td>
+ </tr>
+ <tr>
+
+ <td colspan="10"><b>Attachment:</b>&nbsp;&nbsp;<a href="http://erp.gku.ac.in:86/Images/Correction/<?=$FilePath;?>" target="_blank"><i class="fa fa-eye"></i></a></td>
+ </tr>
+ <tr>
+    <td colspan="10">
+       Updated By: <?=$UpdateBy;?>
+    </td>
+ </tr>
+  <?php 
+  if($status=='0' )
+  {?>
+ <tr>
+ <td colspan="10"><b>Remarks:</b>
+ <textarea id="remarksForApproved" cols="10" class='form-control'
+                                    placeholder="Write your remakrs.........."></textarea>
+                                <small id="error-leave-textarea" class='text-danger' style='display:none;'>Please enter
+                                    a value minimum 3 characters.</small>
+</td>
+ </tr>
+ <?php
+ }
+ ?>
+ <tr>
+ <td>
+    <?php if($status=='0' )
+    {
+        ?>
+ <input type="button" value="Reject" class="btn btn-danger" onclick="rejectbutton('<?=$ID;?>','<?=$IDNo;?>');">
+ <input type="button" value="Verified" class="btn btn-success" onclick="Verifiedbutton('<?=$ID;?>','<?=$IDNo;?>');">
+ <?php 
+}
+else if($status=='2'){
+    ?>
+    
+     <input type="button" value="Verified" class="btn btn-success" onclick="Verifiedbutton('<?=$ID;?>','<?=$IDNo;?>');">
+    <?php }
+else{
+    ?>
+    <?php }?>
+    
+</td>
+ </tr>
+
+   <tr>
+        </table>
+        <?php 
+   }
+   elseif($code==23)
+{
+
+    $id=$_POST['id'];
+    $IDNo=$_POST['IDNo'];
+       $remarks =str_replace("'",'',$_POST['remarks']);
+       $updateLeaveAcrodingToAction="UPDATE  StudentCorrectionData  SET UpdateBy='$EmployeeID',Status='2',Remarks='$remarks', RejectDate='$timeStamp' WHERE ID='$id'";
+    $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
+    $escapedQuery1 = str_replace("'", "''", $updateLeaveAcrodingToAction);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) VALUES('$IDNo', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+            sqlsrv_query($conntest,$update1);
+            if($updateLeaveAcrodingToActionRun === false) {
+   
+                die( print_r( sqlsrv_errors(), true) );
+                }
+    if($updateLeaveAcrodingToActionRun==true)
+      {
+        echo "1";
+      }
+      else{
+        echo "0";
+      }
+      sqlsrv_close($conntest);
+}
+   elseif($code==24)
+{
+
+    $id=$_POST['id'];
+    $IDNo=$_POST['IDNo'];
+    $sql = "SELECT * FROM StudentCorrectionData   WHERE ID = '$id'";
+$stmt1 = sqlsrv_query($conntest,$sql);
+if($row6 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC) )
+ {
+    $ID= $row6['ID'];
+    $IDNo = trim($row6['IDNo']);
+    $Nname = trim($row6['StudentName']);
+    $Nfather_name = trim($row6['FatherName']);
+    $Nmother_name = trim($row6['MotherName']);
+    $Ndob = $row6['DateOfBirth']->format('Y-m-d');
+    $Ngender = trim($row6['Gender']);
+     $updateLeaveAcrodingToAction="UPDATE  Admissions  SET StudentName='$Nname',FatherName='$Nfather_name',MotherName='$Nmother_name',DOB='$Ndob',Sex='$Ngender' WHERE IDNo='$IDNo'";
+    $updateLeaveAcrodingToActionRun=sqlsrv_query($conntest,$updateLeaveAcrodingToAction);
+ }
+ $updateLeaveAcrodi="UPDATE  StudentCorrectionData  SET UpdateBy='$EmployeeID',Status='1',VerifiedDate='$timeStamp' WHERE ID='$id'";
+ sqlsrv_query($conntest,$updateLeaveAcrodi);
+    $escapedQuery1 = str_replace("'", "''", $updateLeaveAcrodingToAction);
+    $update1 = "INSERT INTO logbook(userid, remarks, updatedby, date) VALUES('$IDNo', '$escapedQuery1', '$EmployeeID', '$timeStamp')";
+            sqlsrv_query($conntest,$update1);
+    if($updateLeaveAcrodingToActionRun==true)
+      {
+        echo "1";
+      }
+      else{
+        echo "0";
+      }
+      sqlsrv_close($conntest);
+}
 }
