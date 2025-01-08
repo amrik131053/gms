@@ -15394,7 +15394,7 @@ $stmt2 = sqlsrv_query($conntest,$sql);
                      <option value=''>Select Course</option>
                  </select>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-1">
                  <label>Batch</label>
                    <select id="batch"  class="form-control form-control-sm">
                        <option value="">Batch</option>
@@ -16072,6 +16072,7 @@ elseif($code==242)
 
                $batch=$_POST['batch'];
                $subject_name=$_POST['subject_name'];
+               $session=$_POST['session'];
                $subject_code=$_POST['subject_code'];
                $AcademicType=$_POST['subject_type'];
                $subject_group=$_POST['subject_group'];
@@ -16105,7 +16106,7 @@ $SubjectType='Theory/Practical';
 
 
 
-               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,AcademicType) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$AcademicType')";
+               $add_study_scheme="INSERT INTO MasterCourseStructure (CollegeName,CollegeID,DepartmentID,Course,CourseID,Batch,SemesterID,Semester,SubjectName,SubjectType,SubjectCode,Elective,IntMaxMarks,ExtMaxMarks,Lecture,Tutorial,Practical,SGroup,NoOFCredits,Isverified,AcademicType,Session) VALUES('$CollegeName','$CollegeID',$Department,'$Course','$CourseID','$batch','$SemesterID','$semester','$subject_name','$subject_type','$subject_code','$elective','$int_marks','$ext_marks','$lecture','$tutorials','$practical','$subject_group','$credits','0','$AcademicType','$session')";
                $add_study_scheme_run=sqlsrv_query($conntest,$add_study_scheme);
                   if ($add_study_scheme_run==true)
                    {

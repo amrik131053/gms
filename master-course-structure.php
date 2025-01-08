@@ -576,7 +576,7 @@ function add_submit() {
      var session = document.getElementById('session').value;
     if (CollegeID != '' && CourseID != '' && batch != '' && semester != '' && subject_name != '' && subject_code !=
         '' && subject_type != '' && subject_group != '' && int_marks != '' && ext_marks != '' && elective != '' &&
-        lecture != '' && practical != '' && tutorials != '' && credits != '') {
+        lecture != '' && practical != '' && tutorials != '' && credits != '' && session!='') {
         var code = 242;
 
         var spinner = document.getElementById('ajax-loader');
@@ -589,7 +589,7 @@ function add_submit() {
                 CollegeID: CollegeID,
                 CourseID: CourseID,
                 batch: batch,
-                semester: semester,
+                semester: semester,session:session,
                 subject_name: subject_name,
                 subject_code: subject_code,
                 subject_type: subject_type,
