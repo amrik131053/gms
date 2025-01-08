@@ -9473,7 +9473,7 @@ foreach ($Subjects as $key => $SubjectsCode) {
   
 }
 foreach ($SubjectsNew as $key => $SubjectsCode) {
-    $exportstudy.="<th colspan=5>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
+    $exportstudy.="<th colspan=2>".$SubjectNamesNew[$key]." / ".$SubjectsCode." </th>";
   
 }
 $exportstudy.="<th colspan=2>Grade Detail
@@ -9512,13 +9512,13 @@ $list_resultamrikop = sqlsrv_query($conntest,$amrikop);
 
 while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
          {
-        $credit=$row7c['NoOFCredits'];
+        $credit=$row7op['NoOFCredits'];
         if(is_numeric($credit))
         {
         $gtcerdit=$gtcerdit+$credit;
         }
  
-         $exportstudy.="<th colspan=5>Credit : {$credit}</th>";
+         $exportstudy.="<th colspan=2>Credit : {$credit}</th>";
             }
    
 }
@@ -9534,12 +9534,16 @@ while($row7op = sqlsrv_fetch_array($list_resultamrikop, SQLSRV_FETCH_ASSOC) )
     
     $exportstudy.="<th>Grade</th><th>Grade Point</th>";
 }
+ foreach ($SubjectsNew as $key => $SubjectsCode) {
+    
+    $exportstudy.="<th>Grade</th><th>Grade Point</th>";
+}
        $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr> </thead>"; 
 
 
 
 
-    $list_sql = "SELECT  top(10) ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
+    $list_sql = "SELECT ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo
     FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination' ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo ";
         
         
@@ -10077,7 +10081,7 @@ foreach ($SubjectsNew as $key => $SubjectsCode) {
 }
 $exportstudy.="<th>Total Credit</th><th>SGPA</th></tr></thead>"; 
 
-    $list_sql = "SELECT TOP(10), ExamForm.AcceptType, ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
+    $list_sql = "SELECT TOP(10) ExamForm.AcceptType, ExamForm.ID,Admissions.UniRollNo,Admissions.ClassRollNo,Admissions.StudentName,Admissions.IDNo FROM ExamForm INNER JOIN Admissions ON ExamForm.IDNo = Admissions.IDNo where ExamForm.CollegeID='$College' AND ExamForm.CourseID='$Course'AND ExamForm.Batch='$Batch' AND ExamForm.Type='$Type' AND ExamForm.Sgroup='$Group'  ANd ExamForm.SemesterID='$Semester' ANd ExamForm.Examination='$Examination'  ANd ExamForm.Status='8'  ORDER BY Admissions.UniRollNo  ";
             $j=0;
              $list_result = sqlsrv_query($conntest,$list_sql);
                             $count = 1;
