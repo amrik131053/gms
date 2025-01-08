@@ -197,9 +197,12 @@
                               <b class="text-danger">Rejected By Account</b>
                               @elseif ($allExamShows['Status']=='7')
                               <b class="text-danger">Rejected By Examination</b>
-                              
+                              @elseif ($allExamShows['Status']=='8')
+                              <b class="text-danger">Accepted</b>
+                              @elseif ($allExamShows['Status']=='22')
+                              <b class="text-danger">Rejected By Registration Branch</b>
                               @else
-                              <b class="text-success">Accepted</b>
+                              <b class="text-success">In Process</b>
                             @endif  
                            </td>
                             
